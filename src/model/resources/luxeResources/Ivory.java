@@ -2,5 +2,5 @@ package model.resources.luxeResources;
 
 import model.resources.Resource;
 
-public class Tusk extends Resource {
+public class Ivory extends Resource {
 }

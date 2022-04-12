@@ -13,11 +13,26 @@ public class GameController {
     {
         setCivilizations(PlayersNames);
         map = new Map(civilizations);
+        while (true)
+        {
+            if(isGameOver())
+                break;
 
+        }
 
     }
 
     public void setCivilizations(String[] PlayersNames) {
 
+    }
+
+    private void setTheNumbers()
+    {
+        for()
+
+    }
+    private boolean isGameOver()
+    {
+        return true;
     }
 }

@@ -1,5 +1,6 @@
 package model;
 
+import model.Units.Unit;
 import model.tiles.Tile;
 
 import java.util.ArrayList;
@@ -15,6 +16,22 @@ public class Map {
     }
 
     private void GenerateMap(ArrayList<Civilization> civilizations)
+    {
+
+    }
+    public Tile coordinatesToTile(int x, int y)
+    {
+        return null;
+    }
+    public static Tile FindBestMove(Unit unit)
+    {
+        return null;
+    }
+    public boolean isTileValid(Unit unit)
+    {
+
+    }
+    public boolean isRangeValid(Unit unit, Tile tile)
     {
 
     }

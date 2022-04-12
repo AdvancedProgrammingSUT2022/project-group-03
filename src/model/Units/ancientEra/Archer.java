@@ -1,6 +1,6 @@
 package model.Units.ancientEra;
 
-import model.Units.Unit;
+import model.Units.RangedUnit;
 
-public class Archer extends Unit {
+public class Archer extends RangedUnit {
 }

@@ -1,4 +1,4 @@
-package model.resources.scoredResources;
+package model.resources.bonusResources;
 
 import model.resources.Resource;
 

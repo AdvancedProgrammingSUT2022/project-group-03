@@ -35,4 +35,9 @@ public class Civilization {
     public int getGold() {
         return gold;
     }
+
+    public void SetTheNumbers()
+    {
+
+    }
 }

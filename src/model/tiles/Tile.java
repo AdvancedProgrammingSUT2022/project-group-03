@@ -10,7 +10,18 @@ abstract public class Tile {
     protected static int gold;
     protected static int changingPercentOfStrength;
     protected Feature feature;
+    protected static int x;
+    protected static int y;
     protected int[] resources;
+
+
+    public static int getX() {
+        return x;
+    }
+
+    public static int getY() {
+        return y;
+    }
 
     public static int getMovingPrice() {
         return movingPrice;
