@@ -6,17 +6,16 @@ import model.tiles.Tile;
 
 import java.util.ArrayList;
 
-public class MeleeUnit extends NonCivilian{
-    public MeleeUnit(int x, int y, ArrayList<Resource> resources, ArrayList<Technology> technologies, int civilizationGold)
-    {
+public class MeleeUnit extends NonCivilian {
+    public MeleeUnit(int x, int y, ArrayList<Resource> resources, ArrayList<Technology> technologies, int civilizationGold) {
         super();
 
     }
-    private boolean attack(Tile tile) {
-        return true;
+
+    private void attack(Tile tile) {
     }
-    private boolean defense()
-    {
+
+    private boolean defense(Tile tile) {
         return true;
     }
 }

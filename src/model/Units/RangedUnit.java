@@ -9,15 +9,18 @@ import java.util.ArrayList;
 public class RangedUnit extends NonCivilian{
     private int range;
     private int rangedCombatStrength;
-    public RangedUnit(int x, int y, ArrayList<Resource> resources, ArrayList<Technology> technologies, int civilizationGold)
-    {
-        super();
 
+    public RangedUnit(Tile tile, ArrayList<Resource> resources, ArrayList<Technology> technologies, int civilizationGold) {
+        super(tile, resources, technologies, civilizationGold);
     }
-    private boolean attack(Tile tile) {
+
+    protected boolean isReady()
+    {
         return true;
     }
-    private boolean defense()
+    private void attack(Tile tile) {
+    }
+    private boolean defense(Tile tile)
     {
         return true;
     }

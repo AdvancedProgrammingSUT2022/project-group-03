@@ -7,21 +7,7 @@ import model.technologies.Technology;
 import model.tiles.Tile;
 
 import java.util.ArrayList;
-enum state{
-    moving,
-    sleeping,
-    gettingReady,
-    boosting,
-    boostingUntilFullRecovery,
-    deployed,
-    gettingReadyToDoRangedAttack,
-    RangedAttacking,
-    raiding,
-    foundingCity,
-    cancelling,
-    wakingUp,
-    Deleting
-}
+
 public class Unit {
     private Tile currentTile;
     private Tile destinationTile;
@@ -32,16 +18,13 @@ public class Unit {
     private static int combatStrength;
     private static Resource resource;
     private static int state;
-    private int health=10;
-    private static int combatType; // 0 civilian
-    //  1 archery
-    //  2 melee
-    // 3 mounted
-    // 4 naval
-    // 5 recon
-    // 6 siege
-    // 7 gunpowder
-    // 8
+    private int health = 10;
+    private int XP;
+    private boolean hasDoneAnything;
+
+    public int getHealth() {
+        return health;
+    }
 
     private void OpenNewArea() {
 
@@ -65,18 +48,20 @@ public class Unit {
     public int getMovementPrice() {
         return movementPrice;
     }
-    public static boolean canBeMade(ArrayList<Resource> resources, ArrayList<Technology> technologies, int civilizationGold)
-    {
+
+    public static boolean canBeMade(ArrayList<Resource> resources, ArrayList<Technology> technologies, int civilizationGold) {
         return false;
     }
-    public Unit(Tile tile, ArrayList<Resource> resources, ArrayList<Technology> technologies, int civilizationGold)
-    {
+
+    public Unit(Tile tile, ArrayList<Resource> resources, ArrayList<Technology> technologies, int civilizationGold) {
 
     }
 
-    public void setTheNumbers()
-    {
+    public void setTheNumbers() {
 
     }
 
+    public static Civilization getCivilization() {
+        return civilization;
+    }
 }

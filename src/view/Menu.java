@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class Menu {
+
     protected int nextMenu;
     public int run(Scanner scanner) {
         String command;

@@ -1,5 +1,9 @@
 package model.tiles;
 
+import model.City;
+import model.Units.Civilian;
+import model.Units.NonCivilian;
+import model.Units.Unit;
 import model.features.Feature;
 import model.resources.Resource;
 
@@ -13,7 +17,11 @@ abstract public class Tile {
     protected static int x;
     protected static int y;
     protected int[] resources;
-
+    protected Civilian civilian;
+    protected NonCivilian nonCivilian;
+    protected building;
+    protected City city;
+    protected final Tile[] NEIGHBOURS = new Tile[6];
 
     public static int getX() {
         return x;
