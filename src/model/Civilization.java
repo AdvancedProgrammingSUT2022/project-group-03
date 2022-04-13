@@ -12,10 +12,32 @@ public class Civilization {
     private ArrayList<Unit> units = new ArrayList<>();
     private ArrayList<Technology> researches;
     private ArrayList<City> cities;
+    private int science;
+    private Technology gettingResearchedTechnology;
     public Civilization(String username)
     {
         this.username= username;
         this.gold = 0;
+    }
+
+
+    public void setGettingResearchedTechnology(Technology gettingResearchedTechnology) {
+        this.gettingResearchedTechnology = gettingResearchedTechnology;
+    }
+
+    public void addTechnologyToResearches(Technology technology)
+    {
+
+    }
+
+    public City findCityByName(String name)
+    {
+
+    }
+
+    public City findCityByPosition(int x, int y)
+    {
+
     }
 
     public ArrayList<City> getCities() {
@@ -51,6 +73,11 @@ public class Civilization {
     }
 
     public void SetTheNumbers()
+    {
+
+    }
+
+    public void deleteUnit(Unit unit)
     {
 
     }

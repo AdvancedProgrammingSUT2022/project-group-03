@@ -1,10 +1,6 @@
 package view;
 
 public class GameMenu extends Menu {
-    @Override
-    protected boolean commands(String command) {
-
-    }
 
     private void infoResearch() {
 
@@ -62,7 +58,12 @@ public class GameMenu extends Menu {
 
     }
 
-    private void selectCity(String command) {
+    private void selectCityByName(String command) {
+
+    }
+
+
+    private void selectCityByPosition(String command) {
 
     }
 
@@ -79,10 +80,6 @@ public class GameMenu extends Menu {
     }
 
     private void unitFortify() {
-
-    }
-
-    private void unitFortifyHeal() {
 
     }
 
@@ -193,6 +190,21 @@ public class GameMenu extends Menu {
 
 
     private void MapMoveDown(String command) {
+
+    }
+
+
+    private void nextTurn()
+    {
+//set the numbers
+    }
+    @Override
+    protected boolean commands(String command) {
+
+    }
+
+    protected boolean gameOver()
+    {
 
     }
 }

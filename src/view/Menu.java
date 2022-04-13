@@ -11,7 +11,7 @@ public abstract class Menu {
         String command;
         while (true) {
             command = scanner.nextLine();
-            if (commands(command))
+            if (commands(command) || gameOver())
                 break;
         }
         return nextMenu;
@@ -25,4 +25,9 @@ public abstract class Menu {
     }
 
     abstract protected boolean commands(String command);
+
+    protected boolean gameOver()
+    {
+        return false;
+    }
 }

@@ -12,7 +12,10 @@ public class City {
     private Civilization civilization;
     private boolean doesHaveWall;
     private int HP = 20;
+    private int food;
+    private int production;
     private ArrayList<Tile> Tiles;
+    private Civilization founder;
     public City(Tile tile) {
         this.maintile = tile;
 

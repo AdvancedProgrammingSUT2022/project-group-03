@@ -3,17 +3,22 @@ package controller;
 import model.City;
 import model.Civilization;
 import model.Map;
+import model.Tasks;
 import model.Units.Unit;
 import model.tiles.Tile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameController {
-    ArrayList<Civilization> civilizations;
-    Unit selectedUnit;
-    City selectedCity;
-    Map map;
+    private ArrayList<Civilization> civilizations;
+    private Unit selectedUnit;
+    private City selectedCity;
+    private Map map;
+    private int startWindowX;
+    private int startWindowY;
     private int PlayerTurn = 0;
+    private ArrayList<Tasks> unfinishedTasks;
 
     private void startGame(String[] PlayersNames) {
         setCivilizations(PlayersNames);
@@ -42,7 +47,118 @@ public class GameController {
     {
 
     }
-    private boolean isGameOver() {
+
+    public int setSelectedUnit(int x, int y, boolean isCitizen)
+    {
+
+    }
+
+    public int setSelectedCityByName(String name)
+    {
+
+    }
+
+
+    public int setSelectedCityByPosition(String name)
+    {
+
+    }
+
+    public int UnitMoveTo(int x, int y)
+    {
+
+    }
+
+    public int UnitSleep()
+    {
+
+    }
+
+    public int UnitAlert()
+    {
+
+    }
+
+    public int UnitFortify(boolean shouldHeal)
+    {
+
+    }
+
+    public int UnitGarrison()
+    {
+
+    }
+
+    public int UnitSetupRanged()
+    {
+
+    }
+
+    public int UnitAttackPosition(int x, int y)
+    {
+
+    }
+    public int UnitFoundCity()
+    {
+
+    }
+    public int unitCancelMission()
+    {
+
+    }
+
+
+    public int UnitWake()
+    {
+
+    }
+
+
+    public int UnitDelete()
+    {
+
+    }
+
+
+
+    public int UnitBuildRoad()
+    {
+
+    }
+
+    public int UnitBuildRailRoad()
+    {
+
+    }
+
+    public int UnitRemoveFromTile(boolean isJungle)
+    {
+
+    }
+    public int UnitRepair()
+    {
+
+    }
+
+    public int mapShowPosition(int x, int y)
+    {
+
+    }
+
+    public int mapShowCityName(String name)
+    {
+
+    }
+
+    public int mapMove(int x, int y, String direction)
+    {
+
+    }
+    private int nextTurn()
+    {
+
+    }
+    private int isGameOver() {
         return true;
     }
 }

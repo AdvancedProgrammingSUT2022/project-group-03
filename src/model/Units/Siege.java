@@ -8,10 +8,15 @@ import model.tiles.Tile;
 import java.util.ArrayList;
 
 public class Siege extends RangedUnit{
-    private Tile AimedTile;
+    private boolean isAimed;
 
     public Siege(Tile tile, Civilization civilization) {
         super(tile, civilization);
+    }
+
+
+    public void setAimed(boolean aimed) {
+        isAimed = aimed;
     }
 
     @Override

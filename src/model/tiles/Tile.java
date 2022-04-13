@@ -21,6 +21,11 @@ abstract public class Tile {
     protected NonCivilian nonCivilian;
     protected building;
     protected City city;
+    protected int hasRoad;
+    //0==no road
+    //1==road
+    //2= railroad
+    //3==both
     protected final Tile[] NEIGHBOURS = new Tile[6];
 
     public static int getX() {

@@ -64,4 +64,19 @@ public class Unit {
     public static Civilization getCivilization() {
         return civilization;
     }
+
+    public void cancelMission()
+    {
+
+    }
+
+    public void wake()
+    {
+
+    }
+
+    public static Unit stringToUnit(String string)
+    {
+
+    }
 }
