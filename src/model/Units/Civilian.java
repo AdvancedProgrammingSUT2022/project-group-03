@@ -1,18 +1,19 @@
 package model.Units;
 
+import model.Civilization;
 import model.resources.Resource;
 import model.technologies.Technology;
+import model.tiles.Tile;
 
 import java.util.ArrayList;
 
 public class Civilian extends Unit{
-    public Civilian(int x, int y, ArrayList<Resource> resources, ArrayList<Technology> technologies, int civilizationGold)
+    public Civilian(Tile tile, ArrayList<Resource> resources, ArrayList<Technology> technologies, Civilization civilization)
     {
-        super();
-
+        super(tile,civilization);
     }
     public boolean repairing()
     {
-        return 0;
+        return true;
     }
 }

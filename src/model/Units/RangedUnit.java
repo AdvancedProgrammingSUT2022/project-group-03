@@ -1,5 +1,6 @@
 package model.Units;
 
+import model.Civilization;
 import model.resources.Resource;
 import model.technologies.Technology;
 import model.tiles.Tile;
@@ -10,8 +11,8 @@ public class RangedUnit extends NonCivilian{
     private int range;
     private int rangedCombatStrength;
 
-    public RangedUnit(Tile tile, ArrayList<Resource> resources, ArrayList<Technology> technologies, int civilizationGold) {
-        super(tile, resources, technologies, civilizationGold);
+    public RangedUnit(Tile tile, Civilization civilization) {
+        super(tile, civilization);
     }
 
     protected boolean isReady()

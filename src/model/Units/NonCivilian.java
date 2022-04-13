@@ -1,5 +1,6 @@
 package model.Units;
 
+import model.Civilization;
 import model.resources.Resource;
 import model.technologies.Technology;
 import model.tiles.Tile;
@@ -11,8 +12,8 @@ public class NonCivilian extends Unit {
     private boolean isFortifiedUntilCompleteHealth;
     private boolean isOnAlert = false;
 
-    public NonCivilian(Tile tile, ArrayList<Resource> resources, ArrayList<Technology> technologies, int civilizationGold) {
-        super(tile, resources, technologies, civilizationGold);
+    public NonCivilian(Tile tile, Civilization civilization) {
+        super(tile, civilization);
     }
 
     private void Fortify() {

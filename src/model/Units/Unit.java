@@ -53,7 +53,7 @@ public class Unit {
         return false;
     }
 
-    public Unit(Tile tile, ArrayList<Resource> resources, ArrayList<Technology> technologies, int civilizationGold) {
+    public Unit(Tile tile, Civilization civilization) {
 
     }
 
