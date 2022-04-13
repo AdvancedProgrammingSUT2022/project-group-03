@@ -13,6 +13,7 @@ public class Civilization {
     private ArrayList<Technology> researches;
     private ArrayList<City> cities;
     private int science;
+    private int happiness;
     private Technology gettingResearchedTechnology;
     public Civilization(String username)
     {

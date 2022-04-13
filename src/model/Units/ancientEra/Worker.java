@@ -4,6 +4,7 @@ import model.Units.Unit;
 import model.tiles.Tile;
 
 public class Worker extends Unit {
+    int remainingDurationToBuildCompletely;
     public boolean repair()
     {
         return true;
@@ -13,7 +14,7 @@ public class Worker extends Unit {
 
     }
 
-    public int remove(boolean isJungle)
+    public int remove(int isJungle)
     {
 
     }

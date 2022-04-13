@@ -131,7 +131,7 @@ public class GameController {
 
     }
 
-    public int UnitRemoveFromTile(boolean isJungle)
+    public int UnitRemoveFromTile(int isJungle)
     {
 
     }
@@ -158,6 +158,12 @@ public class GameController {
     {
 
     }
+
+    public int buyTile(Tile tile)
+    {
+
+    }
+
     private int isGameOver() {
         return true;
     }

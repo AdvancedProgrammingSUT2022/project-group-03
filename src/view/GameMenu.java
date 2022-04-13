@@ -151,14 +151,9 @@ public class GameMenu extends Menu {
 
     }
 
-    private void unitRemoveJungle() {
+    private void unitRemove() {
 
     }
-
-    private void unitRemoveRoute() {
-
-    }
-
 
     private void unitRepair() {
 

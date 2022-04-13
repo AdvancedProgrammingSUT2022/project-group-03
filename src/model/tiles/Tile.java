@@ -22,6 +22,7 @@ abstract public class Tile {
     protected building;
     protected City city;
     protected int hasRoad;
+    protected boolean hasBeenRaid;
     //0==no road
     //1==road
     //2= railroad

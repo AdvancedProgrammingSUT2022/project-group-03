@@ -13,6 +13,7 @@ public class City {
     private boolean doesHaveWall;
     private int HP = 20;
     private int food;
+    private int population;
     private int production;
     private ArrayList<Tile> Tiles;
     private Civilization founder;
@@ -35,6 +36,11 @@ public class City {
     }
 
     public void attack(Tile tile)
+    {
+
+    }
+
+    public void buyTile(Tile tile)
     {
 
     }
