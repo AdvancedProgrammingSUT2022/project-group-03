@@ -2,17 +2,19 @@ package model.Units;
 
 import model.Civilization;
 import model.Map;
+import model.productable;
 import model.resources.Resource;
 import model.technologies.Technology;
+import model.technologies.TechnologyType;
 import model.tiles.Tile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class Unit {
+public class Unit implements productable {
     private Tile currentTile;
     private Tile destinationTile;
     private static Civilization civilization;
-    private static int cost;
     private int defaultMovementPrice;
     private int movementPrice;
     private static int combatStrength;
@@ -49,9 +51,7 @@ public class Unit {
         return movementPrice;
     }
 
-    public static boolean canBeMade(ArrayList<Resource> resources, ArrayList<Technology> technologies, int civilizationGold) {
-        return false;
-    }
+
 
     public Unit(Tile tile, Civilization civilization) {
 
@@ -77,6 +77,11 @@ public class Unit {
 
     public static Unit stringToUnit(String string)
     {
+        return null;
+    }
+
+    @Override
+    public void getCost(){
 
     }
 }

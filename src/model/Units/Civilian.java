@@ -8,12 +8,15 @@ import model.tiles.Tile;
 import java.util.ArrayList;
 
 public class Civilian extends Unit{
-    public Civilian(Tile tile, ArrayList<Resource> resources, ArrayList<Technology> technologies, Civilization civilization)
+    public Civilian(Tile tile, Civilization civilization)
     {
         super(tile,civilization);
     }
     public boolean repairing()
     {
         return true;
+    }
+    public static boolean canBeMade(Civilization civilization, int civilizationGold) {
+        return false;
     }
 }

@@ -1,28 +1,34 @@
 package model.resources;
 
 import model.technologies.Technology;
+import model.technologies.TechnologyType;
 
 import java.util.ArrayList;
 
 public class Resource {
-    protected static int gold;
-    protected static int food;
-    protected static int production;
-    protected static ArrayList<Technology> necessaryTechnologies;
+    private int gold;
+    private int food;
+    private int production;
+    private ArrayList<TechnologyType> necessaryTechnologies;
+    private ResourcesTypes resourcesTypes;
+    private ResourcesCategory resourcesCategory;
+    public Resource(ResourcesTypes resourcesTypes)
+    {
 
-    public static int getFood() {
+    }
+    public int getFood() {
         return food;
     }
 
-    public static int getProduction() {
+    public int getProduction() {
         return production;
     }
 
-    public static int getGold() {
+    public int getGold() {
         return gold;
     }
 
-    public static ArrayList<Technology> getNecessaryTechnologies() {
+    public ArrayList<TechnologyType> getNecessaryTechnologies() {
         return necessaryTechnologies;
     }
 }

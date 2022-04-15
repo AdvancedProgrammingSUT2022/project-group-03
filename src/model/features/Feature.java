@@ -1,12 +1,16 @@
 package model.features;
 
 abstract public class Feature {
-    protected static int movingPrice;
-    protected static int food;
-    protected static int production;
-    protected static int gold;
-    protected static int changingPercentOfStrength;
+    private static int movingPrice;
+    private static int food;
+    private static int production;
+    private static int gold;
+    private static int changingPercentOfStrength;
+    private FeatureType featureType;
+    public Feature(FeatureType featureType)
+    {
 
+    }
     public static int getGold() {
         return gold;
     }

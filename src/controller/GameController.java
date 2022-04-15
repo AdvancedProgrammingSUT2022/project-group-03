@@ -5,10 +5,10 @@ import model.Civilization;
 import model.Map;
 import model.Tasks;
 import model.Units.Unit;
+import model.Units.NonCivilianUnitType;
 import model.tiles.Tile;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GameController {
     private ArrayList<Civilization> civilizations;
@@ -30,7 +30,6 @@ public class GameController {
     }
 
     private void setTheNumbers() {
-        for ()
 
     }
     private boolean canUnitAttack(Unit unit, Tile tile)

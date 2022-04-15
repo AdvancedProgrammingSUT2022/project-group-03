@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class User {
     private static ArrayList<User> listOfUsers;
-    private final String USERNAME;
+    private final String username;
     private String password;
     private String nickname;
     int score;

@@ -5,9 +5,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class Menu {
-
+    protected static Scanner scanner;
     protected int nextMenu;
     public int run(Scanner scanner) {
+        Menu.scanner = scanner;
         String command;
         while (true) {
             command = scanner.nextLine();

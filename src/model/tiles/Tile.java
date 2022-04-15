@@ -1,33 +1,45 @@
 package model.tiles;
 
 import model.City;
+import model.Civilization;
 import model.Units.Civilian;
 import model.Units.NonCivilian;
-import model.Units.Unit;
 import model.features.Feature;
+import model.features.FeatureType;
+import model.improvements.Improvement;
 import model.resources.Resource;
+import model.resources.ResourcesTypes;
 
-abstract public class Tile {
-    protected static int movingPrice;
-    protected static int food;
-    protected static int production;
-    protected static int gold;
-    protected static int changingPercentOfStrength;
-    protected Feature feature;
-    protected static int x;
-    protected static int y;
-    protected int[] resources;
-    protected Civilian civilian;
-    protected NonCivilian nonCivilian;
-    protected building;
-    protected City city;
-    protected int hasRoad;
-    protected boolean hasBeenRaid;
+import java.util.HashMap;
+
+public class Tile {
+    private static int movingPrice;
+    private static int food;
+    private static int production;
+    private static int gold;
+    private static int changingPercentOfStrength;
+    private TileType tileType;
+    private static int x;
+    private static int y;
+    private static HashMap<TileType,ResourcesTypes[]> possibleResourceTypes;
+    private ResourcesTypes containedResource;
+    private static HashMap<TileType, FeatureType[]> possibleFeatureTypes;
+    private Feature containedFeature;
+    private Civilization civilization;
+    private Civilian civilian;
+    private NonCivilian nonCivilian;
+    private City city;
+    private int hasRoad;
+    private boolean hasBeenRaid;
+    private Improvement improvement;
     //0==no road
     //1==road
     //2= railroad
     //3==both
-    protected final Tile[] NEIGHBOURS = new Tile[6];
+    static {
+        //hashmap set
+    }
+    private final Tile[] NEIGHBOURS = new Tile[6];
 
     public static int getX() {
         return x;
@@ -58,22 +70,24 @@ abstract public class Tile {
     }
 
     public Feature getFeature() {
-        return feature;
+        return containedFeature;
     }
 
-    public int[] getResources() {
-        return resources;
+    public ResourcesTypes getResources() {
+        return containedResource;
     }
 
 
     public boolean setFeature(Feature feature){
         if(isFeatureValid(feature)){
-            this.feature = feature;
+            this.containedFeature = feature;
             return true;
         }
         return false;
     }
-    abstract boolean isFeatureValid(Feature feature);
+    boolean isFeatureValid(Feature feature){
+        return false;
+    }
 
     public boolean setResource(Resource resource){
         if(isResourceValid(resource)){
@@ -81,5 +95,7 @@ abstract public class Tile {
         }
         return false;
     }
-    abstract boolean isResourceValid(Resource resource);
+    boolean isResourceValid(Resource resource){
+        return false;
+    }
 }

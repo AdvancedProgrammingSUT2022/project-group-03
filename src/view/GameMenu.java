@@ -195,12 +195,12 @@ public class GameMenu extends Menu {
     }
     @Override
     protected boolean commands(String command) {
-
+        return false;
     }
 
     protected boolean gameOver()
     {
-
+        return false;
     }
 }
 

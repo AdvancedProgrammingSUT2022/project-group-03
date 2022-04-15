@@ -1,20 +1,26 @@
 package model;
 
 import model.Units.Unit;
+import model.resources.ResourcesTypes;
 import model.technologies.Technology;
+import model.technologies.TechnologyType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class Civilization {
     private final String username;
     private int[][] openedArea = null;
     private int gold;
     private ArrayList<Unit> units = new ArrayList<>();
-    private ArrayList<Technology> researches;
+    private ArrayList<TechnologyType> researches;
     private ArrayList<City> cities;
     private int science;
     private int happiness;
+    private HashMap<ResourcesTypes, Integer> resourcesAmount;
     private Technology gettingResearchedTechnology;
+    private HashMap<ResourcesTypes, Boolean> usedLuxuryResources;
     public Civilization(String username)
     {
         this.username= username;
@@ -33,12 +39,12 @@ public class Civilization {
 
     public City findCityByName(String name)
     {
-
+        return null;
     }
 
     public City findCityByPosition(int x, int y)
     {
-
+        return null;
     }
 
     public ArrayList<City> getCities() {
@@ -49,7 +55,7 @@ public class Civilization {
         return units;
     }
 
-    public ArrayList<Technology> getResearches() {
+    public ArrayList<TechnologyType> getResearches() {
         return researches;
     }
 
@@ -79,6 +85,11 @@ public class Civilization {
     }
 
     public void deleteUnit(Unit unit)
+    {
+
+    }
+
+    private void countTheTotalOfCityResources()
     {
 
     }
