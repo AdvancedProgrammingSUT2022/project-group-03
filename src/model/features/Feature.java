@@ -1,33 +1,35 @@
 package model.features;
 
-abstract public class Feature {
-    private static int movingPrice;
-    private static int food;
-    private static int production;
-    private static int gold;
-    private static int changingPercentOfStrength;
+import model.improvements.ImprovementType;
+import model.tiles.TileType;
+
+import java.util.HashMap;
+
+public class Feature {
+    private static HashMap<FeatureType, Integer> movingPrice;
+    private static HashMap<FeatureType, Integer> food;
+    private static HashMap<FeatureType, Integer> production;
+    private static HashMap<FeatureType, Integer> gold;
+    private static HashMap<FeatureType, Integer> changingPercentOfStrength;
+    private static HashMap<FeatureType, Integer> possibleTiles;
     private FeatureType featureType;
     public Feature(FeatureType featureType)
     {
 
     }
-    public static int getGold() {
+    public int getGold() {
         return gold;
     }
-
-    public static int getProduction() {
+    public int getProduction() {
         return production;
     }
-
-    public static int getFood() {
+    public int getFood() {
         return food;
     }
-
-    public static int getChangingPercentOfStrength() {
+    public int getChangingPercentOfStrength() {
         return changingPercentOfStrength;
     }
-
-    public static int getMovingPrice() {
+    public int getMovingPrice() {
         return movingPrice;
     }
 }

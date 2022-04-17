@@ -5,165 +5,167 @@ import model.Civilization;
 import model.Map;
 import model.Tasks;
 import model.Units.Unit;
-import model.Units.NonCivilianUnitType;
 import model.tiles.Tile;
 
 import java.util.ArrayList;
 
 public class GameController {
-    private ArrayList<Civilization> civilizations;
-    private Unit selectedUnit;
-    private City selectedCity;
-    private Map map;
-    private int startWindowX;
-    private int startWindowY;
-    private int PlayerTurn = 0;
-    private ArrayList<Tasks> unfinishedTasks;
+    private static ArrayList<Civilization> civilizations;
+    private static Unit selectedUnit;
+    private static City selectedCity;
+    private static Map map;
+    private static int startWindowX;
+    private static int startWindowY;
+    private static int PlayerTurn = 0;
+    private static ArrayList<Tasks> unfinishedTasks;
 
-    private void startGame(String[] PlayersNames) {
+    public static void startGame(String[] PlayersNames) {
         setCivilizations(PlayersNames);
         map = new Map(civilizations);
     }
-
-    public void setCivilizations(String[] PlayersNames) {
-
-    }
-
-    private void setTheNumbers() {
-
-    }
-    private boolean canUnitAttack(Unit unit, Tile tile)
+    public static int setSelectedUnit(int x, int y, boolean isCitizen)
     {
 
     }
 
-    private boolean canCityAttack(City city, Tile tile)
-    {
-
-    }
-
-    private boolean canUnitMove(City city, Tile tile)
-    {
-
-    }
-
-    public int setSelectedUnit(int x, int y, boolean isCitizen)
-    {
-
-    }
-
-    public int setSelectedCityByName(String name)
+    public static int setSelectedCityByName(String name)
     {
 
     }
 
 
-    public int setSelectedCityByPosition(String name)
+    public static int setSelectedCityByPosition(int x, int y)
     {
 
     }
 
-    public int UnitMoveTo(int x, int y)
+    public static int UnitMoveTo(int x, int y)
     {
 
     }
 
-    public int UnitSleep()
+    public static int UnitSleep()
     {
 
     }
 
-    public int UnitAlert()
+    public static int UnitAlert()
     {
 
     }
 
-    public int UnitFortify(boolean shouldHeal)
+    public static int UnitFortify(boolean shouldHeal)
     {
 
     }
 
-    public int UnitGarrison()
+    public static int UnitGarrison()
     {
 
     }
 
-    public int UnitSetupRanged()
+    public static int UnitSetupRanged()
     {
 
     }
 
-    public int UnitAttackPosition(int x, int y)
+    public static int UnitAttackPosition(int x, int y)
     {
 
     }
-    public int UnitFoundCity()
+    public static int UnitFoundCity()
     {
 
     }
-    public int unitCancelMission()
-    {
-
-    }
-
-
-    public int UnitWake()
+    public static int unitCancelMission()
     {
 
     }
 
 
-    public int UnitDelete()
+    public static int UnitWake()
+    {
+
+    }
+
+
+    public static int UnitDelete()
     {
 
     }
 
 
 
-    public int UnitBuildRoad()
+    public static int UnitBuildRoad()
     {
 
     }
 
-    public int UnitBuildRailRoad()
+    public static int UnitBuildRailRoad()
     {
 
     }
 
-    public int UnitRemoveFromTile(int isJungle)
+    public static int UnitRemoveFromTile(int isJungle)
     {
 
     }
-    public int UnitRepair()
-    {
-
-    }
-
-    public int mapShowPosition(int x, int y)
+    public static int UnitRepair()
     {
 
     }
 
-    public int mapShowCityName(String name)
+    public static int mapShowPosition(int x, int y)
     {
 
     }
 
-    public int mapMove(int x, int y, String direction)
-    {
 
-    }
-    private int nextTurn()
-    {
-
-    }
-
-    public int buyTile(Tile tile)
+    public static int mapShowCityName(String name)
     {
 
     }
 
-    private int isGameOver() {
+    public static int mapMove(int x, int y, String direction)
+    {
+
+    }
+    private static int nextTurn()
+    {
+
+    }
+
+    public static int buyTile(Tile tile)
+    {
+
+    }
+    private static void setCivilizations(String[] PlayersNames) {
+
+    }
+
+    private static void setTheNumbers() {
+
+    }
+    private static boolean canUnitAttack(Unit unit, Tile tile)
+    {
+
+    }
+
+    private static boolean canCityAttack(City city, Tile tile)
+    {
+
+    }
+
+    private static boolean canUnitMove(City city, Tile tile)
+    {
+
+    }
+
+
+
+
+
+    private static int isGameOver() {
         return true;
     }
 }

@@ -12,32 +12,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Unit implements productable {
+    private Civilization civilization;
+    private static int state;
     private Tile currentTile;
     private Tile destinationTile;
-    private static Civilization civilization;
     private int defaultMovementPrice;
     private int movementPrice;
-    private static int combatStrength;
-    private static Resource resource;
-    private static int state;
     private int health = 10;
     private int XP;
     private boolean hasDoneAnything;
+
+    public Unit(Tile tile, Civilization civilization) {
+
+    }
 
     public int getHealth() {
         return health;
     }
 
-    private void OpenNewArea() {
-
-
-    }
-
-    private void move(Tile tile) {
-        Tile tempTile = Map.FindBestMove(this);
-
-
-    }
 
     public int getDefaultMovementPrice() {
         return defaultMovementPrice;
@@ -53,16 +45,13 @@ public class Unit implements productable {
 
 
 
-    public Unit(Tile tile, Civilization civilization) {
-
-    }
-
-    public void setTheNumbers() {
-
-    }
-
-    public static Civilization getCivilization() {
+    public Civilization getCivilization() {
         return civilization;
+    }
+
+    @Override
+    public void getCost(){
+
     }
 
     public void cancelMission()
@@ -74,14 +63,22 @@ public class Unit implements productable {
     {
 
     }
-
-    public static Unit stringToUnit(String string)
-    {
-        return null;
-    }
-
-    @Override
-    public void getCost(){
+    public void setTheNumbers() {
 
     }
+
+    private void OpenNewArea() {
+
+
+    }
+
+    private void move(Tile tile) {
+        Tile tempTile = Map.FindBestMove(this);
+
+
+    }
+
+
+
+
 }

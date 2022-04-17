@@ -19,11 +19,11 @@ public class User {
 
     }
 
-    public User(String USERNAME, String password, String nickname) {
+    public User(String username, String password, String nickname) {
 
     }
 
-    public boolean isPasswordCorrect(String USERNAME, String password) {
+    public boolean isPasswordCorrect(String username, String password) {
 
     }
 

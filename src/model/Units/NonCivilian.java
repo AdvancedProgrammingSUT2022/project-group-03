@@ -1,6 +1,7 @@
 package model.Units;
 
 import model.Civilization;
+import model.resources.Resource;
 import model.technologies.TechnologyType;
 import model.tiles.Tile;
 
@@ -10,13 +11,15 @@ import java.util.HashMap;
 public class NonCivilian extends Unit {
     private static HashMap<NonCivilianUnitType, Integer> cost;
     private static HashMap<NonCivilianUnitType,TechnologyType> prerequisitesTechnologies;
+    private static HashMap<NonCivilianUnitType,Integer> range;
+    private static HashMap<NonCivilianUnitType,Integer> rangedCombatStrength;
+    private static HashMap<NonCivilianUnitType,Integer> combatStrength;
+    private static HashMap<NonCivilianUnitType,CombatType> combatType;
+    private static HashMap<NonCivilianUnitType,Resource> resources;
     private int fortifiedCycle = 0;
     private NonCivilianUnitType unitType;
-    private CombatType combatType;
-    private int range;
-    private int rangedCombatStrength;
-    private int combatStrength;
     private boolean isReady;
+    private boolean isGarrisoned;
     private boolean isFortifiedUntilCompleteHealth;
     private boolean isOnAlert = false;
     static
@@ -34,6 +37,7 @@ public class NonCivilian extends Unit {
                 return null;
             return NonCivilian(tile,);
     }
+
 
     private void attack(Tile tile) {
 

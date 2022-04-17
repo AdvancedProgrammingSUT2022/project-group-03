@@ -10,28 +10,30 @@ import model.improvements.Improvement;
 import model.resources.Resource;
 import model.resources.ResourcesTypes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Tile {
-    private static int movingPrice;
-    private static int food;
-    private static int production;
-    private static int gold;
-    private static int changingPercentOfStrength;
-    private TileType tileType;
-    private static int x;
-    private static int y;
+    private static HashMap<TileType,Integer> movingPrice;
+    private static HashMap<TileType,Integer> food;
+    private static HashMap<TileType,Integer> production;
+    private static HashMap<TileType,Integer> gold;
+    private static HashMap<TileType,Integer> changingPercentOfStrength;
     private static HashMap<TileType,ResourcesTypes[]> possibleResourceTypes;
-    private ResourcesTypes containedResource;
     private static HashMap<TileType, FeatureType[]> possibleFeatureTypes;
+    private ArrayList<Tile> tilesWithRiver;
+    private TileType tileType;
+    private Resource containedResource;
     private Feature containedFeature;
+    private Improvement improvement;
+    private final int x;
+    private final int y;
     private Civilization civilization;
     private Civilian civilian;
     private NonCivilian nonCivilian;
     private City city;
     private int hasRoad;
-    private boolean hasBeenRaid;
-    private Improvement improvement;
+    private int raidLevel;
     //0==no road
     //1==road
     //2= railroad
@@ -41,31 +43,31 @@ public class Tile {
     }
     private final Tile[] NEIGHBOURS = new Tile[6];
 
-    public static int getX() {
+    public int getX() {
         return x;
     }
 
-    public static int getY() {
+    public int getY() {
         return y;
     }
 
-    public static int getMovingPrice() {
+    public int getMovingPrice() {
         return movingPrice;
     }
 
-    public static int getChangingPercentOfStrength() {
+    public int getChangingPercentOfStrength() {
         return changingPercentOfStrength;
     }
 
-    public static int getFood() {
+    public int getFood() {
         return food;
     }
 
-    public static int getProduction() {
+    public int getProduction() {
         return production;
     }
 
-    public static int getGold() {
+    public int getGold() {
         return gold;
     }
 
@@ -73,11 +75,13 @@ public class Tile {
         return containedFeature;
     }
 
-    public ResourcesTypes getResources() {
+    public Resource getResources() {
         return containedResource;
     }
 
+    public Tile(TileType tileType,int x, int y){
 
+    }
     public boolean setFeature(Feature feature){
         if(isFeatureValid(feature)){
             this.containedFeature = feature;
@@ -85,17 +89,11 @@ public class Tile {
         }
         return false;
     }
-    boolean isFeatureValid(Feature feature){
-        return false;
-    }
-
     public boolean setResource(Resource resource){
         if(isResourceValid(resource)){
             return true;
         }
         return false;
     }
-    boolean isResourceValid(Resource resource){
-        return false;
-    }
+
 }

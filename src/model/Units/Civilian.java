@@ -12,10 +12,6 @@ public class Civilian extends Unit{
     {
         super(tile,civilization);
     }
-    public boolean repairing()
-    {
-        return true;
-    }
     public static boolean canBeMade(Civilization civilization, int civilizationGold) {
         return false;
     }

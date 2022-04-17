@@ -12,18 +12,19 @@ public class LoginController {
     {
         return 0;
     }
+    public static int changeNickname(String newNickName)
+    {
+        return 0;
+    }
+    public static int changePassword(String currentPassword, String newPassword)
+    {
+
+    }
 
     private static boolean isPasswordValid(String password) {
         return true;
     }
 
-    public int changeNickname(String newNickName)
-    {
-        return 0;
-    }
-    public int changePassword(String currentPassword, String newPassword)
-    {
 
-    }
 }
 

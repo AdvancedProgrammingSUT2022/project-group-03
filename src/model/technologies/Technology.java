@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Technology {
-    private static int cost;
-    private static ArrayList<Technology> nextTechs;
-    private int remainedCyclesUntilCompleteTechnology;
-    private static HashMap<TechnologyType, TechnologyType[]> nextTypes;
+    private static HashMap<TechnologyType, Integer> cost;
+    private static HashMap<TechnologyType, TechnologyType[]> nextTechs;
+    private TechnologyType technologyType;
+    private int remainedScienceUntilCompleteTechnology;
     static {
+
+    }
+    public Technology(TechnologyType technologyType){
 
     }
     public static int getCost() {
