@@ -10,25 +10,25 @@ public class LoginMenu extends Menu {
         regexes = new String[]{
                 "^menu exit$",
                 "^menu show-current$",
-                "^user create$",
+                "user create.*",
                 "^user login$"
         };
     }
 
     //    private String username, password, nickname;
     private final String[] userRegexes = {
-            "^--username (\\w+)$",
-            "^-u (\\w+)$"
+            ".*--username (\\w+).*",
+            ".*-u (\\w+).*"
     };
 
     private final String[] nickRegexes = {
-            "^--nickname (.+) -$",
-            "^-n (.+) -$"
+            ".*--nickname (.+)-?.*",
+            ".*-n (.+)-?.*"
     };
 
     private final String[] passRegexes = {
-            "^--password (\\W+)$",
-            "^-p (\\W+)$"
+            ".*--password (\\w+).*",
+            ".*-p (\\w+).*"
     };
     private final Pattern[] patterns = {
             Pattern.compile(userRegexes[0]),
@@ -79,10 +79,10 @@ public class LoginMenu extends Menu {
         username.append(matcher.group(1));
         matcher = patterns[PasswordCommandNumber + 2].matcher(command);
         matcher.find();
-        password.append(matcher.group(2));
+        password.append(matcher.group(1));
         matcher = patterns[NicknameCommandNumber + 4].matcher(command);
         matcher.find();
-        nickname.append(matcher.group(3));
+        nickname.append(matcher.group(1));
     }
 
     private void createNewUser(String command) {
@@ -94,10 +94,10 @@ public class LoginMenu extends Menu {
                 System.out.println("user created successfully!");
                 break;
             case 1:
-                System.out.println("user with username " + username + "already exists");
+                System.out.println("user with username " + username + " already exists");
                 break;
             case 2:
-                System.out.println("user with nickname " + nickname + "already exists");
+                System.out.println("user with nickname " + nickname + " already exists");
                 break;
         }
     }
