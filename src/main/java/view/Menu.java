@@ -31,9 +31,8 @@ public abstract class Menu {
         return -1;
     }
 
-    protected static String[] regexes;
-    protected static String[] fieldRegexes;
-    protected int command_number;
+    protected String[] regexes;
+    protected int commandNumber;
     abstract protected boolean commands(String command);
     protected boolean gameOver()
     {
