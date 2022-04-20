@@ -21,7 +21,7 @@ public class Tile {
     private static HashMap<TileType,Integer> changingPercentOfStrength;
     private static HashMap<TileType,ResourcesTypes[]> possibleResourceTypes;
     private static HashMap<TileType, FeatureType[]> possibleFeatureTypes;
-    private ArrayList<Tile> tilesWithRiver;
+    private boolean[] tilesWithRiver = new boolean[6];
     private TileType tileType;
     private Resource containedResource;
     private Feature containedFeature;
@@ -41,7 +41,7 @@ public class Tile {
     static {
         //hashmap set
     }
-    private final Tile[] NEIGHBOURS = new Tile[6];
+    private final Tile[] neighbours = new Tile[6];// L , clockwise
 
     public int getX() {
         return x;
@@ -52,25 +52,51 @@ public class Tile {
     }
 
     public int getMovingPrice() {
-        return movingPrice;
+        return movingPrice.get(this.tileType);
     }
 
     public int getChangingPercentOfStrength() {
-        return changingPercentOfStrength;
+        return changingPercentOfStrength.get(this.tileType);
     }
 
     public int getFood() {
-        return food;
+        return food.get(this.tileType);
     }
 
     public int getProduction() {
-        return production;
+        return production.get(this.tileType);
     }
 
     public int getGold() {
-        return gold;
+        return gold.get(this.tileType);
     }
 
+    public Tile getNeighbours(int i) {
+        if(i > 0 && i < 6){
+            return neighbours[i];
+        }
+        return null;
+    }
+    public void setTilesWithRiver(int i){
+        if(i > 0 && i < 6){
+            tilesWithRiver[i] = true;
+        }
+    }
+
+    public boolean isRiverWithNeighbour(int i ){
+        if(i > 0 && i < 6){
+            return tilesWithRiver[i];
+        }
+        return false;
+    }
+
+    public void setNeighbours(int i, Tile tile) {
+        neighbours[i] = tile;
+    }
+
+    public TileType getTileType() {
+        return tileType;
+    }
     public Feature getFeature() {
         return containedFeature;
     }
@@ -80,21 +106,32 @@ public class Tile {
     }
 
     public Tile(TileType tileType,int x, int y){
-        this.x=x;
-        this.y=y;
-
+        this.x = x;
+        this.y = y;
     }
     public boolean setFeature(Feature feature){
-        if(isFeatureValid(feature)){
-            this.containedFeature = feature;
-            return true;
+        this.containedFeature = feature;
+        return true;
+    }
+    public boolean isFeatureTypeValid(FeatureType featureType){
+        FeatureType[] list = possibleFeatureTypes.get(tileType);
+        for (FeatureType validFeatureType : list) {
+            if (validFeatureType == featureType) {
+                if(featureType == FeatureType.DELTA) {
+                    for (int i = 0; i < 6; i++) {
+                        if(tilesWithRiver[i]) return true;
+                    }
+                    return false;
+                }
+                return true;
+            }
         }
         return false;
     }
     public boolean setResource(Resource resource){
-        if(isResourceValid(resource)){
-            return true;
-        }
+//        if(isResourceValid(resource)){
+//            return true;
+//        }
         return false;
     }
 

@@ -8,9 +8,6 @@ import model.technologies.Technology;
 import model.technologies.TechnologyType;
 import model.tiles.Tile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class Unit implements productable {
     private Civilization civilization;
     private static int state;

@@ -10,8 +10,8 @@ public class LoginMenu extends Menu {
         regexes = new String[]{
                 "^menu exit$",
                 "^menu show-current$",
-                "user create.*",
-                "^user login$"
+                "^user create.*",
+                "^user login.*"
         };
     }
 
@@ -48,7 +48,10 @@ public class LoginMenu extends Menu {
                 System.out.println("invalid command");
                 break;
             case 0:
-                return false;
+            {
+                nextMenu = -1;
+                return true;
+            }
             case 1:
                 System.out.println("Login Menu");
                 break;
@@ -57,13 +60,13 @@ public class LoginMenu extends Menu {
                 break;
             case 3:
                 if (loginUser(command))
-                    return false;
+                    return true;
                 break;
         }
-        return true;
+        return false;
     }
 
-    private void initializeUserPassNick(String command, StringBuffer username, StringBuffer password, StringBuffer nickname) {
+    private void initializeUserPassNick(String command, StringBuffer username, StringBuffer password, StringBuffer nickname, boolean isLogin) {
         int UsernameCommandNumber = getCommandNumber(command, userRegexes);
         int PasswordCommandNumber = getCommandNumber(command, passRegexes);
         int NicknameCommandNumber = getCommandNumber(command, userRegexes);
@@ -79,14 +82,17 @@ public class LoginMenu extends Menu {
         matcher = patterns[PasswordCommandNumber + 2].matcher(command);
         matcher.find();
         password.append(matcher.group(1));
-        matcher = patterns[NicknameCommandNumber + 4].matcher(command);
-        matcher.find();
-        nickname.append(matcher.group(1));
+        if(!isLogin)
+        {
+            matcher = patterns[NicknameCommandNumber + 4].matcher(command);
+            matcher.find();
+            nickname.append(matcher.group(1));
+        }
     }
 
     private void createNewUser(String command) {
         StringBuffer username = new StringBuffer(), password = new StringBuffer(), nickname = new StringBuffer();
-        initializeUserPassNick(command, username, password, nickname);
+        initializeUserPassNick(command, username, password, nickname, false);
         int outputNumber = LoginController.createNewUser(username.toString(), password.toString(), nickname.toString());
         switch (outputNumber) {
             case 0:
@@ -103,7 +109,7 @@ public class LoginMenu extends Menu {
 
     private boolean loginUser(String command) {
         StringBuffer username = new StringBuffer(), password = new StringBuffer(), nickname = new StringBuffer();
-        initializeUserPassNick(command, username, password, nickname);
+        initializeUserPassNick(command, username, password, nickname,true);
         int outputNumber = LoginController.loginUser(username.toString(), password.toString());
         switch (outputNumber) {
             case 0:

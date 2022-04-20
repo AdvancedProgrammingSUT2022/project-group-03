@@ -28,14 +28,14 @@ public class ProfileMenu extends Menu{
                 System.out.println("invalid command");
                 break;
             case 0:
-                return false;
+                return true;
             case 1:
-                System.out.println("Login Menu");
+                System.out.println("Profile Menu");
                 break;
             case 2: changeNickname(command); break;
             case 3: changePassword(command); break;
         }
-        return true;
+        return false;
     }
     private void changeNickname(String command)
     {

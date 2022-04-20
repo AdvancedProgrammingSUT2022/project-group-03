@@ -19,15 +19,15 @@ public class Resource {
 
     }
     public int getFood() {
-        return food;
+        return food.get(this.resourcesTypes);
     }
 
     public int getProduction() {
-        return production;
+        return production.get(this.resourcesTypes);
     }
 
     public int getGold() {
-        return gold;
+        return gold.get(this.resourcesTypes);
     }
 
 }

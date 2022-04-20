@@ -14,7 +14,7 @@ public class Technology {
     public Technology(TechnologyType technologyType){
 
     }
-    public static int getCost() {
-        return cost;
+    public static int getCost(TechnologyType technologyType) {
+        return cost.get(technologyType);
     }
 }

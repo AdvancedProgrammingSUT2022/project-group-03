@@ -53,18 +53,18 @@ public class MainMenu extends Menu {
                 System.out.println("invalid command");
                 break;
             case 0:
-                return false;
+                return true;
             case 1:
                 System.out.println("Main Menu");
                 break;
             case 2:
                 if (startGame(command))
-                    return false;
+                    return true;
                 break;
             case 3:
                 nextMenu = 3;
-                return false;
+                return true;
         }
-        return true;
+        return false;
     }
 }

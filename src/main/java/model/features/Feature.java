@@ -15,21 +15,25 @@ public class Feature {
     private FeatureType featureType;
     public Feature(FeatureType featureType)
     {
+        this.featureType = featureType;
+    }
 
+    public FeatureType getFeatureType() {
+        return featureType;
     }
     public int getGold() {
-        return gold;
+        return gold.get(featureType);
     }
     public int getProduction() {
-        return production;
+        return production.get(featureType);
     }
     public int getFood() {
-        return food;
+        return food.get(featureType);
     }
     public int getChangingPercentOfStrength() {
-        return changingPercentOfStrength;
+        return changingPercentOfStrength.get(featureType);
     }
     public int getMovingPrice() {
-        return movingPrice;
+        return movingPrice.get(featureType);
     }
 }
