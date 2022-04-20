@@ -25,10 +25,19 @@ public class LoginController {
     }
 
     public static int changeNickname(String newNickName) {
+        User tempUser = User.findUser(newNickName,true);
+        if(tempUser!=null)
+            return 1;
+        tempUser.changeNickname(newNickName);
         return 0;
     }
 
     public static int changePassword(String currentPassword, String newPassword) {
+        if(!loggedUser.isPasswordCorrect(currentPassword))
+            return 1;
+        if(loggedUser.isPasswordCorrect(newPassword))
+            return 2;
+        loggedUser.changePassword(newPassword);
         return 0;
     }
 

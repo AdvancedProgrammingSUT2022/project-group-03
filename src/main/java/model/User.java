@@ -22,12 +22,6 @@ public class User {
         return null;
     }
 
-
-    public static void removeAccount(User user)
-    {
-
-    }
-
     public User(String username, String password, String nickname) {
         this.username = username;
         this.password = password;
@@ -39,11 +33,11 @@ public class User {
     }
 
     public void changeNickname(String newNickname) {
-
+        this.nickname = newNickname;
     }
 
-    public void changePassword(String currentPassword, String newPassword) {
-
+    public void changePassword(String newPassword) {
+        this.password = newPassword;
     }
 
 

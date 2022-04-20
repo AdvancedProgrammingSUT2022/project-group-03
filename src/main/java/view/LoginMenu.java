@@ -56,9 +56,8 @@ public class LoginMenu extends Menu {
                 createNewUser(command);
                 break;
             case 3:
-                if (loginUser(command)) {
+                if (loginUser(command))
                     return false;
-                }
                 break;
         }
         return true;
