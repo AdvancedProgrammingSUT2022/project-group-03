@@ -18,7 +18,7 @@ public class LoginController {
         User tempUser = User.findUser(username,false);
         if(tempUser==null)
             return 1;
-        if(tempUser.isPasswordCorrect(password))
+        if(!tempUser.isPasswordCorrect(password))
             return 2;
         loggedUser = tempUser;
         return 0;
@@ -28,7 +28,7 @@ public class LoginController {
         User tempUser = User.findUser(newNickName,true);
         if(tempUser!=null)
             return 1;
-        tempUser.changeNickname(newNickName);
+        loggedUser.changeNickname(newNickName);
         return 0;
     }
 

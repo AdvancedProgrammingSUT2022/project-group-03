@@ -11,7 +11,8 @@ public class LoginMenu extends Menu {
                 "^menu exit$",
                 "^menu show-current$",
                 "^user create.*",
-                "^user login.*"
+                "^user login.*",
+                "^menu enter.*"
         };
     }
 
@@ -62,19 +63,21 @@ public class LoginMenu extends Menu {
                 if (loginUser(command))
                     return true;
                 break;
+            case 4:
+                System.out.println("please login first");
         }
         return false;
     }
 
-    private void initializeUserPassNick(String command, StringBuffer username, StringBuffer password, StringBuffer nickname, boolean isLogin) {
+    private boolean initializeUserPassNick(String command, StringBuffer username, StringBuffer password, StringBuffer nickname, boolean isLogin) {
         int UsernameCommandNumber = getCommandNumber(command, userRegexes);
         int PasswordCommandNumber = getCommandNumber(command, passRegexes);
-        int NicknameCommandNumber = getCommandNumber(command, userRegexes);
+        int NicknameCommandNumber = getCommandNumber(command, nickRegexes);
         if (UsernameCommandNumber == -1 ||
                 PasswordCommandNumber == -1 ||
-                NicknameCommandNumber == -1) {
+                (!isLogin && NicknameCommandNumber == -1)) {
             System.out.println("invalid command");
-            return;
+            return false;
         }
         Matcher matcher = patterns[UsernameCommandNumber].matcher(command);
         matcher.find();
@@ -88,11 +91,13 @@ public class LoginMenu extends Menu {
             matcher.find();
             nickname.append(matcher.group(1));
         }
+        return true;
     }
 
     private void createNewUser(String command) {
         StringBuffer username = new StringBuffer(), password = new StringBuffer(), nickname = new StringBuffer();
-        initializeUserPassNick(command, username, password, nickname, false);
+        if(!initializeUserPassNick(command, username, password, nickname, false))
+            return;
         int outputNumber = LoginController.createNewUser(username.toString(), password.toString(), nickname.toString());
         switch (outputNumber) {
             case 0:
@@ -109,7 +114,8 @@ public class LoginMenu extends Menu {
 
     private boolean loginUser(String command) {
         StringBuffer username = new StringBuffer(), password = new StringBuffer(), nickname = new StringBuffer();
-        initializeUserPassNick(command, username, password, nickname,true);
+        if(!initializeUserPassNick(command, username, password, nickname,true))
+            return false;
         int outputNumber = LoginController.loginUser(username.toString(), password.toString());
         switch (outputNumber) {
             case 0:

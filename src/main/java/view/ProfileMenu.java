@@ -11,14 +11,16 @@ public class ProfileMenu extends Menu{
         regexes = new String[]{
                 "^menu exit$",
                 "^menu show-current$",
-                ".*profile change --nickname (\\.+).*",
-                ".*profile change --password.*"
+                "^profile change (--nickname|-n) (.+).*",
+                "^profile change (--password|-p).*"
         };
     }
-    private String[] fieldRegexes = {
+    private final String[] fieldRegexes = {
             ".*--current (\\w+).*",
             ".*--new (\\w+).*"
     };
+
+
     @Override
     protected boolean commands(String command)
     {
@@ -28,6 +30,7 @@ public class ProfileMenu extends Menu{
                 System.out.println("invalid command");
                 break;
             case 0:
+                nextMenu = 1;
                 return true;
             case 1:
                 System.out.println("Profile Menu");
@@ -40,7 +43,7 @@ public class ProfileMenu extends Menu{
     private void changeNickname(String command)
     {
         Matcher matcher = getMatcher(regexes[2],command);
-        String newNickname = matcher.group(1);
+        String newNickname = matcher.group(2);
         int outputNumber = LoginController.changeNickname(newNickname);
         switch (outputNumber)
         {
@@ -57,10 +60,8 @@ public class ProfileMenu extends Menu{
             return;
         }
         Matcher matcher = getMatcher(fieldRegexes[0], command);
-        matcher.find();
         String currentPass = matcher.group(1);
         matcher = getMatcher(fieldRegexes[1],command );
-        matcher.find();
         String newPass = matcher.group(1);
         int outputNumber = LoginController.changePassword(currentPass, newPass);
         switch (outputNumber)
