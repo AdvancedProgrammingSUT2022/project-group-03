@@ -45,6 +45,8 @@ public class LoginController {
         return true;
     }
 
-
+    public static User getLoggedUser() {
+        return loggedUser;
+    }
 }
 

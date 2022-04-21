@@ -1,6 +1,7 @@
 package view;
 
 import controller.GameController;
+import controller.LoginController;
 import model.User;
 
 import java.lang.reflect.Array;
@@ -24,7 +25,7 @@ public class MainMenu extends Menu {
         String addPlayerRegex = ".*--player1 (\\w+).*";
         int playerNumber = 1;
         ArrayList<User> usersList = new ArrayList<>();
-
+        usersList.add(LoginController.getLoggedUser());
         while (Pattern.compile(addPlayerRegex).matcher(command).matches())
         {
             Matcher matcher = Pattern.compile(addPlayerRegex).matcher(command);
@@ -37,7 +38,7 @@ public class MainMenu extends Menu {
             }
             usersList.add(tempUser);
             playerNumber++;
-            addPlayerRegex.replaceFirst("[0-9]", Integer.toString(playerNumber));
+            addPlayerRegex = addPlayerRegex.replaceFirst("[0-9]", Integer.toString(playerNumber));
         }
         GameController.startGame(usersList);
         nextMenu = 3;

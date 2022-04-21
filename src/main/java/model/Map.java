@@ -139,17 +139,17 @@ public class Map {
 
     private boolean hasNeighborWithType(int i, int j, TileType tileType) {
         if (i == 0 || j == 0 || i == x - 1 || j == y - 1) return true;
-        if ((tiles[i- 1 + (j % 2)][j - 1].getTileType() == tileType) ||
+        if ((tiles[i - 1 + (j % 2)][j - 1].getTileType() == tileType) ||
                 (tiles[i - 1][j].getTileType() == tileType) ||
-                (tiles[i - 1 +(j % 2)][j + 1].getTileType() == tileType))
+                (tiles[i - 1 + (j % 2)][j + 1].getTileType() == tileType))
             return true;
         return false;
     }
 
     private void setNeighborsOfTile(int i, int j) {
         if (i > 0) {
-            tiles[i][j].setNeighbours(1, tiles[i-1][j]);
-            tiles[i-1][j].setNeighbours(4, tiles[i][j]);
+            tiles[i][j].setNeighbours(1, tiles[i - 1][j]);
+            tiles[i - 1][j].setNeighbours(4, tiles[i][j]);
         }
         if (i > 0 && j > 0 && j % 2 == 0) {
             tiles[i][j].setNeighbours(0, tiles[i - 1][j - 1]);
@@ -161,9 +161,9 @@ public class Map {
         }
         if (i > 0 && j < y - 1 && j % 2 == 0) {
             tiles[i][j].setNeighbours(2, tiles[i - 1][j + 1]);
-            tiles[i - 1][j+ 1].setNeighbours(5, tiles[i][j]);
+            tiles[i - 1][j + 1].setNeighbours(5, tiles[i][j]);
         }
-        if ( j < y - 1 && j % 2 == 1) {
+        if (j < y - 1 && j % 2 == 1) {
             tiles[i][j].setNeighbours(2, tiles[i][j + 1]);
             tiles[i][j + 1].setNeighbours(5, tiles[i][j]);
         }
@@ -269,15 +269,15 @@ public class Map {
 
     public void printMap(Civilization.TileCondition[][] tileConditions, int originX, int originY) {
         StringBuilder mapString = new StringBuilder();
-        Color color0= Color.RESET;
+        Color color0 = Color.RESET;
         Color color1 = Color.RESET;
         Color color2 = Color.RESET;
-        int i=0;
+        int i = 0;
         for (int j = 0; j < 8; j++) {
             if (tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(0)) color0 = Color.BLUE;
             if (tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(1)) color0 = Color.BLUE;
             if (tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(2)) color0 = Color.BLUE;
-            mapString.append("   "+ color1 +"_____"+Color.RESET+"        ");
+            mapString.append("   " + color1 + "_____" + Color.RESET + "        ");
         }
 
     }
