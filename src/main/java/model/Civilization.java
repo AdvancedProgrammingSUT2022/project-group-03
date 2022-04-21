@@ -19,11 +19,16 @@ public class Civilization {
             openedArea = tile;
             this.isClear = isClear;
         }
+
+        public Tile getOpenedArea() {
+            return openedArea;
+        }
     }
     public TileCondition[][] tileConditions;
     private final User user;
     private final int color;
     private int[][] openedArea = null;
+
     private int gold;
     private ArrayList<Unit> units = new ArrayList<>();
     private ArrayList<TechnologyType> researches;
