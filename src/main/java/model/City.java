@@ -26,7 +26,7 @@ public class City{
 
     }
 
-    public void setTheNumbers() {
+    public void startTheTurn() {
 
     }
 

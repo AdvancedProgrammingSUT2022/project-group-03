@@ -30,4 +30,5 @@ public class Resource {
         return gold.get(this.resourcesTypes);
     }
 
+
 }

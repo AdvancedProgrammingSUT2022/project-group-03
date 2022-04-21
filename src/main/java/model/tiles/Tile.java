@@ -51,6 +51,14 @@ public class Tile {
         return movingPrice.get(this.tileType);
     }
 
+    public Civilian getCivilian() {
+        return civilian;
+    }
+
+    public NonCivilian getNonCivilian() {
+        return nonCivilian;
+    }
+
     public int getChangingPercentOfStrength() {
         return changingPercentOfStrength.get(this.tileType);
     }
@@ -104,19 +112,14 @@ public class Tile {
     public Tile(TileType tileType,int x, int y){
         this.x = x;
         this.y = y;
+        this.tileType = tileType;
     }
     public boolean setFeature(Feature feature){
         this.containedFeature = feature;
         return true;
     }
 
-    public Civilian getCivilian() {
-        return civilian;
-    }
 
-    public NonCivilian getNonCivilian() {
-        return nonCivilian;
-    }
 
     public boolean isFeatureTypeValid(FeatureType featureType){
         FeatureType[] list = possibleFeatureTypes.get(tileType);
@@ -146,5 +149,21 @@ public class Tile {
 
     public void setNonCivilian(NonCivilian nonCivilian) {
         this.nonCivilian = nonCivilian;
+    }
+
+    public Tile CloneTile()
+    {
+        Tile newTile = new Tile(this.tileType,this.x,this.y);
+        newTile.tilesWithRiver = this.tilesWithRiver.clone();
+        newTile.containedResource = this.containedResource;
+        newTile.containedFeature = this.containedFeature;
+        newTile.improvement = this.improvement;
+        newTile.civilization = this.civilization;
+        newTile.civilian = this.civilian;
+        newTile.nonCivilian = this.nonCivilian;
+        newTile.city = this.city;
+        newTile.hasRoad = this.hasRoad;
+        newTile.raidLevel = this.raidLevel;
+        return newTile;
     }
 }

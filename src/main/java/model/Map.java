@@ -20,13 +20,21 @@ public class Map {
     public Map(ArrayList<Civilization> civilizations)
     {
         GenerateMap(civilizations);
-        for (Civilization civilization : civilizations) civilization.setOpenedArea(x, y);
     }
 
 
     public Tile coordinatesToTile(int x, int y) {
         if(x < this.x && y < this.y && y >= 0 && x >=0 ) return tiles[x][y];
         return null;
+    }
+
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public boolean isTileValid(Unit unit)
