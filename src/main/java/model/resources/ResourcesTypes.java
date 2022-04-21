@@ -1,7 +1,7 @@
 package model.resources;
 
 public enum ResourcesTypes {
-    BANANA(4),
+    BANANA,
     COW,
     DEER,
     SHEEP,
@@ -21,10 +21,5 @@ public enum ResourcesTypes {
     HORSE,
     IRON;
 
-    int number;
 
-    ResourcesTypes(int number)
-    {
-        this.number = number;
-    }
 }

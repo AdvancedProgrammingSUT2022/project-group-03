@@ -177,7 +177,7 @@ public class Map {
         }
     }
 
-    public Tile[] findNextTile(Tile tile,int mp,Tile destinationTile){
+    public Tile[] findNextTile(Tile tile,int mp,Tile destinationTile,boolean isCivilian){
         HashMap<Tile,Boolean> isVisitedEver = new HashMap<>();
         ArrayList<Tile>[] visited = new ArrayList[10];
         HashMap<Integer,HashMap<Tile,BestMoveClass>> visitedWithMove = new HashMap<>();
@@ -199,7 +199,10 @@ public class Map {
                     for (int j = 0; j < 6; j++) {
                         check =visited[c].get(i).getNeighbours(j);
                         if(check != null){
-                            if(isVisitedEver.containsKey(check)) break;
+                            if(isVisitedEver.containsKey(check) ||
+                                    check.getTileType() == TileType.OCEAN ||
+                                    check.getTileType() == TileType.MOUNTAIN ||
+                                    check.getFeature().getFeatureType() == FeatureType.ICE) break;
                             int remainingMP =  visitedWithMove.get(c).get(visited[c].get(i)).movePoint - check.getMovingPrice();
                             if (remainingMP < 0|| visited[c].get(i).isRiverWithNeighbour(j)) remainingMP = 0;
                             if(!visitedWithMove.get(c).containsKey(check)){
@@ -225,7 +228,9 @@ public class Map {
                     isVisitedEver.put(visited[c].get(i),true);
                     isOver = false;
                 }
-                if(c < 9 && visitedWithMove.get(c).get(visited[c].get(i)).movePoint == 0)
+                if(c < 9 && visitedWithMove.get(c).get(visited[c].get(i)).movePoint == 0 &&
+                        ((visited[c].get(i).getCivilian()==null && isCivilian)
+                                || (visited[c].get(i).getNonCivilian()==null && !isCivilian)))
                     visitedWithMove.get(c + 1).put(visited[c].get(i),
                             new BestMoveClass(mp,visitedWithMove.get(c).get(visited[c].get(i)).lastTile,c));
 
@@ -253,6 +258,9 @@ public class Map {
     {
         return false;
     }
+    public void printMap(){
+
+    }
 }
 class BestMoveClass {
     int movePoint;
@@ -264,4 +272,6 @@ class BestMoveClass {
         this.turn = turn;
     }
 }
+
+
 
