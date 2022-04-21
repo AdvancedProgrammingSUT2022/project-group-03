@@ -176,12 +176,8 @@ public class Map {
                 break;
         }
     }
-    public static Tile FindBestMove(Unit unit)
-    {
 
-        return null;
-    }
-    private  Tile[] findNextTile(int x,int y,int mp,int destX,int destY){
+    public Tile[] findNextTile(Tile tile,int mp,Tile destinationTile){
         HashMap<Tile,Boolean> isVisitedEver = new HashMap<>();
         ArrayList<Tile>[] visited = new ArrayList[10];
         HashMap<Integer,HashMap<Tile,BestMoveClass>> visitedWithMove = new HashMap<>();
@@ -189,9 +185,9 @@ public class Map {
             visited[i] = new ArrayList<Tile>();
             visitedWithMove.put(i,new HashMap<>());
         }
-        visitedWithMove.get(0).put(tiles[x][y],new BestMoveClass(mp,null,0));
-        visited[0].add(tiles[x][y]);
-        isVisitedEver.put(tiles[x][y],true);
+        visitedWithMove.get(0).put(tile,new BestMoveClass(mp,null,0));
+        visited[0].add(tile);
+        isVisitedEver.put(tile,true);
         Tile check;
         int finalTurn = -10;
         boolean isOver = false;
@@ -216,7 +212,7 @@ public class Map {
                                 visitedWithMove.get(c).put(check,new BestMoveClass(remainingMP,visited[c].get(i),c));
                                 isOver = false;
                             }
-                            if(check == tiles[destX][destY]){
+                            if(check == destinationTile){
                                 finalTurn = c;
                                 break loop;
                             }
@@ -237,7 +233,7 @@ public class Map {
         }
         if(finalTurn != -10){
             Tile[] tileOfEachTurn = new Tile[finalTurn + 1];
-            Tile current = tiles[destX][destY];
+            Tile current = destinationTile;
             BestMoveClass bestMoveClass = visitedWithMove.get(finalTurn).get(current);
             int thisTurn = finalTurn;
             for (int i = 0; i < finalTurn; i++) {

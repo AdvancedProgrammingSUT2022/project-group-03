@@ -1,5 +1,6 @@
 package model.Units;
 
+import controller.GameController;
 import model.Civilization;
 import model.Map;
 import model.productable;
@@ -69,13 +70,20 @@ public class Unit implements productable {
 
     }
 
-    private void move(Tile tile) {
-        Tile tempTile = Map.FindBestMove(this);
-
-
+    private void move(Tile destinationTile) {
+        Tile[] tiles = GameController.getMap().findNextTile(currentTile,movementPrice,destinationTile);
+        if(tiles==null)
+            return;
+        if(this instanceof NonCivilian)
+        {
+            this.currentTile.setNonCivilian(null);
+            destinationTile.setNonCivilian((NonCivilian) this);
+        }
+        else
+        {
+            this.currentTile.setCivilian(null);
+            destinationTile.setCivilian((Civilian) this);
+        }
+        this.currentTile = destinationTile;
     }
-
-
-
-
 }

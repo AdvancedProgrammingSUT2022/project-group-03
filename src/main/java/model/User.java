@@ -1,5 +1,7 @@
 package model;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -9,6 +11,7 @@ public class User {
     private String password;
     private String nickname;
     int score;
+    Gson gson = new Gson();
 
     public static ArrayList<User> getListOfUsers() {
         return listOfUsers;

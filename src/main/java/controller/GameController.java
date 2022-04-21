@@ -142,4 +142,8 @@ public class GameController {
     private static int isGameOver() {
         return 0;
     }
+
+    public static Map getMap() {
+        return map;
+    }
 }

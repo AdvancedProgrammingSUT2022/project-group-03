@@ -34,10 +34,6 @@ public class Tile {
     private City city;
     private int hasRoad;
     private int raidLevel;
-    //0==no road
-    //1==road
-    //2= railroad
-    //3==both
     static {
         //hashmap set
     }
@@ -135,4 +131,11 @@ public class Tile {
         return false;
     }
 
+    public void setCivilian(Civilian civilian) {
+        this.civilian = civilian;
+    }
+
+    public void setNonCivilian(NonCivilian nonCivilian) {
+        this.nonCivilian = nonCivilian;
+    }
 }
