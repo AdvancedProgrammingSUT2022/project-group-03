@@ -181,14 +181,91 @@ public class Map {
 
         return null;
     }
-    private  void turnNeeded(int x,int y,int mp,int destX,int destY){
-        boolean[][] visitedTile = new boolean[this.x][this.y];
-        //while(visitedTile[destX])
+    private  Tile[] findNextTile(int x,int y,int mp,int destX,int destY){
+        HashMap<Tile,Boolean> isVisitedEver = new HashMap<>();
+        ArrayList<Tile>[] visited = new ArrayList[10];
+        HashMap<Integer,HashMap<Tile,BestMoveClass>> visitedWithMove = new HashMap<>();
+        for (int i = 0; i < 10; i++) {
+            visited[i] = new ArrayList<Tile>();
+            visitedWithMove.put(i,new HashMap<>());
+        }
+        visitedWithMove.get(0).put(tiles[x][y],new BestMoveClass(mp,null,0));
+        visited[0].add(tiles[x][y]);
+        isVisitedEver.put(tiles[x][y],true);
+        Tile check;
+        int finalTurn = -10;
+        boolean isOver = false;
+        loop:
+        for (int c = 0; !isOver && c < 10; c++) {
+            while (!isOver){
+                isOver = true;
+                for (int i = 0; i < visited[c].size() && visitedWithMove.get(c).get(visited[c].get(i)).movePoint > 0; i++) {
+                    for (int j = 0; j < 6; j++) {
+                        check =visited[c].get(i).getNeighbours(j);
+                        if(check != null){
+                            if(isVisitedEver.containsKey(check)) break;
+                            int remainingMP =  visitedWithMove.get(c).get(visited[c].get(i)).movePoint - check.getMovingPrice();
+                            if (remainingMP < 0|| visited[c].get(i).isRiverWithNeighbour(j)) remainingMP = 0;
+                            if(!visitedWithMove.get(c).containsKey(check)){
+                                visitedWithMove.get(c).put(check,new BestMoveClass(remainingMP,visited[c].get(i),c));
+                                visited[c].add(check);
+                                isOver = false;
+                            }
+                            else if(visitedWithMove.get(c).get(check).movePoint < remainingMP){
+                                visitedWithMove.get(c).remove(check);
+                                visitedWithMove.get(c).put(check,new BestMoveClass(remainingMP,visited[c].get(i),c));
+                                isOver = false;
+                            }
+                            if(check == tiles[destX][destY]){
+                                finalTurn = c;
+                                break loop;
+                            }
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < visited[c].size(); i++) {
+                if(!isVisitedEver.containsKey(visited[c].get(i))){
+                    isVisitedEver.put(visited[c].get(i),true);
+                    isOver = false;
+                }
+                if(c < 9 && visitedWithMove.get(c).get(visited[c].get(i)).movePoint == 0)
+                    visitedWithMove.get(c + 1).put(visited[c].get(i),
+                            new BestMoveClass(mp,visitedWithMove.get(c).get(visited[c].get(i)).lastTile,c));
+
+            }
+        }
+        if(finalTurn != -10){
+            Tile[] tileOfEachTurn = new Tile[finalTurn + 1];
+            Tile current = tiles[destX][destY];
+            BestMoveClass bestMoveClass = visitedWithMove.get(finalTurn).get(current);
+            int thisTurn = finalTurn;
+            for (int i = 0; i < finalTurn; i++) {
+                while (thisTurn == visitedWithMove.get(thisTurn).get(current).turn) {
+                    current = visitedWithMove.get(thisTurn).get(current).lastTile;
+                }
+                thisTurn--;
+                tileOfEachTurn[i] = current;
+            }
+            return tileOfEachTurn;
+        }
+        return null;
+
     }
 
     public boolean doTheseHaveRiver(Tile firstTile, Tile secondTile)
     {
         return false;
+    }
+}
+class BestMoveClass {
+    int movePoint;
+    Tile lastTile;
+    int turn;
+    BestMoveClass(int movePoint,Tile lastTile,int turn){
+        this.lastTile  = lastTile;
+        this.movePoint = movePoint;
+        this.turn = turn;
     }
 }
 
