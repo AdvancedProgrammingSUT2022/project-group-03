@@ -10,7 +10,7 @@ public class LoginController {
             return 1;
         if (User.findUser(nickname, true) != null)
             return 2;
-        User.getListOfUsers().add(new User(username, password, nickname));
+        new User(username, password, nickname);
         return 0;
     }
 

@@ -118,6 +118,15 @@ public class Tile {
         this.containedFeature = feature;
         return true;
     }
+
+    public Civilian getCivilian() {
+        return civilian;
+    }
+
+    public NonCivilian getNonCivilian() {
+        return nonCivilian;
+    }
+
     public boolean isFeatureTypeValid(FeatureType featureType){
         FeatureType[] list = possibleFeatureTypes.get(tileType);
         for (FeatureType validFeatureType : list) {

@@ -1,8 +1,14 @@
 package model;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class User {
@@ -11,7 +17,8 @@ public class User {
     private String password;
     private String nickname;
     int score;
-    Gson gson = new Gson();
+
+
 
     public static ArrayList<User> getListOfUsers() {
         return listOfUsers;
@@ -29,6 +36,8 @@ public class User {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
+        listOfUsers.add(this);
+
     }
 
     public boolean isPasswordCorrect(String password) {
