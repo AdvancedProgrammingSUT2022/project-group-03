@@ -3,6 +3,7 @@ package controller;
 import model.*;
 import model.Units.Unit;
 import model.tiles.Tile;
+import model.tiles.TileType;
 
 import java.util.ArrayList;
 
@@ -21,9 +22,21 @@ public class GameController {
         map = new Map(civilizations);
     }
 
-    public static int setSelectedUnit(int x, int y, boolean isCitizen) {
-        return 0;
+    public static boolean setSelectedCombatUnit(int x, int y) {
+        if(map.coordinatesToTile(x,y).getNonCivilian()==null &&
+                map.coordinatesToTile(x,y).getNonCivilian().getCivilization() == civilizations.get(PlayerTurn))
+            return false;
+        selectedUnit = map.coordinatesToTile(x,y).getNonCivilian();
+        return true;
     }
+    public static boolean setSelectedNonCombatUnit(int x, int y) {
+        if(map.coordinatesToTile(x,y).getCivilian()==null &&
+                map.coordinatesToTile(x,y).getCivilian().getCivilization() == civilizations.get(PlayerTurn))
+            return false;
+        selectedUnit = map.coordinatesToTile(x,y).getCivilian();
+        return true;
+    }
+
 
     public static int setSelectedCityByName(String name) {
         return 0;
@@ -34,8 +47,13 @@ public class GameController {
         return 0;
     }
 
-    public static int UnitMoveTo(int x, int y) {
-        return 0;
+    public static boolean UnitMoveTo(int x, int y) {
+        if(selectedUnit==null ||
+                map.coordinatesToTile(x,y).getTileType()== TileType.OCEAN ||
+                map.coordinatesToTile(x,y).getTileType()== TileType.MOUNTAIN
+        )
+            return false;
+        return selectedUnit.move(map.coordinatesToTile(x,y));
     }
 
     public static int UnitSleep() {
@@ -110,9 +128,6 @@ public class GameController {
         return 0;
     }
 
-    private static int nextTurn() {
-        return 0;
-    }
 
     public static int buyTile(Tile tile) {
         return 0;
@@ -123,9 +138,6 @@ public class GameController {
             civilizations.add(new Civilization(users.get(i)));
     }
 
-    private static void setTheNumbers() {
-
-    }
 
     private static boolean canUnitAttack(Unit unit, Tile tile) {
         return true;
@@ -141,6 +153,26 @@ public class GameController {
 
     private static int isGameOver() {
         return 0;
+    }
+
+    public static boolean nextTurn()
+    {
+        if(unfinishedTasks.size()!=0)
+            return false;
+
+        civilizations.get(PlayerTurn).endTheTurn();
+        PlayerTurn = (PlayerTurn+1)%civilizations.size();
+        setUnfinishedTasks();
+        civilizations.get(PlayerTurn).startTheTurn();
+
+
+
+
+        return true;
+    }
+
+    public static void setUnfinishedTasks() {
+
     }
 
     public static Map getMap() {

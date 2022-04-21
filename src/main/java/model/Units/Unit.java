@@ -2,12 +2,10 @@ package model.Units;
 
 import controller.GameController;
 import model.Civilization;
-import model.Map;
+import model.features.FeatureType;
 import model.productable;
-import model.resources.Resource;
-import model.technologies.Technology;
-import model.technologies.TechnologyType;
 import model.tiles.Tile;
+import model.tiles.TileType;
 
 public class Unit implements productable {
     private Civilization civilization;
@@ -61,29 +59,68 @@ public class Unit implements productable {
     {
 
     }
-    public void setTheNumbers() {
+    public void startTheTurn() {
+        openNewArea();
+//        health += ...
+        if(health>10)
+            health=10;
+//        movementPrice =
+
+
 
     }
 
-    private void OpenNewArea() {
-
-
+    public void endTheTurn()
+    {
+        if(destinationTile!=null)
+            move(destinationTile);
     }
 
-    private void move(Tile destinationTile) {
+    private void openNewArea() {
+        for(int i =0 ;i <6;i++)
+        {
+            int neighbourX = currentTile.getNeighbours(i).getX();
+            int neighbourY = currentTile.getNeighbours(i).getY();
+            civilization.tileConditions[neighbourX][neighbourY]  = new Civilization.TileCondition(currentTile.getNeighbours(i).CloneTile(), true);
+            if(currentTile.getNeighbours(i).getTileType()== TileType.MOUNTAIN ||
+                    currentTile.getNeighbours(i).getTileType()== TileType.HILL ||
+                    currentTile.getNeighbours(i).getFeature().getFeatureType() == FeatureType.FOREST ||
+                    currentTile.getNeighbours(i).getFeature().getFeatureType() == FeatureType.DENSEFOREST)
+                continue;
+            for(int j=0;j<6;j++)
+            {
+                neighbourX = currentTile.getNeighbours(i).getNeighbours(j).getX();
+                neighbourY = currentTile.getNeighbours(i).getNeighbours(j).getY();
+                civilization.tileConditions[neighbourX][neighbourY]  = new Civilization.TileCondition(currentTile.getNeighbours(i).getNeighbours(j).CloneTile(), true);
+            }
+        }
+        civilization.tileConditions[currentTile.getX()][currentTile.getY()] = new Civilization.TileCondition(currentTile.CloneTile(), true);
+    }
+
+
+    public boolean move(Tile destinationTile) {
         Tile[] tiles = GameController.getMap().findNextTile(currentTile,movementPrice,destinationTile);
+        this.destinationTile= destinationTile;
+
         if(tiles==null)
-            return;
+        {
+            this.destinationTile=null;
+            return false;
+        }
+        if(tiles.length==1)
+            this.destinationTile = null;
         if(this instanceof NonCivilian)
         {
             this.currentTile.setNonCivilian(null);
-            destinationTile.setNonCivilian((NonCivilian) this);
+            tiles[tiles.length-1].setNonCivilian((NonCivilian) this);
         }
         else
         {
             this.currentTile.setCivilian(null);
-            destinationTile.setCivilian((Civilian) this);
+            tiles[tiles.length-1].setCivilian((Civilian) this);
         }
-        this.currentTile = destinationTile;
+        this.currentTile = tiles[tiles.length-1];
+        openNewArea();
+        return true;
     }
 }
