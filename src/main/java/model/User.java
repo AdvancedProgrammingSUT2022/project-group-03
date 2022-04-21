@@ -1,8 +1,14 @@
 package model;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class User {
@@ -11,7 +17,26 @@ public class User {
     private String password;
     private String nickname;
     int score;
-    Gson gson = new Gson();
+
+    static {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("dataBase/users.json")));
+            listOfUsers = new Gson().fromJson(json, new TypeToken<List<User>>(){}.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private static void saveData(){
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter("dataBase/users.json");
+            fileWriter.write(new Gson().toJson(listOfUsers));
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static ArrayList<User> getListOfUsers() {
         return listOfUsers;
@@ -29,6 +54,9 @@ public class User {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
+        listOfUsers.add(this);
+
+        saveData();
     }
 
     public boolean isPasswordCorrect(String password) {
@@ -37,10 +65,12 @@ public class User {
 
     public void changeNickname(String newNickname) {
         this.nickname = newNickname;
+        saveData();
     }
 
     public void changePassword(String newPassword) {
         this.password = newPassword;
+        saveData();
     }
 
 

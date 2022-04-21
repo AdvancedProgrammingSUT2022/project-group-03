@@ -118,6 +118,9 @@ public class Tile {
         this.containedFeature = feature;
         return true;
     }
+
+
+
     public boolean isFeatureTypeValid(FeatureType featureType){
         FeatureType[] list = possibleFeatureTypes.get(tileType);
         for (FeatureType validFeatureType : list) {

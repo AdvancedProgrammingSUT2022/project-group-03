@@ -19,9 +19,17 @@ public class Civilization {
             openedArea = tile;
             this.isClear = isClear;
         }
+
+        public Tile getOpenedArea() {
+            return openedArea;
+        }
     }
     public TileCondition[][] tileConditions;
     private final User user;
+
+
+    private final int color;
+    private int[][] openedArea = null;
 
     private int gold;
     private ArrayList<Unit> units = new ArrayList<>();
@@ -32,8 +40,9 @@ public class Civilization {
     private HashMap<ResourcesTypes, Integer> resourcesAmount;
     private Technology gettingResearchedTechnology;
     private HashMap<ResourcesTypes, Boolean> usedLuxuryResources;
-    public Civilization(User user)
+    public Civilization(User user,int color)
     {
+        this.color = color;
         this.user= user;
         this.gold = 0;
     }

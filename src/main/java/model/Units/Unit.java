@@ -99,7 +99,7 @@ public class Unit implements productable {
 
 
     public boolean move(Tile destinationTile) {
-        Tile[] tiles = GameController.getMap().findNextTile(currentTile,movementPrice,destinationTile);
+        Tile[] tiles = GameController.getMap().findNextTile(currentTile,movementPrice,destinationTile,this instanceof Civilian);
         this.destinationTile= destinationTile;
 
         if(tiles==null)

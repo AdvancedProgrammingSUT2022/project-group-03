@@ -135,7 +135,7 @@ public class GameController {
 
     private static void setCivilizations(ArrayList<User> users) {
         for (int i = 0; i < users.size(); i++)
-            civilizations.add(new Civilization(users.get(i)));
+            civilizations.add(new Civilization(users.get(i),i));
     }
 
 
