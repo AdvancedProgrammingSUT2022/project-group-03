@@ -207,8 +207,9 @@ public class GameMenu extends Menu {
     private void MapMoveDown(String command) {
 
     }
+
     private void nextTurn() {
-        if(GameController.nextTurn())
+        if (GameController.nextTurn())
             System.out.println("turn ended successfully");
         else
             System.out.println("failed to end the turn");
@@ -253,11 +254,9 @@ public class GameMenu extends Menu {
                 break;
         }
         return false;
-
-
     }
-    protected boolean gameOver()
-    {
+
+    protected boolean gameOver() {
         return false;
     }
 }
