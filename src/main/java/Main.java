@@ -1,3 +1,4 @@
+import model.Color;
 import view.LoginMenu;
 import view.MainMenu;
 import view.ProfileMenu;
@@ -12,6 +13,23 @@ public class Main {
         LoginMenu loginMenu = new LoginMenu();
         MainMenu mainMenu = new MainMenu();
         ProfileMenu profileMenu = new ProfileMenu();
+
+
+        StringBuilder mapString = new StringBuilder();
+        for (int i = 0; i < 2; i++) {
+            mapString.append("   _____        ".repeat(10)).append("\n");
+            mapString.append("  /     \\       ".repeat(10)).append("\n");
+            mapString.append(" /       \\      ".repeat(10)).append("\n");
+            mapString.append("/    #    \\_____".repeat(10)).append("\n");
+            mapString.append("\\         /     ".repeat(10)).append("\n");
+            mapString.append(" \\       /      ".repeat(10)).append("\n");
+            mapString.append("  \\_____/       ".repeat(10)).append("\n");
+        }
+
+        System.out.println(mapString);
+        System.out.println(mapString);
+
+
 	    while (menu != -1){
             switch (menu){
                 case 0:

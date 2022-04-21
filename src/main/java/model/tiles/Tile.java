@@ -119,13 +119,7 @@ public class Tile {
         return true;
     }
 
-    public Civilian getCivilian() {
-        return civilian;
-    }
 
-    public NonCivilian getNonCivilian() {
-        return nonCivilian;
-    }
 
     public boolean isFeatureTypeValid(FeatureType featureType){
         FeatureType[] list = possibleFeatureTypes.get(tileType);
