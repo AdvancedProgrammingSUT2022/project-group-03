@@ -45,6 +45,10 @@ public class Tile {
         return y;
     }
 
+    public City getCity() {
+        return city;
+    }
+
     public int getMovingPrice() {
 //        if(containedFeature!=null)
 //            return tileType.movementPoint + containedFeature.getMovingPrice();

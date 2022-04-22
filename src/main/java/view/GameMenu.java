@@ -116,7 +116,13 @@ public class GameMenu extends Menu {
     }
 
     private void unitFoundCity() {
-
+        int result = GameController.UnitFoundCity();
+        if(result==0)
+            System.out.println("city founded successfully");
+        if(result==1)
+            System.out.println("the selected unit is not a settler");
+        if(result==2)
+            System.out.println("the selected tile is occupied with another city");
     }
 
     private void unitCancelMission() {
@@ -180,33 +186,25 @@ public class GameMenu extends Menu {
     }
 
 
-    private void MapShowPosition(String command) {
+    private void mapShowPosition(String command) {
 
     }
 
 
-    private void MapShowCityName(String command) {
+    private void mapShowCityName(String command) {
 
     }
 
 
-    private void MapMoveRight(String command) {
-
+    private void mapMove(String command) {
+        Matcher matcher = getMatcher(regexes[6], command);
+        if(matcher.group(2)==null)
+            GameController.mapMove(1,matcher.group(1));
+        else
+            GameController.mapMove(Integer.parseInt(matcher.group(2).replace(" ", "")),matcher.group(1));
+        System.out.println("map moved successfully");
     }
 
-    private void MapMoveLeft(String command) {
-
-    }
-
-
-    private void MapMoveUp(String command) {
-
-    }
-
-
-    private void MapMoveDown(String command) {
-
-    }
 
     private void nextTurn() {
         if (GameController.nextTurn())
@@ -223,7 +221,15 @@ public class GameMenu extends Menu {
                 "^SELECT UNIT COMBAT ([0-9]+) ([0-9]+)$",
                 "^SELECT UNIT NONCOMBAT ([0-9]+) ([0-9]+)$",
                 "^NEXT TURN$",
+                "^MAP MOVE (R|L|U|D)( [0-9]+)?",
+                "^CHEAT CREATE SETTLER ([0-9]+) ([0-9]+)",
+                "^UNIT FOUND CITY$"
         };
+    }
+    private void cheatSettler(String command)
+    {
+        Matcher matcher = getMatcher(regexes[7], command);
+        GameController.cheatSettler(Integer.parseInt(matcher.group(1)),Integer.parseInt(matcher.group(2)));
     }
 
     @Override
@@ -252,6 +258,15 @@ public class GameMenu extends Menu {
                 break;
             case 5:
                 nextTurn();
+                break;
+            case 6:
+                mapMove(command);
+                break;
+            case 7:
+                cheatSettler(command);
+                break;
+            case 8:
+                unitFoundCity();
                 break;
         }
         return false;

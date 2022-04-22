@@ -50,6 +50,16 @@ public class Civilization {
     public int getColor() {
         return color;
     }
+    public boolean isInTheCivilizationsBorder(Tile tile)
+    {
+        for (City city : cities) {
+            for (Tile cityTile : city.getTiles()) {
+                if(cityTile==tile)
+                    return true;
+            }
+        }
+        return false;
+    }
 
     public void setGettingResearchedTechnology(Technology gettingResearchedTechnology) {
         this.gettingResearchedTechnology = gettingResearchedTechnology;
