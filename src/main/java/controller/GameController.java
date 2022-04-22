@@ -20,18 +20,31 @@ public class GameController {
     public static void startGame(ArrayList<User> PlayersNames) {
         setCivilizations(PlayersNames);
         map = new Map(civilizations);
+        for(int i = 0 ; i <PlayersNames.size(); i++)
+            civilizations.get(i).tileConditions = new Civilization.TileCondition[map.getX()][map.getY()];
+        //HARDCODE
+        
+
+
+
+
+
+
+
+
+        //
     }
 
     public static boolean setSelectedCombatUnit(int x, int y) {
-        if(map.coordinatesToTile(x,y).getNonCivilian()==null &&
-                map.coordinatesToTile(x,y).getNonCivilian().getCivilization() == civilizations.get(PlayerTurn))
+        if(map.coordinatesToTile(x,y).getNonCivilian()==null ||
+                map.coordinatesToTile(x,y).getNonCivilian().getCivilization() != civilizations.get(PlayerTurn))
             return false;
         selectedUnit = map.coordinatesToTile(x,y).getNonCivilian();
         return true;
     }
     public static boolean setSelectedNonCombatUnit(int x, int y) {
-        if(map.coordinatesToTile(x,y).getCivilian()==null &&
-                map.coordinatesToTile(x,y).getCivilian().getCivilization() == civilizations.get(PlayerTurn))
+        if(map.coordinatesToTile(x,y).getCivilian()==null ||
+                map.coordinatesToTile(x,y).getCivilian().getCivilization() != civilizations.get(PlayerTurn))
             return false;
         selectedUnit = map.coordinatesToTile(x,y).getCivilian();
         return true;

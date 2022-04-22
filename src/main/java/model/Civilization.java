@@ -33,13 +33,13 @@ public class Civilization {
 
     private int gold;
     private ArrayList<Unit> units = new ArrayList<>();
-    private ArrayList<TechnologyType> researches;
-    private ArrayList<City> cities;
+    private ArrayList<TechnologyType> researches = new ArrayList<>();
+    private ArrayList<City> cities = new ArrayList<>();
     private int science;
     private int happiness;
-    private HashMap<ResourcesTypes, Integer> resourcesAmount;
+    private HashMap<ResourcesTypes, Integer> resourcesAmount = new HashMap<>();
     private Technology gettingResearchedTechnology;
-    private HashMap<ResourcesTypes, Boolean> usedLuxuryResources;
+    private HashMap<ResourcesTypes, Boolean> usedLuxuryResources = new HashMap<>();
     public Civilization(User user,int color)
     {
         this.color = color;
@@ -100,6 +100,7 @@ public class Civilization {
 
     public void startTheTurn()
     {
+
         turnOffTileConditionsBoolean();
         for(int i = 0 ; i < cities.size();i++)
             cities.get(i).startTheTurn();
