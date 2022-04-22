@@ -79,7 +79,25 @@ public enum Color {
     Color(String code) {
         this.code = code;
     }
-
+    public static Color getColorByNumber(int i){
+        switch (i){
+            case 0:
+                return RED;
+            case 1:
+                return GREEN;
+            case 2:
+                return YELLOW;
+            case 3:
+                return BLUE;
+            case 4:
+                return MAGENTA;
+            case 5:
+                return CYAN;
+            case 6:
+                return WHITE;
+        }
+        return null;
+    }
     @Override
     public String toString() {
         return code;

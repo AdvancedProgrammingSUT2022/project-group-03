@@ -15,4 +15,7 @@ public class Civilian extends Unit{
     public static boolean canBeMade(Civilization civilization, int civilizationGold) {
         return false;
     }
+    public String getIcon() {
+        return null;
+    }
 }

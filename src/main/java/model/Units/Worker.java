@@ -1,6 +1,7 @@
 package model.Units;
 
 import model.Civilization;
+import model.Color;
 import model.Units.Civilian;
 import model.Units.Unit;
 import model.improvements.ImprovementType;
@@ -12,6 +13,11 @@ public class Worker extends Civilian {
 
     public Worker(Tile tile, Civilization civilization) {
         super(tile, civilization);
+    }
+
+    @Override
+    public String getIcon() {
+        return Color.getColorByNumber(civilization.getColor())+"W"+ Color.RESET +" ";
     }
 
     public boolean repair()
@@ -30,4 +36,5 @@ public class Worker extends Civilian {
     {
         return 0;
     }
+
 }

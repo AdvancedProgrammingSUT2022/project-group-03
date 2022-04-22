@@ -8,7 +8,7 @@ import model.tiles.Tile;
 import model.tiles.TileType;
 
 public class Unit implements productable {
-    private Civilization civilization;
+    protected Civilization civilization;
     private static int state;
     private Tile currentTile;
     private Tile destinationTile;

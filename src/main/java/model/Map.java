@@ -278,22 +278,121 @@ public class Map {
 
     public void printMap(Civilization.TileCondition[][] tileConditions, int originX, int originY) {
         StringBuilder mapString = new StringBuilder();
-        Color color0= Color.RESET;
-        Color color2 = Color.RESET;
-        Color color3 = Color.RESET;
+        Color color0;
+        Color color2;
+        Color color1;
+        String iString;
+        String jString;
         //mapString.append("   "+ color1 +"_____"+Color.RESET+"        ");
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(0)) color0 = Color.BLUE;
-                if (tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(2)) color0 = Color.BLUE;
+        for (int i = originX; i < originX + 5; i++) {
+            for (int j = originY; j < originY + 14; j+=2) {
+                if (tileConditions[i][j] != null &&
+                        tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(0)) color0 = Color.BLUE;
+                else color0 = Color.RESET;
+                if (tileConditions[i][j] != null &&
+                        tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(2)) color2 = Color.BLUE;
+                else color2 = Color.RESET;
+                if (tileConditions[i - 1 + j%2][j + 1] == null ||
+                        tileConditions[i - 1 + j%2][j + 1].getOpenedArea().getCivilian() == null) iString = "    ";
+                else iString = " " + tileConditions[i - 1 + j%2][j + 1].getOpenedArea().getCivilian().getIcon()+" ";
+                if (tileConditions[i - 1 + j%2][j + 1] == null||
+                        tileConditions[i -1 + j%2][j + 1].getOpenedArea().getNonCivilian() == null) jString = "    ";
+                else jString = tileConditions[i - 1 + j%2][j + 1].getOpenedArea().getNonCivilian().getIcon();
                 mapString.append("  ").append(color0).append("/").
                         append(Color.RESET).append("     ").append(color2).append("\\")
-                        .append(Color.RESET).append("       ");
-
+                        .append(Color.RESET).append(iString).append(",").append(jString);
             }
-
+            mapString.append("\n");
+            for (int j = originY; j < originY + 14; j+=2) {
+                if (tileConditions[i][j] != null &&
+                        tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(0)) color0 = Color.BLUE;
+                else color0 = Color.RESET;
+                if (tileConditions[i][j] != null &&
+                        tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(2)) color2 = Color.BLUE;
+                else color2 = Color.RESET;
+                if(tileConditions[i -1 + (j % 2)][j+1] != null)
+                    iString =tileConditions[i -1 + (j % 2)][j+1].getOpenedArea().getTileType().icon;
+                else iString = "   ";
+                mapString.append(" ").append(color0).append("/").
+                        append(Color.RESET).append("       ").append(color2).append("\\")
+                        .append("  ")
+                        .append(iString)
+                        .append(" ");
+            }
+            mapString.append("\n");
+            for (int j = originY; j < originY + 14; j+=2) {
+                if (tileConditions[i][j] != null &&
+                        tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(0)) color0 = Color.BLUE;
+                else color0 = Color.RESET;
+                if (tileConditions[i][j+1] != null &&
+                        tileConditions[i][j+1].getOpenedArea().isRiverWithNeighbour(1)) color1 = Color.BLUE;
+                else color1 = Color.RESET;
+                if (tileConditions[i][j] != null &&
+                        tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(2)) color2 = Color.BLUE;
+                else color2 = Color.RESET;
+                if (i >= 10) iString = "  " + i;
+                else iString = "   " + i;
+                if (j >= 10) jString = j + "  ";
+                else jString = j + "   ";
+                mapString.append(color0).append("/").
+                        append(Color.RESET).append(iString).append(",").append(jString).append(color2).append("\\")
+                        .append(Color.RESET).append(color1).append("_____").append(Color.RESET);
+            }
+            mapString.append("\n");
+            for (int j = originY; j < originY + 14; j+=2) {
+                if (tileConditions[i][j] != null &&
+                        tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(5)) color0 = Color.BLUE;
+                else color0 = Color.RESET;
+                if (tileConditions[i][j] != null &&
+                        tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(3)) color2 = Color.BLUE;
+                else color2 = Color.RESET;
+                if (tileConditions[i][j] == null ||
+                        tileConditions[i][j].getOpenedArea().getCivilian() == null) iString = "    ";
+                else iString = " " + tileConditions[i][j].getOpenedArea().getCivilian().getIcon()+" ";
+                if (tileConditions[i][j] == null ||
+                        tileConditions[i][j].getOpenedArea().getNonCivilian() == null) jString = "    ";
+                else jString = tileConditions[i][j].getOpenedArea().getNonCivilian().getIcon();
+                mapString.append(color0).append("\\").
+                        append(Color.RESET).append(iString).append(",").append(jString).append(color2).append("/")
+                        .append(Color.RESET).append("     ");
+            }
+            mapString.append("\n");
+            for (int j = originY; j < originY + 14; j+=2) {
+                if (tileConditions[i][j] != null &&
+                        tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(5)) color0 = Color.BLUE;
+                else color0 = Color.RESET;
+                if (tileConditions[i][j] != null &&
+                        tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(3)) color2 = Color.BLUE;
+                else color2 = Color.RESET;
+                if(tileConditions[i][j] != null) iString =tileConditions[i][j].getOpenedArea().getTileType().icon;
+                else iString = "   ";
+                mapString.append(" ").append(color0).append("\\").
+                        append(Color.RESET).append("  ")
+                        .append(iString)
+                        .append("  ").append(color2).append("/")
+                        .append(Color.RESET).append("      ");
+            }
+            for (int j = originY; j < originY + 14; j+=2) {
+                if (tileConditions[i][j] != null &&
+                        tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(5)) color0 = Color.BLUE;
+                else color0 = Color.RESET;
+                if (tileConditions[i][j] != null &&
+                        tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(4)) color1 = Color.BLUE;
+                else color1 = Color.RESET;
+                if (tileConditions[i][j] != null &&
+                        tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(3)) color2 = Color.BLUE;
+                else color2 = Color.RESET;
+                if (i >= 10) iString = "  " + (i + j%2);
+                else iString = "   " + i;
+                if (j >= 10) jString = (j + 1) + "  ";
+                else jString = (j+1) + "   ";
+                mapString.append("  ").append(color0).append("\\").
+                        append(Color.RESET).append(color1).append("_____")
+                        .append(Color.RESET).append(color2).append("/")
+                        .append(iString).append(",").append(jString);
+            }
+            mapString.append("\n");
         }
-
 
     }
 

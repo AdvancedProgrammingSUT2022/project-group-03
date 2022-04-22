@@ -1,6 +1,7 @@
 package model.Units;
 
 import model.Civilization;
+import model.Color;
 import model.resources.Resource;
 import model.technologies.TechnologyType;
 import model.tiles.Tile;
@@ -59,5 +60,8 @@ public class NonCivilian extends Unit {
     private void Fortify() {
         if (fortifiedCycle == 0)
             return;
+    }
+    public String getIcon(){
+        return " "+Color.getColorByNumber(civilization.getColor()) + unitType.icon;
     }
 }

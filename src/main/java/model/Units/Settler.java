@@ -2,6 +2,7 @@ package model.Units;
 
 import model.City;
 import model.Civilization;
+import model.Color;
 import model.Units.Civilian;
 import model.Units.Unit;
 import model.tiles.Tile;
@@ -16,5 +17,10 @@ public class Settler extends Civilian {
     public City city(Tile tile)
     {
         return null;
+    }
+
+    @Override
+    public String getIcon() {
+        return Color.getColorByNumber(civilization.getColor())+"S"+ Color.RESET +" ";
     }
 }

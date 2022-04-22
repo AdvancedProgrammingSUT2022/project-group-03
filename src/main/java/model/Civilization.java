@@ -47,6 +47,9 @@ public class Civilization {
         this.gold = 0;
     }
 
+    public int getColor() {
+        return color;
+    }
 
     public void setGettingResearchedTechnology(Technology gettingResearchedTechnology) {
         this.gettingResearchedTechnology = gettingResearchedTechnology;
