@@ -67,7 +67,7 @@ public class GameMenu extends Menu {
     }
 
     private void selectUnitNonCombatUnit(String command) {
-        Matcher matcher = getMatcher(regexes[3], command);
+        Matcher matcher = getMatcher(regexes[4], command);
         if (GameController.setSelectedNonCombatUnit(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2))))
             System.out.println("noncombat unit selected successfully");
         else
