@@ -18,6 +18,24 @@ public class User {
     private String nickname;
     int score;
 
+    static {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("dataBase/users.json")));
+            listOfUsers = new Gson().fromJson(json, new TypeToken<List<User>>(){}.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private static void saveData(){
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter("dataBase/users.json");
+            fileWriter.write(new Gson().toJson(listOfUsers));
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public static ArrayList<User> getListOfUsers() {
@@ -38,6 +56,7 @@ public class User {
         this.nickname = nickname;
         listOfUsers.add(this);
 
+        saveData();
     }
 
     public boolean isPasswordCorrect(String password) {
@@ -46,10 +65,12 @@ public class User {
 
     public void changeNickname(String newNickname) {
         this.nickname = newNickname;
+        saveData();
     }
 
     public void changePassword(String newPassword) {
         this.password = newPassword;
+        saveData();
     }
 
 

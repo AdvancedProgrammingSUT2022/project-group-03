@@ -20,6 +20,7 @@ public class Map {
 
     public Map(ArrayList<Civilization> civilizations) {
         GenerateMap(civilizations);
+
     }
 
 
@@ -54,7 +55,7 @@ public class Map {
                 setNeighborsOfTile(i, j);
             }
         }
-        addRiver(1 + random.nextInt(4));
+//        addRiver(1 + random.nextInt(4));
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
                 setFeature(i, j);
@@ -64,7 +65,8 @@ public class Map {
 
     private void setFeature(int i, int j) {
         FeatureType featureType = FeatureType.randomFeature();
-        while (!tiles[i][j].isFeatureTypeValid(featureType)) {
+
+        while (!tiles[i][j].isFeatureTypeValid(featureType) && tiles[i][j].getTileType().featureTypes.length!=0) {
             featureType = FeatureType.randomFeature();
         }
         if (random.nextInt(6) != 0) {
@@ -98,6 +100,7 @@ public class Map {
                 riverSides[0] = lastRiverSides[random.nextInt(2)];
                 neighbour = random.nextInt(6);
                 while (riverSides[0].getNeighbours(neighbour) == null ||
+                        riverSides[0].isRiverWithNeighbour(neighbour) ||
                         (!riverSides[0].isRiverWithNeighbour((neighbour + 1) % 6) && !riverSides[0].isRiverWithNeighbour((neighbour - 1) % 6))) {
                     neighbour = (neighbour + 1) % 6;
                 }
@@ -139,33 +142,43 @@ public class Map {
 
     private boolean hasNeighborWithType(int i, int j, TileType tileType) {
         if (i == 0 || j == 0 || i == x - 1 || j == y - 1) return true;
-        if ((tiles[i- 1 + (j % 2)][j - 1].getTileType() == tileType) ||
-                (tiles[i - 1][j].getTileType() == tileType) ||
-                (tiles[i - 1 +(j % 2)][j + 1].getTileType() == tileType))
-            return true;
+        if(j%2==0)
+        {
+            if ((tiles[i - 1][j - 1].getTileType() == tileType) ||
+                    (tiles[i - 1][j].getTileType() == tileType) ||
+                    (tiles[i - 1][j + 1].getTileType() == tileType) ||
+                    (tiles[i][j - 1].getTileType() == tileType))
+                return true;
+        }
+        else
+        {
+            if ((tiles[i - 1][j].getTileType() == tileType) ||
+                    (tiles[i][j - 1].getTileType() == tileType))
+                return true;
+        }
         return false;
     }
 
     private void setNeighborsOfTile(int i, int j) {
         if (i > 0) {
-            tiles[i][j].setNeighbours(1, tiles[i-1][j]);
-            tiles[i-1][j].setNeighbours(4, tiles[i][j]);
+            tiles[i][j].setNeighbours(1, tiles[i - 1][j]);
+            tiles[i - 1][j].setNeighbours(4, tiles[i][j]);
         }
         if (i > 0 && j > 0 && j % 2 == 0) {
             tiles[i][j].setNeighbours(0, tiles[i - 1][j - 1]);
             tiles[i - 1][j - 1].setNeighbours(3, tiles[i][j]);
         }
+        if (i > 0 && j < y - 1 && j % 2 == 0) {
+            tiles[i][j].setNeighbours(2, tiles[i - 1][j + 1]);
+            tiles[i - 1][j + 1].setNeighbours(5, tiles[i][j]);
+        }
+        if (i > 0 && j >0 && j % 2 == 0) {
+            tiles[i][j].setNeighbours(5, tiles[i][j - 1]);
+            tiles[i][j - 1].setNeighbours(2, tiles[i][j]);
+        }
         if (j % 2 == 1) {
             tiles[i][j].setNeighbours(0, tiles[i][j - 1]);
             tiles[i][j - 1].setNeighbours(3, tiles[i][j]);
-        }
-        if (i > 0 && j < y - 1 && j % 2 == 0) {
-            tiles[i][j].setNeighbours(2, tiles[i - 1][j + 1]);
-            tiles[i - 1][j+ 1].setNeighbours(5, tiles[i][j]);
-        }
-        if ( j < y - 1 && j % 2 == 1) {
-            tiles[i][j].setNeighbours(2, tiles[i][j + 1]);
-            tiles[i][j + 1].setNeighbours(5, tiles[i][j]);
         }
     }
 
@@ -282,6 +295,7 @@ public class Map {
                         .append(Color.RESET).append("       ");
 
             }
+
         }
 
 

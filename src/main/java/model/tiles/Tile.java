@@ -20,7 +20,6 @@ public class Tile {
     private static HashMap<TileType,Integer> gold;
     private static HashMap<TileType,Integer> changingPercentOfStrength;
     private static HashMap<TileType,ResourcesTypes[]> possibleResourceTypes;
-    private static HashMap<TileType, FeatureType[]> possibleFeatureTypes;
     private boolean[] tilesWithRiver = new boolean[6];
     private TileType tileType;
     private Resource containedResource;
@@ -122,7 +121,7 @@ public class Tile {
 
 
     public boolean isFeatureTypeValid(FeatureType featureType){
-        FeatureType[] list = possibleFeatureTypes.get(tileType);
+        FeatureType[] list = tileType.featureTypes;
         for (FeatureType validFeatureType : list) {
             if (validFeatureType == featureType) {
                 if(featureType == FeatureType.DELTA) {

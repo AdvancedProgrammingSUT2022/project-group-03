@@ -26,6 +26,8 @@ public class Civilization {
     }
     public TileCondition[][] tileConditions;
     private final User user;
+
+
     private final int color;
     private int[][] openedArea = null;
 
