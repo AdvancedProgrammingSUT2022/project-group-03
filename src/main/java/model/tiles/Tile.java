@@ -75,19 +75,19 @@ public class Tile {
     }
 
     public Tile getNeighbours(int i) {
-        if(i > 0 && i < 6){
+        if(i >= 0 && i < 6){
             return neighbours[i];
         }
         return null;
     }
     public void setTilesWithRiver(int i){
-        if(i > 0 && i < 6){
+        if(i >= 0 && i < 6){
             tilesWithRiver[i] = true;
         }
     }
 
     public boolean isRiverWithNeighbour(int i ){
-        if(i > 0 && i < 6){
+        if(i >= 0 && i < 6){
             return tilesWithRiver[i];
         }
         return false;

@@ -40,6 +40,10 @@ public class MainMenu extends Menu {
             playerNumber++;
             addPlayerRegex = addPlayerRegex.replaceFirst("[0-9]", Integer.toString(playerNumber));
         }
+        if(usersList.size() < 2){
+            System.out.println("choose at least one player");
+            return false;
+        }
         GameController.startGame(usersList);
         nextMenu = 3;
         return true;

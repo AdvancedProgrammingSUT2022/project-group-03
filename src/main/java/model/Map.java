@@ -55,7 +55,7 @@ public class Map {
                 setNeighborsOfTile(i, j);
             }
         }
-//        addRiver(1 + random.nextInt(4));
+       addRiver(1 + random.nextInt(4));
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
                 setFeature(i, j);
@@ -84,30 +84,29 @@ public class Map {
                 startY = 2 + random.nextInt(y - 4);
             }
             Tile[] riverSides = new Tile[2];
-            Tile[] lastRiverSides;
+            Tile[] lastRiverSides = new Tile[2];
             riverSides[0] = tiles[startX][startY];
-            int neighbour = random.nextInt(6);
-            while (riverSides[0].getNeighbours(neighbour) == null) {
-                neighbour = (neighbour + 1) % 6;
-            }
-            riverSides[1] = tiles[startX][startY].getNeighbours(neighbour);
-            riverSides[0].setTilesWithRiver(neighbour);
-            riverSides[1].setTilesWithRiver((neighbour + 3) % 6);
-            length--;
-            while (length > 0) {
-                lastRiverSides = riverSides;
+            riverSides[1] = tiles[startX][startY];
+            int neighbour;
+            int remainingLength = length;
+            while (remainingLength > 0) {
+                lastRiverSides[0] = riverSides[0];
+                lastRiverSides[1] = riverSides[1];
                 riverSides = new Tile[2];
                 riverSides[0] = lastRiverSides[random.nextInt(2)];
                 neighbour = random.nextInt(6);
                 while (riverSides[0].getNeighbours(neighbour) == null ||
                         riverSides[0].isRiverWithNeighbour(neighbour) ||
-                        (!riverSides[0].isRiverWithNeighbour((neighbour + 1) % 6) && !riverSides[0].isRiverWithNeighbour((neighbour - 1) % 6))) {
+                        riverSides[0].getNeighbours(neighbour).getTileType() == TileType.OCEAN ||
+                        (!riverSides[0].isRiverWithNeighbour((neighbour + 1) % 6) &&
+                                !riverSides[0].isRiverWithNeighbour((neighbour - 1) % 6) &&
+                                length != remainingLength)) {
                     neighbour = (neighbour + 1) % 6;
                 }
                 riverSides[1] = tiles[startX][startY].getNeighbours(neighbour);
                 riverSides[0].setTilesWithRiver(neighbour);
                 riverSides[1].setTilesWithRiver((neighbour + 3) % 6);
-                length--;
+                remainingLength--;
             }
         }
     }
@@ -144,19 +143,16 @@ public class Map {
         if (i == 0 || j == 0 || i == x - 1 || j == y - 1) return true;
         if(j%2==0)
         {
-            if ((tiles[i - 1][j - 1].getTileType() == tileType) ||
+            return (tiles[i - 1][j - 1].getTileType() == tileType) ||
                     (tiles[i - 1][j].getTileType() == tileType) ||
                     (tiles[i - 1][j + 1].getTileType() == tileType) ||
-                    (tiles[i][j - 1].getTileType() == tileType))
-                return true;
+                    (tiles[i][j - 1].getTileType() == tileType);
         }
         else
         {
-            if ((tiles[i - 1][j].getTileType() == tileType) ||
-                    (tiles[i][j - 1].getTileType() == tileType))
-                return true;
+            return (tiles[i - 1][j].getTileType() == tileType) ||
+                    (tiles[i][j - 1].getTileType() == tileType);
         }
-        return false;
     }
 
     private void setNeighborsOfTile(int i, int j) {
