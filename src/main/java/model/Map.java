@@ -82,7 +82,7 @@ public class Map {
                 startY = 2 + random.nextInt(y - 4);
             }
             Tile[] riverSides = new Tile[2];
-            Tile[] lastRiverSides = new Tile[2];
+            Tile[] lastRiverSides;
             riverSides[0] = tiles[startX][startY];
             int neighbour = random.nextInt(6);
             while (riverSides[0].getNeighbours(neighbour) == null) {
@@ -270,15 +270,20 @@ public class Map {
     public void printMap(Civilization.TileCondition[][] tileConditions, int originX, int originY) {
         StringBuilder mapString = new StringBuilder();
         Color color0= Color.RESET;
-        Color color1 = Color.RESET;
         Color color2 = Color.RESET;
-        int i=0;
-        for (int j = 0; j < 8; j++) {
-            if (tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(0)) color0 = Color.BLUE;
-            if (tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(1)) color0 = Color.BLUE;
-            if (tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(2)) color0 = Color.BLUE;
-            mapString.append("   "+ color1 +"_____"+Color.RESET+"        ");
+        Color color3 = Color.RESET;
+        //mapString.append("   "+ color1 +"_____"+Color.RESET+"        ");
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(0)) color0 = Color.BLUE;
+                if (tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(2)) color0 = Color.BLUE;
+                mapString.append("  ").append(color0).append("/").
+                        append(Color.RESET).append("     ").append(color2).append("\\")
+                        .append(Color.RESET).append("       ");
+
+            }
         }
+
 
     }
 
