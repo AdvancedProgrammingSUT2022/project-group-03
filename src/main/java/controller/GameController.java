@@ -8,14 +8,15 @@ import model.tiles.Tile;
 import model.tiles.TileType;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GameController {
     private static ArrayList<Civilization> civilizations = new ArrayList<>();
     private static Unit selectedUnit;
     private static City selectedCity;
     private static Map map;
-    private static int startWindowX;
-    private static int startWindowY;
+    private static int startWindowX = 2;
+    private static int startWindowY = 2;
     private static int playerTurn = 0;
     private static ArrayList<Tasks> unfinishedTasks = new ArrayList<>();
 
@@ -96,6 +97,14 @@ public class GameController {
     }
 
     public static int UnitFoundCity() {
+        if(!(selectedUnit instanceof Settler))
+           return 1;
+        if(selectedUnit.getCurrentTile().getCity()!=null)
+            return 2;
+        for(int i = 0 ; i< civilizations.size();i++)
+            if(civilizations.get(i).isInTheCivilizationsBorder(selectedUnit.getCurrentTile()))
+                return 2;
+        ((Settler) selectedUnit).city();
         return 0;
     }
 
@@ -139,8 +148,23 @@ public class GameController {
         return 0;
     }
 
-    public static int mapMove(int x, int y, String direction) {
-        return 0;
+    public static void mapMove(int number, String direction) {
+        if(Objects.equals(direction, "R"))
+            startWindowY+=number;
+        if(Objects.equals(direction, "L"))
+            startWindowY-=number;
+        if(Objects.equals(direction, "U"))
+            startWindowX-=number;
+        if(Objects.equals(direction, "D"))
+            startWindowX+=number;
+        if(startWindowY>map.getY() - 14)
+            startWindowY = map.getY() - 14;
+        if(startWindowX>map.getX() - 5)
+            startWindowX = map.getX() - 5;
+        if(startWindowY<0)
+            startWindowY =0;
+        if(startWindowX<0)
+            startWindowX=0;
     }
 
 
@@ -190,12 +214,18 @@ public class GameController {
 
     }
 
+    public static void cheatSettler(int x, int y)
+    {
+        Civilian hardcodeUnit = new Settler(map.coordinatesToTile(x,y),civilizations.get(playerTurn));
+        civilizations.get(playerTurn).getUnits().add(hardcodeUnit);
+        map.coordinatesToTile(x,y).setCivilian(hardcodeUnit);
+    }
     public static Map getMap() {
         return map;
     }
 
     public static String printMap()
     {
-        return map.printMap(civilizations.get(playerTurn).tileConditions,2, 2);
+        return map.printMap(civilizations.get(playerTurn).tileConditions,startWindowX, startWindowY);
     }
 }

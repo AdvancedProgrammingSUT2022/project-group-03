@@ -16,18 +16,24 @@ public class City{
     private int food;
     private int population;
     private int production;
-    private ArrayList<Tile> Tiles;
+    private ArrayList<Tile> tiles = new ArrayList<>();
     private Civilization founder;
     private int citizen;
     private ArrayList<Tile> gettingWorkedOnByCitizensTiles;
     public City(Tile tile,String name) {
         this.mainTile = tile;
         this.name = name;
-
+        this.tiles.add(mainTile);
+        for(int i = 0; i < 6; i++)
+            this.tiles.add(mainTile.getNeighbours(i));
     }
 
     public void startTheTurn() {
 
+    }
+
+    public ArrayList<Tile> getTiles() {
+        return tiles;
     }
 
     private void countTheTotalOfCityResources()

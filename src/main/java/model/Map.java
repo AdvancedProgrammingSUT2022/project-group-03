@@ -55,7 +55,7 @@ public class Map {
                 setNeighborsOfTile(i, j);
             }
         }
-       addRiver(1 + random.nextInt(4));
+       addRiver(x/16 + random.nextInt(4 + x/16));
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
                 setFeature(i, j);
@@ -76,7 +76,7 @@ public class Map {
 
     private void addRiver(int number) {
         for (int i = 0; i < number; i++) {
-            int length = 3 + random.nextInt(6);
+            int length = 5 + random.nextInt(10);
             int startX = 2 + random.nextInt(x - 4);
             int startY = 2 + random.nextInt(y - 4);
             while (tiles[startX][startY].getTileType() == TileType.OCEAN) {
@@ -107,6 +107,7 @@ public class Map {
                 riverSides[0].setTilesWithRiver(neighbour);
                 riverSides[1].setTilesWithRiver((neighbour + 3) % 6);
                 remainingLength--;
+                System.out.println(riverSides[0].getX() + " " + riverSides[0].getY());
             }
         }
     }
@@ -291,6 +292,7 @@ public class Map {
         String jString;
         String cString;
         //mapString.append("   "+ color1 +"_____"+Color.RESET+"        ");
+        ////
         for (int i = originX; i < originX + 5; i++) {
             for (int j = originY; j < originY + 14; j+=2) {
                 if (tileConditions[i][j] != null &&

@@ -10,7 +10,7 @@ import model.tiles.TileType;
 public class Unit implements productable {
     protected Civilization civilization;
     private static int state;
-    private Tile currentTile;
+    protected Tile currentTile;
     private Tile destinationTile;
     private int defaultMovementPrice;
     private int health = 10;
@@ -66,6 +66,10 @@ public class Unit implements productable {
     {
         if(destinationTile!=null)
             move(destinationTile);
+    }
+
+    public Tile getCurrentTile() {
+        return currentTile;
     }
 
     private void openNewArea() {
