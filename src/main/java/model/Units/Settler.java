@@ -9,7 +9,6 @@ import model.tiles.Tile;
 
 public class Settler extends Civilian {
     private static int cost;
-
     public Settler(Tile tile, Civilization civilization) {
         super(tile, civilization);
     }

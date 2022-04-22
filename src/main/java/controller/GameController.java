@@ -1,6 +1,8 @@
 package controller;
 
 import model.*;
+import model.Units.Civilian;
+import model.Units.Settler;
 import model.Units.Unit;
 import model.tiles.Tile;
 import model.tiles.TileType;
@@ -14,7 +16,7 @@ public class GameController {
     private static Map map;
     private static int startWindowX;
     private static int startWindowY;
-    private static int PlayerTurn = 0;
+    private static int playerTurn = 0;
     private static ArrayList<Tasks> unfinishedTasks = new ArrayList<>();
 
     public static void startGame(ArrayList<User> PlayersNames) {
@@ -23,8 +25,9 @@ public class GameController {
         for(int i = 0 ; i <PlayersNames.size(); i++)
             civilizations.get(i).tileConditions = new Civilization.TileCondition[map.getX()][map.getY()];
         //HARDCODE
-        
-
+        Civilian hardcodeUnit = new Settler(map.coordinatesToTile(5,5),civilizations.get(0));
+        civilizations.get(0).getUnits().add(hardcodeUnit);
+        map.coordinatesToTile(5,5).setCivilian(hardcodeUnit);
 
 
 
@@ -37,14 +40,14 @@ public class GameController {
 
     public static boolean setSelectedCombatUnit(int x, int y) {
         if(map.coordinatesToTile(x,y).getNonCivilian()==null ||
-                map.coordinatesToTile(x,y).getNonCivilian().getCivilization() != civilizations.get(PlayerTurn))
+                map.coordinatesToTile(x,y).getNonCivilian().getCivilization() != civilizations.get(playerTurn))
             return false;
         selectedUnit = map.coordinatesToTile(x,y).getNonCivilian();
         return true;
     }
     public static boolean setSelectedNonCombatUnit(int x, int y) {
         if(map.coordinatesToTile(x,y).getCivilian()==null ||
-                map.coordinatesToTile(x,y).getCivilian().getCivilization() != civilizations.get(PlayerTurn))
+                map.coordinatesToTile(x,y).getCivilian().getCivilization() != civilizations.get(playerTurn))
             return false;
         selectedUnit = map.coordinatesToTile(x,y).getCivilian();
         return true;
@@ -63,8 +66,7 @@ public class GameController {
     public static boolean UnitMoveTo(int x, int y) {
         if(selectedUnit==null ||
                 map.coordinatesToTile(x,y).getTileType()== TileType.OCEAN ||
-                map.coordinatesToTile(x,y).getTileType()== TileType.MOUNTAIN
-        )
+                map.coordinatesToTile(x,y).getTileType()== TileType.MOUNTAIN)
             return false;
         return selectedUnit.move(map.coordinatesToTile(x,y));
     }
@@ -173,10 +175,10 @@ public class GameController {
         if(unfinishedTasks.size()!=0)
             return false;
 
-        civilizations.get(PlayerTurn).endTheTurn();
-        PlayerTurn = (PlayerTurn+1)%civilizations.size();
+        civilizations.get(playerTurn).endTheTurn();
+        playerTurn = (playerTurn +1)%civilizations.size();
         setUnfinishedTasks();
-        civilizations.get(PlayerTurn).startTheTurn();
+        civilizations.get(playerTurn).startTheTurn();
 
 
 
@@ -190,5 +192,10 @@ public class GameController {
 
     public static Map getMap() {
         return map;
+    }
+
+    public static String printMap()
+    {
+        return map.printMap(civilizations.get(playerTurn).tileConditions,2, 2);
     }
 }

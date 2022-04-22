@@ -13,13 +13,13 @@ public class Unit implements productable {
     private Tile currentTile;
     private Tile destinationTile;
     private int defaultMovementPrice;
-    private int movementPrice;
     private int health = 10;
     private int XP;
     private boolean hasDoneAnything;
 
     public Unit(Tile tile, Civilization civilization) {
-
+        this.currentTile = tile;
+        this.civilization = civilization;
     }
 
     public int getHealth() {
@@ -29,14 +29,6 @@ public class Unit implements productable {
 
     public int getDefaultMovementPrice() {
         return defaultMovementPrice;
-    }
-
-    public void setMovementPrice(int movementPrice) {
-        this.movementPrice = movementPrice;
-    }
-
-    public int getMovementPrice() {
-        return movementPrice;
     }
 
 
@@ -84,8 +76,8 @@ public class Unit implements productable {
             civilization.tileConditions[neighbourX][neighbourY]  = new Civilization.TileCondition(currentTile.getNeighbours(i).CloneTile(), true);
             if(currentTile.getNeighbours(i).getTileType()== TileType.MOUNTAIN ||
                     currentTile.getNeighbours(i).getTileType()== TileType.HILL ||
-                    currentTile.getNeighbours(i).getFeature().getFeatureType() == FeatureType.FOREST ||
-                    currentTile.getNeighbours(i).getFeature().getFeatureType() == FeatureType.DENSEFOREST)
+                    (currentTile.getNeighbours(i).getFeature()!= null && (currentTile.getNeighbours(i).getFeature().getFeatureType() == FeatureType.FOREST ||
+                    currentTile.getNeighbours(i).getFeature().getFeatureType() == FeatureType.DENSEFOREST)))
                 continue;
             for(int j=0;j<6;j++)
             {
@@ -99,6 +91,11 @@ public class Unit implements productable {
 
 
     public boolean move(Tile destinationTile) {
+        int movementPrice;
+        if(this instanceof Civilian)
+            movementPrice=((Civilian) this).MOVEMENTPRICE;
+        else
+            movementPrice= ((NonCivilian) this).getUnitType().movePoint;
         Tile[] tiles = GameController.getMap().findNextTile(currentTile,movementPrice,destinationTile,this instanceof Civilian);
         this.destinationTile= destinationTile;
 
@@ -109,17 +106,26 @@ public class Unit implements productable {
         }
         if(tiles.length==1)
             this.destinationTile = null;
+        Tile tempTile = null;
+        for(int i =tiles.length-1; i>=0; i--)
+            if(tiles[i]!=null)
+            {
+                tempTile=tiles[i];
+                break;
+            }
+        if(tempTile==null)
+            return false;
         if(this instanceof NonCivilian)
         {
             this.currentTile.setNonCivilian(null);
-            tiles[tiles.length-1].setNonCivilian((NonCivilian) this);
+            tempTile.setNonCivilian((NonCivilian) this);
         }
         else
         {
             this.currentTile.setCivilian(null);
-            tiles[tiles.length-1].setCivilian((Civilian) this);
+            tempTile.setCivilian((Civilian) this);
         }
-        this.currentTile = tiles[tiles.length-1];
+        this.currentTile = tempTile;
         openNewArea();
         return true;
     }

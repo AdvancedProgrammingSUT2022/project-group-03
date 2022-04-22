@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Tile {
-    private static HashMap<TileType,Integer> movingPrice;
     private static HashMap<TileType,Integer> food;
     private static HashMap<TileType,Integer> production;
     private static HashMap<TileType,Integer> gold;
@@ -47,7 +46,10 @@ public class Tile {
     }
 
     public int getMovingPrice() {
-        return movingPrice.get(this.tileType);
+//        if(containedFeature!=null)
+//            return tileType.movementPoint + containedFeature.getMovingPrice();
+        //TODO
+        return tileType.movementPoint;
     }
 
     public Civilian getCivilian() {

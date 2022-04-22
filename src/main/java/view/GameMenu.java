@@ -222,13 +222,14 @@ public class GameMenu extends Menu {
                 "^UNIT MOVETO ([0-9]+) ([0-9]+)$",
                 "^SELECT UNIT COMBAT ([0-9]+) ([0-9]+)$",
                 "^SELECT UNIT NONCOMBAT ([0-9]+) ([0-9]+)$",
-                "^NEXT TURN$"
+                "^NEXT TURN$",
         };
     }
 
     @Override
     protected boolean commands(String command) {
         commandNumber = getCommandNumber(command, regexes);
+        System.out.println(GameController.printMap());
         switch (commandNumber) {
             case -1:
                 System.out.println("invalid command");

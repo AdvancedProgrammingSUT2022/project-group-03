@@ -32,6 +32,11 @@ public class NonCivilian extends Unit {
         //
         //
     }
+
+    public NonCivilianUnitType getUnitType() {
+        return unitType;
+    }
+
     public static NonCivilian canCreateUnit(Tile tile, Civilization civilization, NonCivilianUnitType unitType)
     {
         if(cost.get(unitType)>civilization.getGold())

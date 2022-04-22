@@ -126,4 +126,8 @@ public class Civilization {
     {
 
     }
+
+    public TileCondition[][] getTileConditions() {
+        return tileConditions;
+    }
 }

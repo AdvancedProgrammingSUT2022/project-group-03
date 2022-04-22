@@ -10,7 +10,6 @@ import model.tiles.Tile;
 public class Worker extends Civilian {
     private static int cost;
     int remainingDurationToBuildCompletely;
-
     public Worker(Tile tile, Civilization civilization) {
         super(tile, civilization);
     }

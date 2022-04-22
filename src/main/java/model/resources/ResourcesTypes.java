@@ -11,7 +11,7 @@ public enum ResourcesTypes {
     FUR,
     GEMSTONE,
     GOLD,
-    BOKHOOR,
+    INCENSE,
     IVORY,
     MARBLE,
     SILK,
