@@ -8,7 +8,6 @@ import model.tiles.Tile;
 import java.util.ArrayList;
 
 public class Civilian extends Unit{
-    public final static int MOVEMENTPRICE=2;
     public Civilian(Tile tile, Civilization civilization)
     {
         super(tile,civilization);
@@ -18,5 +17,11 @@ public class Civilian extends Unit{
     }
     public String getIcon() {
         return null;
+    }
+
+    @Override
+    protected int getDefaultMovementPrice()
+    {
+        return 2;
     }
 }

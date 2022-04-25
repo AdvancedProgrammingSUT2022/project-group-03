@@ -69,4 +69,10 @@ public class NonCivilian extends Unit {
     public String getIcon(){
         return " "+Color.getColorByNumber(civilization.getColor()) + unitType.icon;
     }
+
+    @Override
+    protected int getDefaultMovementPrice()
+    {
+        return unitType.movePoint;
+    }
 }
