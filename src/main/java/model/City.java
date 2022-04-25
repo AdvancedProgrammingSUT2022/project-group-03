@@ -1,6 +1,7 @@
 package model;
 
 import model.Units.*;
+import model.resources.ResourcesTypes;
 import model.tiles.Tile;
 
 import java.util.ArrayList;
@@ -35,10 +36,35 @@ public class City {
 
     public void startTheTurn() {
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
+            for (ResourcesTypes resource : gettingWorkedOnByCitizensTile.getResources()) {
+                if(!civilization.getResourcesAmount().containsKey(resource))
+                    civilization.getResourcesAmount().put(resource,1);
+                else {
+                    int temp = civilization.getResourcesAmount().get(resource);
+                    civilization.getResourcesAmount().remove(resource);
+                    civilization.getResourcesAmount().put(resource,temp);
+                }
+            }
             food += gettingWorkedOnByCitizensTile.getTileType().food;
             production += gettingWorkedOnByCitizensTile.getTileType().production;
             civilization.increaseGold(gettingWorkedOnByCitizensTile.getTileType().gold);
         }
+        if(product!=null)
+        {
+            int tempRemaining = remainingProduction;
+            remainingProduction -= production;
+            production -= tempRemaining;
+            if(production<=0)
+                production=0;
+            if(remainingProduction<=0)
+            {
+                if(product instanceof Unit)
+                    civilization.getUnits().add((Unit) product);
+                product = null;
+                remainingProduction=0;
+            }
+        }
+
     }
 
 

@@ -133,9 +133,9 @@ public class Civilization {
 
     }
 
-    private void countTheTotalOfCityResources()
-    {
 
+    public HashMap<ResourcesTypes, Integer> getResourcesAmount() {
+        return resourcesAmount;
     }
 
     public TileCondition[][] getTileConditions() {
