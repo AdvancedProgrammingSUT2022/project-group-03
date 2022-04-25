@@ -16,7 +16,7 @@ public class Worker extends Civilian {
 
     @Override
     public String getIcon() {
-        return Color.getColorByNumber(civilization.getColor())+"W"+ Color.RESET +" ";
+        return "WO";
     }
 
     public boolean repair()

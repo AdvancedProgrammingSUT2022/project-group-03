@@ -235,7 +235,6 @@ public class GameMenu extends Menu {
     @Override
     protected boolean commands(String command) {
         commandNumber = getCommandNumber(command, regexes);
-        System.out.println(GameController.printMap());
         switch (commandNumber) {
             case -1:
                 System.out.println("invalid command");
@@ -269,8 +268,10 @@ public class GameMenu extends Menu {
                 unitFoundCity();
                 break;
         }
+        System.out.println(GameController.printMap());
         return false;
     }
+
 
     protected boolean gameOver() {
         return false;

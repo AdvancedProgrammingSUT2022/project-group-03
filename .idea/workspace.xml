@@ -4,25 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-<<<<<<< HEAD
     <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Civilization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Color.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Color.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Settler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Settler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/features/FeatureType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/features/FeatureType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Worker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/tiles/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/tiles/Tile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/GameController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/City.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/City.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Civilization.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Civilization.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Color.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Color.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/model/Map$BestMoveClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map$BestMoveClass.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/model/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/NonCivilian.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/NonCivilian.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Settler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Settler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Worker.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Worker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/features/FeatureType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/features/FeatureType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/tiles/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/tiles/Tile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu.class" afterDir="false" />
     </list>
-=======
-    <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="" />
->>>>>>> 68e09341bb8f1dcebf11c1d4a389bab6bc19b212
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -93,6 +98,7 @@
       <workItem from="1650479074626" duration="24000" />
       <workItem from="1650560221518" duration="6738000" />
       <workItem from="1650629703966" duration="11377000" />
+      <workItem from="1650874176897" duration="333000" />
     </task>
     <servers />
   </component>

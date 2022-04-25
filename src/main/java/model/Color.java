@@ -93,8 +93,23 @@ public enum Color {
                 return MAGENTA;
             case 5:
                 return CYAN;
-            case 6:
-                return WHITE;
+        }
+        return null;
+    }
+    public static Color getBackgroundColorWithNumber(int i){
+        switch (i){
+            case 0:
+                return RED_BACKGROUND;
+            case 1:
+                return GREEN_BACKGROUND;
+            case 2:
+                return YELLOW_BACKGROUND;
+            case 3:
+                return BLUE_BACKGROUND;
+            case 4:
+                return MAGENTA_BACKGROUND;
+            case 5:
+                return CYAN_BACKGROUND;
         }
         return null;
     }

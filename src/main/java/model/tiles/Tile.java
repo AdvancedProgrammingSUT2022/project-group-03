@@ -14,10 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Tile {
-    private static HashMap<TileType,Integer> food;
-    private static HashMap<TileType,Integer> production;
-    private static HashMap<TileType,Integer> gold;
-    private static HashMap<TileType,Integer> changingPercentOfStrength;
     private static HashMap<TileType,ResourcesTypes[]> possibleResourceTypes;
     private boolean[] tilesWithRiver = new boolean[6];
     private TileType tileType;
@@ -64,20 +60,8 @@ public class Tile {
         return nonCivilian;
     }
 
-    public int getChangingPercentOfStrength() {
-        return changingPercentOfStrength.get(this.tileType);
-    }
-
-    public int getFood() {
-        return food.get(this.tileType);
-    }
-
-    public int getProduction() {
-        return production.get(this.tileType);
-    }
-
-    public int getGold() {
-        return gold.get(this.tileType);
+    public Civilization getCivilization() {
+        return civilization;
     }
 
     public Tile getNeighbours(int i) {
