@@ -247,4 +247,8 @@ public class GameController {
     {
         return civilizations.get(playerTurn).getResearches();
     }
+    public static boolean canBeTheNextResearch(TechnologyType technologyType)
+    {
+        return civilizations.get(playerTurn).canBeTheNextResearch(technologyType);
+    }
 }

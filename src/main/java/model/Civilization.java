@@ -142,4 +142,12 @@ public class Civilization {
     public TileCondition[][] getTileConditions() {
         return tileConditions;
     }
+
+    public boolean canBeTheNextResearch(TechnologyType technologyType)
+    {
+        for(int i = 0;i<TechnologyType.prerequisites.get(technologyType).size();i++)
+            if(!researches.contains(TechnologyType.prerequisites.get(technologyType).get(i)))
+                return false;
+        return true;
+    }
 }
