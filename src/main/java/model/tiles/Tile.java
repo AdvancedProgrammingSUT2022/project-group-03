@@ -2,8 +2,7 @@ package model.tiles;
 
 import model.City;
 import model.Civilization;
-import model.Units.Civilian;
-import model.Units.NonCivilian;
+import model.Units.*;
 import model.features.Feature;
 import model.features.FeatureType;
 import model.improvements.Improvement;
@@ -23,7 +22,7 @@ public class Tile {
     private final int x;
     private final int y;
     private Civilization civilization;
-    private Civilian civilian;
+    private Unit civilian;
     private NonCivilian nonCivilian;
     private City city;
     private int hasRoad;
@@ -51,7 +50,7 @@ public class Tile {
         return tileType.movementPoint;
     }
 
-    public Civilian getCivilian() {
+    public Unit getCivilian() {
         return civilian;
     }
 
@@ -131,8 +130,9 @@ public class Tile {
         return false;
     }
 
-    public void setCivilian(Civilian civilian) {
-        this.civilian = civilian;
+    public void setCivilian(Unit unit) {
+        if(unit.getUnitType().combatType== CombatType.CIVILIAN)
+            this.civilian = unit;
     }
 
     public void setNonCivilian(NonCivilian nonCivilian) {

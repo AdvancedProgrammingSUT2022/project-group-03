@@ -1,6 +1,8 @@
 package view;
 
 import controller.GameController;
+import model.Units.NonCivilian;
+import model.Units.Settler;
 
 import java.util.regex.Matcher;
 
@@ -211,6 +213,11 @@ public class GameMenu extends Menu {
         System.out.println("map moved successfully");
     }
 
+    private void startProducing(String command)
+    {
+        Matcher matcher = getMatcher(regexes[10],command);
+        GameController.startProducing(matcher.group(1));
+    }
 
     private void nextTurn() {
         if (GameController.nextTurn())
@@ -230,7 +237,8 @@ public class GameMenu extends Menu {
                 "^MAP MOVE (R|L|U|D)( [0-9]+)?",
                 "^CHEAT CREATE SETTLER ([0-9]+) ([0-9]+)",
                 "^UNIT FOUND CITY$",
-                "^SELECTED UNIT INFO$"
+                "^SELECTED UNIT INFO$",
+                "^START PRODUCING (\\w+)$"
 
         };
     }
@@ -277,6 +285,9 @@ public class GameMenu extends Menu {
                 break;
             case 9:
                 selectedUnitInfo();
+                break;
+            case 10:
+                startProducing(command);
                 break;
         }
         System.out.println(GameController.printMap());

@@ -2,21 +2,15 @@ package model.Units;
 
 import model.Civilization;
 import model.Color;
-import model.Units.Civilian;
 import model.Units.Unit;
 import model.improvements.ImprovementType;
 import model.tiles.Tile;
 
-public class Worker extends Civilian {
+public class Worker extends Unit {
     private static int cost;
     int remainingDurationToBuildCompletely;
     public Worker(Tile tile, Civilization civilization) {
         super(tile, civilization);
-    }
-
-    @Override
-    public String getIcon() {
-        return "WO";
     }
 
     public boolean repair()
