@@ -244,8 +244,8 @@ public class GameMenu extends Menu {
                 "^CHEAT CREATE SETTLER ([0-9]+) ([0-9]+)",
                 "^UNIT FOUND CITY$",
                 "^SELECTED UNIT INFO$",
-                "^START PRODUCING (\\w+)$"
-
+                "^START PRODUCING (\\w+)$",
+                "^menu enter Technologies$"
         };
     }
     private void cheatSettler(String command)

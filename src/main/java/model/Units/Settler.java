@@ -8,8 +8,8 @@ import model.tiles.Tile;
 
 public class Settler extends Unit {
     private static int cost;
-    public Settler(Tile tile, Civilization civilization) {
-        super(tile, civilization);
+    public Settler(Tile tile, Civilization civilization, UnitType unitType) {
+        super(tile, civilization, unitType);
     }
     {
         this.unitType = UnitType.Settler;

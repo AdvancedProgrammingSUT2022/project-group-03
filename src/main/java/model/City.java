@@ -95,10 +95,10 @@ public class City {
             return false;
         if (unitType.combatType == CombatType.CIVILIAN) {
             if (unitType == UnitType.Settler) {
-                product = new Settler(mainTile, civilization);
+                product = new Settler(mainTile, civilization,unitType);
                 return true;
             }
-            product = new Worker(mainTile, civilization);
+            product = new Worker(mainTile, civilization,unitType);
             return true;
         }
         product = new NonCivilian(mainTile, civilization, unitType);

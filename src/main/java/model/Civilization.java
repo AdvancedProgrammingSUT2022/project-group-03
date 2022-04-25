@@ -46,6 +46,7 @@ public class Civilization {
         this.color = color;
         this.user= user;
         this.gold = 0;
+        researches.add(TechnologyType.AGRICULTURE);
     }
 
     public int getColor() {

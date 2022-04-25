@@ -20,7 +20,7 @@ public abstract class Unit implements productable {
     private boolean hasDoneAnything;
 
 
-    public Unit(Tile tile, Civilization civilization) {
+    public Unit(Tile tile, Civilization civilization, UnitType unitType) {
         this.currentTile = tile;
         this.civilization = civilization;
         this.movementPrice = unitType.getDefaultMovementPrice();

@@ -30,7 +30,7 @@ public class NonCivilian extends Unit {
         return true;
     }
     public NonCivilian(Tile tile, Civilization civilization, UnitType unitType) {
-        super(tile, civilization);
+        super(tile, civilization,unitType);
         this.unitType = unitType;
 
 //        switch (unitType)

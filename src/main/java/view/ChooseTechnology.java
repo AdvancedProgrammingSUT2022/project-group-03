@@ -11,7 +11,7 @@ public class ChooseTechnology extends Menu {
         regexes = new String[]{
                 "^menu exit$",
                 "^menu show-current$",
-                "",
+                "^back$",
                 "",
                 ""
         };
@@ -21,8 +21,17 @@ public class ChooseTechnology extends Menu {
     {
         ArrayList<TechnologyType> researches = GameController.getCivilizationsResearches();
         System.out.println("Finished researches: ");
-//        for(int i=0;i<researches.size();i++)
-//            System.out.println(researches.);
+        ArrayList<TechnologyType> possibleTechnologies = new ArrayList<>();
+        for(int i=0;i<researches.size();i++)
+        {
+            System.out.println( i+1 + ". " + researches.get(i));
+            for(int j = 0 ; j<TechnologyType.nextTech.get(researches.get(i)).size(); j++)
+                if(!possibleTechnologies.contains(TechnologyType.nextTech.get(researches.get(i)).get(j)))
+                    possibleTechnologies.add(TechnologyType.nextTech.get(researches.get(i)).get(j));
+        }
+        System.out.println("Possible next researches: ");
+        for(int i = 0 ; i < possibleTechnologies.size();i++)
+            System.out.println(i+1 + ". " + possibleTechnologies.get(i));
     }
     @Override
     protected boolean commands(String command)
@@ -41,6 +50,8 @@ public class ChooseTechnology extends Menu {
             case 1:
                 System.out.println("Login Menu");
                 break;
+            case 2:
+                return true;
         }
         return false;
     }

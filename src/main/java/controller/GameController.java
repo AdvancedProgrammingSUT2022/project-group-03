@@ -27,9 +27,9 @@ public class GameController {
         for(int i = 0 ; i <PlayersNames.size(); i++)
             civilizations.get(i).tileConditions = new Civilization.TileCondition[map.getX()][map.getY()];
         //HARDCODE
-        Settler hardcodeUnit = new Settler(map.coordinatesToTile(5,5),civilizations.get(0));
+        Settler hardcodeUnit = new Settler(map.coordinatesToTile(5,5),civilizations.get(0),UnitType.Settler);
         civilizations.get(0).getUnits().add(hardcodeUnit);
-        map.coordinatesToTile(5,5).setCivilian(hardcodeUnit);
+        map.coordinatesToTile(2,5).setCivilian(hardcodeUnit);
 
 
 
@@ -217,7 +217,7 @@ public class GameController {
 
     public static void cheatSettler(int x, int y)
     {
-        Settler hardcodeUnit = new Settler(map.coordinatesToTile(x,y),civilizations.get(playerTurn));
+        Settler hardcodeUnit = new Settler(map.coordinatesToTile(x,y),civilizations.get(playerTurn),UnitType.Settler);
         civilizations.get(playerTurn).getUnits().add(hardcodeUnit);
         map.coordinatesToTile(x,y).setCivilian(hardcodeUnit);
     }

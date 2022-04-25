@@ -9,8 +9,8 @@ import model.tiles.Tile;
 public class Worker extends Unit {
     private static int cost;
     int remainingDurationToBuildCompletely;
-    public Worker(Tile tile, Civilization civilization) {
-        super(tile, civilization);
+    public Worker(Tile tile, Civilization civilization, UnitType unitType) {
+        super(tile, civilization,unitType);
     }
 
     public boolean repair()
