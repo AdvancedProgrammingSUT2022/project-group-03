@@ -117,5 +117,10 @@ public abstract class Unit implements productable {
         return true;
     }
 
+
+    public int getMovementPrice() {
+        return movementPrice;
+    }
+
     protected abstract int getDefaultMovementPrice();
 }

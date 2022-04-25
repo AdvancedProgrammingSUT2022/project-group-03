@@ -20,6 +20,6 @@ public class Settler extends Civilian {
 
     @Override
     public String getIcon() {
-        return Color.getColorByNumber(civilization.getColor())+"S"+ Color.RESET +" ";
+        return "SE" ;
     }
 }

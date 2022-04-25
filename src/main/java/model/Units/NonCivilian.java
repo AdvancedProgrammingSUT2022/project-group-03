@@ -67,7 +67,7 @@ public class NonCivilian extends Unit {
             return;
     }
     public String getIcon(){
-        return " "+Color.getColorByNumber(civilization.getColor()) + unitType.icon;
+        return  unitType.icon;
     }
 
     @Override

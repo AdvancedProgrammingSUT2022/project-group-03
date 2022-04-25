@@ -1,5 +1,6 @@
 package model;
 
+import model.Units.Civilian;
 import model.Units.Unit;
 import model.tiles.Tile;
 

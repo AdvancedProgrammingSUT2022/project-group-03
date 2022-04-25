@@ -15,8 +15,8 @@ public class GameController {
     private static Unit selectedUnit;
     private static City selectedCity;
     private static Map map;
-    private static int startWindowX = 2;
-    private static int startWindowY = 2;
+    private static int startWindowX = 0;
+    private static int startWindowY = 0;
     private static int playerTurn = 0;
     private static ArrayList<Tasks> unfinishedTasks = new ArrayList<>();
 
@@ -157,10 +157,10 @@ public class GameController {
             startWindowX-=number;
         if(Objects.equals(direction, "D"))
             startWindowX+=number;
-        if(startWindowY>map.getY() - 14)
-            startWindowY = map.getY() - 14;
-        if(startWindowX>map.getX() - 5)
-            startWindowX = map.getX() - 5;
+        if(startWindowY>map.getY() - 13)
+            startWindowY = map.getY() - 13;
+        if(startWindowX>map.getX() - 4)
+            startWindowX = map.getX() - 4;
         if(startWindowY<0)
             startWindowY =0;
         if(startWindowX<0)
@@ -227,5 +227,9 @@ public class GameController {
     public static String printMap()
     {
         return map.printMap(civilizations.get(playerTurn).tileConditions,startWindowX, startWindowY);
+    }
+
+    public static Unit getSelectedUnit() {
+        return selectedUnit;
     }
 }
