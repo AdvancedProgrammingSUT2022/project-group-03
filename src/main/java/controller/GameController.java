@@ -232,4 +232,10 @@ public class GameController {
     public static Unit getSelectedUnit() {
         return selectedUnit;
     }
+    public static int startProducing(String productIcon)
+    {
+//        if(productIcon.equals("SE"))
+//            selectedCity.p
+        return 0;
+    }
 }

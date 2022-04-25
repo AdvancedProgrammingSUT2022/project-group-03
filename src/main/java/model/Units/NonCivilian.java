@@ -75,4 +75,5 @@ public class NonCivilian extends Unit {
     {
         return unitType.movePoint;
     }
+
 }

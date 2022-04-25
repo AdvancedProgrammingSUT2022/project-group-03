@@ -1,6 +1,8 @@
 package model;
 
 import model.Units.Civilian;
+import model.Units.NonCivilian;
+import model.Units.NonCivilianUnitType;
 import model.Units.Unit;
 import model.tiles.Tile;
 
@@ -64,5 +66,12 @@ public class City{
     {
 
     }
+
+//    public static NonCivilian canCreateUnit(Tile tile, Civilization civilization, NonCivilianUnitType unitType)
+//    {
+//        if(unitType.get(unitType)>civilization.getGold())
+//            return null;
+//        return new NonCivilian(tile,civilization,unitType);
+//    }
 
 }
