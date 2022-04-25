@@ -102,8 +102,8 @@ public class Civilization {
         return user;
     }
 
-    public void setGold(int gold) {
-        this.gold = gold;
+    public void increaseGold(int gold) {
+        this.gold += gold;
     }
 
 
@@ -117,6 +117,7 @@ public class Civilization {
         turnOffTileConditionsBoolean();
         for(int i = 0 ; i < cities.size();i++)
             cities.get(i).startTheTurn();
+
         for(int i = 0 ; i < units.size();i++)
             units.get(i).startTheTurn();
     }

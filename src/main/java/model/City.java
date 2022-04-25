@@ -20,9 +20,11 @@ public class City{
     private ArrayList<Tile> tiles = new ArrayList<>();
     private Civilization founder;
     private int citizen;
-    private ArrayList<Tile> gettingWorkedOnByCitizensTiles;
-    public City(Tile tile,String name) {
+    private ArrayList<Tile> gettingWorkedOnByCitizensTiles = new ArrayList<>();
+    public City(Tile tile,String name,Civilization civilization) {
         this.mainTile = tile;
+        this.civilization =  civilization;
+        this.founder = civilization;
         this.name = name;
         this.tiles.add(mainTile);
         for(int i = 0; i < 6; i++)
@@ -30,8 +32,14 @@ public class City{
     }
 
     public void startTheTurn() {
-
+        for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
+            food += gettingWorkedOnByCitizensTile.getTileType().food;
+            production += gettingWorkedOnByCitizensTile.getTileType().production;
+            civilization.increaseGold(gettingWorkedOnByCitizensTile.getTileType().gold);
+        }
     }
+
+
 
     public ArrayList<Tile> getTiles() {
         return tiles;
@@ -62,7 +70,9 @@ public class City{
 
     public void assignCitizenToTiles(Tile originTile,Tile destinationTile)
     {
-
+        if(originTile == null) citizen--;
+        else gettingWorkedOnByCitizensTiles.remove(originTile);
+        gettingWorkedOnByCitizensTiles.add(destinationTile);
     }
 
 }

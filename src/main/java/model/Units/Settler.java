@@ -15,7 +15,7 @@ public class Settler extends Civilian {
 
     public void city()
     {
-        civilization.getCities().add(new City(this.currentTile , "Random name"));
+        civilization.getCities().add(new City(this.currentTile , "Random name",civilization));
     }
 
     @Override
