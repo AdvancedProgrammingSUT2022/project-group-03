@@ -3,7 +3,7 @@ package model.Units;
 import controller.GameController;
 import model.Civilization;
 import model.Map;
-import model.features.FeatureType;
+import model.FeatureType;
 import model.productable;
 import model.tiles.Tile;
 import model.tiles.TileType;
@@ -15,13 +15,15 @@ public abstract class Unit implements productable {
     private Tile destinationTile;
     private int movementPrice;
     private int health = 10;
+    protected UnitType unitType;
     private int XP;
     private boolean hasDoneAnything;
+
 
     public Unit(Tile tile, Civilization civilization) {
         this.currentTile = tile;
         this.civilization = civilization;
-        this.movementPrice = getDefaultMovementPrice();
+        this.movementPrice = unitType.getDefaultMovementPrice();
     }
 
     public int getHealth() {
@@ -33,8 +35,8 @@ public abstract class Unit implements productable {
     }
 
     @Override
-    public void getCost() {
-
+    public int getCost() {
+        return unitType.cost;
     }
 
     public void cancelMission() {
@@ -50,7 +52,7 @@ public abstract class Unit implements productable {
 //        health += ...
         if (health > 10)
             health = 10;
-        movementPrice = getDefaultMovementPrice();
+        movementPrice = unitType.getDefaultMovementPrice();
 
 
     }
@@ -71,8 +73,8 @@ public abstract class Unit implements productable {
             civilization.tileConditions[neighbourX][neighbourY] = new Civilization.TileCondition(currentTile.getNeighbours(i).CloneTile(), true);
             if (currentTile.getNeighbours(i).getTileType() == TileType.MOUNTAIN ||
                     currentTile.getNeighbours(i).getTileType() == TileType.HILL ||
-                    (currentTile.getNeighbours(i).getFeature() != null && (currentTile.getNeighbours(i).getFeature().getFeatureType() == FeatureType.FOREST ||
-                            currentTile.getNeighbours(i).getFeature().getFeatureType() == FeatureType.DENSEFOREST)))
+                    (currentTile.getNeighbours(i).getFeature() != null && (currentTile.getNeighbours(i).getFeature() == FeatureType.FOREST ||
+                            currentTile.getNeighbours(i).getFeature() == FeatureType.DENSEFOREST)))
                 continue;
             for (int j = 0; j < 6; j++) {
                 neighbourX = currentTile.getNeighbours(i).getNeighbours(j).getX();
@@ -85,7 +87,7 @@ public abstract class Unit implements productable {
 
 
     public boolean move(Tile destinationTile) {
-        Map.TileAndMP[] tileAndMPS = GameController.getMap().findNextTile(currentTile, movementPrice, destinationTile, this instanceof Civilian);
+        Map.TileAndMP[] tileAndMPS = GameController.getMap().findNextTile(currentTile, movementPrice, destinationTile, unitType.combatType==CombatType.CIVILIAN);
         this.destinationTile = destinationTile;
         if (tileAndMPS == null) {
             this.destinationTile = null;
@@ -106,7 +108,7 @@ public abstract class Unit implements productable {
             tempTile.setNonCivilian((NonCivilian) this);
         } else {
             this.currentTile.setCivilian(null);
-            tempTile.setCivilian((Civilian) this);
+            tempTile.setCivilian(this);
         }
         if (this.movementPrice != tempTile.getMovingPrice())
             this.movementPrice = tempTile.getMovingPrice();
@@ -122,5 +124,10 @@ public abstract class Unit implements productable {
         return movementPrice;
     }
 
-    protected abstract int getDefaultMovementPrice();
+
+
+
+    public UnitType getUnitType() {
+        return unitType;
+    }
 }

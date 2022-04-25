@@ -36,6 +36,7 @@ public class Civilization {
     private ArrayList<TechnologyType> researches = new ArrayList<>();
     private ArrayList<City> cities = new ArrayList<>();
     private int science;
+    private productable producingTechnology;
     private int happiness;
     private HashMap<ResourcesTypes, Integer> resourcesAmount = new HashMap<>();
     private Technology gettingResearchedTechnology;
@@ -102,8 +103,8 @@ public class Civilization {
         return user;
     }
 
-    public void setGold(int gold) {
-        this.gold = gold;
+    public void increaseGold(int gold) {
+        this.gold += gold;
     }
 
 
@@ -117,6 +118,7 @@ public class Civilization {
         turnOffTileConditionsBoolean();
         for(int i = 0 ; i < cities.size();i++)
             cities.get(i).startTheTurn();
+
         for(int i = 0 ; i < units.size();i++)
             units.get(i).startTheTurn();
     }
@@ -136,7 +138,6 @@ public class Civilization {
     {
 
     }
-
     public TileCondition[][] getTileConditions() {
         return tileConditions;
     }

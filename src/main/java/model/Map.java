@@ -2,8 +2,6 @@ package model;
 
 import model.Units.Unit;
 
-import model.features.Feature;
-import model.features.FeatureType;
 import model.tiles.Tile;
 import model.tiles.TileType;
 
@@ -71,7 +69,7 @@ public class Map {
             featureType = FeatureType.randomFeature();
         }
         if (random.nextInt(6) != 0) {
-            tiles[i][j].setFeature(new Feature(featureType));
+            tiles[i][j].setFeature(featureType);
         }
     }
 
@@ -218,7 +216,7 @@ public class Map {
                             if (isVisitedEver.containsKey(check) ||
                                     check.getTileType() == TileType.OCEAN ||
                                     check.getTileType() == TileType.MOUNTAIN ||
-                                    (check.getFeature() != null && check.getFeature().getFeatureType() == FeatureType.ICE))
+                                    (check.getFeature() != null && check.getFeature() == FeatureType.ICE))
                                 continue;
                             int remainingMP = visitedWithMove.get(c).get(visited[c].get(i)).movePoint - check.getMovingPrice();
                             if (remainingMP < 0 || visited[c].get(i).isRiverWithNeighbour(j)) remainingMP = 0;
@@ -308,15 +306,15 @@ public class Map {
                 if ((i + j % 2 - 1 < 0 || j >= y - 1 || i - 1 + j % 2 >= x) || tileConditions[i - 1 + j % 2][j + 1] == null ||
                         tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getCivilian() == null) iString = "    ";
                 else
-                    iString = " " + Color.RED + rightTileColor + tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getCivilian().getIcon() + " " + Color.RESET;
+                    iString = " " + Color.RED + rightTileColor + tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getCivilian().getUnitType().getIcon() + " " + Color.RESET;
                 if ((i + j % 2 < 1 || j >= y - 1 || i - 1 + j % 2 >= x) || tileConditions[i - 1 + j % 2][j + 1] == null ||
                         tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getNonCivilian() == null) jString = "  ";
                 else jString =
                         rightTileColor + " " + Color.getColorByNumber(tileConditions[i - 1 + j % 2][j + 1]
                                 .getOpenedArea().getNonCivilian().getCivilization().getColor()).toString() +
-                                rightTileColor + tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getNonCivilian().getIcon() + Color.RESET;
+                                rightTileColor + tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getNonCivilian().getUnitType().getIcon() + Color.RESET;
                 if (i < x && j < y && tileConditions[i][j] != null && tileConditions[i][j].getOpenedArea().getFeature() != null)
-                    cString = tileConditions[i][j].getOpenedArea().getFeature().getFeatureType().icon;
+                    cString = tileConditions[i][j].getOpenedArea().getFeature().icon;
                 else cString = "  ";
                 mapString.append("  ").append(color0).append("/").
                         append(Color.RESET).append(currentTileColor).append(" ").append(cString).append("  ").append(color2).append("\\")
@@ -383,14 +381,14 @@ public class Map {
                 else iString = currentTileColor + " " +
                         Color.getColorByNumber(tileConditions[i][j]
                                 .getOpenedArea().getCivilian().getCivilization().getColor()).toString() +
-                        currentTileColor + tileConditions[i][j].getOpenedArea().getCivilian().getIcon() + " " + Color.RESET;
+                        currentTileColor + tileConditions[i][j].getOpenedArea().getCivilian().getUnitType().getIcon() + " " + Color.RESET;
                 if (i >= x || j >= y || tileConditions[i][j] == null ||
                         tileConditions[i][j].getOpenedArea().getNonCivilian() == null) jString = "    ";
                 else jString = Color.getColorByNumber(tileConditions[i][j]
                         .getOpenedArea().getNonCivilian().getCivilization().getColor()).toString() +
-                        currentTileColor + " " + tileConditions[i][j].getOpenedArea().getNonCivilian().getIcon() + Color.RESET;
+                        currentTileColor + " " + tileConditions[i][j].getOpenedArea().getNonCivilian().getUnitType().getIcon() + Color.RESET;
                 if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null && tileConditions[i + j % 2][j + 1].getOpenedArea().getFeature() != null)
-                    cString = tileConditions[i + j % 2][j + 1].getOpenedArea().getFeature().getFeatureType().icon;
+                    cString = tileConditions[i + j % 2][j + 1].getOpenedArea().getFeature().icon;
                 else cString = "  ";
                 mapString.append(color0).append("\\")
                         .append(Color.RESET).append(currentTileColor).append(iString).append(",").append(jString)

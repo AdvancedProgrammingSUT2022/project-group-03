@@ -2,28 +2,21 @@ package model.tiles;
 
 import model.City;
 import model.Civilization;
-import model.Units.Civilian;
-import model.Units.NonCivilian;
-import model.features.Feature;
-import model.features.FeatureType;
+import model.Units.*;
+import model.FeatureType;
 import model.improvements.Improvement;
 import model.resources.Resource;
-import model.resources.ResourcesTypes;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Tile {
-    private static HashMap<TileType,ResourcesTypes[]> possibleResourceTypes;
     private boolean[] tilesWithRiver = new boolean[6];
     private TileType tileType;
     private Resource containedResource;
-    private Feature containedFeature;
+    private FeatureType containedFeature;
     private Improvement improvement;
     private final int x;
     private final int y;
     private Civilization civilization;
-    private Civilian civilian;
+    private Unit civilian;
     private NonCivilian nonCivilian;
     private City city;
     private int hasRoad;
@@ -47,11 +40,11 @@ public class Tile {
 
     public int getMovingPrice() {
         if(containedFeature!=null)
-            return tileType.movementPoint + containedFeature.getMovingPrice();
+            return tileType.movementPoint + containedFeature.movePoint;
         return tileType.movementPoint;
     }
 
-    public Civilian getCivilian() {
+    public Unit getCivilian() {
         return civilian;
     }
 
@@ -89,7 +82,7 @@ public class Tile {
     public TileType getTileType() {
         return tileType;
     }
-    public Feature getFeature() {
+    public FeatureType getFeature() {
         return containedFeature;
     }
 
@@ -102,7 +95,7 @@ public class Tile {
         this.y = y;
         this.tileType = tileType;
     }
-    public boolean setFeature(Feature feature){
+    public boolean setFeature(FeatureType feature){
         this.containedFeature = feature;
         return true;
     }
@@ -131,8 +124,9 @@ public class Tile {
         return false;
     }
 
-    public void setCivilian(Civilian civilian) {
-        this.civilian = civilian;
+    public void setCivilian(Unit unit) {
+        if(unit.getUnitType().combatType== CombatType.CIVILIAN)
+            this.civilian = unit;
     }
 
     public void setNonCivilian(NonCivilian nonCivilian) {

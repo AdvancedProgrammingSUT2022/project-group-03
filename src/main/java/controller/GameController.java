@@ -1,9 +1,10 @@
 package controller;
 
 import model.*;
-import model.Units.Civilian;
 import model.Units.Settler;
 import model.Units.Unit;
+import model.Units.UnitType;
+import model.technologies.TechnologyType;
 import model.tiles.Tile;
 import model.tiles.TileType;
 
@@ -26,7 +27,7 @@ public class GameController {
         for(int i = 0 ; i <PlayersNames.size(); i++)
             civilizations.get(i).tileConditions = new Civilization.TileCondition[map.getX()][map.getY()];
         //HARDCODE
-        Civilian hardcodeUnit = new Settler(map.coordinatesToTile(5,5),civilizations.get(0));
+        Settler hardcodeUnit = new Settler(map.coordinatesToTile(5,5),civilizations.get(0));
         civilizations.get(0).getUnits().add(hardcodeUnit);
         map.coordinatesToTile(5,5).setCivilian(hardcodeUnit);
 
@@ -216,7 +217,7 @@ public class GameController {
 
     public static void cheatSettler(int x, int y)
     {
-        Civilian hardcodeUnit = new Settler(map.coordinatesToTile(x,y),civilizations.get(playerTurn));
+        Settler hardcodeUnit = new Settler(map.coordinatesToTile(x,y),civilizations.get(playerTurn));
         civilizations.get(playerTurn).getUnits().add(hardcodeUnit);
         map.coordinatesToTile(x,y).setCivilian(hardcodeUnit);
     }
@@ -231,5 +232,19 @@ public class GameController {
 
     public static Unit getSelectedUnit() {
         return selectedUnit;
+    }
+    public static int startProducing(String productIcon)
+    {
+        UnitType tempType = UnitType.iconToType(productIcon);
+        if(productIcon==null)
+            return 1;
+        if(!selectedCity.createUnit(tempType))
+            return 2;
+        return 0;
+    }
+
+    public static ArrayList<TechnologyType> getCivilizationsResearches()
+    {
+        return civilizations.get(playerTurn).getResearches();
     }
 }
