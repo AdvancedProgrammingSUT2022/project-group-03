@@ -195,7 +195,13 @@ public class GameMenu extends Menu {
 
     }
 
-
+    private void selectedUnitInfo()
+    {
+        if(GameController.getSelectedUnit()==null)
+            System.out.println("no unit selected");
+        else
+            System.out.println("MP: " + GameController.getSelectedUnit().getMovementPrice());
+    }
     private void mapMove(String command) {
         Matcher matcher = getMatcher(regexes[6], command);
         if(matcher.group(2)==null)
@@ -223,7 +229,9 @@ public class GameMenu extends Menu {
                 "^NEXT TURN$",
                 "^MAP MOVE (R|L|U|D)( [0-9]+)?",
                 "^CHEAT CREATE SETTLER ([0-9]+) ([0-9]+)",
-                "^UNIT FOUND CITY$"
+                "^UNIT FOUND CITY$",
+                "^SELECTED UNIT INFO$"
+
         };
     }
     private void cheatSettler(String command)
@@ -266,6 +274,9 @@ public class GameMenu extends Menu {
                 break;
             case 8:
                 unitFoundCity();
+                break;
+            case 9:
+                selectedUnitInfo();
                 break;
         }
         System.out.println(GameController.printMap());

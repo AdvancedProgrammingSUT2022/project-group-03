@@ -46,9 +46,8 @@ public class Tile {
     }
 
     public int getMovingPrice() {
-//        if(containedFeature!=null)
-//            return tileType.movementPoint + containedFeature.getMovingPrice();
-        //TODO
+        if(containedFeature!=null)
+            return tileType.movementPoint + containedFeature.getMovingPrice();
         return tileType.movementPoint;
     }
 

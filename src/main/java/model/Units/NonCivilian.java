@@ -69,4 +69,10 @@ public class NonCivilian extends Unit {
     public String getIcon(){
         return  unitType.icon;
     }
+
+    @Override
+    protected int getDefaultMovementPrice()
+    {
+        return unitType.movePoint;
+    }
 }

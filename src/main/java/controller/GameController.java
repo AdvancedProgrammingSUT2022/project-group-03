@@ -228,4 +228,8 @@ public class GameController {
     {
         return map.printMap(civilizations.get(playerTurn).tileConditions,startWindowX, startWindowY);
     }
+
+    public static Unit getSelectedUnit() {
+        return selectedUnit;
+    }
 }
