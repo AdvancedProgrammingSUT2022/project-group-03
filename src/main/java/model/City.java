@@ -39,6 +39,22 @@ public class City {
             production += gettingWorkedOnByCitizensTile.getTileType().production;
             civilization.increaseGold(gettingWorkedOnByCitizensTile.getTileType().gold);
         }
+        if(product!=null)
+        {
+            int tempRemaining = remainingProduction;
+            remainingProduction -= production;
+            production -= tempRemaining;
+            if(production<=0)
+                production=0;
+            if(remainingProduction<=0)
+            {
+                if(product instanceof Unit)
+                    civilization.getUnits().add((Unit) product);
+                product = null;
+                remainingProduction=0;
+            }
+        }
+
     }
 
 

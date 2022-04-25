@@ -36,6 +36,7 @@ public class Civilization {
     private ArrayList<TechnologyType> researches = new ArrayList<>();
     private ArrayList<City> cities = new ArrayList<>();
     private int science;
+    private productable producingTechnology;
     private int happiness;
     private HashMap<ResourcesTypes, Integer> resourcesAmount = new HashMap<>();
     private Technology gettingResearchedTechnology;
@@ -137,7 +138,6 @@ public class Civilization {
     {
 
     }
-
     public TileCondition[][] getTileConditions() {
         return tileConditions;
     }

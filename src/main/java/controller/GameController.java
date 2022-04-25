@@ -4,6 +4,7 @@ import model.*;
 import model.Units.Settler;
 import model.Units.Unit;
 import model.Units.UnitType;
+import model.technologies.TechnologyType;
 import model.tiles.Tile;
 import model.tiles.TileType;
 
@@ -240,5 +241,10 @@ public class GameController {
         if(!selectedCity.createUnit(tempType))
             return 2;
         return 0;
+    }
+
+    public static ArrayList<TechnologyType> getCivilizationsResearches()
+    {
+        return civilizations.get(playerTurn).getResearches();
     }
 }

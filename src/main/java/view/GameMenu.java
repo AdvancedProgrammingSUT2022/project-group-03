@@ -219,6 +219,12 @@ public class GameMenu extends Menu {
         GameController.startProducing(matcher.group(1));
     }
 
+    private void technologyMenu()
+    {
+        ChooseTechnology chooseTechnology = new ChooseTechnology();
+        chooseTechnology.run(scanner);
+    }
+
     private void nextTurn() {
         if (GameController.nextTurn())
             System.out.println("turn ended successfully");
@@ -289,6 +295,10 @@ public class GameMenu extends Menu {
             case 10:
                 startProducing(command);
                 break;
+            case 11:
+                technologyMenu();
+                break;
+
         }
         System.out.println(GameController.printMap());
         return false;

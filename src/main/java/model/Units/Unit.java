@@ -3,7 +3,7 @@ package model.Units;
 import controller.GameController;
 import model.Civilization;
 import model.Map;
-import model.features.FeatureType;
+import model.FeatureType;
 import model.productable;
 import model.tiles.Tile;
 import model.tiles.TileType;
@@ -73,8 +73,8 @@ public abstract class Unit implements productable {
             civilization.tileConditions[neighbourX][neighbourY] = new Civilization.TileCondition(currentTile.getNeighbours(i).CloneTile(), true);
             if (currentTile.getNeighbours(i).getTileType() == TileType.MOUNTAIN ||
                     currentTile.getNeighbours(i).getTileType() == TileType.HILL ||
-                    (currentTile.getNeighbours(i).getFeature() != null && (currentTile.getNeighbours(i).getFeature().getFeatureType() == FeatureType.FOREST ||
-                            currentTile.getNeighbours(i).getFeature().getFeatureType() == FeatureType.DENSEFOREST)))
+                    (currentTile.getNeighbours(i).getFeature() != null && (currentTile.getNeighbours(i).getFeature() == FeatureType.FOREST ||
+                            currentTile.getNeighbours(i).getFeature() == FeatureType.DENSEFOREST)))
                 continue;
             for (int j = 0; j < 6; j++) {
                 neighbourX = currentTile.getNeighbours(i).getNeighbours(j).getX();
