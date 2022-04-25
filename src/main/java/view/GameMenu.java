@@ -222,6 +222,7 @@ public class GameMenu extends Menu {
     private void technologyMenu()
     {
         ChooseTechnology chooseTechnology = new ChooseTechnology();
+        chooseTechnology.printDetails();
         chooseTechnology.run(scanner);
     }
 

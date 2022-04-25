@@ -33,7 +33,7 @@ public class Civilization {
 
     private int gold;
     private ArrayList<Unit> units = new ArrayList<>();
-    private ArrayList<TechnologyType> researches = new ArrayList<>();
+    private ArrayList<Technology> researches = new ArrayList<>();
     private ArrayList<City> cities = new ArrayList<>();
     private int science;
     private productable producingTechnology;
@@ -46,7 +46,8 @@ public class Civilization {
         this.color = color;
         this.user= user;
         this.gold = 0;
-        researches.add(TechnologyType.AGRICULTURE);
+        researches.add(new Technology(TechnologyType.AGRICULTURE));
+        researches.get(0).changeRemainedScienceUntilCompleteTechnology(-researches.get(0).getRemainedScienceUntilCompleteTechnology());
     }
 
     public int getColor() {
@@ -96,7 +97,7 @@ public class Civilization {
         return units;
     }
 
-    public ArrayList<TechnologyType> getResearches() {
+    public ArrayList<Technology> getResearches() {
         return researches;
     }
 
@@ -146,8 +147,15 @@ public class Civilization {
     public boolean canBeTheNextResearch(TechnologyType technologyType)
     {
         for(int i = 0;i<TechnologyType.prerequisites.get(technologyType).size();i++)
-            if(!researches.contains(TechnologyType.prerequisites.get(technologyType).get(i)))
+            if(!doesContainTechnology(i,technologyType))
                 return false;
         return true;
+    }
+    private boolean doesContainTechnology(int j, TechnologyType technologyType)
+    {
+        for (Technology research : researches)
+            if (research.getTechnologyType() == TechnologyType.prerequisites.get(technologyType).get(j))
+                return true;
+        return false;
     }
 }

@@ -40,13 +40,6 @@ public enum UnitType {
         this.combatType = combatType;
     }
 
-    public static UnitType iconToType(String icon)
-    {
-        for (UnitType value : VALUES)
-            if(icon.equals(value.icon))
-                return value;
-        return null;
-    }
     public String getIcon(){
         return  icon;
     }

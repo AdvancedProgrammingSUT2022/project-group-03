@@ -1,40 +1,51 @@
 package view;
 
 import controller.GameController;
+import controller.TechnologyController;
+import model.technologies.Technology;
 import model.technologies.TechnologyType;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 
 public class ChooseTechnology extends Menu {
-
+    private ArrayList<TechnologyType> possibleTechnologies = new ArrayList<>();
     {
         regexes = new String[]{
                 "^menu exit$",
                 "^menu show-current$",
                 "^back$",
-                "",
-                ""
+                "^(\\d+)$"
         };
     }
-
-    private void printDetails() {
-        ArrayList<TechnologyType> researches = GameController.getCivilizationsResearches();
+    public void printDetails() {
+        ArrayList<Technology> researches = TechnologyController.getCivilizationsResearches();
         System.out.println("Finished researches: ");
-        ArrayList<TechnologyType> possibleTechnologies = new ArrayList<>();
         for (int i = 0; i < researches.size(); i++) {
-            System.out.println(i + 1 + ". " + researches.get(i));
-            for (int j = 0; j < TechnologyType.nextTech.get(researches.get(i)).size(); j++)
-                if (GameController.canBeTheNextResearch(TechnologyType.nextTech.get(researches.get(i)).get(j)))
-                    possibleTechnologies.add(TechnologyType.nextTech.get(researches.get(i)).get(j));
+            if(researches.get(i).getRemainedScienceUntilCompleteTechnology()>0)
+                continue;
+            System.out.println(i + 1 + ". " + researches.get(i).getTechnologyType());
+            for (int j = 0; j < TechnologyType.nextTech.get(researches.get(i).getTechnologyType()).size(); j++)
+                if (TechnologyController.
+                        canBeTheNextResearch(TechnologyType.nextTech.get(researches.get(i).getTechnologyType()).get(j)))
+                    possibleTechnologies.add(TechnologyType.nextTech.get(researches.get(i).getTechnologyType()).get(j));
         }
-        System.out.println("Possible next researches: ");
+        System.out.println("\nPossible next researches: ");
         for (int i = 0; i < possibleTechnologies.size(); i++)
             System.out.println(i + 1 + ". " + possibleTechnologies.get(i));
+    }
+    private void addTechnologyToProduction(String command)
+    {
+        Matcher matcher = getMatcher(regexes[3],command);
+        int entryNumber = Integer.parseInt(matcher.group(1));
+        if(TechnologyController.addTechnologyToProduction(possibleTechnologies,entryNumber))
+            System.out.println(possibleTechnologies.get(entryNumber-1) + "'s production started successfully");
+        else
+            System.out.println("Invalid number");
     }
 
     @Override
     protected boolean commands(String command) {
-        printDetails();
         commandNumber = getCommandNumber(command, regexes);
         switch (commandNumber) {
             case -1:
@@ -49,6 +60,10 @@ public class ChooseTechnology extends Menu {
                 break;
             case 2:
                 return true;
+            case 3:
+                addTechnologyToProduction(command);
+                break;
+
         }
         return false;
     }

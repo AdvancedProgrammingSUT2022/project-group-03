@@ -11,4 +11,16 @@ public class Technology {
         this.technologyType = technologyType;
         remainedScienceUntilCompleteTechnology = technologyType.cost;
     }
+
+    public TechnologyType getTechnologyType() {
+        return technologyType;
+    }
+
+    public int getRemainedScienceUntilCompleteTechnology() {
+        return remainedScienceUntilCompleteTechnology;
+    }
+
+    public void changeRemainedScienceUntilCompleteTechnology(int remainedScienceUntilCompleteTechnology) {
+        this.remainedScienceUntilCompleteTechnology += remainedScienceUntilCompleteTechnology;
+    }
 }
