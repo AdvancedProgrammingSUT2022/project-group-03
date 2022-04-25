@@ -1,7 +1,6 @@
 package model.Units;
 
 import model.Civilization;
-import model.Color;
 import model.resources.Resource;
 import model.technologies.TechnologyType;
 import model.tiles.Tile;
@@ -10,38 +9,16 @@ import java.util.HashMap;
 
 
 public class NonCivilian extends Unit {
-    private static HashMap<NonCivilianUnitType, Integer> cost;
-    private static HashMap<NonCivilianUnitType,TechnologyType> prerequisitesTechnologies;
-    private static HashMap<NonCivilianUnitType,Integer> range;
-    private static HashMap<NonCivilianUnitType,Integer> rangedCombatStrength;
-    private static HashMap<NonCivilianUnitType,Integer> combatStrength;
-    private static HashMap<NonCivilianUnitType,CombatType> combatType;
-    private static HashMap<NonCivilianUnitType,Resource> resources;
+    private static HashMap<UnitType,TechnologyType> prerequisitesTechnologies;
+    private static HashMap<UnitType,Integer> range;
+    private static HashMap<UnitType,Integer> rangedCombatStrength;
+    private static HashMap<UnitType,Integer> combatStrength;
+    private static HashMap<UnitType,CombatType> combatType;
+    private static HashMap<UnitType,Resource> resources;
     private int fortifiedCycle = 0;
-    private NonCivilianUnitType unitType;
-    private boolean isReady;
-    private boolean isGarrisoned;
-    private boolean isFortifiedUntilCompleteHealth;
-    private boolean isOnAlert = false;
-    static
-    {
-        cost.put(NonCivilianUnitType.Archer, 3);
-        //
-        //
-        //
-        //
-        //
-    }
 
-    public NonCivilianUnitType getUnitType() {
+    public UnitType getUnitType() {
         return unitType;
-    }
-
-    public static NonCivilian canCreateUnit(Tile tile, Civilization civilization, NonCivilianUnitType unitType)
-    {
-        if(cost.get(unitType)>civilization.getGold())
-            return null;
-        return new NonCivilian(tile,civilization,unitType);
     }
 
 
@@ -52,7 +29,7 @@ public class NonCivilian extends Unit {
     {
         return true;
     }
-    public NonCivilian(Tile tile, Civilization civilization, NonCivilianUnitType unitType) {
+    public NonCivilian(Tile tile, Civilization civilization, UnitType unitType) {
         super(tile, civilization);
         this.unitType = unitType;
 
@@ -66,14 +43,4 @@ public class NonCivilian extends Unit {
         if (fortifiedCycle == 0)
             return;
     }
-    public String getIcon(){
-        return  unitType.icon;
-    }
-
-    @Override
-    protected int getDefaultMovementPrice()
-    {
-        return unitType.movePoint;
-    }
-
 }

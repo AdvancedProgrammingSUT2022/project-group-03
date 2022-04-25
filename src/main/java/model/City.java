@@ -1,14 +1,11 @@
 package model;
 
-import model.Units.Civilian;
-import model.Units.NonCivilian;
-import model.Units.NonCivilianUnitType;
-import model.Units.Unit;
+import model.Units.*;
 import model.tiles.Tile;
 
 import java.util.ArrayList;
 
-public class City{
+public class City {
     private final String name;
     private int remainingProduction;
     private int strength;
@@ -18,16 +15,18 @@ public class City{
     private int HP = 20;
     private int food;
     private int population;
+    private productable product;
     private int production;
     private ArrayList<Tile> tiles = new ArrayList<>();
     private Civilization founder;
     private int citizen;
     private ArrayList<Tile> gettingWorkedOnByCitizensTiles;
-    public City(Tile tile,String name) {
+
+    public City(Tile tile, String name) {
         this.mainTile = tile;
         this.name = name;
         this.tiles.add(mainTile);
-        for(int i = 0; i < 6; i++)
+        for (int i = 0; i < 6; i++)
             this.tiles.add(mainTile.getNeighbours(i));
     }
 
@@ -39,39 +38,44 @@ public class City{
         return tiles;
     }
 
-    private void countTheTotalOfCityResources()
-    {
+    private void countTheTotalOfCityResources() {
 
     }
+
     public boolean buildWall() {
         return false;
     }
 
-    public boolean defense(Unit attackers)
-    {
+    public boolean defense(Unit attackers) {
         return false;
     }
 
-    public void attack(Tile tile)
-    {
+    public void attack(Tile tile) {
 
     }
 
-    public void buyTile(Tile tile)
-    {
+    public void buyTile(Tile tile) {
 
     }
 
-    public void assignCitizenToTiles(Tile originTile,Tile destinationTile)
-    {
+    public void assignCitizenToTiles(Tile originTile, Tile destinationTile) {
 
     }
 
-//    public static NonCivilian canCreateUnit(Tile tile, Civilization civilization, NonCivilianUnitType unitType)
-//    {
-//        if(unitType.get(unitType)>civilization.getGold())
-//            return null;
-//        return new NonCivilian(tile,civilization,unitType);
-//    }
+    public boolean createUnit(UnitType unitType) {
+        if (unitType.cost > civilization.getGold())
+            return false;
+        if (unitType.combatType == CombatType.CIVILIAN) {
+            if (unitType == UnitType.Settler) {
+                product = new Settler(mainTile, civilization);
+                return true;
+            }
+            product = new Worker(mainTile, civilization);
+            return true;
+        }
+        product = new NonCivilian(mainTile, civilization, unitType);
+        remainingProduction = product.getCost();
+        return true;
+    }
 
 }

@@ -1,7 +1,6 @@
 package view;
 
 import controller.GameController;
-import model.Units.Civilian;
 import model.Units.NonCivilian;
 import model.Units.Settler;
 
@@ -217,7 +216,7 @@ public class GameMenu extends Menu {
     private void startProducing(String command)
     {
         Matcher matcher = getMatcher(regexes[10],command);
-        startProducing(matcher.group(1));
+        GameController.startProducing(matcher.group(1));
     }
 
     private void nextTurn() {
