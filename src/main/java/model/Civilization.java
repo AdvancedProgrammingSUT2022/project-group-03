@@ -36,7 +36,7 @@ public class Civilization {
     private ArrayList<Technology> researches = new ArrayList<>();
     private ArrayList<City> cities = new ArrayList<>();
     private int science;
-    private productable producingTechnology;
+    private producible producingTechnology;
     private int happiness;
     private HashMap<ResourcesTypes, Integer> resourcesAmount = new HashMap<>();
     private Technology gettingResearchedTechnology;
@@ -47,7 +47,7 @@ public class Civilization {
         this.user= user;
         this.gold = 0;
         researches.add(new Technology(TechnologyType.AGRICULTURE));
-        researches.get(0).changeRemainedScienceUntilCompleteTechnology(-researches.get(0).getRemainedScienceUntilCompleteTechnology());
+        researches.get(0).changeRemainedCost(-researches.get(0).getRemainedCost());
     }
 
     public int getColor() {
@@ -63,7 +63,6 @@ public class Civilization {
         }
         return false;
     }
-
     public void setGettingResearchedTechnology(Technology gettingResearchedTechnology) {
         this.gettingResearchedTechnology = gettingResearchedTechnology;
     }
@@ -79,6 +78,11 @@ public class Civilization {
                 if(tileConditions[i][j]!=null)
                     tileConditions[i][j].isClear=false;
     }
+
+    public int getScience() {
+        return science;
+    }
+
     public City findCityByName(String name)
     {
         return null;
@@ -109,6 +113,9 @@ public class Civilization {
         this.gold += gold;
     }
 
+    public HashMap<ResourcesTypes, Integer> getResourcesAmount() {
+        return resourcesAmount;
+    }
 
     public int getGold() {
         return gold;
@@ -116,7 +123,7 @@ public class Civilization {
 
     public void startTheTurn()
     {
-
+        //initialize
         turnOffTileConditionsBoolean();
         for(int i = 0 ; i < cities.size();i++)
             cities.get(i).startTheTurn();
@@ -127,6 +134,7 @@ public class Civilization {
 
     public void endTheTurn()
     {
+        //using
         for(int i = 0 ; i < units.size();i++)
             units.get(i).endTheTurn();
     }
@@ -147,14 +155,22 @@ public class Civilization {
     public boolean canBeTheNextResearch(TechnologyType technologyType)
     {
         for(int i = 0;i<TechnologyType.prerequisites.get(technologyType).size();i++)
-            if(!doesContainTechnology(i,technologyType))
+            if(!canTechnologyBeAchivedNext(i,technologyType))
                 return false;
         return true;
     }
-    private boolean doesContainTechnology(int j, TechnologyType technologyType)
+    private boolean canTechnologyBeAchivedNext(int j, TechnologyType technologyType)
     {
         for (Technology research : researches)
             if (research.getTechnologyType() == TechnologyType.prerequisites.get(technologyType).get(j))
+                return true;
+        return false;
+    }
+
+    public boolean doesContainTechnology(TechnologyType technologyType)
+    {
+        for (Technology research : researches)
+            if (research.getTechnologyType() == technologyType)
                 return true;
         return false;
     }

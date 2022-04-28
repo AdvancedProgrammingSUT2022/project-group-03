@@ -4,11 +4,11 @@ import controller.GameController;
 import model.Civilization;
 import model.Map;
 import model.FeatureType;
-import model.productable;
+import model.producible;
 import model.tiles.Tile;
 import model.tiles.TileType;
 
-public abstract class Unit implements productable {
+public abstract class Unit implements producible {
     protected Civilization civilization;
     private static int state;
     protected Tile currentTile;
@@ -18,12 +18,13 @@ public abstract class Unit implements productable {
     protected UnitType unitType;
     private int XP;
     private boolean hasDoneAnything;
-
+    public int remainedCost;
 
     public Unit(Tile tile, Civilization civilization, UnitType unitType) {
         this.currentTile = tile;
         this.civilization = civilization;
         this.movementPrice = unitType.getDefaultMovementPrice();
+        this.remainedCost = unitType.cost;
     }
 
     public int getHealth() {
@@ -126,7 +127,10 @@ public abstract class Unit implements productable {
 
 
 
-
+    public int getRemainedCost()
+    {
+        return remainedCost;
+    }
     public UnitType getUnitType() {
         return unitType;
     }

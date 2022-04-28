@@ -1,6 +1,7 @@
 package view;
 
 import controller.GameController;
+import model.City;
 import model.Units.NonCivilian;
 import model.Units.Settler;
 
@@ -246,13 +247,41 @@ public class GameMenu extends Menu {
                 "^UNIT FOUND CITY$",
                 "^SELECTED UNIT INFO$",
                 "^START PRODUCING (\\w+)$",
-                "^menu enter Technologies$"
+                "^menu enter Technologies$",
+                "^menu enter CityProduction$",
+                "^city show details$", //13
         };
     }
     private void cheatSettler(String command)
     {
         Matcher matcher = getMatcher(regexes[7], command);
         GameController.cheatSettler(Integer.parseInt(matcher.group(1)),Integer.parseInt(matcher.group(2)));
+    }
+    private void cityShowDetails()
+    {
+        City city = GameController.getSelectedCity();
+        if(city==null)
+        {
+            System.out.println("no city is selected");
+            return;
+        }
+        System.out.println("name: " + city.getName());
+        System.out.println("founder: " + city.getFounder().getUser().getNickname());
+        if(city.getCivilization()==GameController.getCivilizations().get(GameController.getPlayerTurn()))
+        {
+            System.out.println("gold: " + city.getGold());
+            System.out.println("production: " + city.getProduction());
+            System.out.println("food: " + city.getFood());
+            System.out.println("population: " + city.getPopulation());
+            System.out.println("citizens: " + city.getCitizen());
+            System.out.print("getting worked on tiles: ");
+            for(int i =0;i<city.getGettingWorkedOnByCitizensTiles().size();i++)
+                System.out.print(city.getGettingWorkedOnByCitizensTiles().get(i).getX() + "," +
+                        city.getGettingWorkedOnByCitizensTiles().get(i).getY() + "   |   ");
+            System.out.print("\nHP: " + city.getHP());
+            System.out.println("strength: " + city.getStrength());
+        }
+
     }
 
     @Override
@@ -298,6 +327,10 @@ public class GameMenu extends Menu {
                 break;
             case 11:
                 technologyMenu();
+                break;
+
+            case 13:
+                cityShowDetails();
                 break;
 
         }

@@ -7,16 +7,32 @@
     <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/TechnologyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/TechnologyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Civilization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/UnitType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/UnitType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/productable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/producible.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/technologies/Technology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/technologies/Technology.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/ChooseTechnology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ChooseTechnology.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/CityCreateMenu.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/GameController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ProductionCityMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ProductionCityMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/TechnologyController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/TechnologyController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/City.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/City.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/model/Civilization.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Civilization.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/technologies/Technology.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/technologies/Technology.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map$BestMoveClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map$BestMoveClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map$TileAndMP.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map$TileAndMP.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/UnitType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/UnitType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/users.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/ChooseTechnology.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/ChooseTechnology.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/CityCreateMenu.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/ProductionCityMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/ProductionCityMenu.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +84,7 @@
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="Civilization" />
+      <module name="project-group-03" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>

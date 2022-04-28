@@ -15,12 +15,17 @@ public class City {
     private int HP = 20;
     private int food;
     private int population;
-    private productable product;
+    private producible product;
     private int production;
     private ArrayList<Tile> tiles = new ArrayList<>();
     private Civilization founder;
     private int citizen;
-
+    public String getName() {
+        return name;
+    }
+    public Civilization getFounder() {
+        return founder;
+    }
     private ArrayList<Tile> gettingWorkedOnByCitizensTiles = new ArrayList<>();
     public City(Tile tile,String name,Civilization civilization) {
 
@@ -57,7 +62,34 @@ public class City {
 
     }
 
+    public int getGold()
+    {
+        return 0;
+    }
 
+    public int getProduction() {
+        return production;
+    }
+
+    public int getFood() {
+        return food;
+    }
+
+    public producible getProduct() {
+        return product;
+    }
+
+    public int getPopulation() {
+        return population;
+    }
+    public int getCitizen() {
+        return citizen;
+    }
+
+
+    public ArrayList<Tile> getGettingWorkedOnByCitizensTiles() {
+        return gettingWorkedOnByCitizensTiles;
+    }
 
     public ArrayList<Tile> getTiles() {
         return tiles;
@@ -83,8 +115,19 @@ public class City {
 
     }
 
+    public int getHP() {
+        return HP;
+    }
 
-    public void assignCitizenToTiles(Tile originTile,Tile destinationTile) {
+    public int getStrength() {
+        return strength;
+    }
+
+    public Civilization getCivilization() {
+        return civilization;
+    }
+
+    public void assignCitizenToTiles(Tile originTile, Tile destinationTile) {
         if (originTile == null) citizen--;
         else gettingWorkedOnByCitizensTiles.remove(originTile);
         gettingWorkedOnByCitizensTiles.add(destinationTile);
