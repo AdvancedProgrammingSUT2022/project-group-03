@@ -33,7 +33,7 @@ public class Civilization {
 
     private int gold;
     private ArrayList<Unit> units = new ArrayList<>();
-    private ArrayList<TechnologyType> researches = new ArrayList<>();
+    private ArrayList<Technology> researches = new ArrayList<>();
     private ArrayList<City> cities = new ArrayList<>();
     private int science;
     private productable producingTechnology;
@@ -46,7 +46,7 @@ public class Civilization {
         this.color = color;
         this.user= user;
         this.gold = 0;
-        researches.add(TechnologyType.AGRICULTURE);
+        researches.add(new Technology(TechnologyType.AGRICULTURE));
     }
 
     public int getColor() {
@@ -61,6 +61,15 @@ public class Civilization {
             }
         }
         return false;
+    }
+    //TODO CHECK KARDAN 0 NABOODAN SCIENCE DAR MOHASEBE ROOZ
+
+    public HashMap<ResourcesTypes, Integer> getResourcesAmount() {
+        return resourcesAmount;
+    }
+
+    public HashMap<ResourcesTypes, Boolean> getUsedLuxuryResources() {
+        return usedLuxuryResources;
     }
 
     public void setGettingResearchedTechnology(Technology gettingResearchedTechnology) {
@@ -96,7 +105,7 @@ public class Civilization {
         return units;
     }
 
-    public ArrayList<TechnologyType> getResearches() {
+    public ArrayList<Technology> getResearches() {
         return researches;
     }
 

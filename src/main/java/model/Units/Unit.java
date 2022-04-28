@@ -70,7 +70,7 @@ public abstract class Unit implements productable {
         for (int i = 0; i < 6; i++) {
             int neighbourX = currentTile.getNeighbours(i).getX();
             int neighbourY = currentTile.getNeighbours(i).getY();
-            civilization.tileConditions[neighbourX][neighbourY] = new Civilization.TileCondition(currentTile.getNeighbours(i).CloneTile(), true);
+            civilization.tileConditions[neighbourX][neighbourY] = new Civilization.TileCondition(currentTile.getNeighbours(i).CloneTileForCivilization(civilization.getResearches()), true);
             if (currentTile.getNeighbours(i).getTileType() == TileType.MOUNTAIN ||
                     currentTile.getNeighbours(i).getTileType() == TileType.HILL ||
                     (currentTile.getNeighbours(i).getFeature() != null && (currentTile.getNeighbours(i).getFeature() == FeatureType.FOREST ||
@@ -79,10 +79,10 @@ public abstract class Unit implements productable {
             for (int j = 0; j < 6; j++) {
                 neighbourX = currentTile.getNeighbours(i).getNeighbours(j).getX();
                 neighbourY = currentTile.getNeighbours(i).getNeighbours(j).getY();
-                civilization.tileConditions[neighbourX][neighbourY] = new Civilization.TileCondition(currentTile.getNeighbours(i).getNeighbours(j).CloneTile(), true);
+                civilization.tileConditions[neighbourX][neighbourY] = new Civilization.TileCondition(currentTile.getNeighbours(i).getNeighbours(j).CloneTileForCivilization(civilization.getResearches()), true);
             }
         }
-        civilization.tileConditions[currentTile.getX()][currentTile.getY()] = new Civilization.TileCondition(currentTile.CloneTile(), true);
+        civilization.tileConditions[currentTile.getX()][currentTile.getY()] = new Civilization.TileCondition(currentTile.CloneTileForCivilization(civilization.getResearches()), true);
     }
 
 

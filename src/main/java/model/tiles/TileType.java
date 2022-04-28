@@ -33,10 +33,10 @@ public enum TileType {
             new ResourcesTypes[]{ResourcesTypes.IRON,ResourcesTypes.HORSE,ResourcesTypes.DEER,ResourcesTypes.SILVER,ResourcesTypes.GEMSTONE,ResourcesTypes.MARBLE,ResourcesTypes.FUR},
             new ImprovementType[]{ImprovementType.CAMP,ImprovementType.MINE,ImprovementType.PASTURE,ImprovementType.QUARRY,ImprovementType.TRADING_POST,ImprovementType.FACTORY});
     private static final List<TileType> VALUES = List.of(values());
-    private final ResourcesTypes[] RESOURCES;
     private static final int SIZE = VALUES.size();
     private static final Random RANDOM = new Random();
     public final FeatureType[] featureTypes;
+    public final ResourcesTypes[] resourcesTypes;
     public final String icon;
     public final int movementPoint;
     public final int combatChange;
@@ -56,7 +56,8 @@ public enum TileType {
         this.food = food;
         this.gold = gold;
         this.production = production;
-        this.RESOURCES = resources;
+        this.resourcesTypes = resources;
         this.improvementTypes=improvementTypes;
     }
+
 }

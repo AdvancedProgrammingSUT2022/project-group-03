@@ -4,6 +4,7 @@ import model.*;
 import model.Units.Settler;
 import model.Units.Unit;
 import model.Units.UnitType;
+import model.technologies.Technology;
 import model.technologies.TechnologyType;
 import model.tiles.Tile;
 import model.tiles.TileType;
@@ -27,7 +28,7 @@ public class GameController {
         for(int i = 0 ; i <PlayersNames.size(); i++)
             civilizations.get(i).tileConditions = new Civilization.TileCondition[map.getX()][map.getY()];
         //HARDCODE
-        Settler hardcodeUnit = new Settler(map.coordinatesToTile(5,5),civilizations.get(0),UnitType.Settler);
+        Settler hardcodeUnit = new Settler(map.coordinatesToTile(2,5),civilizations.get(0),UnitType.Settler);
         civilizations.get(0).getUnits().add(hardcodeUnit);
         map.coordinatesToTile(2,5).setCivilian(hardcodeUnit);
 
@@ -243,7 +244,7 @@ public class GameController {
         return 0;
     }
 
-    public static ArrayList<TechnologyType> getCivilizationsResearches()
+    public static ArrayList<Technology> getCivilizationsResearches()
     {
         return civilizations.get(playerTurn).getResearches();
     }

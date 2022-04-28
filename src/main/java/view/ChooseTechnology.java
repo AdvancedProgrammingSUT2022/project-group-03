@@ -1,6 +1,7 @@
 package view;
 
 import controller.GameController;
+import model.technologies.Technology;
 import model.technologies.TechnologyType;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class ChooseTechnology extends Menu {
     }
 
     private void printDetails() {
-        ArrayList<TechnologyType> researches = GameController.getCivilizationsResearches();
+        ArrayList<Technology> researches = GameController.getCivilizationsResearches();
         System.out.println("Finished researches: ");
         ArrayList<TechnologyType> possibleTechnologies = new ArrayList<>();
         for (int i = 0; i < researches.size(); i++) {

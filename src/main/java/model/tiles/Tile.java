@@ -5,12 +5,15 @@ import model.Civilization;
 import model.Units.*;
 import model.FeatureType;
 import model.improvements.Improvement;
-import model.resources.Resource;
+import model.resources.ResourcesTypes;
+import model.technologies.Technology;
+
+import java.util.ArrayList;
 
 public class Tile {
     private boolean[] tilesWithRiver = new boolean[6];
     private TileType tileType;
-    private Resource containedResource;
+    private ResourcesTypes containedResource;
     private FeatureType containedFeature;
     private Improvement improvement;
     private final int x;
@@ -24,7 +27,7 @@ public class Tile {
     static {
         //hashmap set
     }
-    private final Tile[] neighbours = new Tile[6];// L , clockwise
+    private final Tile[] neighbours = new Tile[6];// LU, clockwise
 
     public int getX() {
         return x;
@@ -86,7 +89,7 @@ public class Tile {
         return containedFeature;
     }
 
-    public Resource getResources() {
+    public ResourcesTypes getResources() {
         return containedResource;
     }
 
@@ -95,9 +98,8 @@ public class Tile {
         this.y = y;
         this.tileType = tileType;
     }
-    public boolean setFeature(FeatureType feature){
+    public void setFeature(FeatureType feature){
         this.containedFeature = feature;
-        return true;
     }
 
 
@@ -117,11 +119,20 @@ public class Tile {
         }
         return false;
     }
-    public boolean setResource(Resource resource){
-//        if(isResourceValid(resource)){
-//            return true;
-//        }
+    public boolean isResourceTypeValid(ResourcesTypes resourcesType){
+        ResourcesTypes[] list1 = tileType.resourcesTypes;
+        ResourcesTypes[] list2 = new ResourcesTypes[1];
+        if(containedFeature != null)  list2 = containedFeature.resourcesTypes;
+        for (ResourcesTypes types : list1) {
+            if(types == resourcesType) return true;
+        }
+        for (ResourcesTypes types : list2) {
+            if(types == resourcesType) return true;
+        }
         return false;
+    }
+    public void setResource(ResourcesTypes resource){
+        this.containedResource = resource;
     }
 
     public void setCivilian(Unit unit) {
@@ -133,12 +144,13 @@ public class Tile {
         this.nonCivilian = nonCivilian;
     }
 
-    public Tile CloneTile()
-    {
-        Tile newTile = new Tile(this.tileType,this.x,this.y);
-        newTile.tilesWithRiver = this.tilesWithRiver.clone();
+    public Tile CloneTileForCivilization(ArrayList<Technology> technologies) {
+        Tile newTile = new Tile(this.tileType, this.x, this.y);
+        newTile.tilesWithRiver = this.tilesWithRiver;
         newTile.containedResource = this.containedResource;
-        newTile.containedFeature = this.containedFeature;
+        if(containedResource != null && containedResource.IsTechnologyUnlocked(technologies))
+            newTile.containedResource = this.containedResource;
+        else newTile.containedFeature = null;
         newTile.improvement = this.improvement;
         newTile.civilization = this.civilization;
         newTile.civilian = this.civilian;

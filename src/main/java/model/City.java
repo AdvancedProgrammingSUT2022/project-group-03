@@ -1,6 +1,7 @@
 package model;
 
 import model.Units.*;
+import model.resources.ResourcesTypes;
 import model.tiles.Tile;
 
 import java.util.ArrayList;
@@ -32,14 +33,28 @@ public class City {
         for (int i = 0; i < 6; i++)
             this.tiles.add(mainTile.getNeighbours(i));
     }
-
     public void startTheTurn() {
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
-            food += gettingWorkedOnByCitizensTile.getTileType().food;
-            production += gettingWorkedOnByCitizensTile.getTileType().production;
-            civilization.increaseGold(gettingWorkedOnByCitizensTile.getTileType().gold);
+            if(!civilization.getResourcesAmount().containsKey(gettingWorkedOnByCitizensTile.getResources()))
+                civilization.getResourcesAmount().put(gettingWorkedOnByCitizensTile.getResources(),1);
+            else {
+                int temp = civilization.getResourcesAmount().get(gettingWorkedOnByCitizensTile.getResources());
+                civilization.getResourcesAmount().remove(gettingWorkedOnByCitizensTile.getResources());
+                civilization.getResourcesAmount().put(gettingWorkedOnByCitizensTile.getResources(),temp);
+            }
+            food += gettingWorkedOnByCitizensTile.getTileType().food
+                    + gettingWorkedOnByCitizensTile.getFeature().food;
+            //todo resources;
+            production += gettingWorkedOnByCitizensTile.getTileType().production
+                    + gettingWorkedOnByCitizensTile.getFeature().production;
+            int temp =0;
+            for (int i = 0; i < 6; i++) {
+                if(gettingWorkedOnByCitizensTile.isRiverWithNeighbour(i)) temp += 1;
+            }
+            civilization.increaseGold(gettingWorkedOnByCitizensTile.getTileType().gold
+                    +gettingWorkedOnByCitizensTile.getFeature().gold + temp);
         }
-        if(product!=null)
+        if(product!=null )
         {
             int tempRemaining = remainingProduction;
             remainingProduction -= production;
