@@ -55,6 +55,7 @@ public class City {
                     +gettingWorkedOnByCitizensTile.getFeature().gold + temp);
         }
         if(product!=null )
+
         {
             int tempRemaining = remainingProduction;
             remainingProduction -= production;

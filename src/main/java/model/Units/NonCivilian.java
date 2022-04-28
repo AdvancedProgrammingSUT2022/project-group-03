@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 
 public class NonCivilian extends Unit {
+
     private int fortifiedCycle = 0;
 
     public UnitType getUnitType() {

@@ -145,10 +145,8 @@ public class Civilization {
 
     }
 
-    private void countTheTotalOfCityResources()
-    {
 
-    }
+
     public TileCondition[][] getTileConditions() {
         return tileConditions;
     }

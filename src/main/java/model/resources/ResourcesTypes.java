@@ -40,6 +40,7 @@ public enum ResourcesTypes {
         return VALUES.get(RANDOM.nextInt(SIZE));
     }
 
+
     public boolean IsTechnologyUnlocked(ArrayList<Technology> technologies){
         //TODO TECH CHECK
         return true;
