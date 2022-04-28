@@ -1,6 +1,5 @@
 package view;
 
-import controller.GameController;
 import controller.TechnologyController;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;
@@ -21,8 +20,14 @@ public class ChooseTechnology extends Menu {
     public void printDetails() {
         ArrayList<Technology> researches = TechnologyController.getCivilizationsResearches();
         System.out.println("Finished researches: ");
+        TechnologyType.prerequisites.forEach((k,v)->{
+            System.out.println(k + ":");
+            for (TechnologyType technologyType : v)
+                System.out.println(technologyType);
+            System.out.println("");
+        });
         for (int i = 0; i < researches.size(); i++) {
-            if(researches.get(i).getRemainedScienceUntilCompleteTechnology()>0)
+            if(researches.get(i).getRemainedCost()>0)
                 continue;
             System.out.println(i + 1 + ". " + researches.get(i).getTechnologyType());
             for (int j = 0; j < TechnologyType.nextTech.get(researches.get(i).getTechnologyType()).size(); j++)
@@ -32,7 +37,14 @@ public class ChooseTechnology extends Menu {
         }
         System.out.println("\nPossible next researches: ");
         for (int i = 0; i < possibleTechnologies.size(); i++)
-            System.out.println(i + 1 + ". " + possibleTechnologies.get(i));
+        {
+            int cyclesToComplete = TechnologyController.cyclesToComplete(possibleTechnologies.get(i));
+            if(cyclesToComplete ==12345)
+                System.out.println(i + 1 + ". " + possibleTechnologies.get(i) + ": never, your science is 0");
+            else
+                System.out.println(i + 1 + ". " + possibleTechnologies.get(i) + ": " + cyclesToComplete);
+
+        }
     }
     private void addTechnologyToProduction(String command)
     {

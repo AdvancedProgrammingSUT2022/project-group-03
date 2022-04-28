@@ -36,6 +36,10 @@ public class GameController {
         //
     }
 
+    public static City getSelectedCity() {
+        return selectedCity;
+    }
+
     public static boolean setSelectedCombatUnit(int x, int y) {
         if (map.coordinatesToTile(x, y).getNonCivilian() == null ||
                 map.coordinatesToTile(x, y).getNonCivilian().getCivilization() != civilizations.get(playerTurn))
@@ -200,7 +204,8 @@ public class GameController {
         playerTurn = (playerTurn + 1) % civilizations.size();
         setUnfinishedTasks();
         civilizations.get(playerTurn).startTheTurn();
-
+        selectedCity = null;
+        selectedUnit = null;
 
         return true;
     }
