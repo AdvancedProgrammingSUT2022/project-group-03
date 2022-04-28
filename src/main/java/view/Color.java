@@ -1,4 +1,4 @@
-package model;
+package view;
 
 public enum Color {
     //Color end string, color reset
@@ -82,17 +82,17 @@ public enum Color {
     public static Color getColorByNumber(int i){
         switch (i){
             case 0:
-                return RED;
+                return RED_BOLD_BRIGHT;
             case 1:
-                return GREEN;
+                return GREEN_BOLD_BRIGHT;
             case 2:
-                return YELLOW;
+                return YELLOW_BOLD_BRIGHT;
             case 3:
-                return BLUE;
+                return BLUE_BOLD_BRIGHT;
             case 4:
-                return MAGENTA;
+                return MAGENTA_BOLD_BRIGHT;
             case 5:
-                return CYAN;
+                return CYAN_BOLD_BRIGHT;
         }
         return null;
     }
@@ -112,6 +112,9 @@ public enum Color {
                 return CYAN_BACKGROUND;
         }
         return null;
+    }
+    public static boolean isBrightBackground(Color color){
+        return color.code.startsWith("\033[1;9");
     }
     @Override
     public String toString() {

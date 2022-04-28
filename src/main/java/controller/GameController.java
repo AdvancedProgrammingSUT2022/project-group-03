@@ -28,7 +28,7 @@ public class GameController {
         for (int i = 0; i < PlayersNames.size(); i++)
             civilizations.get(i).tileConditions = new Civilization.TileCondition[map.getX()][map.getY()];
         //HARDCODE
-        Settler hardcodeUnit = new Settler(map.coordinatesToTile(5, 5), civilizations.get(0), UnitType.Settler);
+        Settler hardcodeUnit = new Settler(map.coordinatesToTile(2,5),civilizations.get(0),UnitType.Settler);
         civilizations.get(0).getUnits().add(hardcodeUnit);
         map.coordinatesToTile(2, 5).setCivilian(hardcodeUnit);
 
@@ -238,6 +238,10 @@ public class GameController {
 
     public static ArrayList<Civilization> getCivilizations() {
         return civilizations;
+    }
+    public static ArrayList<Technology> getCivilizationsResearches()
+    {
+        return civilizations.get(playerTurn).getResearches();
     }
 
     public static int getPlayerTurn() {

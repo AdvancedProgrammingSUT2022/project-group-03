@@ -1,8 +1,6 @@
 package model.Units;
 
 import model.Civilization;
-import model.Color;
-import model.Units.Unit;
 import model.improvements.ImprovementType;
 import model.tiles.Tile;
 

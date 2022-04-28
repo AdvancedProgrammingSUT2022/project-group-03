@@ -63,6 +63,15 @@ public class Civilization {
         }
         return false;
     }
+    //TODO CHECK KARDAN 0 NABOODAN SCIENCE DAR MOHASEBE ROOZ
+
+    public HashMap<ResourcesTypes, Integer> getResourcesAmount() {
+        return resourcesAmount;
+    }
+
+    public HashMap<ResourcesTypes, Boolean> getUsedLuxuryResources() {
+        return usedLuxuryResources;
+    }
 
     public void setGettingResearchedTechnology(Technology gettingResearchedTechnology) {
         this.gettingResearchedTechnology = gettingResearchedTechnology;
