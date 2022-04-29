@@ -2,24 +2,55 @@ package view;
 
 import controller.GameController;
 import model.City;
-import model.Units.NonCivilian;
-import model.Units.Settler;
+import model.Units.Unit;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class GameMenu extends Menu {
 
     private void infoResearch() {
-
+        ArrayList<City> cities = GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities();
+        for (City city : cities) {
+            String tempString = null;
+            if (GameController.getSelectedCity().getProduct() instanceof Unit)
+                tempString = ((Unit) city.getProduct()).getUnitType().toString();
+            System.out.println("getting worked on technology: " + tempString);
+        }
     }
 
     private void infoUnits() {
-
+        ArrayList<Unit> units = GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits();
+        for (Unit unit : units) {
+            System.out.print(unit.getUnitType() +
+                    "| Health: " + unit.getHealth() +
+                    "| currentX: " + unit.getCurrentTile().getX() +
+                    " currentY: " + unit.getCurrentTile().getY());
+            if (unit.getDestinationTile() != null)
+                System.out.print("| destinationX: " + unit.getDestinationTile().getX()
+                        + " destinationY: " + unit.getDestinationTile().getY());
+        }
     }
 
 
     private void infoCities() {
+        ArrayList<City> cities = GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities();
+        for (City city : cities) {
+            System.out.print(city.getName() +
+                    ": |strength: " + city.getStrength() +
+                    "|mainTileX: " + city.getMainTile().getX() +
+                    "|mainTileY: " + city.getMainTile().getY() +
+                    "|population: " + city.getPopulation() +
+                    "|food: " + city.getFood() +
+                    "|citizen: " + city.getCitizen() +
+                    "|founder: " + city.getFounder() +
+                    "|doesHaveWall: ");
+            if (city.getDoesHaveWall())
+                System.out.print("Yes");
+            else System.out.print("No");
 
+
+        }
     }
 
     private void infoDiplomacy() {
@@ -63,7 +94,8 @@ public class GameMenu extends Menu {
 
     private void selectUnitCombatUnit(String command) {
         Matcher matcher = getMatcher(regexes[3], command);
-        if (GameController.setSelectedCombatUnit(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2))))
+        if (GameController.setSelectedCombatUnit(Integer.parseInt(matcher.group(1)),
+                Integer.parseInt(matcher.group(2))))
             System.out.println("combat unit selected successfully");
         else
             System.out.println("selection failed");
@@ -71,31 +103,42 @@ public class GameMenu extends Menu {
 
     private void selectUnitNonCombatUnit(String command) {
         Matcher matcher = getMatcher(regexes[4], command);
-        if (GameController.setSelectedNonCombatUnit(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2))))
+        if (GameController.setSelectedNonCombatUnit(Integer.parseInt(matcher.group(1)),
+                Integer.parseInt(matcher.group(2))))
             System.out.println("noncombat unit selected successfully");
         else
             System.out.println("selection failed");
     }
 
     private void selectCityByName(String command) {
-
+        if (!GameController.setSelectedCityByName(command))
+            System.out.println("city does not exist");
     }
 
 
     private void selectCityByPosition(String command) {
-
+        Matcher matcher = getMatcher(regexes[15], command);
+        if (!GameController.setSelectedCityByPosition(Integer.parseInt(matcher.group(1)),
+                Integer.parseInt(matcher.group(2)))) ;
     }
 
     private void unitMoveTo(String command) {
         Matcher matcher = getMatcher(regexes[2], command);
-        if (GameController.UnitMoveTo(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2))))
+        if (GameController.unitMoveTo(Integer.parseInt(matcher.group(1)),
+                Integer.parseInt(matcher.group(2))))
             System.out.println("Moved successfully");
         else
             System.out.println("Moving failed");
     }
 
     private void unitSleep() {
-
+        int result = GameController.unitSleep();
+        if (result==0)
+            System.out.println("unit set to sleep successfully");
+        if( result==1)
+            System.out.println("the selected unit is not yours");
+        if(result==2)
+            System.out.println("no unit is selected");
     }
 
     private void unitAlert() {
@@ -119,12 +162,12 @@ public class GameMenu extends Menu {
     }
 
     private void unitFoundCity() {
-        int result = GameController.UnitFoundCity();
-        if(result==0)
+        int result = GameController.unitFoundCity();
+        if (result == 0)
             System.out.println("city founded successfully");
-        if(result==1)
+        if (result == 1)
             System.out.println("the selected unit is not a settler");
-        if(result==2)
+        if (result == 2)
             System.out.println("the selected tile is occupied with another city");
     }
 
@@ -190,48 +233,107 @@ public class GameMenu extends Menu {
 
 
     private void mapShowPosition(String command) {
-
+        Matcher matcher = getMatcher(regexes[16], command);
+        if (!GameController.mapShowPosition(Integer.parseInt(matcher.group(1)),
+                Integer.parseInt(matcher.group(2))))
+            System.out.println("invalid position");
     }
 
 
     private void mapShowCityName(String command) {
-
+        Matcher matcher = getMatcher(regexes[17], command);
+        int result = GameController.mapShowCityName(matcher.group(1));
+        if (result == 1)
+            System.out.println("no city with this name exists");
+        if (result == 2)
+            System.out.println("you have not unlocked the position of this city yet");
+        if (result == 0)
+            System.out.println("city selected successfully");
     }
 
-    private void selectedUnitInfo()
-    {
-        if(GameController.getSelectedUnit()==null)
+    private void selectedUnitInfo() {
+        if (GameController.getSelectedUnit() == null)
             System.out.println("no unit selected");
         else
             System.out.println("MP: " + GameController.getSelectedUnit().getMovementPrice());
     }
+
     private void mapMove(String command) {
         Matcher matcher = getMatcher(regexes[6], command);
-        if(matcher.group(2)==null)
-            GameController.mapMove(1,matcher.group(1));
+        boolean result;
+        if (matcher.group(2) == null)
+            result = GameController.mapMove(1, matcher.group(1));
         else
-            GameController.mapMove(Integer.parseInt(matcher.group(2).replace(" ", "")),matcher.group(1));
-        System.out.println("map moved successfully");
+            result = GameController.
+                    mapMove(Integer.parseInt(matcher.group(2).replace(" ", "")),
+                            matcher.group(1));
+        if (result)
+            System.out.println("map moved successfully");
+        else System.out.println("Invalid position");
     }
 
-    private void startProducing(String command)
-    {
-        Matcher matcher = getMatcher(regexes[10],command);
+    private void startProducing(String command) {
+        Matcher matcher = getMatcher(regexes[10], command);
         GameController.startProducing(matcher.group(1));
     }
 
-    private void technologyMenu()
-    {
+    private void technologyMenu() {
         ChooseTechnology chooseTechnology = new ChooseTechnology();
         chooseTechnology.printDetails();
         chooseTechnology.run(scanner);
     }
 
+    private void cityProductionMenu() {
+        ProductionCityMenu productionCityMenu = new ProductionCityMenu();
+        productionCityMenu.run(scanner);
+    }
+
     private void nextTurn() {
-        if (GameController.nextTurn())
+        if (GameController.nextTurnIfYouCan())
             System.out.println("turn ended successfully");
         else
             System.out.println("failed to end the turn");
+    }
+
+    private void cheatSettler(String command) {
+        Matcher matcher = getMatcher(regexes[7], command);
+        GameController.cheatSettler(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2)));
+    }
+
+    private void cityShowDetails() {
+        City city = GameController.getSelectedCity();
+        if (city == null) {
+            System.out.println("no city is selected");
+            return;
+        }
+        System.out.println("name: " + city.getName());
+        System.out.println("founder: " + city.getFounder().getUser().getNickname());
+        if (city.getCivilization() == GameController.getCivilizations().get(GameController.getPlayerTurn())) {
+            System.out.println("gold: " + city.getGold());
+            System.out.println("production: " + city.getProduction());
+            System.out.println("food: " + city.getFood());
+            System.out.println("population: " + city.getPopulation());
+            System.out.println("citizens: " + city.getCitizen());
+            System.out.print("getting worked on tiles: ");
+            for (int i = 0; i < city.getGettingWorkedOnByCitizensTiles().size(); i++)
+                System.out.print(city.getGettingWorkedOnByCitizensTiles().get(i).getX() + "," +
+                        city.getGettingWorkedOnByCitizensTiles().get(i).getY() + "   |   ");
+            System.out.print("\nHP: " + city.getHP());
+            System.out.println("strength: " + city.getStrength());
+        }
+
+    }
+
+    private void increaseTurn(String command) {
+        Matcher matcher = getMatcher(regexes[21], command);
+        for (int i = 0; i < Integer.parseInt(matcher.group(1)) * GameController.getCivilizations().size(); i++)
+            GameController.nextTurn();
+    }
+
+    private void increaseGold(String command) {
+        Matcher matcher = getMatcher(regexes[22], command);
+        GameController.getCivilizations().get(GameController.getPlayerTurn())
+                .increaseGold(Integer.parseInt(matcher.group(1)));
     }
 
     {
@@ -250,39 +352,19 @@ public class GameMenu extends Menu {
                 "^menu enter Technologies$",
                 "^menu enter CityProduction$",
                 "^city show details$", //13
+                "^SELECT city (\\w+)$",
+                "^SELECT city (\\d+) (\\d+)$",
+                "^MAP SHOW (\\d+) (\\d+)$",
+                "^MAP SHOW (\\w+)$",
+                "^INFO RESEARCH$",
+                "^INFO UNITS$",
+                "^INFO CITIES$", //20
+                "^increase --turn (\\d+)$",
+                "^increase --gold (\\d+)$",
+                "^UNIT SLEEP$"
         };
     }
-    private void cheatSettler(String command)
-    {
-        Matcher matcher = getMatcher(regexes[7], command);
-        GameController.cheatSettler(Integer.parseInt(matcher.group(1)),Integer.parseInt(matcher.group(2)));
-    }
-    private void cityShowDetails()
-    {
-        City city = GameController.getSelectedCity();
-        if(city==null)
-        {
-            System.out.println("no city is selected");
-            return;
-        }
-        System.out.println("name: " + city.getName());
-        System.out.println("founder: " + city.getFounder().getUser().getNickname());
-        if(city.getCivilization()==GameController.getCivilizations().get(GameController.getPlayerTurn()))
-        {
-            System.out.println("gold: " + city.getGold());
-            System.out.println("production: " + city.getProduction());
-            System.out.println("food: " + city.getFood());
-            System.out.println("population: " + city.getPopulation());
-            System.out.println("citizens: " + city.getCitizen());
-            System.out.print("getting worked on tiles: ");
-            for(int i =0;i<city.getGettingWorkedOnByCitizensTiles().size();i++)
-                System.out.print(city.getGettingWorkedOnByCitizensTiles().get(i).getX() + "," +
-                        city.getGettingWorkedOnByCitizensTiles().get(i).getY() + "   |   ");
-            System.out.print("\nHP: " + city.getHP());
-            System.out.println("strength: " + city.getStrength());
-        }
 
-    }
 
     @Override
     protected boolean commands(String command) {
@@ -328,11 +410,42 @@ public class GameMenu extends Menu {
             case 11:
                 technologyMenu();
                 break;
-
+            case 12:
+                cityProductionMenu();
+                break;
             case 13:
                 cityShowDetails();
                 break;
-
+            case 14:
+                selectCityByName(command);
+                break;
+            case 15:
+                selectCityByPosition(command);
+                break;
+            case 16:
+                mapShowPosition(command);
+                break;
+            case 17:
+                mapShowCityName(command);
+                break;
+            case 18:
+                infoResearch();
+                break;
+            case 19:
+                infoUnits();
+                break;
+            case 20:
+                infoCities();
+                break;
+            case 21:
+                increaseTurn(command);
+                break;
+            case 22:
+                increaseGold(command);
+                break;
+            case 23:
+                unitSleep();
+                break;
         }
         System.out.println(GameController.printMap());
         return false;

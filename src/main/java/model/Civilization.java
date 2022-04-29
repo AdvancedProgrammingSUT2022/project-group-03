@@ -113,7 +113,6 @@ public class Civilization {
     public User getUser() {
         return user;
     }
-
     public void increaseGold(int gold) {
         this.gold += gold;
     }
@@ -177,4 +176,5 @@ public class Civilization {
                 return true;
         return false;
     }
+
 }

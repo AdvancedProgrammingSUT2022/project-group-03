@@ -8,6 +8,14 @@ import model.producible;
 import model.tiles.Tile;
 import model.tiles.TileType;
 
+//enum unitState{
+//    SLEEP,
+//    READY,
+//    FORTIFY,
+//    FORTIFY_UNTIL_READY,
+//
+//}
+
 public abstract class Unit implements producible {
     protected Civilization civilization;
     private static int state;
@@ -19,12 +27,13 @@ public abstract class Unit implements producible {
     private int XP;
     private boolean hasDoneAnything;
     public int remainedCost;
-
+    private boolean isSleep;
     public Unit(Tile tile, Civilization civilization, UnitType unitType) {
         this.currentTile = tile;
         this.civilization = civilization;
         this.movementPrice = unitType.getDefaultMovementPrice();
         this.remainedCost = unitType.cost;
+        this.isSleep = false;
     }
 
     public int getHealth() {
@@ -61,6 +70,10 @@ public abstract class Unit implements producible {
     public void endTheTurn() {
         if (destinationTile != null)
             move(destinationTile);
+    }
+
+    public Tile getDestinationTile() {
+        return destinationTile;
     }
 
     public Tile getCurrentTile() {
@@ -125,7 +138,13 @@ public abstract class Unit implements producible {
         return movementPrice;
     }
 
-
+    public boolean isSleep() {
+        return isSleep;
+    }
+    public void setIsSleep(boolean isSleep)
+    {
+        this.isSleep = isSleep;
+    }
 
     public int getRemainedCost()
     {

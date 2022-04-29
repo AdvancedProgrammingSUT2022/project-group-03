@@ -5,7 +5,6 @@ import model.Units.Settler;
 import model.Units.Unit;
 import model.Units.UnitType;
 import model.technologies.Technology;
-import model.technologies.TechnologyType;
 import model.tiles.Tile;
 import model.tiles.TileType;
 
@@ -56,17 +55,34 @@ public class GameController {
         return true;
     }
 
+    private static City nameToCity(String name)
+    {
+        for (Civilization civilization : civilizations)
+            for (int j = 0; j < civilization.getCities().size(); j++)
+                if (civilization.getCities().get(j).getName().equals(name))
+                    return civilization.getCities().get(j);
+        return null;
+    }
 
-    public static int setSelectedCityByName(String name) {
-        return 0;
+    public static boolean setSelectedCityByName(String name) {
+        City tempCity = nameToCity(name);
+        if(tempCity==null)
+            return false;
+        selectedCity = tempCity;
+        return true;
     }
 
 
-    public static int setSelectedCityByPosition(int x, int y) {
-        return 0;
+    public static boolean setSelectedCityByPosition(int x, int y) {
+        if(map.coordinatesToTile(x,y).getCity()!=null)
+        {
+            selectedCity = map.coordinatesToTile(x,y).getCity();
+            return true;
+        }
+        return false;
     }
 
-    public static boolean UnitMoveTo(int x, int y) {
+    public static boolean unitMoveTo(int x, int y) {
         if (selectedUnit == null ||
                 map.coordinatesToTile(x, y).getTileType() == TileType.OCEAN ||
                 map.coordinatesToTile(x, y).getTileType() == TileType.MOUNTAIN)
@@ -74,31 +90,38 @@ public class GameController {
         return selectedUnit.move(map.coordinatesToTile(x, y));
     }
 
-    public static int UnitSleep() {
+    public static int unitSleep() {
+        if(selectedUnit==null)
+            return 1;
+        if(selectedUnit.getCivilization()==civilizations.get(playerTurn))
+        {
+            selectedUnit.setIsSleep(true);
+            return 2;
+        }
         return 0;
     }
 
-    public static int UnitAlert() {
+    public static int unitAlert() {
         return 0;
     }
 
-    public static int UnitFortify(boolean shouldHeal) {
+    public static int unitFortify(boolean shouldHeal) {
         return 0;
     }
 
-    public static int UnitGarrison() {
+    public static int unitGarrison() {
         return 0;
     }
 
-    public static int UnitSetupRanged() {
+    public static int unitSetupRanged() {
         return 0;
     }
 
-    public static int UnitAttackPosition(int x, int y) {
+    public static int unitAttackPosition(int x, int y) {
         return 0;
     }
 
-    public static int UnitFoundCity() {
+    public static int unitFoundCity() {
         if (!(selectedUnit instanceof Settler))
             return 1;
         if (selectedUnit.getCurrentTile().getCity() != null)
@@ -115,58 +138,79 @@ public class GameController {
     }
 
 
-    public static int UnitWake() {
+    public static int unitWake() {
         return 0;
     }
 
 
-    public static int UnitDelete() {
+    public static int unitDelete() {
         return 0;
     }
 
 
-    public static int UnitBuildRoad() {
+    public static int unitBuildRoad() {
         return 0;
     }
 
-    public static int UnitBuildRailRoad() {
+    public static int unitBuildRailRoad() {
         return 0;
     }
 
-    public static int UnitRemoveFromTile(int isJungle) {
+    public static int unitRemoveFromTile(int isJungle) {
         return 0;
     }
 
-    public static int UnitRepair() {
+    public static int unitRepair() {
         return 0;
     }
 
-    public static int mapShowPosition(int x, int y) {
-        return 0;
+    public static boolean mapShowPosition(int x, int y) {
+        startWindowX = x;
+        startWindowY = y;
+        boolean returner = true;
+        if (startWindowY > map.getY() - 13)
+        {
+            startWindowY = map.getY() - 13;
+            returner = false;
+        }
+        if (startWindowX > map.getX() - 4)
+        {
+            startWindowX = map.getX() - 4;
+            returner = false;
+        }
+        if (startWindowY < 0)
+        {
+            startWindowY = 0;
+            returner = false;
+        }
+        if (startWindowX < 0)
+        {
+            startWindowX = 0;
+            returner = false;
+        }
+        return returner;
     }
 
 
     public static int mapShowCityName(String name) {
+        City tempCity = nameToCity(name);
+        if(tempCity==null)
+            return 1;
+        if(civilizations.get(playerTurn).tileConditions[tempCity.getMainTile().getX()][tempCity.getMainTile().getY()]==null)
+            return 2;
+        mapShowPosition(tempCity.getMainTile().getX(),tempCity.getMainTile().getY());
         return 0;
     }
 
-    public static void mapMove(int number, String direction) {
+    public static boolean mapMove(int number, String direction) {
         if (Objects.equals(direction, "R"))
-            startWindowY += number;
+            return mapShowPosition(startWindowX,startWindowY+number);
         if (Objects.equals(direction, "L"))
-            startWindowY -= number;
+            return mapShowPosition(startWindowX,startWindowY-number);
         if (Objects.equals(direction, "U"))
-            startWindowX -= number;
-        if (Objects.equals(direction, "D"))
-            startWindowX += number;
-        if (startWindowY > map.getY() - 13)
-            startWindowY = map.getY() - 13;
-        if (startWindowX > map.getX() - 4)
-            startWindowX = map.getX() - 4;
-        if (startWindowY < 0)
-            startWindowY = 0;
-        if (startWindowX < 0)
-            startWindowX = 0;
+            return mapShowPosition(startWindowX-number,startWindowY);
+        else
+            return mapShowPosition(startWindowX+number,startWindowY);
     }
 
 
@@ -196,18 +240,23 @@ public class GameController {
         return 0;
     }
 
-    public static boolean nextTurn() {
+    public static boolean nextTurnIfYouCan()
+    {
         if (unfinishedTasks.size() != 0)
             return false;
 
+
+        nextTurn();
+        return true;
+    }
+
+    public static void nextTurn() {
         civilizations.get(playerTurn).endTheTurn();
         playerTurn = (playerTurn + 1) % civilizations.size();
         setUnfinishedTasks();
         civilizations.get(playerTurn).startTheTurn();
         selectedCity = null;
         selectedUnit = null;
-
-        return true;
     }
 
     public static void setUnfinishedTasks() {

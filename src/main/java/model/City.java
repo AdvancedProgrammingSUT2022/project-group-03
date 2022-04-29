@@ -12,10 +12,10 @@ public class City {
     private int strength;
     private final Tile mainTile;
     private Civilization civilization;
-    private boolean doesHaveWall;
+    private boolean doesHaveWall = false;
     private int HP = 20;
     private int food;
-    private int population;
+    private int population= 0;
     private producible product;
     private int production;
     private ArrayList<Tile> tiles = new ArrayList<>();
@@ -131,6 +131,10 @@ public class City {
 
     }
 
+    public Tile getMainTile() {
+        return mainTile;
+    }
+
     public int getHP() {
         return HP;
     }
@@ -165,4 +169,7 @@ public class City {
         return true;
     }
 
+    public boolean getDoesHaveWall() {
+        return doesHaveWall;
+    }
 }

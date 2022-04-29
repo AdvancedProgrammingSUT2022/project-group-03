@@ -1,6 +1,8 @@
 package view;
 
+import controller.GameController;
 import controller.TechnologyController;
+import model.Units.Unit;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;
 
@@ -18,6 +20,12 @@ public class ChooseTechnology extends Menu {
         };
     }
     public void printDetails() {
+        String tempString = null;
+        if(GameController.getSelectedCity().getProduct() instanceof Unit)
+            tempString = ((Unit) GameController.getSelectedCity().getProduct()).getUnitType().toString();
+        System.out.println("getting worked on technology: " + tempString);
+        
+        
         ArrayList<Technology> researches = TechnologyController.getCivilizationsResearches();
         System.out.println("Finished researches: ");
         TechnologyType.prerequisites.forEach((k,v)->{
