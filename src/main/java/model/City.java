@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class City {
     private final String name;
-    private int remainingProduction;
     private int strength;
     private final Tile mainTile;
     private Civilization civilization;
@@ -21,7 +20,7 @@ public class City {
     private producible product;
     private int production;
     private ArrayList<Tile> tiles = new ArrayList<>();
-    private Civilization founder;
+    private final Civilization founder;
     private int citizen;
 
     public String getName() {
@@ -175,7 +174,6 @@ public class City {
             return true;
         }
         product = new NonCivilian(mainTile, civilization, unitType);
-        remainingProduction = product.getCost();
         return true;
     }
 
