@@ -1,5 +1,6 @@
 package view;
 
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,7 +27,7 @@ public abstract class Menu {
     }
     protected static int getCommandNumber(String input, String[] commands) {
         for (int i = 0; i < commands.length; i++)
-            if (Pattern.compile(commands[i]).matcher(input).matches())
+            if (Pattern.compile(commands[i].toLowerCase(Locale.ROOT)).matcher(input.toLowerCase(Locale.ROOT)).matches())
                 return i;
         return -1;
     }

@@ -1,10 +1,7 @@
 package controller;
 
 import model.*;
-import model.Units.Settler;
-import model.Units.Unit;
-import model.Units.UnitState;
-import model.Units.UnitType;
+import model.Units.*;
 import model.technologies.Technology;
 import model.tiles.Tile;
 import model.tiles.TileType;
@@ -28,10 +25,6 @@ public class GameController {
         for (int i = 0; i < PlayersNames.size(); i++)
             civilizations.get(i).tileConditions = new Civilization.TileCondition[map.getX()][map.getY()];
         //HARDCODE
-        Settler hardcodeUnit = new Settler(map.coordinatesToTile(2, 5), civilizations.get(0), UnitType.Settler);
-        civilizations.get(0).getUnits().add(hardcodeUnit);
-        map.coordinatesToTile(2, 5).setCivilian(hardcodeUnit);
-
 
         //
     }
@@ -184,6 +177,8 @@ public class GameController {
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT));
         ((Settler) selectedUnit).city();
         civilizations.get(playerTurn).changeHappiness(-1);
+        unitDelete(selectedUnit);
+        selectedUnit=null;
         return 0;
     }
 
@@ -209,12 +204,17 @@ public class GameController {
     }
 
 
-    public static int unitDelete() {
+    public static int unitDelete(Unit unit) {
         if (selectedUnit == null)
             return 1;
         if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
             return 2;
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT));
+        civilizations.get(playerTurn).getUnits().remove(unit);
+        if(unit instanceof NonCivilian)
+            unit.getCurrentTile().setNonCivilian(null);
+        else
+            unit.getCurrentTile().setCivilian(null);
         return 0;
     }
 
@@ -330,8 +330,6 @@ public class GameController {
     public static boolean nextTurnIfYouCan() {
         if (unfinishedTasks.size() != 0)
             return false;
-
-
         nextTurn();
         return true;
     }
@@ -353,7 +351,8 @@ public class GameController {
         for(int i = 0;i<civilizations.get(playerTurn).getCities().size();i++)
             if(civilizations.get(playerTurn).getCities().get(i).getProduct()==null)
                 unfinishedTasks.add(new Tasks(civilizations.get(playerTurn).getCities().get(i).getMainTile(),TaskTypes.CITY_PRODUCTION));
-        if(civilizations.get(playerTurn).getGettingResearchedTechnology()==null)
+        if(civilizations.get(playerTurn).getCities().size()!=0 &&
+                civilizations.get(playerTurn).getGettingResearchedTechnology()==null)
             unfinishedTasks.add(new Tasks(null,TaskTypes.TECHNOLOGY_PROJECT));
     }
 
@@ -362,7 +361,33 @@ public class GameController {
         civilizations.get(playerTurn).getUnits().add(hardcodeUnit);
         map.coordinatesToTile(x, y).setCivilian(hardcodeUnit);
     }
-
+    public static void openNewArea(Tile tile, Civilization civilization) {
+        for (int i = 0; i < 6; i++) {
+            if(tile.getNeighbours(i)==null)
+                continue;
+            civilization.tileConditions[tile.getNeighbours(i).getX()][tile.getNeighbours(i).getY()] =
+                    new Civilization.TileCondition(tile.getNeighbours(i).
+                            CloneTileForCivilization(civilization.getResearches()), true);
+            if (tile.getNeighbours(i).getTileType() == TileType.MOUNTAIN ||
+                    tile.getNeighbours(i).getTileType() == TileType.HILL ||
+                    (tile.getNeighbours(i).getFeature() != null &&
+                            (tile.getNeighbours(i).getFeature() == FeatureType.FOREST ||
+                            tile.getNeighbours(i).getFeature() == FeatureType.DENSEFOREST)))
+                continue;
+            for (int j = 0; j < 6; j++) {
+                if(tile.getNeighbours(i).getNeighbours(j)==null)
+                    continue;
+                int neighbourX = tile.getNeighbours(i).getNeighbours(j).getX();
+                int neighbourY = tile.getNeighbours(i).getNeighbours(j).getY();
+                civilization.tileConditions[neighbourX][neighbourY] =
+                        new Civilization.TileCondition(tile.getNeighbours(i).getNeighbours(j)
+                                .CloneTileForCivilization(civilization.getResearches()), true);
+            }
+        }
+        civilization.tileConditions[tile.getX()][tile.getY()] =
+                new Civilization.TileCondition(tile.
+                CloneTileForCivilization(civilization.getResearches()), true);
+    }
     public static Map getMap() {
         return map;
     }
@@ -394,5 +419,9 @@ public class GameController {
 
     public static int getPlayerTurn() {
         return playerTurn;
+    }
+
+    public static ArrayList<Tasks> getUnfinishedTasks() {
+        return unfinishedTasks;
     }
 }

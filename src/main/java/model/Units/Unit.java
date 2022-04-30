@@ -49,7 +49,7 @@ public abstract class Unit implements producible {
     }
 
     public void startTheTurn() {
-        openNewArea();
+        GameController.openNewArea(currentTile,civilization);
 //        health += ...
         if (health > 10)
             health = 10;
@@ -73,24 +73,7 @@ public abstract class Unit implements producible {
         return currentTile;
     }
 
-    private void openNewArea() {
-        for (int i = 0; i < 6; i++) {
-            int neighbourX = currentTile.getNeighbours(i).getX();
-            int neighbourY = currentTile.getNeighbours(i).getY();
-            civilization.tileConditions[neighbourX][neighbourY] = new Civilization.TileCondition(currentTile.getNeighbours(i).CloneTileForCivilization(civilization.getResearches()), true);
-            if (currentTile.getNeighbours(i).getTileType() == TileType.MOUNTAIN ||
-                    currentTile.getNeighbours(i).getTileType() == TileType.HILL ||
-                    (currentTile.getNeighbours(i).getFeature() != null && (currentTile.getNeighbours(i).getFeature() == FeatureType.FOREST ||
-                            currentTile.getNeighbours(i).getFeature() == FeatureType.DENSEFOREST)))
-                continue;
-            for (int j = 0; j < 6; j++) {
-                neighbourX = currentTile.getNeighbours(i).getNeighbours(j).getX();
-                neighbourY = currentTile.getNeighbours(i).getNeighbours(j).getY();
-                civilization.tileConditions[neighbourX][neighbourY] = new Civilization.TileCondition(currentTile.getNeighbours(i).getNeighbours(j).CloneTileForCivilization(civilization.getResearches()), true);
-            }
-        }
-        civilization.tileConditions[currentTile.getX()][currentTile.getY()] = new Civilization.TileCondition(currentTile.CloneTileForCivilization(civilization.getResearches()), true);
-    }
+
 
 
     public boolean move(Tile destinationTile) {
@@ -122,7 +105,7 @@ public abstract class Unit implements producible {
         else
             this.movementPrice = 0;
         this.currentTile = tempTile;
-        openNewArea();
+        GameController.openNewArea(this.currentTile,civilization);
         return true;
     }
 

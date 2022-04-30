@@ -11,12 +11,18 @@ public class GameMenu extends Menu {
 
     private void infoResearch() {
         ArrayList<City> cities = GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities();
+        boolean doWeHaveAnyWorkingTechnology = false;
         for (City city : cities) {
+            if(city.getProduct()==null)
+                continue;
+            doWeHaveAnyWorkingTechnology = true;
             String tempString = null;
-            if (GameController.getSelectedCity().getProduct() instanceof Unit)
+            if (city.getProduct() instanceof Unit)
                 tempString = ((Unit) city.getProduct()).getUnitType().toString();
-            System.out.println("getting worked on technology: " + tempString);
+            System.out.print(city.getName() + ": " + "getting developed technology: " + tempString);
         }
+        if(!doWeHaveAnyWorkingTechnology)
+            System.out.println("you don't have any technology in the development right now");
     }
 
     private void infoUnits() {
@@ -30,6 +36,8 @@ public class GameMenu extends Menu {
                 System.out.print("| destinationX: " + unit.getDestinationTile().getX()
                         + " destinationY: " + unit.getDestinationTile().getY());
         }
+        if(units.size()==0)
+            System.out.println("you don't have any units right now");
     }
 
 
@@ -37,14 +45,14 @@ public class GameMenu extends Menu {
         ArrayList<City> cities = GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities();
         for (City city : cities) {
             System.out.print(city.getName() +
-                    ": |strength: " + city.getStrength() +
-                    "|mainTileX: " + city.getMainTile().getX() +
-                    "|mainTileY: " + city.getMainTile().getY() +
-                    "|population: " + city.getPopulation() +
-                    "|food: " + city.getFood() +
-                    "|citizen: " + city.getCitizen() +
-                    "|founder: " + city.getFounder() +
-                    "|doesHaveWall: ");
+                    ": | strength: " + city.getStrength() +
+                    " | mainTileX: " + city.getMainTile().getX() +
+                    " | mainTileY: " + city.getMainTile().getY() +
+                    " | population: " + city.getPopulation() +
+                    " | food: " + city.getFood() +
+                    " | citizen: " + city.getCitizen() +
+                    " | founder: " + city.getFounder().getUser().getNickname() +
+                    " | doesHaveWall: ");
             if (city.getDoesHaveWall())
                 System.out.print("Yes");
             else System.out.print("No");
@@ -222,6 +230,13 @@ public class GameMenu extends Menu {
     }
 
     private void unitDelete() {
+        int result = GameController.unitDelete(GameController.getSelectedUnit());
+        if(result==0)
+            System.out.println("the selected unit has been deleted successfully");
+        if(result==1)
+            System.out.println("no unit is selected");
+        if (result == 2)
+            System.out.println("the selected unit is not yours");
 
     }
 
@@ -320,9 +335,15 @@ public class GameMenu extends Menu {
     }
 
     private void technologyMenu() {
-        ChooseTechnology chooseTechnology = new ChooseTechnology();
-        chooseTechnology.printDetails();
-        chooseTechnology.run(scanner);
+        if(GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size()==0)
+            System.out.println("you need at least one city to enter the technology menu");
+        else
+        {
+            ChooseTechnology chooseTechnology = new ChooseTechnology();
+            chooseTechnology.printDetails();
+            chooseTechnology.run(scanner);
+        }
+
     }
 
     private void cityProductionMenu() {
@@ -334,7 +355,13 @@ public class GameMenu extends Menu {
         if (GameController.nextTurnIfYouCan())
             System.out.println("turn ended successfully");
         else
-            System.out.println("failed to end the turn");
+        {
+            System.out.print("failed to end the turn: " + GameController.getUnfinishedTasks().get(0).getTaskTypes());
+            if(GameController.getUnfinishedTasks().get(0).getTile()==null)
+                System.out.println();
+            else System.out.println(" | x: " + GameController.getUnfinishedTasks().get(0).getTile().getX() +
+                    " y: " + GameController.getUnfinishedTasks().get(0).getTile().getY());
+        }
     }
 
     private void cheatSettler(String command) {
@@ -403,7 +430,13 @@ public class GameMenu extends Menu {
                 "^INFO CITIES$", //20
                 "^increase --turn (\\d+)$",
                 "^increase --gold (\\d+)$",
-                "^UNIT SLEEP$"
+                "^UNIT SLEEP$",
+                "^UNIT ALERT$",
+                "^UNIT FORTIFY$",
+                "^UNIT FORTIFY_UNTIL_HEAL$",
+                "^UNIT GARRISON$",
+                "^UNIT DELETE$",
+                "^PRINT MAP$"
         };
     }
 
@@ -488,8 +521,26 @@ public class GameMenu extends Menu {
             case 23:
                 unitSleep();
                 break;
+            case 24:
+                unitAlert();
+                break;
+            case 25:
+                unitFortify();
+                break;
+            case 26:
+                unitFortifyUntilFullHealth();
+                break;
+            case 27:
+                unitGarrison();
+                break;
+            case 28:
+                unitDelete();
+                break;
+            case 29:
+                System.out.println(GameController.printMap());
+                break;
         }
-        System.out.println(GameController.printMap());
+
         return false;
     }
 

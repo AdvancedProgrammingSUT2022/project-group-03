@@ -136,7 +136,9 @@ public class Tile {
     }
 
     public void setCivilian(Unit unit) {
-        if(unit.getUnitType().combatType== CombatType.CIVILIAN)
+        if(unit==null)
+            this.civilian=null;
+        else if(unit.getUnitType().combatType== CombatType.CIVILIAN)
             this.civilian = unit;
     }
 
@@ -147,10 +149,9 @@ public class Tile {
     public Tile CloneTileForCivilization(ArrayList<Technology> technologies) {
         Tile newTile = new Tile(this.tileType, this.x, this.y);
         newTile.tilesWithRiver = this.tilesWithRiver;
-        newTile.containedResource = this.containedResource;
-        if(containedResource != null && containedResource.IsTechnologyUnlocked(technologies))
+        newTile.containedResource = null;
+        if(containedResource != null && containedResource.isTechnologyUnlocked(technologies))
             newTile.containedResource = this.containedResource;
-        else newTile.containedFeature = null;
         newTile.improvement = this.improvement;
         newTile.civilization = this.civilization;
         newTile.civilian = this.civilian;
@@ -159,5 +160,9 @@ public class Tile {
         newTile.hasRoad = this.hasRoad;
         newTile.raidLevel = this.raidLevel;
         return newTile;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 }

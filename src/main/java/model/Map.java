@@ -124,7 +124,6 @@ public class Map {
             riverSides[0].setTilesWithRiver(neighbour);
             riverSides[1].setTilesWithRiver((neighbour + 3) % 6);
             remainingLength--;
-            System.out.println(riverSides[0].getX() + " " + riverSides[0].getY());
         }
     }
 

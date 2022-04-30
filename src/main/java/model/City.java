@@ -43,6 +43,7 @@ public class City {
         this.tiles.add(mainTile);
         for (int i = 0; i < 6; i++)
             this.tiles.add(mainTile.getNeighbours(i));
+        for (Tile value : tiles) GameController.openNewArea(value, civilization);
     }
     public int collectFood(){
         int food = 0;
@@ -108,6 +109,7 @@ public class City {
             citizen++;
         }
 
+        for (Tile tile : tiles) GameController.openNewArea(tile, civilization);
     }
     public void endTheTurn(){
 
