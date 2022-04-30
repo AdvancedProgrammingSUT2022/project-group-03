@@ -4,13 +4,12 @@ import controller.GameController;
 import model.Civilization;
 import model.Map;
 import model.FeatureType;
-import model.productable;
+import model.producible;
 import model.tiles.Tile;
 import model.tiles.TileType;
 
-public abstract class Unit implements productable {
+public abstract class Unit implements producible {
     protected Civilization civilization;
-    private static int state;
     protected Tile currentTile;
     private Tile destinationTile;
     private int movementPrice;
@@ -18,12 +17,14 @@ public abstract class Unit implements productable {
     protected UnitType unitType;
     private int XP;
     private boolean hasDoneAnything;
-
-
+    public int remainedCost;
+    private UnitState state;
     public Unit(Tile tile, Civilization civilization, UnitType unitType) {
         this.currentTile = tile;
         this.civilization = civilization;
         this.movementPrice = unitType.getDefaultMovementPrice();
+        this.remainedCost = unitType.cost;
+        this.state = UnitState.AWAKE;
     }
 
     public int getHealth() {
@@ -54,12 +55,18 @@ public abstract class Unit implements productable {
             health = 10;
         movementPrice = unitType.getDefaultMovementPrice();
 
+        if(state== UnitState.FORTIFY_UNTIL_FULL_HEALTH && health==10)
+            state = UnitState.AWAKE;
 
     }
 
     public void endTheTurn() {
         if (destinationTile != null)
             move(destinationTile);
+    }
+
+    public Tile getDestinationTile() {
+        return destinationTile;
     }
 
     public Tile getCurrentTile() {
@@ -125,8 +132,19 @@ public abstract class Unit implements productable {
     }
 
 
+    public void setState(UnitState state) {
+        this.state = state;
+    }
 
+    public UnitState getState() {
+        return state;
+    }
 
+    public int getRemainedCost()
+    {
+        return remainedCost;
+    }
+    public void setRemainedCost(int remainedCost) { this.remainedCost = remainedCost;}
     public UnitType getUnitType() {
         return unitType;
     }

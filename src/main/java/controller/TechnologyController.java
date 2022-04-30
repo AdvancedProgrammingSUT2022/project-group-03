@@ -1,26 +1,37 @@
 package controller;
 
+import model.TaskTypes;
+import model.Tasks;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;
 
 import java.util.ArrayList;
 
 public class TechnologyController {
-    public static ArrayList<Technology> getCivilizationsResearches()
-    {
+    public static ArrayList<Technology> getCivilizationsResearches() {
         return GameController.getCivilizations().get(GameController.getPlayerTurn()).getResearches();
     }
-    public static boolean canBeTheNextResearch(TechnologyType technologyType)
-    {
+
+    public static boolean canBeTheNextResearch(TechnologyType technologyType) {
         return GameController.getCivilizations().get(GameController.getPlayerTurn()).canBeTheNextResearch(technologyType);
     }
-    public static boolean addTechnologyToProduction(ArrayList<TechnologyType> possibleTechnologies, int entry)
-    {
-        if(entry>possibleTechnologies.size() || entry<1)
+
+    public static boolean addTechnologyToProduction(ArrayList<TechnologyType> possibleTechnologies, int entry) {
+        if (entry > possibleTechnologies.size() || entry < 1)
             return false;
+        Technology tempTechnology = new Technology(possibleTechnologies.get(entry - 1));
         GameController.getCivilizations()
                 .get(GameController.getPlayerTurn()).getResearches()
-                .add(new Technology(possibleTechnologies.get(entry-1)));
+                .add(tempTechnology);
+        GameController.getCivilizations()
+                .get(GameController.getPlayerTurn()).setGettingResearchedTechnology(tempTechnology);
+        GameController.deleteFromUnfinishedTasks(new Tasks(null, TaskTypes.TECHNOLOGY_PROJECT));
         return true;
+    }
+    public static int cyclesToComplete(TechnologyType technologyType)
+    {
+        if(GameController.getCivilizations().get(GameController.getPlayerTurn()).getScience()==0)
+            return 12345;
+        return technologyType.cost / GameController.getCivilizations().get(GameController.getPlayerTurn()).getScience();
     }
 }

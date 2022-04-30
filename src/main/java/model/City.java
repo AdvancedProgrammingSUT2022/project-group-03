@@ -1,32 +1,43 @@
 package model;
 
+import controller.GameController;
 import model.Units.*;
 import model.tiles.Tile;
 
 import java.util.ArrayList;
 
+
 public class City {
     private final String name;
-    private int remainingProduction;
     private int strength;
     private final Tile mainTile;
     private Civilization civilization;
-    private boolean doesHaveWall;
+    private boolean doesHaveWall = false;
     private int HP = 20;
     private int food;
-    private int population;
-    private productable product;
+    private int population = 0;
+    private producible product;
     private int production;
     private ArrayList<Tile> tiles = new ArrayList<>();
-    private Civilization founder;
+    private final Civilization founder;
     private int citizen;
     private int foodForCitizen = 1;
 
+    public String getName() {
+        return name;
+    }
+
+    public Civilization getFounder() {
+        return founder;
+    }
+
     private ArrayList<Tile> gettingWorkedOnByCitizensTiles = new ArrayList<>();
-    public City(Tile tile,String name,Civilization civilization) {
+    private ArrayList<producible> halfProducedUnits = new ArrayList<>();
+
+    public City(Tile tile, String name, Civilization civilization) {
 
         this.mainTile = tile;
-        this.civilization =  civilization;
+        this.civilization = civilization;
         this.founder = civilization;
         this.name = name;
         this.tiles.add(mainTile);
@@ -54,6 +65,7 @@ public class City {
             if (!civilization.getUsedLuxuryResources().containsKey(gettingWorkedOnByCitizensTile.getResources())) {
                 civilization.getUsedLuxuryResources().put(gettingWorkedOnByCitizensTile.getResources(), true);
                 civilization.changeHappiness(4);
+
             }
         }
     }
@@ -70,19 +82,16 @@ public class City {
     public void startTheTurn() {
         food += collectFood();
         production += collectProduction();
-        if(product!=null )
-        {
-            int tempRemaining = remainingProduction;
-            remainingProduction -= production;
+        if (product != null) {
+            int tempRemaining = product.getRemainedCost();
+            product.setRemainedCost(product.getRemainedCost() - production);
             production -= tempRemaining;
-            if(production<=0)
-                production=0;
-            if(remainingProduction<=0)
-            {
-                if(product instanceof Unit)
+            if (production <= 0)
+                production = 0;
+            if (product.getRemainedCost() <= 0) {
+                if (product instanceof Unit)
                     civilization.getUnits().add((Unit) product);
                 product = null;
-                remainingProduction=0;
             }
         }
         food = food - 2*population;
@@ -116,8 +125,32 @@ public class City {
         return gold;
     }
 
+
+
+
+    public int getProduction() {
+        return production;
+    }
+
+    public int getFood() {
+        return food;
+    }
+
+    public producible getProduct() {
+        return product;
+    }
+
     public int getPopulation() {
         return population;
+    }
+
+    public int getCitizen() {
+        return citizen;
+    }
+
+
+    public ArrayList<Tile> getGettingWorkedOnByCitizensTiles() {
+        return gettingWorkedOnByCitizensTiles;
     }
 
     public ArrayList<Tile> getTiles() {
@@ -144,8 +177,23 @@ public class City {
 
     }
 
+    public Tile getMainTile() {
+        return mainTile;
+    }
 
-    public void assignCitizenToTiles(Tile originTile,Tile destinationTile) {
+    public int getHP() {
+        return HP;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public Civilization getCivilization() {
+        return civilization;
+    }
+
+    public void assignCitizenToTiles(Tile originTile, Tile destinationTile) {
         if (originTile == null) citizen--;
         else gettingWorkedOnByCitizensTiles.remove(originTile);
         gettingWorkedOnByCitizensTiles.add(destinationTile);
@@ -154,17 +202,25 @@ public class City {
     public boolean createUnit(UnitType unitType) {
         if (unitType.cost > civilization.getGold())
             return false;
+        if(product!=null)
+        {
+            halfProducedUnits.add(product);
+            product=null;
+        }
+        GameController.deleteFromUnfinishedTasks(new Tasks(mainTile,TaskTypes.CITY_PRODUCTION));
         if (unitType.combatType == CombatType.CIVILIAN) {
             if (unitType == UnitType.Settler) {
-                product = new Settler(mainTile, civilization,unitType);
+                product = new Settler(mainTile, civilization, unitType);
                 return true;
             }
-            product = new Worker(mainTile, civilization,unitType);
+            product = new Worker(mainTile, civilization, unitType);
             return true;
         }
         product = new NonCivilian(mainTile, civilization, unitType);
-        remainingProduction = product.getCost();
         return true;
     }
 
+    public boolean getDoesHaveWall() {
+        return doesHaveWall;
+    }
 }

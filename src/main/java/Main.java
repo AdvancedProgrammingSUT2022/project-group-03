@@ -6,7 +6,6 @@ public class Main {
 
     public static void main(String[] args) {
         int menu = 0;
-        System.out.println(  Color.BLACK_BACKGROUND.toString()+ Color.RED_BOLD_BRIGHT +"SE");
         Scanner scanner = new Scanner(System.in);
         LoginMenu loginMenu = new LoginMenu();
         MainMenu mainMenu = new MainMenu();

@@ -297,7 +297,6 @@ public class Map {
         return false;
     }
 
-    // TODO: 4/25/2022   printe rangi unita
     public String printMap(Civilization.TileCondition[][] tileConditions, int originX, int originY) {
         StringBuilder mapString = new StringBuilder();
         Color color0;

@@ -7,10 +7,30 @@
     <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/TechnologyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/TechnologyController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Civilization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/resources/ResourcesTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/resources/ResourcesTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Tasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Tasks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/producible.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/producible.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/technologies/Technology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/technologies/Technology.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/GameController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/LoginController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/TechnologyController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/City.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Civilization.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map$BestMoveClass.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map$TileAndMP.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/UnitType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/technologies/Technology.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/ChooseTechnology.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/ProductionCityMenu.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +88,7 @@
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="17" />
+      <option name="ALTERNATIVE_JRE_PATH" value="C:/Program Files/Java/jdk-17.0.2" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="untitled5" />
@@ -100,6 +120,8 @@
       <workItem from="1650898427319" duration="2043000" />
       <workItem from="1650900501884" duration="13287000" />
       <workItem from="1650895032230" duration="998000" />
+      <workItem from="1651243519954" duration="13348000" />
+      <workItem from="1651298926484" duration="7472000" />
     </task>
     <servers />
   </component>

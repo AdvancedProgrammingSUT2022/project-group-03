@@ -26,6 +26,7 @@ public class User {
             e.printStackTrace();
         }
     }
+
     private static void saveData(){
         FileWriter fileWriter = null;
         try {
@@ -73,5 +74,7 @@ public class User {
         saveData();
     }
 
-
+    public String getNickname() {
+        return nickname;
+    }
 }

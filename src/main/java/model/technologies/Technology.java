@@ -1,29 +1,27 @@
 package model.technologies;
 
-import model.productable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import model.producible;
 
-public class Technology implements productable {
-    private TechnologyType technologyType;
-    private int remainedScienceUntilCompleteTechnology;
+public class Technology implements producible {
+    private final TechnologyType technologyType;
+    private int remainedCost;
 
     public Technology(TechnologyType technologyType){
         this.technologyType = technologyType;
-        remainedScienceUntilCompleteTechnology = technologyType.cost;
+        remainedCost = technologyType.cost;
     }
 
     public TechnologyType getTechnologyType() {
         return technologyType;
     }
-
-    public int getRemainedScienceUntilCompleteTechnology() {
-        return remainedScienceUntilCompleteTechnology;
+    public int getRemainedCost() {
+        return remainedCost;
     }
 
-    public void changeRemainedScienceUntilCompleteTechnology(int remainedScienceUntilCompleteTechnology) {
-        this.remainedScienceUntilCompleteTechnology += remainedScienceUntilCompleteTechnology;
+    public void changeRemainedCost(int remainedScienceUntilCompleteTechnology) {
+        this.remainedCost += remainedScienceUntilCompleteTechnology;
     }
-    public int getCost(){return technologyType.cost;};
+    public int getCost(){return technologyType.cost;}
+    public void setRemainedCost(int remainedCost){this.remainedCost = remainedCost;}
 }
