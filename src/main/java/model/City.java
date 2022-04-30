@@ -16,7 +16,7 @@ public class City {
     private boolean doesHaveWall = false;
     private int HP = 20;
     private int food;
-    private int population = 0;
+    private int population;
     private producible product;
     private int production;
     private ArrayList<Tile> tiles = new ArrayList<>();

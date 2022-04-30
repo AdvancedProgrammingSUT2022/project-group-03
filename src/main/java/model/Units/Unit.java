@@ -144,7 +144,7 @@ public abstract class Unit implements producible {
     {
         return remainedCost;
     }
-    public void setRemainedCost(int remainedCost) { this.remainedCost = remainedCost}
+    public void setRemainedCost(int remainedCost) { this.remainedCost = remainedCost;}
     public UnitType getUnitType() {
         return unitType;
     }
