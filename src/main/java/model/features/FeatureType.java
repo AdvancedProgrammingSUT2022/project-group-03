@@ -1,6 +1,5 @@
-package model;
+package model.features;
 
-import model.improvements.Improvement;
 import model.improvements.ImprovementType;
 import model.resources.ResourcesTypes;
 

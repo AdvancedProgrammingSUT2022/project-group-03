@@ -3,10 +3,8 @@ package model.Units;
 import controller.GameController;
 import model.Civilization;
 import model.Map;
-import model.FeatureType;
 import model.producible;
 import model.tiles.Tile;
-import model.tiles.TileType;
 
 public abstract class Unit implements producible {
     protected Civilization civilization;
@@ -16,7 +14,7 @@ public abstract class Unit implements producible {
     private int health = 10;
     protected UnitType unitType;
     public int remainedCost;
-    private UnitState state;
+    protected UnitState state;
     public Unit(Tile tile, Civilization civilization, UnitType unitType) {
         this.currentTile = tile;
         this.civilization = civilization;
@@ -59,7 +57,25 @@ public abstract class Unit implements producible {
         if(unitType==UnitType.WORKER && state==UnitState.REPAIRING)
         {
             if(currentTile.getImprovement()!= null && currentTile.getImprovement().getNeedsRepair()!=0)
+            {
                 currentTile.getImprovement().setNeedsRepair(currentTile.getImprovement().getNeedsRepair()-1);
+                if(currentTile.getImprovement().getNeedsRepair()==0)
+                    state=UnitState.AWAKE;
+            }
+            else
+                state=UnitState.AWAKE;
+        }
+        if(unitType==UnitType.WORKER && state==UnitState.REMOVING)
+        {
+            if(currentTile.getContainedFeature()!=null && currentTile.getContainedFeature().getCyclesToFinish()!=0)
+            {
+                currentTile.getContainedFeature().setCyclesToFinish(currentTile.getContainedFeature().getCyclesToFinish()-1);
+                if(currentTile.getContainedFeature().getCyclesToFinish()==0)
+                {
+                    state=UnitState.AWAKE;
+                    currentTile.setFeature(null);
+                }
+            }
             else
                 state=UnitState.AWAKE;
         }

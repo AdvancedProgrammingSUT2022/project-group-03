@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import model.Units.*;
+import model.features.FeatureType;
 import model.improvements.Improvement;
 import model.improvements.ImprovementType;
 import model.technologies.Technology;
@@ -263,7 +264,7 @@ public class GameController {
             return 1;
         if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
             return 2;
-        if(isJungle && selectedUnit.getCurrentTile().getFeature()!=FeatureType.DENSEFOREST && selectedUnit.getCurrentTile().getFeature()!=FeatureType.FOREST)
+        if(isJungle && selectedUnit.getCurrentTile().getFeatureType()!= FeatureType.DENSEFOREST && selectedUnit.getCurrentTile().getFeatureType()!=FeatureType.FOREST)
             return 3;
         //TODO if(!isJungle && notroad && notrailroad) {....}
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT));
@@ -410,9 +411,9 @@ public class GameController {
             }
             if (tile.getNeighbours(i).getTileType() == TileType.MOUNTAIN ||
                     tile.getNeighbours(i).getTileType() == TileType.HILL ||
-                    (tile.getNeighbours(i).getFeature() != null &&
-                            (tile.getNeighbours(i).getFeature() == FeatureType.FOREST ||
-                            tile.getNeighbours(i).getFeature() == FeatureType.DENSEFOREST)))
+                    (tile.getNeighbours(i).getFeatureType() != null &&
+                            (tile.getNeighbours(i).getFeatureType() == FeatureType.FOREST ||
+                            tile.getNeighbours(i).getFeatureType() == FeatureType.DENSEFOREST)))
                 continue;
             for (int j = 0; j < 6; j++) {
                 if(tile.getNeighbours(i).getNeighbours(j)==null)

@@ -3,7 +3,8 @@ package model.tiles;
 import model.City;
 import model.Civilization;
 import model.Units.*;
-import model.FeatureType;
+import model.features.Feature;
+import model.features.FeatureType;
 import model.improvements.Improvement;
 import model.resources.ResourcesTypes;
 import model.technologies.Technology;
@@ -14,7 +15,7 @@ public class Tile {
     private boolean[] tilesWithRiver = new boolean[6];
     private TileType tileType;
     private ResourcesTypes containedResource;
-    private FeatureType containedFeature;
+    private Feature containedFeature;
     private Improvement improvement;
     private final int x;
     private final int y;
@@ -24,9 +25,7 @@ public class Tile {
     private City city;
     private int hasRoad;
     private int raidLevel;
-    static {
-        //hashmap set
-    }
+
     private final Tile[] neighbours = new Tile[6];// LU, clockwise
 
     public int getX() {
@@ -43,7 +42,7 @@ public class Tile {
 
     public int getMovingPrice() {
         if(containedFeature!=null)
-            return tileType.movementPoint + containedFeature.movePoint;
+            return tileType.movementPoint + containedFeature.getFeatureType().movePoint;
         return tileType.movementPoint;
     }
 
@@ -85,8 +84,8 @@ public class Tile {
     public TileType getTileType() {
         return tileType;
     }
-    public FeatureType getFeature() {
-        return containedFeature;
+    public FeatureType getFeatureType() {
+        return containedFeature.getFeatureType();
     }
 
     public ResourcesTypes getResources() {
@@ -98,7 +97,7 @@ public class Tile {
         this.y = y;
         this.tileType = tileType;
     }
-    public void setFeature(FeatureType feature){
+    public void setFeature(Feature feature){
         this.containedFeature = feature;
     }
 
@@ -122,7 +121,7 @@ public class Tile {
     public boolean isResourceTypeValid(ResourcesTypes resourcesType){
         ResourcesTypes[] list1 = tileType.resourcesTypes;
         ResourcesTypes[] list2 = new ResourcesTypes[1];
-        if(containedFeature != null)  list2 = containedFeature.resourcesTypes;
+        if(containedFeature != null)  list2 = containedFeature.getFeatureType().resourcesTypes;
         for (ResourcesTypes types : list1) {
             if(types == resourcesType) return true;
         }
@@ -172,5 +171,9 @@ public class Tile {
 
     public void setImprovement(Improvement improvement) {
         this.improvement = improvement;
+    }
+
+    public Feature getContainedFeature() {
+        return containedFeature;
     }
 }

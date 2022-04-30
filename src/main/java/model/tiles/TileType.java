@@ -1,6 +1,6 @@
 package model.tiles;
 
-import model.FeatureType;
+import model.features.FeatureType;
 import model.improvements.ImprovementType;
 import model.resources.ResourcesTypes;
 
