@@ -13,7 +13,7 @@ public class City {
     private final Tile mainTile;
     private Civilization civilization;
     private boolean doesHaveWall = false;
-    private int HP = 20;
+    private int HP = 200;
     private int food;
     private int population = 0;
     private producible product;
@@ -222,5 +222,19 @@ public class City {
 
     public boolean getDoesHaveWall() {
         return doesHaveWall;
+    }
+    public int getCombatStrength(boolean isAttack){
+        /*double combat;
+        if(isAttack){
+            combat = ((double)unitType.rangedCombatStrength * (100 + currentTile.getCombatChange())/ 100);
+        }
+        else combat = ((double)unitType.combatStrength * (100 + currentTile.getCombatChange())/ 100);
+        if (civilization.getHappiness() < 0) combat = 0.75 * combat;
+        combat = combat*(50 + (double)health/2)/100;
+        if (combat < 1) combat = 1;
+        return (int) combat;*/
+        return 50;
+
+
     }
 }

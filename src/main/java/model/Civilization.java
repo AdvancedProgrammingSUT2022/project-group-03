@@ -25,9 +25,12 @@ public class Civilization {
             return openedArea;
         }
     }
-    public TileCondition[][] tileConditions;
+    private TileCondition[][] tileConditions;
     private final User user;
 
+    public void setTileConditions(TileCondition[][] tileConditions) {
+        this.tileConditions = tileConditions;
+    }
 
     private final int color;
     private int[][] openedArea = null;
@@ -64,7 +67,6 @@ public class Civilization {
         }
         return false;
     }
-
     public void changeHappiness(int happiness) {
         this.happiness += happiness;
     }

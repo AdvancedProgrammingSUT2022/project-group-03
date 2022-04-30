@@ -136,12 +136,24 @@ public class Tile {
     }
 
     public void setCivilian(Unit unit) {
+        if (unit == null) {
+            civilian = null;
+            return;
+        }
+
         if(unit.getUnitType().combatType== CombatType.CIVILIAN)
             this.civilian = unit;
     }
 
     public void setNonCivilian(NonCivilian nonCivilian) {
         this.nonCivilian = nonCivilian;
+    }
+
+    public int getCombatChange(){
+        if(containedResource != null){
+            return this.containedFeature.combatChange + tileType.combatChange;
+        }
+        else return tileType.combatChange;
     }
 
     public Tile CloneTileForCivilization(ArrayList<Technology> technologies) {

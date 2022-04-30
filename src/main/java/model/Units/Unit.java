@@ -1,30 +1,38 @@
 package model.Units;
 
 import controller.GameController;
-import model.Civilization;
-import model.Map;
-import model.FeatureType;
-import model.producible;
+import model.*;
 import model.tiles.Tile;
 import model.tiles.TileType;
 
-public abstract class Unit implements producible {
+public abstract class Unit implements producible, mortal {
     protected Civilization civilization;
     protected Tile currentTile;
-    private Tile destinationTile;
-    private int movementPrice;
-    private int health = 10;
+    protected Tile destinationTile;
+    protected int movementPrice;
+    protected int health = 100;
     protected UnitType unitType;
+    protected boolean isAttacking = false;
     private int XP;
     private boolean hasDoneAnything;
     public int remainedCost;
-    private UnitState state;
+    protected UnitState state;
     public Unit(Tile tile, Civilization civilization, UnitType unitType) {
         this.currentTile = tile;
         this.civilization = civilization;
         this.movementPrice = unitType.getDefaultMovementPrice();
         this.remainedCost = unitType.cost;
         this.state = UnitState.AWAKE;
+    }
+    public boolean checkToDestroy(){
+        if (health < 0) {
+        civilization.getUnits().remove(this);
+        if(this instanceof NonCivilian) currentTile.setCivilian(null);
+        else currentTile.setNonCivilian(null);
+        return true;
+        }
+        return false;
+
     }
 
     public int getHealth() {
@@ -73,11 +81,11 @@ public abstract class Unit implements producible {
         return currentTile;
     }
 
-    private void openNewArea() {
+    void openNewArea() {
         for (int i = 0; i < 6; i++) {
             int neighbourX = currentTile.getNeighbours(i).getX();
             int neighbourY = currentTile.getNeighbours(i).getY();
-            civilization.tileConditions[neighbourX][neighbourY] = new Civilization.TileCondition(currentTile.getNeighbours(i).CloneTileForCivilization(civilization.getResearches()), true);
+            civilization.getTileConditions()[neighbourX][neighbourY] = new Civilization.TileCondition(currentTile.getNeighbours(i).CloneTileForCivilization(civilization.getResearches()), true);
             if (currentTile.getNeighbours(i).getTileType() == TileType.MOUNTAIN ||
                     currentTile.getNeighbours(i).getTileType() == TileType.HILL ||
                     (currentTile.getNeighbours(i).getFeature() != null && (currentTile.getNeighbours(i).getFeature() == FeatureType.FOREST ||
@@ -86,15 +94,15 @@ public abstract class Unit implements producible {
             for (int j = 0; j < 6; j++) {
                 neighbourX = currentTile.getNeighbours(i).getNeighbours(j).getX();
                 neighbourY = currentTile.getNeighbours(i).getNeighbours(j).getY();
-                civilization.tileConditions[neighbourX][neighbourY] = new Civilization.TileCondition(currentTile.getNeighbours(i).getNeighbours(j).CloneTileForCivilization(civilization.getResearches()), true);
+                civilization.getTileConditions()[neighbourX][neighbourY] = new Civilization.TileCondition(currentTile.getNeighbours(i).getNeighbours(j).CloneTileForCivilization(civilization.getResearches()), true);
             }
         }
-        civilization.tileConditions[currentTile.getX()][currentTile.getY()] = new Civilization.TileCondition(currentTile.CloneTileForCivilization(civilization.getResearches()), true);
+        civilization.getTileConditions()[currentTile.getX()][currentTile.getY()] = new Civilization.TileCondition(currentTile.CloneTileForCivilization(civilization.getResearches()), true);
     }
 
 
     public boolean move(Tile destinationTile) {
-        Map.TileAndMP[] tileAndMPS = GameController.getMap().findNextTile(currentTile, movementPrice, destinationTile, unitType.combatType==CombatType.CIVILIAN);
+        Map.TileAndMP[] tileAndMPS = GameController.getMap().findNextTile(civilization,currentTile, movementPrice,unitType.movePoint, destinationTile, unitType.combatType==CombatType.CIVILIAN);
         this.destinationTile = destinationTile;
         if (tileAndMPS == null) {
             this.destinationTile = null;
@@ -117,7 +125,7 @@ public abstract class Unit implements producible {
             this.currentTile.setCivilian(null);
             tempTile.setCivilian(this);
         }
-        if (this.movementPrice != tempTile.getMovingPrice())
+        if (this.unitType.movePoint != tempTile.getMovingPrice())
             this.movementPrice = tempTile.getMovingPrice();
         else
             this.movementPrice = 0;

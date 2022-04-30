@@ -52,7 +52,7 @@ public class Map {
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
                 tiles[i][j] = new Tile(randomTile(i, j), i, j);
-                setNeighborsOfTile(i, j);
+                setNeighborsOfTile(tiles,i, j);
             }
         }
 
@@ -169,7 +169,7 @@ public class Map {
         }
     }
 
-    private void setNeighborsOfTile(int i, int j) {
+    private void setNeighborsOfTile(Tile[][] tiles,int i, int j) {
         if (i > 0) {
             tiles[i][j].setNeighbours(1, tiles[i - 1][j]);
             tiles[i - 1][j].setNeighbours(4, tiles[i][j]);
@@ -209,33 +209,45 @@ public class Map {
                 break;
         }
     }
+    private Tile[][] setMapForBestTile(Civilization.TileCondition[][] civilizationMap){
+        Tile[][] tiles = new Tile[x][y];
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                if (civilizationMap[i][j] == null) tiles[i][j] = new Tile(TileType.FLAT,i,j);
+                else tiles[i][j] = civilizationMap[i][j].getOpenedArea();
+                setNeighborsOfTile(tiles,i,j);
+            }
+        }
+        return tiles;
+    }
 
-    public TileAndMP[] findNextTile(Tile tile, int mp, Tile destinationTile, boolean isCivilian) {// TODO: 4/25/2022  vaghti resid maghsad naiad biroon
+    public TileAndMP[] findNextTile(Civilization civilization,Tile startTile,int remainedMP, int mp, Tile endTile, boolean isCivilian) {
+        Tile[][] tiles = setMapForBestTile(civilization.getTileConditions());
+        Tile tile = tiles[startTile.getX()][startTile.getY()];
+        Tile destinationTile = tiles[endTile.getX()][endTile.getY()];
         HashMap<Tile, Boolean> isVisitedEver = new HashMap<>();
         ArrayList<Tile>[] visited = new ArrayList[10];
         HashMap<Integer, HashMap<Tile, BestMoveClass>> visitedWithMove = new HashMap<>();
         for (int i = 0; i < 10; i++) {
-            visited[i] = new ArrayList<Tile>();
+            visited[i] = new ArrayList<>();
             visitedWithMove.put(i, new HashMap<>());
         }
-        visitedWithMove.get(0).put(tile, new BestMoveClass(mp, null, mp));
+        visitedWithMove.get(0).put(tile, new BestMoveClass(remainedMP, null, mp));
         visited[0].add(tile);
         isVisitedEver.put(tile, true);
         Tile check;
         int finalTurn = -10;
         boolean isOver = false;
-        loop:
-        for (int c = 0; !isOver && c < 10; c++) {
-            while (!isOver) {
+        boolean foundDestination = false;
+        for (int c = 0; !isOver && !foundDestination && c < 10; c++) {
+            while (!isOver && !foundDestination) {
                 isOver = true;
                 for (int i = 0; i < visited[c].size() && visitedWithMove.get(c).get(visited[c].get(i)).movePoint > 0; i++) {
                     for (int j = 0; j < 6; j++) {
                         check = visited[c].get(i).getNeighbours(j);
                         if (check != null) {
                             if (isVisitedEver.containsKey(check) ||
-                                    check.getTileType() == TileType.OCEAN ||
-                                    check.getTileType() == TileType.MOUNTAIN ||
-                                    (check.getFeature() != null && check.getFeature() == FeatureType.ICE))
+                                    check.getMovingPrice() > 123)
                                 continue;
                             int remainingMP = visitedWithMove.get(c).get(visited[c].get(i)).movePoint - check.getMovingPrice();
                             if (remainingMP < 0 || visited[c].get(i).isRiverWithNeighbour(j)) remainingMP = 0;
@@ -250,7 +262,7 @@ public class Map {
                             }
                             if (check == destinationTile) {
                                 finalTurn = c;
-                                break loop;
+                                foundDestination = true;
                             }
                         }
                     }
@@ -262,7 +274,8 @@ public class Map {
                     isOver = false;
                 }
                 if (c < 9 && visitedWithMove.get(c).get(visited[c].get(i)).movePoint == 0 &&
-                        ((visited[c].get(i).getCivilian() == null && isCivilian)
+                        ((visited[c].get(i).getCivilian() == null && isCivilian &&
+                                (visited[c].get(i).getNonCivilian() == null || visited[c].get(i).getNonCivilian().getCivilization() == civilization))
                                 || (visited[c].get(i).getNonCivilian() == null && !isCivilian))) {
                     visitedWithMove.get(c + 1).put(visited[c].get(i),
                             new BestMoveClass(mp, visitedWithMove.get(c).get(visited[c].get(i)).lastTile, c));
@@ -274,18 +287,20 @@ public class Map {
 
         }
         if (finalTurn != -10) {
-            TileAndMP[] tileAndMPS = new TileAndMP[finalTurn + 1];
+            TileAndMP[] tileAndMPS = new TileAndMP[100];
             Tile current = destinationTile;
             BestMoveClass bestMoveClass = visitedWithMove.get(finalTurn).get(current);
             int thisTurn = finalTurn;
-            tileAndMPS[0] = new TileAndMP(bestMoveClass.movePoint, current);
+            tileAndMPS[0] = new TileAndMP(bestMoveClass.movePoint, this.tiles[current.getX()][current.getY()]);
+            int k = 0;
             for (int i = 1; i <= finalTurn; i++) {
                 while (thisTurn == visitedWithMove.get(thisTurn).get(current).turn) {
                     current = visitedWithMove.get(thisTurn).get(current).lastTile;
                     bestMoveClass = visitedWithMove.get(thisTurn).get(current);
+                    tileAndMPS[k] = new TileAndMP(bestMoveClass.movePoint, this.tiles[current.getX()][current.getY()]);
+                    k++;
                 }
                 thisTurn--;
-                tileAndMPS[i] = new TileAndMP(bestMoveClass.movePoint, current);
             }
             return tileAndMPS;
         }

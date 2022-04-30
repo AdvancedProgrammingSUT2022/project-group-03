@@ -26,7 +26,7 @@ public class GameController {
         setCivilizations(PlayersNames);
         map = new Map(civilizations);
         for (int i = 0; i < PlayersNames.size(); i++)
-            civilizations.get(i).tileConditions = new Civilization.TileCondition[map.getX()][map.getY()];
+            civilizations.get(i).setTileConditions(new Civilization.TileCondition[map.getX()][map.getY()]);
         //HARDCODE
         Settler hardcodeUnit = new Settler(map.coordinatesToTile(2, 5), civilizations.get(0), UnitType.Settler);
         civilizations.get(0).getUnits().add(hardcodeUnit);
@@ -283,7 +283,7 @@ public class GameController {
         City tempCity = nameToCity(name);
         if (tempCity == null)
             return 1;
-        if (civilizations.get(playerTurn).tileConditions[tempCity.getMainTile().getX()][tempCity.getMainTile().getY()] == null)
+        if (civilizations.get(playerTurn).getTileConditions()[tempCity.getMainTile().getX()][tempCity.getMainTile().getY()] == null)
             return 2;
         mapShowPosition(tempCity.getMainTile().getX(), tempCity.getMainTile().getY());
         return 0;
@@ -368,7 +368,7 @@ public class GameController {
     }
 
     public static String printMap() {
-        return map.printMap(civilizations.get(playerTurn).tileConditions, startWindowX, startWindowY);
+        return map.printMap(civilizations.get(playerTurn).getTileConditions(), startWindowX, startWindowY);
     }
 
     public static Unit getSelectedUnit() {
