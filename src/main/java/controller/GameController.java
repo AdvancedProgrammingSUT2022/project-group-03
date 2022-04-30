@@ -183,6 +183,7 @@ public class GameController {
                 return 4;
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT));
         ((Settler) selectedUnit).city();
+        civilizations.get(playerTurn).changeHappiness(-1);
         return 0;
     }
 

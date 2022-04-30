@@ -1,5 +1,6 @@
 package model.technologies;
 
+
 import model.producible;
 
 public class Technology implements producible {
@@ -14,9 +15,6 @@ public class Technology implements producible {
     public TechnologyType getTechnologyType() {
         return technologyType;
     }
-    public int getCost(){
-        return technologyType.cost;
-    }
     public int getRemainedCost() {
         return remainedCost;
     }
@@ -24,4 +22,6 @@ public class Technology implements producible {
     public void changeRemainedCost(int remainedScienceUntilCompleteTechnology) {
         this.remainedCost += remainedScienceUntilCompleteTechnology;
     }
+    public int getCost(){return technologyType.cost;}
+    public void setRemainedCost(int remainedCost){this.remainedCost = remainedCost;}
 }

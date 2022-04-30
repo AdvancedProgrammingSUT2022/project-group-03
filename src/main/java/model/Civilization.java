@@ -1,6 +1,7 @@
 package model;
 
 import controller.GameController;
+import model.Units.NonCivilian;
 import model.Units.Unit;
 import model.resources.ResourcesTypes;
 import model.technologies.Technology;
@@ -36,8 +37,8 @@ public class Civilization {
     private ArrayList<Technology> researches = new ArrayList<>();
     private ArrayList<City> cities = new ArrayList<>();
     private int science;
+    private int happiness = 2;
     private producible producingTechnology;
-    private int happiness;
     private HashMap<ResourcesTypes, Integer> resourcesAmount = new HashMap<>();
     private Technology gettingResearchedTechnology;
     private HashMap<ResourcesTypes, Boolean> usedLuxuryResources = new HashMap<>();
@@ -62,6 +63,10 @@ public class Civilization {
             }
         }
         return false;
+    }
+
+    public void changeHappiness(int happiness) {
+        this.happiness += happiness;
     }
     //TODO CHECK KARDAN 0 NABOODAN SCIENCE DAR MOHASEBE ROOZ
     public HashMap<ResourcesTypes, Boolean> getUsedLuxuryResources() {
@@ -129,27 +134,44 @@ public class Civilization {
         return gold;
     }
 
-    public void startTheTurn()
-    {
-        //initialize
+    public void startTheTurn() {
         turnOffTileConditionsBoolean();
-        for (City city : cities) city.startTheTurn();
-        for (Unit unit : units) unit.startTheTurn();
+        for (City city : cities) {
+            city.getHappiness();
+        }
+        for (City city : cities) {
+            city.startTheTurn();
+            science += city.getPopulation();
+            gold += city.getGold();
+        }
+        for (City city : cities) {
+            city.collectFood();
+        }
 
-        if(gettingResearchedTechnology!=null)
-        {
-            int tempRemaining = gettingResearchedTechnology.getRemainedCost();
-            getGettingResearchedTechnology().changeRemainedCost(-science);
-            science -= tempRemaining;
-            if(science<=0)
-                science=0;
-            if(gettingResearchedTechnology.getRemainedCost()<=0)
-                gettingResearchedTechnology=null;
+        if (cities.size() > 0) {
+            science += 3;
+        }
+        for (Unit unit : units) unit.startTheTurn();
+        gold -= units.size();
+        if (gold < 0) {
+            if (units.get(0) instanceof NonCivilian)
+                units.get(0).getCurrentTile().setNonCivilian(null);
+            else units.get(0).getCurrentTile().setCivilian(null);
+            units.remove(0);
+            //initialize
+            if (gettingResearchedTechnology != null) {
+                int tempRemaining = gettingResearchedTechnology.getRemainedCost();
+                getGettingResearchedTechnology().changeRemainedCost(-science);
+                science -= tempRemaining;
+                if (science <= 0)
+                    science = 0;
+                if (gettingResearchedTechnology.getRemainedCost() <= 0)
+                    gettingResearchedTechnology = null;
+            }
         }
     }
 
-    public void endTheTurn()
-    {
+    public void endTheTurn() {
         //using
         for(int i = 0 ; i < units.size();i++)
             units.get(i).endTheTurn();
@@ -181,6 +203,9 @@ public class Civilization {
         return false;
     }
 
+    public int getHappiness() {
+        return happiness;
+    }
     public boolean doesContainTechnology(TechnologyType technologyType)
     {
         for (Technology research : researches)
