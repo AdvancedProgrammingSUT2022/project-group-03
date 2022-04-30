@@ -15,8 +15,6 @@ public abstract class Unit implements producible {
     private int movementPrice;
     private int health = 10;
     protected UnitType unitType;
-    private int XP;
-    private boolean hasDoneAnything;
     public int remainedCost;
     private UnitState state;
     public Unit(Tile tile, Civilization civilization, UnitType unitType) {
@@ -41,15 +39,12 @@ public abstract class Unit implements producible {
     }
 
     public void cancelMission() {
-
-    }
-
-    public void wake() {
-
+        state= UnitState.AWAKE;
+        destinationTile = null;
     }
 
     public void startTheTurn() {
-        GameController.openNewArea(currentTile,civilization);
+        GameController.openNewArea(currentTile,civilization,this);
 //        health += ...
         if (health > 10)
             health = 10;
@@ -58,6 +53,16 @@ public abstract class Unit implements producible {
         if(state== UnitState.FORTIFY_UNTIL_FULL_HEALTH && health==10)
             state = UnitState.AWAKE;
 
+        if(unitType==UnitType.WORKER && currentTile.getImprovement()!=null && currentTile.getImprovement().getRemainedCost()!=0)
+            currentTile.getImprovement().setRemainedCost(currentTile.getImprovement().getRemainedCost()-1);
+
+        if(unitType==UnitType.WORKER && state==UnitState.REPAIRING)
+        {
+            if(currentTile.getImprovement()!= null && currentTile.getImprovement().getNeedsRepair()!=0)
+                currentTile.getImprovement().setNeedsRepair(currentTile.getImprovement().getNeedsRepair()-1);
+            else
+                state=UnitState.AWAKE;
+        }
     }
 
     public void endTheTurn() {
@@ -105,7 +110,7 @@ public abstract class Unit implements producible {
         else
             this.movementPrice = 0;
         this.currentTile = tempTile;
-        GameController.openNewArea(this.currentTile,civilization);
+        GameController.openNewArea(this.currentTile,civilization,null);
         return true;
     }
 

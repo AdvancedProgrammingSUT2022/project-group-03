@@ -20,8 +20,8 @@ public abstract class Menu {
     }
 
     protected Matcher getMatcher(String regex, String command) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(command);
+        Pattern pattern = Pattern.compile(regex.toLowerCase(Locale.ROOT));
+        Matcher matcher = pattern.matcher(command.toLowerCase(Locale.ROOT));
         matcher.find();
         return matcher;
     }

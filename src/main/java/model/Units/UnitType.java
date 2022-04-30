@@ -3,17 +3,17 @@ package model.Units;
 import model.resources.ResourcesTypes;
 import model.technologies.TechnologyType;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public enum UnitType {
-    Archer("Arc",2,70, CombatType.ARCHERY, 4,6,2,null,TechnologyType.ARCHERY),
-    ChariotArcher("CAr",4,60,CombatType.MOUNTED,3,6,2,ResourcesTypes.HORSE, TechnologyType.THE_WHEEL),
-    Scout("Sco",2,25,CombatType.RECON,4,4,1,null,null),
-    Settler("SE",2,89,CombatType.CIVILIAN,0,0,0,null,null),
-    Spearman("Spm",2,50,CombatType.MELEE,7,7,1,null,TechnologyType.BRONZE_WORKING),
-    Warrior("War",2, 40,CombatType.MELEE,6,6,1,null,null),
-    Worker("WO",2,70,CombatType.CIVILIAN,0,0,0,null,null),
+    ARCHER("Arc",2,70, CombatType.ARCHERY, 4,6,2,null,TechnologyType.ARCHERY),
+    CHARIOT_ARCHER("CAr",4,60,CombatType.MOUNTED,3,6,2,ResourcesTypes.HORSE, TechnologyType.THE_WHEEL),
+    SCOUT("Sco",2,25,CombatType.RECON,4,4,1,null,null),
+    SETTLER("SE",2,89,CombatType.CIVILIAN,0,0,0,null,null),
+    SPEARMAN("Spm",2,50,CombatType.MELEE,7,7,1,null,TechnologyType.BRONZE_WORKING),
+    WARRIOR("War",2, 40,CombatType.MELEE,6,6,1,null,null),
+    WORKER("WO",2,70,CombatType.CIVILIAN,0,0,0,null,null),
     CATAPULT("Cat",2, 100,CombatType.SIEGE,4,14,2,ResourcesTypes.IRON,TechnologyType.MATHEMATICS),
     HORSEMAN("Hom",4,80,CombatType.MOUNTED,12,12,1,ResourcesTypes.HORSE,TechnologyType.HORSEBACK_RIDING),
     SWORDSMAN("Swm",2,80,CombatType.MELEE,11,11,1,ResourcesTypes.IRON,TechnologyType.IRON_WORKING),
@@ -42,7 +42,15 @@ public enum UnitType {
     public final int range;
     public final TechnologyType technologyRequired;
     public final ResourcesTypes resourcesType;
-    UnitType(String icon, int movePoint, int cost, CombatType combatType, int combatStrength, int rangedCombatStrength, int range,ResourcesTypes resourcesType ,TechnologyType technologyRequired){
+    UnitType(String icon,
+             int movePoint,
+             int cost,
+             CombatType combatType,
+             int combatStrength,
+             int rangedCombatStrength,
+             int range,
+             ResourcesTypes resourcesType ,
+             TechnologyType technologyRequired){
         this.icon = icon;
         this.movePoint = movePoint;
         this.cost=cost;
@@ -61,5 +69,14 @@ public enum UnitType {
     public int getDefaultMovementPrice()
     {
         return movePoint;
+    }
+
+
+    public static UnitType stringToEnum(String string)
+    {
+        for (UnitType value : VALUES)
+            if (string.toLowerCase(Locale.ROOT).equals(value.toString().toLowerCase(Locale.ROOT)))
+                return value;
+        return null;
     }
 }

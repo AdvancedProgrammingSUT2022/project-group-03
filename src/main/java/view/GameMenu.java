@@ -3,8 +3,10 @@ package view;
 import controller.GameController;
 import model.City;
 import model.Units.Unit;
+import model.improvements.ImprovementType;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.regex.Matcher;
 
 public class GameMenu extends Menu {
@@ -13,7 +15,7 @@ public class GameMenu extends Menu {
         ArrayList<City> cities = GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities();
         boolean doWeHaveAnyWorkingTechnology = false;
         for (City city : cities) {
-            if(city.getProduct()==null)
+            if (city.getProduct() == null)
                 continue;
             doWeHaveAnyWorkingTechnology = true;
             String tempString = null;
@@ -21,22 +23,15 @@ public class GameMenu extends Menu {
                 tempString = ((Unit) city.getProduct()).getUnitType().toString();
             System.out.print(city.getName() + ": " + "getting developed technology: " + tempString);
         }
-        if(!doWeHaveAnyWorkingTechnology)
+        if (!doWeHaveAnyWorkingTechnology)
             System.out.println("you don't have any technology in the development right now");
     }
 
     private void infoUnits() {
         ArrayList<Unit> units = GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits();
-        for (Unit unit : units) {
-            System.out.print(unit.getUnitType() +
-                    "| Health: " + unit.getHealth() +
-                    "| currentX: " + unit.getCurrentTile().getX() +
-                    " currentY: " + unit.getCurrentTile().getY());
-            if (unit.getDestinationTile() != null)
-                System.out.print("| destinationX: " + unit.getDestinationTile().getX()
-                        + " destinationY: " + unit.getDestinationTile().getY());
-        }
-        if(units.size()==0)
+        for (Unit unit : units)
+            printUnitInfo(unit);
+        if (units.size() == 0)
             System.out.println("you don't have any units right now");
     }
 
@@ -54,8 +49,8 @@ public class GameMenu extends Menu {
                     " | founder: " + city.getFounder().getUser().getNickname() +
                     " | doesHaveWall: ");
             if (city.getDoesHaveWall())
-                System.out.print("Yes");
-            else System.out.print("No");
+                System.out.println("Yes");
+            else System.out.println("No");
 
 
         }
@@ -119,8 +114,11 @@ public class GameMenu extends Menu {
     }
 
     private void selectCityByName(String command) {
-        if (!GameController.setSelectedCityByName(command))
+        Matcher matcher = getMatcher(regexes[14], command);
+        if (!GameController.setSelectedCityByName(matcher.group(1)))
             System.out.println("city does not exist");
+        else
+            System.out.println("city selected successfully");
     }
 
 
@@ -129,7 +127,8 @@ public class GameMenu extends Menu {
         if (!GameController.setSelectedCityByPosition(Integer.parseInt(matcher.group(1)),
                 Integer.parseInt(matcher.group(2))))
             System.out.println("city does not exist");
-
+        else
+            System.out.println("city selected successfully");
     }
 
     private void unitMoveTo(String command) {
@@ -154,40 +153,43 @@ public class GameMenu extends Menu {
 
     private void unitAlert() {
         int result = GameController.unitAlert();
-        if(result==0)
+        if (result == 0)
             System.out.println("the selected unit has been set to alert successfully");
-        if(result==1)
+        if (result == 1)
             System.out.println("no unit is selected");
-        if(result==2)
+        if (result == 2)
             System.out.println("the selected unit is not yours");
+        if (result == 3)
+            System.out.println("you can't go to alert position when there is enemy around");
     }
 
     private void unitFortify() {
         int result = GameController.unitFortify();
-        if(result==0)
+        if (result == 0)
             System.out.println("the selected unit has been set to fortify successfully");
-        if(result==1)
+        if (result == 1)
             System.out.println("no unit is selected");
-        if(result==2)
+        if (result == 2)
             System.out.println("the selected unit is not yours");
     }
+
     private void unitFortifyUntilFullHealth() {
         int result = GameController.unitFortifyUntilFullHealth();
-        if(result==0)
+        if (result == 0)
             System.out.println("the selected unit has been set to fortifyUntilFullHealth successfully");
-        if(result==1)
+        if (result == 1)
             System.out.println("no unit is selected");
-        if(result==2)
+        if (result == 2)
             System.out.println("the selected unit is not yours");
     }
 
     private void unitGarrison() {
         int result = GameController.unitGarrison();
-        if(result==0)
+        if (result == 0)
             System.out.println("the selected unit has been set to garrison successfully");
-        if(result==1)
+        if (result == 1)
             System.out.println("no unit is selected");
-        if(result==2)
+        if (result == 2)
             System.out.println("the selected unit is not yours");
     }
 
@@ -203,7 +205,7 @@ public class GameMenu extends Menu {
         int result = GameController.unitFoundCity();
         if (result == 0)
             System.out.println("city founded successfully");
-        if(result==1)
+        if (result == 1)
             System.out.println("not unit is selected");
         if (result == 2)
             System.out.println("the selected unit is not yours");
@@ -214,14 +216,22 @@ public class GameMenu extends Menu {
     }
 
     private void unitCancelMission() {
-
+        int result = GameController.unitCancelMission();
+        if (result == 0)
+            System.out.println("mission cancelled successfully");
+        if (result == 1)
+            System.out.println("not unit is selected");
+        if (result == 2)
+            System.out.println("the selected unit is not yours");
+        if (result == 3)
+            System.out.println("the selected unit has no missions");
     }
 
     private void unitWake() {
         int result = GameController.unitWake();
         if (result == 0)
             System.out.println("the selected unit has been awaken successfully");
-        if(result==1)
+        if (result == 1)
             System.out.println("no unit is selected");
         if (result == 2)
             System.out.println("the selected unit is not yours");
@@ -231,61 +241,31 @@ public class GameMenu extends Menu {
 
     private void unitDelete() {
         int result = GameController.unitDelete(GameController.getSelectedUnit());
-        if(result==0)
+        if (result == 0)
             System.out.println("the selected unit has been deleted successfully");
-        if(result==1)
+        if (result == 1)
             System.out.println("no unit is selected");
         if (result == 2)
             System.out.println("the selected unit is not yours");
 
     }
 
-    private void unitBuildRoad() {
-
-    }
-
-    private void unitBuildRailroad() {
-
-    }
-
-    private void unitBuildFarm() {
-
-    }
-
-    private void unitBuildMine() {
-
-    }
-
-    private void unitBuildTradingPost() {
-
-    }
-
-    private void unitBuildLumbermill() {
-
-    }
-
-    private void unitBuildPasture() {
-
-    }
-
-    private void unitBuildCamp() {
-
-    }
-
-    private void unitBuildPlantation() {
-
-    }
-
-    private void unitBuildQuarry() {
-
-    }
-
-    private void unitRemove() {
+    private void unitRemove(String command) {
 
     }
 
     private void unitRepair() {
-
+        int result = GameController.unitRepair();
+        if (result == 0)
+            System.out.println("improvement repaired successfully");
+        if (result == 1)
+            System.out.println("no unit is selected");
+        if (result == 2)
+            System.out.println("the selected unit is not yours");
+        if (result == 3)
+            System.out.println("there are no improvements here");
+        if (result == 4)
+            System.out.println("the selected improvement does not need repairing");
     }
 
 
@@ -294,6 +274,8 @@ public class GameMenu extends Menu {
         if (!GameController.mapShowPosition(Integer.parseInt(matcher.group(1)),
                 Integer.parseInt(matcher.group(2))))
             System.out.println("invalid position");
+        else
+            System.out.println(GameController.printMap());
     }
 
 
@@ -306,13 +288,24 @@ public class GameMenu extends Menu {
             System.out.println("you have not unlocked the position of this city yet");
         if (result == 0)
             System.out.println("city selected successfully");
+        System.out.println(GameController.printMap());
+    }
+
+    private void printUnitInfo(Unit unit) {
+        System.out.print(unit.getUnitType() +
+                ": | Health: " + unit.getHealth() +
+                " | currentX: " + unit.getCurrentTile().getX() +
+                " | currentY: " + unit.getCurrentTile().getY());
+        if (unit.getDestinationTile() != null)
+            System.out.print(" | destinationX: " + unit.getDestinationTile().getX()
+                    + " destinationY: " + unit.getDestinationTile().getY());
     }
 
     private void selectedUnitInfo() {
         if (GameController.getSelectedUnit() == null)
             System.out.println("no unit selected");
         else
-            System.out.println("MP: " + GameController.getSelectedUnit().getMovementPrice());
+            printUnitInfo(GameController.getSelectedUnit());
     }
 
     private void mapMove(String command) {
@@ -331,14 +324,23 @@ public class GameMenu extends Menu {
 
     private void startProducing(String command) {
         Matcher matcher = getMatcher(regexes[10], command);
-        GameController.startProducing(matcher.group(1));
+        int result = GameController.startProducing(matcher.group(1));
+        if (result == 0)
+            System.out.println("production started successfully");
+        if (result == 1)
+            System.out.println("no product with this name is defined");
+        if (result == 2)
+            System.out.println("no city is selected");
+        if (result == 3)
+            System.out.println("the selected city is not yours");
+        if (result == 4)
+            System.out.println("you don't have enough money");
     }
 
     private void technologyMenu() {
-        if(GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size()==0)
+        if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0)
             System.out.println("you need at least one city to enter the technology menu");
-        else
-        {
+        else {
             ChooseTechnology chooseTechnology = new ChooseTechnology();
             chooseTechnology.printDetails();
             chooseTechnology.run(scanner);
@@ -347,17 +349,23 @@ public class GameMenu extends Menu {
     }
 
     private void cityProductionMenu() {
-        ProductionCityMenu productionCityMenu = new ProductionCityMenu();
-        productionCityMenu.run(scanner);
+        if (GameController.getSelectedCity() == null)
+            System.out.println("no city is selected");
+        if (GameController.getSelectedCity().getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
+            System.out.println("the selected city is not yours");
+        else {
+            ProductionCityMenu productionCityMenu = new ProductionCityMenu();
+            productionCityMenu.printDetails();
+            productionCityMenu.run(scanner);
+        }
     }
 
     private void nextTurn() {
         if (GameController.nextTurnIfYouCan())
             System.out.println("turn ended successfully");
-        else
-        {
+        else {
             System.out.print("failed to end the turn: " + GameController.getUnfinishedTasks().get(0).getTaskTypes());
-            if(GameController.getUnfinishedTasks().get(0).getTile()==null)
+            if (GameController.getUnfinishedTasks().get(0).getTile() == null)
                 System.out.println();
             else System.out.println(" | x: " + GameController.getUnfinishedTasks().get(0).getTile().getX() +
                     " y: " + GameController.getUnfinishedTasks().get(0).getTile().getY());
@@ -387,7 +395,7 @@ public class GameMenu extends Menu {
             for (int i = 0; i < city.getGettingWorkedOnByCitizensTiles().size(); i++)
                 System.out.print(city.getGettingWorkedOnByCitizensTiles().get(i).getX() + "," +
                         city.getGettingWorkedOnByCitizensTiles().get(i).getY() + "   |   ");
-            System.out.print("\nHP: " + city.getHP());
+            System.out.println("\nHP: " + city.getHP());
             System.out.println("strength: " + city.getStrength());
         }
 
@@ -397,12 +405,42 @@ public class GameMenu extends Menu {
         Matcher matcher = getMatcher(regexes[21], command);
         for (int i = 0; i < Integer.parseInt(matcher.group(1)) * GameController.getCivilizations().size(); i++)
             GameController.nextTurn();
+        System.out.println("cheat activated successfully");
+    }
+
+    private void unitBuild(String command) {
+        Matcher matcher = getMatcher(regexes[30], command);
+        ImprovementType improvementType = ImprovementType.stringToImprovementType(matcher.group(1));
+        int result;
+        if (improvementType != null)
+            result = GameController.unitBuild(improvementType);
+        else if (matcher.group(1).toLowerCase(Locale.ROOT).equals("road"))
+            result = GameController.unitBuildRoad();
+        else if (matcher.group(1).toLowerCase(Locale.ROOT).equals("railroad"))
+            result = GameController.unitBuildRailRoad();
+        else {
+            System.out.println("no improvement with that name exists");
+            return;
+        }
+        if (result == 0)
+            System.out.println(matcher.group(1) + "'s production started successfully");
+        if (result == 1)
+            System.out.println("no unit is selected");
+        if (result == 2)
+            System.out.println("the selected unit is not yours");
+        if (result == 3)
+            System.out.println("the selected unit is not a worker");
+        if (result == 4)
+            System.out.println("you don't have the prerequisite technologies");
+        if (result == 5)
+            System.out.println("this improvement cannot be inserted here");
     }
 
     private void increaseGold(String command) {
         Matcher matcher = getMatcher(regexes[22], command);
         GameController.getCivilizations().get(GameController.getPlayerTurn())
                 .increaseGold(Integer.parseInt(matcher.group(1)));
+        System.out.println("cheat activated successfully");
     }
 
     {
@@ -435,8 +473,13 @@ public class GameMenu extends Menu {
                 "^UNIT FORTIFY$",
                 "^UNIT FORTIFY_UNTIL_HEAL$",
                 "^UNIT GARRISON$",
-                "^UNIT DELETE$",
-                "^PRINT MAP$"
+                "^UNIT DELETE$", //28
+                "^PRINT MAP$",
+                "^build improvement (\\w+)$",
+                "^unit repair$",
+                "^unit cancel mission$",
+                "^unit remove (\\w+)$", //33
+                "^unit wake$"
         };
     }
 
@@ -538,6 +581,21 @@ public class GameMenu extends Menu {
                 break;
             case 29:
                 System.out.println(GameController.printMap());
+                break;
+            case 30:
+                unitBuild(command);
+                break;
+            case 31:
+                unitRepair();
+                break;
+            case 32:
+                unitCancelMission();
+                break;
+            case 33:
+                unitRemove(command);
+                break;
+            case 34:
+                unitWake();
                 break;
         }
 

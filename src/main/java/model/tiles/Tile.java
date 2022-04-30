@@ -165,4 +165,12 @@ public class Tile {
     public void setCity(City city) {
         this.city = city;
     }
+
+    public Improvement getImprovement() {
+        return improvement;
+    }
+
+    public void setImprovement(Improvement improvement) {
+        this.improvement = improvement;
+    }
 }
