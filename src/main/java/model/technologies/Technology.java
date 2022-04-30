@@ -1,9 +1,11 @@
 package model.technologies;
 
+import model.productable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Technology {
+public class Technology implements productable {
     private TechnologyType technologyType;
     private int remainedScienceUntilCompleteTechnology;
 
@@ -23,4 +25,5 @@ public class Technology {
     public void changeRemainedScienceUntilCompleteTechnology(int remainedScienceUntilCompleteTechnology) {
         this.remainedScienceUntilCompleteTechnology += remainedScienceUntilCompleteTechnology;
     }
+    public int getCost(){return technologyType.cost;};
 }

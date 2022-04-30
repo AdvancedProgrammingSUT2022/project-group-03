@@ -1,7 +1,6 @@
 package model;
 
 import model.Units.*;
-import model.resources.ResourcesTypes;
 import model.tiles.Tile;
 
 import java.util.ArrayList;
@@ -21,6 +20,7 @@ public class City {
     private ArrayList<Tile> tiles = new ArrayList<>();
     private Civilization founder;
     private int citizen;
+    private int foodForCitizen = 1;
 
     private ArrayList<Tile> gettingWorkedOnByCitizensTiles = new ArrayList<>();
     public City(Tile tile,String name,Civilization civilization) {
@@ -33,29 +33,44 @@ public class City {
         for (int i = 0; i < 6; i++)
             this.tiles.add(mainTile.getNeighbours(i));
     }
-    public void startTheTurn() {
+    public int collectFood(){
+        int food = 0;
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
-            if(!civilization.getResourcesAmount().containsKey(gettingWorkedOnByCitizensTile.getResources()))
-                civilization.getResourcesAmount().put(gettingWorkedOnByCitizensTile.getResources(),1);
-            else {
+            if (civilization.getHappiness() < 0)
+            food += (gettingWorkedOnByCitizensTile.getTileType().food
+                + gettingWorkedOnByCitizensTile.getFeature().food) / 3;
+        }
+        return food;
+    }
+    public void getHappiness(){
+        for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
+            if (!civilization.getResourcesAmount().containsKey(gettingWorkedOnByCitizensTile.getResources())) {
+                civilization.getResourcesAmount().put(gettingWorkedOnByCitizensTile.getResources(), 1);
+            } else {
                 int temp = civilization.getResourcesAmount().get(gettingWorkedOnByCitizensTile.getResources());
                 civilization.getResourcesAmount().remove(gettingWorkedOnByCitizensTile.getResources());
-                civilization.getResourcesAmount().put(gettingWorkedOnByCitizensTile.getResources(),temp);
+                civilization.getResourcesAmount().put(gettingWorkedOnByCitizensTile.getResources(), temp);
             }
-            food += gettingWorkedOnByCitizensTile.getTileType().food
-                    + gettingWorkedOnByCitizensTile.getFeature().food;
+            if (!civilization.getUsedLuxuryResources().containsKey(gettingWorkedOnByCitizensTile.getResources())) {
+                civilization.getUsedLuxuryResources().put(gettingWorkedOnByCitizensTile.getResources(), true);
+                civilization.changeHappiness(4);
+            }
+        }
+    }
+    public int collectProduction(){
+        int production = 0;
+        for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
             //todo resources;
             production += gettingWorkedOnByCitizensTile.getTileType().production
-                    + gettingWorkedOnByCitizensTile.getFeature().production;
-            int temp =0;
-            for (int i = 0; i < 6; i++) {
-                if(gettingWorkedOnByCitizensTile.isRiverWithNeighbour(i)) temp += 1;
-            }
-            civilization.increaseGold(gettingWorkedOnByCitizensTile.getTileType().gold
-                    +gettingWorkedOnByCitizensTile.getFeature().gold + temp);
+                    + gettingWorkedOnByCitizensTile.getFeature().production + citizen;
         }
-        if(product!=null )
+        return production;
+    }
 
+    public void startTheTurn() {
+        food += collectFood();
+        production += collectProduction();
+        if(product!=null )
         {
             int tempRemaining = remainingProduction;
             remainingProduction -= production;
@@ -70,10 +85,40 @@ public class City {
                 remainingProduction=0;
             }
         }
+        food = food - 2*population;
+        if(food < 0){
+            population--;
+            food = 0;
+            if(citizen > 0) citizen--;
+            else gettingWorkedOnByCitizensTiles.remove(0);
+        }
+        if(food > foodForCitizen){
+            food -= foodForCitizen;
+            foodForCitizen*=2;
+            population++;
+            citizen++;
+        }
 
     }
+    public void endTheTurn(){
 
+    }
+    public int getGold(){
+        int gold = 0;
+        for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
+            int temp = 0;
+            for (int i = 0; i < 6; i++) {
+                if (gettingWorkedOnByCitizensTile.isRiverWithNeighbour(i)) temp += 1;
+            }
+            gold += gettingWorkedOnByCitizensTile.getTileType().gold
+                    + gettingWorkedOnByCitizensTile.getFeature().gold + temp;
+        }
+        return gold;
+    }
 
+    public int getPopulation() {
+        return population;
+    }
 
     public ArrayList<Tile> getTiles() {
         return tiles;

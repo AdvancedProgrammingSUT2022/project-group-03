@@ -1,6 +1,7 @@
 package model;
 
 import controller.GameController;
+import model.Units.NonCivilian;
 import model.Units.Unit;
 import model.resources.ResourcesTypes;
 import model.technologies.Technology;
@@ -37,7 +38,7 @@ public class Civilization {
     private ArrayList<City> cities = new ArrayList<>();
     private int science;
     private productable producingTechnology;
-    private int happiness;
+    private int happiness = 2;
     private HashMap<ResourcesTypes, Integer> resourcesAmount = new HashMap<>();
     private Technology gettingResearchedTechnology;
     private HashMap<ResourcesTypes, Boolean> usedLuxuryResources = new HashMap<>();
@@ -62,6 +63,10 @@ public class Civilization {
             }
         }
         return false;
+    }
+
+    public void changeHappiness(int happiness) {
+        this.happiness += happiness;
     }
     //TODO CHECK KARDAN 0 NABOODAN SCIENCE DAR MOHASEBE ROOZ
 
@@ -125,13 +130,30 @@ public class Civilization {
 
     public void startTheTurn()
     {
-
         turnOffTileConditionsBoolean();
-        for(int i = 0 ; i < cities.size();i++)
-            cities.get(i).startTheTurn();
+        for (City city : cities) {
+            city.getHappiness();
+        }
+        for (City city : cities) {
+            city.startTheTurn();
+            science += city.getPopulation();
+            gold += city.getGold();
+        }
+        for (City city : cities) {
+            city.collectFood();
+        }
 
-        for(int i = 0 ; i < units.size();i++)
-            units.get(i).startTheTurn();
+        if(cities.size() > 0){
+            science += 3;
+        }
+        for (Unit unit : units) unit.startTheTurn();
+        gold -= units.size();
+        if(gold < 0){
+            if(units.get(0) instanceof NonCivilian)
+            units.get(0).getCurrentTile().setNonCivilian(null);
+            else units.get(0).getCurrentTile().setCivilian(null);
+            units.remove(0);
+        }
     }
 
     public void endTheTurn()
@@ -164,5 +186,9 @@ public class Civilization {
             if (research.getTechnologyType() == TechnologyType.prerequisites.get(technologyType).get(j))
                 return true;
         return false;
+    }
+
+    public int getHappiness() {
+        return happiness;
     }
 }

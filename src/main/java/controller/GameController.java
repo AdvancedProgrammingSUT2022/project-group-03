@@ -103,6 +103,7 @@ public class GameController {
             if (civilizations.get(i).isInTheCivilizationsBorder(selectedUnit.getCurrentTile()))
                 return 2;
         ((Settler) selectedUnit).city();
+        civilizations.get(playerTurn).changeHappiness(-1);
         return 0;
     }
 
