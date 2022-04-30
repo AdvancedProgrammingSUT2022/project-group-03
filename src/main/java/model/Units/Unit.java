@@ -13,8 +13,6 @@ public abstract class Unit implements producible, mortal {
     protected int health = 100;
     protected UnitType unitType;
     protected boolean isAttacking = false;
-    private int XP;
-    private boolean hasDoneAnything;
     public int remainedCost;
     protected UnitState state;
     public Unit(Tile tile, Civilization civilization, UnitType unitType) {
@@ -49,15 +47,12 @@ public abstract class Unit implements producible, mortal {
     }
 
     public void cancelMission() {
-
-    }
-
-    public void wake() {
-
+        state= UnitState.AWAKE;
+        destinationTile = null;
     }
 
     public void startTheTurn() {
-        openNewArea();
+        GameController.openNewArea(currentTile,civilization,this);
 //        health += ...
         if (health > 10)
             health = 10;
@@ -66,6 +61,16 @@ public abstract class Unit implements producible, mortal {
         if(state== UnitState.FORTIFY_UNTIL_FULL_HEALTH && health==10)
             state = UnitState.AWAKE;
 
+        if(unitType==UnitType.WORKER && currentTile.getImprovement()!=null && currentTile.getImprovement().getRemainedCost()!=0)
+            currentTile.getImprovement().setRemainedCost(currentTile.getImprovement().getRemainedCost()-1);
+
+        if(unitType==UnitType.WORKER && state==UnitState.REPAIRING)
+        {
+            if(currentTile.getImprovement()!= null && currentTile.getImprovement().getNeedsRepair()!=0)
+                currentTile.getImprovement().setNeedsRepair(currentTile.getImprovement().getNeedsRepair()-1);
+            else
+                state=UnitState.AWAKE;
+        }
     }
 
     public void endTheTurn() {
@@ -108,6 +113,9 @@ public abstract class Unit implements producible, mortal {
             this.destinationTile = null;
             return false;
         }
+        for (int i = tileAndMPS.length-1; i >= 0 ; i--) {
+            GameController.openNewArea(tileAndMPS[i].tile,civilization,null);
+        }
         if (tileAndMPS.length == 1)
             this.destinationTile = null;
         Tile tempTile = null;
@@ -130,7 +138,7 @@ public abstract class Unit implements producible, mortal {
         else
             this.movementPrice = 0;
         this.currentTile = tempTile;
-        openNewArea();
+        GameController.openNewArea(this.currentTile,civilization,null);
         return true;
     }
 

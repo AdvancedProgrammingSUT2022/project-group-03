@@ -12,7 +12,8 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class Map {
-
+    public final static int WINDOW_X = 5;
+    public final static int WINDOW_Y = 14;
     private Tile[][] tiles;
     private int x;
     private int y;
@@ -124,7 +125,6 @@ public class Map {
             riverSides[0].setTilesWithRiver(neighbour);
             riverSides[1].setTilesWithRiver((neighbour + 3) % 6);
             remainingLength--;
-            System.out.println(riverSides[0].getX() + " " + riverSides[0].getY());
         }
     }
 
@@ -292,8 +292,8 @@ public class Map {
             BestMoveClass bestMoveClass = visitedWithMove.get(finalTurn).get(current);
             int thisTurn = finalTurn;
             tileAndMPS[0] = new TileAndMP(bestMoveClass.movePoint, this.tiles[current.getX()][current.getY()]);
-            int k = 0;
-            for (int i = 1; i <= finalTurn; i++) {
+            int k = 1;
+            for (int i = 0; i <= finalTurn; i++) {
                 while (thisTurn == visitedWithMove.get(thisTurn).get(current).turn) {
                     current = visitedWithMove.get(thisTurn).get(current).lastTile;
                     bestMoveClass = visitedWithMove.get(thisTurn).get(current);
@@ -302,6 +302,7 @@ public class Map {
                 }
                 thisTurn--;
             }
+            tileAndMPS[k - 1] = null;
             return tileAndMPS;
         }
         return null;
@@ -323,9 +324,9 @@ public class Map {
         Color currentTileColor;
         Color rightTileColor;
         Color backReset = Color.BLACK_BACKGROUND;
-        mapString.append("   _____        ".repeat(7)).append("\n");
-        for (int i = originX; i < originX + 5; i++) {
-            for (int j = originY; j < originY + 14; j += 2) {
+        mapString.append("   _____        ".repeat(WINDOW_Y/2)).append("\n");
+        for (int i = originX; i < originX + WINDOW_X; i++) {
+            for (int j = originY; j < originY + WINDOW_Y; j += 2) {
                 if (i < x && j < y) currentTileColor = setBackgroundColor(tileConditions[i][j]);
                 else currentTileColor = backReset;
                 if (i + j % 2 - 1 < 0 || j >= y - 1 || i - 1 + j % 2 >= x || i < 0) rightTileColor = backReset;
@@ -352,7 +353,7 @@ public class Map {
                         .append(Color.RESET).append(rightTileColor).append(" ").append(iString).append(",").append(jString);
             }
             mapString.append(Color.RESET).append("\n");
-            for (int j = originY; j < originY + 14; j += 2) {
+            for (int j = originY; j < originY + WINDOW_Y; j += 2) {
                 if (i < x && j < y) currentTileColor = setBackgroundColor(tileConditions[i][j]);
                 else currentTileColor = backReset;
                 if (i + j % 2 - 1 < 0 || j >= y - 1 || i - 1 + j % 2 >= x || i < 0) rightTileColor = backReset;
@@ -375,7 +376,7 @@ public class Map {
                         .append(rightTileColor).append("  ").append(iString).append(" ");
             }
             mapString.append(Color.RESET).append("\n");
-            for (int j = originY; j < originY + 14; j += 2) {
+            for (int j = originY; j < originY + WINDOW_Y; j += 2) {
                 if (i < x && j < y) currentTileColor = setBackgroundColor(tileConditions[i][j]);
                 else currentTileColor = backReset;
                 if ((i + j % 2 - 1 < 0 || j >= y - 1 || i - 1 + j % 2 >= x || i < 0)) rightTileColor = backReset;
@@ -399,7 +400,7 @@ public class Map {
                         .append(Color.RESET).append(color1).append(rightTileColor).append("_____").append(Color.RESET);
             }
             mapString.append("\n");
-            for (int j = originY; j < originY + 14; j += 2) {
+            for (int j = originY; j < originY + WINDOW_Y; j += 2) {
                 if (i < x && j < y) currentTileColor = setBackgroundColor(tileConditions[i][j]);
                 else currentTileColor = backReset;
                 if (j >= y - 1 || i + j % 2 >= x || i < 0) rightTileColor = backReset;
@@ -428,7 +429,7 @@ public class Map {
                         .append(Color.RESET).append(rightTileColor).append(" ").append(cString).append("  ");
             }
             mapString.append(Color.RESET).append("\n");
-            for (int j = originY; j < originY + 14; j += 2) {
+            for (int j = originY; j < originY + WINDOW_Y; j += 2) {
                 if (i < x && j < y) currentTileColor = setBackgroundColor(tileConditions[i][j]);
                 else currentTileColor = backReset;
                 if (j >= y - 1 || i + j % 2 >= x) rightTileColor = backReset;
@@ -453,7 +454,7 @@ public class Map {
             }
 
             mapString.append(Color.RESET).append("\n");
-            for (int j = originY; j < originY + 14; j += 2) {
+            for (int j = originY; j < originY + WINDOW_Y; j += 2) {
                 if (i < x && j < y) currentTileColor = setBackgroundColor(tileConditions[i][j]);
                 else currentTileColor = backReset;
                 if (j >= y - 1 || i + j % 2 >= x) rightTileColor = backReset;

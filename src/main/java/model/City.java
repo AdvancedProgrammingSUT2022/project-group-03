@@ -15,7 +15,7 @@ public class City {
     private boolean doesHaveWall = false;
     private int HP = 200;
     private int food;
-    private int population = 0;
+    private int population;
     private producible product;
     private int production;
     private ArrayList<Tile> tiles = new ArrayList<>();
@@ -43,6 +43,8 @@ public class City {
         this.tiles.add(mainTile);
         for (int i = 0; i < 6; i++)
             this.tiles.add(mainTile.getNeighbours(i));
+        for (Tile value : tiles) GameController.openNewArea(value, civilization,null);
+        GameController.setUnfinishedTasks();
     }
     public int collectFood(){
         int food = 0;
@@ -108,6 +110,7 @@ public class City {
             citizen++;
         }
 
+        for (Tile tile : tiles) GameController.openNewArea(tile, civilization,null);
     }
     public void endTheTurn(){
 
@@ -209,7 +212,7 @@ public class City {
         }
         GameController.deleteFromUnfinishedTasks(new Tasks(mainTile,TaskTypes.CITY_PRODUCTION));
         if (unitType.combatType == CombatType.CIVILIAN) {
-            if (unitType == UnitType.Settler) {
+            if (unitType == UnitType.SETTLER) {
                 product = new Settler(mainTile, civilization, unitType);
                 return true;
             }

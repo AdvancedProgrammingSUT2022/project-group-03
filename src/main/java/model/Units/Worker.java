@@ -1,5 +1,6 @@
 package model.Units;
 
+import controller.GameController;
 import model.Civilization;
 import model.improvements.ImprovementType;
 import model.tiles.Tile;
@@ -23,9 +24,10 @@ public class Worker extends Unit {
     {
 
     }
-    public int remove(int isJungle)
+    public void remove(int isJungle)
     {
-        return 0;
+        currentTile.setFeature(null);
+        GameController.openNewArea(currentTile,civilization,null);
     }
 
 

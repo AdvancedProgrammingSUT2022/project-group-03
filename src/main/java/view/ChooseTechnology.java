@@ -16,8 +16,19 @@ public class ChooseTechnology extends Menu {
                 "^menu exit$",
                 "^menu show-current$",
                 "^back$",
-                "^(\\d+)$"
+                "^(\\d+)$",
+                "^print tree$"
         };
+    }
+
+    private void printTree()
+    {
+        TechnologyType.prerequisites.forEach((k,v)->{
+            System.out.println(k + ":");
+            for (TechnologyType technologyType : v)
+                System.out.println(technologyType);
+            System.out.println();
+        });
     }
     public void printDetails() {
         String tempString = null;
@@ -28,12 +39,6 @@ public class ChooseTechnology extends Menu {
         
         ArrayList<Technology> researches = TechnologyController.getCivilizationsResearches();
         System.out.println("Finished researches: ");
-        TechnologyType.prerequisites.forEach((k,v)->{
-            System.out.println(k + ":");
-            for (TechnologyType technologyType : v)
-                System.out.println(technologyType);
-            System.out.println("");
-        });
         for (int i = 0; i < researches.size(); i++) {
             if(researches.get(i).getRemainedCost()>0)
                 continue;
@@ -79,9 +84,15 @@ public class ChooseTechnology extends Menu {
                 System.out.println("Login Menu");
                 break;
             case 2:
+            {
+                System.out.println("technology menu closed successfully");
                 return true;
+            }
             case 3:
                 addTechnologyToProduction(command);
+                break;
+            case 4:
+                printTree();
                 break;
 
         }

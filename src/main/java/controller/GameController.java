@@ -1,15 +1,15 @@
 package controller;
 
 import model.*;
-import model.Units.Settler;
-import model.Units.Unit;
-import model.Units.UnitState;
-import model.Units.UnitType;
+import model.Units.*;
+import model.improvements.Improvement;
+import model.improvements.ImprovementType;
 import model.technologies.Technology;
 import model.tiles.Tile;
 import model.tiles.TileType;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 public class GameController {
@@ -28,10 +28,6 @@ public class GameController {
         for (int i = 0; i < PlayersNames.size(); i++)
             civilizations.get(i).setTileConditions(new Civilization.TileCondition[map.getX()][map.getY()]);
         //HARDCODE
-        Settler hardcodeUnit = new Settler(map.coordinatesToTile(2, 5), civilizations.get(0), UnitType.Settler);
-        civilizations.get(0).getUnits().add(hardcodeUnit);
-        map.coordinatesToTile(2, 5).setCivilian(hardcodeUnit);
-
 
         //
     }
@@ -41,16 +37,14 @@ public class GameController {
     }
 
     public static boolean setSelectedCombatUnit(int x, int y) {
-        if (map.coordinatesToTile(x, y).getNonCivilian() == null ||
-                map.coordinatesToTile(x, y).getNonCivilian().getCivilization() != civilizations.get(playerTurn))
+        if (map.coordinatesToTile(x, y).getNonCivilian() == null)
             return false;
         selectedUnit = map.coordinatesToTile(x, y).getNonCivilian();
         return true;
     }
 
     public static boolean setSelectedNonCombatUnit(int x, int y) {
-        if (map.coordinatesToTile(x, y).getCivilian() == null ||
-                map.coordinatesToTile(x, y).getCivilian().getCivilization() != civilizations.get(playerTurn))
+        if (map.coordinatesToTile(x, y).getCivilian() == null)
             return false;
         selectedUnit = map.coordinatesToTile(x, y).getCivilian();
         return true;
@@ -59,7 +53,7 @@ public class GameController {
     private static City nameToCity(String name) {
         for (Civilization civilization : civilizations)
             for (int j = 0; j < civilization.getCities().size(); j++)
-                if (civilization.getCities().get(j).getName().equals(name))
+                if (civilization.getCities().get(j).getName().toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT)))
                     return civilization.getCities().get(j);
         return null;
     }
@@ -119,6 +113,8 @@ public class GameController {
             return 2;
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT));
         selectedUnit.setState(UnitState.ALERT);
+        if(openNewArea(selectedUnit.getCurrentTile(),civilizations.get(playerTurn),selectedUnit))
+            return 3;
         return 0;
     }
 
@@ -184,6 +180,8 @@ public class GameController {
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT));
         ((Settler) selectedUnit).city();
         civilizations.get(playerTurn).changeHappiness(-1);
+        unitDelete(selectedUnit);
+        selectedUnit=null;
         return 0;
     }
 
@@ -192,6 +190,9 @@ public class GameController {
             return 1;
         if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
             return 2;
+        if(selectedUnit.getDestinationTile()==null && selectedUnit.getState()==UnitState.AWAKE)
+            return 3;
+        selectedUnit.cancelMission();
         return 0;
     }
 
@@ -209,16 +210,36 @@ public class GameController {
     }
 
 
-    public static int unitDelete() {
+    public static int unitDelete(Unit unit) {
         if (selectedUnit == null)
             return 1;
         if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
             return 2;
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT));
+        civilizations.get(playerTurn).getUnits().remove(unit);
+        if(unit instanceof NonCivilian)
+            unit.getCurrentTile().setNonCivilian(null);
+        else
+            unit.getCurrentTile().setCivilian(null);
         return 0;
     }
 
 
+    public static int unitBuild(ImprovementType improvementType)
+    {
+        if(selectedUnit==null)
+            return 1;
+        if(selectedUnit.getCivilization()!=civilizations.get(playerTurn))
+            return 2;
+        if(selectedUnit.getUnitType()!=UnitType.WORKER)
+            return 3;
+        if(!civilizations.get(playerTurn).doesContainTechnology(improvementType.prerequisitesTechnologies))
+            return 4;
+        if(!TileType.canHaveTheImprovement(selectedUnit.getCurrentTile().getTileType(),improvementType))
+            return 5;
+        selectedUnit.getCurrentTile().setImprovement(new Improvement(improvementType));
+        return 0;
+    }
     public static int unitBuildRoad() {
         if (selectedUnit == null)
             return 1;
@@ -237,12 +258,17 @@ public class GameController {
         return 0;
     }
 
-    public static int unitRemoveFromTile(int isJungle) {
+    public static int unitRemoveFromTile(boolean isJungle) {
         if (selectedUnit == null)
             return 1;
         if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
             return 2;
+        if(isJungle && selectedUnit.getCurrentTile().getFeature()!=FeatureType.DENSEFOREST && selectedUnit.getCurrentTile().getFeature()!=FeatureType.FOREST)
+            return 3;
+        //TODO if(!isJungle && notroad && notrailroad) {....}
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT));
+        if(isJungle)
+            ((Worker) selectedUnit).remove(1);
         return 0;
     }
 
@@ -252,19 +278,24 @@ public class GameController {
         if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
             return 2;
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT));
+        if(selectedUnit.getCurrentTile().getImprovement()==null)
+            return 3;
+        if(selectedUnit.getCurrentTile().getImprovement().getNeedsRepair()==0)
+            return 4;
+        selectedUnit.setState(UnitState.REPAIRING);
         return 0;
     }
 
     public static boolean mapShowPosition(int x, int y) {
-        startWindowX = x;
-        startWindowY = y;
+        startWindowX = x - Map.WINDOW_X/2;
+        startWindowY = y - Map.WINDOW_Y/2 + 1;
         boolean returner = true;
-        if (startWindowY > map.getY() - 13) {
-            startWindowY = map.getY() - 13;
+        if (startWindowY > map.getY() - (Map.WINDOW_Y-1)) {
+            startWindowY = map.getY() - (Map.WINDOW_Y-1);
             returner = false;
         }
-        if (startWindowX > map.getX() - 4) {
-            startWindowX = map.getX() - 4;
+        if (startWindowX > map.getX() - (Map.WINDOW_X-1)) {
+            startWindowX = map.getX() - (Map.WINDOW_X-1);
             returner = false;
         }
         if (startWindowY < 0) {
@@ -330,8 +361,6 @@ public class GameController {
     public static boolean nextTurnIfYouCan() {
         if (unfinishedTasks.size() != 0)
             return false;
-
-
         nextTurn();
         return true;
     }
@@ -353,16 +382,61 @@ public class GameController {
         for(int i = 0;i<civilizations.get(playerTurn).getCities().size();i++)
             if(civilizations.get(playerTurn).getCities().get(i).getProduct()==null)
                 unfinishedTasks.add(new Tasks(civilizations.get(playerTurn).getCities().get(i).getMainTile(),TaskTypes.CITY_PRODUCTION));
-        if(civilizations.get(playerTurn).getGettingResearchedTechnology()==null)
+        if(civilizations.get(playerTurn).getCities().size()!=0 &&
+                civilizations.get(playerTurn).getGettingResearchedTechnology()==null)
             unfinishedTasks.add(new Tasks(null,TaskTypes.TECHNOLOGY_PROJECT));
     }
 
     public static void cheatSettler(int x, int y) {
-        Settler hardcodeUnit = new Settler(map.coordinatesToTile(x, y), civilizations.get(playerTurn), UnitType.Settler);
+        Settler hardcodeUnit = new Settler(map.coordinatesToTile(x, y), civilizations.get(playerTurn), UnitType.SETTLER);
         civilizations.get(playerTurn).getUnits().add(hardcodeUnit);
         map.coordinatesToTile(x, y).setCivilian(hardcodeUnit);
+        openNewArea(map.coordinatesToTile(x, y),civilizations.get(playerTurn),hardcodeUnit);
     }
+    public static boolean openNewArea(Tile tile, Civilization civilization, Unit unit) {
+        boolean isThereAnyEnemy = false;
+        for (int i = 0; i < 6; i++) {
+            if(tile.getNeighbours(i)==null)
+                continue;
+            civilization.getTileConditions()[tile.getNeighbours(i).getX()][tile.getNeighbours(i).getY()] =
+                    new Civilization.TileCondition(tile.getNeighbours(i).
+                            CloneTileForCivilization(civilization.getResearches()), true);
+            if(unit!=null && (tile.getNeighbours(i).getCivilian()!=null && tile.getNeighbours(i).getCivilian().getCivilization()!=civilization) ||
+                    (tile.getNeighbours(i).getNonCivilian()!=null && tile.getNeighbours(i).getNonCivilian().getCivilization()!=civilization))
+            {
+                if(unit.getState()==UnitState.ALERT)
+                    unit.setState(UnitState.AWAKE);
+                isThereAnyEnemy=true;
+            }
+            if (tile.getNeighbours(i).getTileType() == TileType.MOUNTAIN ||
+                    tile.getNeighbours(i).getTileType() == TileType.HILL ||
+                    (tile.getNeighbours(i).getFeature() != null &&
+                            (tile.getNeighbours(i).getFeature() == FeatureType.FOREST ||
+                            tile.getNeighbours(i).getFeature() == FeatureType.DENSEFOREST)))
+                continue;
+            for (int j = 0; j < 6; j++) {
+                if(tile.getNeighbours(i).getNeighbours(j)==null)
+                    continue;
+                int neighbourX = tile.getNeighbours(i).getNeighbours(j).getX();
+                int neighbourY = tile.getNeighbours(i).getNeighbours(j).getY();
+                civilization.getTileConditions()[neighbourX][neighbourY] =
+                        new Civilization.TileCondition(tile.getNeighbours(i).getNeighbours(j)
+                                .CloneTileForCivilization(civilization.getResearches()), true);
+                if(unit!=null && (tile.getNeighbours(i).getNeighbours(j).getCivilian()!=null && tile.getNeighbours(i).getNeighbours(j).getCivilian().getCivilization()!=civilization) ||
+                        (tile.getNeighbours(i).getNeighbours(j).getNonCivilian()!=null && tile.getNeighbours(i).getNeighbours(j).getNonCivilian().getCivilization()!=civilization))
+                {
+                    if(unit.getState()==UnitState.ALERT)
+                        unit.setState(UnitState.AWAKE);
+                    isThereAnyEnemy=true;
+                }
 
+            }
+        }
+        civilization.getTileConditions()[tile.getX()][tile.getY()] =
+                new Civilization.TileCondition(tile.
+                CloneTileForCivilization(civilization.getResearches()), true);
+        return isThereAnyEnemy;
+    }
     public static Map getMap() {
         return map;
     }
@@ -376,11 +450,15 @@ public class GameController {
     }
 
     public static int startProducing(String productIcon) {
-        UnitType tempType = UnitType.valueOf(productIcon);
-        if (productIcon == null)
+        UnitType tempType = UnitType.stringToEnum(productIcon);
+        if (tempType == null)
             return 1;
-        if (!selectedCity.createUnit(tempType))
+        if(selectedCity==null)
             return 2;
+        if(selectedCity.getCivilization()!=civilizations.get(playerTurn))
+            return 3;
+        if (!selectedCity.createUnit(tempType))
+            return 4;
         return 0;
     }
 
@@ -394,5 +472,9 @@ public class GameController {
 
     public static int getPlayerTurn() {
         return playerTurn;
+    }
+
+    public static ArrayList<Tasks> getUnfinishedTasks() {
+        return unfinishedTasks;
     }
 }

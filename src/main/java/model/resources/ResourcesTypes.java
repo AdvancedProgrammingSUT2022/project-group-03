@@ -3,7 +3,6 @@ package model.resources;
 import model.technologies.Technology;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -43,7 +42,7 @@ public enum ResourcesTypes {
     }
 
 
-    public boolean IsTechnologyUnlocked(ArrayList<Technology> technologies){
+    public boolean isTechnologyUnlocked(ArrayList<Technology> technologies){
         //TODO TECH CHECK
         return true;
     }

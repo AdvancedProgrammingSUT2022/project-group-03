@@ -7,5 +7,7 @@ public enum UnitState {
     FORTIFY_UNTIL_FULL_HEALTH,
     AWAKE,
     GARRISON,
-    ATTACK
+    ATTACK,
+    REPAIRING
+
 }

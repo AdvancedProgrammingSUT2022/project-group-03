@@ -10,11 +10,13 @@ public class Settler extends Unit {
         super(tile, civilization, unitType);
     }
     {
-        this.unitType = UnitType.Settler;
+        this.unitType = UnitType.SETTLER;
     }
     public void city()
     {
-        civilization.getCities().add(new City(this.currentTile , "Random name",civilization));
+        City tempCity = new City(this.currentTile , "KazemLand",civilization);
+        civilization.getCities().add(tempCity);
+        currentTile.setCity(tempCity);
     }
 
 }

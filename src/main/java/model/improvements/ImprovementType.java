@@ -1,6 +1,11 @@
 package model.improvements;
 
 import model.technologies.TechnologyType;
+import model.tiles.TileType;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public enum ImprovementType {
     CAMP(0,0,0, TechnologyType.TRAPPING),
@@ -15,6 +20,7 @@ public enum ImprovementType {
     public final int food;
     public final int gold;
     public final int production;
+    private static final List<ImprovementType> VALUES = List.of(values());
     public final TechnologyType prerequisitesTechnologies;
     ImprovementType(int food, int gold, int production, TechnologyType prerequisitesTechnologies)
     {
@@ -22,5 +28,13 @@ public enum ImprovementType {
         this.gold=gold;
         this.production=production;
         this.prerequisitesTechnologies = prerequisitesTechnologies;
+    }
+
+    public static ImprovementType stringToImprovementType(String string)
+    {
+        for (ImprovementType value : VALUES)
+            if(value.toString().toLowerCase(Locale.ROOT).equals(string.toLowerCase(Locale.ROOT)))
+                return value;
+        return null;
     }
 }

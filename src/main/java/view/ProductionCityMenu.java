@@ -17,19 +17,21 @@ public class ProductionCityMenu extends Menu{
     }
 
     private ArrayList<UnitType> possibleUnits = new ArrayList<>();
-    private void printDetails()
+    public void printDetails()
     {
         City city = GameController.getSelectedCity();
-        System.out.println("name: " + city.getName());
+        System.out.print("name: " + city.getName() + " | ");
         if(city.getProduct() ==null)
-            System.out.println("production: null");
+            System.out.println("production: -");
         else if(city.getProduct() instanceof Unit)
             System.out.println("production: " + ((Unit) city.getProduct()).getUnitType());
 
+        boolean doesHaveAny = false;
         for(int i = 0 ; i < UnitType.VALUES.size();i++)
         {
             if(!GameController.getSelectedCity().getCivilization().doesContainTechnology(UnitType.VALUES.get(i).technologyRequired))
                 continue;
+            doesHaveAny=true;
             if(GameController.getSelectedCity().getCivilization().getResourcesAmount().get(UnitType.VALUES.get(i).resourcesType)==0)
                 System.out.println("(not enough resources) " + UnitType.VALUES.get(i));
             else
@@ -38,6 +40,8 @@ public class ProductionCityMenu extends Menu{
                 possibleUnits.add(UnitType.VALUES.get(i));
             }
         }
+        if(!doesHaveAny)
+            System.out.println("you can't produce anything right now");
     }
 
     private void createUnit(String command)
