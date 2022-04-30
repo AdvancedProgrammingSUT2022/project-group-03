@@ -3,7 +3,7 @@ package model.technologies;
 import model.producible;
 
 public class Technology implements producible {
-    private TechnologyType technologyType;
+    private final TechnologyType technologyType;
     private int remainedCost;
 
     public Technology(TechnologyType technologyType){

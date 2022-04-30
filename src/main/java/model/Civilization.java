@@ -68,6 +68,10 @@ public class Civilization {
         return usedLuxuryResources;
     }
 
+    public Technology getGettingResearchedTechnology() {
+        return gettingResearchedTechnology;
+    }
+
     public void setGettingResearchedTechnology(Technology gettingResearchedTechnology) {
         this.gettingResearchedTechnology = gettingResearchedTechnology;
     }
@@ -129,11 +133,19 @@ public class Civilization {
     {
         //initialize
         turnOffTileConditionsBoolean();
-        for(int i = 0 ; i < cities.size();i++)
-            cities.get(i).startTheTurn();
+        for (City city : cities) city.startTheTurn();
+        for (Unit unit : units) unit.startTheTurn();
 
-        for(int i = 0 ; i < units.size();i++)
-            units.get(i).startTheTurn();
+        if(gettingResearchedTechnology!=null)
+        {
+            int tempRemaining = gettingResearchedTechnology.getRemainedCost();
+            getGettingResearchedTechnology().changeRemainedCost(-science);
+            science -= tempRemaining;
+            if(science<=0)
+                science=0;
+            if(gettingResearchedTechnology.getRemainedCost()<=0)
+                gettingResearchedTechnology=null;
+        }
     }
 
     public void endTheTurn()

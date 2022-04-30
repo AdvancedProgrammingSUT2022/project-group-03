@@ -119,7 +119,9 @@ public class GameMenu extends Menu {
     private void selectCityByPosition(String command) {
         Matcher matcher = getMatcher(regexes[15], command);
         if (!GameController.setSelectedCityByPosition(Integer.parseInt(matcher.group(1)),
-                Integer.parseInt(matcher.group(2)))) ;
+                Integer.parseInt(matcher.group(2))))
+            System.out.println("city does not exist");
+
     }
 
     private void unitMoveTo(String command) {
@@ -133,24 +135,52 @@ public class GameMenu extends Menu {
 
     private void unitSleep() {
         int result = GameController.unitSleep();
-        if (result==0)
-            System.out.println("unit set to sleep successfully");
-        if( result==1)
-            System.out.println("the selected unit is not yours");
-        if(result==2)
+        if (result == 0)
+            System.out.println("the selected unit has been set to sleep successfully");
+        if (result == 1)
             System.out.println("no unit is selected");
+        if (result == 2)
+            System.out.println("the selected unit is not yours");
+
     }
 
     private void unitAlert() {
-
+        int result = GameController.unitAlert();
+        if(result==0)
+            System.out.println("the selected unit has been set to alert successfully");
+        if(result==1)
+            System.out.println("no unit is selected");
+        if(result==2)
+            System.out.println("the selected unit is not yours");
     }
 
     private void unitFortify() {
-
+        int result = GameController.unitFortify();
+        if(result==0)
+            System.out.println("the selected unit has been set to fortify successfully");
+        if(result==1)
+            System.out.println("no unit is selected");
+        if(result==2)
+            System.out.println("the selected unit is not yours");
+    }
+    private void unitFortifyUntilFullHealth() {
+        int result = GameController.unitFortifyUntilFullHealth();
+        if(result==0)
+            System.out.println("the selected unit has been set to fortifyUntilFullHealth successfully");
+        if(result==1)
+            System.out.println("no unit is selected");
+        if(result==2)
+            System.out.println("the selected unit is not yours");
     }
 
     private void unitGarrison() {
-
+        int result = GameController.unitGarrison();
+        if(result==0)
+            System.out.println("the selected unit has been set to garrison successfully");
+        if(result==1)
+            System.out.println("no unit is selected");
+        if(result==2)
+            System.out.println("the selected unit is not yours");
     }
 
     private void unitSetupRanged() {
@@ -165,9 +195,13 @@ public class GameMenu extends Menu {
         int result = GameController.unitFoundCity();
         if (result == 0)
             System.out.println("city founded successfully");
-        if (result == 1)
-            System.out.println("the selected unit is not a settler");
+        if(result==1)
+            System.out.println("not unit is selected");
         if (result == 2)
+            System.out.println("the selected unit is not yours");
+        if (result == 3)
+            System.out.println("the selected unit is not a settler");
+        if (result == 4)
             System.out.println("the selected tile is occupied with another city");
     }
 
@@ -176,7 +210,15 @@ public class GameMenu extends Menu {
     }
 
     private void unitWake() {
-
+        int result = GameController.unitWake();
+        if (result == 0)
+            System.out.println("the selected unit has been awaken successfully");
+        if(result==1)
+            System.out.println("no unit is selected");
+        if (result == 2)
+            System.out.println("the selected unit is not yours");
+        if (result == 3)
+            System.out.println("the selected unit is already awake");
     }
 
     private void unitDelete() {

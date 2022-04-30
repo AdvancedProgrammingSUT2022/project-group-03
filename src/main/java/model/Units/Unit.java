@@ -8,17 +8,8 @@ import model.producible;
 import model.tiles.Tile;
 import model.tiles.TileType;
 
-//enum unitState{
-//    SLEEP,
-//    READY,
-//    FORTIFY,
-//    FORTIFY_UNTIL_READY,
-//
-//}
-
 public abstract class Unit implements producible {
     protected Civilization civilization;
-    private static int state;
     protected Tile currentTile;
     private Tile destinationTile;
     private int movementPrice;
@@ -27,13 +18,13 @@ public abstract class Unit implements producible {
     private int XP;
     private boolean hasDoneAnything;
     public int remainedCost;
-    private boolean isSleep;
+    private UnitState state;
     public Unit(Tile tile, Civilization civilization, UnitType unitType) {
         this.currentTile = tile;
         this.civilization = civilization;
         this.movementPrice = unitType.getDefaultMovementPrice();
         this.remainedCost = unitType.cost;
-        this.isSleep = false;
+        this.state = UnitState.AWAKE;
     }
 
     public int getHealth() {
@@ -64,6 +55,8 @@ public abstract class Unit implements producible {
             health = 10;
         movementPrice = unitType.getDefaultMovementPrice();
 
+        if(state== UnitState.FORTIFY_UNTIL_FULL_HEALTH && health==10)
+            state = UnitState.AWAKE;
 
     }
 
@@ -138,18 +131,20 @@ public abstract class Unit implements producible {
         return movementPrice;
     }
 
-    public boolean isSleep() {
-        return isSleep;
+
+    public void setState(UnitState state) {
+        this.state = state;
     }
-    public void setIsSleep(boolean isSleep)
-    {
-        this.isSleep = isSleep;
+
+    public UnitState getState() {
+        return state;
     }
 
     public int getRemainedCost()
     {
         return remainedCost;
     }
+    public void setRemainedCost(int remainedCost) { this.remainedCost = remainedCost}
     public UnitType getUnitType() {
         return unitType;
     }
