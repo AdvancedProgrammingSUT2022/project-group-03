@@ -8,6 +8,7 @@ public enum UnitState {
     AWAKE,
     GARRISON,
     ATTACK,
-    REPAIRING
-
+    REPAIRING,
+    REMOVING,
+    MOVING
 }

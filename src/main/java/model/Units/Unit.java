@@ -2,10 +2,14 @@ package model.Units;
 
 import controller.GameController;
 import model.*;
+import model.Civilization;
+import model.Map;
+import model.features.FeatureType;
+import model.Producible;
 import model.tiles.Tile;
 import model.tiles.TileType;
 
-public abstract class Unit implements producible, mortal {
+public abstract class Unit implements Producible, CanGetAttacked {
     protected Civilization civilization;
     protected Tile currentTile;
     protected Tile destinationTile;
@@ -23,7 +27,7 @@ public abstract class Unit implements producible, mortal {
         this.state = UnitState.AWAKE;
     }
     public boolean checkToDestroy(){
-        if (health < 0) {
+        if (health <= 0) {
         civilization.getUnits().remove(this);
         if(this instanceof NonCivilian) currentTile.setCivilian(null);
         else currentTile.setNonCivilian(null);
@@ -32,7 +36,18 @@ public abstract class Unit implements producible, mortal {
         return false;
 
     }
+    public int getCombatStrength(boolean isAttack){
+        double combat;
+        if(isAttack){
+            combat = ((double)unitType.rangedCombatStrength * (100 + currentTile.getCombatChange())/ 100);
+        }
+        else combat = ((double)unitType.combatStrength * (100 + currentTile.getCombatChange())/ 100);
+        if (civilization.getHappiness() < 0) combat = 0.75 * combat;
+        combat = combat*(50 + (double)health/2)/100;
+        if (combat < 1) combat = 1;
+        return (int) combat;
 
+    }
     public int getHealth() {
         return health;
     }
@@ -54,8 +69,8 @@ public abstract class Unit implements producible, mortal {
     public void startTheTurn() {
         GameController.openNewArea(currentTile,civilization,this);
 //        health += ...
-        if (health > 10)
-            health = 10;
+        if (health > 100)
+            health = 100;
         movementPrice = unitType.getDefaultMovementPrice();
 
         if(state== UnitState.FORTIFY_UNTIL_FULL_HEALTH && health==10)
@@ -67,7 +82,25 @@ public abstract class Unit implements producible, mortal {
         if(unitType==UnitType.WORKER && state==UnitState.REPAIRING)
         {
             if(currentTile.getImprovement()!= null && currentTile.getImprovement().getNeedsRepair()!=0)
+            {
                 currentTile.getImprovement().setNeedsRepair(currentTile.getImprovement().getNeedsRepair()-1);
+                if(currentTile.getImprovement().getNeedsRepair()==0)
+                    state=UnitState.AWAKE;
+            }
+            else
+                state=UnitState.AWAKE;
+        }
+        if(unitType==UnitType.WORKER && state==UnitState.REMOVING)
+        {
+            if(currentTile.getContainedFeature()!=null && currentTile.getContainedFeature().getCyclesToFinish()!=0)
+            {
+                currentTile.getContainedFeature().setCyclesToFinish(currentTile.getContainedFeature().getCyclesToFinish()-1);
+                if(currentTile.getContainedFeature().getCyclesToFinish()==0)
+                {
+                    state=UnitState.AWAKE;
+                    currentTile.setFeature(null);
+                }
+            }
             else
                 state=UnitState.AWAKE;
         }
@@ -75,7 +108,7 @@ public abstract class Unit implements producible, mortal {
 
     public void endTheTurn() {
         if (destinationTile != null)
-            move(destinationTile);
+            move(destinationTile,true);
     }
 
     public Tile getDestinationTile() {
@@ -93,8 +126,8 @@ public abstract class Unit implements producible, mortal {
             civilization.getTileConditions()[neighbourX][neighbourY] = new Civilization.TileCondition(currentTile.getNeighbours(i).CloneTileForCivilization(civilization.getResearches()), true);
             if (currentTile.getNeighbours(i).getTileType() == TileType.MOUNTAIN ||
                     currentTile.getNeighbours(i).getTileType() == TileType.HILL ||
-                    (currentTile.getNeighbours(i).getFeature() != null && (currentTile.getNeighbours(i).getFeature() == FeatureType.FOREST ||
-                            currentTile.getNeighbours(i).getFeature() == FeatureType.DENSEFOREST)))
+                    (currentTile.getNeighbours(i).getFeatureType() != null && (currentTile.getNeighbours(i).getFeatureType() == FeatureType.FOREST ||
+                            currentTile.getNeighbours(i).getFeatureType() == FeatureType.DENSEFOREST)))
                 continue;
             for (int j = 0; j < 6; j++) {
                 neighbourX = currentTile.getNeighbours(i).getNeighbours(j).getX();
@@ -106,39 +139,60 @@ public abstract class Unit implements producible, mortal {
     }
 
 
-    public boolean move(Tile destinationTile) {
+    public boolean move(Tile destinationTile,boolean ogCall) {
+        if (movementPrice == 0) return false;
+        if(state == UnitState.ATTACK && GameController.getMap().isInRange(unitType.range,destinationTile,currentTile)) {
+            attack(destinationTile);
+            return ogCall;
+        }
         Map.TileAndMP[] tileAndMPS = GameController.getMap().findNextTile(civilization,currentTile, movementPrice,unitType.movePoint, destinationTile, unitType.combatType==CombatType.CIVILIAN);
-        this.destinationTile = destinationTile;
+        if(ogCall){this.destinationTile = destinationTile;
+            if(state != UnitState.ATTACK) this.state = UnitState.MOVING;
+        }
+        Tile startTile = this.currentTile;
         if (tileAndMPS == null) {
             this.destinationTile = null;
+            state = UnitState.AWAKE;
             return false;
         }
-        for (int i = tileAndMPS.length-1; i >= 0 ; i--) {
-            GameController.openNewArea(tileAndMPS[i].tile,civilization,null);
-        }
-        if (tileAndMPS.length == 1)
-            this.destinationTile = null;
+
         Tile tempTile = null;
-        for (int i = tileAndMPS.length - 1; i >= 0; i--)
+        int i =  tileAndMPS.length - 1;
+        for (; i >= 0; i--)
             if (tileAndMPS[i] != null) {
                 tempTile = tileAndMPS[i].tile;
                 break;
             }
-        if (tempTile == null)
+        if (tempTile == null ||
+                (tileAndMPS[i].movePoint != 0 && tileAndMPS[i].movePoint != unitType.movePoint &&
+                        (tempTile.getNonCivilian() != null && this instanceof NonCivilian|| tempTile.getCivilian() != null && !(this instanceof NonCivilian))))
             return false;
-        if (this instanceof NonCivilian) {
-            this.currentTile.setNonCivilian(null);
-            tempTile.setNonCivilian((NonCivilian) this);
-        } else {
-            this.currentTile.setCivilian(null);
-            tempTile.setCivilian(this);
-        }
-        if (this.unitType.movePoint != tempTile.getMovingPrice())
-            this.movementPrice = tempTile.getMovingPrice();
+
+        if (this.unitType.movePoint != tileAndMPS[i].movePoint)
+            this.movementPrice =tileAndMPS[i].movePoint;
         else
             this.movementPrice = 0;
         this.currentTile = tempTile;
         GameController.openNewArea(this.currentTile,civilization,null);
+        boolean notEnd = true;
+        for (int j = i; j > 0 && notEnd && movementPrice> 0; j--) {
+            notEnd = move(tileAndMPS[j-1].tile,false);
+        }
+        if(ogCall){
+            if (this instanceof NonCivilian) {
+                startTile.setNonCivilian(null);
+                currentTile.setNonCivilian((NonCivilian) this);
+            } else {
+                startTile.setCivilian(null);
+                currentTile.setCivilian(this);
+            }
+            GameController.openNewArea(currentTile,civilization,null);
+            if(destinationTile == currentTile){
+                this.destinationTile = null;
+                state = UnitState.AWAKE;
+            }
+            return movementPrice==0 || state == UnitState.ATTACK;
+        }
         return true;
     }
 
@@ -147,6 +201,11 @@ public abstract class Unit implements producible, mortal {
         return movementPrice;
     }
 
+    public void attack(Tile tile) {}
+
+    public void takeDamage(int amount){
+        health -= amount;
+    }
 
     public void setState(UnitState state) {
         this.state = state;

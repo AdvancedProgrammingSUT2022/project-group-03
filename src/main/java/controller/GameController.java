@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import model.Units.*;
+import model.features.FeatureType;
 import model.improvements.Improvement;
 import model.improvements.ImprovementType;
 import model.technologies.Technology;
@@ -28,7 +29,12 @@ public class GameController {
         for (int i = 0; i < PlayersNames.size(); i++)
             civilizations.get(i).setTileConditions(new Civilization.TileCondition[map.getX()][map.getY()]);
         //HARDCODE
-
+        NonCivilian unit = new NonCivilian(map.coordinatesToTile(3,3),civilizations.get(0),UnitType.PANZER);
+        civilizations.get(0).getUnits().add(unit);
+        map.coordinatesToTile(3,3).setNonCivilian(unit);
+         unit = new NonCivilian(map.coordinatesToTile(3,4),civilizations.get(1),UnitType.WARRIOR);
+        civilizations.get(1).getUnits().add(unit);
+        map.coordinatesToTile(3,4).setNonCivilian(unit);
         //
     }
 
@@ -87,13 +93,13 @@ public class GameController {
         }
     }
     public static boolean unitMoveTo(int x, int y) {
-        if (selectedUnit == null ||
+        if (selectedUnit == null || x < 0 || y < 0 || x >= map.getX() || y > map.getY() ||
                 map.coordinatesToTile(x, y).getTileType() == TileType.OCEAN ||
                 map.coordinatesToTile(x, y).getTileType() == TileType.MOUNTAIN)
             return false;
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT));
         selectedUnit.setState(UnitState.AWAKE);
-        return selectedUnit.move(map.coordinatesToTile(x, y));
+        return selectedUnit.move(map.coordinatesToTile(x, y),true);
     }
 
     public static int unitSleep() {
@@ -263,7 +269,7 @@ public class GameController {
             return 1;
         if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
             return 2;
-        if(isJungle && selectedUnit.getCurrentTile().getFeature()!=FeatureType.DENSEFOREST && selectedUnit.getCurrentTile().getFeature()!=FeatureType.FOREST)
+        if(isJungle && selectedUnit.getCurrentTile().getFeatureType()!= FeatureType.DENSEFOREST && selectedUnit.getCurrentTile().getFeatureType()!=FeatureType.FOREST)
             return 3;
         //TODO if(!isJungle && notroad && notrailroad) {....}
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT));
@@ -342,8 +348,21 @@ public class GameController {
     }
 
 
-    private static boolean canUnitAttack(Unit unit, Tile tile) {
-        return true;
+    private static boolean canUnitAttack(Tile tile) {
+        if(tile.getCity() != null && tile.getCity().getCivilization() != civilizations.get(playerTurn)){
+            selectedUnit.setState(UnitState.ATTACK);
+            return true;
+        }
+
+        if(tile.getNonCivilian() != null && tile.getNonCivilian().getCivilization() != civilizations.get(playerTurn)){
+            selectedUnit.setState(UnitState.ATTACK);
+            return true;
+        }
+        if( tile.getCivilian() != null && tile.getCivilian().getCivilization() != civilizations.get(playerTurn) && selectedUnit.getUnitType().range > 1){
+            selectedUnit.setState(UnitState.ATTACK);
+            return true;
+        }
+        return false;
     }
 
     private static boolean canCityAttack(City city, Tile tile) {
@@ -401,8 +420,8 @@ public class GameController {
             civilization.getTileConditions()[tile.getNeighbours(i).getX()][tile.getNeighbours(i).getY()] =
                     new Civilization.TileCondition(tile.getNeighbours(i).
                             CloneTileForCivilization(civilization.getResearches()), true);
-            if(unit!=null && (tile.getNeighbours(i).getCivilian()!=null && tile.getNeighbours(i).getCivilian().getCivilization()!=civilization) ||
-                    (tile.getNeighbours(i).getNonCivilian()!=null && tile.getNeighbours(i).getNonCivilian().getCivilization()!=civilization))
+            if(unit!=null && ((tile.getNeighbours(i).getCivilian()!=null && tile.getNeighbours(i).getCivilian().getCivilization()!=civilization) ||
+                    (tile.getNeighbours(i).getNonCivilian()!=null && tile.getNeighbours(i).getNonCivilian().getCivilization()!=civilization)))
             {
                 if(unit.getState()==UnitState.ALERT)
                     unit.setState(UnitState.AWAKE);
@@ -410,9 +429,9 @@ public class GameController {
             }
             if (tile.getNeighbours(i).getTileType() == TileType.MOUNTAIN ||
                     tile.getNeighbours(i).getTileType() == TileType.HILL ||
-                    (tile.getNeighbours(i).getFeature() != null &&
-                            (tile.getNeighbours(i).getFeature() == FeatureType.FOREST ||
-                            tile.getNeighbours(i).getFeature() == FeatureType.DENSEFOREST)))
+                    (tile.getNeighbours(i).getFeatureType() != null &&
+                            (tile.getNeighbours(i).getFeatureType() == FeatureType.FOREST ||
+                            tile.getNeighbours(i).getFeatureType() == FeatureType.DENSEFOREST)))
                 continue;
             for (int j = 0; j < 6; j++) {
                 if(tile.getNeighbours(i).getNeighbours(j)==null)
@@ -422,8 +441,8 @@ public class GameController {
                 civilization.getTileConditions()[neighbourX][neighbourY] =
                         new Civilization.TileCondition(tile.getNeighbours(i).getNeighbours(j)
                                 .CloneTileForCivilization(civilization.getResearches()), true);
-                if(unit!=null && (tile.getNeighbours(i).getNeighbours(j).getCivilian()!=null && tile.getNeighbours(i).getNeighbours(j).getCivilian().getCivilization()!=civilization) ||
-                        (tile.getNeighbours(i).getNeighbours(j).getNonCivilian()!=null && tile.getNeighbours(i).getNeighbours(j).getNonCivilian().getCivilization()!=civilization))
+                if(unit!=null && ((tile.getNeighbours(i).getNeighbours(j).getCivilian()!=null && tile.getNeighbours(i).getNeighbours(j).getCivilian().getCivilization()!=civilization) ||
+                        (tile.getNeighbours(i).getNeighbours(j).getNonCivilian()!=null && tile.getNeighbours(i).getNeighbours(j).getNonCivilian().getCivilization()!=civilization)))
                 {
                     if(unit.getState()==UnitState.ALERT)
                         unit.setState(UnitState.AWAKE);
@@ -476,5 +495,13 @@ public class GameController {
 
     public static ArrayList<Tasks> getUnfinishedTasks() {
         return unfinishedTasks;
+    }
+
+    public static int unitAttack(int x,int y){
+        if(!(selectedUnit instanceof NonCivilian) || selectedUnit.getCivilization() != civilizations.get(playerTurn)) return 2;
+        if(x < 0 || y < 0 || x >= map.getX() || y > map.getY()) return 3;
+        if(!canUnitAttack(map.coordinatesToTile(x,y))) return 1;
+        if(selectedUnit.move(map.coordinatesToTile(x,y),true)) return 0;
+        return 4;
     }
 }

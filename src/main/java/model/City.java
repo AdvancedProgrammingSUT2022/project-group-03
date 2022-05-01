@@ -7,7 +7,7 @@ import model.tiles.Tile;
 import java.util.ArrayList;
 
 
-public class City {
+public class City implements CanAttack,CanGetAttacked {
     private final String name;
     private int strength;
     private final Tile mainTile;
@@ -16,7 +16,7 @@ public class City {
     private int HP = 200;
     private int food;
     private int population;
-    private producible product;
+    private Producible product;
     private int production;
     private ArrayList<Tile> tiles = new ArrayList<>();
     private final Civilization founder;
@@ -32,17 +32,20 @@ public class City {
     }
 
     private ArrayList<Tile> gettingWorkedOnByCitizensTiles = new ArrayList<>();
-    private ArrayList<producible> halfProducedUnits = new ArrayList<>();
+    private ArrayList<Producible> halfProducedUnits = new ArrayList<>();
 
     public City(Tile tile, String name, Civilization civilization) {
 
         this.mainTile = tile;
+        mainTile.setCivilization(civilization);
         this.civilization = civilization;
         this.founder = civilization;
         this.name = name;
         this.tiles.add(mainTile);
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 6; i++){
             this.tiles.add(mainTile.getNeighbours(i));
+            mainTile.getNeighbours(i).setCivilization(civilization);
+        }
         for (Tile value : tiles) GameController.openNewArea(value, civilization,null);
         GameController.setUnfinishedTasks();
     }
@@ -51,7 +54,7 @@ public class City {
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
             if (civilization.getHappiness() < 0)
             food += (gettingWorkedOnByCitizensTile.getTileType().food
-                + gettingWorkedOnByCitizensTile.getFeature().food) / 3;
+                + gettingWorkedOnByCitizensTile.getFeatureType().food) / 3;
         }
         return food;
     }
@@ -76,7 +79,7 @@ public class City {
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
             //todo resources;
             production += gettingWorkedOnByCitizensTile.getTileType().production
-                    + gettingWorkedOnByCitizensTile.getFeature().production + citizen;
+                    + gettingWorkedOnByCitizensTile.getFeatureType().production + citizen;
         }
         return production;
     }
@@ -123,7 +126,7 @@ public class City {
                 if (gettingWorkedOnByCitizensTile.isRiverWithNeighbour(i)) temp += 1;
             }
             gold += gettingWorkedOnByCitizensTile.getTileType().gold
-                    + gettingWorkedOnByCitizensTile.getFeature().gold + temp;
+                    + gettingWorkedOnByCitizensTile.getFeatureType().gold + temp;
         }
         return gold;
     }
@@ -139,7 +142,7 @@ public class City {
         return food;
     }
 
-    public producible getProduct() {
+    public Producible getProduct() {
         return product;
     }
 
@@ -237,7 +240,20 @@ public class City {
         if (combat < 1) combat = 1;
         return (int) combat;*/
         return 50;
+    }
 
-
+    public boolean checkToDestroy(){ //todo add city to civilization
+        if(this.HP <= 0) {
+            civilization.getCities().remove(this);
+            for (Tile tile : tiles) {
+                tile.setImprovement(null);
+            }
+            return true;
+        }
+        return false;
+    }
+    public int calculateDamage(double ratio){return 0;}
+    public void takeDamage(int amount){
+        HP -= amount;
     }
 }

@@ -26,8 +26,13 @@ public class Worker extends Unit {
     }
     public void remove(int isJungle)
     {
-        currentTile.setFeature(null);
-        GameController.openNewArea(currentTile,civilization,null);
+        if(isJungle==1)
+        {
+            if(currentTile.getContainedFeature().getCyclesToFinish()==-1)
+                currentTile.getContainedFeature().setCyclesToFinish(6);
+            GameController.openNewArea(currentTile,civilization,null);
+            state = UnitState.REMOVING;
+        }
     }
 
 

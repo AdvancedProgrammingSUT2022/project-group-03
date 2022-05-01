@@ -1,15 +1,13 @@
 package model.Units;
 
 import controller.GameController;
+import model.CanGetAttacked;
 import model.Civilization;
-import model.Map;
-import model.combative;
+import model.CanAttack;
 import model.tiles.Tile;
 
-import java.lang.Math;
 
-
-public class NonCivilian extends Unit implements combative {
+public class NonCivilian extends Unit implements CanAttack{
 
     private int fortifiedCycle = 0;
 
@@ -18,68 +16,29 @@ public class NonCivilian extends Unit implements combative {
     }
 
 
-    public boolean setAttack(Tile tile) {
-        Map.TileAndMP[] tileAndMPS = GameController.getMap().findNextTile(civilization,currentTile, movementPrice,unitType.movePoint, destinationTile, false);
-        this.destinationTile = tile;
-        state = UnitState.ATTACK;
-        if (tileAndMPS == null) {
-            this.destinationTile = null;
-            return false;
-        }
-        if (tileAndMPS.length == 1){
-            this.destinationTile = null;
-            state = UnitState.AWAKE;
-        }
-        Tile tempTile = null;
-        for (int i = tileAndMPS.length - 1; i >= 0; i--)
-            if (tileAndMPS[i] != null) {
-                tempTile = tileAndMPS[i].tile;
-                break;
-            }
-        if (tempTile == null)
-            return false;
-        if ((tempTile.getNonCivilian() == null && unitType.range== 1) ||
-                (tempTile.getCivilian() == null && tempTile.getNonCivilian() == null && unitType.range > 1) ||
-                        tempTile.getNonCivilian().getCivilization() == civilization) {
-            this.destinationTile = null;
-            state = UnitState.AWAKE;
-            return false;
-        }
-        if(tempTile == tile) attack(tile);
-        if (unitType.movePoint != tempTile.getMovingPrice())
-            this.movementPrice = tempTile.getMovingPrice();
-        else
-            this.movementPrice = 0;
-        this.currentTile = tempTile;
-        openNewArea();
-        return true;
+    public void attack(Tile tile) {
+        CanGetAttacked target = null;
+        if(tile.getCity() != null) target = (CanGetAttacked) tile.getCity();
+        else if (tile.getNonCivilian() != null) target = tile.getNonCivilian();
+        else if (tile.getCivilian() != null) target = (CanGetAttacked) tile.getCivilian();
+        double ratio = (double) getCombatStrength(true) /target.getCombatStrength(false);
+        target.takeDamage(calculateDamage(ratio));
+        GameController.openNewArea(tile,civilization,null);
+        state = UnitState.AWAKE;
+        destinationTile = null;
+        if(!this.checkToDestroy() && target.checkToDestroy()) this.move(tile,true);
 
     }
-    public boolean attack(Tile tile) {
-        if(unitType.range > 1){
-            if(tile.getNonCivilian() == null){
-
-            }
-
-
+    public int calculateDamage(double ratio){
+        if(ratio >= 1) {
+            health -= 16.774 * Math.exp(0.5618 * ratio) /  (0.3294 * Math.exp(1.1166 * ratio));
+            return (int) (16.774 * Math.exp(0.5618 * ratio));
         }
-        return false;
+        else health -= 16.774 * Math.exp(0.5618 / ratio);
+        return (int) (16.774 * Math.exp(0.5618 / ratio) / (0.3294 * Math.exp(1.1166 / ratio)));
     }
-        public void defense(){
 
-    }
-    public int getCombatStrength(boolean isAttack){
-        double combat;
-        if(isAttack){
-            combat = ((double)unitType.rangedCombatStrength * (100 + currentTile.getCombatChange())/ 100);
-        }
-        else combat = ((double)unitType.combatStrength * (100 + currentTile.getCombatChange())/ 100);
-        if (civilization.getHappiness() < 0) combat = 0.75 * combat;
-        combat = combat*(50 + (double)health/2)/100;
-        if (combat < 1) combat = 1;
-        return (int) combat;
 
-    }
 
     private boolean defense(Tile tile)
     {
