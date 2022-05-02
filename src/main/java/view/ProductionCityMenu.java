@@ -39,6 +39,11 @@ public class ProductionCityMenu extends Menu{
                 System.out.println("(not enough " + UnitType.VALUES.get(i).resourcesType + ") " + UnitType.VALUES.get(i));
             else
             {
+                for (Unit unit : GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits())
+                    if(unit.getRemainedCost()!=0 && unit.getUnitType()==UnitType.VALUES.get(i))
+                    {
+                        
+                    }
                 int cyclesToComplete = GameController.getSelectedCity().cyclesToComplete(UnitType.VALUES.get(i).cost);
                 System.out.print(possibleUnits.size()+1 + ". " + UnitType.VALUES.get(i) + ": ");
                 if(cyclesToComplete == 12345)
@@ -63,7 +68,7 @@ public class ProductionCityMenu extends Menu{
             return;
         }
         GameController.getSelectedCity().createUnit(possibleUnits.get(number-1));
-
+        System.out.println("production started successfully");
 
     }
     @Override
