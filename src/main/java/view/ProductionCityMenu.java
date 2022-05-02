@@ -42,7 +42,7 @@ public class ProductionCityMenu extends Menu{
                 for (Unit unit : GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits())
                     if(unit.getRemainedCost()!=0 && unit.getUnitType()==UnitType.VALUES.get(i))
                     {
-                        
+
                     }
                 int cyclesToComplete = GameController.getSelectedCity().cyclesToComplete(UnitType.VALUES.get(i).cost);
                 System.out.print(possibleUnits.size()+1 + ". " + UnitType.VALUES.get(i) + ": ");

@@ -222,8 +222,29 @@ public class GameMenu extends Menu {
                 break;
             case 3:
                 System.out.println("Select your unit first");
+                break;
             case 4:
                 System.out.println("Can't find a route");
+        }
+
+    }
+    private void cityAttack(String command) {
+        Matcher matcher = getMatcher(regexes[39], command);
+        switch (GameController.cityAttack(Integer.parseInt(matcher.group(1)),
+                Integer.parseInt(matcher.group(2)))){
+            case 0:
+                System.out.println("Attacked successfully");
+                break;
+            case 1:
+                System.out.println("Can not attack there");
+                break;
+            case 2:
+                System.out.println("Out of bond tile");
+                break;
+            case 3:
+                System.out.println("Select your city first");
+                break;
+
         }
 
     }
@@ -481,18 +502,18 @@ public class GameMenu extends Menu {
 
     private void cheatScience(String command)
     {
-        Matcher matcher = getMatcher(regexes[36],command);
+        Matcher matcher = getMatcher(regexes[41],command);
         GameController.cheatScience(Integer.parseInt(matcher.group(1)));
     }
 
     private void cheatProduction(String command)
     {
-        Matcher matcher = getMatcher(regexes[37],command);
+        Matcher matcher = getMatcher(regexes[42],command);
         GameController.cheatProduction(Integer.parseInt(matcher.group(1)));
     }
     private void cheatResource(String command)
     {
-        Matcher matcher = getMatcher(regexes[38],command);
+        Matcher matcher = getMatcher(regexes[43],command);
         GameController.cheatResource(Integer.parseInt(matcher.group(2)), ResourcesTypes.stringToEnum(matcher.group(1)));
     }
 
@@ -501,6 +522,73 @@ public class GameMenu extends Menu {
         GameController.getCivilizations().get(GameController.getPlayerTurn())
                 .increaseGold(Integer.parseInt(matcher.group(1)));
         System.out.println("cheat activated successfully");
+    }
+    private void cityDestiny(boolean burn){
+        switch (GameController.cityDestiny(burn)){
+            case 0:
+                if(burn) System.out.println("The city destroyed");
+                else System.out.println("The city captured");
+                break;
+            case 1:
+                System.out.println("The city still standing");
+                break;
+            case 2:
+                System.out.println("Select a surrendered city first");
+                break;
+            case 3:
+                System.out.println("Can not burn a capital");
+        }
+    }
+    private void assignCitizen(String command){
+        Matcher matcher = getMatcher(regexes[38], command);
+        int x;
+        if(matcher.group(3) != null)
+            x =GameController.reAssignCitizen(Integer.parseInt(matcher.group(1)),Integer
+                    .parseInt(matcher.group(2)),Integer.parseInt(matcher.group(3)),Integer.parseInt(matcher.group(4)));
+        else x= GameController.assignCitizen(Integer.parseInt(matcher.group(1)),Integer
+                .parseInt(matcher.group(2)));
+        switch (x){
+            case 0:
+                System.out.println("Assigned successfully");
+                break;
+            case 1:
+                System.out.println("Select valid tile");
+                break;
+            case 2:
+                System.out.println("Not your city");
+                break;
+            case 3:
+                System.out.println("Select a city jackass");
+                break;
+            case 4:
+                System.out.println("Failed");
+                break;
+        }
+
+
+    }
+    private void buyTile(String command){
+        Matcher matcher = getMatcher(regexes[40], command);
+        switch (GameController.buyTile(Integer.parseInt(matcher.group(1)),Integer.parseInt(matcher.group(2)))) {
+            case 0:
+                System.out.println("Tile added successfully");
+                break;
+            case 1:
+                System.out.println("Already has an owner");
+                break;
+            case 2:
+                System.out.println("Select valid tile");
+                break;
+            case 3:
+                System.out.println("Don't go too far");
+                break;
+            case 4:
+                System.out.println("Select your city first");
+                break;
+            case 5:
+                System.out.println("Out of bond Tile");
+                break;
+        }
     }
 
     {
@@ -541,9 +629,14 @@ public class GameMenu extends Menu {
                 "^unit remove (\\w+)$", //33
                 "^unit wake$",
                 "^UNIT ATTACK ([0-9]+) ([0-9]+)$",
+                "^CAPTURE CITY$",
+                "^BURN CITY",
+                "^CITIZEN WORK ([0-9]+) ([0-9]+) (TO ([0-9]+) ([0-9]+))?", //38
+                "^CITY ATTACK ([0-9]+) ([0-9]+)$",
+                "^BUY TILE ([0-9]+) ([0-9]+)$",
                 "^CHEAT SCIENCE (\\d+)$",
                 "^CHEAT PRODUCTION (\\d+)$",
-                "^CHEAT RESOURCE (\\w+) (\\d+)$"
+                "^CHEAT RESOURCE (\\w+) (\\d+)$"//43
         };
     }
 
@@ -665,12 +758,27 @@ public class GameMenu extends Menu {
                 unitAttack(command);
                 break;
             case 36:
-                cheatScience(command);
+                cityDestiny(false);
                 break;
             case 37:
-                cheatProduction(command);
+                cityDestiny(true);
                 break;
             case 38:
+                assignCitizen(command);
+                break;
+            case 39:
+                cityAttack(command);
+                break;
+            case 40:
+                buyTile(command);
+                break;
+            case 41:
+                cheatScience(command);
+                break;
+            case 42:
+                cheatProduction(command);
+                break;
+            case 43:
                 cheatResource(command);
                 break;
         }

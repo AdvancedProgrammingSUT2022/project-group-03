@@ -4,8 +4,10 @@ import controller.GameController;
 import model.Units.*;
 import model.technologies.Technology;
 import model.tiles.Tile;
+import model.tiles.TileType;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class City implements CanAttack, CanGetAttacked {
@@ -23,6 +25,7 @@ public class City implements CanAttack, CanGetAttacked {
     private final Civilization founder;
     private int citizen;
     private int foodForCitizen = 1;
+    public boolean isCapital;
     public int productionCheat;
     public String getName() {
         return name;
@@ -54,28 +57,36 @@ public class City implements CanAttack, CanGetAttacked {
     public int collectFood() {
         int food = 0;
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
-            if (civilization.getHappiness() < 0)
-                food += (gettingWorkedOnByCitizensTile.getTileType().food
-                        + gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType().food) / 3;
+            food += (gettingWorkedOnByCitizensTile.getTileType().food
+                    + gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType().food);
+            if (gettingWorkedOnByCitizensTile.getResources().isTechnologyUnlocked(civilization, gettingWorkedOnByCitizensTile)
+                    && gettingWorkedOnByCitizensTile.getImprovement() != null
+                    && gettingWorkedOnByCitizensTile.getResources().improvementType == gettingWorkedOnByCitizensTile.getImprovement().getImprovementType())
+                food += gettingWorkedOnByCitizensTile.getResources().food;
+
         }
+        if (civilization.getHappiness() < 0) food /= 3;
         return food;
     }
 
+
     public void collectResources() {
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
-            //if(gettingWorkedOnByCitizensTile.getResources().isTechnologyUnlocked(civilization.getResearches())
-            //  && gettingWorkedOnByCitizensTile.getResources())
-            if (!civilization.getResourcesAmount().containsKey(gettingWorkedOnByCitizensTile.getResources())) {
-                civilization.getResourcesAmount().put(gettingWorkedOnByCitizensTile.getResources(), 1);
-            } else {
-                int temp = civilization.getResourcesAmount().get(gettingWorkedOnByCitizensTile.getResources());
-                civilization.getResourcesAmount().remove(gettingWorkedOnByCitizensTile.getResources());
-                civilization.getResourcesAmount().put(gettingWorkedOnByCitizensTile.getResources(), temp);
-            }
-            if (!civilization.getUsedLuxuryResources().containsKey(gettingWorkedOnByCitizensTile.getResources())) {
-                civilization.getUsedLuxuryResources().put(gettingWorkedOnByCitizensTile.getResources(), true);
-                civilization.changeHappiness(4);
+            if (gettingWorkedOnByCitizensTile.getResources().isTechnologyUnlocked(civilization, gettingWorkedOnByCitizensTile)
+                    && gettingWorkedOnByCitizensTile.getImprovement() != null
+                    && gettingWorkedOnByCitizensTile.getResources().improvementType == gettingWorkedOnByCitizensTile.getImprovement().getImprovementType()) {
+                if (!civilization.getResourcesAmount().containsKey(gettingWorkedOnByCitizensTile.getResources())) {
+                    civilization.getResourcesAmount().put(gettingWorkedOnByCitizensTile.getResources(), 1);
+                } else {
+                    int temp = civilization.getResourcesAmount().get(gettingWorkedOnByCitizensTile.getResources());
+                    civilization.getResourcesAmount().remove(gettingWorkedOnByCitizensTile.getResources());
+                    civilization.getResourcesAmount().put(gettingWorkedOnByCitizensTile.getResources(), temp);
+                }
+                if (!civilization.getUsedLuxuryResources().containsKey(gettingWorkedOnByCitizensTile.getResources())) {
+                    civilization.getUsedLuxuryResources().put(gettingWorkedOnByCitizensTile.getResources(), true);
+                    civilization.changeHappiness(4);
 
+                }
             }
         }
     }
@@ -83,14 +94,19 @@ public class City implements CanAttack, CanGetAttacked {
     public int collectProduction() {
         int production = 0;
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
-            //todo resources;
             production += gettingWorkedOnByCitizensTile.getTileType().production
                     + gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType().production + citizen;
+            if (gettingWorkedOnByCitizensTile.getResources().isTechnologyUnlocked(civilization, gettingWorkedOnByCitizensTile)
+                    && gettingWorkedOnByCitizensTile.getImprovement() != null
+                    && gettingWorkedOnByCitizensTile.getResources().improvementType == gettingWorkedOnByCitizensTile.getImprovement().getImprovementType())
+                production += gettingWorkedOnByCitizensTile.getResources().production;
         }
         return production+ productionCheat;
     }
 
     public void startTheTurn() {
+        HP += 10;
+        if (HP > 200) HP = 200;
         food += collectFood();
         production += collectProduction();
         if (product != null) {
@@ -121,9 +137,22 @@ public class City implements CanAttack, CanGetAttacked {
             foodForCitizen *= 2;
             population++;
             citizen++;
+            expandBorders();
         }
 
         for (Tile tile : tiles) GameController.openNewArea(tile, civilization, null);
+    }
+    public void expandBorders(){
+        Random rand = new Random();
+        int x = 0;
+        while (150 > x){
+            Tile tile = tiles.get(rand.nextInt() % tiles.size());
+            for (int i = 0; i < 6; i++) {
+                if(tile.getNeighbours(i)!= null && addTile(tile.getNeighbours(i))) return;
+                x++;
+            }
+        }
+
     }
 
     public void endTheTurn() {
@@ -139,6 +168,10 @@ public class City implements CanAttack, CanGetAttacked {
             }
             gold += gettingWorkedOnByCitizensTile.getTileType().gold
                     + gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType().gold + temp;
+            if (gettingWorkedOnByCitizensTile.getResources().isTechnologyUnlocked(civilization, gettingWorkedOnByCitizensTile)
+                    && gettingWorkedOnByCitizensTile.getImprovement() != null
+                    && gettingWorkedOnByCitizensTile.getResources().improvementType == gettingWorkedOnByCitizensTile.getImprovement().getImprovementType())
+                gold += gettingWorkedOnByCitizensTile.getResources().gold;
         }
         return gold;
     }
@@ -186,12 +219,19 @@ public class City implements CanAttack, CanGetAttacked {
     }
 
     public void attack(Tile tile) {
-
+        calculateDamage((double) getCombatStrength(true) / tile.getNonCivilian().getCombatStrength(false));
+        tile.getNonCivilian().checkToDestroy();
+        GameController.openNewArea(tile,civilization,null);
     }
 
-    public void buyTile(Tile tile) {
-
-    }
+   public boolean isTileNeighbor(Tile tile){
+       for (Tile tile1 : tiles) {
+           for (int i = 0; i < 6; i++) {
+               if(tile1.getNeighbours(i) == tile) return true;
+           }
+       }
+       return false;
+   }
 
     public Tile getMainTile() {
         return mainTile;
@@ -209,10 +249,11 @@ public class City implements CanAttack, CanGetAttacked {
         return civilization;
     }
 
-    public void assignCitizenToTiles(Tile originTile, Tile destinationTile) {
+    public boolean assignCitizenToTiles(Tile originTile, Tile destinationTile) {
         if (originTile == null) citizen--;
         else gettingWorkedOnByCitizensTiles.remove(originTile);
         gettingWorkedOnByCitizensTiles.add(destinationTile);
+        return false;
     }
 
     public boolean createUnit(UnitType unitType) {
@@ -242,34 +283,60 @@ public class City implements CanAttack, CanGetAttacked {
                 strength += mainTile.getNonCivilian().getUnitType().rangedCombatStrength;
             else strength += mainTile.getNonCivilian().getUnitType().combatStrength;
         }
-        if (tiles.size() > 10 && !isAttack) strength += 4 * (tiles.size() - 10);
+        if (tiles.size() > 10 && !isAttack) strength += 2 * (tiles.size() - 10);
         if (!isAttack) strength += tiles.size();
-//        if()
-        /*double combat;
-        if(isAttack){
-            combat = ((double)unitType.rangedCombatStrength * (100 + currentTile.getCombatChange())/ 100);
+        for (Tile tile : tiles) {
+            if (!isAttack && (tile.getTileType() == TileType.MOUNTAIN || tile.getTileType() == TileType.HILL))
+                strength += 1;
         }
-        else combat = ((double)unitType.combatStrength * (100 + currentTile.getCombatChange())/ 100);
-        if (civilization.collectResources() < 0) combat = 0.75 * combat;
-        combat = combat*(50 + (double)health/2)/100;
-        if (combat < 1) combat = 1;
-        return (int) combat;*/
-        return 50;
+        return strength;
     }
 
-    public boolean checkToDestroy() { //todo add city to civilization
+    public boolean checkToDestroy() {
         if (this.HP <= 0) {
-            civilization.getCities().remove(this);
-            for (Tile tile : tiles) {
-                tile.setImprovement(null);
+            GameController.getUnfinishedTasks().add(new Tasks(mainTile, TaskTypes.CITY_DESTINY));
+            if(mainTile.getNonCivilian() != null &&mainTile.getNonCivilian().getState() == UnitState.GARRISON) {
+                civilization.getUnits().remove(mainTile.getNonCivilian());
+                mainTile.setCivilian(null);
+
             }
             return true;
         }
         return false;
     }
+    public boolean addTile(Tile tile){
+        if(tile.getCivilization() != null)return false;
+        tiles.add(tile);
+        tile.setCivilization(civilization);
+        GameController.openNewArea(tile,civilization,null);
+        return true;
+    }
+
+    public void destroy() {
+        civilization.getCities().remove(this);
+        for (Tile tile : tiles) {
+            tile.setImprovement(null);
+        }
+    }
+
+    public void changeCivilization(Civilization civilization) {
+        HP = 25;
+        for (Tile tile : tiles) {
+            tile.setCivilization(civilization);
+        }
+        product = null;
+        //todo clear producting object
+        this.civilization = civilization;
+
+    }
 
     public int calculateDamage(double ratio) {
-        return 0;
+        if (ratio >= 1) {
+            return (int) (16.774 * Math.exp(0.5618 * ratio));
+        } else {
+            return (int) (16.774 * Math.exp(0.5618 / ratio) / (0.3294 * Math.exp(1.1166 / ratio)));
+        }
+
     }
 
     public void takeDamage(int amount) {

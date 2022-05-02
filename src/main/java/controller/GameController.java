@@ -65,7 +65,21 @@ public class GameController {
                     return civilization.getCities().get(j);
         return null;
     }
-
+    public static int reAssignCitizen(int originX, int originY, int destinationX, int destinationY){
+        if(selectedCity== null)return 3;
+        if(selectedCity.getCivilization() != civilizations.get(playerTurn))return 2;
+        if(originX <0 || originY<0 || destinationY < 0 || destinationX <0
+                || originX > map.getX() || originY > map.getY() || destinationX > map.getX() || destinationY > map.getY()) return 1;
+        if(selectedCity.assignCitizenToTiles(map.coordinatesToTile(originX,originY),map.coordinatesToTile(destinationX,destinationY))) return 0;
+        return 4;
+    }
+    public static int assignCitizen(int destinationX,int destinationY) {
+        if(selectedCity== null)return 3;
+        if(selectedCity.getCivilization() != civilizations.get(playerTurn))return 2;
+        if( destinationY < 0 || destinationX <0 || destinationX > map.getX() || destinationY > map.getY()) return 1;
+        if(selectedCity.assignCitizenToTiles(null,map.coordinatesToTile(destinationX,destinationY))) return 0;
+        return 4;
+    }
     public static boolean setSelectedCityByName(String name) {
         City tempCity = nameToCity(name);
         if (tempCity == null)
@@ -251,7 +265,7 @@ public class GameController {
         return 0;
     }
 
-    private static boolean doesHaveTheRequiredTechnologyToBuildImprovement(ImprovementType improvementType,Tile tile, Civilization civilization)
+    public static boolean doesHaveTheRequiredTechnologyToBuildImprovement(ImprovementType improvementType,Tile tile, Civilization civilization)
     {
         if(civilization.doesContainTechnology(improvementType.prerequisitesTechnologies)!=1)
             return false;
@@ -365,8 +379,15 @@ public class GameController {
     }
 
 
-    public static int buyTile(Tile tile) {
+    public static int buyTile(int x , int y) {
+        if(x < 0 || y < 0 || x >= map.getX() || y > map.getY()) return 5;
+        if(selectedCity == null || selectedCity.getCivilization() != civilizations.get(playerTurn)) return 4;
+        if(selectedCity.isTileNeighbor(map.coordinatesToTile(x,y))) return 3;
+        if(civilizations.get(playerTurn).getGold() < 15 + 10*(selectedCity.getTiles().size() - 6)) return 2;
+        if(!selectedCity.addTile(map.coordinatesToTile(x,y)))  return 1;
+        selectedCity.getCivilization().changeGold(-(15 + 10*(selectedCity.getTiles().size() - 6)));
         return 0;
+
     }
 
     private static void setCivilizations(ArrayList<User> users) {
@@ -393,16 +414,12 @@ public class GameController {
     }
 
     private static boolean canCityAttack(City city, Tile tile) {
-        return true;
+        if(tile.getNonCivilian() == null || tile.getNonCivilian().getCivilization() == city.getCivilization()) return false;
+        return !map.isInRange(2, city.getMainTile(), tile);
+
     }
 
-    private static boolean canUnitMove(City city, Tile tile) {
-        return true;
-    }
 
-    private static int isGameOver() {
-        return 0;
-    }
 
     public static boolean nextTurnIfYouCan() {
         if (unfinishedTasks.size() != 0)
@@ -559,6 +576,23 @@ public class GameController {
         if(!canUnitAttack(map.coordinatesToTile(x,y))) return 1;
         if(selectedUnit.move(map.coordinatesToTile(x,y),true)) return 0;
         return 4;
+    }
+    public static int cityAttack(int x,int y){
+        if(selectedCity.getCivilization() != civilizations.get(playerTurn)) return 3;
+        if(x < 0 || y < 0 || x >= map.getX() || y > map.getY()) return 2;
+        if(!canCityAttack(selectedCity,map.coordinatesToTile(x,y))) return 1;
+        selectedCity.attack(map.coordinatesToTile(x,y));
+        return 0;
+    }
+
+    public static int cityDestiny(boolean burn){
+        if(selectedCity == null) return 2;
+        if(selectedCity.getHP() > 0) return 1;
+        if(selectedCity.isCapital && burn) return 4;
+        if(burn)selectedCity.destroy();
+        else selectedCity.changeCivilization(civilizations.get(playerTurn));
+        deleteFromUnfinishedTasks(new Tasks(selectedCity.getMainTile(),TaskTypes.CITY_DESTINY));
+        return 0;
     }
 
     public static void cheatScience(int number)

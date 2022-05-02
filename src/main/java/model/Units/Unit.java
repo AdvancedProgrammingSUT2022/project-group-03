@@ -68,9 +68,14 @@ public abstract class Unit implements Producible, CanGetAttacked {
 
     public void startTheTurn() {
         GameController.openNewArea(currentTile,civilization,this);
-//        health += ...
-        if (health > 100)
+        health += 5;
+        if(state == UnitState.FORTIFY) health += 15;
+        if(currentTile.getCivilization() == civilization) health+= 5;
+        if (health > 100){
+            if(state == UnitState.FORTIFY_UNTIL_FULL_HEALTH) state = UnitState.AWAKE;
             health = 100;
+        }
+
         movementPrice = unitType.getDefaultMovementPrice();
 
         if(state== UnitState.FORTIFY_UNTIL_FULL_HEALTH && health==10)
@@ -130,6 +135,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
     public Tile getCurrentTile() {
         return currentTile;
     }
+
 
 
     public boolean move(Tile destinationTile,boolean ogCall) {

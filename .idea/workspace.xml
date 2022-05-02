@@ -67,10 +67,10 @@
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../../Program Files/Java/jdk-17.0.1" />
+      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../../Program Files/Java/jdk-17.0.2" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="project-group-03" />
+      <module name="untitled5" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -103,6 +103,7 @@
       <workItem from="1651298926484" duration="8997000" />
       <workItem from="1651429063181" duration="128000" />
       <workItem from="1651485284165" duration="5165000" />
+      <workItem from="1651496753773" duration="11616000" />
     </task>
     <servers />
   </component>

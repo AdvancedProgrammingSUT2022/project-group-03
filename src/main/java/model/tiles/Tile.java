@@ -161,7 +161,7 @@ public class Tile {
         newTile.tilesWithRiver = this.tilesWithRiver;
         newTile.containedResource = null;
         newTile.containedFeature = containedFeature;
-        if(containedResource != null && containedResource.isTechnologyUnlocked(technologies))
+        if(containedResource != null && containedResource.isTechnologyUnlocked(civilization,this))
             newTile.containedResource = this.containedResource;
         newTile.improvement = this.improvement;
         newTile.civilization = this.civilization;
