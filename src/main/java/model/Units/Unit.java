@@ -25,6 +25,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
         this.movementPrice = unitType.getDefaultMovementPrice();
         this.remainedCost = unitType.cost;
         this.state = UnitState.AWAKE;
+        this.unitType = unitType;
     }
     public boolean checkToDestroy(){
         if (health <= 0) {
@@ -229,14 +230,5 @@ public abstract class Unit implements Producible, CanGetAttacked {
     {
 
     }
-    public void remove(int isJungle)
-    {
-        if(isJungle==1)
-        {
-            if(currentTile.getContainedFeature().getCyclesToFinish()==-1)
-                currentTile.getContainedFeature().setCyclesToFinish(6);
-            GameController.openNewArea(currentTile,civilization,null);
-            state = UnitState.REMOVING;
-        }
-    }
+
 }

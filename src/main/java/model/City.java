@@ -2,7 +2,6 @@ package model;
 
 import controller.GameController;
 import model.Units.*;
-import model.technologies.Technology;
 import model.tiles.Tile;
 import model.tiles.TileType;
 
@@ -36,7 +35,7 @@ public class City implements CanAttack, CanGetAttacked {
     }
 
     private ArrayList<Tile> gettingWorkedOnByCitizensTiles = new ArrayList<>();
-    private ArrayList<Producible> halfProducedUnits = new ArrayList<>();
+    private ArrayList<Unit> halfProducedUnits = new ArrayList<>();
 
     public City(Tile tile, String name, Civilization civilization) {
 
@@ -103,7 +102,20 @@ public class City implements CanAttack, CanGetAttacked {
         }
         return production+ productionCheat;
     }
-
+    private void mines5Percent()
+    {
+        for (int i = 0; i < halfProducedUnits.size(); i++) {
+            if(halfProducedUnits.get(i)!=product)
+            {
+                halfProducedUnits.get(i).setRemainedCost(halfProducedUnits.get(i).getRemainedCost()+(int)(0.05*halfProducedUnits.get(i).getUnitType().cost));
+                if(halfProducedUnits.get(i).getRemainedCost()>=halfProducedUnits.get(i).getUnitType().cost)
+                {
+                    halfProducedUnits.remove(halfProducedUnits.get(i));
+                    i--;
+                }
+            }
+        }
+    }
     public void startTheTurn() {
         HP += 10;
         if (HP > 200) HP = 200;
@@ -121,6 +133,8 @@ public class City implements CanAttack, CanGetAttacked {
                         ((Unit) product).getCurrentTile().setNonCivilian((NonCivilian) product);
                     else
                         ((Unit) product).getCurrentTile().setCivilian((Unit) product);
+                    GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().add((Unit) product);
+                    halfProducedUnits.remove(product);
                 }
                 product = null;
             }
@@ -139,7 +153,7 @@ public class City implements CanAttack, CanGetAttacked {
             citizen++;
             expandBorders();
         }
-
+        mines5Percent();
         for (Tile tile : tiles) GameController.openNewArea(tile, civilization, null);
     }
     public void expandBorders(){
@@ -256,19 +270,9 @@ public class City implements CanAttack, CanGetAttacked {
         return false;
     }
 
-    public boolean createUnit(UnitType unitType) {
+    public boolean doWeHaveEnoughMoney(UnitType unitType) {
         if (unitType.cost > civilization.getGold())
             return false;
-        if (product != null) {
-            halfProducedUnits.add(product);
-            product = null;
-        }
-        GameController.deleteFromUnfinishedTasks(new Tasks(mainTile, TaskTypes.CITY_PRODUCTION));
-        if (unitType.combatType == CombatType.CIVILIAN) {
-            product = new Civilian(mainTile, civilization, unitType);
-            return true;
-        }
-        product = new NonCivilian(mainTile, civilization, unitType);
         return true;
     }
 
@@ -357,4 +361,7 @@ public class City implements CanAttack, CanGetAttacked {
         this.production = production;
     }
 
+    public ArrayList<Unit> getHalfProducedUnits() {
+        return halfProducedUnits;
+    }
 }

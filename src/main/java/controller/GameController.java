@@ -269,16 +269,25 @@ public class GameController {
     {
         if(civilization.doesContainTechnology(improvementType.prerequisitesTechnologies)!=1)
             return false;
-        if(improvementType==ImprovementType.FARM && (tile.getContainedFeature().getFeatureType()==FeatureType.JUNGLE &&
+        if(improvementType==ImprovementType.FARM && (tile.getContainedFeature()!=null &&
+                tile.getContainedFeature().getFeatureType()==FeatureType.JUNGLE &&
                 civilization.doesContainTechnology(TechnologyType.BRONZE_WORKING)!=1))
             return false;
-        if(improvementType==ImprovementType.QUARRY && selectedUnit.getCurrentTile().getContainedFeature().getFeatureType()==FeatureType.SWAMP &&
+        if(improvementType==ImprovementType.QUARRY && tile.getContainedFeature()!=null &&
+                selectedUnit != null &&
+                selectedUnit.getCurrentTile().getContainedFeature() !=null &&
+                selectedUnit.getCurrentTile().getContainedFeature().getFeatureType()==FeatureType.SWAMP &&
                 selectedUnit.getCivilization().doesContainTechnology(TechnologyType.MASONRY)!=1)
             return false;
-        if(selectedUnit.getCurrentTile().getContainedFeature().getFeatureType()==FeatureType.SWAMP &&
+        if(tile.getContainedFeature()!=null &&
+                selectedUnit != null &&
+                selectedUnit.getCurrentTile().getContainedFeature() != null &&
+                selectedUnit.getCurrentTile().getContainedFeature().getFeatureType()==FeatureType.SWAMP &&
                 selectedUnit.getCivilization().doesContainTechnology(TechnologyType.MASONRY)!=1)
             return false;
-        if(improvementType==ImprovementType.FARM && tile.getContainedFeature().getFeatureType()==FeatureType.FOREST &&
+        if(improvementType==ImprovementType.FARM &&
+                tile.getContainedFeature()!=null &&
+                tile.getContainedFeature().getFeatureType()==FeatureType.FOREST &&
                 civilization.doesContainTechnology(TechnologyType.MINING)!=1)
                 return false;
         return true;
@@ -323,7 +332,7 @@ public class GameController {
         //TODO if(!isJungle && notroad && notrailroad) {....}
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT));
         if(isJungle)
-            selectedUnit.remove(1);
+           ((Civilian) selectedUnit).remove(1);
         return 0;
     }
 
@@ -531,9 +540,9 @@ public class GameController {
             return 2;
         if(selectedCity.getCivilization()!=civilizations.get(playerTurn))
             return 3;
-        if (!selectedCity.createUnit(tempType))
+        if (!selectedCity.doWeHaveEnoughMoney(tempType))
             return 4;
-        for (Unit unit : civilizations.get(playerTurn).getUnits())
+        for (Unit unit : selectedCity.getHalfProducedUnits())
             if(unit.getRemainedCost()!=0 && unit.getUnitType()==tempType)
             {
                 selectedCity.setProduct(unit);
@@ -542,15 +551,16 @@ public class GameController {
         if(tempType.combatType==CombatType.CIVILIAN)
         {
             Civilian civilian = new Civilian(selectedCity.getMainTile(),civilizations.get(playerTurn),tempType);
-            civilizations.get(playerTurn).getUnits().add(civilian);
+            selectedCity.getHalfProducedUnits().add(civilian);
             selectedCity.setProduct(civilian);
         }
         else
         {
             NonCivilian nonCivilian = new NonCivilian(selectedCity.getMainTile(),civilizations.get(playerTurn),tempType);
-            civilizations.get(playerTurn).getUnits().add(nonCivilian);
+            selectedCity.getHalfProducedUnits().add(nonCivilian);
             selectedCity.setProduct(nonCivilian);
         }
+        GameController.deleteFromUnfinishedTasks(new Tasks(selectedCity.getMainTile(), TaskTypes.CITY_PRODUCTION));
         return 0;
     }
 
@@ -558,9 +568,6 @@ public class GameController {
         return civilizations;
     }
 
-    public static ArrayList<Technology> getCivilizationsResearches() {
-        return civilizations.get(playerTurn).getResearches();
-    }
 
     public static int getPlayerTurn() {
         return playerTurn;

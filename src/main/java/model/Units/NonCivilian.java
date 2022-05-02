@@ -49,8 +49,6 @@ public class NonCivilian extends Unit implements CanAttack{
     }
     public NonCivilian(Tile tile, Civilization civilization, UnitType unitType) {
         super(tile, civilization,unitType);
-        this.unitType = unitType;
-
 //        switch (unitType)
 //        {
 //            case

@@ -1,16 +1,13 @@
 package model.Units;
 
+import controller.GameController;
 import model.City;
 import model.Civilization;
 import model.tiles.Tile;
 
 public class Civilian extends Unit {
-    private static int cost;
     public Civilian(Tile tile, Civilization civilization, UnitType unitType) {
         super(tile, civilization, unitType);
-    }
-    {
-        this.unitType = UnitType.SETTLER;
     }
     public void city()
     {
@@ -18,5 +15,14 @@ public class Civilian extends Unit {
         civilization.getCities().add(tempCity);
         currentTile.setCity(tempCity);
     }
-
+    public void remove(int isJungle)
+    {
+        if(isJungle==1)
+        {
+            if(currentTile.getContainedFeature().getCyclesToFinish()==-1)
+                currentTile.getContainedFeature().setCyclesToFinish(6);
+            GameController.openNewArea(currentTile,civilization,null);
+            state = UnitState.REMOVING;
+        }
+    }
 }

@@ -365,6 +365,7 @@ public class GameMenu extends Menu {
         if (unit.getDestinationTile() != null)
             System.out.print(" | destinationX: " + unit.getDestinationTile().getX()
                     + " destinationY: " + unit.getDestinationTile().getY());
+        System.out.println();
     }
 
     private void selectedUnitInfo() {
