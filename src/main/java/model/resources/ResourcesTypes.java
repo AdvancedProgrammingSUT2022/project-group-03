@@ -3,12 +3,14 @@ package model.resources;
 import controller.GameController;
 import model.Civilization;
 import model.improvements.ImprovementType;
+import model.Units.UnitType;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;
 import model.tiles.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public enum ResourcesTypes {
@@ -29,7 +31,7 @@ public enum ResourcesTypes {
     SILVER("Ag",ResourcesCategory.LUXURY,null,ImprovementType.MINE,0,0,2),
     SUGAR("SU",ResourcesCategory.LUXURY,null,ImprovementType.FIELD,0,0,2),
     COAL("CL",ResourcesCategory.STRATEGIC,TechnologyType.SCIENTIFIC_THEORY,ImprovementType.MINE,0,1,0),
-    HORSE("HO",ResourcesCategory.STRATEGIC,TechnologyType.ANIMAL_HUSBANDARY,ImprovementType.PASTURE,0,1,0),
+    HORSE("HO",ResourcesCategory.STRATEGIC,TechnologyType.ANIMAL_HUSBANDRY,ImprovementType.PASTURE,0,1,0),
     IRON("Fe",ResourcesCategory.STRATEGIC,TechnologyType.IRON_WORKING,ImprovementType.MINE,0,1,0);
     private static final List<ResourcesTypes> VALUES = List.of(values());
     private static final int SIZE = VALUES.size();
@@ -70,5 +72,11 @@ public enum ResourcesTypes {
         }
         return GameController.doesHaveTheRequiredTechnologyToBuildImprovement(improvementType, tile, civilization);
     }
-
+    public static ResourcesTypes stringToEnum(String string)
+    {
+        for (ResourcesTypes value : VALUES)
+            if (string.toLowerCase(Locale.ROOT).equals(value.toString().toLowerCase(Locale.ROOT)))
+                return value;
+        return null;
+    }
 }

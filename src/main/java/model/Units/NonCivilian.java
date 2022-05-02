@@ -61,4 +61,12 @@ public class NonCivilian extends Unit implements CanAttack{
         if (fortifiedCycle == 0)
             return;
     }
+
+    public int getFortifiedCycle() {
+        return fortifiedCycle;
+    }
+
+    public void setFortifiedCycle(int fortifiedCycle) {
+        this.fortifiedCycle = fortifiedCycle;
+    }
 }

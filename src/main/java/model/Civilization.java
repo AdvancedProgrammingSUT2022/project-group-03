@@ -146,21 +146,17 @@ public class Civilization {
 
     public void startTheTurn() {
         turnOffTileConditionsBoolean();
-        for (City city : cities) {
+        for (City city : cities)
             city.collectResources();
-        }
         for (City city : cities) {
             city.startTheTurn();
-            science += city.getPopulation();
             gold += city.getGold();
         }
         for (City city : cities) {
             city.collectFood();
         }
 
-        if (cities.size() > 0) {
-            science += 3;
-        }
+        science = newScience();
         for (Unit unit : units) unit.startTheTurn();
         gold -= units.size();
         /*if (gold < 0 && !units.isEmpty()) {
@@ -177,10 +173,22 @@ public class Civilization {
             if (science <= 0)
                 science = 0;
             if (gettingResearchedTechnology.getRemainedCost() <= 0)
+            {
+                gettingResearchedTechnology.setRemainedCost(0);
                 gettingResearchedTechnology = null;
+
+            }
         }
     }
-
+    public int newScience() {
+        //TODO SOMETHING
+        int returner = 0;
+        for (City city : cities)
+            returner += city.getPopulation();
+        if (cities.size() > 0)
+            returner += 3;
+        return returner;
+    }
     public void endTheTurn() {
         //using
         for (Unit unit : units) unit.endTheTurn();
@@ -213,11 +221,20 @@ public class Civilization {
         return happiness;
     }
 
-    public boolean doesContainTechnology(TechnologyType technologyType) {
+    public int doesContainTechnology(TechnologyType technologyType) {
+        if(technologyType==null)
+            return 1;
         for (Technology research : researches)
             if (research.getTechnologyType() == technologyType)
-                return true;
-        return false;
+            {
+                if(research.getRemainedCost()==0)
+                    return 1;
+                return 2;
+            }
+        return 3;
     }
 
+    public void setScience(int science) {
+        this.science = science;
+    }
 }

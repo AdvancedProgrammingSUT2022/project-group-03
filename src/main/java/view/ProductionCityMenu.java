@@ -2,6 +2,7 @@ package view;
 
 import controller.GameController;
 import model.City;
+import model.Units.Civilian;
 import model.Units.Unit;
 import model.Units.UnitType;
 
@@ -29,16 +30,25 @@ public class ProductionCityMenu extends Menu{
         boolean doesHaveAny = false;
         for(int i = 0 ; i < UnitType.VALUES.size();i++)
         {
-            if(!GameController.getSelectedCity().getCivilization().doesContainTechnology(UnitType.VALUES.get(i).technologyRequired))
+            if(GameController.getSelectedCity().getCivilization().doesContainTechnology(UnitType.VALUES.get(i).technologyRequired)!=1)
                 continue;
             doesHaveAny=true;
-            if(GameController.getSelectedCity().getCivilization().getResourcesAmount().get(UnitType.VALUES.get(i).resourcesType)==0)
-                System.out.println("(not enough resources) " + UnitType.VALUES.get(i));
+            if( (UnitType.VALUES.get(i).resourcesType!=null && !GameController.getSelectedCity().getCivilization().getResourcesAmount().containsKey(UnitType.VALUES.get(i).resourcesType)) ||
+                   (GameController.getSelectedCity().getCivilization().getResourcesAmount().containsKey(UnitType.VALUES.get(i).resourcesType) &&
+                    GameController.getSelectedCity().getCivilization().getResourcesAmount().get(UnitType.VALUES.get(i).resourcesType)==0))
+                System.out.println("(not enough " + UnitType.VALUES.get(i).resourcesType + ") " + UnitType.VALUES.get(i));
             else
             {
-                System.out.println(possibleUnits.size()+1 + ". " + UnitType.VALUES.get(i));
+                int cyclesToComplete = GameController.getSelectedCity().cyclesToComplete(UnitType.VALUES.get(i).cost);
+                System.out.print(possibleUnits.size()+1 + ". " + UnitType.VALUES.get(i) + ": ");
+                if(cyclesToComplete == 12345)
+                    System.out.println("never, your production is 0");
+                else
+                    System.out.println(GameController.getSelectedCity().cyclesToComplete(UnitType.VALUES.get(i).cost) +
+                            " cycles to complete");
                 possibleUnits.add(UnitType.VALUES.get(i));
             }
+
         }
         if(!doesHaveAny)
             System.out.println("you can't produce anything right now");
@@ -53,6 +63,7 @@ public class ProductionCityMenu extends Menu{
             return;
         }
         GameController.getSelectedCity().createUnit(possibleUnits.get(number-1));
+
 
     }
     @Override

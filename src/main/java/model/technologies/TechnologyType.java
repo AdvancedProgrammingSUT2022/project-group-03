@@ -7,7 +7,7 @@ import java.util.List;
 
 public enum TechnologyType {
     AGRICULTURE(20),
-    ANIMAL_HUSBANDARY(35),
+    ANIMAL_HUSBANDRY(35),
     ARCHERY(35),
     BRONZE_WORKING(55),
     CALENDAR(70),
@@ -57,8 +57,8 @@ public enum TechnologyType {
     public final int cost;
     public static final HashMap<TechnologyType, ArrayList<TechnologyType>> nextTech = new HashMap<>();
     static {
-        nextTech.put(AGRICULTURE,new ArrayList<>(Arrays.asList(POTTERY,ANIMAL_HUSBANDARY,ARCHERY,MINING)));
-        nextTech.put(ANIMAL_HUSBANDARY, new ArrayList<>(Arrays.asList(TRAPPING,THE_WHEEL)));
+        nextTech.put(AGRICULTURE,new ArrayList<>(Arrays.asList(POTTERY, ANIMAL_HUSBANDRY,ARCHERY,MINING)));
+        nextTech.put(ANIMAL_HUSBANDRY, new ArrayList<>(Arrays.asList(TRAPPING,THE_WHEEL)));
         nextTech.put(ARCHERY,new ArrayList<>(List.of(MATHEMATICS)));
         nextTech.put(BRONZE_WORKING,new ArrayList<>(List.of(IRON_WORKING)));
         nextTech.put(CALENDAR,new ArrayList<>(List.of(THEOLOGY)));
@@ -109,15 +109,15 @@ public enum TechnologyType {
     public static final HashMap<TechnologyType, ArrayList<TechnologyType>> prerequisites = new HashMap<>();
     static {
         prerequisites.put(AGRICULTURE,new ArrayList<>());
-        prerequisites.put(ANIMAL_HUSBANDARY, new ArrayList<>(List.of(AGRICULTURE)));
+        prerequisites.put(ANIMAL_HUSBANDRY, new ArrayList<>(List.of(AGRICULTURE)));
         prerequisites.put(ARCHERY,new ArrayList<>(List.of(AGRICULTURE)));
         prerequisites.put(BRONZE_WORKING,new ArrayList<>(List.of(MINING)));
         prerequisites.put(CALENDAR,new ArrayList<>(List.of(POTTERY)));
         prerequisites.put(MASONRY,new ArrayList<>(List.of(MINING)));
         prerequisites.put(MINING,new ArrayList<>(List.of(AGRICULTURE)));
         prerequisites.put(POTTERY,new ArrayList<>(List.of(AGRICULTURE)));
-        prerequisites.put(THE_WHEEL,new ArrayList<>(List.of(ANIMAL_HUSBANDARY)));
-        prerequisites.put(TRAPPING,new ArrayList<>(List.of(ANIMAL_HUSBANDARY)));
+        prerequisites.put(THE_WHEEL,new ArrayList<>(List.of(ANIMAL_HUSBANDRY)));
+        prerequisites.put(TRAPPING,new ArrayList<>(List.of(ANIMAL_HUSBANDRY)));
         prerequisites.put(WRITING,new ArrayList<>(List.of(POTTERY)));
         prerequisites.put(CONSTRUCTION,new ArrayList<>(List.of(MASONRY)));
         prerequisites.put(HORSEBACK_RIDING,new ArrayList<>(List.of(THE_WHEEL)));

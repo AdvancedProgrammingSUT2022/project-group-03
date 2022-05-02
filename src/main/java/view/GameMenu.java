@@ -6,6 +6,7 @@ import model.Map;
 import model.Units.Unit;
 import model.Units.UnitType;
 import model.improvements.ImprovementType;
+import model.resources.ResourcesTypes;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -22,8 +23,15 @@ public class GameMenu extends Menu {
             doWeHaveAnyWorkingTechnology = true;
             String tempString = null;
             if (city.getProduct() instanceof Unit)
-                tempString = ((Unit) city.getProduct()).getUnitType().toString();
-            System.out.print(city.getName() + ": " + "getting developed technology: " + tempString);
+            {
+                tempString = ((Unit) city.getProduct()).getUnitType().toString() + ": (";
+                int cyclesToComplete = city.cyclesToComplete(city.getProduct().getRemainedCost());
+                if(cyclesToComplete==12345)
+                    tempString += "never, your production is 0)";
+                else
+                    tempString+= city.cyclesToComplete(city.getProduct().getRemainedCost()) + " days to complete)";
+            }
+            System.out.print(city.getName() + ": " + "Being developed technology: " + tempString);
         }
         if (!doWeHaveAnyWorkingTechnology)
             System.out.println("you don't have any technology in the development right now");
@@ -202,7 +210,7 @@ public class GameMenu extends Menu {
     private void unitAttack(String command) {
         Matcher matcher = getMatcher(regexes[35], command);
         switch (GameController.unitAttack(Integer.parseInt(matcher.group(1)),
-                Integer.parseInt(matcher.group(2)))){
+                Integer.parseInt(matcher.group(2)))) {
             case 0:
                 System.out.println("Attacked successfully");
                 break;
@@ -291,7 +299,25 @@ public class GameMenu extends Menu {
     }
 
     private void unitRemove(String command) {
-
+        Matcher matcher = getMatcher(regexes[33], command);
+        boolean isJungle = false;
+        if (matcher.group(1).equals("jungle"))
+            isJungle = true;
+        else if (!matcher.group(1).equals("route")) {
+            System.out.println("invalid command");
+            return;
+        }
+        int result = GameController.unitRemoveFromTile(isJungle);
+        if (result == 0)
+            System.out.println(matcher.group(1) + "'s removal from the tile operation started successfully");
+        if (result == 1)
+            System.out.println("no unit is selected");
+        if (result == 2)
+            System.out.println("the selected unit is not yours");
+        if (result == 3)
+            System.out.println("the selected unit is not a worker");
+        if (result == 4)
+            System.out.println("the selected tile does not have a jungle");
     }
 
     private void unitRepair() {
@@ -303,16 +329,18 @@ public class GameMenu extends Menu {
         if (result == 2)
             System.out.println("the selected unit is not yours");
         if (result == 3)
-            System.out.println("there are no improvements here");
+            System.out.println("the selected unit is not a worker");
         if (result == 4)
+            System.out.println("there are no improvements here");
+        if (result == 5)
             System.out.println("the selected improvement does not need repairing");
     }
 
 
     private void mapShowPosition(String command) {
         Matcher matcher = getMatcher(regexes[16], command);
-        GameController.mapShowPosition(Integer.parseInt(matcher.group(1)) - Map.WINDOW_X/2,
-                Integer.parseInt(matcher.group(2))  - Map.WINDOW_Y/2+1);
+        GameController.mapShowPosition(Integer.parseInt(matcher.group(1)) - Map.WINDOW_X / 2,
+                Integer.parseInt(matcher.group(2)) - Map.WINDOW_Y / 2 + 1);
         System.out.println(GameController.printMap());
     }
 
@@ -386,7 +414,7 @@ public class GameMenu extends Menu {
     private void cityProductionMenu() {
         if (GameController.getSelectedCity() == null)
             System.out.println("no city is selected");
-        if (GameController.getSelectedCity().getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
+        else if (GameController.getSelectedCity().getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
             System.out.println("the selected city is not yours");
         else {
             ProductionCityMenu productionCityMenu = new ProductionCityMenu();
@@ -409,8 +437,8 @@ public class GameMenu extends Menu {
 
     private void cheatUnit(String command) {
         Matcher matcher = getMatcher(regexes[7], command);
-        UnitType unitType = UnitType.stringToEnum(matcher.group(3));
-        GameController.cheatUnit(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2)),unitType);
+        UnitType unitType = UnitType.stringToEnum(matcher.group(1));
+        GameController.cheatUnit(Integer.parseInt(matcher.group(2)), Integer.parseInt(matcher.group(3)), unitType);
     }
 
     private void cityShowDetails() {
@@ -470,6 +498,23 @@ public class GameMenu extends Menu {
             System.out.println("you don't have the prerequisite technologies");
         if (result == 5)
             System.out.println("this improvement cannot be inserted here");
+    }
+
+    private void cheatScience(String command)
+    {
+        Matcher matcher = getMatcher(regexes[41],command);
+        GameController.cheatScience(Integer.parseInt(matcher.group(1)));
+    }
+
+    private void cheatProduction(String command)
+    {
+        Matcher matcher = getMatcher(regexes[42],command);
+        GameController.cheatProduction(Integer.parseInt(matcher.group(1)));
+    }
+    private void cheatResource(String command)
+    {
+        Matcher matcher = getMatcher(regexes[43],command);
+        GameController.cheatResource(Integer.parseInt(matcher.group(2)), ResourcesTypes.stringToEnum(matcher.group(1)));
     }
 
     private void increaseGold(String command) {
@@ -589,7 +634,9 @@ public class GameMenu extends Menu {
                 "^CITIZEN WORK ([0-9]+) ([0-9]+) (TO ([0-9]+) ([0-9]+))?", //38
                 "^CITY ATTACK ([0-9]+) ([0-9]+)$",
                 "^BUY TILE ([0-9]+) ([0-9]+)$",
-
+                "^CHEAT SCIENCE (\\d+)$",
+                "^CHEAT PRODUCTION (\\d+)$",
+                "^CHEAT RESOURCE (\\w+) (\\d+)$"//43
         };
     }
 
@@ -725,7 +772,15 @@ public class GameMenu extends Menu {
             case 40:
                 buyTile(command);
                 break;
-
+            case 41:
+                cheatScience(command);
+                break;
+            case 42:
+                cheatProduction(command);
+                break;
+            case 43:
+                cheatResource(command);
+                break;
         }
 
         return false;

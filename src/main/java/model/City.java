@@ -2,6 +2,7 @@ package model;
 
 import controller.GameController;
 import model.Units.*;
+import model.technologies.Technology;
 import model.tiles.Tile;
 import model.tiles.TileType;
 
@@ -25,7 +26,7 @@ public class City implements CanAttack, CanGetAttacked {
     private int citizen;
     private int foodForCitizen = 1;
     public boolean isCapital;
-
+    public int productionCheat;
     public String getName() {
         return name;
     }
@@ -62,10 +63,12 @@ public class City implements CanAttack, CanGetAttacked {
                     && gettingWorkedOnByCitizensTile.getImprovement() != null
                     && gettingWorkedOnByCitizensTile.getResources().improvementType == gettingWorkedOnByCitizensTile.getImprovement().getImprovementType())
                 food += gettingWorkedOnByCitizensTile.getResources().food;
+
         }
         if (civilization.getHappiness() < 0) food /= 3;
         return food;
     }
+
 
     public void collectResources() {
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
@@ -98,8 +101,7 @@ public class City implements CanAttack, CanGetAttacked {
                     && gettingWorkedOnByCitizensTile.getResources().improvementType == gettingWorkedOnByCitizensTile.getImprovement().getImprovementType())
                 production += gettingWorkedOnByCitizensTile.getResources().production;
         }
-
-        return production;
+        return production+ productionCheat;
     }
 
     public void startTheTurn() {
@@ -114,8 +116,12 @@ public class City implements CanAttack, CanGetAttacked {
             if (production <= 0)
                 production = 0;
             if (product.getRemainedCost() <= 0) {
-                if (product instanceof Unit)
-                    civilization.getUnits().add((Unit) product);
+                if (product instanceof Unit) {
+                    if (product instanceof NonCivilian)
+                        ((Unit) product).getCurrentTile().setNonCivilian((NonCivilian) product);
+                    else
+                        ((Unit) product).getCurrentTile().setCivilian((Unit) product);
+                }
                 product = null;
             }
         }
@@ -146,6 +152,7 @@ public class City implements CanAttack, CanGetAttacked {
                 x++;
             }
         }
+
     }
 
     public void endTheTurn() {
@@ -258,11 +265,7 @@ public class City implements CanAttack, CanGetAttacked {
         }
         GameController.deleteFromUnfinishedTasks(new Tasks(mainTile, TaskTypes.CITY_PRODUCTION));
         if (unitType.combatType == CombatType.CIVILIAN) {
-            if (unitType == UnitType.SETTLER) {
-                product = new Settler(mainTile, civilization, unitType);
-                return true;
-            }
-            product = new Worker(mainTile, civilization, unitType);
+            product = new Civilian(mainTile, civilization, unitType);
             return true;
         }
         product = new NonCivilian(mainTile, civilization, unitType);
@@ -295,6 +298,7 @@ public class City implements CanAttack, CanGetAttacked {
             if(mainTile.getNonCivilian() != null &&mainTile.getNonCivilian().getState() == UnitState.GARRISON) {
                 civilization.getUnits().remove(mainTile.getNonCivilian());
                 mainTile.setCivilian(null);
+
             }
             return true;
         }
@@ -332,9 +336,25 @@ public class City implements CanAttack, CanGetAttacked {
         } else {
             return (int) (16.774 * Math.exp(0.5618 / ratio) / (0.3294 * Math.exp(1.1166 / ratio)));
         }
+
     }
 
     public void takeDamage(int amount) {
         HP -= amount;
     }
+
+    public void setProduct(Producible product) {
+        this.product = product;
+    }
+
+    public int cyclesToComplete(int remainedCost) {
+        if (collectProduction() == 0)
+            return 12345;
+        return (int) Math.ceil((double)remainedCost / (double)collectProduction());
+    }
+
+    public void setProduction(int production) {
+        this.production = production;
+    }
+
 }

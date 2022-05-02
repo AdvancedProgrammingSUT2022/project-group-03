@@ -4,9 +4,9 @@ import model.City;
 import model.Civilization;
 import model.tiles.Tile;
 
-public class Settler extends Unit {
+public class Civilian extends Unit {
     private static int cost;
-    public Settler(Tile tile, Civilization civilization, UnitType unitType) {
+    public Civilian(Tile tile, Civilization civilization, UnitType unitType) {
         super(tile, civilization, unitType);
     }
     {
