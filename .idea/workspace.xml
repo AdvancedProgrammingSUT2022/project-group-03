@@ -5,38 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/features/Feature.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/model/features/Feature.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Civilization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/FeatureType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/features/FeatureType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/UnitState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/UnitState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Worker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/combative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/CanAttack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/ImprovementType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/ImprovementType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/mortal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/CanGetAttacked.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/producible.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Producible.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/technologies/Technology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/technologies/Technology.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/tiles/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/tiles/Tile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/tiles/TileType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/tiles/TileType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/City.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/City.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Civilization.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Civilization.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/FeatureType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/features/FeatureType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Map$BestMoveClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map$BestMoveClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Map$TileAndMP.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map$TileAndMP.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/UnitState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/UnitState.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Worker.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Worker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/tiles/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/tiles/Tile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/tiles/TileType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/tiles/TileType.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,6 +106,8 @@
       <workItem from="1651298926484" duration="8997000" />
       <workItem from="1651335091192" duration="9163000" />
       <workItem from="1651406163301" duration="12960000" />
+      <workItem from="1651424981058" duration="1647000" />
+      <workItem from="1651481542608" duration="6208000" />
     </task>
     <servers />
   </component>
@@ -153,8 +130,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/controller/GameController.java</url>
-          <line>501</line>
+          <line>502</line>
           <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/model/Units/Unit.java</url>
+          <line>142</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

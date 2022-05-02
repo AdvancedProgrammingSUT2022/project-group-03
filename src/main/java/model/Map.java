@@ -94,7 +94,7 @@ public class Map {
             }
         }
 
-        addRiver(x / 16 + random.nextInt(x / 16));
+        addRiver(5 + x / 16 + random.nextInt(x / 16));
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
                 setFeature(i, j);
@@ -130,45 +130,60 @@ public class Map {
         }
     }
 
-    private void addRiver(int number) { // TODO: 4/25/2022   gir kardan ba tedad ziad
-        int length = 5 + random.nextInt(1);
-        int startX = 2 + random.nextInt(x - 4);
-        int startY = 2 + random.nextInt(y - 4);
-        while (tiles[startX][startY].getTileType() == TileType.OCEAN) {
-            startX = 2 + random.nextInt(x - 4);
-            startY = 2 + random.nextInt(y - 4);
-        }
-        Tile[] riverSides = new Tile[2];
-        Tile[] lastRiverSides = new Tile[2];
-        riverSides[0] = tiles[startX][startY];
-        riverSides[1] = tiles[startX][startY];
-        int neighbour;
-        int remainingLength = length;
-        while (remainingLength > 0) {
-            lastRiverSides[0] = riverSides[0];
-            lastRiverSides[1] = riverSides[1];
-            riverSides = new Tile[2];
-            riverSides[0] = lastRiverSides[random.nextInt(2)];
-            neighbour = random.nextInt(6);
-            while (riverSides[0].getNeighbours(neighbour) == null ||
-                    riverSides[0].isRiverWithNeighbour(neighbour) ||
-                    riverSides[0].getNeighbours(neighbour).getTileType() == TileType.OCEAN ||
-                    (!riverSides[0].isRiverWithNeighbour((neighbour + 1) % 6) &&
-                            !riverSides[0].isRiverWithNeighbour((neighbour - 1) % 6) &&
-                            length != remainingLength)) {
-                neighbour = (neighbour + 1) % 6;
+    private void addRiver(int number) {
+        for(int i=0;i<number; i++) {
+            int length = 5 + random.nextInt(5);
+            int startX = 2 + random.nextInt(x - 4);
+            int startY = 2 + random.nextInt(y - 4);
+            while (tiles[startX][startY].getTileType() == TileType.OCEAN) {
+                startX = 2 + random.nextInt(x - 4);
+                startY = 2 + random.nextInt(y - 4);
             }
-            riverSides[1] = tiles[startX][startY].getNeighbours(neighbour);
-            riverSides[0].setTilesWithRiver(neighbour);
-            riverSides[1].setTilesWithRiver((neighbour + 3) % 6);
-            remainingLength--;
+            Tile[] riverSides = new Tile[2];
+            Tile[] lastRiverSides = new Tile[2];
+            riverSides[0] = tiles[startX][startY];
+            riverSides[1] = tiles[startX][startY];
+            int neighbour;
+            int remainingLength = length;
+            while (remainingLength > 0) {
+                lastRiverSides[0] = riverSides[0];
+                lastRiverSides[1] = riverSides[1];
+                riverSides = new Tile[2];
+                int riverNumber = 0;
+                for (int j = 0; j < 6; j++) {
+                    if(lastRiverSides[0].isRiverWithNeighbour(j))riverNumber ++;
+                }
+                int riverNumber1 = 1;
+                for (int j = 0; j < 6; j++) {
+                    if(lastRiverSides[1].isRiverWithNeighbour(j))riverNumber1 ++;
+                }
+                if(riverNumber > riverNumber1 + 1) riverSides[0] = lastRiverSides[1];
+                else if(1 + riverNumber < riverNumber1 )riverSides[0] = lastRiverSides[0];
+                else riverSides[0] = lastRiverSides[random.nextInt(2)];
+                neighbour = random.nextInt(6);
+                int breaker = 0;
+                while (riverSides[0].getNeighbours(neighbour) == null ||
+                        riverSides[0].isRiverWithNeighbour(neighbour) ||
+                        riverSides[0].getNeighbours(neighbour).getTileType() == TileType.OCEAN ||
+                        (!riverSides[0].isRiverWithNeighbour((neighbour + 1) % 6) &&
+                                !riverSides[0].isRiverWithNeighbour((neighbour - 1) % 6) &&
+                                length != remainingLength)) {
+                    neighbour = (neighbour + 1) % 6;
+                    breaker++;
+                    if(breaker > 7)break;
+                }
+                riverSides[1] = tiles[startX][startY].getNeighbours(neighbour);
+                riverSides[0].setTilesWithRiver(neighbour);
+                riverSides[1].setTilesWithRiver((neighbour + 3) % 6);
+                remainingLength--;
+            }
         }
     }
 
     private TileType randomTile(int i, int j) {
         TileType type = TileType.randomTile();
         int distanceFromBoarder = (int) Math.sqrt((x - i) ^ 2 + (y - j) ^ 2);
-        while (y / 10 - 2 - distanceFromBoarder >= 0 && hasNeighborWithType(i, j, TileType.OCEAN)) {
+        while (y / 10 + 2 - distanceFromBoarder >= 0 && hasNeighborWithType(i, j, TileType.OCEAN)) {
             if (type == TileType.OCEAN) return type;
             type = TileType.randomTile();
             distanceFromBoarder++;
@@ -358,6 +373,7 @@ public class Map {
         String iString = "";
         String jString = "";
         String cString;
+        String openString;
         Color currentTileColor;
         Color rightTileColor;
         Color backReset = Color.BLACK_BACKGROUND;
@@ -374,20 +390,27 @@ public class Map {
                 if (i < x && j < y && tileConditions[i][j] != null &&
                         tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(2)) color2 = Color.BLUE;
                 else color2 = Color.RESET;
-                if ((i + j % 2 - 1 < 0 || j >= y - 1 || i - 1 + j % 2 >= x) || tileConditions[i - 1 + j % 2][j + 1] == null ||
+                if ((i + j % 2 - 1 < 0 || j >= y - 1 || i - 1 + j % 2 >= x) || tileConditions[i - 1 + j % 2][j + 1] == null || !tileConditions[i - 1 + j % 2][j + 1].getIsClear() ||
                         tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getCivilian() == null) iString = "  ";
-                else
+                else if (tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getCivilian().getCivilization() != tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getCivilization())
                     iString = Color.RESET.toString() + rightTileColor + Color.getColorByNumber(tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getCivilian().getCivilization().getColor()).toString()+ tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getCivilian().getUnitType().icon + Color.RESET + rightTileColor;
-                if ((i + j % 2 < 1 || j >= y - 1 || i - 1 + j % 2 >= x) || tileConditions[i - 1 + j % 2][j + 1] == null ||
+                else  iString = Color.RESET.toString() + rightTileColor +  tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getCivilian().getUnitType().icon + Color.RESET + rightTileColor;
+
+                if ((i + j % 2 < 1 || j >= y - 1 || i - 1 + j % 2 >= x) || tileConditions[i - 1 + j % 2][j + 1] == null || !tileConditions[i - 1 + j % 2][j + 1].getIsClear() ||
                         tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getNonCivilian() == null) jString = "   ";
-                else jString = Color.RESET.toString() + rightTileColor + Color.getColorByNumber(tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getNonCivilian().getCivilization().getColor()).toString()+ tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getNonCivilian().getUnitType().icon + Color.RESET + rightTileColor;
+                else if (tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getNonCivilian().getCivilization() != tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getCivilization())
+                    jString = Color.RESET.toString() + rightTileColor + Color.getColorByNumber(tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getNonCivilian().getCivilization().getColor()).toString()+ tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getNonCivilian().getUnitType().icon + Color.RESET + rightTileColor;
+                else  jString = Color.RESET.toString() + rightTileColor + tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getNonCivilian().getUnitType().icon + Color.RESET + rightTileColor;
+
 
                 if (i < x && j < y && tileConditions[i][j] != null && tileConditions[i][j].getOpenedArea().getFeatureType() != null)
                     cString = tileConditions[i][j].getOpenedArea().getFeatureType().icon;
                 else cString = "  ";
+                if((i + j % 2 < 1 || j >= y - 1 || i - 1 + j % 2 >= x) || tileConditions[i - 1 + j % 2][j + 1] == null || !tileConditions[i - 1 + j % 2][j + 1].getIsClear()) openString = " ";
+                else openString = ",";
                 mapString.append("  ").append(color0).append("/").
                         append(Color.RESET).append(currentTileColor).append(" ").append(cString).append("  ").append(color2).append("\\")
-                        .append(Color.RESET).append(rightTileColor).append(" ").append(iString).append(",").append(jString);
+                        .append(Color.RESET).append(rightTileColor).append(" ").append(iString).append(openString).append(jString);
             }
             mapString.append(Color.RESET).append("\n");
             for (int j = originY; j < originY + WINDOW_Y; j += 2) {
@@ -453,20 +476,26 @@ public class Map {
                 if (i < x && j < y && tileConditions[i][j] != null &&
                         tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(3)) color2 = Color.BLUE;
                 else color2 = Color.RESET;
-                if (i >= x || j >= y || tileConditions[i][j] == null ||
+                if (i >= x || j >= y || tileConditions[i][j] == null || !tileConditions[i][j].getIsClear()||
                         tileConditions[i][j].getOpenedArea().getCivilian() == null) iString = "  ";
-                else {
+                else if (tileConditions[i][j].getOpenedArea().getCivilian().getCivilization() != tileConditions[i][j].getOpenedArea().getCivilization()){
                     iString = Color.RESET.toString() + currentTileColor + Color.getColorByNumber(tileConditions[i][j].getOpenedArea().getCivilian().getCivilization().getColor()).toString()+ tileConditions[i][j].getOpenedArea().getCivilian().getUnitType().icon + Color.RESET + currentTileColor;
                 }
-
-                if (i >= x || j >= y || tileConditions[i][j] == null ||
+                else
+                    iString = Color.RESET.toString() + currentTileColor + tileConditions[i][j].getOpenedArea().getCivilian().getUnitType().icon + Color.RESET + currentTileColor;
+                if (i >= x || j >= y || tileConditions[i][j] == null || !tileConditions[i][j].getIsClear() ||
                         tileConditions[i][j].getOpenedArea().getNonCivilian() == null) jString = "    ";
-                else jString = Color.RESET.toString() + currentTileColor + Color.getColorByNumber(tileConditions[i][j].getOpenedArea().getNonCivilian().getCivilization().getColor()).toString()+ tileConditions[i][j].getOpenedArea().getNonCivilian().getUnitType().icon+" " + Color.RESET + currentTileColor;
+                else if (tileConditions[i][j].getOpenedArea().getNonCivilian().getCivilization() != tileConditions[i][j].getOpenedArea().getCivilization())
+                    jString = Color.RESET.toString() + currentTileColor + Color.getColorByNumber(tileConditions[i][j].getOpenedArea().getNonCivilian().getCivilization().getColor()).toString()+ tileConditions[i][j].getOpenedArea().getNonCivilian().getUnitType().icon+" " + Color.RESET + currentTileColor;
+                else jString = Color.RESET.toString() + currentTileColor +  tileConditions[i][j].getOpenedArea().getNonCivilian().getUnitType().icon+" " + Color.RESET + currentTileColor;
+
                 if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null && tileConditions[i + j % 2][j + 1].getOpenedArea().getFeatureType() != null)
                     cString = tileConditions[i + j % 2][j + 1].getOpenedArea().getFeatureType().icon;
                 else cString = "  ";
+                if(i >= x || j >= y || tileConditions[i][j] == null || !tileConditions[i][j].getIsClear()) openString = " ";
+                else openString = ",";
                 mapString.append(color0).append("\\")
-                        .append(Color.RESET).append(currentTileColor).append(" ").append(iString).append(",").append(jString).append(" ")
+                        .append(Color.RESET).append(currentTileColor).append(" ").append(iString).append(openString).append(jString).append(" ")
                         .append(color2).append("/")
                         .append(Color.RESET).append(rightTileColor).append(" ").append(cString).append("  ");
             }

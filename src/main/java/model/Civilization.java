@@ -23,6 +23,10 @@ public class Civilization {
         public Tile getOpenedArea() {
             return openedArea;
         }
+        public boolean getIsClear() {
+            return isClear;
+        }
+
     }
 
     private TileCondition[][] tileConditions;
@@ -72,7 +76,7 @@ public class Civilization {
         this.happiness += happiness;
     }
 
-    //TODO CHECK KARDAN 0 NABOODAN SCIENCE DAR MOHASEBE ROOZ
+
     public HashMap<ResourcesTypes, Boolean> getUsedLuxuryResources() {
         return usedLuxuryResources;
     }
@@ -139,7 +143,7 @@ public class Civilization {
     public void startTheTurn() {
         turnOffTileConditionsBoolean();
         for (City city : cities) {
-            city.getHappiness();
+            city.collectResources();
         }
         for (City city : cities) {
             city.startTheTurn();

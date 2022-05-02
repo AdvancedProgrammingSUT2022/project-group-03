@@ -191,7 +191,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
                 this.destinationTile = null;
                 state = UnitState.AWAKE;
             }
-            return movementPrice==0 || state == UnitState.ATTACK;
+            return movementPrice==0 || destinationTile == currentTile || state == UnitState.ATTACK;
         }
         return true;
     }

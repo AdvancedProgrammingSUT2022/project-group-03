@@ -187,6 +187,7 @@ public class GameController {
         ((Settler) selectedUnit).city();
         civilizations.get(playerTurn).changeHappiness(-1);
         unitDelete(selectedUnit);
+        openNewArea(selectedUnit.getCurrentTile(),civilizations.get(playerTurn),null);
         selectedUnit=null;
         return 0;
     }

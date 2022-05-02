@@ -58,8 +58,10 @@ public class City implements CanAttack,CanGetAttacked {
         }
         return food;
     }
-    public void getHappiness(){
+    public void collectResources(){
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
+            //if(gettingWorkedOnByCitizensTile.getResources().isTechnologyUnlocked(civilization.getResearches())
+                  //  && gettingWorkedOnByCitizensTile.getResources())
             if (!civilization.getResourcesAmount().containsKey(gettingWorkedOnByCitizensTile.getResources())) {
                 civilization.getResourcesAmount().put(gettingWorkedOnByCitizensTile.getResources(), 1);
             } else {
@@ -230,12 +232,20 @@ public class City implements CanAttack,CanGetAttacked {
         return doesHaveWall;
     }
     public int getCombatStrength(boolean isAttack){
+        int strength = 1;
+        if(mainTile.getNonCivilian()!= null && mainTile.getNonCivilian().getState() == UnitState.GARRISON){
+            if(isAttack && mainTile.getNonCivilian().getUnitType().range > 1) strength += mainTile.getNonCivilian().getUnitType().rangedCombatStrength;
+            else strength += mainTile.getNonCivilian().getUnitType().combatStrength;
+        }
+        if(tiles.size() > 10 && !isAttack) strength += 4*(tiles.size()- 10);
+        if(!isAttack) strength += tiles.size();
+        if()
         /*double combat;
         if(isAttack){
             combat = ((double)unitType.rangedCombatStrength * (100 + currentTile.getCombatChange())/ 100);
         }
         else combat = ((double)unitType.combatStrength * (100 + currentTile.getCombatChange())/ 100);
-        if (civilization.getHappiness() < 0) combat = 0.75 * combat;
+        if (civilization.collectResources() < 0) combat = 0.75 * combat;
         combat = combat*(50 + (double)health/2)/100;
         if (combat < 1) combat = 1;
         return (int) combat;*/
