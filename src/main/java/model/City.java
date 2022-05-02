@@ -51,7 +51,7 @@ public class City {
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
             if (civilization.getHappiness() < 0)
             food += (gettingWorkedOnByCitizensTile.getTileType().food
-                + gettingWorkedOnByCitizensTile.getFeatureType().food) / 3;
+                + gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType().food) / 3;
         }
         return food;
     }
@@ -76,7 +76,7 @@ public class City {
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
             //todo resources;
             production += gettingWorkedOnByCitizensTile.getTileType().production
-                    + gettingWorkedOnByCitizensTile.getFeatureType().production + citizen;
+                    + gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType().production + citizen;
         }
         return production;
     }
@@ -123,7 +123,7 @@ public class City {
                 if (gettingWorkedOnByCitizensTile.isRiverWithNeighbour(i)) temp += 1;
             }
             gold += gettingWorkedOnByCitizensTile.getTileType().gold
-                    + gettingWorkedOnByCitizensTile.getFeatureType().gold + temp;
+                    + gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType().gold + temp;
         }
         return gold;
     }

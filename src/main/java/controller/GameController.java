@@ -3,9 +3,9 @@ package controller;
 import model.*;
 import model.Units.*;
 import model.features.FeatureType;
-import model.improvements.Improvement;
 import model.improvements.ImprovementType;
 import model.technologies.Technology;
+import model.technologies.TechnologyType;
 import model.tiles.Tile;
 import model.tiles.TileType;
 
@@ -236,11 +236,31 @@ public class GameController {
             return 3;
         if(!civilizations.get(playerTurn).doesContainTechnology(improvementType.prerequisitesTechnologies))
             return 4;
-        if(!TileType.canHaveTheImprovement(selectedUnit.getCurrentTile().getTileType(),improvementType))
+        if(!canHaveTheImprovement(selectedUnit.getCurrentTile(),improvementType))
             return 5;
-        selectedUnit.getCurrentTile().setImprovement(new Improvement(improvementType));
+        if(!doesHaveTheRequiredTechnologyToBuildImprovement(improvementType,selectedUnit))
+            return 6;
+        ((Worker) selectedUnit).buildImprovement(improvementType);
         return 0;
     }
+
+    private static boolean doesHaveTheRequiredTechnologyToBuildImprovement(ImprovementType improvementType,Unit unit)
+    {
+        if(improvementType==ImprovementType.FARM && (unit.getCurrentTile().getContainedFeature().getFeatureType()==FeatureType.DENSEFOREST &&
+                !unit.getCivilization().doesContainTechnology(TechnologyType.BRONZE_WORKING)))
+            return false;
+        if(improvementType==ImprovementType.QUARRY && selectedUnit.getCurrentTile().getContainedFeature().getFeatureType()==FeatureType.SWAMP &&
+                !selectedUnit.getCivilization().doesContainTechnology(TechnologyType.MASONRY))
+            return false;
+        if(selectedUnit.getCurrentTile().getContainedFeature().getFeatureType()==FeatureType.SWAMP &&
+                !selectedUnit.getCivilization().doesContainTechnology(TechnologyType.MASONRY))
+            return false;
+        if(improvementType==ImprovementType.FARM && unit.getCurrentTile().getContainedFeature().getFeatureType()==FeatureType.FOREST &&
+                !unit.getCivilization().doesContainTechnology(TechnologyType.MINING))
+                return false;
+        return true;
+    }
+
     public static int unitBuildRoad() {
         if (selectedUnit == null)
             return 1;
@@ -249,7 +269,14 @@ public class GameController {
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT));
         return 0;
     }
-
+    private static boolean canHaveTheImprovement(Tile tile, ImprovementType improvementType)
+    {
+        if(!TileType.canHaveTheImprovement(tile.getTileType(), improvementType))
+            return false;
+        if(tile.getContainedFeature()!=null && !FeatureType.canHaveTheImprovement(tile.getContainedFeature().getFeatureType(), improvementType))
+            return false;
+        return true;
+    }
     public static int unitBuildRailRoad() {
         if (selectedUnit == null)
             return 1;
@@ -264,7 +291,7 @@ public class GameController {
             return 1;
         if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
             return 2;
-        if(isJungle && selectedUnit.getCurrentTile().getFeatureType()!= FeatureType.DENSEFOREST && selectedUnit.getCurrentTile().getFeatureType()!=FeatureType.FOREST)
+        if(isJungle && selectedUnit.getCurrentTile().getContainedFeature().getFeatureType()!= FeatureType.DENSEFOREST && selectedUnit.getCurrentTile().getContainedFeature().getFeatureType()!=FeatureType.FOREST)
             return 3;
         //TODO if(!isJungle && notroad && notrailroad) {....}
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT));
@@ -283,31 +310,21 @@ public class GameController {
             return 3;
         if(selectedUnit.getCurrentTile().getImprovement().getNeedsRepair()==0)
             return 4;
-        selectedUnit.setState(UnitState.REPAIRING);
+        ((Worker) selectedUnit).repair();
         return 0;
     }
 
-    public static boolean mapShowPosition(int x, int y) {
-        startWindowX = x - Map.WINDOW_X/2;
-        startWindowY = y - Map.WINDOW_Y/2 + 1;
-        boolean returner = true;
-        if (startWindowY > map.getY() - (Map.WINDOW_Y-1)) {
+    public static void mapShowPosition(int x, int y) {
+        startWindowX = x;
+        startWindowY = y;
+        if (startWindowY > map.getY() - (Map.WINDOW_Y-1))
             startWindowY = map.getY() - (Map.WINDOW_Y-1);
-            returner = false;
-        }
-        if (startWindowX > map.getX() - (Map.WINDOW_X-1)) {
+        if (startWindowX > map.getX() - (Map.WINDOW_X-1))
             startWindowX = map.getX() - (Map.WINDOW_X-1);
-            returner = false;
-        }
-        if (startWindowY < 0) {
+        if (startWindowY < 0)
             startWindowY = 0;
-            returner = false;
-        }
-        if (startWindowX < 0) {
+        if (startWindowX < 0)
             startWindowX = 0;
-            returner = false;
-        }
-        return returner;
     }
 
 
@@ -317,19 +334,19 @@ public class GameController {
             return 1;
         if (civilizations.get(playerTurn).tileConditions[tempCity.getMainTile().getX()][tempCity.getMainTile().getY()] == null)
             return 2;
-        mapShowPosition(tempCity.getMainTile().getX(), tempCity.getMainTile().getY());
+        mapShowPosition(tempCity.getMainTile().getX() - Map.WINDOW_X/2, tempCity.getMainTile().getY() - Map.WINDOW_Y/2 + 1);
         return 0;
     }
 
-    public static boolean mapMove(int number, String direction) {
-        if (Objects.equals(direction, "R"))
-            return mapShowPosition(startWindowX, startWindowY + number);
-        if (Objects.equals(direction, "L"))
-            return mapShowPosition(startWindowX, startWindowY - number);
-        if (Objects.equals(direction, "U"))
-            return mapShowPosition(startWindowX - number, startWindowY);
+    public static void mapMove(int number, String direction) {
+        if (Objects.equals(direction, "r"))
+            mapShowPosition(startWindowX, startWindowY + number);
+        if (Objects.equals(direction, "l"))
+            mapShowPosition(startWindowX, startWindowY - number);
+        if (Objects.equals(direction, "u"))
+            mapShowPosition(startWindowX - number, startWindowY);
         else
-            return mapShowPosition(startWindowX + number, startWindowY);
+            mapShowPosition(startWindowX + number, startWindowY);
     }
 
 
@@ -411,9 +428,9 @@ public class GameController {
             }
             if (tile.getNeighbours(i).getTileType() == TileType.MOUNTAIN ||
                     tile.getNeighbours(i).getTileType() == TileType.HILL ||
-                    (tile.getNeighbours(i).getFeatureType() != null &&
-                            (tile.getNeighbours(i).getFeatureType() == FeatureType.FOREST ||
-                            tile.getNeighbours(i).getFeatureType() == FeatureType.DENSEFOREST)))
+                    (tile.getNeighbours(i).getContainedFeature() != null &&
+                            (tile.getNeighbours(i).getContainedFeature().getFeatureType() == FeatureType.FOREST ||
+                            tile.getNeighbours(i).getContainedFeature().getFeatureType() == FeatureType.DENSEFOREST)))
                 continue;
             for (int j = 0; j < 6; j++) {
                 if(tile.getNeighbours(i).getNeighbours(j)==null)

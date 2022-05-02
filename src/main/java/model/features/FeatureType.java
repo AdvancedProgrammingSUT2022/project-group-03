@@ -2,6 +2,7 @@ package model.features;
 
 import model.improvements.ImprovementType;
 import model.resources.ResourcesTypes;
+import model.tiles.TileType;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,5 +40,13 @@ public enum FeatureType {
     }
     public static FeatureType randomFeature()  {
         return VALUES.get(RANDOM.nextInt(SIZE));
+    }
+
+    public static boolean canHaveTheImprovement(FeatureType featureType, ImprovementType improvementType)
+    {
+        for (ImprovementType type : featureType.improvementTypes)
+            if(type==improvementType)
+                return true;
+        return false;
     }
 }

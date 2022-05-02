@@ -8,6 +8,7 @@ public enum UnitState {
     AWAKE,
     GARRISON,
     REPAIRING,
-    REMOVING
+    REMOVING,
+    BUILDING
 
 }

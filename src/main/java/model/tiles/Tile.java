@@ -84,9 +84,6 @@ public class Tile {
     public TileType getTileType() {
         return tileType;
     }
-    public FeatureType getFeatureType() {
-        return containedFeature.getFeatureType();
-    }
 
     public ResourcesTypes getResources() {
         return containedResource;
@@ -175,5 +172,9 @@ public class Tile {
 
     public Feature getContainedFeature() {
         return containedFeature;
+    }
+
+    public void setContainedFeature(Feature containedFeature) {
+        this.containedFeature = containedFeature;
     }
 }

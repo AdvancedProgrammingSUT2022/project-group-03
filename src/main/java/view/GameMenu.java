@@ -2,6 +2,7 @@ package view;
 
 import controller.GameController;
 import model.City;
+import model.Map;
 import model.Units.Unit;
 import model.improvements.ImprovementType;
 
@@ -271,11 +272,9 @@ public class GameMenu extends Menu {
 
     private void mapShowPosition(String command) {
         Matcher matcher = getMatcher(regexes[16], command);
-        if (!GameController.mapShowPosition(Integer.parseInt(matcher.group(1)),
-                Integer.parseInt(matcher.group(2))))
-            System.out.println("invalid position");
-        else
-            System.out.println(GameController.printMap());
+        GameController.mapShowPosition(Integer.parseInt(matcher.group(1)) - Map.WINDOW_X/2,
+                Integer.parseInt(matcher.group(2))  - Map.WINDOW_Y/2+1);
+        System.out.println(GameController.printMap());
     }
 
 
@@ -310,16 +309,13 @@ public class GameMenu extends Menu {
 
     private void mapMove(String command) {
         Matcher matcher = getMatcher(regexes[6], command);
-        boolean result;
         if (matcher.group(2) == null)
-            result = GameController.mapMove(1, matcher.group(1));
+            GameController.mapMove(1, matcher.group(1));
         else
-            result = GameController.
+            GameController.
                     mapMove(Integer.parseInt(matcher.group(2).replace(" ", "")),
                             matcher.group(1));
-        if (result)
-            System.out.println("map moved successfully");
-        else System.out.println("Invalid position");
+        System.out.println("map moved successfully");
     }
 
     private void startProducing(String command) {
@@ -434,6 +430,8 @@ public class GameMenu extends Menu {
             System.out.println("you don't have the prerequisite technologies");
         if (result == 5)
             System.out.println("this improvement cannot be inserted here");
+        if(result ==6)
+            System.out.println("you don't have the required technology");
     }
 
     private void increaseGold(String command) {

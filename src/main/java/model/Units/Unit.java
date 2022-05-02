@@ -51,8 +51,18 @@ public abstract class Unit implements producible {
         if(state== UnitState.FORTIFY_UNTIL_FULL_HEALTH && health==10)
             state = UnitState.AWAKE;
 
-        if(unitType==UnitType.WORKER && currentTile.getImprovement()!=null && currentTile.getImprovement().getRemainedCost()!=0)
+        if(unitType==UnitType.WORKER &&
+                state==UnitState.BUILDING &&
+                currentTile.getImprovement()!=null &&
+                currentTile.getImprovement().getRemainedCost()!=0)
+        {
             currentTile.getImprovement().setRemainedCost(currentTile.getImprovement().getRemainedCost()-1);
+            if(currentTile.getImprovement().getRemainedCost()==0)
+            {
+                state=UnitState.AWAKE;
+                currentTile.setContainedFeature(null);
+            }
+        }
 
         if(unitType==UnitType.WORKER && state==UnitState.REPAIRING)
         {
