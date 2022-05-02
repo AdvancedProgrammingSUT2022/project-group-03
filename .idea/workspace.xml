@@ -5,9 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/GameController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/City.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/City.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/Improvement.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/Improvement.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/ImprovementType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/ImprovementType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/tiles/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/tiles/Tile.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,8 +26,10 @@
       <list>
         <option value="Enum" />
         <option value="package.json" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="AnnotationType" />
+        <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -56,15 +65,31 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\user\IdeaProjects\untitled5\src\main\java\model" />
     </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="model.improvements" />
+      <recent name="model.features" />
+    </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.ImprovementTypeTest.stringToImprovementType">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../../Program Files/Java/jdk-17.0.1" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -74,8 +99,47 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="FeatureTypeTest.canHaveTheImprovement" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="project-group-03" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.features.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model.features" />
+      <option name="MAIN_CLASS_NAME" value="model.features.FeatureTypeTest" />
+      <option name="METHOD_NAME" value="canHaveTheImprovement" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ImprovementTypeTest.stringToImprovementType" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="project-group-03" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.improvements.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model.improvements" />
+      <option name="MAIN_CLASS_NAME" value="model.improvements.ImprovementTypeTest" />
+      <option name="METHOD_NAME" value="stringToImprovementType" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="JUnit.FeatureTypeTest.canHaveTheImprovement" />
+      <item itemvalue="JUnit.ImprovementTypeTest.stringToImprovementType" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ImprovementTypeTest.stringToImprovementType" />
+        <item itemvalue="JUnit.FeatureTypeTest.canHaveTheImprovement" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -127,6 +191,10 @@
         <watch expression="this" />
       </configuration>
     </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/project_group_03$Main.ic" NAME="Main Coverage Results" MODIFIED="1651414142451" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
