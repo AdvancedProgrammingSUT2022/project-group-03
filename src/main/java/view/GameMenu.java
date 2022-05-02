@@ -244,6 +244,12 @@ public class GameMenu extends Menu {
             case 3:
                 System.out.println("Select your city first");
                 break;
+            case 4:
+                System.out.println("Out of range");
+                break;
+            case 5:
+                System.out.println("Siege need setup before attack");
+                break;
 
         }
 
@@ -591,6 +597,18 @@ public class GameMenu extends Menu {
                 break;
         }
     }
+    private void pillage(){
+        switch (GameController.unitPillage()){
+            case 4:
+                System.out.println("Select your unit first");
+                break;
+            case 3:
+                System.out.println("Nothing to pillage");
+                break;
+            case 0:
+                System.out.println("Pillaged successfully");
+        }
+    }
 
     {
         regexes = new String[]{
@@ -637,7 +655,9 @@ public class GameMenu extends Menu {
                 "^BUY TILE ([0-9]+) ([0-9]+)$",
                 "^CHEAT SCIENCE (\\d+)$",
                 "^CHEAT PRODUCTION (\\d+)$",
-                "^CHEAT RESOURCE (\\w+) (\\d+)$"//43
+                "^CHEAT RESOURCE (\\w+) (\\d+)$",//43
+                "^UNIT PILLAGE$",
+
         };
     }
 
@@ -782,6 +802,10 @@ public class GameMenu extends Menu {
             case 43:
                 cheatResource(command);
                 break;
+            case 44:
+                pillage();
+                break;
+
         }
 
         return false;

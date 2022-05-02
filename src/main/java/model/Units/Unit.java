@@ -40,10 +40,18 @@ public abstract class Unit implements Producible, CanGetAttacked {
     public int getCombatStrength(boolean isAttack){
         double combat;
         if(isAttack){
-            combat = ((double)unitType.rangedCombatStrength * (100 + currentTile.getCombatChange())/ 100);
+            combat = unitType.rangedCombatStrength;
         }
-        else combat = ((double)unitType.combatStrength * (100 + currentTile.getCombatChange())/ 100);
-        if(!isAttack && state == UnitState.FORTIFY) combat *= (((NonCivilian)this).getFortifiedCycle() + 1);
+        else combat =unitType.combatStrength;
+        if(unitType.combatType != CombatType.MOUNTED && unitType.combatType != CombatType.SIEGE
+                && unitType.combatType != CombatType.ARMORED)
+        combat = combat * ((double) (100 + currentTile.getCombatChange())/ 100);
+        if(currentTile.getContainedFeature() != null && (currentTile.getContainedFeature().getFeatureType() == FeatureType.JUNGLE
+                ||currentTile.getContainedFeature().getFeatureType() == FeatureType.FOREST ||
+                currentTile.getContainedFeature().getFeatureType() == FeatureType.ICE)) combat *= 0.9;
+
+        if(!isAttack && state == UnitState.FORTIFY)
+            combat = (combat * (((NonCivilian)this).getFortifiedCycle() + 100))/100;
         if (civilization.getHappiness() < 0) combat = 0.75 * combat;
         combat = combat*(50 + (double)health/2)/100;
         if (combat < 1) combat = 1;
@@ -80,9 +88,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
 
         movementPrice = unitType.getDefaultMovementPrice();
 
-        if(state== UnitState.FORTIFY_UNTIL_FULL_HEALTH && health==10)
-            state = UnitState.AWAKE;
-        if(unitType.combatType!=CombatType.CIVILIAN && (state==UnitState.FORTIFY || state==UnitState.FORTIFY_UNTIL_FULL_HEALTH) && ((NonCivilian) this).getFortifiedCycle()!=2)
+        if(unitType.combatType!=CombatType.CIVILIAN && (state==UnitState.FORTIFY || state==UnitState.SETUP) && ((NonCivilian) this).getFortifiedCycle()!=2)
             ((NonCivilian) this).setFortifiedCycle(((NonCivilian) this).getFortifiedCycle()+1);
 
         if(unitType==UnitType.WORKER &&
@@ -146,7 +152,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
             attack(destinationTile);
             return ogCall;
         }
-        Map.TileAndMP[] tileAndMPS = GameController.getMap().findNextTile(civilization,currentTile, movementPrice,unitType.movePoint, destinationTile, unitType.combatType==CombatType.CIVILIAN);
+        Map.TileAndMP[] tileAndMPS = GameController.getMap().findNextTile(civilization,currentTile, movementPrice,unitType.movePoint, destinationTile, unitType.combatType==CombatType.CIVILIAN,this);
         if(ogCall){this.destinationTile = destinationTile;
             if(state != UnitState.ATTACK) this.state = UnitState.MOVING;
         }
@@ -210,6 +216,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
 
     public void setState(UnitState state) {
         this.state = state;
+        if(this instanceof NonCivilian) ((NonCivilian) this).setFortifiedCycle(0);
     }
 
     public UnitState getState() {

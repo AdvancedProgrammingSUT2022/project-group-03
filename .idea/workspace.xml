@@ -10,11 +10,17 @@
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/GameController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/model/City.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/City.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Civilization.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Civilization.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map$BestMoveClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map$BestMoveClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map$TileAndMP.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map$TileAndMP.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/model/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/NonCivilian.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/NonCivilian.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/UnitState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/UnitState.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/Improvement.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/Improvement.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/ImprovementType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/ImprovementType.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/model/tiles/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/tiles/Tile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +95,7 @@
       <recent name="model.features" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ImprovementTypeTest.stringToImprovementType">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../../Program Files/Java/jdk-17.0.1" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -138,9 +144,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.ImprovementTypeTest.stringToImprovementType" />
         <item itemvalue="JUnit.FeatureTypeTest.canHaveTheImprovement" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -167,6 +173,8 @@
       <workItem from="1651429063181" duration="128000" />
       <workItem from="1651485284165" duration="5165000" />
       <workItem from="1651496753773" duration="11616000" />
+      <workItem from="1651517339100" duration="649000" />
+      <workItem from="1651518006067" duration="1615000" />
     </task>
     <servers />
   </component>

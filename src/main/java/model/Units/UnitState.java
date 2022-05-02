@@ -11,5 +11,6 @@ public enum UnitState {
     REPAIRING,
     REMOVING,
     BUILDING,
-    MOVING
+    MOVING,
+    SETUP,
 }
