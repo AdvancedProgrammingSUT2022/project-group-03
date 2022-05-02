@@ -244,16 +244,16 @@ public class GameController {
             return 4;
         if(!canHaveTheImprovement(selectedUnit.getCurrentTile(),improvementType))
             return 5;
-        if(!doesHaveTheRequiredTechnologyToBuildImprovement(improvementType,selectedUnit))
+        if(!doesHaveTheRequiredTechnologyToBuildImprovement(improvementType,selectedUnit.getCurrentTile(),selectedUnit.getCivilization()))
             return 6;
         ((Worker) selectedUnit).buildImprovement(improvementType);
         return 0;
     }
 
-    private static boolean doesHaveTheRequiredTechnologyToBuildImprovement(ImprovementType improvementType,Unit unit)
+    private static boolean doesHaveTheRequiredTechnologyToBuildImprovement(ImprovementType improvementType,Tile tile, Civilization civilization)
     {
-        if(improvementType==ImprovementType.FARM && (unit.getCurrentTile().getContainedFeature().getFeatureType()==FeatureType.DENSEFOREST &&
-                !unit.getCivilization().doesContainTechnology(TechnologyType.BRONZE_WORKING)))
+        if(improvementType==ImprovementType.FARM && (tile.getContainedFeature().getFeatureType()==FeatureType.DENSEFOREST &&
+                !civilization.doesContainTechnology(TechnologyType.BRONZE_WORKING)))
             return false;
         if(improvementType==ImprovementType.QUARRY && selectedUnit.getCurrentTile().getContainedFeature().getFeatureType()==FeatureType.SWAMP &&
                 !selectedUnit.getCivilization().doesContainTechnology(TechnologyType.MASONRY))
@@ -261,8 +261,8 @@ public class GameController {
         if(selectedUnit.getCurrentTile().getContainedFeature().getFeatureType()==FeatureType.SWAMP &&
                 !selectedUnit.getCivilization().doesContainTechnology(TechnologyType.MASONRY))
             return false;
-        if(improvementType==ImprovementType.FARM && unit.getCurrentTile().getContainedFeature().getFeatureType()==FeatureType.FOREST &&
-                !unit.getCivilization().doesContainTechnology(TechnologyType.MINING))
+        if(improvementType==ImprovementType.FARM && tile.getContainedFeature().getFeatureType()==FeatureType.FOREST &&
+                !civilization.doesContainTechnology(TechnologyType.MINING))
                 return false;
         return true;
     }
@@ -424,11 +424,28 @@ public class GameController {
             unfinishedTasks.add(new Tasks(null,TaskTypes.TECHNOLOGY_PROJECT));
     }
 
-    public static void cheatSettler(int x, int y) {
-        Settler hardcodeUnit = new Settler(map.coordinatesToTile(x, y), civilizations.get(playerTurn), UnitType.SETTLER);
-        civilizations.get(playerTurn).getUnits().add(hardcodeUnit);
-        map.coordinatesToTile(x, y).setCivilian(hardcodeUnit);
-        openNewArea(map.coordinatesToTile(x, y),civilizations.get(playerTurn),hardcodeUnit);
+    public static void cheatUnit(int x, int y, UnitType unitType) {
+        if(unitType==UnitType.SETTLER)
+        {
+            Settler hardcodeUnit = new Settler(map.coordinatesToTile(x, y), civilizations.get(playerTurn), unitType);
+            civilizations.get(playerTurn).getUnits().add(hardcodeUnit);
+            map.coordinatesToTile(x, y).setCivilian(hardcodeUnit);
+            openNewArea(map.coordinatesToTile(x, y),civilizations.get(playerTurn),hardcodeUnit);
+        }
+        if(unitType==UnitType.WORKER)
+        {
+            Worker hardcodeUnit = new Worker(map.coordinatesToTile(x, y), civilizations.get(playerTurn), unitType);
+            civilizations.get(playerTurn).getUnits().add(hardcodeUnit);
+            map.coordinatesToTile(x, y).setCivilian(hardcodeUnit);
+            openNewArea(map.coordinatesToTile(x, y),civilizations.get(playerTurn),hardcodeUnit);
+        }
+        else
+        {
+            Unit hardcodeUnit = new NonCivilian(map.coordinatesToTile(x, y), civilizations.get(playerTurn), unitType);
+            civilizations.get(playerTurn).getUnits().add(hardcodeUnit);
+            map.coordinatesToTile(x, y).setCivilian(hardcodeUnit);
+            openNewArea(map.coordinatesToTile(x, y),civilizations.get(playerTurn),hardcodeUnit);
+        }
     }
     public static boolean openNewArea(Tile tile, Civilization civilization, Unit unit) {
         boolean isThereAnyEnemy = false;
@@ -496,6 +513,7 @@ public class GameController {
             return 3;
         if (!selectedCity.createUnit(tempType))
             return 4;
+        //TODO JUST DO
         return 0;
     }
 

@@ -4,6 +4,7 @@ import controller.GameController;
 import model.City;
 import model.Map;
 import model.Units.Unit;
+import model.Units.UnitType;
 import model.improvements.ImprovementType;
 
 import java.util.ArrayList;
@@ -385,9 +386,10 @@ public class GameMenu extends Menu {
         }
     }
 
-    private void cheatSettler(String command) {
+    private void cheatUnit(String command) {
         Matcher matcher = getMatcher(regexes[7], command);
-        GameController.cheatSettler(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2)));
+        UnitType unitType = UnitType.stringToEnum(matcher.group(3));
+        GameController.cheatUnit(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2)),unitType);
     }
 
     private void cityShowDetails() {
@@ -467,7 +469,7 @@ public class GameMenu extends Menu {
                 "^SELECT UNIT NONCOMBAT ([0-9]+) ([0-9]+)$",
                 "^NEXT TURN$",
                 "^MAP MOVE (R|L|U|D)( [0-9]+)?",
-                "^CHEAT CREATE SETTLER ([0-9]+) ([0-9]+)",
+                "^CHEAT CREATE UNIT (\\w+) ([0-9]+) ([0-9]+)",
                 "^UNIT FOUND CITY$",
                 "^SELECTED UNIT INFO$",
                 "^START PRODUCING (\\w+)$",
@@ -530,7 +532,7 @@ public class GameMenu extends Menu {
                 mapMove(command);
                 break;
             case 7:
-                cheatSettler(command);
+                cheatUnit(command);
                 break;
             case 8:
                 unitFoundCity();
