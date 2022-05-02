@@ -2,7 +2,9 @@ package view;
 
 import controller.GameController;
 import model.City;
+import model.Map;
 import model.Units.Unit;
+import model.Units.UnitType;
 import model.improvements.ImprovementType;
 
 import java.util.ArrayList;
@@ -212,8 +214,29 @@ public class GameMenu extends Menu {
                 break;
             case 3:
                 System.out.println("Select your unit first");
+                break;
             case 4:
                 System.out.println("Can't find a route");
+        }
+
+    }
+    private void cityAttack(String command) {
+        Matcher matcher = getMatcher(regexes[39], command);
+        switch (GameController.cityAttack(Integer.parseInt(matcher.group(1)),
+                Integer.parseInt(matcher.group(2)))){
+            case 0:
+                System.out.println("Attacked successfully");
+                break;
+            case 1:
+                System.out.println("Can not attack there");
+                break;
+            case 2:
+                System.out.println("Out of bond tile");
+                break;
+            case 3:
+                System.out.println("Select your city first");
+                break;
+
         }
 
     }
@@ -288,11 +311,9 @@ public class GameMenu extends Menu {
 
     private void mapShowPosition(String command) {
         Matcher matcher = getMatcher(regexes[16], command);
-        if (!GameController.mapShowPosition(Integer.parseInt(matcher.group(1)),
-                Integer.parseInt(matcher.group(2))))
-            System.out.println("invalid position");
-        else
-            System.out.println(GameController.printMap());
+        GameController.mapShowPosition(Integer.parseInt(matcher.group(1)) - Map.WINDOW_X/2,
+                Integer.parseInt(matcher.group(2))  - Map.WINDOW_Y/2+1);
+        System.out.println(GameController.printMap());
     }
 
 
@@ -327,16 +348,13 @@ public class GameMenu extends Menu {
 
     private void mapMove(String command) {
         Matcher matcher = getMatcher(regexes[6], command);
-        boolean result;
         if (matcher.group(2) == null)
-            result = GameController.mapMove(1, matcher.group(1));
+            GameController.mapMove(1, matcher.group(1));
         else
-            result = GameController.
+            GameController.
                     mapMove(Integer.parseInt(matcher.group(2).replace(" ", "")),
                             matcher.group(1));
-        if (result)
-            System.out.println("map moved successfully");
-        else System.out.println("Invalid position");
+        System.out.println("map moved successfully");
     }
 
     private void startProducing(String command) {
@@ -389,9 +407,10 @@ public class GameMenu extends Menu {
         }
     }
 
-    private void cheatSettler(String command) {
+    private void cheatUnit(String command) {
         Matcher matcher = getMatcher(regexes[7], command);
-        GameController.cheatSettler(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2)));
+        UnitType unitType = UnitType.stringToEnum(matcher.group(3));
+        GameController.cheatUnit(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2)),unitType);
     }
 
     private void cityShowDetails() {
@@ -459,6 +478,73 @@ public class GameMenu extends Menu {
                 .increaseGold(Integer.parseInt(matcher.group(1)));
         System.out.println("cheat activated successfully");
     }
+    private void cityDestiny(boolean burn){
+        switch (GameController.cityDestiny(burn)){
+            case 0:
+                if(burn) System.out.println("The city destroyed");
+                else System.out.println("The city captured");
+                break;
+            case 1:
+                System.out.println("The city still standing");
+                break;
+            case 2:
+                System.out.println("Select a surrendered city first");
+                break;
+            case 3:
+                System.out.println("Can not burn a capital");
+        }
+    }
+    private void assignCitizen(String command){
+        Matcher matcher = getMatcher(regexes[38], command);
+        int x;
+        if(matcher.group(3) != null)
+            x =GameController.reAssignCitizen(Integer.parseInt(matcher.group(1)),Integer
+                    .parseInt(matcher.group(2)),Integer.parseInt(matcher.group(3)),Integer.parseInt(matcher.group(4)));
+        else x= GameController.assignCitizen(Integer.parseInt(matcher.group(1)),Integer
+                .parseInt(matcher.group(2)));
+        switch (x){
+            case 0:
+                System.out.println("Assigned successfully");
+                break;
+            case 1:
+                System.out.println("Select valid tile");
+                break;
+            case 2:
+                System.out.println("Not your city");
+                break;
+            case 3:
+                System.out.println("Select a city jackass");
+                break;
+            case 4:
+                System.out.println("Failed");
+                break;
+        }
+
+
+    }
+    private void buyTile(String command){
+        Matcher matcher = getMatcher(regexes[40], command);
+        switch (GameController.buyTile(Integer.parseInt(matcher.group(1)),Integer.parseInt(matcher.group(2)))) {
+            case 0:
+                System.out.println("Tile added successfully");
+                break;
+            case 1:
+                System.out.println("Already has an owner");
+                break;
+            case 2:
+                System.out.println("Select valid tile");
+                break;
+            case 3:
+                System.out.println("Don't go too far");
+                break;
+            case 4:
+                System.out.println("Select your city first");
+                break;
+            case 5:
+                System.out.println("Out of bond Tile");
+                break;
+        }
+    }
 
     {
         regexes = new String[]{
@@ -469,7 +555,7 @@ public class GameMenu extends Menu {
                 "^SELECT UNIT NONCOMBAT ([0-9]+) ([0-9]+)$",
                 "^NEXT TURN$",
                 "^MAP MOVE (R|L|U|D)( [0-9]+)?",
-                "^CHEAT CREATE SETTLER ([0-9]+) ([0-9]+)",
+                "^CHEAT CREATE UNIT (\\w+) ([0-9]+) ([0-9]+)",
                 "^UNIT FOUND CITY$",
                 "^SELECTED UNIT INFO$",
                 "^START PRODUCING (\\w+)$",
@@ -497,7 +583,13 @@ public class GameMenu extends Menu {
                 "^unit cancel mission$",
                 "^unit remove (\\w+)$", //33
                 "^unit wake$",
-                "^UNIT ATTACK ([0-9]+) ([0-9]+)$"
+                "^UNIT ATTACK ([0-9]+) ([0-9]+)$",
+                "^CAPTURE CITY$",
+                "^BURN CITY",
+                "^CITIZEN WORK ([0-9]+) ([0-9]+) (TO ([0-9]+) ([0-9]+))?", //38
+                "^CITY ATTACK ([0-9]+) ([0-9]+)$",
+                "^BUY TILE ([0-9]+) ([0-9]+)$",
+
         };
     }
 
@@ -532,7 +624,7 @@ public class GameMenu extends Menu {
                 mapMove(command);
                 break;
             case 7:
-                cheatSettler(command);
+                cheatUnit(command);
                 break;
             case 8:
                 unitFoundCity();
@@ -618,6 +710,22 @@ public class GameMenu extends Menu {
             case 35:
                 unitAttack(command);
                 break;
+            case 36:
+                cityDestiny(false);
+                break;
+            case 37:
+                cityDestiny(true);
+                break;
+            case 38:
+                assignCitizen(command);
+                break;
+            case 39:
+                cityAttack(command);
+                break;
+            case 40:
+                buyTile(command);
+                break;
+
         }
 
         return false;

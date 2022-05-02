@@ -72,6 +72,10 @@ public class Civilization {
         return false;
     }
 
+    public void changeGold(int amount) {
+        this.gold += amount;
+    }
+
     public void changeHappiness(int happiness) {
         this.happiness += happiness;
     }

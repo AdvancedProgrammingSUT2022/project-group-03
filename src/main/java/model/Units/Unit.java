@@ -68,16 +68,31 @@ public abstract class Unit implements Producible, CanGetAttacked {
 
     public void startTheTurn() {
         GameController.openNewArea(currentTile,civilization,this);
-//        health += ...
-        if (health > 100)
+        health += 5;
+        if(state == UnitState.FORTIFY) health += 15;
+        if(currentTile.getCivilization() == civilization) health+= 5;
+        if (health > 100){
+            if(state == UnitState.FORTIFY_UNTIL_FULL_HEALTH) state = UnitState.AWAKE;
             health = 100;
+        }
+
         movementPrice = unitType.getDefaultMovementPrice();
 
         if(state== UnitState.FORTIFY_UNTIL_FULL_HEALTH && health==10)
             state = UnitState.AWAKE;
 
-        if(unitType==UnitType.WORKER && currentTile.getImprovement()!=null && currentTile.getImprovement().getRemainedCost()!=0)
+        if(unitType==UnitType.WORKER &&
+                state==UnitState.BUILDING &&
+                currentTile.getImprovement()!=null &&
+                currentTile.getImprovement().getRemainedCost()!=0)
+        {
             currentTile.getImprovement().setRemainedCost(currentTile.getImprovement().getRemainedCost()-1);
+            if(currentTile.getImprovement().getRemainedCost()==0)
+            {
+                state=UnitState.AWAKE;
+                currentTile.setContainedFeature(null);
+            }
+        }
 
         if(unitType==UnitType.WORKER && state==UnitState.REPAIRING)
         {
@@ -119,24 +134,6 @@ public abstract class Unit implements Producible, CanGetAttacked {
         return currentTile;
     }
 
-    void openNewArea() {
-        for (int i = 0; i < 6; i++) {
-            int neighbourX = currentTile.getNeighbours(i).getX();
-            int neighbourY = currentTile.getNeighbours(i).getY();
-            civilization.getTileConditions()[neighbourX][neighbourY] = new Civilization.TileCondition(currentTile.getNeighbours(i).CloneTileForCivilization(civilization.getResearches()), true);
-            if (currentTile.getNeighbours(i).getTileType() == TileType.MOUNTAIN ||
-                    currentTile.getNeighbours(i).getTileType() == TileType.HILL ||
-                    (currentTile.getNeighbours(i).getFeatureType() != null && (currentTile.getNeighbours(i).getFeatureType() == FeatureType.FOREST ||
-                            currentTile.getNeighbours(i).getFeatureType() == FeatureType.DENSEFOREST)))
-                continue;
-            for (int j = 0; j < 6; j++) {
-                neighbourX = currentTile.getNeighbours(i).getNeighbours(j).getX();
-                neighbourY = currentTile.getNeighbours(i).getNeighbours(j).getY();
-                civilization.getTileConditions()[neighbourX][neighbourY] = new Civilization.TileCondition(currentTile.getNeighbours(i).getNeighbours(j).CloneTileForCivilization(civilization.getResearches()), true);
-            }
-        }
-        civilization.getTileConditions()[currentTile.getX()][currentTile.getY()] = new Civilization.TileCondition(currentTile.CloneTileForCivilization(civilization.getResearches()), true);
-    }
 
 
     public boolean move(Tile destinationTile,boolean ogCall) {

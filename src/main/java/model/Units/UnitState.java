@@ -10,5 +10,6 @@ public enum UnitState {
     ATTACK,
     REPAIRING,
     REMOVING,
+    BUILDING,
     MOVING
 }

@@ -1,19 +1,26 @@
 package model.improvements;
 
-import model.technologies.TechnologyType;
-import model.tiles.TileType;
+import model.features.FeatureType;
+import model.tiles.Tile;
 
-import java.util.HashMap;
 
 public class Improvement {
-    private ImprovementType improvementType;
+    private final ImprovementType improvementType;
     private int needsRepair;
     int remainedCost;
-    public Improvement(ImprovementType improvementType)
-    {
+
+    public Improvement(ImprovementType improvementType, Tile tile) {
         this.improvementType = improvementType;
         needsRepair = 0;
-        remainedCost=6;
+        remainedCost = 6;
+        if ((improvementType == ImprovementType.FARM || improvementType == ImprovementType.QUARRY) && tile.getContainedFeature() != null) {
+            if (tile.getContainedFeature().getFeatureType() == FeatureType.FOREST)
+                remainedCost = 10;
+            if (tile.getContainedFeature().getFeatureType() == FeatureType.DENSEFOREST)
+                remainedCost = 13;
+            if (tile.getContainedFeature().getFeatureType() == FeatureType.SWAMP)
+                remainedCost = 12;
+        }
     }
 
     public int getRemainedCost() {

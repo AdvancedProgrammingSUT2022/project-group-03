@@ -84,10 +84,7 @@ public class Tile {
     public TileType getTileType() {
         return tileType;
     }
-    public FeatureType getFeatureType() {
-        if (containedFeature!=null) return containedFeature.getFeatureType();
-        return  null;
-    }
+
 
     public ResourcesTypes getResources() {
         return containedResource;
@@ -164,7 +161,7 @@ public class Tile {
         newTile.tilesWithRiver = this.tilesWithRiver;
         newTile.containedResource = null;
         newTile.containedFeature = containedFeature;
-        if(containedResource != null && containedResource.isTechnologyUnlocked(technologies))
+        if(containedResource != null && containedResource.isTechnologyUnlocked(civilization,this))
             newTile.containedResource = this.containedResource;
         newTile.improvement = this.improvement;
         newTile.civilization = this.civilization;
@@ -190,5 +187,9 @@ public class Tile {
 
     public Feature getContainedFeature() {
         return containedFeature;
+    }
+
+    public void setContainedFeature(Feature containedFeature) {
+        this.containedFeature = containedFeature;
     }
 }

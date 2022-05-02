@@ -111,7 +111,7 @@ public class Map {
         ResourcesTypes resourcesTypes = ResourcesTypes.randomResource();
         while (!tiles[i][j].isResourceTypeValid(resourcesTypes)
                 && (tiles[i][j].getTileType().resourcesTypes.length != 0
-                || (tiles[i][j].getFeatureType() != null && tiles[i][j].getFeatureType().resourcesTypes.length != 0))) {
+                || (tiles[i][j].getContainedFeature()!= null && tiles[i][j].getContainedFeature().getFeatureType().resourcesTypes.length != 0))) {
             resourcesTypes = ResourcesTypes.randomResource();
         }
         if (random.nextInt(8) != 0) {
@@ -403,8 +403,8 @@ public class Map {
                 else  jString = Color.RESET.toString() + rightTileColor + tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getNonCivilian().getUnitType().icon + Color.RESET + rightTileColor;
 
 
-                if (i < x && j < y && tileConditions[i][j] != null && tileConditions[i][j].getOpenedArea().getFeatureType() != null)
-                    cString = tileConditions[i][j].getOpenedArea().getFeatureType().icon;
+                if (i < x && j < y && tileConditions[i][j] != null && tileConditions[i][j].getOpenedArea().getContainedFeature() != null)
+                    cString = tileConditions[i][j].getOpenedArea().getContainedFeature().getFeatureType().icon;
                 else cString = "  ";
                 if((i + j % 2 < 1 || j >= y - 1 || i - 1 + j % 2 >= x) || tileConditions[i - 1 + j % 2][j + 1] == null || !tileConditions[i - 1 + j % 2][j + 1].getIsClear()) openString = " ";
                 else openString = ",";
@@ -489,8 +489,8 @@ public class Map {
                     jString = Color.RESET.toString() + currentTileColor + Color.getColorByNumber(tileConditions[i][j].getOpenedArea().getNonCivilian().getCivilization().getColor()).toString()+ tileConditions[i][j].getOpenedArea().getNonCivilian().getUnitType().icon+" " + Color.RESET + currentTileColor;
                 else jString = Color.RESET.toString() + currentTileColor +  tileConditions[i][j].getOpenedArea().getNonCivilian().getUnitType().icon+" " + Color.RESET + currentTileColor;
 
-                if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null && tileConditions[i + j % 2][j + 1].getOpenedArea().getFeatureType() != null)
-                    cString = tileConditions[i + j % 2][j + 1].getOpenedArea().getFeatureType().icon;
+                if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null && tileConditions[i + j % 2][j + 1].getOpenedArea().getContainedFeature() != null)
+                    cString = tileConditions[i + j % 2][j + 1].getOpenedArea().getContainedFeature().getFeatureType().icon;
                 else cString = "  ";
                 if(i >= x || j >= y || tileConditions[i][j] == null || !tileConditions[i][j].getIsClear()) openString = " ";
                 else openString = ",";
