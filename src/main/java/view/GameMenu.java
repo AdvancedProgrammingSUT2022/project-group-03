@@ -199,6 +199,23 @@ public class GameMenu extends Menu {
     }
 
     private void unitAttack(String command) {
+        Matcher matcher = getMatcher(regexes[35], command);
+        switch (GameController.unitAttack(Integer.parseInt(matcher.group(1)),
+                Integer.parseInt(matcher.group(2)))){
+            case 0:
+                System.out.println("Attacked successfully");
+                break;
+            case 1:
+                System.out.println("There is nothing to attack");
+                break;
+            case 2:
+                System.out.println("Out of bond tile");
+                break;
+            case 3:
+                System.out.println("Select your unit first");
+            case 4:
+                System.out.println("Can't find a route");
+        }
 
     }
 
@@ -477,7 +494,8 @@ public class GameMenu extends Menu {
                 "^unit repair$",
                 "^unit cancel mission$",
                 "^unit remove (\\w+)$", //33
-                "^unit wake$"
+                "^unit wake$",
+                "^UNIT ATTACK ([0-9]+) ([0-9]+)$"
         };
     }
 
@@ -594,6 +612,9 @@ public class GameMenu extends Menu {
                 break;
             case 34:
                 unitWake();
+                break;
+            case 35:
+                unitAttack(command);
                 break;
         }
 

@@ -1,9 +1,9 @@
 package model.technologies;
 
 
-import model.producible;
+import model.Producible;
 
-public class Technology implements producible {
+public class Technology implements Producible {
     private final TechnologyType technologyType;
     private int remainedCost;
 
