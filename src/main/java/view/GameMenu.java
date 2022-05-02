@@ -449,8 +449,6 @@ public class GameMenu extends Menu {
             System.out.println("you don't have the prerequisite technologies");
         if (result == 5)
             System.out.println("this improvement cannot be inserted here");
-        if(result ==6)
-            System.out.println("you don't have the required technology");
     }
 
     private void increaseGold(String command) {

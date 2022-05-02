@@ -240,18 +240,18 @@ public class GameController {
             return 2;
         if(selectedUnit.getUnitType()!=UnitType.WORKER)
             return 3;
-        if(!civilizations.get(playerTurn).doesContainTechnology(improvementType.prerequisitesTechnologies))
+        if(!doesHaveTheRequiredTechnologyToBuildImprovement(improvementType,selectedUnit.getCurrentTile(),selectedUnit.getCivilization()))
             return 4;
         if(!canHaveTheImprovement(selectedUnit.getCurrentTile(),improvementType))
             return 5;
-        if(!doesHaveTheRequiredTechnologyToBuildImprovement(improvementType,selectedUnit.getCurrentTile(),selectedUnit.getCivilization()))
-            return 6;
         ((Worker) selectedUnit).buildImprovement(improvementType);
         return 0;
     }
 
     private static boolean doesHaveTheRequiredTechnologyToBuildImprovement(ImprovementType improvementType,Tile tile, Civilization civilization)
     {
+        if(!civilization.doesContainTechnology(improvementType.prerequisitesTechnologies))
+            return false;
         if(improvementType==ImprovementType.FARM && (tile.getContainedFeature().getFeatureType()==FeatureType.DENSEFOREST &&
                 !civilization.doesContainTechnology(TechnologyType.BRONZE_WORKING)))
             return false;
