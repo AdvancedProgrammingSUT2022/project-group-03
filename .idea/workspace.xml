@@ -16,6 +16,7 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/ImprovementType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/ImprovementType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/tiles/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/tiles/Tile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Map.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

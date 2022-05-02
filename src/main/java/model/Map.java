@@ -414,8 +414,8 @@ public class Map {
         Color color0;
         Color color2;
         Color color1;
-        String iString = "";
-        String jString = "";
+        String iString;
+        String jString;
         String cString;
         String openString;
         Color currentTileColor;
