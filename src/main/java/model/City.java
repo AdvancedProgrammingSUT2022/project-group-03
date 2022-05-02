@@ -2,6 +2,7 @@ package model;
 
 import controller.GameController;
 import model.Units.*;
+import model.technologies.Technology;
 import model.tiles.Tile;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class City implements CanAttack, CanGetAttacked {
     private final Civilization founder;
     private int citizen;
     private int foodForCitizen = 1;
-
+    public int productionCheat;
     public String getName() {
         return name;
     }
@@ -86,7 +87,7 @@ public class City implements CanAttack, CanGetAttacked {
             production += gettingWorkedOnByCitizensTile.getTileType().production
                     + gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType().production + citizen;
         }
-        return production;
+        return production+ productionCheat;
     }
 
     public void startTheTurn() {
@@ -274,4 +275,19 @@ public class City implements CanAttack, CanGetAttacked {
     public void takeDamage(int amount) {
         HP -= amount;
     }
+
+    public void setProduct(Producible product) {
+        this.product = product;
+    }
+
+    public int cyclesToComplete(int remainedCost) {
+        if (collectProduction() == 0)
+            return 12345;
+        return (int) Math.ceil((double)remainedCost / (double)collectProduction());
+    }
+
+    public void setProduction(int production) {
+        this.production = production;
+    }
+
 }

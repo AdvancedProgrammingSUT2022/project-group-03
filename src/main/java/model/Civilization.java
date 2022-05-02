@@ -169,7 +169,11 @@ public class Civilization {
             if (science <= 0)
                 science = 0;
             if (gettingResearchedTechnology.getRemainedCost() <= 0)
+            {
+                gettingResearchedTechnology.setRemainedCost(0);
                 gettingResearchedTechnology = null;
+
+            }
         }
     }
     public int newScience() {
@@ -214,6 +218,8 @@ public class Civilization {
     }
 
     public int doesContainTechnology(TechnologyType technologyType) {
+        if(technologyType==null)
+            return 1;
         for (Technology research : researches)
             if (research.getTechnologyType() == technologyType)
             {

@@ -33,6 +33,6 @@ public class TechnologyController {
     public static int cyclesToComplete(Technology technology) {
         if (GameController.getCivilizations().get(GameController.getPlayerTurn()).newScience() == 0)
             return 12345;
-        return technology.getRemainedCost() / GameController.getCivilizations().get(GameController.getPlayerTurn()).newScience();
+        return (int) Math.ceil((double)technology.getRemainedCost() / (double)GameController.getCivilizations().get(GameController.getPlayerTurn()).newScience());
     }
 }

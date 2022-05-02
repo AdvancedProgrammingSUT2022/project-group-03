@@ -6,6 +6,7 @@ import model.Map;
 import model.Units.Unit;
 import model.Units.UnitType;
 import model.improvements.ImprovementType;
+import model.resources.ResourcesTypes;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -22,8 +23,15 @@ public class GameMenu extends Menu {
             doWeHaveAnyWorkingTechnology = true;
             String tempString = null;
             if (city.getProduct() instanceof Unit)
-                tempString = ((Unit) city.getProduct()).getUnitType().toString();
-            System.out.print(city.getName() + ": " + "getting developed technology: " + tempString);
+            {
+                tempString = ((Unit) city.getProduct()).getUnitType().toString() + ": (";
+                int cyclesToComplete = city.cyclesToComplete(city.getProduct().getRemainedCost());
+                if(cyclesToComplete==12345)
+                    tempString += "never, your production is 0)";
+                else
+                    tempString+= city.cyclesToComplete(city.getProduct().getRemainedCost()) + " days to complete)";
+            }
+            System.out.print(city.getName() + ": " + "Being developed technology: " + tempString);
         }
         if (!doWeHaveAnyWorkingTechnology)
             System.out.println("you don't have any technology in the development right now");
@@ -385,7 +393,7 @@ public class GameMenu extends Menu {
     private void cityProductionMenu() {
         if (GameController.getSelectedCity() == null)
             System.out.println("no city is selected");
-        if (GameController.getSelectedCity().getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
+        else if (GameController.getSelectedCity().getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
             System.out.println("the selected city is not yours");
         else {
             ProductionCityMenu productionCityMenu = new ProductionCityMenu();
@@ -477,6 +485,17 @@ public class GameMenu extends Menu {
         GameController.cheatScience(Integer.parseInt(matcher.group(1)));
     }
 
+    private void cheatProduction(String command)
+    {
+        Matcher matcher = getMatcher(regexes[37],command);
+        GameController.cheatProduction(Integer.parseInt(matcher.group(1)));
+    }
+    private void cheatResource(String command)
+    {
+        Matcher matcher = getMatcher(regexes[38],command);
+        GameController.cheatResource(Integer.parseInt(matcher.group(2)), ResourcesTypes.stringToEnum(matcher.group(1)));
+    }
+
     private void increaseGold(String command) {
         Matcher matcher = getMatcher(regexes[22], command);
         GameController.getCivilizations().get(GameController.getPlayerTurn())
@@ -522,7 +541,9 @@ public class GameMenu extends Menu {
                 "^unit remove (\\w+)$", //33
                 "^unit wake$",
                 "^UNIT ATTACK ([0-9]+) ([0-9]+)$",
-                "^CHEAT SCIENCE (\\d+)$"
+                "^CHEAT SCIENCE (\\d+)$",
+                "^CHEAT PRODUCTION (\\d+)$",
+                "^CHEAT RESOURCE (\\w+) (\\d+)$"
         };
     }
 
@@ -645,6 +666,12 @@ public class GameMenu extends Menu {
                 break;
             case 36:
                 cheatScience(command);
+                break;
+            case 37:
+                cheatProduction(command);
+                break;
+            case 38:
+                cheatResource(command);
                 break;
         }
 

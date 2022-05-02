@@ -1,9 +1,11 @@
 package model.resources;
 
+import model.Units.UnitType;
 import model.technologies.Technology;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public enum ResourcesTypes {
@@ -46,5 +48,11 @@ public enum ResourcesTypes {
         //TODO TECH CHECK
         return true;
     }
-
+    public static ResourcesTypes stringToEnum(String string)
+    {
+        for (ResourcesTypes value : VALUES)
+            if (string.toLowerCase(Locale.ROOT).equals(value.toString().toLowerCase(Locale.ROOT)))
+                return value;
+        return null;
+    }
 }

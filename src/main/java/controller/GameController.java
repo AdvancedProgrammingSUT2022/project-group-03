@@ -5,6 +5,7 @@ import model.Units.*;
 import model.features.FeatureType;
 import model.improvements.Improvement;
 import model.improvements.ImprovementType;
+import model.resources.ResourcesTypes;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;
 import model.tiles.Tile;
@@ -515,10 +516,24 @@ public class GameController {
             return 3;
         if (!selectedCity.createUnit(tempType))
             return 4;
+        for (Unit unit : civilizations.get(playerTurn).getUnits())
+            if(unit.getRemainedCost()!=0 && unit.getUnitType()==tempType)
+            {
+                selectedCity.setProduct(unit);
+                return 0;
+            }
         if(tempType.combatType==CombatType.CIVILIAN)
-            civilizations.get(playerTurn).getUnits().add(new Civilian(selectedUnit.getCurrentTile(),civilizations.get(playerTurn),tempType));
+        {
+            Civilian civilian = new Civilian(selectedCity.getMainTile(),civilizations.get(playerTurn),tempType);
+            civilizations.get(playerTurn).getUnits().add(civilian);
+            selectedCity.setProduct(civilian);
+        }
         else
-            civilizations.get(playerTurn).getUnits().add(new NonCivilian(selectedUnit.getCurrentTile(),civilizations.get(playerTurn),tempType));
+        {
+            NonCivilian nonCivilian = new NonCivilian(selectedCity.getMainTile(),civilizations.get(playerTurn),tempType);
+            civilizations.get(playerTurn).getUnits().add(nonCivilian);
+            selectedCity.setProduct(nonCivilian);
+        }
         return 0;
     }
 
@@ -550,4 +565,19 @@ public class GameController {
     {
         civilizations.get(playerTurn).setScience(civilizations.get(playerTurn).getScience() + number);
     }
+    public static void cheatProduction(int number)
+    {
+        if(selectedCity!=null)
+            selectedCity.productionCheat+=number;
+    }
+
+    public static void cheatResource(int number, ResourcesTypes resourcesTypes)
+    {
+        int tempNumber = 0;
+        if(civilizations.get(playerTurn).getResourcesAmount().containsKey(resourcesTypes))
+            tempNumber = civilizations.get(playerTurn).getResourcesAmount().get(resourcesTypes);
+        civilizations.get(playerTurn).getResourcesAmount().remove(resourcesTypes);
+        civilizations.get(playerTurn).getResourcesAmount().put(resourcesTypes,tempNumber+number);
+    }
+
 }
