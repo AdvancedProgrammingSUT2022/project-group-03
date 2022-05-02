@@ -2,9 +2,7 @@ package view;
 
 import controller.GameController;
 import model.City;
-import model.Units.Civilian;
-import model.Units.Unit;
-import model.Units.UnitType;
+import model.Units.*;
 
 import java.util.ArrayList;
 
@@ -17,7 +15,7 @@ public class ProductionCityMenu extends Menu{
         };
     }
 
-    private ArrayList<UnitType> possibleUnits = new ArrayList<>();
+    private ArrayList<Unit> possibleUnits = new ArrayList<>();
     public void printDetails()
     {
         City city = GameController.getSelectedCity();
@@ -28,7 +26,7 @@ public class ProductionCityMenu extends Menu{
             System.out.println("production: " + ((Unit) city.getProduct()).getUnitType());
 
         boolean doesHaveAny = false;
-        for(int i = 0 ; i < UnitType.VALUES.size();i++)
+        mainFor: for(int i = 0 ; i < UnitType.VALUES.size();i++)
         {
             if(GameController.getSelectedCity().getCivilization().doesContainTechnology(UnitType.VALUES.get(i).technologyRequired)!=1)
                 continue;
@@ -42,18 +40,25 @@ public class ProductionCityMenu extends Menu{
                 for (Unit unit : GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits())
                     if(unit.getRemainedCost()!=0 && unit.getUnitType()==UnitType.VALUES.get(i))
                     {
-
+                        possibleUnits.add(unit);
+                        continue mainFor;
                     }
-                int cyclesToComplete = GameController.getSelectedCity().cyclesToComplete(UnitType.VALUES.get(i).cost);
-                System.out.print(possibleUnits.size()+1 + ". " + UnitType.VALUES.get(i) + ": ");
-                if(cyclesToComplete == 12345)
-                    System.out.println("never, your production is 0");
+                if(UnitType.VALUES.get(i).combatType== CombatType.CIVILIAN)
+                    possibleUnits.add(new Civilian(GameController.getSelectedCity().getMainTile(),GameController.getSelectedCity().getCivilization(),UnitType.VALUES.get(i)));
                 else
-                    System.out.println(GameController.getSelectedCity().cyclesToComplete(UnitType.VALUES.get(i).cost) +
-                            " cycles to complete");
-                possibleUnits.add(UnitType.VALUES.get(i));
+                    possibleUnits.add(new NonCivilian(GameController.getSelectedCity().getMainTile(),GameController.getSelectedCity().getCivilization(),UnitType.VALUES.get(i)));
             }
 
+        }
+        for(int i = 0 ; i< possibleUnits.size();i++)
+        {
+            int cyclesToComplete = GameController.getSelectedCity().cyclesToComplete(possibleUnits.get(i).getRemainedCost());
+            System.out.print(i+1 + ". " + possibleUnits.get(i).getUnitType() + ": ");
+            if(cyclesToComplete == 12345)
+                System.out.println("never, your production is 0");
+            else
+                System.out.println(GameController.getSelectedCity().cyclesToComplete(possibleUnits.get(i).getRemainedCost()) +
+                        " cycles to complete");
         }
         if(!doesHaveAny)
             System.out.println("you can't produce anything right now");
@@ -67,7 +72,7 @@ public class ProductionCityMenu extends Menu{
             System.out.println("invalid number");
             return;
         }
-        GameController.getSelectedCity().createUnit(possibleUnits.get(number-1));
+        GameController.getSelectedCity().createUnit(possibleUnits.get(number-1).getUnitType());
         System.out.println("production started successfully");
 
     }
