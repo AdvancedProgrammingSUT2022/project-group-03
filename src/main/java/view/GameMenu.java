@@ -244,6 +244,12 @@ public class GameMenu extends Menu {
             case 3:
                 System.out.println("Select your city first");
                 break;
+            case 4:
+                System.out.println("Out of range");
+                break;
+            case 5:
+                System.out.println("Siege need setup before attack");
+                break;
 
         }
 
@@ -636,7 +642,9 @@ public class GameMenu extends Menu {
                 "^BUY TILE ([0-9]+) ([0-9]+)$",
                 "^CHEAT SCIENCE (\\d+)$",
                 "^CHEAT PRODUCTION (\\d+)$",
-                "^CHEAT RESOURCE (\\w+) (\\d+)$"//43
+                "^CHEAT RESOURCE (\\w+) (\\d+)$",//43
+                "^UNIT PILLAGE$",
+
         };
     }
 
@@ -781,6 +789,8 @@ public class GameMenu extends Menu {
             case 43:
                 cheatResource(command);
                 break;
+            case 44:
+
         }
 
         return false;

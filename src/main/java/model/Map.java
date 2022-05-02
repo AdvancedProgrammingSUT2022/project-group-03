@@ -276,7 +276,7 @@ public class Map {
         return tiles;
     }
 
-    public TileAndMP[] findNextTile(Civilization civilization,Tile startTile,int remainedMP, int mp, Tile endTile, boolean isCivilian) {
+    public TileAndMP[] findNextTile(Civilization civilization,Tile startTile,int remainedMP, int mp, Tile endTile, boolean isCivilian,boolean ignoreMoveCost) {
         Tile[][] tiles = setMapForBestTile(civilization.getTileConditions());
         Tile tile = tiles[startTile.getX()][startTile.getY()];
         Tile destinationTile = tiles[endTile.getX()][endTile.getY()];
@@ -304,7 +304,9 @@ public class Map {
                             if (isVisitedEver.containsKey(check) ||
                                     check.getMovingPrice() > 123)
                                 continue;
-                            int remainingMP = visitedWithMove.get(c).get(visited[c].get(i)).movePoint - check.getMovingPrice();
+                            int remainingMP = visitedWithMove.get(c).get(visited[c].get(i)).movePoint ;
+                            if(ignoreMoveCost) remainingMP -= 1;
+                            else remainingMP-= check.getMovingPrice();
                             if (remainingMP < 0 || visited[c].get(i).isRiverWithNeighbour(j)) remainingMP = 0;
                             if (!visitedWithMove.get(c).containsKey(check)) {
                                 visitedWithMove.get(c).put(check, new BestMoveClass(remainingMP, visited[c].get(i), c));
