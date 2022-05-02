@@ -16,7 +16,7 @@ public class Improvement {
         if ((improvementType == ImprovementType.FARM || improvementType == ImprovementType.QUARRY) && tile.getContainedFeature() != null) {
             if (tile.getContainedFeature().getFeatureType() == FeatureType.FOREST)
                 remainedCost = 10;
-            if (tile.getContainedFeature().getFeatureType() == FeatureType.DENSEFOREST)
+            if (tile.getContainedFeature().getFeatureType() == FeatureType.JUNGLE)
                 remainedCost = 13;
             if (tile.getContainedFeature().getFeatureType() == FeatureType.SWAMP)
                 remainedCost = 12;

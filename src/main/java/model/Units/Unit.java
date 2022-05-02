@@ -17,7 +17,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
     protected int health = 100;
     protected UnitType unitType;
     protected boolean isAttacking = false;
-    public int remainedCost;
+    private int remainedCost;
     protected UnitState state;
     public Unit(Tile tile, Civilization civilization, UnitType unitType) {
         this.currentTile = tile;
@@ -75,6 +75,8 @@ public abstract class Unit implements Producible, CanGetAttacked {
 
         if(state== UnitState.FORTIFY_UNTIL_FULL_HEALTH && health==10)
             state = UnitState.AWAKE;
+        if(unitType.combatType!=CombatType.CIVILIAN && (state==UnitState.FORTIFY || state==UnitState.FORTIFY_UNTIL_FULL_HEALTH) && ((NonCivilian) this).getFortifiedCycle()!=2)
+            ((NonCivilian) this).setFortifiedCycle(((NonCivilian) this).getFortifiedCycle()+1);
 
         if(unitType==UnitType.WORKER &&
                 state==UnitState.BUILDING &&
@@ -127,25 +129,6 @@ public abstract class Unit implements Producible, CanGetAttacked {
 
     public Tile getCurrentTile() {
         return currentTile;
-    }
-
-    void openNewArea() {
-        for (int i = 0; i < 6; i++) {
-            int neighbourX = currentTile.getNeighbours(i).getX();
-            int neighbourY = currentTile.getNeighbours(i).getY();
-            civilization.getTileConditions()[neighbourX][neighbourY] = new Civilization.TileCondition(currentTile.getNeighbours(i).CloneTileForCivilization(civilization.getResearches()), true);
-            if (currentTile.getNeighbours(i).getTileType() == TileType.MOUNTAIN ||
-                    currentTile.getNeighbours(i).getTileType() == TileType.HILL ||
-                    (currentTile.getNeighbours(i).getContainedFeature().getFeatureType() != null && (currentTile.getNeighbours(i).getContainedFeature().getFeatureType() == FeatureType.FOREST ||
-                            currentTile.getNeighbours(i).getContainedFeature().getFeatureType() == FeatureType.DENSEFOREST)))
-                continue;
-            for (int j = 0; j < 6; j++) {
-                neighbourX = currentTile.getNeighbours(i).getNeighbours(j).getX();
-                neighbourY = currentTile.getNeighbours(i).getNeighbours(j).getY();
-                civilization.getTileConditions()[neighbourX][neighbourY] = new Civilization.TileCondition(currentTile.getNeighbours(i).getNeighbours(j).CloneTileForCivilization(civilization.getResearches()), true);
-            }
-        }
-        civilization.getTileConditions()[currentTile.getX()][currentTile.getY()] = new Civilization.TileCondition(currentTile.CloneTileForCivilization(civilization.getResearches()), true);
     }
 
 
@@ -232,5 +215,21 @@ public abstract class Unit implements Producible, CanGetAttacked {
     public void setRemainedCost(int remainedCost) { this.remainedCost = remainedCost;}
     public UnitType getUnitType() {
         return unitType;
+    }
+
+
+    public void buildRoad(int isRailRoad)
+    {
+
+    }
+    public void remove(int isJungle)
+    {
+        if(isJungle==1)
+        {
+            if(currentTile.getContainedFeature().getCyclesToFinish()==-1)
+                currentTile.getContainedFeature().setCyclesToFinish(6);
+            GameController.openNewArea(currentTile,civilization,null);
+            state = UnitState.REMOVING;
+        }
     }
 }

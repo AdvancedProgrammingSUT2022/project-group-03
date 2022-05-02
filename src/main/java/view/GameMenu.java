@@ -202,7 +202,7 @@ public class GameMenu extends Menu {
     private void unitAttack(String command) {
         Matcher matcher = getMatcher(regexes[35], command);
         switch (GameController.unitAttack(Integer.parseInt(matcher.group(1)),
-                Integer.parseInt(matcher.group(2)))){
+                Integer.parseInt(matcher.group(2)))) {
             case 0:
                 System.out.println("Attacked successfully");
                 break;
@@ -270,7 +270,25 @@ public class GameMenu extends Menu {
     }
 
     private void unitRemove(String command) {
-
+        Matcher matcher = getMatcher(regexes[33], command);
+        boolean isJungle = false;
+        if (matcher.group(1).equals("jungle"))
+            isJungle = true;
+        else if (!matcher.group(1).equals("route")) {
+            System.out.println("invalid command");
+            return;
+        }
+        int result = GameController.unitRemoveFromTile(isJungle);
+        if (result == 0)
+            System.out.println(matcher.group(1) + "'s removal from the tile operation started successfully");
+        if (result == 1)
+            System.out.println("no unit is selected");
+        if (result == 2)
+            System.out.println("the selected unit is not yours");
+        if (result == 3)
+            System.out.println("the selected unit is not a worker");
+        if (result == 4)
+            System.out.println("the selected tile does not have a jungle");
     }
 
     private void unitRepair() {
@@ -282,16 +300,18 @@ public class GameMenu extends Menu {
         if (result == 2)
             System.out.println("the selected unit is not yours");
         if (result == 3)
-            System.out.println("there are no improvements here");
+            System.out.println("the selected unit is not a worker");
         if (result == 4)
+            System.out.println("there are no improvements here");
+        if (result == 5)
             System.out.println("the selected improvement does not need repairing");
     }
 
 
     private void mapShowPosition(String command) {
         Matcher matcher = getMatcher(regexes[16], command);
-        GameController.mapShowPosition(Integer.parseInt(matcher.group(1)) - Map.WINDOW_X/2,
-                Integer.parseInt(matcher.group(2))  - Map.WINDOW_Y/2+1);
+        GameController.mapShowPosition(Integer.parseInt(matcher.group(1)) - Map.WINDOW_X / 2,
+                Integer.parseInt(matcher.group(2)) - Map.WINDOW_Y / 2 + 1);
         System.out.println(GameController.printMap());
     }
 
@@ -388,8 +408,8 @@ public class GameMenu extends Menu {
 
     private void cheatUnit(String command) {
         Matcher matcher = getMatcher(regexes[7], command);
-        UnitType unitType = UnitType.stringToEnum(matcher.group(3));
-        GameController.cheatUnit(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2)),unitType);
+        UnitType unitType = UnitType.stringToEnum(matcher.group(1));
+        GameController.cheatUnit(Integer.parseInt(matcher.group(2)), Integer.parseInt(matcher.group(3)), unitType);
     }
 
     private void cityShowDetails() {
@@ -451,6 +471,12 @@ public class GameMenu extends Menu {
             System.out.println("this improvement cannot be inserted here");
     }
 
+    private void cheatScience(String command)
+    {
+        Matcher matcher = getMatcher(regexes[36],command);
+        GameController.cheatScience(Integer.parseInt(matcher.group(1)));
+    }
+
     private void increaseGold(String command) {
         Matcher matcher = getMatcher(regexes[22], command);
         GameController.getCivilizations().get(GameController.getPlayerTurn())
@@ -495,7 +521,8 @@ public class GameMenu extends Menu {
                 "^unit cancel mission$",
                 "^unit remove (\\w+)$", //33
                 "^unit wake$",
-                "^UNIT ATTACK ([0-9]+) ([0-9]+)$"
+                "^UNIT ATTACK ([0-9]+) ([0-9]+)$",
+                "^CHEAT SCIENCE (\\d+)$"
         };
     }
 
@@ -615,6 +642,9 @@ public class GameMenu extends Menu {
                 break;
             case 35:
                 unitAttack(command);
+                break;
+            case 36:
+                cheatScience(command);
                 break;
         }
 

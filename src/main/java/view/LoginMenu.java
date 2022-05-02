@@ -109,6 +109,8 @@ public class LoginMenu extends Menu {
             case 2:
                 System.out.println("user with nickname " + nickname + " already exists");
                 break;
+            case 3:
+                System.out.println("the password is not strong enough");
         }
     }
 

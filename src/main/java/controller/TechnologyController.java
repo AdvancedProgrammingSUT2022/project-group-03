@@ -16,22 +16,23 @@ public class TechnologyController {
         return GameController.getCivilizations().get(GameController.getPlayerTurn()).canBeTheNextResearch(technologyType);
     }
 
-    public static boolean addTechnologyToProduction(ArrayList<TechnologyType> possibleTechnologies, int entry) {
+    public static boolean addTechnologyToProduction(ArrayList<Technology> possibleTechnologies, int entry) {
         if (entry > possibleTechnologies.size() || entry < 1)
             return false;
-        Technology tempTechnology = new Technology(possibleTechnologies.get(entry - 1));
-        GameController.getCivilizations()
-                .get(GameController.getPlayerTurn()).getResearches()
-                .add(tempTechnology);
+        Technology tempTechnology = possibleTechnologies.get(entry - 1);
+        if (GameController.getCivilizations().get(GameController.getPlayerTurn()).doesContainTechnology(tempTechnology.getTechnologyType()) == 3)
+            GameController.getCivilizations()
+                    .get(GameController.getPlayerTurn()).getResearches()
+                    .add(tempTechnology);
         GameController.getCivilizations()
                 .get(GameController.getPlayerTurn()).setGettingResearchedTechnology(tempTechnology);
         GameController.deleteFromUnfinishedTasks(new Tasks(null, TaskTypes.TECHNOLOGY_PROJECT));
         return true;
     }
-    public static int cyclesToComplete(TechnologyType technologyType)
-    {
-        if(GameController.getCivilizations().get(GameController.getPlayerTurn()).getScience()==0)
+
+    public static int cyclesToComplete(Technology technology) {
+        if (GameController.getCivilizations().get(GameController.getPlayerTurn()).newScience() == 0)
             return 12345;
-        return technologyType.cost / GameController.getCivilizations().get(GameController.getPlayerTurn()).getScience();
+        return technology.getRemainedCost() / GameController.getCivilizations().get(GameController.getPlayerTurn()).newScience();
     }
 }
