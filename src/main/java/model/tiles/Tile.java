@@ -156,7 +156,7 @@ public class Tile {
         this.civilization = civilization;
     }
 
-    public Tile CloneTileForCivilization(ArrayList<Technology> technologies) {
+    public Tile CloneTileForCivilization(Civilization civilization) {
         Tile newTile = new Tile(this.tileType, this.x, this.y);
         newTile.tilesWithRiver = this.tilesWithRiver;
         newTile.containedResource = null;

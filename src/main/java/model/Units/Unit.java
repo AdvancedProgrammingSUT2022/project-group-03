@@ -42,6 +42,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
             combat = ((double)unitType.rangedCombatStrength * (100 + currentTile.getCombatChange())/ 100);
         }
         else combat = ((double)unitType.combatStrength * (100 + currentTile.getCombatChange())/ 100);
+        if(!isAttack && state == UnitState.FORTIFY) combat *= (((NonCivilian)this).getFortifiedCycle() + 1);
         if (civilization.getHappiness() < 0) combat = 0.75 * combat;
         combat = combat*(50 + (double)health/2)/100;
         if (combat < 1) combat = 1;
