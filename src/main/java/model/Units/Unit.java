@@ -231,4 +231,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
 
     }
 
+    public void setCurrentTile(Tile currentTile) {
+        this.currentTile = currentTile;
+    }
 }

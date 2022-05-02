@@ -23,9 +23,8 @@ public class Tile {
     private Unit civilian;
     private NonCivilian nonCivilian;
     private City city;
-    private int hasRoad;
     private int raidLevel;
-
+    private Improvement road;
     private final Tile[] neighbours = new Tile[6];// LU, clockwise
 
     public int getX() {
@@ -168,7 +167,6 @@ public class Tile {
         newTile.civilian = this.civilian;
         newTile.nonCivilian = this.nonCivilian;
         newTile.city = this.city;
-        newTile.hasRoad = this.hasRoad;
         newTile.raidLevel = this.raidLevel;
         return newTile;
     }
@@ -191,5 +189,13 @@ public class Tile {
 
     public void setContainedFeature(Feature containedFeature) {
         this.containedFeature = containedFeature;
+    }
+
+    public void setRoad(Improvement road) {
+        this.road = road;
+    }
+
+    public Improvement getRoad() {
+        return road;
     }
 }

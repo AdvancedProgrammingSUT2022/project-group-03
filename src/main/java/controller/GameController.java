@@ -299,6 +299,8 @@ public class GameController {
         if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
             return 2;
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT));
+        selectedUnit.getCurrentTile().setRoad(new Improvement(ImprovementType.ROAD, selectedUnit.getCurrentTile()));
+        selectedUnit.setState(UnitState.BUILDING);
         return 0;
     }
     private static boolean canHaveTheImprovement(Tile tile, ImprovementType improvementType)
@@ -315,6 +317,8 @@ public class GameController {
         if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
             return 2;
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT));
+        selectedUnit.getCurrentTile().setRoad(new Improvement(ImprovementType.RAILROAD, selectedUnit.getCurrentTile()));
+        selectedUnit.setState(UnitState.BUILDING);
         return 0;
     }
 

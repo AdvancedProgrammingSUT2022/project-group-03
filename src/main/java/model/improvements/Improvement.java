@@ -21,6 +21,8 @@ public class Improvement {
             if (tile.getContainedFeature().getFeatureType() == FeatureType.SWAMP)
                 remainedCost = 12;
         }
+        if(improvementType==ImprovementType.ROAD || improvementType==ImprovementType.RAILROAD)
+            remainedCost=3;
     }
 
     public int getRemainedCost() {
