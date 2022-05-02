@@ -489,7 +489,7 @@ public class Map {
                     jString = Color.RESET.toString() + currentTileColor + Color.getColorByNumber(tileConditions[i][j].getOpenedArea().getNonCivilian().getCivilization().getColor()).toString()+ tileConditions[i][j].getOpenedArea().getNonCivilian().getUnitType().icon+" " + Color.RESET + currentTileColor;
                 else jString = Color.RESET.toString() + currentTileColor +  tileConditions[i][j].getOpenedArea().getNonCivilian().getUnitType().icon+" " + Color.RESET + currentTileColor;
 
-                if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null && tileConditions[i + j % 2][j + 1].getOpenedArea().getContainedFeature().getFeatureType() != null)
+                if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null && tileConditions[i + j % 2][j + 1].getOpenedArea().getContainedFeature() != null)
                     cString = tileConditions[i + j % 2][j + 1].getOpenedArea().getContainedFeature().getFeatureType().icon;
                 else cString = "  ";
                 if(i >= x || j >= y || tileConditions[i][j] == null || !tileConditions[i][j].getIsClear()) openString = " ";
