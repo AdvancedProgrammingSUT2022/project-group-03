@@ -3,6 +3,7 @@ package model;
 import controller.GameController;
 import model.Units.*;
 import model.tiles.Tile;
+import model.tiles.TileType;
 
 import java.util.ArrayList;
 
@@ -237,19 +238,12 @@ public class City implements CanAttack,CanGetAttacked {
             if(isAttack && mainTile.getNonCivilian().getUnitType().range > 1) strength += mainTile.getNonCivilian().getUnitType().rangedCombatStrength;
             else strength += mainTile.getNonCivilian().getUnitType().combatStrength;
         }
-        if(tiles.size() > 10 && !isAttack) strength += 4*(tiles.size()- 10);
+        if(tiles.size() > 10 && !isAttack) strength += 2*(tiles.size()- 10);
         if(!isAttack) strength += tiles.size();
-        if()
-        /*double combat;
-        if(isAttack){
-            combat = ((double)unitType.rangedCombatStrength * (100 + currentTile.getCombatChange())/ 100);
+        for (Tile tile : tiles) {
+            if(!isAttack && (tile.getTileType() == TileType.MOUNTAIN ||tile.getTileType() == TileType.HILL)) strength += 1;
         }
-        else combat = ((double)unitType.combatStrength * (100 + currentTile.getCombatChange())/ 100);
-        if (civilization.collectResources() < 0) combat = 0.75 * combat;
-        combat = combat*(50 + (double)health/2)/100;
-        if (combat < 1) combat = 1;
-        return (int) combat;*/
-        return 50;
+        return strength;
     }
 
     public boolean checkToDestroy(){ //todo add city to civilization

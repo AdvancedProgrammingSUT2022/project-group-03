@@ -17,10 +17,11 @@ public class NonCivilian extends Unit implements CanAttack{
 
 
     public void attack(Tile tile) {
-        CanGetAttacked target = null;
-        if(tile.getCity() != null) target = (CanGetAttacked) tile.getCity();
+        CanGetAttacked target;
+        if(tile.getCity() != null) target = tile.getCity();
         else if (tile.getNonCivilian() != null) target = tile.getNonCivilian();
-        else if (tile.getCivilian() != null) target = (CanGetAttacked) tile.getCivilian();
+        else if (tile.getCivilian() != null) target = tile.getCivilian();
+        else return ;
         double ratio = (double) getCombatStrength(true) /target.getCombatStrength(false);
         target.takeDamage(calculateDamage(ratio));
         GameController.openNewArea(tile,civilization,null);
@@ -31,11 +32,13 @@ public class NonCivilian extends Unit implements CanAttack{
     }
     public int calculateDamage(double ratio){
         if(ratio >= 1) {
-            health -= 16.774 * Math.exp(0.5618 * ratio) /  (0.3294 * Math.exp(1.1166 * ratio));
+            if(unitType.range <= 1) health -= 16.774 * Math.exp(0.5618 * ratio) /  (0.3294 * Math.exp(1.1166 * ratio));
             return (int) (16.774 * Math.exp(0.5618 * ratio));
         }
-        else health -= 16.774 * Math.exp(0.5618 / ratio);
-        return (int) (16.774 * Math.exp(0.5618 / ratio) / (0.3294 * Math.exp(1.1166 / ratio)));
+        else {
+            if (unitType.range <= 1) health -= 16.774 * Math.exp(0.5618 / ratio);
+            return (int) (16.774 * Math.exp(0.5618 / ratio) / (0.3294 * Math.exp(1.1166 / ratio)));
+        }
     }
 
 
