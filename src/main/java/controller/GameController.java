@@ -465,6 +465,7 @@ public class GameController {
     }
 
     public static void cheatUnit(int x, int y, UnitType unitType) {
+        if(map.coordinatesToTile(x,y).getMovingPrice() > 123) return;
         if(unitType==UnitType.SETTLER)
         {
             Civilian hardcodeUnit = new Civilian(map.coordinatesToTile(x, y), civilizations.get(playerTurn), unitType);
@@ -581,6 +582,7 @@ public class GameController {
         return unfinishedTasks;
     }
 
+
     public static int unitAttack(int x,int y){
         if(!(selectedUnit instanceof NonCivilian) || selectedUnit.getCivilization() != civilizations.get(playerTurn)) return 2;
         if(x < 0 || y < 0 || x >= map.getX() || y > map.getY()) return 3;
@@ -591,6 +593,11 @@ public class GameController {
     public static int cityAttack(int x,int y){
         if(selectedCity.getCivilization() != civilizations.get(playerTurn)) return 3;
         if(x < 0 || y < 0 || x >= map.getX() || y > map.getY()) return 2;
+        if(selectedUnit.getUnitType().combatType == CombatType.SIEGE  && (selectedUnit.getState()!= UnitState.SETUP || ((NonCivilian)selectedUnit).getFortifiedCycle() < 1))
+            return 5;
+        if(selectedUnit.getUnitType().combatType == CombatType.SIEGE  &&
+                !map.isInRange(selectedUnit.getUnitType().range,selectedUnit.getCurrentTile(),map.coordinatesToTile(x,y)))
+            return 4;
         if(!canCityAttack(selectedCity,map.coordinatesToTile(x,y))) return 1;
         selectedCity.attack(map.coordinatesToTile(x,y));
         return 0;
@@ -623,6 +630,15 @@ public class GameController {
             tempNumber = civilizations.get(playerTurn).getResourcesAmount().get(resourcesTypes);
         civilizations.get(playerTurn).getResourcesAmount().remove(resourcesTypes);
         civilizations.get(playerTurn).getResourcesAmount().put(resourcesTypes,tempNumber+number);
+    }
+
+
+    public static int unitPillage(){
+        if(!(selectedUnit instanceof NonCivilian) || selectedUnit.getCivilization() != civilizations.get(playerTurn)) return 4;
+        if(((NonCivilian) selectedUnit).pillage()) return 0;
+        return 3;
+
+
     }
 
 }

@@ -181,12 +181,12 @@ public class Civilization {
         }
     }
     public int newScience() {
-        //TODO SOMETHING
         int returner = 0;
         for (City city : cities)
             returner += city.getPopulation();
-        if (cities.size() > 0)
-            returner += 3;
+        for (City city : cities) {
+            if(city.isCapital) returner += 3;
+        }
         return returner;
     }
     public void endTheTurn() {
