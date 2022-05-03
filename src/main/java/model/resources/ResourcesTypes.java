@@ -33,12 +33,12 @@ public enum ResourcesTypes {
     COAL("CL",ResourcesCategory.STRATEGIC,TechnologyType.SCIENTIFIC_THEORY,ImprovementType.MINE,0,1,0),
     HORSE("HO",ResourcesCategory.STRATEGIC,TechnologyType.ANIMAL_HUSBANDRY,ImprovementType.PASTURE,0,1,0),
     IRON("Fe",ResourcesCategory.STRATEGIC,TechnologyType.IRON_WORKING,ImprovementType.MINE,0,1,0);
-    private static final List<ResourcesTypes> VALUES = List.of(values());
+    public static final List<ResourcesTypes> VALUES = List.of(values());
     private static final int SIZE = VALUES.size();
     private static final Random RANDOM = new Random();
     public final String icon;
     public final ResourcesCategory resourcesCategory;
-    private final TechnologyType technologyTypes;
+    public final TechnologyType technologyTypes;
     public final ImprovementType improvementType;
     public final int gold;
     public final int food;

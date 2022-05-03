@@ -3,6 +3,9 @@ package view;
 import controller.GameController;
 import controller.TechnologyController;
 import model.Units.Unit;
+import model.Units.UnitType;
+import model.improvements.ImprovementType;
+import model.resources.ResourcesTypes;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;
 
@@ -53,8 +56,7 @@ public class ChooseTechnology extends Menu {
                                 getPlayerTurn()).getGettingResearchedTechnology()==null ||
                                 GameController.getCivilizations().get(GameController.getPlayerTurn())
                                         .doesContainTechnology(TechnologyType.nextTech
-                                                .get(researches.get(i).getTechnologyType()).get(j))==3)
-                )
+                                                .get(researches.get(i).getTechnologyType()).get(j))==3))
                     possibleTechnologies.add(new Technology(TechnologyType.nextTech
                             .get(researches.get(i).getTechnologyType()).get(j)));
         }
@@ -66,7 +68,27 @@ public class ChooseTechnology extends Menu {
                     ": " + TechnologyController.cyclesToComplete(GameController.getCivilizations()
                     .get(GameController.getPlayerTurn()).getGettingResearchedTechnology()) +
                     " cycles to complete";
-        System.out.println("\nBeing developed technology: " + tempString);
+        System.out.println("\nBeing developed technology: " + tempString + "\nwhat unlocks after:");
+        for(int i = 0; i < UnitType.VALUES.size() && tempString!=null; i++)
+            if(UnitType.VALUES.get(i).technologyRequired
+                    == GameController.getCivilizations().get(GameController.getPlayerTurn())
+                    .getGettingResearchedTechnology().getTechnologyType())
+                System.out.print(UnitType.VALUES.get(i) + " |");
+        for(int i = 0 ; i< ResourcesTypes.VALUES.size()&& tempString!=null;i++)
+        {
+            if(ResourcesTypes.VALUES.get(i).technologyTypes
+                    == GameController.getCivilizations().get(GameController.getPlayerTurn())
+                    .getGettingResearchedTechnology().getTechnologyType())
+                System.out.print(ResourcesTypes.VALUES.get(i) + " |");
+        }
+        for(int i = 0; i< ImprovementType.VALUES.size()&& tempString!=null; i++)
+        {
+            if(ImprovementType.VALUES.get(i).prerequisitesTechnologies
+                    == GameController.getCivilizations().get(GameController.getPlayerTurn())
+                    .getGettingResearchedTechnology().getTechnologyType())
+                System.out.print(ImprovementType.VALUES.get(i) + " |");
+        }
+        System.out.println();
         System.out.println("\nPossible next researches: ");
         for (int i = 0; i < possibleTechnologies.size(); i++)
         {

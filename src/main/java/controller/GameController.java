@@ -2,6 +2,8 @@ package controller;
 
 import model.*;
 import model.Units.*;
+import model.building.Building;
+import model.building.BuildingType;
 import model.features.FeatureType;
 import model.improvements.Improvement;
 import model.improvements.ImprovementType;
@@ -347,10 +349,15 @@ public class GameController {
                 selectedUnit.getCurrentTile().getContainedFeature().getFeatureType() != FeatureType.JUNGLE &&
                 selectedUnit.getCurrentTile().getContainedFeature().getFeatureType() != FeatureType.FOREST)
             return 4;
-        //TODO if(!isJungle && notroad && notrailroad) {....}
+        if(!isJungle &&
+            selectedUnit.getCurrentTile().getImprovement().getImprovementType()!= ImprovementType.ROAD &&
+                selectedUnit.getCurrentTile().getImprovement().getImprovementType()!= ImprovementType.RAILROAD)
+            return 5;
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(), TaskTypes.UNIT));
         if (isJungle)
             ((Civilian) selectedUnit).remove(1);
+        else
+            selectedUnit.getCurrentTile().setImprovement(null);
         return 0;
     }
 
@@ -453,7 +460,24 @@ public class GameController {
         return !map.isInRange(2, city.getMainTile(), tile);
 
     }
-
+    public static int buildWall()
+    {
+        if(selectedCity==null)
+            return 1;
+        if(selectedCity.getCivilization() != civilizations.get(playerTurn))
+            return 2;
+        if(selectedCity.getWall()!=null)
+            return 3;
+        for (Building building : selectedCity.getHalfProducedBuildings())
+            if (building.getRemainedCost() != 0 && building.getBuildingType() == BuildingType.WALL) {
+                selectedCity.setProduct(building);
+                return 0;
+            }
+        Building building = new Building(BuildingType.WALL);
+        selectedCity.getHalfProducedBuildings().add(building);
+        selectedCity.setProduct(building);
+        return 0;
+    }
 
     public static boolean nextTurnIfYouCan() {
         if (unfinishedTasks.size() != 0)
@@ -558,7 +582,7 @@ public class GameController {
         return selectedUnit;
     }
 
-    public static int startProducing(String productIcon) {
+    public static int startProducingUnit(String productIcon) {
         UnitType tempType = UnitType.stringToEnum(productIcon);
         if (tempType == null)
             return 1;
@@ -568,6 +592,7 @@ public class GameController {
             return 3;
         if (!selectedCity.doWeHaveEnoughMoney(tempType))
             return 4;
+
         for (Unit unit : selectedCity.getHalfProducedUnits())
             if (unit.getRemainedCost() != 0 && unit.getUnitType() == tempType) {
                 selectedCity.setProduct(unit);
