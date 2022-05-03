@@ -40,20 +40,23 @@ public class City implements CanAttack, CanGetAttacked {
     private final ArrayList<Building> halfProducedBuildings = new ArrayList<>();
 
     public City(Tile tile, String name, Civilization civilization) {
-
         this.mainTile = tile;
         mainTile.setCivilization(civilization);
         this.civilization = civilization;
         this.founder = civilization;
         this.name = name;
         this.tiles.add(mainTile);
-        for (int i = 0; i < 6; i++) {
-            this.tiles.add(mainTile.getNeighbours(i));
-            mainTile.getNeighbours(i).setCivilization(civilization);
-        }
+        for (int i = 0; i < 6; i++)
+            if(mainTile.getNeighbours(i)!=null)
+            {
+                this.tiles.add(mainTile.getNeighbours(i));
+                mainTile.getNeighbours(i).setCivilization(civilization);
+            }
         population = 1;
         Random random = new Random();
-        gettingWorkedOnByCitizensTiles.add(tiles.get(1 + random.nextInt(tiles.size() - 1)));
+        if(tiles.size()>1)
+            gettingWorkedOnByCitizensTiles.add(tiles.get(1 + random.nextInt(tiles.size() - 1)));
+        else gettingWorkedOnByCitizensTiles.add(tiles.get(0));
         for (Tile value : tiles) GameController.openNewArea(value, civilization, null);
         GameController.setUnfinishedTasks();
         isCapital = civilization.getCities().size() == 0;
@@ -63,13 +66,16 @@ public class City implements CanAttack, CanGetAttacked {
         int food = 0;
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
             food += gettingWorkedOnByCitizensTile.getTileType().food;
-            if(gettingWorkedOnByCitizensTile.getImprovement() != null) food +=gettingWorkedOnByCitizensTile.getImprovement().getImprovementType().food;
-            if(gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType()!= null) food += gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType().food;
-            if (gettingWorkedOnByCitizensTile.getResource().isTechnologyUnlocked(civilization, gettingWorkedOnByCitizensTile)
+            if(gettingWorkedOnByCitizensTile.getImprovement() != null)
+                food +=gettingWorkedOnByCitizensTile.getImprovement().getImprovementType().food;
+            if(gettingWorkedOnByCitizensTile.getContainedFeature()!=null &&
+                    gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType()!= null)
+                food += gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType().food;
+            if (gettingWorkedOnByCitizensTile.getResource()!=null &&
+                    gettingWorkedOnByCitizensTile.getResource().isTechnologyUnlocked(civilization, gettingWorkedOnByCitizensTile)
                     && gettingWorkedOnByCitizensTile.getImprovement() != null && (0==gettingWorkedOnByCitizensTile.getImprovement().getNeedsRepair())
-                    && gettingWorkedOnByCitizensTile.getResource().improvementType == gettingWorkedOnByCitizensTile.getImprovement().getImprovementType())
+                    && gettingWorkedOnByCitizensTile.getResource().getImprovementType() == gettingWorkedOnByCitizensTile.getImprovement().getImprovementType())
                 food += gettingWorkedOnByCitizensTile.getResource().food;
-
         }
         if (civilization.getHappiness() < 0) food /= 3;
         return food;
@@ -102,7 +108,7 @@ public class City implements CanAttack, CanGetAttacked {
             production += gettingWorkedOnByCitizensTile.getTileType().production
                      + citizen;
             if(gettingWorkedOnByCitizensTile.getImprovement() != null) production +=gettingWorkedOnByCitizensTile.getImprovement().getImprovementType().production;
-            if(gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType()!= null) production += gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType().production;
+            if(gettingWorkedOnByCitizensTile.getContainedFeature()!=null && gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType()!= null) production += gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType().production;
             if (gettingWorkedOnByCitizensTile.getResource().isTechnologyUnlocked(civilization, gettingWorkedOnByCitizensTile)
                     && gettingWorkedOnByCitizensTile.getImprovement() != null && (0==gettingWorkedOnByCitizensTile.getImprovement().getNeedsRepair())
                     && gettingWorkedOnByCitizensTile.getResource().improvementType == gettingWorkedOnByCitizensTile.getImprovement().getImprovementType())
@@ -203,7 +209,6 @@ public class City implements CanAttack, CanGetAttacked {
                 x++;
             }
         }
-
     }
 
     public int getGold() {
@@ -323,9 +328,8 @@ public class City implements CanAttack, CanGetAttacked {
 
     public void destroy() {
         civilization.getCities().remove(this);
-        for (Tile tile : tiles) {
+        for (Tile tile : tiles)
             tile.setImprovement(null);
-        }
     }
 
     public void changeCivilization(Civilization civilization) {

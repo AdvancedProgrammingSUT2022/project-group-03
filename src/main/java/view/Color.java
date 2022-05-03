@@ -1,4 +1,4 @@
-package model.improvements.view;
+package view;
 
 public enum Color {
     //Color end string, color reset

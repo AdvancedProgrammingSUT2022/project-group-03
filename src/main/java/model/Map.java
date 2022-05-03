@@ -11,7 +11,7 @@ import model.improvements.ImprovementType;
 import model.resources.ResourcesTypes;
 import model.tiles.Tile;
 import model.tiles.TileType;
-import model.improvements.view.Color;
+import view.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;

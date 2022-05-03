@@ -79,4 +79,8 @@ public enum ResourcesTypes {
                 return value;
         return null;
     }
+
+    public ImprovementType getImprovementType() {
+        return improvementType;
+    }
 }
