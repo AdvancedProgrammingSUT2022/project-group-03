@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 
+import model.improvements.ImprovementType;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;
 import model.tiles.Tile;
@@ -66,5 +67,10 @@ class ResourcesTypesTest {
     @Test
     void valueOf() {
         Assertions.assertSame(ResourcesTypes.valueOf("BANANA") , ResourcesTypes.BANANA);
+    }
+
+    @Test
+    void getImprovementType() {
+        assertEquals(ResourcesTypes.FUR.getImprovementType(), ImprovementType.CAMP);
     }
 }

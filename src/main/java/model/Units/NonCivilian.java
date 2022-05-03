@@ -7,7 +7,6 @@ import model.Civilization;
 import model.CanAttack;
 import model.tiles.Tile;
 
-import java.sql.Struct;
 
 
 public class NonCivilian extends Unit implements CanAttack{
@@ -18,14 +17,13 @@ public class NonCivilian extends Unit implements CanAttack{
         return unitType;
     }
 
-
     public void attack(Tile tile) {
         CanGetAttacked target;
         if(tile.getCity() != null) target = tile.getCity();
         else if (tile.getNonCivilian() != null) target = tile.getNonCivilian();
         else if (tile.getCivilian() != null) target = tile.getCivilian();
         else return ;
-        double ratio = (double) getCombatStrength(true) /target.getCombatStrength(false);
+        double ratio = getCombatStrength(true) /target.getCombatStrength(false);
         if((unitType == UnitType.PIKEMAN || unitType == UnitType.SPEARMAN) && target instanceof Unit && ((Unit) target).unitType.combatType == CombatType.MOUNTED)
             ratio *= 2;
         if(unitType.combatType == CombatType.SIEGE && target instanceof City) ratio *= 1.1;
@@ -41,7 +39,6 @@ public class NonCivilian extends Unit implements CanAttack{
             movementPrice = 0;
         }
         if(target instanceof Unit) ((Unit) target).setState(UnitState.AWAKE);
-
     }
     public int calculateDamage(double ratio){
         if(ratio >= 1) {
@@ -53,30 +50,17 @@ public class NonCivilian extends Unit implements CanAttack{
             return (int) (16.774 * Math.exp(0.5618 / ratio) / (0.3294 * Math.exp(1.1166 / ratio)));
         }
     }
+
     public boolean setUpForAttack(){
+        //TODO
         if(movementPrice <= 0) return false;
         movementPrice =0;
         state = UnitState.SETUP;
         return true;
     }
 
-
-
-    private boolean defense(Tile tile)
-    {
-        return true;
-    }
     public NonCivilian(Tile tile, Civilization civilization, UnitType unitType) {
         super(tile, civilization,unitType);
-//        switch (unitType)
-//        {
-//            case
-//        }
-    }
-
-    private void Fortify() {
-        if (fortifiedCycle == 0)
-            return;
     }
 
     public boolean pillage(){

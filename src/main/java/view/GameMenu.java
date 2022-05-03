@@ -223,7 +223,7 @@ public class GameMenu extends Menu {
     }
 
     private void unitSetupRanged() {
-
+        //TODO
     }
 
     private void unitAttack(String command) {

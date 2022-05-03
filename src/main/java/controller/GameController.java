@@ -128,6 +128,7 @@ public class GameController {
                 map.coordinatesToTile(x, y).getTileType() == TileType.OCEAN ||
                 map.coordinatesToTile(x, y).getTileType() == TileType.MOUNTAIN)
             return false;
+        //TODO if x,y ==current
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(), TaskTypes.UNIT));
         selectedUnit.setState(UnitState.AWAKE);
         return selectedUnit.move(map.coordinatesToTile(x, y), true);

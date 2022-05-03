@@ -10,6 +10,7 @@ class TechnologyTest {
     void getTechnologyType() {
         Technology technology = new Technology(TechnologyType.WRITING);
         assertEquals(technology.getTechnologyType(),TechnologyType.WRITING);
+        assertEquals(technology.getName(),"WRITING");
     }
 
     @Test
