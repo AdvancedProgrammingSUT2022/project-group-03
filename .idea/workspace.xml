@@ -81,7 +81,7 @@
       <recent name="model.features" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.UnitTest.endTheTurn">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="untitled5" />
@@ -100,6 +100,22 @@
       <option name="PACKAGE_NAME" value="model.Units" />
       <option name="MAIN_CLASS_NAME" value="model.Units.UnitTest" />
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UnitTest.endTheTurn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="untitled5" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.Units.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model.Units" />
+      <option name="MAIN_CLASS_NAME" value="model.Units.UnitTest" />
+      <option name="METHOD_NAME" value="endTheTurn" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -135,28 +151,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserTest.staticTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="untitled5" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="model" />
-      <option name="MAIN_CLASS_NAME" value="model.UserTest" />
-      <option name="METHOD_NAME" value="staticTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.UserTest" />
-      <item itemvalue="JUnit.UserTest.staticTest" />
       <item itemvalue="JUnit.UnitTest" />
       <item itemvalue="JUnit.UnitTest.move" />
+      <item itemvalue="JUnit.UnitTest.endTheTurn" />
     </list>
     <recent_temporary>
       <list>
@@ -164,7 +164,6 @@
         <item itemvalue="JUnit.UnitTest.move" />
         <item itemvalue="JUnit.UnitTest" />
         <item itemvalue="JUnit.UserTest" />
-        <item itemvalue="JUnit.UserTest.staticTest" />
       </list>
     </recent_temporary>
   </component>
@@ -212,6 +211,20 @@
     </option>
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java</url>
+          <line>102</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="this" />

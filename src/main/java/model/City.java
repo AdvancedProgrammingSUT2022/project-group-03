@@ -53,7 +53,7 @@ public class City implements CanAttack, CanGetAttacked {
         }
         population = 1;
         Random random = new Random();
-        gettingWorkedOnByCitizensTiles.add(tiles.get(1 + random.nextInt(5)));
+        gettingWorkedOnByCitizensTiles.add(tiles.get(1 + random.nextInt(tiles.size() - 1)));
         for (Tile value : tiles) GameController.openNewArea(value, civilization, null);
         GameController.setUnfinishedTasks();
         isCapital = civilization.getCities().size() == 0;
@@ -246,7 +246,7 @@ public class City implements CanAttack, CanGetAttacked {
     }
 
     public void attack(Tile tile) {
-        calculateDamage((double) getCombatStrength(true) / tile.getNonCivilian().getCombatStrength(false));
+        calculateDamage( getCombatStrength(true) / tile.getNonCivilian().getCombatStrength(false));
         tile.getNonCivilian().checkToDestroy();
         GameController.openNewArea(tile, civilization, null);
     }
@@ -283,8 +283,8 @@ public class City implements CanAttack, CanGetAttacked {
         return unitType.cost <= civilization.getGold();
     }
 
-    public int getCombatStrength(boolean isAttack) {
-        int strength = 1;
+    public double getCombatStrength(boolean isAttack) {
+        double strength = 1;
         if (mainTile.getNonCivilian() != null && mainTile.getNonCivilian().getState() == UnitState.GARRISON) {
             if (isAttack && mainTile.getNonCivilian().getUnitType().range > 1)
                 strength += mainTile.getNonCivilian().getUnitType().rangedCombatStrength;
@@ -296,7 +296,7 @@ public class City implements CanAttack, CanGetAttacked {
             if (!isAttack && (tile.getTileType() == TileType.MOUNTAIN || tile.getTileType() == TileType.HILL))
                 strength += 1;
         }
-        if(wall!=null && !isAttack) strength = (int) (strength * 1.2);
+        if(wall!=null && !isAttack) strength =  (strength * 1.2);
         return strength;
     }
 
