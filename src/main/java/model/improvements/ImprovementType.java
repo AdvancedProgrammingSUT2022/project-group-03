@@ -14,8 +14,8 @@ public enum ImprovementType {
     QUARRY(0,0,0,TechnologyType.MASONRY,"Qu"),
     TRADING_POST(0,1,0,TechnologyType.TRAPPING,"TP"),
     FACTORY(0,0,2,TechnologyType.ENGINEERING,"Fc"),
-    ROAD(0,-1,0,null,"RO"),
-    RAILROAD(0,-1,0,TechnologyType.STEAM_POWER,"RR");
+    ROAD(0,-1,0,null,"r"),
+    RAILROAD(0,-1,0,TechnologyType.STEAM_POWER,"R");
     public final int food;
     public final int gold;
     public final int production;

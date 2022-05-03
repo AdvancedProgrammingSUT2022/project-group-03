@@ -1,4 +1,4 @@
-package view;
+package model.improvements.view;
 
 import controller.LoginController;
 

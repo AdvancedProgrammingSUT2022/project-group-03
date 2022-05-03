@@ -11,7 +11,7 @@ import model.improvements.ImprovementType;
 import model.resources.ResourcesTypes;
 import model.tiles.Tile;
 import model.tiles.TileType;
-import view.Color;
+import model.improvements.view.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -479,9 +479,13 @@ public class Map {
                 else if (i < x && j < y && tileConditions[i][j] != null && tileConditions[i][j].getOpenedArea().getImprovement() != null)
                     jString = tileConditions[i][j].getOpenedArea().getImprovement().getImprovementType().icon;
                 else jString = "  ";
+                if(i < x && j < y && tileConditions[i][j] != null && tileConditions[i][j].getOpenedArea().getRoad() != null){
+                    openString = tileConditions[i][j].getOpenedArea().getRoad().getImprovementType().icon;
+                }
+                else openString = " ";
                 mapString.append(" ").append(color0).append("/").
-                        append(Color.RESET).append(currentTileColor).append(cString).append(",").append(jString)
-                        .append("  ").append(color2).append("\\").append(Color.RESET)
+                        append(Color.RESET).append(currentTileColor).append(cString).append(",").append(jString).append(openString)
+                        .append(" ").append(color2).append("\\").append(Color.RESET)
                         .append(rightTileColor).append("  ").append(iString).append(" ");
             }
             mapString.append(Color.RESET).append("\n");
@@ -566,11 +570,15 @@ public class Map {
                 else if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null && tileConditions[i + j % 2][j + 1].getOpenedArea().getImprovement() != null)
                     jString = tileConditions[i + j % 2][j + 1].getOpenedArea().getImprovement().getImprovementType().icon;
                 else jString = "  ";
+                if(j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null && tileConditions[i + j % 2][j + 1].getOpenedArea().getRoad() != null){
+                    openString = tileConditions[i + j % 2][j + 1].getOpenedArea().getRoad().getImprovementType().icon;
+                }
+                else openString = " ";
                 mapString.append(" ").append(color0).append("\\")
                         .append(Color.RESET).append(currentTileColor).append("  ")
                         .append(iString)
                         .append("  ").append(color2).append("/")
-                        .append(Color.RESET).append(rightTileColor).append(cString).append(",").append(jString).append(" ");
+                        .append(Color.RESET).append(rightTileColor).append(cString).append(",").append(jString).append(openString);
             }
 
             mapString.append(Color.RESET).append("\n");
@@ -627,7 +635,7 @@ public class Map {
         public int movePoint;
         public Tile tile;
 
-        TileAndMP(int movePoint, Tile tile) {
+        public TileAndMP(int movePoint, Tile tile) {
             this.movePoint = movePoint;
             this.tile = tile;
         }

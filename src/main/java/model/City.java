@@ -51,6 +51,9 @@ public class City implements CanAttack, CanGetAttacked {
             this.tiles.add(mainTile.getNeighbours(i));
             mainTile.getNeighbours(i).setCivilization(civilization);
         }
+        population = 1;
+        Random random = new Random();
+        gettingWorkedOnByCitizensTiles.add(tiles.get(1 + random.nextInt(5)));
         for (Tile value : tiles) GameController.openNewArea(value, civilization, null);
         GameController.setUnfinishedTasks();
         isCapital = civilization.getCities().size() == 0;
