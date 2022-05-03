@@ -15,6 +15,7 @@ public class Technology implements Producible {
     public TechnologyType getTechnologyType() {
         return technologyType;
     }
+    @Override
     public int getRemainedCost() {
         return remainedCost;
     }
@@ -22,6 +23,14 @@ public class Technology implements Producible {
     public void changeRemainedCost(int remainedScienceUntilCompleteTechnology) {
         this.remainedCost += remainedScienceUntilCompleteTechnology;
     }
+    @Override
     public int getCost(){return technologyType.cost;}
+    @Override
     public void setRemainedCost(int remainedCost){this.remainedCost = remainedCost;}
+
+    @Override
+    public String getName()
+    {
+        return technologyType.toString();
+    }
 }

@@ -12,6 +12,11 @@ public class Building implements Producible {
     }
 
     @Override
+    public String getName()
+    {
+        return buildingType.toString();
+    }
+    @Override
     public int getRemainedCost() {
         return remainedCost;
     }

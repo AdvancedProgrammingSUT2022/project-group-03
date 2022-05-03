@@ -1,12 +1,16 @@
 package view;
 
 import controller.GameController;
+import controller.TechnologyController;
 import model.City;
+import model.Civilization;
 import model.Map;
 import model.Units.Unit;
 import model.Units.UnitType;
 import model.improvements.ImprovementType;
 import model.resources.ResourcesTypes;
+import model.technologies.Technology;
+import model.technologies.TechnologyType;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -15,28 +19,40 @@ import java.util.regex.Matcher;
 public class GameMenu extends Menu {
 
     private void infoResearch() {
-        ArrayList<City> cities = GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities();
-        boolean doWeHaveAnyWorkingTechnology = false;
-        for (City city : cities) {
-            if (city.getProduct() == null)
-                continue;
-            doWeHaveAnyWorkingTechnology = true;
-            StringBuilder tempString = null;
-            if (city.getProduct() instanceof Unit) {
-                tempString = new StringBuilder(((Unit) city.getProduct()).getUnitType().toString() + ": (");
-                int cyclesToComplete = city.cyclesToComplete(city.getProduct().getRemainedCost());
-                if (cyclesToComplete == 12345)
-                    tempString.append("never, your production is 0)");
-                else
-                    tempString.append(city.cyclesToComplete(city.getProduct().getRemainedCost())).append(" days to complete)");
-            }
-            System.out.println(city.getName() + ": " + "Being developed technology: " + tempString);
-        }
-        if (!doWeHaveAnyWorkingTechnology)
+        Technology technology =
+                GameController.getCivilizations().get(GameController.getPlayerTurn()).getGettingResearchedTechnology();
+        if (technology == null) {
             System.out.println("you don't have any technology in the development right now");
+            return;
+        }
+        StringBuilder tempString;
+        tempString = new StringBuilder(technology.getTechnologyType() + ": (");
+        int cyclesToComplete = TechnologyController.cyclesToComplete(technology);
+        if (cyclesToComplete == 12345)
+            tempString.append("never, your science is 0)");
+        else
+            tempString.append(cyclesToComplete).append(" cycles to complete)");
+        System.out.println(tempString);
+        System.out.println("what unlocks after:");
+        for (int i = 0; i < UnitType.VALUES.size(); i++)
+            if (UnitType.VALUES.get(i).technologyRequired == technology.getTechnologyType())
+                System.out.print(UnitType.VALUES.get(i) + " |");
+        for (int i = 0; i < ResourcesTypes.VALUES.size(); i++)
+            if (ResourcesTypes.VALUES.get(i).technologyTypes == technology.getTechnologyType())
+                System.out.print(ResourcesTypes.VALUES.get(i) + " |");
+        for (int i = 0; i < ImprovementType.VALUES.size(); i++)
+            if (ImprovementType.VALUES.get(i).prerequisitesTechnologies == technology.getTechnologyType())
+                System.out.print(ImprovementType.VALUES.get(i) + " |");
+        System.out.println();
     }
 
     private void infoUnits() {
+        UnitsList unitsList = new UnitsList();
+        unitsList.printUnits();
+        unitsList.run(scanner);
+    }
+
+    public static void printMilitaryOverview() {
         ArrayList<Unit> units = GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits();
         for (Unit unit : units)
             printUnitInfo(unit);
@@ -44,35 +60,12 @@ public class GameMenu extends Menu {
             System.out.println("you don't have any units right now");
     }
 
-
-    private void infoCities() {
-        ArrayList<City> cities = GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities();
-        for (City city : cities) {
-            System.out.print(city.getName() +
-                    " | mainTileX: " + city.getMainTile().getX() +
-                    " | mainTileY: " + city.getMainTile().getY() +
-                    " | population: " + city.getPopulation() +
-                    " | food: " + city.collectFood() +
-                    " | citizen: " + city.getCitizen() +
-                    " | founder: " + city.getFounder().getUser().getNickname() +
-                    " | defense strength: " + city.getCombatStrength(false) +
-                    " | attack strength: " + city.getCombatStrength(true) +
-                    " | production: " + city.collectProduction() +
-                    " | doesHaveWall: ");
-            if (city.getWall()!=null)
-                System.out.println("Yes");
-            else System.out.println("No");
-            System.out.println("Tiles: ");
-            for (int i = 0; i < city.getTiles().size(); i++)
-                System.out.print(city.getTiles().get(i).getX() + ", " + city.getTiles().get(i).getY() + " |");
-            System.out.println();
-            for (int i = 0; i < city.getGettingWorkedOnByCitizensTiles().size(); i++)
-                System.out.print(city.getGettingWorkedOnByCitizensTiles().get(i).getX() +
-                        ", " + city.getGettingWorkedOnByCitizensTiles().get(i).getY() + " |");
-            System.out.println();
-        }
+    private void infoCities()
+    {
+        CitiesList citiesList = new CitiesList();
+        citiesList.printCities();
+        citiesList.run(scanner);
     }
-
     private void infoDiplomacy() {
 
     }
@@ -84,7 +77,26 @@ public class GameMenu extends Menu {
 
 
     private void infoDemographics() {
-
+        Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
+        System.out.print("nickname: " + civilization.getUser().getNickname());
+        City capital = civilization.getCapital();
+        if(capital!=null)
+            System.out.print(" | capital: " + capital.getName());
+        System.out.println(" | science: " + civilization.collectScience() +
+                " | happiness: " + civilization.getHappiness() +
+                " | gold: " + civilization.getGold() +
+                " | units: " + civilization.getUnits().size() +
+                " | size: " + civilization.getSize());
+        System.out.println("resources: ");
+        civilization.getResourcesAmount().forEach((k, v) -> {
+            if(v!=0)
+                System.out.println(k + ": " + v);
+        });
+        System.out.print("luxury resources: ");
+        civilization.getUsedLuxuryResources().forEach((k, v) -> {
+            if(v)
+                System.out.print(k + " |");
+        });
     }
 
 
@@ -97,9 +109,9 @@ public class GameMenu extends Menu {
 
     }
 
-
-    private void infoEconomic() {
-
+    public static void infoEconomic() {
+        for (City city : GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities())
+            CitiesList.cityBanner(city);
     }
 
 
@@ -373,7 +385,7 @@ public class GameMenu extends Menu {
         System.out.println(GameController.printMap());
     }
 
-    private void printUnitInfo(Unit unit) {
+    private static void printUnitInfo(Unit unit) {
         System.out.print(unit.getUnitType() +
                 ": | Health: " + unit.getHealth() +
                 " | currentX: " + unit.getCurrentTile().getX() +
@@ -673,7 +685,7 @@ public class GameMenu extends Menu {
                 "^MAP SHOW (\\w+)$",
                 "^INFO RESEARCH$",
                 "^INFO UNITS$",
-                "^INFO CITIES$", //20
+                "^INFO CITY$", //20
                 "^increase --turn (\\d+)$",
                 "^increase --gold (\\d+)$",
                 "^UNIT SLEEP$",
@@ -699,8 +711,10 @@ public class GameMenu extends Menu {
                 "^CHEAT RESOURCE (\\w+) (\\d+)$",//43
                 "^UNIT PILLAGE$",
                 "^BUILD WALL$",
-                "^skip unit task$"
-
+                "^skip unit task$",
+                "^military overview$",
+                "^info economic$",
+                "^info demographic$" //49
         };
     }
 
@@ -853,6 +867,15 @@ public class GameMenu extends Menu {
                 break;
             case 46:
                 skipUnitTask();
+                break;
+            case 47:
+                printMilitaryOverview();
+                break;
+            case 48:
+                infoEconomic();
+                break;
+            case 49:
+                infoDemographics();
                 break;
 
         }
