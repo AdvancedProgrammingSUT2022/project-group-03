@@ -5,43 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/building/Building.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/building/BuildingType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/CitiesList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/model/tiles/TileTypeTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/model/building/Building.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/model/building/BuildingType.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/view/CitiesList.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/model/tiles/TileTypeTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/description.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/project-template.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataBase/users.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/CanGetAttacked.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/CanGetAttacked.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/ImprovementType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/ImprovementType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/view/ChooseTechnology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/ChooseTechnology.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/GameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/view/ProductionCityMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/ProductionCityMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/resources/ResourcesTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/resources/ResourcesTypes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/features/FeatureTypeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/features/FeatureTypeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/resources/ResourcesTypesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/resources/ResourcesTypesTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/City.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/City.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Map$TileAndMP.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map$TileAndMP.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/ImprovementType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/ImprovementType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/view/ChooseTechnology.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/view/ChooseTechnology.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/view/GameMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/view/ProductionCityMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/view/ProductionCityMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/resources/ResourcesTypes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/resources/ResourcesTypes.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/features/FeatureTypeTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/features/FeatureTypeTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/resources/ResourcesTypesTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/resources/ResourcesTypesTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/model/Units/UnitTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/Units/UnitTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +89,7 @@
       <recent name="model.features" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.UnitTest.move">
+  <component name="RunManager" selected="JUnit.UnitTest.endTheTurn">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="untitled5" />
@@ -138,6 +108,22 @@
       <option name="PACKAGE_NAME" value="model.Units" />
       <option name="MAIN_CLASS_NAME" value="model.Units.UnitTest" />
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UnitTest.endTheTurn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="untitled5" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.Units.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model.Units" />
+      <option name="MAIN_CLASS_NAME" value="model.Units.UnitTest" />
+      <option name="METHOD_NAME" value="endTheTurn" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -173,36 +159,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserTest.staticTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="untitled5" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="model" />
-      <option name="MAIN_CLASS_NAME" value="model.UserTest" />
-      <option name="METHOD_NAME" value="staticTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
-      <item itemvalue="JUnit.UserTest" />
-      <item itemvalue="JUnit.UserTest.staticTest" />
       <item itemvalue="Application.Main" />
+      <item itemvalue="JUnit.UserTest" />
       <item itemvalue="JUnit.UnitTest" />
       <item itemvalue="JUnit.UnitTest.move" />
+      <item itemvalue="JUnit.UnitTest.endTheTurn" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.UnitTest.endTheTurn" />
         <item itemvalue="JUnit.UnitTest.move" />
         <item itemvalue="JUnit.UnitTest" />
         <item itemvalue="JUnit.UserTest" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.UserTest.staticTest" />
       </list>
     </recent_temporary>
   </component>
@@ -250,6 +220,20 @@
     </option>
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java</url>
+          <line>102</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="this" />
@@ -265,10 +249,13 @@
     <SUITE FILE_PATH="coverage/project_group_03$FeatureTypeTest.ic" NAME="FeatureTypeTest Coverage Results" MODIFIED="1651572265632" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.features.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_endTheTurn.ic" NAME="UnitTest.endTheTurn Coverage Results" MODIFIED="1651594761610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$ResourcesTypesTest_isTechnologyUnlocked.ic" NAME="ResourcesTypesTest.isTechnologyUnlocked Coverage Results" MODIFIED="1651581014381" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.resources.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_move.ic" NAME="UnitTest.move Coverage Results" MODIFIED="1651590001300" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_move.ic" NAME="UnitTest.move Coverage Results" MODIFIED="1651594152656" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.Units.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$ImprovementTypeTest.ic" NAME="ImprovementTypeTest Coverage Results" MODIFIED="1651566181103" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

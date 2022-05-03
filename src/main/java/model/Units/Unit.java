@@ -37,7 +37,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
         return false;
 
     }
-    public int getCombatStrength(boolean isAttack){
+    public double getCombatStrength(boolean isAttack){
         double combat;
         if(isAttack){
             combat = unitType.rangedCombatStrength;
@@ -171,7 +171,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
                 break;
             }
         if (tempTile == null ||
-                (tileAndMPS[i].movePoint != 0 && tileAndMPS[i].movePoint != unitType.movePoint &&
+                ((tileAndMPS[i].movePoint == 0 || tileAndMPS[i].movePoint == unitType.movePoint) &&
                         (tempTile.getNonCivilian() != null && this instanceof NonCivilian|| tempTile.getCivilian() != null && !(this instanceof NonCivilian))))
             return false;
 
