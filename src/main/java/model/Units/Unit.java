@@ -123,7 +123,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
                 if(currentTile.getContainedFeature().getCyclesToFinish()==0)
                 {
                     state=UnitState.AWAKE;
-                    currentTile.setFeature(null);
+                    currentTile.setContainedFeature(null);
                 }
             }
             else
@@ -233,10 +233,6 @@ public abstract class Unit implements Producible, CanGetAttacked {
     }
 
 
-    public void buildRoad(int isRailRoad)
-    {
-
-    }
 
     public void setCurrentTile(Tile currentTile) {
         this.currentTile = currentTile;

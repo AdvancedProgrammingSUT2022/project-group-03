@@ -3,19 +3,14 @@ package controller;
 import model.TaskTypes;
 import model.Tasks;
 import model.technologies.Technology;
-import model.technologies.TechnologyType;
 
 import java.util.ArrayList;
 
 public class TechnologyController {
     public static ArrayList<Technology> getCivilizationsResearches() {
-        return GameController.getCivilizations().get(GameController.getPlayerTurn()).getResearches();
+        return GameController.getCivilizations()
+                .get(GameController.getPlayerTurn()).getResearches();
     }
-
-    public static boolean canBeTheNextResearch(TechnologyType technologyType) {
-        return GameController.getCivilizations().get(GameController.getPlayerTurn()).canBeTheNextResearch(technologyType);
-    }
-
     public static boolean addTechnologyToProduction(ArrayList<Technology> possibleTechnologies, int entry) {
         if (entry > possibleTechnologies.size() || entry < 1)
             return false;
@@ -31,8 +26,8 @@ public class TechnologyController {
     }
 
     public static int cyclesToComplete(Technology technology) {
-        if (GameController.getCivilizations().get(GameController.getPlayerTurn()).newScience() == 0)
+        if (GameController.getCivilizations().get(GameController.getPlayerTurn()).collectScience() == 0)
             return 12345;
-        return (int) Math.ceil((double)technology.getRemainedCost() / (double)GameController.getCivilizations().get(GameController.getPlayerTurn()).newScience());
+        return (int) Math.ceil((double)technology.getRemainedCost() / (double)GameController.getCivilizations().get(GameController.getPlayerTurn()).collectScience());
     }
 }

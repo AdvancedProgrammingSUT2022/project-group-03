@@ -49,8 +49,8 @@ public class ChooseTechnology extends Menu {
             }
             System.out.println(i + 1 + ". " + researches.get(i).getTechnologyType());
             for (int j = 0; j < TechnologyType.nextTech.get(researches.get(i).getTechnologyType()).size(); j++)
-                if (TechnologyController.
-                        canBeTheNextResearch(TechnologyType.nextTech
+                if (GameController.getCivilizations()
+                        .get(GameController.getPlayerTurn()).canBeTheNextResearch(TechnologyType.nextTech
                                 .get(researches.get(i).getTechnologyType()).get(j)) &&
                         (GameController.getCivilizations().get(GameController.
                                 getPlayerTurn()).getGettingResearchedTechnology()==null ||

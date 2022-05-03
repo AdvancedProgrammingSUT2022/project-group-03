@@ -156,7 +156,7 @@ public class Map {
             featureType = FeatureType.randomFeature();
         }
         if (random.nextInt(4) != 0) {
-            tiles[i][j].setFeature(new Feature(featureType));
+            tiles[i][j].setContainedFeature(new Feature(featureType));
         }
     }
 
@@ -297,7 +297,7 @@ public class Map {
             for (int j = 0; j < y; j++) {
                 if (civilizationMap[i][j] == null) {
                     tiles[i][j] = new Tile(TileType.HILL,i,j);
-                    tiles[i][j].setFeature(new Feature(FeatureType.FOREST));
+                    tiles[i][j].setContainedFeature(new Feature(FeatureType.FOREST));
                 }
                 else tiles[i][j] = civilizationMap[i][j].getOpenedArea();
                 setNeighborsOfTile(tiles,i,j);
@@ -471,8 +471,8 @@ public class Map {
                 if (i + j % 2 > 1 && j < y - 1 && i + 1 < x && tileConditions[i - 1 + (j % 2)][j + 1] != null)
                     iString = tileConditions[i - 1 + (j % 2)][j + 1].getOpenedArea().getTileType().icon;
                 else iString = "   ";
-                if (i < x && j < y && tileConditions[i][j] != null && tileConditions[i][j].getOpenedArea().getResources() != null)
-                    cString = tileConditions[i][j].getOpenedArea().getResources().icon;
+                if (i < x && j < y && tileConditions[i][j] != null && tileConditions[i][j].getOpenedArea().getResource() != null)
+                    cString = tileConditions[i][j].getOpenedArea().getResource().icon;
                 else cString = "  ";
                 if (i < x && j < y && tileConditions[i][j] != null && tileConditions[i][j].getOpenedArea().getCity() != null)
                     jString = "C ";
@@ -558,8 +558,8 @@ public class Map {
                 if (i < x && j < y && tileConditions[i][j] != null)
                     iString = tileConditions[i][j].getOpenedArea().getTileType().icon;
                 else iString = "   ";
-                if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null && tileConditions[i + j % 2][j + 1].getOpenedArea().getResources() != null)
-                    cString = tileConditions[i + j % 2][j + 1].getOpenedArea().getResources().icon;
+                if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null && tileConditions[i + j % 2][j + 1].getOpenedArea().getResource() != null)
+                    cString = tileConditions[i + j % 2][j + 1].getOpenedArea().getResource().icon;
                 else cString = "  ";
                 if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null && tileConditions[i + j % 2][j + 1].getOpenedArea().getCity() != null)
                     jString = "C ";

@@ -12,5 +12,5 @@ public enum UnitState {
     REMOVING,
     BUILDING,
     MOVING,
-    SETUP,
+    SETUP
 }

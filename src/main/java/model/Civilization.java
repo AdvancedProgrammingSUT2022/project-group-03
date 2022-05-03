@@ -37,18 +37,16 @@ public class Civilization {
     }
 
     private final int color;
-    private int[][] openedArea = null;
 
     private int gold;
-    private ArrayList<Unit> units = new ArrayList<>();
-    private ArrayList<Technology> researches = new ArrayList<>();
-    private ArrayList<City> cities = new ArrayList<>();
+    private final ArrayList<Unit> units = new ArrayList<>();
+    private final ArrayList<Technology> researches = new ArrayList<>();
+    private final ArrayList<City> cities = new ArrayList<>();
     private int science;
     private int happiness = 2;
-    private Producible producingTechnology;
-    private HashMap<ResourcesTypes, Integer> resourcesAmount = new HashMap<>();
+    private final HashMap<ResourcesTypes, Integer> resourcesAmount = new HashMap<>();
     private Technology gettingResearchedTechnology;
-    private HashMap<ResourcesTypes, Boolean> usedLuxuryResources = new HashMap<>();
+    private final HashMap<ResourcesTypes, Boolean> usedLuxuryResources = new HashMap<>();
 
     public Civilization(User user, int color) {
         this.color = color;
@@ -93,10 +91,6 @@ public class Civilization {
         this.gettingResearchedTechnology = gettingResearchedTechnology;
     }
 
-    public void addTechnologyToResearches(Technology technology) {
-
-    }
-
     public void turnOffTileConditionsBoolean() {
         for (int i = 0; i < GameController.getMap().getX(); i++)
             for (int j = 0; j < GameController.getMap().getY(); j++)
@@ -106,14 +100,6 @@ public class Civilization {
 
     public int getScience() {
         return science;
-    }
-
-    public City findCityByName(String name) {
-        return null;
-    }
-
-    public City findCityByPosition(int x, int y) {
-        return null;
     }
 
     public ArrayList<City> getCities() {
@@ -156,7 +142,7 @@ public class Civilization {
             city.collectFood();
         }
 
-        science = newScience();
+        science = collectScience();
         for (Unit unit : units) unit.startTheTurn();
         gold -= units.size();
         /*if (gold < 0 && !units.isEmpty()) {
@@ -180,7 +166,7 @@ public class Civilization {
             }
         }
     }
-    public int newScience() {
+    public int collectScience() {
         int returner = 0;
         for (City city : cities)
             returner += city.getPopulation();
@@ -193,11 +179,6 @@ public class Civilization {
         //using
         for (Unit unit : units) unit.endTheTurn();
     }
-
-    public void deleteUnit(Unit unit) {
-
-    }
-
 
     public TileCondition[][] getTileConditions() {
         return tileConditions;

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 public enum TileType {
-    DESERT(new FeatureType[]{FeatureType.OASIS, FeatureType.FOREST},"DES",1,-33,0,0,0,
+    DESERT(new FeatureType[]{FeatureType.OASIS, FeatureType.DELTA},"DES",1,-33,0,0,0,
             new ResourcesTypes[]{ResourcesTypes.IRON, ResourcesTypes.GOLD, ResourcesTypes.SILVER, ResourcesTypes.GEMSTONE, ResourcesTypes.MARBLE, ResourcesTypes.COTTON, ResourcesTypes.INCENSE,ResourcesTypes.SHEEP},
             new ImprovementType[]{ImprovementType.FARM,ImprovementType.MINE,ImprovementType.PASTURE,ImprovementType.FIELD,ImprovementType.QUARRY,ImprovementType.TRADING_POST,ImprovementType.FACTORY}),
     FLAT(new FeatureType[]{FeatureType.FOREST, FeatureType.JUNGLE},"FLA",1,-33,1,1,0,

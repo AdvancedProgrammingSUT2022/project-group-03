@@ -539,7 +539,7 @@ public class GameController {
                 continue;
             civilization.getTileConditions()[tile.getNeighbours(i).getX()][tile.getNeighbours(i).getY()] =
                     new Civilization.TileCondition(tile.getNeighbours(i).
-                            CloneTileForCivilization(civilization), true);
+                            cloneTileForCivilization(civilization), true);
             if (unit != null && ((tile.getNeighbours(i).getCivilian() != null && tile.getNeighbours(i).getCivilian().getCivilization() != civilization) ||
                     (tile.getNeighbours(i).getNonCivilian() != null && tile.getNeighbours(i).getNonCivilian().getCivilization() != civilization))) {
                 if (unit.getState() == UnitState.ALERT)
@@ -559,7 +559,7 @@ public class GameController {
                 int neighbourY = tile.getNeighbours(i).getNeighbours(j).getY();
                 civilization.getTileConditions()[neighbourX][neighbourY] =
                         new Civilization.TileCondition(tile.getNeighbours(i).getNeighbours(j)
-                                .CloneTileForCivilization(civilization), true);
+                                .cloneTileForCivilization(civilization), true);
                 if (unit != null && ((tile.getNeighbours(i).getNeighbours(j).getCivilian() != null && tile.getNeighbours(i).getNeighbours(j).getCivilian().getCivilization() != civilization) ||
                         (tile.getNeighbours(i).getNeighbours(j).getNonCivilian() != null && tile.getNeighbours(i).getNeighbours(j).getNonCivilian().getCivilization() != civilization))) {
                     if (unit.getState() == UnitState.ALERT)
@@ -571,7 +571,7 @@ public class GameController {
         }
         civilization.getTileConditions()[tile.getX()][tile.getY()] =
                 new Civilization.TileCondition(tile.
-                        CloneTileForCivilization(civilization), true);
+                        cloneTileForCivilization(civilization), true);
         return isThereAnyEnemy;
     }
 

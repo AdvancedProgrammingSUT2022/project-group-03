@@ -7,9 +7,6 @@ import model.features.Feature;
 import model.features.FeatureType;
 import model.improvements.Improvement;
 import model.resources.ResourcesTypes;
-import model.technologies.Technology;
-
-import java.util.ArrayList;
 
 public class Tile {
     private boolean[] tilesWithRiver = new boolean[6];
@@ -85,7 +82,7 @@ public class Tile {
     }
 
 
-    public ResourcesTypes getResources() {
+    public ResourcesTypes getResource() {
         return containedResource;
     }
 
@@ -94,42 +91,42 @@ public class Tile {
         this.y = y;
         this.tileType = tileType;
     }
-    public void setFeature(Feature feature){
-        this.containedFeature = feature;
-    }
+
 
 
 
     public boolean isFeatureTypeValid(FeatureType featureType){
         FeatureType[] list = tileType.featureTypes;
-        for (FeatureType validFeatureType : list) {
+        for (FeatureType validFeatureType : list)
             if (validFeatureType == featureType) {
                 if(featureType == FeatureType.DELTA) {
-                    for (int i = 0; i < 6; i++) {
-                        if(tilesWithRiver[i]) return true;
-                    }
+                    for (int i = 0; i < 6; i++)
+                        if(tilesWithRiver[i])
+                            return true;
                     return false;
                 }
                 return true;
             }
-        }
-        return false;
-    }
+        return false; }
+
+
     public boolean isResourceTypeValid(ResourcesTypes resourcesType){
         ResourcesTypes[] list1 = tileType.resourcesTypes;
         ResourcesTypes[] list2 = new ResourcesTypes[1];
-        if(containedFeature != null)  list2 = containedFeature.getFeatureType().resourcesTypes;
-        for (ResourcesTypes types : list1) {
+        if(containedFeature != null) list2 = containedFeature.getFeatureType().resourcesTypes;
+        for (ResourcesTypes types : list1)
             if(types == resourcesType) return true;
-        }
-        for (ResourcesTypes types : list2) {
+        for (ResourcesTypes types : list2)
             if(types == resourcesType) return true;
-        }
         return false;
     }
+
+
+
     public void setResource(ResourcesTypes resource){
         this.containedResource = resource;
     }
+
 
     public void setCivilian(Unit unit) {
         if (unit == null) {
@@ -145,7 +142,7 @@ public class Tile {
     }
 
     public int getCombatChange(){
-        if(containedResource != null){
+        if(containedFeature != null){
             return this.containedFeature.getFeatureType().combatChange + tileType.combatChange;
         }
         else return tileType.combatChange;
@@ -155,7 +152,7 @@ public class Tile {
         this.civilization = civilization;
     }
 
-    public Tile CloneTileForCivilization(Civilization civilization) {
+    public Tile cloneTileForCivilization(Civilization civilization) {
         Tile newTile = new Tile(this.tileType, this.x, this.y);
         newTile.tilesWithRiver = this.tilesWithRiver;
         newTile.containedResource = null;

@@ -62,10 +62,6 @@ public enum UnitType {
         this.technologyRequired = technologyRequired;
     }
 
-    public String getIcon(){
-        return  icon;
-    }
-
     public int getDefaultMovementPrice()
     {
         return movePoint;

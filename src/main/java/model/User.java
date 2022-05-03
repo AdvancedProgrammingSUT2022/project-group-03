@@ -39,9 +39,6 @@ public class User {
     }
 
 
-    public static ArrayList<User> getListOfUsers() {
-        return listOfUsers;
-    }
 
     public static User findUser(String string, boolean isNickname) {
         for (User listOfUser : listOfUsers)

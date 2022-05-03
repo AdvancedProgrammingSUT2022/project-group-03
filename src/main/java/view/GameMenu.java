@@ -49,7 +49,6 @@ public class GameMenu extends Menu {
         ArrayList<City> cities = GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities();
         for (City city : cities) {
             System.out.print(city.getName() +
-                    ": | strength: " + city.getStrength() +
                     " | mainTileX: " + city.getMainTile().getX() +
                     " | mainTileY: " + city.getMainTile().getY() +
                     " | population: " + city.getPopulation() +
@@ -60,7 +59,7 @@ public class GameMenu extends Menu {
                     " | attack strength: " + city.getCombatStrength(true) +
                     " | production: " + city.collectProduction() +
                     " | doesHaveWall: ");
-            if (city.getDoesHaveWall())
+            if (city.getWall()!=null)
                 System.out.println("Yes");
             else System.out.println("No");
             System.out.println("Tiles: ");
@@ -380,7 +379,8 @@ public class GameMenu extends Menu {
                 " | currentX: " + unit.getCurrentTile().getX() +
                 " | currentY: " + unit.getCurrentTile().getY() +
                 " | defense Strength: " + unit.getCombatStrength(false) +
-                " | attack Strength: " + unit.getCombatStrength(true));
+                " | attack Strength: " + unit.getCombatStrength(true) +
+                " | movementPoint: " + unit.getMovementPrice());
         if (unit.getDestinationTile() != null)
             System.out.print(" | destinationX: " + unit.getDestinationTile().getX()
                     + " destinationY: " + unit.getDestinationTile().getY());
@@ -471,8 +471,8 @@ public class GameMenu extends Menu {
         System.out.println("founder: " + city.getFounder().getUser().getNickname());
         if (city.getCivilization() == GameController.getCivilizations().get(GameController.getPlayerTurn())) {
             System.out.println("gold: " + city.getGold());
-            System.out.println("production: " + city.getProduction());
-            System.out.println("food: " + city.getFood());
+            System.out.println("production: " + city.collectProduction());
+            System.out.println("food: " + city.collectFood());
             System.out.println("population: " + city.getPopulation());
             System.out.println("citizens: " + city.getCitizen());
             System.out.print("getting worked on tiles: ");
@@ -480,7 +480,8 @@ public class GameMenu extends Menu {
                 System.out.print(city.getGettingWorkedOnByCitizensTiles().get(i).getX() + "," +
                         city.getGettingWorkedOnByCitizensTiles().get(i).getY() + "   |   ");
             System.out.println("\nHP: " + city.getHP());
-            System.out.println("strength: " + city.getStrength());
+            System.out.println("attack strength: " + city.getCombatStrength(true));
+            System.out.println("defence strength: " + city.getCombatStrength(false));
         }
 
     }
