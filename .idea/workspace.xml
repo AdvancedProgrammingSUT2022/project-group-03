@@ -5,9 +5,55 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/test/java/model/features/FeatureTypeTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/model/improvements/ImprovementTypeTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/model/features/FeatureTypeTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/model/improvements/ImprovementTypeTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Civilization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Civilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Civilian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/UnitState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/UnitState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/Improvement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/Improvement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/ImprovementType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/ImprovementType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/tiles/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/tiles/Tile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ChooseTechnology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/ChooseTechnology.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/Color.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/Color.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/GameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/LoginMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ProductionCityMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/ProductionCityMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/ProfileMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/SettingMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/SettingMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/GameController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/City.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/City.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Civilization.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Civilization.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map$BestMoveClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map$BestMoveClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map$TileAndMP.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map$TileAndMP.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Civilian.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Civilian.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/NonCivilian.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/NonCivilian.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/Improvement.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/Improvement.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/ImprovementType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/ImprovementType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/tiles/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/tiles/Tile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/ChooseTechnology.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/Color.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MainMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/Menu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/ProductionCityMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/ProfileMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/SettingMenu.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,8 +65,10 @@
       <list>
         <option value="Enum" />
         <option value="package.json" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="AnnotationType" />
+        <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -56,15 +104,32 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\user\IdeaProjects\untitled5\src\main\java\model" />
     </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="model.resources" />
+      <recent name="model.improvements" />
+      <recent name="model.features" />
+    </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.ResourcesTypesTest.isTechnologyUnlocked">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="C:/Program Files/Java/jdk-17.0.2" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -74,9 +139,81 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="FeatureTypeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="untitled5" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.features.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model.features" />
+      <option name="MAIN_CLASS_NAME" value="model.features.FeatureTypeTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ImprovementTypeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="untitled5" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.improvements.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model.improvements" />
+      <option name="MAIN_CLASS_NAME" value="model.improvements.ImprovementTypeTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ResourcesTypesTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="untitled5" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.resources.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model.resources" />
+      <option name="MAIN_CLASS_NAME" value="model.resources.ResourcesTypesTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ResourcesTypesTest.isTechnologyUnlocked" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="untitled5" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.resources.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model.resources" />
+      <option name="MAIN_CLASS_NAME" value="model.resources.ResourcesTypesTest" />
+      <option name="METHOD_NAME" value="isTechnologyUnlocked" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="JUnit.FeatureTypeTest" />
+      <item itemvalue="JUnit.ImprovementTypeTest" />
+      <item itemvalue="JUnit.ResourcesTypesTest" />
+      <item itemvalue="JUnit.ResourcesTypesTest.isTechnologyUnlocked" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ResourcesTypesTest.isTechnologyUnlocked" />
+        <item itemvalue="JUnit.ResourcesTypesTest" />
+        <item itemvalue="JUnit.FeatureTypeTest" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.ImprovementTypeTest" />
       </list>
     </recent_temporary>
   </component>
@@ -124,20 +261,6 @@
     </option>
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/view/ProductionCityMenu.java</url>
-          <line>32</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/model/Civilization.java</url>
-          <line>220</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="this" />
@@ -145,7 +268,23 @@
       </configuration>
     </watches-manager>
   </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/project_group_03$Main.ic" NAME="Main Coverage Results" MODIFIED="1651414142451" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/project_group_03$FeatureTypeTest.ic" NAME="FeatureTypeTest Coverage Results" MODIFIED="1651572265632" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.features.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$ResourcesTypesTest_isTechnologyUnlocked.ic" NAME="ResourcesTypesTest.isTechnologyUnlocked Coverage Results" MODIFIED="1651576209470" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.resources.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$ImprovementTypeTest.ic" NAME="ImprovementTypeTest Coverage Results" MODIFIED="1651566181103" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.improvements.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$Main.ic" NAME="Main Coverage Results" MODIFIED="1651565924538" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/project_group_03$ResourcesTypesTest.ic" NAME="ResourcesTypesTest Coverage Results" MODIFIED="1651574962965" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.resources.*</FILTER>
+    </SUITE>
   </component>
 </project>

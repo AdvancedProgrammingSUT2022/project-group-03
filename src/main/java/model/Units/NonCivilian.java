@@ -7,6 +7,8 @@ import model.Civilization;
 import model.CanAttack;
 import model.tiles.Tile;
 
+import java.sql.Struct;
+
 
 public class NonCivilian extends Unit implements CanAttack{
 
@@ -65,8 +67,6 @@ public class NonCivilian extends Unit implements CanAttack{
     }
     public NonCivilian(Tile tile, Civilization civilization, UnitType unitType) {
         super(tile, civilization,unitType);
-        this.unitType = unitType;
-
 //        switch (unitType)
 //        {
 //            case
@@ -79,12 +79,18 @@ public class NonCivilian extends Unit implements CanAttack{
     }
 
     public boolean pillage(){
+        boolean result = false;
         if(currentTile.getCivilization() != civilization &&currentTile.getImprovement() != null
                 && currentTile.getImprovement().getNeedsRepair() < 3 ){
             currentTile.getImprovement().setNeedsRepair(3);
-            return true;
+            result = true;
         }
-        return false;
+        if(currentTile.getCivilization() != civilization &&
+                currentTile.getRoad() != null && currentTile.getRoad().getNeedsRepair() < 3){
+            currentTile.getImprovement().setNeedsRepair(3);
+            result = true;
+        }
+        return result;
     }
 
     public int getFortifiedCycle() {

@@ -1,4 +1,4 @@
-package view;
+package model.improvements.view;
 
 import controller.GameController;
 import model.City;
@@ -371,6 +371,7 @@ public class GameMenu extends Menu {
         if (unit.getDestinationTile() != null)
             System.out.print(" | destinationX: " + unit.getDestinationTile().getX()
                     + " destinationY: " + unit.getDestinationTile().getY());
+        System.out.println();
     }
 
     private void selectedUnitInfo() {
@@ -596,6 +597,18 @@ public class GameMenu extends Menu {
                 break;
         }
     }
+    private void pillage(){
+        switch (GameController.unitPillage()){
+            case 4:
+                System.out.println("Select your unit first");
+                break;
+            case 3:
+                System.out.println("Nothing to pillage");
+                break;
+            case 0:
+                System.out.println("Pillaged successfully");
+        }
+    }
 
     {
         regexes = new String[]{
@@ -790,6 +803,8 @@ public class GameMenu extends Menu {
                 cheatResource(command);
                 break;
             case 44:
+                pillage();
+                break;
 
         }
 

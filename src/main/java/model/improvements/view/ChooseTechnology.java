@@ -1,8 +1,7 @@
-package view;
+package model.improvements.view;
 
 import controller.GameController;
 import controller.TechnologyController;
-import model.Units.Unit;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;
 
@@ -39,23 +38,32 @@ public class ChooseTechnology extends Menu {
         for (int i = 0; i < researches.size(); i++) {
             if(researches.get(i).getRemainedCost()>0)
             {
-                if(GameController.getCivilizations().get(GameController.getPlayerTurn()).getGettingResearchedTechnology()!=researches.get(i))
+                if(GameController.getCivilizations().get(GameController.getPlayerTurn())
+                        .getGettingResearchedTechnology()!=researches.get(i))
                 possibleTechnologies.add(researches.get(i));
                 continue;
             }
             System.out.println(i + 1 + ". " + researches.get(i).getTechnologyType());
             for (int j = 0; j < TechnologyType.nextTech.get(researches.get(i).getTechnologyType()).size(); j++)
                 if (TechnologyController.
-                        canBeTheNextResearch(TechnologyType.nextTech.get(researches.get(i).getTechnologyType()).get(j)) &&
-                        (GameController.getCivilizations().get(GameController.getPlayerTurn()).getGettingResearchedTechnology()==null ||
-                                GameController.getCivilizations().get(GameController.getPlayerTurn()).doesContainTechnology(TechnologyType.nextTech.get(researches.get(i).getTechnologyType()).get(j))==3)
+                        canBeTheNextResearch(TechnologyType.nextTech
+                                .get(researches.get(i).getTechnologyType()).get(j)) &&
+                        (GameController.getCivilizations().get(GameController.
+                                getPlayerTurn()).getGettingResearchedTechnology()==null ||
+                                GameController.getCivilizations().get(GameController.getPlayerTurn())
+                                        .doesContainTechnology(TechnologyType.nextTech
+                                                .get(researches.get(i).getTechnologyType()).get(j))==3)
                 )
-                    possibleTechnologies.add(new Technology(TechnologyType.nextTech.get(researches.get(i).getTechnologyType()).get(j)));
+                    possibleTechnologies.add(new Technology(TechnologyType.nextTech
+                            .get(researches.get(i).getTechnologyType()).get(j)));
         }
         String tempString = null;
-        if(GameController.getCivilizations().get(GameController.getPlayerTurn()).getGettingResearchedTechnology()!=null)
-            tempString = GameController.getCivilizations().get(GameController.getPlayerTurn()).getGettingResearchedTechnology().getTechnologyType().toString() +
-                    ": " + TechnologyController.cyclesToComplete(GameController.getCivilizations().get(GameController.getPlayerTurn()).getGettingResearchedTechnology()) +
+        if(GameController.getCivilizations()
+                .get(GameController.getPlayerTurn()).getGettingResearchedTechnology()!=null)
+            tempString = GameController.getCivilizations().get(GameController.getPlayerTurn())
+                    .getGettingResearchedTechnology().getTechnologyType().toString() +
+                    ": " + TechnologyController.cyclesToComplete(GameController.getCivilizations()
+                    .get(GameController.getPlayerTurn()).getGettingResearchedTechnology()) +
                     " cycles to complete";
         System.out.println("\nBeing developed technology: " + tempString);
         System.out.println("\nPossible next researches: ");
@@ -63,9 +71,13 @@ public class ChooseTechnology extends Menu {
         {
             int cyclesToComplete = TechnologyController.cyclesToComplete(possibleTechnologies.get(i));
             if(cyclesToComplete ==12345)
-                System.out.println(i + 1 + ". " + possibleTechnologies.get(i).getTechnologyType() + ": never, your science is 0");
+                System.out.println(i + 1 + ". " +
+                        possibleTechnologies.get(i).getTechnologyType() +
+                        ": never, your science is 0");
             else
-                System.out.println(i + 1 + ". " + possibleTechnologies.get(i).getTechnologyType() + ": " + cyclesToComplete + " cycles to complete");
+                System.out.println(i + 1 + ". " +
+                        possibleTechnologies.get(i).getTechnologyType() +
+                        ": " + cyclesToComplete + " cycles to complete");
         }
     }
     private void addTechnologyToProduction(String command)
@@ -73,7 +85,8 @@ public class ChooseTechnology extends Menu {
         Matcher matcher = getMatcher(regexes[3],command);
         int entryNumber = Integer.parseInt(matcher.group(1));
         if(TechnologyController.addTechnologyToProduction(possibleTechnologies,entryNumber))
-            System.out.println(possibleTechnologies.get(entryNumber-1).getTechnologyType() + "'s production started successfully");
+            System.out.println(possibleTechnologies.get(entryNumber-1).getTechnologyType() +
+                    "'s production started successfully");
         else
             System.out.println("Invalid number");
     }

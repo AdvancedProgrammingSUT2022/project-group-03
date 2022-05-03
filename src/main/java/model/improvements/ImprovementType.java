@@ -13,7 +13,9 @@ public enum ImprovementType {
     FIELD(0,0,0,TechnologyType.CALENDAR,"Fi"), // KESHT VA KAR
     QUARRY(0,0,0,TechnologyType.MASONRY,"Qu"),
     TRADING_POST(0,1,0,TechnologyType.TRAPPING,"TP"),
-    FACTORY(0,0,2,TechnologyType.ENGINEERING,"Fc");
+    FACTORY(0,0,2,TechnologyType.ENGINEERING,"Fc"),
+    ROAD(0,-1,0,null,"r"),
+    RAILROAD(0,-1,0,TechnologyType.STEAM_POWER,"R");
     public final int food;
     public final int gold;
     public final int production;
@@ -31,6 +33,8 @@ public enum ImprovementType {
 
     public static ImprovementType stringToImprovementType(String string)
     {
+        if(string.equals("road") || string.equals("railroad"))
+            return null;
         for (ImprovementType value : VALUES)
             if(value.toString().toLowerCase(Locale.ROOT).equals(string.toLowerCase(Locale.ROOT)))
                 return value;

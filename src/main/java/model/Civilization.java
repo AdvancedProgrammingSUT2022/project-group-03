@@ -65,7 +65,7 @@ public class Civilization {
     public boolean isInTheCivilizationsBorder(Tile tile) {
         for (City city : cities) {
             for (Tile cityTile : city.getTiles()) {
-                if (cityTile == tile)
+                if (GameController.getMap().isInRange(2,cityTile,tile))
                     return true;
             }
         }
@@ -181,12 +181,12 @@ public class Civilization {
         }
     }
     public int newScience() {
-        //TODO SOMETHING
         int returner = 0;
         for (City city : cities)
             returner += city.getPopulation();
-        if (cities.size() > 0)
-            returner += 3;
+        for (City city : cities) {
+            if(city.isCapital) returner += 3;
+        }
         return returner;
     }
     public void endTheTurn() {
