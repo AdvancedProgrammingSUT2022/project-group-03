@@ -9,17 +9,16 @@ class FeatureTypeTest {
 
     @Test
     void randomFeature() {
-        FeatureType actual = FeatureType.randomFeature();
-        assertNotNull(actual);
+        assertNotNull(FeatureType.randomFeature());
+
     }
 
     @Test
     void canHaveTheImprovement() {
         boolean actual = FeatureType.canHaveTheImprovement(FeatureType.JUNGLE, ImprovementType.MINE);
-        boolean expected = true;
-        assertEquals(actual,expected);
+        assertTrue(actual);
         actual = FeatureType.canHaveTheImprovement(FeatureType.ICE, ImprovementType.MINE);
-        expected = false;
-        assertEquals(actual,expected);
+        assertFalse(actual);
     }
+
 }

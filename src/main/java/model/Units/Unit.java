@@ -37,7 +37,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
         return false;
 
     }
-    public int getCombatStrength(boolean isAttack){
+    public double getCombatStrength(boolean isAttack){
         double combat;
         if(isAttack){
             combat = unitType.rangedCombatStrength;
@@ -51,7 +51,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
                 currentTile.getContainedFeature().getFeatureType() == FeatureType.ICE)) combat *= 0.9;
 
         if(!isAttack && state == UnitState.FORTIFY)
-            combat = (combat * (((NonCivilian)this).getFortifiedCycle() + 100))/100;
+            combat = (combat * (((NonCivilian)this).getFortifiedCycle() + 10))/10;
         if (civilization.getHappiness() < 0) combat = 0.75 * combat;
         combat = combat*(50 + (double)health/2)/100;
         if (combat < 1) combat = 1;
@@ -171,7 +171,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
                 break;
             }
         if (tempTile == null ||
-                (tileAndMPS[i].movePoint != 0 && tileAndMPS[i].movePoint != unitType.movePoint &&
+                ((tileAndMPS[i].movePoint == 0 || tileAndMPS[i].movePoint == unitType.movePoint) &&
                         (tempTile.getNonCivilian() != null && this instanceof NonCivilian|| tempTile.getCivilian() != null && !(this instanceof NonCivilian))))
             return false;
 

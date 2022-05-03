@@ -1,10 +1,9 @@
-package view;
+package model.improvements.view;
 
 import controller.GameController;
 import controller.LoginController;
 import model.User;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

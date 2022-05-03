@@ -1,7 +1,8 @@
-package view;
+package model.improvements.view;
 
 import controller.GameController;
 import controller.TechnologyController;
+
 import model.Units.Unit;
 import model.Units.UnitType;
 import model.improvements.ImprovementType;
