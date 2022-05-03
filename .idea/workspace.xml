@@ -4,60 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/model/UserTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/model/resources/ResourcesCategoryTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/model/improvements/view/SettingMenu.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/model/Units/UnitTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/model/UserTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/model/resources/ResourcesCategoryTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataBase/users.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Civilization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/ImprovementType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/ImprovementType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/ChooseTechnology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/ChooseTechnology.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/CitiesList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/CitiesList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/Color.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/Color.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/GameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/LoginMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/ProductionCityMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/ProductionCityMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/ProfileMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/SettingMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/view/SettingMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/features/FeatureTypeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/features/FeatureTypeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/resources/ResourcesTypesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/resources/ResourcesTypesTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/City.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/City.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Civilization.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Civilization.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Map$BestMoveClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map$BestMoveClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Map$TileAndMP.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map$TileAndMP.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/ImprovementType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/ImprovementType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/view/ChooseTechnology.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/view/ChooseTechnology.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/view/GameMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/ChooseTechnology.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/CitiesList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/CitiesList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/Color.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/view/Color.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/view/LoginMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/MainMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/view/MainMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/Menu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/view/Menu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/ProductionCityMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/view/ProductionCityMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/ProfileMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/view/ProfileMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/SettingMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/features/FeatureTypeTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/features/FeatureTypeTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/resources/ResourcesTypesTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/resources/ResourcesTypesTest.class" afterDir="false" />
-    </list>
+    <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -205,9 +152,9 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.UserTest" />
       <item itemvalue="JUnit.UserTest.staticTest" />
-      <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.UnitTest" />
       <item itemvalue="JUnit.UnitTest.move" />
     </list>
@@ -280,10 +227,13 @@
     <SUITE FILE_PATH="coverage/project_group_03$FeatureTypeTest.ic" NAME="FeatureTypeTest Coverage Results" MODIFIED="1651572265632" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.features.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_endTheTurn.ic" NAME="UnitTest.endTheTurn Coverage Results" MODIFIED="1651594761610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$ResourcesTypesTest_isTechnologyUnlocked.ic" NAME="ResourcesTypesTest.isTechnologyUnlocked Coverage Results" MODIFIED="1651581014381" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.resources.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_move.ic" NAME="UnitTest.move Coverage Results" MODIFIED="1651590547057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_move.ic" NAME="UnitTest.move Coverage Results" MODIFIED="1651594152656" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.Units.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$ImprovementTypeTest.ic" NAME="ImprovementTypeTest Coverage Results" MODIFIED="1651566181103" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
