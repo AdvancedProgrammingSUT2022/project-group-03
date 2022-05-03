@@ -1,11 +1,6 @@
 package view;
 
 import controller.GameController;
-import model.City;
-import model.improvements.view.Menu;
-import model.technologies.Technology;
-
-import java.util.ArrayList;
 
 public class CitiesList extends Menu {
     {

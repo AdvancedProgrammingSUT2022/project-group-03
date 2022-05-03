@@ -1,4 +1,4 @@
-package model.improvements.view;
+package view;
 
 public class SettingMenu extends Menu{
 

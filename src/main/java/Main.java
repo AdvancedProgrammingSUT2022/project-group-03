@@ -1,7 +1,7 @@
-import model.improvements.view.GameMenu;
-import model.improvements.view.LoginMenu;
-import model.improvements.view.MainMenu;
-import model.improvements.view.ProfileMenu;
+import view.GameMenu;
+import view.LoginMenu;
+import view.MainMenu;
+import view.ProfileMenu;
 
 import java.util.Scanner;
 

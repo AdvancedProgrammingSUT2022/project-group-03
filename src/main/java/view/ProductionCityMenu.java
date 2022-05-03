@@ -1,4 +1,4 @@
-package model.improvements.view;
+package view;
 
 import controller.GameController;
 import model.City;

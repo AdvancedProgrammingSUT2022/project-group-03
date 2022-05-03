@@ -1,4 +1,4 @@
-package model.improvements.view;
+package view;
 
 import java.util.Locale;
 import java.util.Scanner;
