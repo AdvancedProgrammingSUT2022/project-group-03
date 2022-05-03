@@ -108,14 +108,19 @@ public class GameController {
         return false;
     }
 
-    public static void deleteFromUnfinishedTasks(Tasks tasks) {
-        for (int i = 0; i < unfinishedTasks.size(); i++) {
+    private static Tasks findTask(Tasks tasks)
+    {
+        for (int i = 0; i < unfinishedTasks.size(); i++)
             if (tasks.getTaskTypes() == unfinishedTasks.get(i).getTaskTypes() &&
-                    tasks.getTile() == unfinishedTasks.get(i).getTile()) {
-                unfinishedTasks.remove(i);
-                return;
-            }
-        }
+                    tasks.getTile() == unfinishedTasks.get(i).getTile())
+                return unfinishedTasks.get(i);
+        return null;
+    }
+    public static void deleteFromUnfinishedTasks(Tasks task) {
+        Tasks gettingDeletedTask = findTask(task);
+        if(findTask(task)==null)
+            return;
+        unfinishedTasks.remove(gettingDeletedTask);
     }
 
     public static boolean unitMoveTo(int x, int y) {
@@ -679,6 +684,18 @@ public class GameController {
         return 3;
 
 
+    }
+
+    public static int skipUnitTask()
+    {
+        if (selectedUnit == null)
+            return 1;
+        if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
+            return 2;
+        if(findTask(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT))==null)
+            return 3;
+        deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),TaskTypes.UNIT));
+        return 0;
     }
 
 }

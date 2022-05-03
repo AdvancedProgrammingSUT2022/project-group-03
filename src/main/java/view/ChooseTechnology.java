@@ -114,6 +114,8 @@ public class ChooseTechnology extends Menu {
             System.out.println("Invalid number");
     }
 
+
+
     @Override
     protected boolean commands(String command) {
         commandNumber = getCommandNumber(command, regexes);
