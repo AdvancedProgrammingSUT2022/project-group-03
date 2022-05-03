@@ -50,7 +50,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
                 currentTile.getContainedFeature().getFeatureType() == FeatureType.ICE)) combat *= 0.9;
 
         if(!isAttack && state == UnitState.FORTIFY)
-            combat = (combat * (((NonCivilian)this).getFortifiedCycle() + 100))/100;
+            combat = (combat * (((NonCivilian)this).getFortifiedCycle() + 10))/10;
         if (civilization.getHappiness() < 0) combat = 0.75 * combat;
         combat = combat*(50 + (double)health/2)/100;
         if (combat < 1) combat = 1;
