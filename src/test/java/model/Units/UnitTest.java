@@ -52,7 +52,8 @@ class UnitTest {
             nonCivilian.movementPrice = 1;
             nonCivilian.currentTile = tile;
             nonCivilian.destinationTile = tile;
-            assertTrue(nonCivilian.move(tile,true));
+            nonCivilian.endTheTurn();
+            assertEquals(1, nonCivilian.movementPrice);
         }
         nonCivilian.state = UnitState.AWAKE;
         try (MockedStatic<GameController> utilities = Mockito.mockStatic(GameController.class)) {
