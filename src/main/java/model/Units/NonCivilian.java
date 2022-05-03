@@ -40,6 +40,7 @@ public class NonCivilian extends Unit implements CanAttack{
         if(unitType.combatType != CombatType.MOUNTED || unitType.range > 1){
             movementPrice = 0;
         }
+        if(target instanceof Unit) ((Unit) target).setState(UnitState.AWAKE);
 
     }
     public int calculateDamage(double ratio){

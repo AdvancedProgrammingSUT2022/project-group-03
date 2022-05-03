@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="" />
+    <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataBase/users.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/CanGetAttacked.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/CanGetAttacked.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/City.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/City.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/NonCivilian.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/NonCivilian.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/improvements/view/GameMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/model/Units/UnitTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/Units/UnitTest.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -81,15 +93,16 @@
       <recent name="model.features" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.UnitTest.endTheTurn">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
+  <component name="RunManager" selected="JUnit.All in untitled5">
+    <configuration name="All in untitled5" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="untitled5" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UnitTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UnitTest.checkToDestroy" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="untitled5" />
       <extension name="coverage">
         <pattern>
@@ -99,28 +112,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="model.Units" />
       <option name="MAIN_CLASS_NAME" value="model.Units.UnitTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UnitTest.endTheTurn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="untitled5" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="model.Units.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="model.Units" />
-      <option name="MAIN_CLASS_NAME" value="model.Units.UnitTest" />
-      <option name="METHOD_NAME" value="endTheTurn" />
+      <option name="METHOD_NAME" value="checkToDestroy" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UnitTest.move" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UnitTest.getCombatStrength" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="untitled5" />
       <extension name="coverage">
         <pattern>
@@ -130,40 +128,58 @@
       </extension>
       <option name="PACKAGE_NAME" value="model.Units" />
       <option name="MAIN_CLASS_NAME" value="model.Units.UnitTest" />
-      <option name="METHOD_NAME" value="move" />
+      <option name="METHOD_NAME" value="getCombatStrength" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UnitTest.startTheTur" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="untitled5" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="model.*" />
+          <option name="PATTERN" value="model.Units.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="model" />
-      <option name="MAIN_CLASS_NAME" value="model.UserTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="model.Units" />
+      <option name="MAIN_CLASS_NAME" value="model.Units.UnitTest" />
+      <option name="METHOD_NAME" value="startTheTur" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UnitTest.startTheTurn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="untitled5" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.Units.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model.Units" />
+      <option name="MAIN_CLASS_NAME" value="model.Units.UnitTest" />
+      <option name="METHOD_NAME" value="startTheTurn" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Main" />
-      <item itemvalue="JUnit.UserTest" />
-      <item itemvalue="JUnit.UnitTest" />
-      <item itemvalue="JUnit.UnitTest.move" />
-      <item itemvalue="JUnit.UnitTest.endTheTurn" />
+      <item itemvalue="JUnit.UnitTest.checkToDestroy" />
+      <item itemvalue="JUnit.UnitTest.getCombatStrength" />
+      <item itemvalue="JUnit.UnitTest.startTheTur" />
+      <item itemvalue="JUnit.UnitTest.startTheTurn" />
+      <item itemvalue="JUnit.All in untitled5" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.UnitTest.move" />
-        <item itemvalue="JUnit.UnitTest" />
-        <item itemvalue="JUnit.UserTest" />
+        <item itemvalue="JUnit.All in untitled5" />
+        <item itemvalue="JUnit.UnitTest.startTheTurn" />
+        <item itemvalue="JUnit.UnitTest.startTheTur" />
+        <item itemvalue="JUnit.UnitTest.getCombatStrength" />
+        <item itemvalue="JUnit.UnitTest.checkToDestroy" />
       </list>
     </recent_temporary>
   </component>
@@ -193,6 +209,7 @@
       <workItem from="1651517339100" duration="649000" />
       <workItem from="1651518006067" duration="1615000" />
       <workItem from="1651558292795" duration="350000" />
+      <workItem from="1651597526470" duration="3660000" />
     </task>
     <servers />
   </component>
@@ -215,13 +232,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java</url>
-          <line>49</line>
+          <line>86</line>
           <option name="timeStamp" value="27" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java</url>
-          <line>102</line>
-          <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -240,11 +252,11 @@
     <SUITE FILE_PATH="coverage/project_group_03$FeatureTypeTest.ic" NAME="FeatureTypeTest Coverage Results" MODIFIED="1651572265632" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.features.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_endTheTurn.ic" NAME="UnitTest.endTheTurn Coverage Results" MODIFIED="1651594761610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest.ic" NAME="UnitTest Coverage Results" MODIFIED="1651597565738" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.Units.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$ResourcesTypesTest_isTechnologyUnlocked.ic" NAME="ResourcesTypesTest.isTechnologyUnlocked Coverage Results" MODIFIED="1651581014381" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.resources.*</FILTER>
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_endTheTurn.ic" NAME="UnitTest.endTheTurn Coverage Results" MODIFIED="1651597827569" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$UnitTest_move.ic" NAME="UnitTest.move Coverage Results" MODIFIED="1651594152656" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.Units.*</FILTER>
@@ -255,9 +267,24 @@
     <SUITE FILE_PATH="coverage/project_group_03$UserTest.ic" NAME="UserTest Coverage Results" MODIFIED="1651584284133" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_getCombatStrength.ic" NAME="UnitTest.getCombatStrength Coverage Results" MODIFIED="1651600259610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$Main.ic" NAME="Main Coverage Results" MODIFIED="1651580275841" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_startTheTurn.ic" NAME="UnitTest.startTheTurn Coverage Results" MODIFIED="1651601116576" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$ResourcesTypesTest_isTechnologyUnlocked.ic" NAME="ResourcesTypesTest.isTechnologyUnlocked Coverage Results" MODIFIED="1651581014381" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.resources.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$ResourcesTypesTest.ic" NAME="ResourcesTypesTest Coverage Results" MODIFIED="1651581105479" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.resources.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_checkToDestroy.ic" NAME="UnitTest.checkToDestroy Coverage Results" MODIFIED="1651600196970" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_startTheTur.ic" NAME="UnitTest.startTheTur Coverage Results" MODIFIED="1651600351922" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
     </SUITE>
   </component>
 </project>

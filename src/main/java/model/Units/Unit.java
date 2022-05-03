@@ -30,8 +30,8 @@ public abstract class Unit implements Producible, CanGetAttacked {
     public boolean checkToDestroy(){
         if (health <= 0) {
         civilization.getUnits().remove(this);
-        if(this instanceof NonCivilian) currentTile.setCivilian(null);
-        else currentTile.setNonCivilian(null);
+        if(this instanceof NonCivilian) currentTile.setNonCivilian(null);
+        else currentTile.setCivilian(null);
         return true;
         }
         return false;
@@ -46,7 +46,8 @@ public abstract class Unit implements Producible, CanGetAttacked {
         if(unitType.combatType != CombatType.MOUNTED && unitType.combatType != CombatType.SIEGE
                 && unitType.combatType != CombatType.ARMORED)
         combat = combat * ((double) (100 + currentTile.getCombatChange())/ 100);
-        if(currentTile.getContainedFeature() != null && (currentTile.getContainedFeature().getFeatureType() == FeatureType.JUNGLE
+        if(unitType == UnitType.CHARIOT_ARCHER && currentTile.getContainedFeature() != null &&
+                (currentTile.getContainedFeature().getFeatureType() == FeatureType.JUNGLE
                 ||currentTile.getContainedFeature().getFeatureType() == FeatureType.FOREST ||
                 currentTile.getContainedFeature().getFeatureType() == FeatureType.ICE)) combat *= 0.9;
 
@@ -55,7 +56,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
         if (civilization.getHappiness() < 0) combat = 0.75 * combat;
         combat = combat*(50 + (double)health/2)/100;
         if (combat < 1) combat = 1;
-        return (int) combat;
+        return  combat;
 
     }
     public int getHealth() {

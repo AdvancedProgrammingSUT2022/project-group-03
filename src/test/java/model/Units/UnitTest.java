@@ -3,6 +3,10 @@ package model.Units;
 import controller.GameController;
 import model.Civilization;
 import model.Map;
+import model.features.Feature;
+import model.features.FeatureType;
+import model.improvements.Improvement;
+import model.improvements.ImprovementType;
 import model.tiles.Tile;
 import model.tiles.TileType;
 import org.junit.jupiter.api.Assertions;
@@ -31,13 +35,46 @@ class UnitTest {
     @Mock
     Map.TileAndMP tileAndMP;
     @Test
-    void endTheTurn() {
+    void getCombatStrength() {
         when(civilization.getHappiness()).thenReturn(1);
         civilian.civilization = civilization;
         assertEquals(civilian.getCombatStrength(true),1);
         assertEquals(civilian.getCombatStrength(false),1);
+        NonCivilian nonCivilian = new NonCivilian(tile,civilization,UnitType.ARCHER);
+        nonCivilian.setState(UnitState.FORTIFY);
+        assertTrue(Math.abs(nonCivilian.getCombatStrength(false) - 2.5)< 0.5);
+        nonCivilian.cancelMission();
+        nonCivilian = new NonCivilian(tile,civilization,UnitType.CHARIOT_ARCHER);
+        tile.setContainedFeature(new Feature(FeatureType.JUNGLE));
+        assertTrue(Math.abs(nonCivilian.getCombatStrength(false) - 2.5)< 0.5);
+        when(civilization.getHappiness()).thenReturn(-1);
+        tile.setContainedFeature(new Feature(FeatureType.FOREST));
+        assertTrue(Math.abs(nonCivilian.getCombatStrength(false) - 2.5)< 0.5);
+        tile.setContainedFeature(new Feature(FeatureType.ICE));
+        assertTrue(Math.abs(nonCivilian.getCombatStrength(false) - 2.5)< 0.5);
 
     }
+    @Test
+    void endTheTurn(){
+
+    }
+    @Test
+    void checkToDestroy(){
+        NonCivilian nonCivilian = new NonCivilian(tile,civilization,UnitType.ARCHER);
+        nonCivilian.health = -1;
+        assertTrue(nonCivilian.checkToDestroy());
+        nonCivilian.health = 1;
+        assertFalse(nonCivilian.checkToDestroy());
+        civilian.health =-1;
+        civilian.civilization = civilization;
+        assertTrue(civilian.checkToDestroy());
+        assertEquals(civilian.getHealth(),-1);
+        assertEquals(civilian.getCivilization(),civilization);
+        assertEquals(civilian.getCost(),UnitType.SETTLER.cost);
+
+
+    }
+
 
     @Test
     void getDestinationTile() {
@@ -99,7 +136,6 @@ class UnitTest {
             civilian.movementPrice =3;
             tile.setCivilian(null);
             when(map.findNextTile(null,tile,3,UnitType.SETTLER.movePoint,tile1,true,civilian)).thenReturn(tileAndMP);
-            //when(map.findNextTile(null,tile,1,UnitType.SETTLER.movePoint,tile,true,civilian)).thenReturn(tileAndMP);
             assertTrue(civilian.move(tile1,false));
         }
 
@@ -144,5 +180,32 @@ class UnitTest {
 
     @Test
     void setCurrentTile() {
+    }
+
+    @Test
+    void startTheTurn(){
+        try (MockedStatic<GameController> utilities = Mockito.mockStatic(GameController.class)) {
+            utilities.when(() -> GameController.openNewArea(tile, civilization,nonCivilian)).thenReturn(true);
+            nonCivilian.health = 10;
+            nonCivilian.startTheTurn();
+            assertEquals(20,nonCivilian.getHealth());
+            nonCivilian.health = 100;
+            nonCivilian.setState(UnitState.FORTIFY);
+            nonCivilian.startTheTurn();
+            assertEquals(100,nonCivilian.getHealth());
+            Civilian civilian = new Civilian(tile,civilization,UnitType.WORKER);
+            civilian.state = UnitState.BUILDING;
+            tile.setImprovement(new Improvement(ImprovementType.FARM,tile));
+            civilian.startTheTurn();
+            assertEquals(5,tile.getImprovement().getRemainedCost());
+            tile.getImprovement().setRemainedCost(1);
+            civilian.startTheTurn();
+            assertEquals(0,tile.getImprovement().getRemainedCost());
+            tile.getImprovement().setNeedsRepair(1);
+            civilian.state = UnitState.REPAIRING;
+            civilian.startTheTurn();
+            assertEquals(0,tile.getImprovement().getNeedsRepair());
+
+        }
     }
 }
