@@ -10,6 +10,7 @@ class FeatureTypeTest {
     @Test
     void randomFeature() {
         assertNotNull(FeatureType.randomFeature());
+
     }
 
     @Test

@@ -2,6 +2,8 @@ package model;
 
 import controller.GameController;
 import model.Units.*;
+import model.building.Building;
+import model.building.BuildingType;
 import model.tiles.Tile;
 import model.tiles.TileType;
 
@@ -26,7 +28,7 @@ public class City implements CanAttack, CanGetAttacked {
     private int foodForCitizen = 1;
     public boolean isCapital;
     public int productionCheat;
-
+    private Building wall;
     public String getName() {
         return name;
     }
@@ -37,6 +39,7 @@ public class City implements CanAttack, CanGetAttacked {
 
     private ArrayList<Tile> gettingWorkedOnByCitizensTiles = new ArrayList<>();
     private ArrayList<Unit> halfProducedUnits = new ArrayList<>();
+    private ArrayList<Building> halfProducedBuildings = new ArrayList<>();
 
     public City(Tile tile, String name, Civilization civilization) {
 
@@ -163,8 +166,13 @@ public class City implements CanAttack, CanGetAttacked {
                         if (mainTile.getCivilian() != null)
                             ((Unit) product).setCurrentTile(properTileForProduct(true));
                     }
-                    GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().add((Unit) product);
+                    civilization.getUnits().add((Unit) product);
                     halfProducedUnits.remove(product);
+                }
+                if(product instanceof Building)
+                {
+                    if(((Building) product).getBuildingType() == BuildingType.WALL)
+                        wall = ((Building) product);
                 }
                 product = null;
             }
@@ -325,7 +333,7 @@ public class City implements CanAttack, CanGetAttacked {
             if (!isAttack && (tile.getTileType() == TileType.MOUNTAIN || tile.getTileType() == TileType.HILL))
                 strength += 1;
         }
-        if(doesHaveWall) strength = (int) (strength * 1.2);
+        if(wall!=null && !isAttack) strength = (int) (strength * 1.2);
         return strength;
     }
 
@@ -399,5 +407,13 @@ public class City implements CanAttack, CanGetAttacked {
 
     public ArrayList<Unit> getHalfProducedUnits() {
         return halfProducedUnits;
+    }
+
+    public ArrayList<Building> getHalfProducedBuildings() {
+        return halfProducedBuildings;
+    }
+
+    public Building getWall() {
+        return wall;
     }
 }

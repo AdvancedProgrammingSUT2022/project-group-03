@@ -73,7 +73,7 @@ public class ProductionCityMenu extends Menu{
             System.out.println("invalid number");
             return;
         }
-        GameController.startProducing(possibleUnits.get(number-1).getUnitType().toString());
+        GameController.startProducingUnit(possibleUnits.get(number-1).getUnitType().toString());
         System.out.println("production started successfully");
 
     }

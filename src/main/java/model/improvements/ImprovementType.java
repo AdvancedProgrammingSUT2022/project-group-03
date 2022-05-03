@@ -20,7 +20,7 @@ public enum ImprovementType {
     public final int gold;
     public final int production;
     public final String icon;
-    private static final List<ImprovementType> VALUES = List.of(values());
+    public static final List<ImprovementType> VALUES = List.of(values());
     public final TechnologyType prerequisitesTechnologies;
     ImprovementType(int food, int gold, int production, TechnologyType prerequisitesTechnologies,String icon)
     {

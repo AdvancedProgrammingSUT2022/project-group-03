@@ -635,7 +635,7 @@ public class Map {
         public int movePoint;
         public Tile tile;
 
-        TileAndMP(int movePoint, Tile tile) {
+        public TileAndMP(int movePoint, Tile tile) {
             this.movePoint = movePoint;
             this.tile = tile;
         }

@@ -21,17 +21,16 @@ public class GameMenu extends Menu {
             if (city.getProduct() == null)
                 continue;
             doWeHaveAnyWorkingTechnology = true;
-            String tempString = null;
-            if (city.getProduct() instanceof Unit)
-            {
-                tempString = ((Unit) city.getProduct()).getUnitType().toString() + ": (";
+            StringBuilder tempString = null;
+            if (city.getProduct() instanceof Unit) {
+                tempString = new StringBuilder(((Unit) city.getProduct()).getUnitType().toString() + ": (");
                 int cyclesToComplete = city.cyclesToComplete(city.getProduct().getRemainedCost());
-                if(cyclesToComplete==12345)
-                    tempString += "never, your production is 0)";
+                if (cyclesToComplete == 12345)
+                    tempString.append("never, your production is 0)");
                 else
-                    tempString+= city.cyclesToComplete(city.getProduct().getRemainedCost()) + " days to complete)";
+                    tempString.append(city.cyclesToComplete(city.getProduct().getRemainedCost())).append(" days to complete)");
             }
-            System.out.print(city.getName() + ": " + "Being developed technology: " + tempString);
+            System.out.println(city.getName() + ": " + "Being developed technology: " + tempString);
         }
         if (!doWeHaveAnyWorkingTechnology)
             System.out.println("you don't have any technology in the development right now");
@@ -54,15 +53,24 @@ public class GameMenu extends Menu {
                     " | mainTileX: " + city.getMainTile().getX() +
                     " | mainTileY: " + city.getMainTile().getY() +
                     " | population: " + city.getPopulation() +
-                    " | food: " + city.getFood() +
+                    " | food: " + city.collectFood() +
                     " | citizen: " + city.getCitizen() +
                     " | founder: " + city.getFounder().getUser().getNickname() +
+                    " | defense strength: " + city.getCombatStrength(false) +
+                    " | attack strength: " + city.getCombatStrength(true) +
+                    " | production: " + city.collectProduction() +
                     " | doesHaveWall: ");
             if (city.getDoesHaveWall())
                 System.out.println("Yes");
             else System.out.println("No");
-
-
+            System.out.println("Tiles: ");
+            for (int i = 0; i < city.getTiles().size(); i++)
+                System.out.print(city.getTiles().get(i).getX() + ", " + city.getTiles().get(i).getY() + " |");
+            System.out.println();
+            for (int i = 0; i < city.getGettingWorkedOnByCitizensTiles().size(); i++)
+                System.out.print(city.getGettingWorkedOnByCitizensTiles().get(i).getX() +
+                        ", " + city.getGettingWorkedOnByCitizensTiles().get(i).getY() + " |");
+            System.out.println();
         }
     }
 
@@ -228,10 +236,11 @@ public class GameMenu extends Menu {
         }
 
     }
+
     private void cityAttack(String command) {
         Matcher matcher = getMatcher(regexes[39], command);
         switch (GameController.cityAttack(Integer.parseInt(matcher.group(1)),
-                Integer.parseInt(matcher.group(2)))){
+                Integer.parseInt(matcher.group(2)))) {
             case 0:
                 System.out.println("Attacked successfully");
                 break;
@@ -324,6 +333,8 @@ public class GameMenu extends Menu {
             System.out.println("the selected unit is not a worker");
         if (result == 4)
             System.out.println("the selected tile does not have a jungle");
+        if (result == 5)
+            System.out.println("the selected tile does not have any road or railroad");
     }
 
     private void unitRepair() {
@@ -367,7 +378,9 @@ public class GameMenu extends Menu {
         System.out.print(unit.getUnitType() +
                 ": | Health: " + unit.getHealth() +
                 " | currentX: " + unit.getCurrentTile().getX() +
-                " | currentY: " + unit.getCurrentTile().getY());
+                " | currentY: " + unit.getCurrentTile().getY() +
+                " | defense Strength: " + unit.getCombatStrength(false) +
+                " | attack Strength: " + unit.getCombatStrength(true));
         if (unit.getDestinationTile() != null)
             System.out.print(" | destinationX: " + unit.getDestinationTile().getX()
                     + " destinationY: " + unit.getDestinationTile().getY());
@@ -394,7 +407,7 @@ public class GameMenu extends Menu {
 
     private void startProducing(String command) {
         Matcher matcher = getMatcher(regexes[10], command);
-        int result = GameController.startProducing(matcher.group(1));
+        int result = GameController.startProducingUnit(matcher.group(1));
         if (result == 0)
             System.out.println("production started successfully");
         if (result == 1)
@@ -507,20 +520,18 @@ public class GameMenu extends Menu {
             System.out.println("this improvement cannot be inserted here");
     }
 
-    private void cheatScience(String command)
-    {
-        Matcher matcher = getMatcher(regexes[41],command);
+    private void cheatScience(String command) {
+        Matcher matcher = getMatcher(regexes[41], command);
         GameController.cheatScience(Integer.parseInt(matcher.group(1)));
     }
 
-    private void cheatProduction(String command)
-    {
-        Matcher matcher = getMatcher(regexes[42],command);
+    private void cheatProduction(String command) {
+        Matcher matcher = getMatcher(regexes[42], command);
         GameController.cheatProduction(Integer.parseInt(matcher.group(1)));
     }
-    private void cheatResource(String command)
-    {
-        Matcher matcher = getMatcher(regexes[43],command);
+
+    private void cheatResource(String command) {
+        Matcher matcher = getMatcher(regexes[43], command);
         GameController.cheatResource(Integer.parseInt(matcher.group(2)), ResourcesTypes.stringToEnum(matcher.group(1)));
     }
 
@@ -530,10 +541,11 @@ public class GameMenu extends Menu {
                 .increaseGold(Integer.parseInt(matcher.group(1)));
         System.out.println("cheat activated successfully");
     }
-    private void cityDestiny(boolean burn){
-        switch (GameController.cityDestiny(burn)){
+
+    private void cityDestiny(boolean burn) {
+        switch (GameController.cityDestiny(burn)) {
             case 0:
-                if(burn) System.out.println("The city destroyed");
+                if (burn) System.out.println("The city destroyed");
                 else System.out.println("The city captured");
                 break;
             case 1:
@@ -546,15 +558,16 @@ public class GameMenu extends Menu {
                 System.out.println("Can not burn a capital");
         }
     }
-    private void assignCitizen(String command){
+
+    private void assignCitizen(String command) {
         Matcher matcher = getMatcher(regexes[38], command);
         int x;
-        if(matcher.group(3) != null)
-            x =GameController.reAssignCitizen(Integer.parseInt(matcher.group(1)),Integer
-                    .parseInt(matcher.group(2)),Integer.parseInt(matcher.group(3)),Integer.parseInt(matcher.group(4)));
-        else x= GameController.assignCitizen(Integer.parseInt(matcher.group(1)),Integer
+        if (matcher.group(3) != null)
+            x = GameController.reAssignCitizen(Integer.parseInt(matcher.group(1)), Integer
+                    .parseInt(matcher.group(2)), Integer.parseInt(matcher.group(3)), Integer.parseInt(matcher.group(4)));
+        else x = GameController.assignCitizen(Integer.parseInt(matcher.group(1)), Integer
                 .parseInt(matcher.group(2)));
-        switch (x){
+        switch (x) {
             case 0:
                 System.out.println("Assigned successfully");
                 break;
@@ -574,9 +587,22 @@ public class GameMenu extends Menu {
 
 
     }
-    private void buyTile(String command){
+
+    private void buildWall() {
+        int result = GameController.buildWall();
+        if (result == 0)
+            System.out.println("wall's production started successfully");
+        if (result == 1)
+            System.out.println("no city is selected");
+        if (result == 2)
+            System.out.println("the selected city is not yours");
+        if (result == 3)
+            System.out.println("the selected city already has a wall");
+    }
+
+    private void buyTile(String command) {
         Matcher matcher = getMatcher(regexes[40], command);
-        switch (GameController.buyTile(Integer.parseInt(matcher.group(1)),Integer.parseInt(matcher.group(2)))) {
+        switch (GameController.buyTile(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2)))) {
             case 0:
                 System.out.println("Tile added successfully");
                 break;
@@ -597,8 +623,9 @@ public class GameMenu extends Menu {
                 break;
         }
     }
-    private void pillage(){
-        switch (GameController.unitPillage()){
+
+    private void pillage() {
+        switch (GameController.unitPillage()) {
             case 4:
                 System.out.println("Select your unit first");
                 break;
@@ -608,6 +635,19 @@ public class GameMenu extends Menu {
             case 0:
                 System.out.println("Pillaged successfully");
         }
+    }
+
+
+    private void skipUnitTask() {
+        int result = GameController.skipUnitTask();
+        if (result == 0)
+            System.out.println("task skipped successfully");
+        if (result == 1)
+            System.out.println("no unit is selected");
+        if (result == 2)
+            System.out.println("the selected unit is not yours");
+        if (result == 3)
+            System.out.println("the selected unit does not need a task");
     }
 
     {
@@ -657,6 +697,8 @@ public class GameMenu extends Menu {
                 "^CHEAT PRODUCTION (\\d+)$",
                 "^CHEAT RESOURCE (\\w+) (\\d+)$",//43
                 "^UNIT PILLAGE$",
+                "^BUILD WALL$",
+                "^skip unit task$"
 
         };
     }
@@ -804,6 +846,12 @@ public class GameMenu extends Menu {
                 break;
             case 44:
                 pillage();
+                break;
+            case 45:
+                buildWall();
+                break;
+            case 46:
+                skipUnitTask();
                 break;
 
         }
