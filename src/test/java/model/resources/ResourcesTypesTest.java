@@ -73,4 +73,10 @@ class ResourcesTypesTest {
     void getImprovementType() {
         assertEquals(ResourcesTypes.FUR.getImprovementType(), ImprovementType.CAMP);
     }
+
+    @Test
+    void getFood()
+    {
+        assertEquals(ResourcesTypes.FUR.getFood(),0);
+    }
 }

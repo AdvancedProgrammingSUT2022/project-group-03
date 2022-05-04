@@ -9,21 +9,13 @@
       <change beforePath="$PROJECT_DIR$/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataBase/users.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/technologies/Technology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/technologies/Technology.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/resources/ResourcesTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/resources/ResourcesTypes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/model/CityTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/CityTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/building/BuildingTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/building/BuildingTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/model/resources/ResourcesTypesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/resources/ResourcesTypesTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/technologies/TechnologyTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/technologies/TechnologyTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/technologies/Technology.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/technologies/Technology.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/Units/UnitTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/Units/UnitTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/building/BuildingTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/building/BuildingTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/resources/ResourcesTypesTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/resources/ResourcesTypesTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/technologies/TechnologyTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/technologies/TechnologyTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/City.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/City.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/view/GameMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/resources/ResourcesTypes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/resources/ResourcesTypes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/model/CityTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/CityTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +103,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CityTest.checkToDestroy" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CityTest.attack" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Civilization" />
       <extension name="coverage">
         <pattern>
@@ -121,13 +113,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="model" />
       <option name="MAIN_CLASS_NAME" value="model.CityTest" />
-      <option name="METHOD_NAME" value="checkToDestroy" />
+      <option name="METHOD_NAME" value="attack" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CityTest.getCombatStrength" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CityTest.collectFood" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Civilization" />
       <extension name="coverage">
         <pattern>
@@ -137,13 +129,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="model" />
       <option name="MAIN_CLASS_NAME" value="model.CityTest" />
-      <option name="METHOD_NAME" value="getCombatStrength" />
+      <option name="METHOD_NAME" value="collectFood" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CityTest.getPopulation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CityTest.getGold" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Civilization" />
       <extension name="coverage">
         <pattern>
@@ -153,13 +145,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="model" />
       <option name="MAIN_CLASS_NAME" value="model.CityTest" />
-      <option name="METHOD_NAME" value="getPopulation" />
+      <option name="METHOD_NAME" value="getGold" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CityTest.isTileNeighbor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CityTest.startTheTurn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Civilization" />
       <extension name="coverage">
         <pattern>
@@ -169,26 +161,26 @@
       </extension>
       <option name="PACKAGE_NAME" value="model" />
       <option name="MAIN_CLASS_NAME" value="model.CityTest" />
-      <option name="METHOD_NAME" value="isTileNeighbor" />
+      <option name="METHOD_NAME" value="startTheTurn" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.CityTest.getPopulation" />
-      <item itemvalue="JUnit.CityTest.isTileNeighbor" />
-      <item itemvalue="JUnit.CityTest.checkToDestroy" />
-      <item itemvalue="JUnit.CityTest.getCombatStrength" />
+      <item itemvalue="JUnit.CityTest.startTheTurn" />
+      <item itemvalue="JUnit.CityTest.collectFood" />
+      <item itemvalue="JUnit.CityTest.getGold" />
       <item itemvalue="JUnit.All in Civilization" />
+      <item itemvalue="JUnit.CityTest.attack" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.All in Civilization" />
-        <item itemvalue="JUnit.CityTest.getCombatStrength" />
-        <item itemvalue="JUnit.CityTest.checkToDestroy" />
-        <item itemvalue="JUnit.CityTest.isTileNeighbor" />
-        <item itemvalue="JUnit.CityTest.getPopulation" />
+        <item itemvalue="JUnit.CityTest.attack" />
+        <item itemvalue="JUnit.CityTest.getGold" />
+        <item itemvalue="JUnit.CityTest.startTheTurn" />
+        <item itemvalue="JUnit.CityTest.collectFood" />
       </list>
     </recent_temporary>
   </component>
@@ -220,7 +212,10 @@
       <workItem from="1651558292795" duration="350000" />
       <workItem from="1651597526470" duration="3660000" />
       <workItem from="1651612204917" duration="1792000" />
-      <workItem from="1651614021311" duration="4869000" />
+      <workItem from="1651614021311" duration="5525000" />
+      <workItem from="1651654180614" duration="2196000" />
+      <workItem from="1651656420264" duration="10453000" />
+      <workItem from="1651667879141" duration="1743000" />
     </task>
     <servers />
   </component>
@@ -249,6 +244,15 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.util.ConcurrentModificationException" package="java.util" />
+          <option name="timeStamp" value="39" />
+        </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/model/City.java</url>
+          <line>91</line>
+          <option name="timeStamp" value="68" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -285,7 +289,10 @@
     <SUITE FILE_PATH="coverage/project_group_03$ImprovementTest.ic" NAME="ImprovementTest Coverage Results" MODIFIED="1651587685350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.improvements.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_getCombatStrength.ic" NAME="CityTest.getCombatStrength Coverage Results" MODIFIED="1651618797715" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_getCombatStrength.ic" NAME="CityTest.getCombatStrength Coverage Results" MODIFIED="1651656349132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_startTheTurn.ic" NAME="CityTest.startTheTurn Coverage Results" MODIFIED="1651667736775" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$TileTest.ic" NAME="TileTest Coverage Results" MODIFIED="1651587739860" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
@@ -321,10 +328,19 @@
     <SUITE FILE_PATH="coverage/project_group_03$UnitTest_checkToDestroy.ic" NAME="UnitTest.checkToDestroy Coverage Results" MODIFIED="1651600196970" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.Units.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_expandBorders.ic" NAME="CityTest.expandBorders Coverage Results" MODIFIED="1651655591161" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_getCitizen.ic" NAME="CityTest.getCitizen Coverage Results" MODIFIED="1651654647783" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$BuildingTest_getName.ic" NAME="BuildingTest.getName Coverage Results" MODIFIED="1651611985286" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.building.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$CityTest.ic" NAME="CityTest Coverage Results" MODIFIED="1651616172218" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_collectResources.ic" NAME="CityTest.collectResources Coverage Results" MODIFIED="1651665891217" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$UnitTest_getCombatStrength.ic" NAME="UnitTest.getCombatStrength Coverage Results" MODIFIED="1651613104329" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
@@ -333,10 +349,13 @@
     <SUITE FILE_PATH="coverage/project_group_03$FeatureTypeTest.ic" NAME="FeatureTypeTest Coverage Results" MODIFIED="1651587669204" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.features.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_getGold.ic" NAME="CityTest.getGold Coverage Results" MODIFIED="1651667847383" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$TechnologyControllerTest_addTechnologyToProduction.ic" NAME="TechnologyControllerTest.addTechnologyToProduction Coverage Results" MODIFIED="1651590109836" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>controller.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$All_in_Civilization.ic" NAME="All in Civilization Coverage Results" MODIFIED="1651618815439" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/project_group_03$All_in_Civilization.ic" NAME="All in Civilization Coverage Results" MODIFIED="1651668864601" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/project_group_03$CityTest_calculateDamage.ic" NAME="CityTest.calculateDamage Coverage Results" MODIFIED="1651616903220" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
@@ -346,7 +365,7 @@
     <SUITE FILE_PATH="coverage/project_group_03$UnitTest_getDestinationTile.ic" NAME="UnitTest.getDestinationTile Coverage Results" MODIFIED="1651612972019" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.Units.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_isTileNeighbor.ic" NAME="CityTest.isTileNeighbor Coverage Results" MODIFIED="1651617992266" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_isTileNeighbor.ic" NAME="CityTest.isTileNeighbor Coverage Results" MODIFIED="1651655712986" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$UnitTest_startTheTur.ic" NAME="UnitTest.startTheTur Coverage Results" MODIFIED="1651600351922" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
@@ -356,7 +375,7 @@
     <SUITE FILE_PATH="coverage/project_group_03$TileTest_isFeatureTypeValid.ic" NAME="TileTest.isFeatureTypeValid Coverage Results" MODIFIED="1651584853958" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.tiles.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_changeCivilization.ic" NAME="CityTest.changeCivilization Coverage Results" MODIFIED="1651617098935" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_changeCivilization.ic" NAME="CityTest.changeCivilization Coverage Results" MODIFIED="1651657052736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$TileTest_getCombatChange.ic" NAME="TileTest.getCombatChange Coverage Results" MODIFIED="1651585926177" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
@@ -381,6 +400,9 @@
       <FILTER>model.Units.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$CityTest_getName.ic" NAME="CityTest.getName Coverage Results" MODIFIED="1651594979154" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_collectProduction.ic" NAME="CityTest.collectProduction Coverage Results" MODIFIED="1651666092693" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$CityTest_getPopulation.ic" NAME="CityTest.getPopulation Coverage Results" MODIFIED="1651617818358" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
@@ -410,6 +432,9 @@
     <SUITE FILE_PATH="coverage/project_group_03$TileTest_setResource.ic" NAME="TileTest.setResource Coverage Results" MODIFIED="1651586723107" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.tiles.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_assignCitizenToTiles.ic" NAME="CityTest.assignCitizenToTiles Coverage Results" MODIFIED="1651657169814" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$ImprovementTypeTest.ic" NAME="ImprovementTypeTest Coverage Results" MODIFIED="1651587693536" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.improvements.*</FILTER>
     </SUITE>
@@ -419,10 +444,13 @@
     <SUITE FILE_PATH="coverage/project_group_03$ResourcesTypesTest_getImprovementType.ic" NAME="ResourcesTypesTest.getImprovementType Coverage Results" MODIFIED="1651612096025" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.resources.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_attack.ic" NAME="CityTest.attack Coverage Results" MODIFIED="1651668732782" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$ResourcesTypesTest_isTechnologyUnlocked.ic" NAME="ResourcesTypesTest.isTechnologyUnlocked Coverage Results" MODIFIED="1651578699146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.resources.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_collectFood.ic" NAME="CityTest.collectFood Coverage Results" MODIFIED="1651598774415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_collectFood.ic" NAME="CityTest.collectFood Coverage Results" MODIFIED="1651666510714" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
   </component>
