@@ -251,7 +251,7 @@ public class City implements CanAttack, CanGetAttacked {
     }
 
     public void attack(Tile tile) {
-        calculateDamage( getCombatStrength(true) / tile.getNonCivilian().getCombatStrength(false));
+        tile.getNonCivilian().takeDamage(calculateDamage( getCombatStrength(true) / tile.getNonCivilian().getCombatStrength(false)));
         tile.getNonCivilian().checkToDestroy();
         GameController.openNewArea(tile, civilization, null);
     }

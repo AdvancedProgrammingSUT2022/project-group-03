@@ -1,5 +1,6 @@
 package view;
 
+import com.beust.jcommander.JCommander;
 import controller.GameController;
 import model.City;
 import model.Map;
@@ -11,6 +12,8 @@ import model.resources.ResourcesTypes;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.regex.Matcher;
+
+
 
 public class GameMenu extends Menu {
 
@@ -699,7 +702,7 @@ public class GameMenu extends Menu {
                 "^CHEAT RESOURCE (\\w+) (\\d+)$",//43
                 "^UNIT PILLAGE$",
                 "^BUILD WALL$",
-                "^skip unit task$"
+                "^unit skip$"
 
         };
     }

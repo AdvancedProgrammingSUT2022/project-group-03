@@ -6,38 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataBase/users.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/view/ChooseTechnology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ChooseTechnology.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/view/Color.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Color.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/view/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/view/ProductionCityMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ProductionCityMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/view/SettingMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/SettingMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/resources/ResourcesTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/resources/ResourcesTypes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/tiles/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/tiles/Tile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/CitiesList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/CitiesList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/CityTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/CityTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Menu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/model/City.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/City.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/view/ChooseTechnology.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/view/Color.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/view/GameMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/view/LoginMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/view/MainMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/view/Menu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/view/ProductionCityMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/view/ProfileMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/view/SettingMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/resources/ResourcesTypes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/resources/ResourcesTypes.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/CitiesList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/CitiesList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/CityTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/CityTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/Menu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/Menu.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,10 +25,10 @@
       <list>
         <option value="Enum" />
         <option value="package.json" />
-        <option value="Interface" />
         <option value="AnnotationType" />
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -115,35 +91,29 @@
       <recent name="model.features" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="17" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="Civilization" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="All in Civilization" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Civilization" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CityTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Civilization" />
+  <component name="RunManager" selected="Application.MutatedGameMenu">
+    <configuration name="MutatedGameMenu" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="view.MutatedGameMenu" />
+      <module name="untitled5" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="model.*" />
+          <option name="PATTERN" value="view.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="model" />
-      <option name="MAIN_CLASS_NAME" value="model.CityTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="view.test" />
+      <module name="untitled5" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="view.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -199,15 +169,16 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Main" />
-      <item itemvalue="JUnit.All in Civilization" />
-      <item itemvalue="JUnit.CityTest" />
+      <item itemvalue="Application.test" />
+      <item itemvalue="Application.MutatedGameMenu" />
       <item itemvalue="JUnit.CityTest.collectFood" />
       <item itemvalue="JUnit.UnitTest.endTheTurn" />
       <item itemvalue="JUnit.UnitTest.startTheTurn" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MutatedGameMenu" />
+        <item itemvalue="Application.test" />
         <item itemvalue="JUnit.UnitTest.startTheTurn" />
       </list>
     </recent_temporary>
@@ -239,6 +210,7 @@
       <workItem from="1651518006067" duration="1615000" />
       <workItem from="1651558292795" duration="350000" />
       <workItem from="1651597526470" duration="3660000" />
+      <workItem from="1651668090960" duration="5010000" />
     </task>
     <servers />
   </component>
