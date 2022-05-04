@@ -5,38 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/target/classes/view/UnitsList.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/model/Units/CivilianTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataBase/users.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/resources/ResourcesTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/resources/ResourcesTypes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/MutatedGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MutatedGameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/CityTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/CityTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/resources/ResourcesTypesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/resources/ResourcesTypesTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/City.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/City.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Civilization.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Civilization.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/NonCivilian.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/NonCivilian.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/building/Building.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/building/Building.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/improvements/view/GameMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/producible.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/producible.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/resources/ResourcesTypes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/resources/ResourcesTypes.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/technologies/Technology.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/technologies/Technology.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/ChooseTechnology.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/ChooseTechnology.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/CitiesList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/CitiesList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$FreeFlagCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$FreeFlagCommands.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/MutatedMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/CityTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/CityTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/Units/UnitTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/Units/UnitTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/building/BuildingTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/building/BuildingTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/resources/ResourcesTypesTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/resources/ResourcesTypesTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/technologies/TechnologyTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/technologies/TechnologyTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +87,7 @@
       <recent name="model.features" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.MutatedGameMenu">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="untitled5" />
@@ -186,15 +158,15 @@
     </configuration>
     <list>
       <item itemvalue="Application.MutatedGameMenu" />
+      <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.CityTest.startTheTurn" />
       <item itemvalue="JUnit.CityTest.getGold" />
       <item itemvalue="JUnit.CityTest.attack" />
-      <item itemvalue="Application.Main" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
         <item itemvalue="Application.MutatedGameMenu" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.CityTest.attack" />
         <item itemvalue="JUnit.CityTest.getGold" />
         <item itemvalue="JUnit.CityTest.startTheTurn" />
@@ -233,6 +205,7 @@
       <workItem from="1651654180614" duration="2196000" />
       <workItem from="1651656420264" duration="10453000" />
       <workItem from="1651667879141" duration="1743000" />
+      <workItem from="1651680312097" duration="12520000" />
     </task>
     <servers />
   </component>
