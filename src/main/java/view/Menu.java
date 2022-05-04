@@ -11,6 +11,7 @@ public abstract class Menu {
     public int run(Scanner scanner) {
         Menu.scanner = scanner;
         String command;
+
         while (true) {
             command = scanner.nextLine();
             if (commands(command) || gameOver())

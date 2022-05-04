@@ -1,5 +1,6 @@
 package view;
 
+import com.beust.jcommander.JCommander;
 import controller.GameController;
 import controller.TechnologyController;
 import model.City;
@@ -15,6 +16,8 @@ import model.technologies.TechnologyType;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.regex.Matcher;
+
+
 
 public class GameMenu extends Menu {
 
@@ -711,8 +714,8 @@ public class GameMenu extends Menu {
                 "^CHEAT RESOURCE (\\w+) (\\d+)$",//43
                 "^UNIT PILLAGE$",
                 "^BUILD WALL$",
-                "^skip unit task$",
-                "^military overview$",
+                "^unit skip$",
+                 "^military overview$",
                 "^info economic$",
                 "^info demographic$" //49
         };
