@@ -83,4 +83,8 @@ public enum ResourcesTypes {
     public ImprovementType getImprovementType() {
         return improvementType;
     }
+
+    public int getFood() {
+        return food;
+    }
 }

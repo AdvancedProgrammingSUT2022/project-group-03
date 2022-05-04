@@ -54,10 +54,7 @@ class UnitTest {
         assertTrue(Math.abs(nonCivilian.getCombatStrength(false) - 2.5)< 0.5);
 
     }
-    @Test
-    void endTheTurn(){
 
-    }
     @Test
     void checkToDestroy(){
         NonCivilian nonCivilian = new NonCivilian(tile,civilization,UnitType.ARCHER);
@@ -75,13 +72,15 @@ class UnitTest {
 
     }
 
-
     @Test
     void getDestinationTile() {
+        assertNull(civilian.getDestinationTile());
     }
 
     @Test
     void getCurrentTile() {
+        civilian.setCurrentTile(tile);
+        assertEquals(tile,civilian.getCurrentTile());
     }
 
     @Test
@@ -144,42 +143,31 @@ class UnitTest {
 
     @Test
     void getMovementPrice() {
-    }
-
-    @Test
-    void attack() {
+        assertEquals(civilian.getMovementPrice(),2);
     }
 
     @Test
     void takeDamage() {
-    }
-
-    @Test
-    void setState() {
+        int health = civilian.health;
+        civilian.takeDamage(3);
+        assertEquals(health-3,civilian.getHealth());
     }
 
     @Test
     void getState() {
+        civilian.setState(UnitState.AWAKE);
+        assertEquals(civilian.getState(),UnitState.AWAKE);
     }
 
     @Test
     void getRemainedCost() {
-    }
-
-    @Test
-    void setRemainedCost() {
+        civilian.setRemainedCost(10);
+        assertEquals(civilian.getRemainedCost(),10);
     }
 
     @Test
     void getUnitType() {
-    }
-
-    @Test
-    void buildRoad() {
-    }
-
-    @Test
-    void setCurrentTile() {
+        assertEquals(civilian.getUnitType(),UnitType.SETTLER);
     }
 
     @Test
@@ -205,7 +193,23 @@ class UnitTest {
             civilian.state = UnitState.REPAIRING;
             civilian.startTheTurn();
             assertEquals(0,tile.getImprovement().getNeedsRepair());
-
+            civilian.state = UnitState.REPAIRING;
+            civilian.startTheTurn();
+            assertEquals(0,tile.getImprovement().getNeedsRepair());
+            civilian.state = UnitState.REMOVING;
+            civilian.startTheTurn();
+            assertEquals(0,tile.getImprovement().getNeedsRepair());
+            civilian.getCurrentTile().setContainedFeature(new Feature(FeatureType.OASIS));
+            civilian.getCurrentTile().getContainedFeature().setCyclesToFinish(1);
+            civilian.state = UnitState.REMOVING;
+            civilian.startTheTurn();
+            assertNull(civilian.getCurrentTile().getContainedFeature());
         }
+    }
+
+    @Test
+    void getName()
+    {
+        assertEquals(civilian.getName(),"SETTLER");
     }
 }

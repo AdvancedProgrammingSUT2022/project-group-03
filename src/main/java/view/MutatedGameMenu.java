@@ -165,7 +165,7 @@ public class MutatedGameMenu extends MutatedMenu{
                 required = true)
         boolean civilian = false;
 
-        @Parameter(names = { "unit", "unit" },
+        @Parameter(names = { "unit" },
                 description = "Id of the Customer who's using the services",
                 required = true)
         boolean shit = false;

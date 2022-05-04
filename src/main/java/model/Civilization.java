@@ -218,4 +218,20 @@ public class Civilization {
     public void setScience(int science) {
         this.science = science;
     }
+
+    public City getCapital()
+    {
+        for (City city : cities)
+            if(city.isCapital)
+                return city;
+        return null;
+    }
+
+    public int getSize()
+    {
+        int size=0;
+        for (City city : cities)
+            size+=city.getTiles().size();
+        return size;
+    }
 }
