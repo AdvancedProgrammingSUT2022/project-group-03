@@ -3,19 +3,24 @@ package view;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import controller.GameController;
+import controller.TechnologyController;
+import model.City;
+import model.Civilization;
 import model.Map;
+import model.Units.Unit;
+import model.Units.UnitType;
+import model.improvements.ImprovementType;
+import model.resources.ResourcesTypes;
+import model.technologies.Technology;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MutatedGameMenu extends MutatedMenu {
     static class FreeFlagCommands implements Runnable {
         public int run(String name) {
             switch (name) {
-                case "exit":
-                    return 2;
-                case "menu_show_current":
-                    System.out.println("Game Menu");
-                    return 3;
-                case "next_turn":
+                case "next-turn":
                     if (GameController.nextTurnIfYouCan())
                         System.out.println("turn ended successfully");
                     else {
@@ -26,162 +31,56 @@ public class MutatedGameMenu extends MutatedMenu {
                                 " y: " + GameController.getUnfinishedTasks().get(0).getTile().getY());
                     }
                     return 3;
-                case "selected_unit_info"://todo
-                    return 3;
-                case "city_show_details"://todo
-                    return 3;
-                case "print_map":
-                    System.out.println(GameController.printMap());
-                    return 3;
-                case "capture_city":
-                    cityDestiny(false);
-                    return 3;
-                case "burn_city":
-                    cityDestiny(true);
-                    return 3;
-                case "build_wall":
-                    switch (GameController.buildWall()) {
-                        case 0:
-                            System.out.println("wall's production started successfully");
-
-                            break;
-                        case 1:
-                            System.out.println("no city is selected");
-
-                            break;
-                        case 2:
-                            System.out.println("the selected city is not yours");
-
-                            break;
-                        case 3:
-                            System.out.println("the selected city already has a wall");
-                            break;
-                    }
-                    return 3;
-                case "skip_unit_task":
-                    switch (GameController.skipUnitTask()) {
-                        case 0:
-                            System.out.println("task skipped successfully");
-
-                            break;
-                        case 1:
-                            System.out.println("no unit is selected");
-
-                            break;
-                        case 2:
-                            System.out.println("the selected unit is not yours");
-
-                            break;
-                        case 3:
-                            System.out.println("the selected unit does not need a task");
-                            break;
-                    }
-                    return 3;
-
+                default:
+                    System.out.println("invalid command");
             }
             return 3;
         }
-
-        private void cityDestiny(boolean burn) {
-            switch (GameController.cityDestiny(burn)) {
-                case 0:
-                    if (burn) System.out.println("The city destroyed");
-                    else System.out.println("The city captured");
-                    break;
-                case 1:
-                    System.out.println("The city still standing");
-                    break;
-                case 2:
-                    System.out.println("Select a surrendered city first");
-                    break;
-                case 3:
-                    System.out.println("Can not burn a capital");
-            }
-        }
-
     }
-
-    static class tileXAndYFlag implements Runnable {
-        @Parameter(names = {"--tilex", "-x"},
-                description = "Id of the Customer who's using the services",
-                arity = 1,
-                required = true)
-        int x;
-        @Parameter(names = {"--tiley", "-y"},
-                description = "Id of the Customer who's using the services",
-                arity = 1,
-                required = true)
-        int y;
-
-        public int run(String name) {
-            switch (name) {
-                case "map_show":
-                    GameController.mapShowPosition(x - Map.WINDOW_X / 2,
-                            y - Map.WINDOW_Y / 2 + 1);
-                    System.out.println(GameController.printMap());
-                    return 3;
-                case "city_attack":
-                    switch (GameController.cityAttack(x, y)) {
-                        case 0:
-                            System.out.println("Attacked successfully");
-                            break;
-                        case 1:
-                            System.out.println("Can not attack there");
-                            break;
-                        case 2:
-                            System.out.println("Out of bond tile");
-                            break;
-                        case 3:
-                            System.out.println("Select your city first");
-                            break;
-                        case 4:
-                            System.out.println("Out of range");
-                            break;
-                        case 5:
-                            System.out.println("Siege need setup before attack");
-                            break;
-
-                    }
-                    return 3;
-            }
-            return 3;
-        }
-
-    }
-
     static class tileXAndYFlagSelectUnit implements Runnable {
         @Parameter(names = {"--tilex", "-x"},
                 description = "Id of the Customer who's using the services",
                 arity = 1,
-                required = true)
-        int x;
+                required = false)
+        int x = -1989;
         @Parameter(names = {"--tiley", "-y"},
                 description = "Id of the Customer who's using the services",
                 arity = 1,
-                required = true)
-        int y;
-        @Parameter(names = {"--civilian", "-c"},
+                required = false)
+        int y = -1989;
+        @Parameter(names = {"--object", "-o"},
                 description = "Id of the Customer who's using the services",
+                arity = 1,
                 required = true)
-        boolean civilian = false;
-
-        @Parameter(names = {"unit"},
+        String type;
+        @Parameter(names = {"--name", "-n"},
                 description = "Id of the Customer who's using the services",
-                required = true)
-        boolean shit = false;
+                arity = 1,
+                required = false)
+        String name = "init";
 
         public int run(String name) {
-            if (!civilian) {
+            if ((type.equals("noncivilian") || type.equals("ncu")) && x != -1989 && y != -1989) {
                 if (GameController.setSelectedCombatUnit(x, y))
                     System.out.println("combat unit selected successfully");
                 else
                     System.out.println("selection failed");
-            } else {
+            } else if ((type.equals("civilian") || type.equals("cu")) && x != -1989 && y != -1989) {
                 if (GameController.setSelectedNonCombatUnit(x, y))
                     System.out.println("noncombat unit selected successfully");
                 else
                     System.out.println("selection failed");
-            }
+            } else if ((type.equals("city") || type.equals("c")) && x != -1989 && y != -1989) {
+                if (!GameController.setSelectedCityByPosition(x, y))
+                    System.out.println("city does not exist");
+                else
+                    System.out.println("city selected successfully");
+            } else if ((type.equals("city") || type.equals("c")) && !name.equals("init")) {
+                if (!GameController.setSelectedCityByName(name))
+                    System.out.println("city does not exist");
+                else
+                    System.out.println("city selected successfully");
+            } else System.out.println("invalid command");
             return 3;
         }
 
@@ -486,40 +385,533 @@ public class MutatedGameMenu extends MutatedMenu {
                                     return 3;
                             }
                             return 3;
+                        default:
+                            System.out.println("invalid command");
+
 
                     }
+                default:
+                    System.out.println("invalid command");
+
+
+            }
+            return 3;
+        }
+
+    }
+
+    static class menuCommands implements Runnable {
+        @Parameter(names = {"exit"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        boolean exit = false;
+        @Parameter(names = {"show-current"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        boolean show = false;
+        @Parameter(names = {"enter"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        String nextmenu = "init";
+
+        public int run(String name) {
+            if (exit && !show && nextmenu.equals("init")) {
+                return 2;
+            } else if (show && nextmenu.equals("init")) {
+                System.out.println("Game Menu");
+            } else if (nextmenu.equals("Technologies")) {
+                if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0)
+                    System.out.println("you need at least one city to enter the technology menu");
+                else {
+                    ChooseTechnology chooseTechnology = new ChooseTechnology();
+                    chooseTechnology.printDetails();
+                    chooseTechnology.run(scanner);
+                }
+            } else if (nextmenu.equals("CityProduction")) {
+                if (GameController.getSelectedCity() == null)
+                    System.out.println("no city is selected");
+                else if (GameController.getSelectedCity().getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
+                    System.out.println("the selected city is not yours");
+                else {
+                    ProductionCityMenu productionCityMenu = new ProductionCityMenu();
+                    productionCityMenu.printDetails();
+                    productionCityMenu.run(scanner);
+                }
+            } else {
+                System.out.println("invalid command");
             }
             return 3;
         }
     }
 
+    static class mapCommands implements Runnable {
+        @Parameter(names = {"print"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        boolean print = false;
+        @Parameter(names = {"show"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        boolean show = false;
+        @Parameter(names = {"--city", "-c"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        String city = "init";
+        @Parameter(names = {"--tilex", "-x"},
+                description = "Id of the Customer who's using the services",
+                arity = 1,
+                required = false)
+        int x = -1989;
+        @Parameter(names = {"--tiley", "-y"},
+                description = "Id of the Customer who's using the services",
+                arity = 1,
+                required = false)
+        int y = -1989;
+        @Parameter(names = {"--direction", "-d"},
+                description = "Id of the Customer who's using the services",
+                arity = 1,
+                required = false)
+        String dir = "init";
+        @Parameter(names = {"move", "-m"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        boolean move = false;
+        @Parameter(names = {"--amount", "-a"},
+                description = "Id of the Customer who's using the services",
+                arity = 1,
+                required = false)
+        int amount = -1989;
+
+        public int run(String name) {
+            if (print && !move && !show && city.equals("init")) {
+                System.out.println(GameController.printMap());
+            } else if (show && !city.equals("init") && (x == -1989 && y == -1989) && !move) {
+                int result = GameController.mapShowCityName(city);
+                if (result == 1)
+                    System.out.println("no city with this name exists");
+                if (result == 2)
+                    System.out.println("you have not unlocked the position of this city yet");
+                if (result == 0)
+                    System.out.println("city selected successfully");
+                System.out.println(GameController.printMap());
+            } else if (show && !move && (x != -1989 && y != -1989)) {
+                GameController.mapShowPosition(x - Map.WINDOW_X / 2,
+                        y - Map.WINDOW_Y / 2 + 1);
+                System.out.println(GameController.printMap());
+            } else if (move) {
+                if (dir.matches("[RULD]")) {
+                    if (amount == -1989)
+                        GameController.mapMove(1, dir);
+                    else GameController.mapMove(amount, dir);
+                    System.out.println("map moved successfully");
+                }
+            } else {
+                System.out.println("invalid command");
+            }
+            return 3;
+        }
+    }
+
+    static class infoCommands implements Runnable {
+        @Parameter(names = {"--type", "-t"},
+                description = "Id of the Customer who's using the services",
+                arity = 1,
+                required = true)
+        String info = "init";
+        @Parameter(names = {"selected", "s"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        boolean selected = false;
+
+        public int run(String name) {
+            switch (info) {
+                case "researches":
+                case "r":
+                    Technology technology =
+                            GameController.getCivilizations().get(GameController.getPlayerTurn()).getGettingResearchedTechnology();
+                    if (technology == null) {
+                        System.out.println("you don't have any technology in the development right now");
+                        return 3;
+                    }
+                    StringBuilder tempString;
+                    tempString = new StringBuilder(technology.getTechnologyType() + ": (");
+                    int cyclesToComplete = TechnologyController.cyclesToComplete(technology);
+                    if (cyclesToComplete == 12345)
+                        tempString.append("never, your science is 0)");
+                    else
+                        tempString.append(cyclesToComplete).append(" cycles to complete)");
+                    System.out.println(tempString);
+                    System.out.println("what unlocks after:");
+                    for (int i = 0; i < UnitType.VALUES.size(); i++)
+                        if (UnitType.VALUES.get(i).technologyRequired == technology.getTechnologyType())
+                            System.out.print(UnitType.VALUES.get(i) + " |");
+                    for (int i = 0; i < ResourcesTypes.VALUES.size(); i++)
+                        if (ResourcesTypes.VALUES.get(i).technologyTypes == technology.getTechnologyType())
+                            System.out.print(ResourcesTypes.VALUES.get(i) + " |");
+                    for (int i = 0; i < ImprovementType.VALUES.size(); i++)
+                        if (ImprovementType.VALUES.get(i).prerequisitesTechnologies == technology.getTechnologyType())
+                            System.out.print(ImprovementType.VALUES.get(i) + " |");
+                    System.out.println();
+                    return 3;
+                case "units":
+                case "u":
+                    if(selected){
+                        if (GameController.getSelectedUnit() == null)
+                            System.out.println("no unit selected");
+                        else
+                            printUnitInfo(GameController.getSelectedUnit());
+                    }
+                    else {
+                        UnitsList unitsList = new UnitsList();
+                        unitsList.printUnits();
+                        unitsList.run(scanner);
+                        return 3;
+                    }
+
+                case "city":
+                case "c":
+                    CitiesList citiesList = new CitiesList();
+                    citiesList.printCities();
+                    citiesList.run(scanner);
+                    return 3;
+                case "economic":
+                case "e":
+                    for (City city : GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities())
+                        CitiesList.cityBanner(city);
+                    return 3;
+                case "demographic":
+                case "d":
+                    Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
+                    System.out.print("nickname: " + civilization.getUser().getNickname());
+                    City capital = civilization.getCapital();
+                    if (capital != null)
+                        System.out.print(" | capital: " + capital.getName());
+                    System.out.println(" | science: " + civilization.collectScience() +
+                            " | happiness: " + civilization.getHappiness() +
+                            " | gold: " + civilization.getGold() +
+                            " | units: " + civilization.getUnits().size() +
+                            " | size: " + civilization.getSize());
+                    System.out.println("resources: ");
+                    civilization.getResourcesAmount().forEach((k, v) -> {
+                        if (v != 0)
+                            System.out.println(k + ": " + v);
+                    });
+                    System.out.print("luxury resources: ");
+                    civilization.getUsedLuxuryResources().forEach((k, v) -> {
+                        if (v)
+                            System.out.print(k + " |");
+                    });
+                    return 3;
+                case "military":
+                case "m":
+                    printMilitaryOverview();
+                    return 3;
+                default:
+                    System.out.println("invalid command");
+
+            }
+            return 3;
+        }
+
+    }
+    public static void printMilitaryOverview() {
+        ArrayList<Unit> units = GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits();
+        for (Unit unit : units)
+            printUnitInfo(unit);
+        if (units.size() == 0)
+            System.out.println("you don't have any units right now");
+    }
+    private static void printUnitInfo(Unit unit) {
+        System.out.print(unit.getUnitType() +
+                ": | Health: " + unit.getHealth() +
+                " | currentX: " + unit.getCurrentTile().getX() +
+                " | currentY: " + unit.getCurrentTile().getY() +
+                " | defense Strength: " + unit.getCombatStrength(false) +
+                " | attack Strength: " + unit.getCombatStrength(true) +
+                " | movementPoint: " + unit.getMovementPrice());
+        if (unit.getDestinationTile() != null)
+            System.out.print(" | destinationX: " + unit.getDestinationTile().getX()
+                    + " destinationY: " + unit.getDestinationTile().getY());
+        System.out.println();
+    }
+
+    static class cheatCommands implements Runnable {
+        @Parameter(names = {"--amount", "-a"},
+                description = "Id of the Customer who's using the services",
+                arity = 1,
+                required = false)
+        int amount = -1989;
+        @Parameter(names = {"--object", "-o"},
+                description = "Id of the Customer who's using the services",
+                arity = 1,
+                required = false)
+        String obj = "init";
+        @Parameter(names = {"science", "-s"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        boolean science = false;
+        @Parameter(names = {"production", "-p"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        boolean production = false;
+        @Parameter(names = {"resource", "-r"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        boolean resource = false;
+        @Parameter(names = {"create"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        String unit = "init";
+        @Parameter(names = {"--tilex", "-x"},
+                description = "Id of the Customer who's using the services",
+                arity = 1,
+                required = false)
+        int x = -1989;
+        @Parameter(names = {"--tiley", "-y"},
+                description = "Id of the Customer who's using the services",
+                arity = 1,
+                required = false)
+        int y = -1989;
+
+        public int run(String name) {
+            if (science && amount != -1989) {
+                GameController.cheatScience(amount);
+            } else if (production && amount != -1989) {
+                GameController.cheatProduction(amount);
+            } else if (resource && amount != -1989 && !obj.equals("init")) {
+                GameController.cheatResource(amount, ResourcesTypes.stringToEnum(obj));
+            } else if (!unit.equals("init") && (x != -1989 && y != -1989)) {
+                UnitType unitType = UnitType.stringToEnum(obj);
+                GameController.cheatUnit(x, y, unitType);
+            } else {
+                System.out.println("invalid command");
+            }
+            return 3;
+        }
+
+    }
+
+    static class cityCommands implements Runnable {
+        @Parameter(names = {"show"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        String show = "init";
+        @Parameter(names = {"start"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        String startProducing = "init";
+        @Parameter(names = {"--type","-t"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        String type = "init";
+        @Parameter(names = {"buy"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        String buy = "init";
+        @Parameter(names = {"citizen"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        String citizen = "init";
+        @Parameter(names = {"build"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        String build = "init";
+        @Parameter(names = {"attack"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        boolean attack = false;
+        @Parameter(names = {"burn"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        boolean burn = false;
+        @Parameter(names = {"capture"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        boolean capture = false;
+
+        @Parameter(names = {"--destinationx", "-dx"},
+                description = "Id of the Customer who's using the services",
+                arity = 1,
+                required = false)
+        int dx;
+        @Parameter(names = {"--destinationy", "-dy"},
+                description = "Id of the Customer who's using the services",
+                arity = 1,
+                required = false)
+        int dy;
+        @Parameter(names = {"--tilex", "-x"},
+                description = "Id of the Customer who's using the services",
+                arity = 1,
+                required = false)
+        int ox =-1989;
+        @Parameter(names = {"--tiley", "-y"},
+                description = "Id of the Customer who's using the services",
+                arity = 1,
+                required = false)
+        int oy = -1989;
+        public int run(String name) {
+            if(!show.equals("init")){
+                City city = GameController.getSelectedCity();
+                if (city == null) {
+                    System.out.println("no city is selected");
+                    return 3;
+                }
+                System.out.println("name: " + city.getName());
+                System.out.println("founder: " + city.getFounder().getUser().getNickname());
+                if (city.getCivilization() == GameController.getCivilizations().get(GameController.getPlayerTurn())) {
+                    System.out.println("gold: " + city.getGold());
+                    System.out.println("production: " + city.collectProduction());
+                    System.out.println("food: " + city.collectFood());
+                    System.out.println("population: " + city.getPopulation());
+                    System.out.println("citizens: " + city.getCitizen());
+                    System.out.print("getting worked on tiles: ");
+                    for (int i = 0; i < city.getGettingWorkedOnByCitizensTiles().size(); i++)
+                        System.out.print(city.getGettingWorkedOnByCitizensTiles().get(i).getX() + "," +
+                                city.getGettingWorkedOnByCitizensTiles().get(i).getY() + "   |   ");
+                    System.out.println("\nHP: " + city.getHP());
+                    System.out.println("attack strength: " + city.getCombatStrength(true));
+                    System.out.println("defence strength: " + city.getCombatStrength(false));
+                }
+
+            }
+            else if(startProducing.equals("producing")&& !type.equals("init")){
+                int result = GameController.startProducingUnit(type);
+                if (result == 0)
+                    System.out.println("production started successfully");
+                if (result == 1)
+                    System.out.println("no product with this name is defined");
+                if (result == 2)
+                    System.out.println("no city is selected");
+                if (result == 3)
+                    System.out.println("the selected city is not yours");
+                if (result == 4)
+                    System.out.println("you don't have enough money");
+            }
+            else if((buy.equals("tile")|| buy.equals("t") && (ox != -1989 && oy != -1989))){
+                switch (GameController.buyTile(ox, oy)) {
+                    case 0:
+                        System.out.println("Tile added successfully");
+                        break;
+                    case 1:
+                        System.out.println("Already has an owner");
+                        break;
+                    case 2:
+                        System.out.println("Select valid tile");
+                        break;
+                    case 3:
+                        System.out.println("Don't go too far");
+                        break;
+                    case 4:
+                        System.out.println("Select your city first");
+                        break;
+                    case 5:
+                        System.out.println("Out of bond Tile");
+                        break;
+                }
+            }
+            else if(citizen.equals("work") &&(dx != -1989 && dy != -1989)){
+                int x;
+                if ((ox != -1989 && oy != -1989))
+                    x = GameController.reAssignCitizen(ox,oy,dx,dy);
+                else x = GameController.assignCitizen(dx,dy);
+                switch (x) {
+                    case 0:
+                        System.out.println("Assigned successfully");
+                        break;
+                    case 1:
+                        System.out.println("Select valid tile");
+                        break;
+                    case 2:
+                        System.out.println("Not your city");
+                        break;
+                    case 3:
+                        System.out.println("Select a city jackass");
+                        break;
+                    case 4:
+                        System.out.println("Failed");
+                        break;
+                }
+            }
+            else if(burn){
+                cityDestiny(true);
+            }
+            else if(capture){
+                cityDestiny(false);
+            }
+            else if(attack && (dx != -1989 && dy != -1989)){
+                switch (GameController.cityAttack(dx, dy)) {
+                    case 0:
+                        System.out.println("Attacked successfully");
+                        break;
+                    case 1:
+                        System.out.println("Can not attack there");
+                        break;
+                    case 2:
+                        System.out.println("Out of bond tile");
+                        break;
+                    case 3:
+                        System.out.println("Select your city first");
+                        break;
+                    case 4:
+                        System.out.println("Out of range");
+                        break;
+                    case 5:
+                        System.out.println("Siege need setup before attack");
+                        break;
+                }
+            }
+            else if(build.equals("wall")) {
+                int result = GameController.buildWall();
+                if (result == 0)
+                    System.out.println("wall's production started successfully");
+                if (result == 1)
+                    System.out.println("no city is selected");
+                if (result == 2)
+                    System.out.println("the selected city is not yours");
+                if (result == 3)
+                    System.out.println("the selected city already has a wall");
+            }
+            else System.out.println("invalid command");
+            return 3;
+
+
+        }
+        private void cityDestiny(boolean burn) {
+            switch (GameController.cityDestiny(burn)) {
+                case 0:
+                    if (burn) System.out.println("The city destroyed");
+                    else System.out.println("The city captured");
+                    break;
+                case 1:
+                    System.out.println("The city still standing");
+                    break;
+                case 2:
+                    System.out.println("Select a surrendered city first");
+                    break;
+                case 3:
+                    System.out.println("Can not burn a capital");
+            }
+        }
+    }
+
+
     protected JCommander jCommander() {
         JCommander jCommander = new JCommander();
         jCommander.setAllowAbbreviatedOptions(true);
+        jCommander.addCommand("city", new cityCommands());
+        jCommander.addCommand("cheat", new cheatCommands());
+        jCommander.addCommand("info", new infoCommands());
+        jCommander.addCommand("map", new mapCommands());
+        jCommander.addCommand("menu", new menuCommands());
         jCommander.addCommand("unit", new unitState());
         jCommander.addCommand("increase", new increase());
         jCommander.addCommand("select", new tileXAndYFlagSelectUnit());
-        jCommander.addCommand("city_attack", new tileXAndYFlag());
-        jCommander.addCommand("map_show", new tileXAndYFlag());
-        jCommander.addCommand("select_city", new tileXAndYFlag());
-        jCommander.addCommand("exit", new FreeFlagCommands());
-        jCommander.addCommand("menu_show_current", new FreeFlagCommands());
-        jCommander.addCommand("next_turn", new FreeFlagCommands());
-        jCommander.addCommand("selected_unit_info", new FreeFlagCommands());
-        jCommander.addCommand("city_show_details", new FreeFlagCommands());
-        jCommander.addCommand("print_map", new FreeFlagCommands());
+        jCommander.addCommand("next-turn", new FreeFlagCommands());
         jCommander.addCommand("capture_city", new FreeFlagCommands());
-        jCommander.addCommand("burn_city", new FreeFlagCommands());
-        jCommander.addCommand("build_wall", new FreeFlagCommands());
-        jCommander.addCommand("skip_unit_task", new FreeFlagCommands());
-        jCommander.addCommand("burn_city", new FreeFlagCommands());
-        jCommander.addCommand("burn_city", new FreeFlagCommands());
         return jCommander;
     }
 
     public static void main(String[] args) {
         new MutatedGameMenu().run(new Scanner(System.in), 3);
     }
-
-
 }
