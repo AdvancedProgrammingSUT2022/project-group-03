@@ -14,13 +14,12 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class ChooseTechnology extends Menu {
-    private ArrayList<Technology> possibleTechnologies = new ArrayList<>();
+    private final ArrayList<Technology> possibleTechnologies = new ArrayList<>();
 
     {
         regexes = new String[]{
                 "^menu exit$",
                 "^menu show-current$",
-                "^back$",
                 "^(\\d+)$",
                 "^print tree$",
                 "^print details$"
@@ -83,7 +82,7 @@ public class ChooseTechnology extends Menu {
     }
 
     private void addTechnologyToProduction(String command) {
-        Matcher matcher = getMatcher(regexes[3], command);
+        Matcher matcher = getMatcher(regexes[2], command);
         int entryNumber = Integer.parseInt(matcher.group(1));
         if (TechnologyController.addTechnologyToProduction(possibleTechnologies, entryNumber))
             System.out.println(possibleTechnologies.get(entryNumber - 1).getTechnologyType() +
@@ -101,23 +100,18 @@ public class ChooseTechnology extends Menu {
                 System.out.println("invalid command");
                 break;
             case 0: {
-                nextMenu = -1;
                 return true;
             }
             case 1:
                 System.out.println("Login Menu");
                 break;
-            case 2: {
-                System.out.println("technology menu closed successfully");
-                return true;
-            }
-            case 3:
+            case 2:
                 addTechnologyToProduction(command);
                 break;
-            case 4:
+            case 3:
                 printTree();
                 break;
-            case 5:
+            case 4:
                 printDetails();
                 break;
 

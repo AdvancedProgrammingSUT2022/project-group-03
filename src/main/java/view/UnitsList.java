@@ -11,7 +11,6 @@ public class UnitsList extends Menu{
         regexes = new String[]{
                 "^menu exit$",
                 "^menu show-current$",
-                "^back$",
                 "^(\\d+)$",
         };
     }
@@ -51,22 +50,15 @@ public class UnitsList extends Menu{
             case -1:
                 System.out.println("invalid command");
                 break;
-            case 0: {
-                nextMenu = -1;
+            case 0:
                 return true;
-            }
             case 1:
                 System.out.println("Login Menu");
                 break;
             case 2:
-            {
-                System.out.println("menu closed successfully");
-                return true;
-            }
-            case 3:
                 selectUnit(command);
                 break;
-            case 4:
+            case 3:
                 GameMenu.printMilitaryOverview();
                 break;
         }

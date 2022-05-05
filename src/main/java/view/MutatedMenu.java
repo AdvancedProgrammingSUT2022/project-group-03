@@ -22,9 +22,15 @@ public abstract class MutatedMenu {
 
         while (true) {
              try {
+                 jCommander = jCommander();
                  jCommander.parse(translateCommandline(scanner.nextLine()));
                  String parsedCommand = jCommander.getParsedCommand();
                  JCommander parsedJCommander = jCommander.getCommands().get(parsedCommand);
+                 if(parsedJCommander == null)
+                 {
+                     System.out.println("invalid Command");
+                     continue;
+                 }
                  Object commandObject = parsedJCommander.getObjects().get(0);
                  int x = ((Runnable)commandObject).run(parsedCommand.toLowerCase(Locale.ROOT));
                  if(nextMenu != x) {

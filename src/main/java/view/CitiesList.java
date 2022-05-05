@@ -10,7 +10,6 @@ public class CitiesList extends Menu {
         regexes = new String[]{
                 "^menu exit$",
                 "^menu show-current$",
-                "^back$",
                 "^(\\d+)$",
                 "^economic overview$"
         };
@@ -78,22 +77,15 @@ public class CitiesList extends Menu {
             case -1:
                 System.out.println("invalid command");
                 break;
-            case 0: {
-                nextMenu = -1;
+            case 0:
                 return true;
-            }
             case 1:
                 System.out.println("Login Menu");
                 break;
             case 2:
-            {
-                System.out.println("technology menu closed successfully");
-                return true;
-            }
-            case 3:
                 openCityBanner(command);
                 break;
-            case 4:
+            case 3:
                 GameMenu.infoEconomic();
                 break;
         }
