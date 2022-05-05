@@ -36,6 +36,7 @@ public class GameMenu extends MutatedMenu {
             return 3;
         }
     }
+
     static class tileXAndYFlagSelectUnit implements Runnable {
         @Parameter(names = {"--tilex", "-x"},
                 description = "Id of the Customer who's using the services",
@@ -256,7 +257,7 @@ public class GameMenu extends MutatedMenu {
                                 }
                             }
                             return 3;
-                        case "foundcity":
+                        case "found_city":
                             switch (GameController.unitFoundCity()) {
                                 case 0:
                                     System.out.println("city founded successfully");
@@ -536,13 +537,12 @@ public class GameMenu extends MutatedMenu {
                     return 3;
                 case "units":
                 case "u":
-                    if(selected){
+                    if (selected) {
                         if (GameController.getSelectedUnit() == null)
                             System.out.println("no unit selected");
                         else
                             printUnitInfo(GameController.getSelectedUnit());
-                    }
-                    else {
+                    } else {
                         UnitsList unitsList = new UnitsList();
                         unitsList.printUnits();
                         unitsList.run(scanner);
@@ -594,6 +594,7 @@ public class GameMenu extends MutatedMenu {
         }
 
     }
+
     public static void printMilitaryOverview() {
         ArrayList<Unit> units = GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits();
         for (Unit unit : units)
@@ -601,6 +602,7 @@ public class GameMenu extends MutatedMenu {
         if (units.size() == 0)
             System.out.println("you don't have any units right now");
     }
+
     private static void printUnitInfo(Unit unit) {
         System.out.print(unit.getUnitType() +
                 ": | Health: " + unit.getHealth() +
@@ -657,6 +659,14 @@ public class GameMenu extends MutatedMenu {
             } else {
                 System.out.println("invalid command");
             }
+            production=false;
+            science=false;
+            resource=false;
+            amount=-1989;
+            unit="init";
+            x=-1989;
+            y=-1989;
+            obj="init";
             return 3;
         }
     }
@@ -668,7 +678,7 @@ public class GameMenu extends MutatedMenu {
         @Parameter(names = {"start", "-st"},
                 description = "Id of the Customer who's using the services")
         String startProducing = "init";
-        @Parameter(names = {"--type","-t"},
+        @Parameter(names = {"--type", "-t"},
                 description = "Id of the Customer who's using the services")
         String type = "init";
         @Parameter(names = {"buy", "-b"},
@@ -683,10 +693,10 @@ public class GameMenu extends MutatedMenu {
         @Parameter(names = {"attack", "-a"},
                 description = "Id of the Customer who's using the services")
         boolean attack = false;
-        @Parameter(names = {"burn","-bn"},
+        @Parameter(names = {"burn", "-bn"},
                 description = "Id of the Customer who's using the services")
         boolean burn = false;
-        @Parameter(names = {"capture","-ca"},
+        @Parameter(names = {"capture", "-ca"},
                 description = "Id of the Customer who's using the services")
         boolean capture = false;
 
@@ -701,13 +711,14 @@ public class GameMenu extends MutatedMenu {
         @Parameter(names = {"--tilex", "-x"},
                 description = "Id of the Customer who's using the services",
                 arity = 1)
-        int ox =-1989;
+        int ox = -1989;
         @Parameter(names = {"--tiley", "-y"},
                 description = "Id of the Customer who's using the services",
                 arity = 1)
         int oy = -1989;
+
         public int run(String name) {
-            if(!show.equals("init")){
+            if (!show.equals("init")) {
                 City city = GameController.getSelectedCity();
                 if (city == null) {
                     System.out.println("no city is selected");
@@ -730,8 +741,7 @@ public class GameMenu extends MutatedMenu {
                     System.out.println("defence strength: " + city.getCombatStrength(false));
                 }
 
-            }
-            else if(startProducing.equals("producing")&& !type.equals("init")){
+            } else if (startProducing.equals("producing") && !type.equals("init")) {
                 int result = GameController.startProducingUnit(type);
                 if (result == 0)
                     System.out.println("production started successfully");
@@ -743,8 +753,7 @@ public class GameMenu extends MutatedMenu {
                     System.out.println("the selected city is not yours");
                 if (result == 4)
                     System.out.println("you don't have enough money");
-            }
-            else if((buy.equals("tile")|| buy.equals("t") && (ox != -1989 && oy != -1989))){
+            } else if ((buy.equals("tile") || buy.equals("t") && (ox != -1989 && oy != -1989))) {
                 switch (GameController.buyTile(ox, oy)) {
                     case 0:
                         System.out.println("Tile added successfully");
@@ -765,12 +774,11 @@ public class GameMenu extends MutatedMenu {
                         System.out.println("Out of bond Tile");
                         break;
                 }
-            }
-            else if(citizen.equals("work") &&(dx != -1989 && dy != -1989)){
+            } else if (citizen.equals("work") && (dx != -1989 && dy != -1989)) {
                 int x;
                 if ((ox != -1989 && oy != -1989))
-                    x = GameController.reAssignCitizen(ox,oy,dx,dy);
-                else x = GameController.assignCitizen(dx,dy);
+                    x = GameController.reAssignCitizen(ox, oy, dx, dy);
+                else x = GameController.assignCitizen(dx, dy);
                 switch (x) {
                     case 0:
                         System.out.println("Assigned successfully");
@@ -788,14 +796,11 @@ public class GameMenu extends MutatedMenu {
                         System.out.println("Failed");
                         break;
                 }
-            }
-            else if(burn){
+            } else if (burn) {
                 cityDestiny(true);
-            }
-            else if(capture){
+            } else if (capture) {
                 cityDestiny(false);
-            }
-            else if(attack && (dx != -1989 && dy != -1989)){
+            } else if (attack && (dx != -1989 && dy != -1989)) {
                 switch (GameController.cityAttack(dx, dy)) {
                     case 0:
                         System.out.println("Attacked successfully");
@@ -816,8 +821,7 @@ public class GameMenu extends MutatedMenu {
                         System.out.println("Siege need setup before attack");
                         break;
                 }
-            }
-            else if(build.equals("wall")) {
+            } else if (build.equals("wall")) {
                 int result = GameController.buildWall();
                 if (result == 0)
                     System.out.println("wall's production started successfully");
@@ -827,12 +831,12 @@ public class GameMenu extends MutatedMenu {
                     System.out.println("the selected city is not yours");
                 if (result == 3)
                     System.out.println("the selected city already has a wall");
-            }
-            else System.out.println("invalid command");
+            } else System.out.println("invalid command");
             return 3;
 
 
         }
+
         private void cityDestiny(boolean burn) {
             switch (GameController.cityDestiny(burn)) {
                 case 0:
@@ -850,8 +854,8 @@ public class GameMenu extends MutatedMenu {
             }
         }
     }
-    public static void infoEconomic()
-    {
+
+    public static void infoEconomic() {
         for (City city : GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities())
             CitiesList.cityBanner(city);
     }

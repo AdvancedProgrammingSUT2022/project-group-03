@@ -22,6 +22,7 @@ public abstract class MutatedMenu {
 
         while (true) {
              try {
+                 jCommander = jCommander();
                  jCommander.parse(translateCommandline(scanner.nextLine()));
                  String parsedCommand = jCommander.getParsedCommand();
                  JCommander parsedJCommander = jCommander.getCommands().get(parsedCommand);
