@@ -23,12 +23,20 @@ public class NonCivilian extends Unit implements CanAttack{
         else if (tile.getNonCivilian() != null) target = tile.getNonCivilian();
         else if (tile.getCivilian() != null) target = tile.getCivilian();
         else return ;
-        double ratio = getCombatStrength(true) /target.getCombatStrength(false);
-        if((unitType == UnitType.PIKEMAN || unitType == UnitType.SPEARMAN) && target instanceof Unit && ((Unit) target).unitType.combatType == CombatType.MOUNTED)
+        double ratio = getCombatStrength(true) /
+                target.getCombatStrength(false);
+        if((unitType == UnitType.PIKEMAN ||
+                unitType == UnitType.SPEARMAN) &&
+                target instanceof Unit &&
+                ((Unit) target).unitType.combatType == CombatType.MOUNTED)
             ratio *= 2;
-        if(unitType.combatType == CombatType.SIEGE && target instanceof City) ratio *= 1.1;
-        if(unitType == UnitType.TANK && target instanceof City) ratio *= 0.9;
-        if(unitType == UnitType.ANTI_TANK_GUN && target instanceof Unit && ((Unit) target).unitType == UnitType.TANK) ratio *= 1.1;
+        if(unitType.combatType == CombatType.SIEGE &&
+                target instanceof City) ratio *= 1.1;
+        if(unitType == UnitType.TANK &&
+                target instanceof City) ratio *= 0.9;
+        if(unitType == UnitType.ANTI_TANK_GUN &&
+                target instanceof Unit &&
+                ((Unit) target).unitType == UnitType.TANK) ratio *= 1.1;
 
         target.takeDamage(calculateDamage(ratio));
         GameController.openNewArea(tile,civilization,null);
@@ -42,12 +50,14 @@ public class NonCivilian extends Unit implements CanAttack{
     }
     public int calculateDamage(double ratio){
         if(ratio >= 1) {
-            if(unitType.range <= 1) health -= 16.774 * Math.exp(0.5618 * ratio) /  (0.3294 * Math.exp(1.1166 * ratio));
+            if(unitType.range <= 1) health -= 16.774 * Math.exp(0.5618 * ratio) /
+                    (0.3294 * Math.exp(1.1166 * ratio));
             return (int) (16.774 * Math.exp(0.5618 * ratio));
         }
         else {
             if (unitType.range <= 1) health -= 16.774 * Math.exp(0.5618 / ratio);
-            return (int) (16.774 * Math.exp(0.5618 / ratio) / (0.3294 * Math.exp(1.1166 / ratio)));
+            return (int) (16.774 * Math.exp(0.5618 / ratio) /
+                    (0.3294 * Math.exp(1.1166 / ratio)));
         }
     }
 

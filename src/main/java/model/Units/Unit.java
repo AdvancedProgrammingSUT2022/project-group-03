@@ -30,12 +30,12 @@ public abstract class Unit implements Producible, CanGetAttacked {
     public boolean checkToDestroy() {
         if (health <= 0) {
             civilization.getUnits().remove(this);
-            if (this instanceof NonCivilian) currentTile.setNonCivilian(null);
+            if (this instanceof NonCivilian)
+                currentTile.setNonCivilian(null);
             else currentTile.setCivilian(null);
             return true;
         }
         return false;
-
     }
 
     public double getCombatStrength(boolean isAttack) {
@@ -43,13 +43,19 @@ public abstract class Unit implements Producible, CanGetAttacked {
         if (isAttack)
             combat = unitType.rangedCombatStrength;
         else combat = unitType.combatStrength;
-        if (unitType.combatType != CombatType.MOUNTED && unitType.combatType != CombatType.SIEGE
+        if (unitType.combatType != CombatType.MOUNTED &&
+                unitType.combatType != CombatType.SIEGE
                 && unitType.combatType != CombatType.ARMORED)
-            combat = combat * ((double) (100 + currentTile.getCombatChange()) / 100);
-        if (unitType == UnitType.CHARIOT_ARCHER && currentTile.getContainedFeature() != null &&
-                (currentTile.getContainedFeature().getFeatureType() == FeatureType.JUNGLE
-                        || currentTile.getContainedFeature().getFeatureType() == FeatureType.FOREST ||
-                        currentTile.getContainedFeature().getFeatureType() == FeatureType.ICE)) combat *= 0.9;
+            combat = combat *
+                    ((double) (100 + currentTile.getCombatChange()) / 100);
+        if (unitType == UnitType.CHARIOT_ARCHER &&
+                currentTile.getContainedFeature() != null &&
+                (currentTile.getContainedFeature()
+                        .getFeatureType() == FeatureType.JUNGLE ||
+                        currentTile.getContainedFeature()
+                        .getFeatureType() == FeatureType.FOREST ||
+                        currentTile.getContainedFeature()
+                                .getFeatureType() == FeatureType.ICE)) combat *= 0.9;
 
         if (!isAttack && state == UnitState.FORTIFY)
             combat = (combat * (((NonCivilian) this).getFortifiedCycle() + 10)) / 10;
@@ -90,14 +96,19 @@ public abstract class Unit implements Producible, CanGetAttacked {
 
         movementPrice = unitType.getDefaultMovementPrice();
 
-        if (unitType.combatType != CombatType.CIVILIAN && (state == UnitState.FORTIFY || state == UnitState.SETUP) && ((NonCivilian) this).getFortifiedCycle() != 2)
-            ((NonCivilian) this).setFortifiedCycle(((NonCivilian) this).getFortifiedCycle() + 1);
+        if (unitType.combatType != CombatType.CIVILIAN &&
+                (state == UnitState.FORTIFY || state == UnitState.SETUP) &&
+                ((NonCivilian) this).getFortifiedCycle() != 2)
+            ((NonCivilian) this).setFortifiedCycle(((NonCivilian) this)
+                    .getFortifiedCycle() + 1);
 
         if (unitType == UnitType.WORKER &&
                 state == UnitState.BUILDING &&
                 currentTile.getImprovement() != null &&
                 currentTile.getImprovement().getRemainedCost() != 0) {
-            currentTile.getImprovement().setRemainedCost(currentTile.getImprovement().getRemainedCost() - 1);
+            currentTile.getImprovement()
+                    .setRemainedCost(currentTile.getImprovement()
+                            .getRemainedCost() - 1);
             if (currentTile.getImprovement().getRemainedCost() == 0) {
                 state = UnitState.AWAKE;
                 currentTile.setContainedFeature(null);
@@ -105,17 +116,23 @@ public abstract class Unit implements Producible, CanGetAttacked {
         }
 
         if (unitType == UnitType.WORKER && state == UnitState.REPAIRING) {
-            if (currentTile.getImprovement() != null && currentTile.getImprovement().getNeedsRepair() != 0) {
-                currentTile.getImprovement().setNeedsRepair(currentTile.getImprovement().getNeedsRepair() - 1);
+            if (currentTile.getImprovement() != null &&
+                    currentTile.getImprovement().getNeedsRepair() != 0) {
+                currentTile.getImprovement()
+                        .setNeedsRepair(currentTile.getImprovement()
+                                .getNeedsRepair() - 1);
                 if (currentTile.getImprovement().getNeedsRepair() == 0)
                     state = UnitState.AWAKE;
             }
             else
                 state = UnitState.AWAKE;
         }
-        if (unitType == UnitType.WORKER && state == UnitState.REMOVING) {
-            if (currentTile.getContainedFeature() != null && currentTile.getContainedFeature().getCyclesToFinish() != 0) {
-                currentTile.getContainedFeature().setCyclesToFinish(currentTile.getContainedFeature().getCyclesToFinish() - 1);
+        if (unitType == UnitType.WORKER &&
+                state == UnitState.REMOVING) {
+            if (currentTile.getContainedFeature() != null &&
+                    currentTile.getContainedFeature().getCyclesToFinish() != 0) {
+                currentTile.getContainedFeature()
+                        .setCyclesToFinish(currentTile.getContainedFeature().getCyclesToFinish() - 1);
                 if (currentTile.getContainedFeature().getCyclesToFinish() == 0) {
                     state = UnitState.AWAKE;
                     currentTile.setContainedFeature(null);
@@ -142,11 +159,14 @@ public abstract class Unit implements Producible, CanGetAttacked {
 
     public boolean move(Tile destinationTile, boolean ogCall) {
         if (movementPrice == 0) return false;
-        if (state == UnitState.ATTACK && GameController.getMap().isInRange(unitType.range, destinationTile, currentTile)) {
+        if (state == UnitState.ATTACK && GameController.getMap()
+                .isInRange(unitType.range, destinationTile, currentTile)) {
             attack(destinationTile);
             return ogCall;
         }
-        Map.TileAndMP[] tileAndMPS = GameController.getMap().findNextTile(civilization, currentTile, movementPrice, unitType.movePoint, destinationTile, unitType.combatType == CombatType.CIVILIAN, this);
+        Map.TileAndMP[] tileAndMPS = GameController.getMap().findNextTile(civilization,
+                currentTile, movementPrice, unitType.movePoint, destinationTile,
+                unitType.combatType == CombatType.CIVILIAN, this);
         if (ogCall) {
             this.destinationTile = destinationTile;
             if (state != UnitState.ATTACK) this.state = UnitState.MOVING;
@@ -167,7 +187,8 @@ public abstract class Unit implements Producible, CanGetAttacked {
             }
         if (tempTile == null ||
                 ((tileAndMPS[i].movePoint == 0 || tileAndMPS[i].movePoint == unitType.movePoint) &&
-                        (tempTile.getNonCivilian() != null && this instanceof NonCivilian || tempTile.getCivilian() != null && !(this instanceof NonCivilian))))
+                        (tempTile.getNonCivilian() != null && this instanceof NonCivilian ||
+                                tempTile.getCivilian() != null && !(this instanceof NonCivilian))))
             return false;
 
         if (this.unitType.movePoint != tileAndMPS[i].movePoint)
@@ -193,7 +214,9 @@ public abstract class Unit implements Producible, CanGetAttacked {
                 this.destinationTile = null;
                 state = UnitState.AWAKE;
             }
-            return movementPrice == 0 || destinationTile == currentTile || state == UnitState.ATTACK;
+            return movementPrice == 0 ||
+                    destinationTile == currentTile ||
+                    state == UnitState.ATTACK;
         }
         return true;
     }

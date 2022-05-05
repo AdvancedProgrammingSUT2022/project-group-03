@@ -19,15 +19,21 @@ public abstract class Menu {
         return nextMenu;
     }
 
-    protected Matcher getMatcher(String regex, String command) {
+    protected Matcher getMatcher(String regex, String command,boolean toLower) {
         Pattern pattern = Pattern.compile(regex.toLowerCase(Locale.ROOT));
         Matcher matcher = pattern.matcher(command.toLowerCase(Locale.ROOT));
+        if(!toLower)
+        {
+            pattern = Pattern.compile(regex);
+            matcher = pattern.matcher(command);
+        }
         matcher.find();
         return matcher;
     }
-    protected static int getCommandNumber(String input, String[] commands) {
+    protected static int getCommandNumber(String input, String[] commands, boolean toLower) {
         for (int i = 0; i < commands.length; i++)
-            if (Pattern.compile(commands[i].toLowerCase(Locale.ROOT)).matcher(input.toLowerCase(Locale.ROOT)).matches())
+            if ((toLower && Pattern.compile(commands[i].toLowerCase(Locale.ROOT)).matcher(input.toLowerCase(Locale.ROOT)).matches()) ||
+                    (!toLower && Pattern.compile(commands[i]).matcher(input).matches()))
                 return i;
         return -1;
     }

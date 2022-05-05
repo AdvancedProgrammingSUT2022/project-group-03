@@ -5,7 +5,9 @@ import model.User;
 public class LoginController {
     private static User loggedUser;
 
-    public static int createNewUser(String username, String password, String nickname) {
+    public static int createNewUser(String username,
+                                    String password,
+                                    String nickname) {
         if (User.findUser(username, false) != null)
             return 1;
         if (User.findUser(nickname, true) != null)
@@ -34,7 +36,8 @@ public class LoginController {
         return 0;
     }
 
-    public static int changePassword(String currentPassword, String newPassword) {
+    public static int changePassword(String currentPassword,
+                                     String newPassword) {
         if (!loggedUser.isPasswordCorrect(currentPassword))
             return 1;
         if (loggedUser.isPasswordCorrect(newPassword))

@@ -16,7 +16,6 @@ public class LoginMenu extends Menu {
         };
     }
 
-    //    private String username, password, nickname;
     private final String[] userRegexes = {
             ".*--username (\\w+).*",
             ".*-u (\\w+).*"
@@ -28,8 +27,8 @@ public class LoginMenu extends Menu {
     };
 
     private final String[] passRegexes = {
-            ".*--password (\\w+).*",
-            ".*-p (\\w+).*"
+            ".*--password (\\S+).*",
+            ".*-p (\\S+).*"
     };
     private final Pattern[] patterns = {
             Pattern.compile(userRegexes[0]),
@@ -43,7 +42,7 @@ public class LoginMenu extends Menu {
     @Override
     protected boolean commands(String command) {
 
-        commandNumber = getCommandNumber(command, regexes);
+        commandNumber = getCommandNumber(command, regexes,true);
         switch (commandNumber) {
             case -1:
                 System.out.println("invalid command");
@@ -65,14 +64,15 @@ public class LoginMenu extends Menu {
                 break;
             case 4:
                 System.out.println("please login first");
+                break;
         }
         return false;
     }
 
     private boolean initializeUserPassNick(String command, StringBuffer username, StringBuffer password, StringBuffer nickname, boolean isLogin) {
-        int UsernameCommandNumber = getCommandNumber(command, userRegexes);
-        int PasswordCommandNumber = getCommandNumber(command, passRegexes);
-        int NicknameCommandNumber = getCommandNumber(command, nickRegexes);
+        int UsernameCommandNumber = getCommandNumber(command, userRegexes,false);
+        int PasswordCommandNumber = getCommandNumber(command, passRegexes,false);
+        int NicknameCommandNumber = getCommandNumber(command, nickRegexes,false);
         if (UsernameCommandNumber == -1 ||
                 PasswordCommandNumber == -1 ||
                 (!isLogin && NicknameCommandNumber == -1)) {
@@ -125,7 +125,7 @@ public class LoginMenu extends Menu {
                 nextMenu = 1;
                 return true;
             case 1, 2:
-                System.out.println("Username and password didn't match!");
+                System.out.println("Username and password do not match!");
                 return false;
         }
         return true;
