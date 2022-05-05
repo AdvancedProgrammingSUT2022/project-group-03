@@ -38,7 +38,7 @@ class CivilianTest {
 
     @Test
     void city() {
-        civilian.city();
+        civilian.city("fuck");
         assertNotNull(tile.getCity());
     }
 

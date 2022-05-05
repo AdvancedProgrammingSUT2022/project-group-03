@@ -63,12 +63,12 @@ public class GameMenu extends MutatedMenu {
         public int run(String command) {
             if ((type.equals("noncivilian") || type.equals("ncu")) && x != -1989 && y != -1989) {
                 if (GameController.setSelectedCombatUnit(x, y))
-                    System.out.println("combat unit selected successfully");
+                    System.out.println("civilian unit selected successfully");
                 else
                     System.out.println("selection failed");
             } else if ((type.equals("civilian") || type.equals("cu")) && x != -1989 && y != -1989) {
                 if (GameController.setSelectedNonCombatUnit(x, y))
-                    System.out.println("noncombat unit selected successfully");
+                    System.out.println("noncivilian unit selected successfully");
                 else
                     System.out.println("selection failed");
             } else if ((type.equals("city") || type.equals("c")) && x != -1989 && y != -1989) {

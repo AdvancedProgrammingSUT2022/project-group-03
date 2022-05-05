@@ -37,9 +37,12 @@ public class Map {
             int settlerY = 0;
             while (!end) {
                 end = true;
-                settlerX = 3 + random.nextInt(x - 3);
-                settlerY = 5 + random.nextInt(x - 5);
-                if (coordinatesToTile(settlerX, settlerY).getMovingPrice() > 123) continue;
+                settlerX = 3 + random.nextInt(x - 6);
+                settlerY = 5 + random.nextInt(x - 10);
+                if (coordinatesToTile(settlerX, settlerY).getMovingPrice() > 123){
+                    end= false;
+                    continue;
+                }
                 for (int j = 0; j < i; j++) {
                     if (Math.abs(settlerX - settlers[0][j]) < 5 &&
                             Math.abs(settlers[1][j] - settlerX) < 5) {
@@ -74,19 +77,21 @@ public class Map {
             visitedWithMove.put(i, new HashMap<>());
         }
         visitedWithMove.get(0).put(center,
-                new BestMoveClass(0,
+                new BestMoveClass(1,
                         null, 0));
         visited[0].add(center);
         isVisitedEver.put(center, true);
         Tile check;
         for (int i = 0; i < range; i++) {
-            for (int j = 0; j < visited[i].size(); j++) {
+            for (int j = 0; j <  visited[i].size() &&
+                    visitedWithMove.get(i).get(visited[i].get(j)).movePoint > 0;j++) {
                 for (int k = 0; k < 6; k++) {
                     check = visited[i].get(j).getNeighbours(k);
+                    int remainingMP = visitedWithMove.get(i).get(visited[i].get(j)).movePoint;
                     if (check == null) break;
                     if (!visitedWithMove.get(i).containsKey(check)) {
                         visitedWithMove.get(i).put(check,
-                                new BestMoveClass(0,
+                                new BestMoveClass(remainingMP -1,
                                         visited[i].get(j), i));
                         visited[i].add(check);
                     } else if (visitedWithMove.get(i).get(check).movePoint < 0) {
@@ -102,7 +107,7 @@ public class Map {
                     isVisitedEver.put(visited[i].get(cc), true);
                 }
                 visitedWithMove.get(i + 1).put(visited[i].get(cc),
-                        new BestMoveClass(0,
+                        new BestMoveClass(1,
                                 visitedWithMove.get(i).get(visited[i].get(cc)).lastTile, i));
                 visited[i + 1].add(visited[i].get(cc));
             }
@@ -212,6 +217,7 @@ public class Map {
                 riverSides[0].setTilesWithRiver(neighbour);
                 riverSides[1].setTilesWithRiver((neighbour + 3) % 6);
                 remainingLength--;
+
             }
         }
     }
@@ -454,7 +460,7 @@ public class Map {
                             int number) {
         if (i < x && j < y && tileConditions[i][j] != null &&
                 tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(number))
-            return Color.BLUE;
+            return Color.BLUE_BOLD_BRIGHT;
         return Color.RESET;
     }
 
@@ -561,9 +567,9 @@ public class Map {
             else cString = "  ";
             if (condition) openString = " ";
             else openString = ",";
-            mapString.append("  ").append(color0).append("/").
+            mapString.append("  ").append(Color.RESET).append(color0).append("/").
                     append(Color.RESET).append(currentTileColor).append(" ")
-                    .append(cString).append("  ").append(color2).append("\\")
+                    .append(cString).append("  ").append(Color.RESET).append(color2).append("\\")
                     .append(Color.RESET).append(rightTileColor).append(" ")
                     .append(iString).append(openString).append(jString);
         }
@@ -586,7 +592,7 @@ public class Map {
                     tileConditions, i, j, false);
             color0 = initColor(i, j, tileConditions, 0);
             color2 = initColor(i, j, tileConditions, 2);
-            if (i + j % 2 > 0 && j < y - 1 && i + 1 < x &&
+            if (i + j % 2 >0 && j < y - 1 && i < x &&
                     tileConditions[i - 1 + (j % 2)][j + 1] != null)
                 iString = tileConditions[i - 1 + (j % 2)][j + 1].getOpenedArea().getTileType().icon;
             else iString = "   ";
@@ -605,10 +611,10 @@ public class Map {
                     tileConditions[i][j].getOpenedArea().getRoad() != null) {
                 openString = tileConditions[i][j].getOpenedArea().getRoad().getImprovementType().icon;
             } else openString = " ";
-            mapString.append(" ").append(color0).append("/").
+            mapString.append(" ").append(Color.RESET).append(color0).append("/").
                     append(Color.RESET).append(currentTileColor)
                     .append(cString).append(",").append(jString).append(openString)
-                    .append(" ").append(color2).append("\\").append(Color.RESET)
+                    .append(" ").append(Color.RESET).append(color2).append("\\").append(Color.RESET)
                     .append(rightTileColor).append("  ").append(iString).append(" ");
         }
         mapString.append(Color.RESET).append("\n");
@@ -630,6 +636,7 @@ public class Map {
                     tileConditions, i, j, false);
             color0 = initColor(i, j, tileConditions, 0);
             color1 = initColor(i, j + 1, tileConditions, 1);
+            if(color1 == Color.RESET) color1 = rightTileColor;
             color2 = initColor(i, j, tileConditions, 2);
             if (i >= 10) iString = "  " + i;
             else iString = "   " + i;
@@ -638,9 +645,9 @@ public class Map {
             mapString.append(color0).append("/").
                     append(Color.RESET).append(currentTileColor)
                     .append(iString).append(",")
-                    .append(jString).append(color2).append("\\")
-                    .append(Color.RESET).append(color1)
-                    .append(rightTileColor).append("_____")
+                    .append(jString).append(color2).append(Color.RESET).append("\\")
+                    .append(Color.RESET)
+                    .append(rightTileColor).append(color1).append("_____")
                     .append(Color.RESET);
         }
         mapString.append("\n");
@@ -703,9 +710,9 @@ public class Map {
                     || !tileConditions[i][j].getIsClear())
                 openString = " ";
             else openString = ",";
-            mapString.append(color0).append("\\")
+            mapString.append(Color.RESET).append(color0).append("\\")
                     .append(Color.RESET).append(currentTileColor).append(" ")
-                    .append(iString).append(openString).append(jString).append(" ")
+                    .append(iString).append(openString).append(jString).append(" ").append(Color.RESET)
                     .append(color2).append("/")
                     .append(Color.RESET)
                     .append(rightTileColor).append(" ")
@@ -751,10 +758,10 @@ public class Map {
                 openString = tileConditions[i + j % 2][j + 1]
                         .getOpenedArea().getRoad().getImprovementType().icon;
             } else openString = " ";
-            mapString.append(" ").append(color0).append("\\")
+            mapString.append(" ").append(Color.RESET).append(color0).append("\\")
                     .append(Color.RESET).append(currentTileColor).append("  ")
                     .append(iString)
-                    .append("  ").append(color2).append("/")
+                    .append("  ").append(Color.RESET).append(color2).append("/")
                     .append(Color.RESET).append(rightTileColor)
                     .append(cString).append(",").append(jString).append(openString);
         }
@@ -780,14 +787,15 @@ public class Map {
             color0 = initColor(i, j, tileConditions, 5);
             color1 = initColor(i, j, tileConditions, 4);
             color2 = initColor(i, j, tileConditions, 3);
+            if(color1 == Color.RESET) color1 = currentTileColor;
             if (i + j % 2 >= 10) iString = "  " + (i + j % 2);
             else iString = "   " + (i + j % 2);
             if (j + 1 >= 10) jString = (j + 1) + "";
             else jString = (j + 1) + " ";
-            mapString.append("  ").append(color0).append("\\").
-                    append(Color.RESET).append(color1)
-                    .append(currentTileColor).append("_____")
-                    .append(Color.RESET).append(color2).append("/").append(Color.RESET)
+            mapString.append("  ").append(Color.RESET).append(color0).append("\\").
+                    append(Color.RESET).append(currentTileColor).append(color1).append("_____")
+                    .append(Color.RESET).append(color2).append("/")
+
                     .append(rightTileColor).append(iString).append(",").append(jString);
         }
         mapString.append(Color.RESET).append("\n");

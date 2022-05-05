@@ -297,17 +297,18 @@ public class GameController {
                                                                           Tile tile, Civilization civilization) {
         if (civilization.doesContainTechnology(improvementType.prerequisitesTechnologies) != 1)
             return false;
-        if (improvementType == ImprovementType.FARM && (tile.getContainedFeature() != null &&
+        if ((improvementType == ImprovementType.FARM || improvementType == ImprovementType.MINE)
+                && (tile.getContainedFeature() != null &&
                 tile.getContainedFeature().getFeatureType() == FeatureType.JUNGLE &&
                 civilization.doesContainTechnology(TechnologyType.BRONZE_WORKING) != 1))
             return false;
-        if (improvementType == ImprovementType.QUARRY && tile.getContainedFeature() != null &&
+        if (improvementType == ImprovementType.MINE && tile.getContainedFeature() != null &&
                 selectedUnit != null &&
                 selectedUnit.getCurrentTile().getContainedFeature() != null &&
                 selectedUnit.getCurrentTile().getContainedFeature().getFeatureType() == FeatureType.SWAMP &&
                 selectedUnit.getCivilization().doesContainTechnology(TechnologyType.MASONRY) != 1)
             return false;
-        if (tile.getContainedFeature() != null &&
+        if (improvementType == ImprovementType.FARM &&
                 selectedUnit != null &&
                 selectedUnit.getCurrentTile().getContainedFeature() != null &&
                 selectedUnit.getCurrentTile().getContainedFeature().getFeatureType() == FeatureType.SWAMP &&
@@ -334,7 +335,8 @@ public class GameController {
     }
 
     private static boolean canHaveTheImprovement(Tile tile, ImprovementType improvementType) {
-        if (!TileType.canHaveTheImprovement(tile.getTileType(), improvementType))
+        if (!TileType.canHaveTheImprovement(tile.getTileType(), improvementType) || tile.getCivilization() !=
+                selectedUnit.getCivilization())
             return false;
         if (tile.getContainedFeature() != null &&
                 !FeatureType.canHaveTheImprovement(tile.getContainedFeature().getFeatureType(),

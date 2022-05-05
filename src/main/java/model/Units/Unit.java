@@ -6,6 +6,7 @@ import model.Civilization;
 import model.Map;
 import model.features.FeatureType;
 import model.Producible;
+import model.improvements.ImprovementType;
 import model.tiles.Tile;
 
 public abstract class Unit implements Producible, CanGetAttacked {
@@ -111,7 +112,23 @@ public abstract class Unit implements Producible, CanGetAttacked {
                             .getRemainedCost() - 1);
             if (currentTile.getImprovement().getRemainedCost() == 0) {
                 state = UnitState.AWAKE;
+                if ((currentTile.getImprovement().getImprovementType() == ImprovementType.FARM
+                        || currentTile.getImprovement().getImprovementType() == ImprovementType.MINE) &&
+                        (currentTile.getContainedFeature().getFeatureType() == FeatureType.JUNGLE
+                                ||currentTile.getContainedFeature().getFeatureType() == FeatureType.SWAMP
+                                ||currentTile.getContainedFeature().getFeatureType() == FeatureType.FOREST))
                 currentTile.setContainedFeature(null);
+            }
+        }
+        if (unitType == UnitType.WORKER &&
+                state == UnitState.BUILDING &&
+                currentTile.getRoad() != null &&
+                currentTile.getRoad().getRemainedCost() != 0) {
+            currentTile.getRoad()
+                    .setRemainedCost(currentTile.getRoad()
+                            .getRemainedCost() - 1);
+            if (currentTile.getRoad().getRemainedCost() == 0) {
+                state = UnitState.AWAKE;
             }
         }
 
@@ -168,6 +185,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
                 currentTile, movementPrice, unitType.movePoint, destinationTile,
                 unitType.combatType == CombatType.CIVILIAN, this);
         if (ogCall) {
+            GameController.openNewArea(this.currentTile, civilization, null);
             this.destinationTile = destinationTile;
             if (state != UnitState.ATTACK) this.state = UnitState.MOVING;
         }
