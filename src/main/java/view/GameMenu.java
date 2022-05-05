@@ -19,20 +19,19 @@ import java.util.Scanner;
 public class GameMenu extends MutatedMenu {
     static class FreeFlagCommands implements Runnable {
         public int run(String name) {
-            switch (name) {
-                case "next-turn":
-                    if (GameController.nextTurnIfYouCan())
-                        System.out.println("turn ended successfully");
-                    else {
-                        System.out.print("failed to end the turn: " + GameController.getUnfinishedTasks().get(0).getTaskTypes());
-                        if (GameController.getUnfinishedTasks().get(0).getTile() == null)
-                            System.out.println();
-                        else System.out.println(" | x: " + GameController.getUnfinishedTasks().get(0).getTile().getX() +
-                                " y: " + GameController.getUnfinishedTasks().get(0).getTile().getY());
-                    }
-                    return 3;
-                default:
-                    System.out.println("invalid command");
+            if ("next-turn".equals(name)) {
+                if (GameController.nextTurnIfYouCan())
+                    System.out.println("turn ended successfully");
+                else {
+                    System.out.print("failed to end the turn: " + GameController.getUnfinishedTasks().get(0).getTaskTypes());
+                    if (GameController.getUnfinishedTasks().get(0).getTile() == null)
+                        System.out.println();
+                    else System.out.println(" | x: " + GameController.getUnfinishedTasks().get(0).getTile().getX() +
+                            " y: " + GameController.getUnfinishedTasks().get(0).getTile().getY());
+                }
+                return 3;
+            } else {
+                System.out.println("invalid command");
             }
             return 3;
         }
@@ -396,13 +395,13 @@ public class GameMenu extends MutatedMenu {
     }
 
     static class menuCommands implements Runnable {
-        @Parameter(names = {"exit"},
+        @Parameter(names = {"exit", "-x"},
                 description = "Id of the Customer who's using the services")
         boolean exit = false;
-        @Parameter(names = {"show-current"},
+        @Parameter(names = {"show-current", "-s"},
                 description = "Id of the Customer who's using the services")
         boolean show = false;
-        @Parameter(names = {"enter"},
+        @Parameter(names = {"enter", "-e"},
                 description = "Id of the Customer who's using the services")
         String nextMenu = "init";
 
@@ -437,10 +436,10 @@ public class GameMenu extends MutatedMenu {
     }
 
     static class mapCommands implements Runnable {
-        @Parameter(names = {"print"},
+        @Parameter(names = {"print", "-p"},
                 description = "Id of the Customer who's using the services")
         boolean print = false;
-        @Parameter(names = {"show"},
+        @Parameter(names = {"show", "-s"},
                 description = "Id of the Customer who's using the services")
         boolean show = false;
         @Parameter(names = {"--city", "-c"},
@@ -624,16 +623,16 @@ public class GameMenu extends MutatedMenu {
         @Parameter(names = {"--object", "-o"},
                 description = "Id of the Customer who's using the services")
         String obj = "init";
-        @Parameter(names = {"science", "-s"},
-                description = "Id of the Customer who's using the services")
-        boolean science = false;
         @Parameter(names = {"production", "-p"},
                 description = "Id of the Customer who's using the services")
         boolean production = false;
+        @Parameter(names = {"science", "-s"},
+                description = "Id of the Customer who's using the services")
+        boolean science = false;
         @Parameter(names = {"resource", "-r"},
                 description = "Id of the Customer who's using the services")
         boolean resource = false;
-        @Parameter(names = {"create"},
+        @Parameter(names = {"create", "-c"},
                 description = "Id of the Customer who's using the services")
         String unit = "init";
         @Parameter(names = {"--tilex", "-x"},
@@ -652,7 +651,7 @@ public class GameMenu extends MutatedMenu {
                 GameController.cheatProduction(amount);
             } else if (resource && amount != -1989 && !obj.equals("init")) {
                 GameController.cheatResource(amount, ResourcesTypes.stringToEnum(obj));
-            } else if (!unit.equals("init") && (x != -1989 && y != -1989)) {
+            } else if (!unit.equals("init") && (x != -1989 && y != -1989) && !obj.equals("init")) {
                 UnitType unitType = UnitType.stringToEnum(obj);
                 GameController.cheatUnit(x, y, unitType);
             } else {
@@ -660,35 +659,34 @@ public class GameMenu extends MutatedMenu {
             }
             return 3;
         }
-
     }
 
     static class cityCommands implements Runnable {
-        @Parameter(names = {"show"},
+        @Parameter(names = {"show", "-s"},
                 description = "Id of the Customer who's using the services")
         String show = "init";
-        @Parameter(names = {"start"},
+        @Parameter(names = {"start", "-st"},
                 description = "Id of the Customer who's using the services")
         String startProducing = "init";
         @Parameter(names = {"--type","-t"},
                 description = "Id of the Customer who's using the services")
         String type = "init";
-        @Parameter(names = {"buy"},
+        @Parameter(names = {"buy", "-b"},
                 description = "Id of the Customer who's using the services")
         String buy = "init";
-        @Parameter(names = {"citizen"},
+        @Parameter(names = {"citizen", "-c"},
                 description = "Id of the Customer who's using the services")
         String citizen = "init";
-        @Parameter(names = {"build"},
+        @Parameter(names = {"build", "-bd"},
                 description = "Id of the Customer who's using the services")
         String build = "init";
-        @Parameter(names = {"attack"},
+        @Parameter(names = {"attack", "-a"},
                 description = "Id of the Customer who's using the services")
         boolean attack = false;
-        @Parameter(names = {"burn"},
+        @Parameter(names = {"burn","-bn"},
                 description = "Id of the Customer who's using the services")
         boolean burn = false;
-        @Parameter(names = {"capture"},
+        @Parameter(names = {"capture","-ca"},
                 description = "Id of the Customer who's using the services")
         boolean capture = false;
 
@@ -861,7 +859,7 @@ public class GameMenu extends MutatedMenu {
 
     protected JCommander jCommander() {
         JCommander jCommander = new JCommander();
-        jCommander.setAllowAbbreviatedOptions(true);
+        jCommander.setAllowAbbreviatedOptions(false);
         jCommander.addCommand("city", new cityCommands());
         jCommander.addCommand("cheat", new cheatCommands());
         jCommander.addCommand("info", new infoCommands());
@@ -873,9 +871,5 @@ public class GameMenu extends MutatedMenu {
         jCommander.addCommand("next-turn", new FreeFlagCommands());
         jCommander.addCommand("capture_city", new FreeFlagCommands());
         return jCommander;
-    }
-
-    public static void main(String[] args) {
-        new GameMenu().run(new Scanner(System.in), 3);
     }
 }

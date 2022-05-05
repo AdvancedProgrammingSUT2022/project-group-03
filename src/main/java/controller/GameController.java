@@ -33,15 +33,15 @@ public class GameController {
             civilizations.get(i).setTileConditions
                     (new Civilization.TileCondition[map.getX()][map.getY()]);
         //HARDCODE
-        NonCivilian unit =
-                new NonCivilian(map.coordinatesToTile(3, 3),
-                        civilizations.get(0), UnitType.PANZER);
-        civilizations.get(0).getUnits().add(unit);
-        map.coordinatesToTile(3, 3).setNonCivilian(unit);
-        unit = new NonCivilian(map.coordinatesToTile(3, 4),
-                civilizations.get(1), UnitType.WARRIOR);
-        civilizations.get(1).getUnits().add(unit);
-        map.coordinatesToTile(3, 4).setNonCivilian(unit);
+//        NonCivilian unit =
+//                new NonCivilian(map.coordinatesToTile(3, 3),
+//                        civilizations.get(0), UnitType.PANZER);
+//        civilizations.get(0).getUnits().add(unit);
+//        map.coordinatesToTile(3, 3).setNonCivilian(unit);
+//        unit = new NonCivilian(map.coordinatesToTile(3, 4),
+//                civilizations.get(1), UnitType.WARRIOR);
+//        civilizations.get(1).getUnits().add(unit);
+//        map.coordinatesToTile(3, 4).setNonCivilian(unit);
         //
     }
 
