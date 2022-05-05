@@ -192,12 +192,11 @@ public class City implements CanAttack, CanGetAttacked {
                 product = null;
             }
         }
-        food = food - 2 * population;
+        food = food - population;
         if (food < 0) {
-            population--;
             food = 0;
-            if (citizen > 0) citizen--;
-            else gettingWorkedOnByCitizensTiles.remove(0);
+            civilization.changeHappiness(-1);
+
         }
         if (food > foodForCitizen) {
             food -= foodForCitizen;
@@ -290,9 +289,16 @@ public class City implements CanAttack, CanGetAttacked {
     }
 
     public boolean assignCitizenToTiles(Tile originTile, Tile destinationTile) {
-        if (originTile == null) citizen--;
-        else gettingWorkedOnByCitizensTiles.remove(originTile);
-        gettingWorkedOnByCitizensTiles.add(destinationTile);
+        if (originTile == null && tiles.contains(destinationTile) && citizen > 0) {
+            citizen--;
+            gettingWorkedOnByCitizensTiles.add(destinationTile);
+            return true;
+        }
+        else if(tiles.contains(originTile) &&gettingWorkedOnByCitizensTiles.contains(originTile) && tiles.contains(destinationTile)){
+            gettingWorkedOnByCitizensTiles.remove(originTile);
+            gettingWorkedOnByCitizensTiles.add(destinationTile);
+            return true;
+        }
         return false;
     }
 

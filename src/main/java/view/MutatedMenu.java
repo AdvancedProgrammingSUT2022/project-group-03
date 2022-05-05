@@ -16,7 +16,7 @@ public abstract class MutatedMenu {
     protected int nextMenu;
     public int run(Scanner scanner,int menu) {
         nextMenu = menu;
-        Menu.scanner = scanner;
+        MutatedMenu.scanner = scanner;
         String command;
         JCommander jCommander = jCommander();
 

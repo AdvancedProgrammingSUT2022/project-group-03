@@ -191,8 +191,13 @@ public class GameController {
             return 1;
         if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
             return 2;
-        deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(), TaskTypes.UNIT));
-        return 0;
+        if(selectedUnit.getUnitType().combatType == CombatType.SIEGE) {
+            selectedUnit.setState(UnitState.SETUP);
+            deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(), TaskTypes.UNIT));
+            return 0;
+        }
+       return 3;
+
     }
 
     public static int unitAttackPosition(int x, int y) {
@@ -519,15 +524,15 @@ public class GameController {
 
     public static void cheatUnit(int x, int y, UnitType unitType) {
         if (map.coordinatesToTile(x, y).getMovingPrice() > 123) return;
-        if (unitType == UnitType.SETTLER) {
+        if (unitType.combatType == CombatType.CIVILIAN) {
             Civilian hardcodeUnit = new Civilian(map.coordinatesToTile(x, y), civilizations.get(playerTurn), unitType);
             civilizations.get(playerTurn).getUnits().add(hardcodeUnit);
             map.coordinatesToTile(x, y).setCivilian(hardcodeUnit);
             openNewArea(map.coordinatesToTile(x, y), civilizations.get(playerTurn), hardcodeUnit);
         } else {
-            Unit hardcodeUnit = new NonCivilian(map.coordinatesToTile(x, y), civilizations.get(playerTurn), unitType);
+            NonCivilian hardcodeUnit = new NonCivilian(map.coordinatesToTile(x, y), civilizations.get(playerTurn), unitType);
             civilizations.get(playerTurn).getUnits().add(hardcodeUnit);
-            map.coordinatesToTile(x, y).setCivilian(hardcodeUnit);
+            map.coordinatesToTile(x, y).setNonCivilian( hardcodeUnit);
             openNewArea(map.coordinatesToTile(x, y), civilizations.get(playerTurn), hardcodeUnit);
         }
     }
@@ -595,12 +600,11 @@ public class GameController {
             return 2;
         if (selectedCity.getCivilization() != civilizations.get(playerTurn))
             return 3;
-        if (!selectedCity.doWeHaveEnoughMoney(tempType))
-            return 4;
 
         for (Unit unit : selectedCity.getHalfProducedUnits())
             if (unit.getRemainedCost() != 0 && unit.getUnitType() == tempType) {
                 selectedCity.setProduct(unit);
+                GameController.deleteFromUnfinishedTasks(new Tasks(selectedCity.getMainTile(), TaskTypes.CITY_PRODUCTION));
                 return 0;
             }
         if (tempType.combatType == CombatType.CIVILIAN) {

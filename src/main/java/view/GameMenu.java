@@ -121,7 +121,7 @@ public class GameMenu extends MutatedMenu {
                 description = "Id of the Customer who's using the services",
                 arity = 1)
         String move = "init";
-        @Parameter(names = {"--obj", "-o"},
+        @Parameter(names = {"--object", "-o"},
                 description = "Id of the Customer who's using the services",
                 arity = 1)
         String object = "init";
@@ -221,6 +221,23 @@ public class GameMenu extends MutatedMenu {
                             return 3;
                     }
                     return 3;
+                case "setup":
+                    switch (GameController.unitSetupRanged()) {
+                        case 0:
+                            System.out.println("the selected unit started setup successfully");
+                            return 3;
+                        case 1:
+                            System.out.println("no unit is selected");
+                            return 3;
+                        case 2:
+                            System.out.println("the selected unit is not yours");
+                            return 3;
+                        case 3:
+                            System.out.println("you can't setup this unit");
+                            return 3;
+                    }
+                    return 3;
+
                 case "init":
                     switch (move) {
                         case "init":
@@ -380,6 +397,34 @@ public class GameMenu extends MutatedMenu {
                                     return 3;
                             }
                             return 3;
+                        case "build":
+                            if(object.equals("init")) System.out.println("invalid command");
+                            else {
+                                ImprovementType improvementType = ImprovementType.stringToImprovementType(object);
+                                int result;
+                                if (improvementType != null)
+                                    result = GameController.unitBuild(improvementType);
+                                else if (object.equals("road"))
+                                    result = GameController.unitBuildRoad();
+                                else if (object.equals("railroad"))
+                                    result = GameController.unitBuildRailRoad();
+                                else {
+                                    System.out.println("no improvement with that name exists");
+                                    return 3;
+                                }
+                                if (result == 0)
+                                    System.out.println(object + "'s production started successfully");
+                                if (result == 1)
+                                    System.out.println("no unit is selected");
+                                if (result == 2)
+                                    System.out.println("the selected unit is not yours");
+                                if (result == 3)
+                                    System.out.println("the selected unit is not a worker");
+                                if (result == 4)
+                                    System.out.println("you don't have the prerequisite technologies");
+                                if (result == 5)
+                                    System.out.println("this improvement cannot be inserted here");
+                            }
                         default:
                             System.out.println("invalid command");
 
@@ -411,7 +456,7 @@ public class GameMenu extends MutatedMenu {
                 return 2;
             } else if (show && nextMenu.equals("init")) {
                 System.out.println("Game Menu");
-            } else if (nextMenu.equals("Technologies")) {
+            } else if (nextMenu.equals("technologies")|| nextMenu.equals("t")) {
                 if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0)
                     System.out.println("you need at least one city to enter the technology menu");
                 else {
@@ -419,7 +464,7 @@ public class GameMenu extends MutatedMenu {
                     chooseTechnology.printDetails();
                     chooseTechnology.run(scanner);
                 }
-            } else if (nextMenu.equals("CityProduction")) {
+            } else if (nextMenu.equals("city-production")|| nextMenu.equals("cp")) {
                 if (GameController.getSelectedCity() == null)
                     System.out.println("no city is selected");
                 else if (GameController.getSelectedCity().getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
@@ -548,6 +593,7 @@ public class GameMenu extends MutatedMenu {
                         unitsList.run(scanner);
                         return 3;
                     }
+                    return 3;
 
                 case "city":
                 case "c":
@@ -703,11 +749,11 @@ public class GameMenu extends MutatedMenu {
         @Parameter(names = {"--destinationx", "-dx"},
                 description = "Id of the Customer who's using the services",
                 arity = 1)
-        int dx;
+        int dx = -1989;
         @Parameter(names = {"--destinationy", "-dy"},
                 description = "Id of the Customer who's using the services",
                 arity = 1)
-        int dy;
+        int dy = -1989;
         @Parameter(names = {"--tilex", "-x"},
                 description = "Id of the Customer who's using the services",
                 arity = 1)
