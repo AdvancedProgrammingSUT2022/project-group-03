@@ -917,9 +917,5 @@ public class MutatedGameMenu extends MutatedMenu {
         return jCommander;
     }
 
-    public static void main(String[] args) {
-        new MutatedGameMenu().run(new Scanner(System.in), 3);
-    }
-
 
 }
