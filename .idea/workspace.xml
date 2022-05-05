@@ -6,27 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/GameController.java" afterDir="false" />
-<<<<<<< HEAD
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/MutatedMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MutatedMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$cheatCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$cheatCommands.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$cityCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$cityCommands.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$infoCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$infoCommands.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$menuCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$menuCommands.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/MutatedMenu.class" afterDir="false" />
-=======
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/TechnologyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/TechnologyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
->>>>>>> Arya
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$FreeFlagCommands.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$cheatCommands.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$cityCommands.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$increase.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$infoCommands.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$mapCommands.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$menuCommands.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$tileXAndYFlagSelectUnit.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$unitState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedLoginMenu.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -263,15 +253,14 @@
           <option name="timeStamp" value="39" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-<<<<<<< HEAD
           <url>file://$PROJECT_DIR$/src/main/java/model/City.java</url>
-          <line>91</line>
+          <line>98</line>
           <option name="timeStamp" value="68" />
-=======
-          <url>file://$PROJECT_DIR$/src/main/java/view/LoginMenu.java</url>
-          <line>117</line>
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/model/Map.java</url>
+          <line>67</line>
           <option name="timeStamp" value="94" />
->>>>>>> Arya
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -386,21 +375,7 @@
     <SUITE FILE_PATH="coverage/project_group_03$UnitTest_move.ic" NAME="UnitTest.move Coverage Results" MODIFIED="1651594152656" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.Units.*</FILTER>
     </SUITE>
-<<<<<<< HEAD
     <SUITE FILE_PATH="coverage/project_group_03$UnitTest_getCombatStrength.ic" NAME="UnitTest.getCombatStrength Coverage Results" MODIFIED="1651600259610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-=======
-    <SUITE FILE_PATH="coverage/project_group_03$Main.ic" NAME="Main Coverage Results" MODIFIED="1651749920337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/project_group_03$TileTest_isFeatureTypeValid.ic" NAME="TileTest.isFeatureTypeValid Coverage Results" MODIFIED="1651584853958" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.tiles.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_changeCivilization.ic" NAME="CityTest.changeCivilization Coverage Results" MODIFIED="1651657052736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$TileTest_getCombatChange.ic" NAME="TileTest.getCombatChange Coverage Results" MODIFIED="1651585926177" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.tiles.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_startTheTurn.ic" NAME="UnitTest.startTheTurn Coverage Results" MODIFIED="1651613982853" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
->>>>>>> Arya
       <FILTER>model.Units.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$CityTest_addTile.ic" NAME="CityTest.addTile Coverage Results" MODIFIED="1651617740884" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
