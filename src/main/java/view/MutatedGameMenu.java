@@ -519,11 +519,15 @@ public class MutatedGameMenu extends MutatedMenu {
     }
 
     static class infoCommands implements Runnable {
-        @Parameter(names = {"--object", "-o"},
+        @Parameter(names = {"--type", "-t"},
                 description = "Id of the Customer who's using the services",
                 arity = 1,
-                required = false)
+                required = true)
         String info = "init";
+        @Parameter(names = {"selected", "s"},
+                description = "Id of the Customer who's using the services",
+                required = false)
+        boolean selected = false;
 
         public int run(String name) {
             switch (info) {
@@ -557,10 +561,19 @@ public class MutatedGameMenu extends MutatedMenu {
                     return 3;
                 case "units":
                 case "u":
-                    UnitsList unitsList = new UnitsList();
-                    unitsList.printUnits();
-                    unitsList.run(scanner);
-                    return 3;
+                    if(selected){
+                        if (GameController.getSelectedUnit() == null)
+                            System.out.println("no unit selected");
+                        else
+                            printUnitInfo(GameController.getSelectedUnit());
+                    }
+                    else {
+                        UnitsList unitsList = new UnitsList();
+                        unitsList.printUnits();
+                        unitsList.run(scanner);
+                        return 3;
+                    }
+
                 case "city":
                 case "c":
                     CitiesList citiesList = new CitiesList();
@@ -595,6 +608,10 @@ public class MutatedGameMenu extends MutatedMenu {
                             System.out.print(k + " |");
                     });
                     return 3;
+                case "military":
+                case "m":
+                    printMilitaryOverview();
+                    return 3;
                 default:
                     System.out.println("invalid command");
 
@@ -602,6 +619,26 @@ public class MutatedGameMenu extends MutatedMenu {
             return 3;
         }
 
+    }
+    public static void printMilitaryOverview() {
+        ArrayList<Unit> units = GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits();
+        for (Unit unit : units)
+            printUnitInfo(unit);
+        if (units.size() == 0)
+            System.out.println("you don't have any units right now");
+    }
+    private static void printUnitInfo(Unit unit) {
+        System.out.print(unit.getUnitType() +
+                ": | Health: " + unit.getHealth() +
+                " | currentX: " + unit.getCurrentTile().getX() +
+                " | currentY: " + unit.getCurrentTile().getY() +
+                " | defense Strength: " + unit.getCombatStrength(false) +
+                " | attack Strength: " + unit.getCombatStrength(true) +
+                " | movementPoint: " + unit.getMovementPrice());
+        if (unit.getDestinationTile() != null)
+            System.out.print(" | destinationX: " + unit.getDestinationTile().getX()
+                    + " destinationY: " + unit.getDestinationTile().getY());
+        System.out.println();
     }
 
     static class cheatCommands implements Runnable {
