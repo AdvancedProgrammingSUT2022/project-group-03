@@ -13,7 +13,7 @@ public class Improvement {
         this.improvementType = improvementType;
         needsRepair = 0;
         remainedCost = 6;
-        if ((improvementType == ImprovementType.FARM || improvementType == ImprovementType.QUARRY) && tile.getContainedFeature() != null) {
+        if ((improvementType == ImprovementType.FARM || improvementType == ImprovementType.MINE) && tile.getContainedFeature() != null) {
             if (tile.getContainedFeature().getFeatureType() == FeatureType.FOREST)
                 remainedCost = 10;
             if (tile.getContainedFeature().getFeatureType() == FeatureType.JUNGLE)

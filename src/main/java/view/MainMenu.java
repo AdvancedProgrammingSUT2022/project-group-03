@@ -45,6 +45,7 @@ public class MainMenu extends Menu {
         }
         GameController.startGame(usersList);
         nextMenu = 3;
+        System.out.println(GameController.printMap());
         return true;
     }
     private boolean menuEnter(String command)

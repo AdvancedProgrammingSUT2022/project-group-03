@@ -33,6 +33,8 @@ public class GameController {
             civilizations.get(i).setTileConditions
                     (new Civilization.TileCondition[map.getX()][map.getY()]);
         map.addStartingSettlers(civilizations);
+        for (int i = 0; i < GameController.getCivilizations().size(); i++)
+            GameController.nextTurn();
     }
 
     public static City getSelectedCity() {
@@ -288,17 +290,18 @@ public class GameController {
                                                                           Tile tile, Civilization civilization) {
         if (civilization.doesContainTechnology(improvementType.prerequisitesTechnologies) != 1)
             return false;
-        if (improvementType == ImprovementType.FARM && (tile.getContainedFeature() != null &&
+        if ((improvementType == ImprovementType.FARM || improvementType == ImprovementType.MINE)
+                && (tile.getContainedFeature() != null &&
                 tile.getContainedFeature().getFeatureType() == FeatureType.JUNGLE &&
                 civilization.doesContainTechnology(TechnologyType.BRONZE_WORKING) != 1))
             return false;
-        if (improvementType == ImprovementType.QUARRY && tile.getContainedFeature() != null &&
+        if (improvementType == ImprovementType.MINE && tile.getContainedFeature() != null &&
                 selectedUnit != null &&
                 selectedUnit.getCurrentTile().getContainedFeature() != null &&
                 selectedUnit.getCurrentTile().getContainedFeature().getFeatureType() == FeatureType.SWAMP &&
                 selectedUnit.getCivilization().doesContainTechnology(TechnologyType.MASONRY) != 1)
             return false;
-        if (tile.getContainedFeature() != null &&
+        if (improvementType == ImprovementType.FARM &&
                 selectedUnit != null &&
                 selectedUnit.getCurrentTile().getContainedFeature() != null &&
                 selectedUnit.getCurrentTile().getContainedFeature().getFeatureType() == FeatureType.SWAMP &&
@@ -325,7 +328,8 @@ public class GameController {
     }
 
     private static boolean canHaveTheImprovement(Tile tile, ImprovementType improvementType) {
-        if (!TileType.canHaveTheImprovement(tile.getTileType(), improvementType))
+        if (!TileType.canHaveTheImprovement(tile.getTileType(), improvementType) || tile.getCivilization() !=
+                selectedUnit.getCivilization())
             return false;
         if (tile.getContainedFeature() != null &&
                 !FeatureType.canHaveTheImprovement(tile.getContainedFeature().getFeatureType(),
@@ -509,11 +513,11 @@ public class GameController {
         selectedCity = null;
         selectedUnit = null;
         if (civilizations.get(playerTurn).getCities().size() != 0)
-            mapShowPosition(civilizations.get(playerTurn).getCities().get(0).getMainTile().getX(),
-                    civilizations.get(playerTurn).getCities().get(0).getMainTile().getY());
+            mapShowPosition(civilizations.get(playerTurn).getCities().get(0).getMainTile().getX() - Map.WINDOW_X / 2,
+                    civilizations.get(playerTurn).getCities().get(0).getMainTile().getY()- Map.WINDOW_Y / 2 + 1);
         else if (civilizations.get(playerTurn).getUnits().size() != 0)
-            mapShowPosition(civilizations.get(playerTurn).getUnits().get(0).getCurrentTile().getX(),
-                    civilizations.get(playerTurn).getUnits().get(0).getCurrentTile().getY());
+            mapShowPosition(civilizations.get(playerTurn).getUnits().get(0).getCurrentTile().getX() - Map.WINDOW_X / 2,
+                    civilizations.get(playerTurn).getUnits().get(0).getCurrentTile().getY()- Map.WINDOW_Y / 2 + 1);
     }
 
     public static void setUnfinishedTasks() {
@@ -606,7 +610,8 @@ public class GameController {
     }
 
     public static String printMap() {
-        return map.printMap(civilizations.get(playerTurn).getTileConditions(),
+        return civilizations.get(playerTurn).getUser().getNickname() + ":\n" +
+                map.printMap(civilizations.get(playerTurn).getTileConditions(),
                 startWindowX, startWindowY);
     }
 
