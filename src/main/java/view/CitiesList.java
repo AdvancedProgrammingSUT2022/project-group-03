@@ -24,16 +24,17 @@ public class CitiesList extends Menu {
                     + " | population: " + cities.get(i).getPopulation());
     }
 
-    public void openCityBanner(String command)
+    public boolean openCityBanner(String command)
     {
         ArrayList <City> cities = GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities();
         int number = Integer.parseInt(command);
         if(number<1 || number>cities.size())
         {
             System.out.println("invalid number");
-            return;
+            return false;
         }
         cityBanner(cities.get(number-1));
+        return true;
     }
     public static void cityBanner(City city) {
         if(city==null)
@@ -83,7 +84,8 @@ public class CitiesList extends Menu {
                 System.out.println("Login Menu");
                 break;
             case 2:
-                openCityBanner(command);
+                if(openCityBanner(command))
+                    return true;
                 break;
             case 3:
                 GameMenu.infoEconomic();

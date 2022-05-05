@@ -7,13 +7,32 @@
     <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="isinrange checks the whole map">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Civilization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Civilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Civilian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/UnitType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/UnitType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/resources/ResourcesTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/resources/ResourcesTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/technologies/TechnologyType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/technologies/TechnologyType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ChooseTechnology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ChooseTechnology.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/CitiesList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/CitiesList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/UnitsList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/UnitsList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/model/CityTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/CityTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/GameController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/City.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/City.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/model/Civilization.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Civilization.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map$BestMoveClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map$BestMoveClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map$TileAndMP.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map$TileAndMP.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/ChooseTechnology.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/ChooseTechnology.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$cheatCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$cheatCommands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$cityCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$cityCommands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$infoCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$infoCommands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$mapCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$mapCommands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$menuCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$menuCommands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$unitState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$unitState.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/MainMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/MainMenu.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -223,6 +242,7 @@
       <workItem from="1651667879141" duration="1956000" />
       <workItem from="1651679760474" duration="516000" />
       <workItem from="1651734506686" duration="1936000" />
+      <workItem from="1651772679588" duration="7978000" />
     </task>
     <task id="LOCAL-00001" summary="isinrange checks the whole map">
       <created>1651758513457</created>
@@ -260,6 +280,11 @@
           <properties class="java.util.ConcurrentModificationException" package="java.util" />
           <option name="timeStamp" value="39" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/controller/GameController.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>

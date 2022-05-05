@@ -9,9 +9,9 @@ public class Civilian extends Unit {
     public Civilian(Tile tile, Civilization civilization, UnitType unitType) {
         super(tile, civilization, unitType);
     }
-    public void city()
+    public void city(String string)
     {
-        City tempCity = new City(this.currentTile , "KazemLand",civilization);
+        City tempCity = new City(this.currentTile , string,civilization);
         civilization.getCities().add(tempCity);
         currentTile.setCity(tempCity);
     }

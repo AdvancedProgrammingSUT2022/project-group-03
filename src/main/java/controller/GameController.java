@@ -8,6 +8,7 @@ import model.features.FeatureType;
 import model.improvements.Improvement;
 import model.improvements.ImprovementType;
 import model.resources.ResourcesTypes;
+import model.technologies.Technology;
 import model.technologies.TechnologyType;
 import model.tiles.Tile;
 import model.tiles.TileType;
@@ -35,6 +36,7 @@ public class GameController {
         map.addStartingSettlers(civilizations);
         for (int i = 0; i < GameController.getCivilizations().size(); i++)
             GameController.nextTurn();
+        setUnfinishedTasks();
     }
 
     public static City getSelectedCity() {
@@ -204,7 +206,7 @@ public class GameController {
 
     }
 
-    public static int unitFoundCity() {
+    public static int unitFoundCity(String string) {
         if (selectedUnit == null)
             return 1;
         if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
@@ -216,8 +218,12 @@ public class GameController {
         for (Civilization civilization : civilizations)
             if (civilization.isInTheCivilizationsBorder(selectedUnit.getCurrentTile()))
                 return 4;
+        for (Civilization civilization : civilizations)
+            for (City city : civilization.getCities())
+                if(city.getName().equals(string))
+                    return 5;
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(), TaskTypes.UNIT));
-        ((Civilian) selectedUnit).city();
+        ((Civilian) selectedUnit).city(string);
         civilizations.get(playerTurn).changeHappiness(-1);
         unitDelete(selectedUnit);
         openNewArea(selectedUnit.getCurrentTile(), civilizations.get(playerTurn), null);
@@ -264,6 +270,7 @@ public class GameController {
             unit.getCurrentTile().setNonCivilian(null);
         else
             unit.getCurrentTile().setCivilian(null);
+        openNewArea(unit.getCurrentTile(),unit.getCivilization(),null);
         return 0;
     }
 
@@ -341,6 +348,8 @@ public class GameController {
             return 1;
         if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
             return 2;
+        if(civilizations.get(playerTurn).doesContainTechnology(TechnologyType.RAILROAD)!=1)
+            return 6;
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(),
                 TaskTypes.UNIT));
         selectedUnit.getCurrentTile().setRoad
@@ -522,7 +531,8 @@ public class GameController {
         unfinishedTasks = new ArrayList<>();
         for (int i = 0; i < civilizations.get(playerTurn).getUnits().size(); i++)
             if (civilizations.get(playerTurn).getUnits().get(i).getRemainedCost() == 0 &&
-                    civilizations.get(playerTurn).getUnits().get(i).getState() == UnitState.AWAKE)
+                    civilizations.get(playerTurn).getUnits().get(i).getState() == UnitState.AWAKE &&
+                    civilizations.get(playerTurn).getUnits().get(i).getDestinationTile()!=null)
                 unfinishedTasks.add(new Tasks(civilizations.get(playerTurn).getUnits()
                         .get(i).getCurrentTile(), TaskTypes.UNIT));
         for (int i = 0; i < civilizations.get(playerTurn).getCities().size(); i++)
@@ -530,7 +540,8 @@ public class GameController {
                 unfinishedTasks.add(new Tasks(civilizations.get(playerTurn)
                         .getCities().get(i).getMainTile(), TaskTypes.CITY_PRODUCTION));
         if (civilizations.get(playerTurn).getCities().size() != 0 &&
-                civilizations.get(playerTurn).getGettingResearchedTechnology() == null)
+                civilizations.get(playerTurn).getGettingResearchedTechnology() == null &&
+                !civilizations.get(playerTurn).areTechnologiesFinished())
             unfinishedTasks.add(new Tasks(null, TaskTypes.TECHNOLOGY_PROJECT));
     }
 
@@ -625,7 +636,12 @@ public class GameController {
             return 2;
         if (selectedCity.getCivilization() != civilizations.get(playerTurn))
             return 3;
-
+        if(!civilizations.get(playerTurn).getResourcesAmount().containsKey(tempType.getResourcesType()) ||
+                (civilizations.get(playerTurn).getResourcesAmount().containsKey(tempType.getResourcesType()) &&
+                        civilizations.get(playerTurn).getResourcesAmount().get(tempType.getResourcesType())==0))
+            return 5;
+        if(civilizations.get(playerTurn).doesContainTechnology(tempType.getTechnologyRequired())!=1)
+            return 6;
         for (Unit unit : selectedCity.getHalfProducedUnits())
             if (unit.getRemainedCost() != 0 && unit.getUnitType() == tempType) {
                 selectedCity.setProduct(unit);
@@ -643,6 +659,10 @@ public class GameController {
             selectedCity.getHalfProducedUnits().add(nonCivilian);
             selectedCity.setProduct(nonCivilian);
         }
+        int temp = civilizations.get(playerTurn).getResourcesAmount().get(tempType.getResourcesType());
+        civilizations.get(playerTurn).getResourcesAmount().remove(tempType.getResourcesType());
+        if(temp!=1)
+            civilizations.get(playerTurn).getResourcesAmount().put(tempType.getResourcesType(),temp-1);
         GameController.deleteFromUnfinishedTasks(new Tasks(selectedCity.getMainTile(),
                 TaskTypes.CITY_PRODUCTION));
         return 0;
@@ -699,12 +719,16 @@ public class GameController {
     }
 
     public static void cheatScience(int number) {
-        civilizations.get(playerTurn).setScience(civilizations.get(playerTurn).getScience() + number);
+        civilizations.get(playerTurn).cheatScience = number;
     }
 
-    public static void cheatProduction(int number) {
-        if (selectedCity != null)
-            selectedCity.productionCheat += number;
+    public static int cheatProduction(int number) {
+        if (selectedCity == null)
+            return 1;
+        if (selectedCity.getCivilization() != civilizations.get(playerTurn))
+            return 1;
+        selectedCity.productionCheat += number;
+        return 0;
     }
 
     public static void cheatResource(int number, ResourcesTypes resourcesTypes) {
@@ -733,4 +757,62 @@ public class GameController {
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(), TaskTypes.UNIT));
         return 0;
     }
+    public static int cheatTechnology(TechnologyType technologyType)
+    {
+        if(technologyType==null)
+            return 1;
+        int result = civilizations.get(playerTurn).doesContainTechnology(technologyType);
+        if(result==1)
+            return 2;
+        if(result==2)
+        {
+            for (Technology research : civilizations.get(playerTurn).getResearches())
+                if(research.getTechnologyType()==technologyType)
+                {
+                    research.setRemainedCost(0);
+                    break;
+                }
+        }
+        else
+        {
+            Technology technology = new Technology(technologyType);
+            technology.setRemainedCost(0);
+            civilizations.get(playerTurn).getResearches().add(technology);
+        }
+        setUnfinishedTasks();
+        return 0;
+    }
+    public static void openMap()
+    {
+        for(int i = 0;i<map.getX();i++)
+            for(int j=0;j<map.getY();j+=2)
+                openNewArea(map.coordinatesToTile(i,j),civilizations.get(playerTurn),null);
+    }
+    public static int cheatMoveIt(int x, int y)
+    {
+        if (selectedUnit == null)
+            return 1;
+        if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
+            return 2;
+        if(x<0 || y<0 || x>map.getX() || y>map.getY())
+            return 3;
+        Tile tempTile = map.coordinatesToTile(x,y);
+        selectedUnit.setCurrentTile(map.coordinatesToTile(x,y));
+        if(selectedUnit instanceof Civilian)
+            tempTile.setCivilian(selectedUnit);
+        if(selectedUnit instanceof NonCivilian)
+            tempTile.setNonCivilian((NonCivilian) selectedUnit);
+        return 0;
+    }
+    public static int cheatCaptureCity(String name)
+    {
+        City city = nameToCity(name);
+        if(city==null)
+            return 1;
+        if(city.getCivilization()==civilizations.get(playerTurn))
+            return 2;
+        city.changeCivilization(civilizations.get(playerTurn));
+        return 0;
+    }
+
 }

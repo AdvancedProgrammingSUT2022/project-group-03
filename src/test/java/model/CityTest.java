@@ -95,9 +95,9 @@ class CityTest {
         tile.setContainedFeature(new Feature(FeatureType.OASIS));
         ResourcesTypes resource = ResourcesTypes.WHEAT;
         tile.setResource(resource);
-        city2.collectResources();
+        city2.collectResources(city2.getCivilization().getResourcesAmount());
         assertTrue(civilization2.getResourcesAmount().get(resource)!=0);
-        city2.collectResources();
+        city2.collectResources(city2.getCivilization().getResourcesAmount());
         assertTrue(civilization2.getResourcesAmount().get(resource)!=0);
     }
 

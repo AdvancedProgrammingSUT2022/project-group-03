@@ -2,6 +2,7 @@ package model;
 
 import controller.GameController;
 import model.Units.Unit;
+import model.resources.ResourcesCategory;
 import model.resources.ResourcesTypes;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;
@@ -36,7 +37,6 @@ public class Civilization {
     }
 
     private final int color;
-
     private int gold;
     private final ArrayList<Unit> units = new ArrayList<>();
     private final ArrayList<Technology> researches = new ArrayList<>();
@@ -45,8 +45,8 @@ public class Civilization {
     private int happiness = 2;
     private final HashMap<ResourcesTypes, Integer> resourcesAmount = new HashMap<>();
     private Technology gettingResearchedTechnology;
-    private final HashMap<ResourcesTypes, Boolean> usedLuxuryResources = new HashMap<>();
-
+    private HashMap<ResourcesTypes, Boolean> usedLuxuryResources = new HashMap<>();
+    public int cheatScience;
     public Civilization(User user, int color) {
         this.color = color;
         this.user = user;
@@ -129,16 +129,25 @@ public class Civilization {
 
     public void startTheTurn() {
         turnOffTileConditionsBoolean();
+        usedLuxuryResources = new HashMap<>();
+        for(int i = 0 ; i < ResourcesTypes.VALUES.size();i++)
+            if(ResourcesTypes.VALUES.get(i).getResourcesCategory()== ResourcesCategory.LUXURY &&
+            resourcesAmount.containsKey(ResourcesTypes.VALUES.get(i)))
+            {
+                resourcesAmount.remove(ResourcesTypes.VALUES.get(i));
+                resourcesAmount.put(ResourcesTypes.VALUES.get(i),0);
+            }
         for (City city : cities)
-            city.collectResources();
+            city.collectResources(city.getCivilization().getResourcesAmount());
         for (City city : cities) {
             city.startTheTurn();
             gold += city.getGold();
         }
+        if(gold<0)
+            gold=0;
         for (City city : cities) {
             city.collectFood();
         }
-
         science = collectScience();
         for (Unit unit : units) unit.startTheTurn();
         gold -= units.size();
@@ -167,10 +176,17 @@ public class Civilization {
         int returner = 0;
         for (City city : cities)
             returner += city.getPopulation();
-        for (City city : cities) {
+        for (City city : cities)
             if(city.isCapital) returner += 3;
+        if(gold==0)
+        {
+            int temp = 0;
+            for (City city : cities)
+                temp += city.getGold();
+            if(temp<0)
+                returner+=temp;
         }
-        return returner;
+        return returner + cheatScience;
     }
     public void endTheTurn() {
         //using
@@ -182,6 +198,8 @@ public class Civilization {
     }
 
     public boolean canBeTheNextResearch(TechnologyType technologyType) {
+        if(doesContainTechnology(technologyType)!=3)
+            return false;
         for (int i = 0; i < TechnologyType.prerequisites.get(technologyType).size(); i++)
             if (!canTechnologyBeAchivedNext(i, technologyType))
                 return false;
@@ -212,10 +230,6 @@ public class Civilization {
         return 3;
     }
 
-    public void setScience(int science) {
-        this.science = science;
-    }
-
     public City getCapital()
     {
         for (City city : cities)
@@ -230,5 +244,14 @@ public class Civilization {
         for (City city : cities)
             size+=city.getTiles().size();
         return size;
+    }
+    public boolean areTechnologiesFinished()
+    {
+        if(researches.size()!=TechnologyType.values().length)
+            return false;
+        for (Technology research : researches)
+            if(research.getRemainedCost()!=0)
+                return false;
+        return true;
     }
 }

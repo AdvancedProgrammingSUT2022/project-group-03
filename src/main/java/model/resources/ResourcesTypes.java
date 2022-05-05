@@ -20,7 +20,7 @@ public enum ResourcesTypes {
     SHEEP("SH",ResourcesCategory.BONUS,null,ImprovementType.PASTURE,2,0,0),
     WHEAT("WH",ResourcesCategory.BONUS,null,ImprovementType.FARM,1,0,0),
     COTTON("CT",ResourcesCategory.LUXURY,null,ImprovementType.FIELD,0,0,2),
-    COLOR("CL",ResourcesCategory.LUXURY,null,ImprovementType.FIELD,0,0,2),
+    COLOR("CR",ResourcesCategory.LUXURY,null,ImprovementType.FIELD,0,0,2),
     FUR("FU",ResourcesCategory.LUXURY,null,ImprovementType.CAMP,0,0,2),
     GEMSTONE("GS",ResourcesCategory.LUXURY,null,ImprovementType.MINE,0,0,3),
     GOLD("Au",ResourcesCategory.LUXURY,null,ImprovementType.MINE,0,0,2),
@@ -86,5 +86,9 @@ public enum ResourcesTypes {
 
     public int getFood() {
         return food;
+    }
+
+    public ResourcesCategory getResourcesCategory() {
+        return resourcesCategory;
     }
 }

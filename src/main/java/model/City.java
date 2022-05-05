@@ -4,10 +4,13 @@ import controller.GameController;
 import model.Units.*;
 import model.building.Building;
 import model.building.BuildingType;
+import model.resources.ResourcesCategory;
+import model.resources.ResourcesTypes;
 import model.tiles.Tile;
 import model.tiles.TileType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 
@@ -85,7 +88,7 @@ public class City implements CanAttack, CanGetAttacked {
     }
 
 
-    public void collectResources() {
+    public void collectResources(HashMap<ResourcesTypes, Integer> resourcesAmount) {
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
             if (gettingWorkedOnByCitizensTile.getResource() != null &&
                     gettingWorkedOnByCitizensTile.getResource()
@@ -95,14 +98,15 @@ public class City implements CanAttack, CanGetAttacked {
                     && gettingWorkedOnByCitizensTile.getResource() != null &&
                     gettingWorkedOnByCitizensTile.getResource().getImprovementType() ==
                             gettingWorkedOnByCitizensTile.getImprovement().getImprovementType()) {
-                if (!civilization.getResourcesAmount().containsKey(gettingWorkedOnByCitizensTile.getResource()))
-                    civilization.getResourcesAmount().put(gettingWorkedOnByCitizensTile.getResource(), 1);
+                if (!resourcesAmount.containsKey(gettingWorkedOnByCitizensTile.getResource()))
+                    resourcesAmount.put(gettingWorkedOnByCitizensTile.getResource(), 1);
                 else {
-                    int temp = civilization.getResourcesAmount().get(gettingWorkedOnByCitizensTile.getResource());
-                    civilization.getResourcesAmount().remove(gettingWorkedOnByCitizensTile.getResource());
-                    civilization.getResourcesAmount().put(gettingWorkedOnByCitizensTile.getResource(), temp);
+                    int temp = resourcesAmount.get(gettingWorkedOnByCitizensTile.getResource());
+                    resourcesAmount.remove(gettingWorkedOnByCitizensTile.getResource());
+                    resourcesAmount.put(gettingWorkedOnByCitizensTile.getResource(), temp + 1);
                 }
-                if (!civilization.getUsedLuxuryResources().containsKey(gettingWorkedOnByCitizensTile.getResource())) {
+                if (!civilization.getUsedLuxuryResources().containsKey(gettingWorkedOnByCitizensTile.getResource()) &&
+                        gettingWorkedOnByCitizensTile.getResource().getResourcesCategory() == ResourcesCategory.LUXURY) {
                     civilization.getUsedLuxuryResources().put(gettingWorkedOnByCitizensTile.getResource(), true);
                     civilization.changeHappiness(4);
                 }
@@ -186,8 +190,7 @@ public class City implements CanAttack, CanGetAttacked {
                         }
                     } else {
                         Tile tile = properTileForProduct(true);
-                        if(tile!=null)
-                        {
+                        if (tile != null) {
                             ((Unit) product).setCurrentTile(tile);
                             tile.setCivilian((Civilian) product);
                         }
@@ -223,7 +226,7 @@ public class City implements CanAttack, CanGetAttacked {
         Random rand = new Random();
         int x = 0;
         while (150 > x) {
-            Tile tile = tiles.get(rand.nextInt() % tiles.size());
+            Tile tile = tiles.get(Math.abs(rand.nextInt(tiles.size())));
             for (int i = 0; i < 6; i++) {
                 if (tile.getNeighbours(i) != null && addTile(tile.getNeighbours(i))) return;
                 x++;
@@ -277,7 +280,7 @@ public class City implements CanAttack, CanGetAttacked {
     }
 
     public void attack(Tile tile) {
-        tile.getNonCivilian().takeDamage(calculateDamage( getCombatStrength(true) /
+        tile.getNonCivilian().takeDamage(calculateDamage(getCombatStrength(true) /
                 tile.getNonCivilian().getCombatStrength(false)));
         tile.getNonCivilian().checkToDestroy();
         GameController.openNewArea(tile, civilization, null);
@@ -307,8 +310,7 @@ public class City implements CanAttack, CanGetAttacked {
             citizen--;
             gettingWorkedOnByCitizensTiles.add(destinationTile);
             return true;
-        }
-        else if(tiles.contains(originTile) &&gettingWorkedOnByCitizensTiles.contains(originTile) && tiles.contains(destinationTile)){
+        } else if (tiles.contains(originTile) && gettingWorkedOnByCitizensTiles.contains(originTile) && tiles.contains(destinationTile)) {
             gettingWorkedOnByCitizensTiles.remove(originTile);
             gettingWorkedOnByCitizensTiles.add(destinationTile);
             return true;

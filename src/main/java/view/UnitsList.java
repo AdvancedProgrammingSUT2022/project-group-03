@@ -26,14 +26,14 @@ public class UnitsList extends Menu{
         if(units.size()==0)
             System.out.println("you don't have any units right now");
     }
-    private void selectUnit(String command)
+    private boolean selectUnit(String command)
     {
         int number = Integer.parseInt(command);
         ArrayList <Unit> units = GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits();
         if(number>units.size() || number<1)
         {
             System.out.println("invalid number");
-            return;
+            return false;
         }
         if(units.get(number-1).getUnitType().combatType== CombatType.CIVILIAN)
             GameController.setSelectedNonCombatUnit
@@ -41,6 +41,7 @@ public class UnitsList extends Menu{
         else
             GameController.setSelectedNonCombatUnit
                     (units.get(number-1).getCurrentTile().getX(),units.get(number-1).getCurrentTile().getY());
+        return true;
     }
 
     @Override
@@ -56,7 +57,8 @@ public class UnitsList extends Menu{
                 System.out.println("Login Menu");
                 break;
             case 2:
-                selectUnit(command);
+                if(selectUnit(command))
+                    return true;
                 break;
             case 3:
                 GameMenu.printMilitaryOverview();

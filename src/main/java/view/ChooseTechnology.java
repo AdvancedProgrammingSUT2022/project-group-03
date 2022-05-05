@@ -39,6 +39,11 @@ public class ChooseTechnology extends Menu {
     {
         ArrayList<Technology> researches = TechnologyController.getCivilizationsResearches();
         Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
+        if(civilization.getGettingResearchedTechnology()!=null)
+            System.out.println("Getting researched technology: " +
+                    civilization.getGettingResearchedTechnology().getTechnologyType() +
+                    ", " + TechnologyController.cyclesToComplete(civilization.getGettingResearchedTechnology()) +
+                    " cycles to finish");
         if(showFinishedResearches)
             System.out.println("Finished researches: ");
         for (int i = 0; i < researches.size(); i++) {
@@ -54,16 +59,20 @@ public class ChooseTechnology extends Menu {
                     TechnologyType.nextTech.get(researches.get(i).getTechnologyType());
             for (TechnologyType technologyType : technologyTypes)
                 if (civilization.canBeTheNextResearch(technologyType) &&
+                        !doesArrayContain(possibleTechnologies,technologyType) &&
                         (civilization.getGettingResearchedTechnology() == null ||
                                 civilization.doesContainTechnology(technologyType) == 3))
                     possibleTechnologies.add(new Technology(technologyType));
         }
-        if(!showFinishedResearches)
-            return;
-
     }
 
-
+    private boolean doesArrayContain(ArrayList<Technology> possibleTechnologies, TechnologyType technologyType)
+    {
+        for (Technology possibleTechnology : possibleTechnologies)
+            if(possibleTechnology.getTechnologyType()==technologyType)
+                return true;
+        return false;
+    }
     public void printDetails() {
         initializeResearchInfo(true);
 
@@ -81,14 +90,18 @@ public class ChooseTechnology extends Menu {
         }
     }
 
-    private void addTechnologyToProduction(String command) {
+    private boolean addTechnologyToProduction(String command) {
         Matcher matcher = getMatcher(regexes[2], command,true);
         int entryNumber = Integer.parseInt(matcher.group(1));
         if (TechnologyController.addTechnologyToProduction(possibleTechnologies, entryNumber))
             System.out.println(possibleTechnologies.get(entryNumber - 1).getTechnologyType() +
                     "'s production started successfully");
         else
+        {
             System.out.println("Invalid number");
+            return false;
+        }
+        return true;
     }
 
 
@@ -106,7 +119,8 @@ public class ChooseTechnology extends Menu {
                 System.out.println("Login Menu");
                 break;
             case 2:
-                addTechnologyToProduction(command);
+                if(addTechnologyToProduction(command))
+                    return true;
                 break;
             case 3:
                 printTree();
