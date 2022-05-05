@@ -33,6 +33,9 @@ public class GameController {
             civilizations.get(i).setTileConditions
                     (new Civilization.TileCondition[map.getX()][map.getY()]);
         map.addStartingSettlers(civilizations);
+        for (int i = 0; i < GameController.getCivilizations().size(); i++)
+            GameController.nextTurn();
+        printMap();
     }
 
     public static City getSelectedCity() {
@@ -509,11 +512,11 @@ public class GameController {
         selectedCity = null;
         selectedUnit = null;
         if (civilizations.get(playerTurn).getCities().size() != 0)
-            mapShowPosition(civilizations.get(playerTurn).getCities().get(0).getMainTile().getX(),
-                    civilizations.get(playerTurn).getCities().get(0).getMainTile().getY());
+            mapShowPosition(civilizations.get(playerTurn).getCities().get(0).getMainTile().getX() - Map.WINDOW_X / 2,
+                    civilizations.get(playerTurn).getCities().get(0).getMainTile().getY()- Map.WINDOW_Y / 2 + 1);
         else if (civilizations.get(playerTurn).getUnits().size() != 0)
-            mapShowPosition(civilizations.get(playerTurn).getUnits().get(0).getCurrentTile().getX(),
-                    civilizations.get(playerTurn).getUnits().get(0).getCurrentTile().getY());
+            mapShowPosition(civilizations.get(playerTurn).getUnits().get(0).getCurrentTile().getX() - Map.WINDOW_X / 2,
+                    civilizations.get(playerTurn).getUnits().get(0).getCurrentTile().getY()- Map.WINDOW_Y / 2 + 1);
     }
 
     public static void setUnfinishedTasks() {

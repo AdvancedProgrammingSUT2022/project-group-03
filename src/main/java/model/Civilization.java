@@ -61,12 +61,10 @@ public class Civilization {
     }
 
     public boolean isInTheCivilizationsBorder(Tile tile) {
-        for (City city : cities) {
-            for (Tile cityTile : city.getTiles()) {
+        for (City city : cities)
+            for (Tile cityTile : city.getTiles())
                 if (GameController.getMap().isInRange(2,cityTile,tile))
                     return true;
-            }
-        }
         return false;
     }
 
