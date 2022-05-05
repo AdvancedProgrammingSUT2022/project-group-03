@@ -1,7 +1,4 @@
-import view.GameMenu;
-import view.LoginMenu;
-import view.MainMenu;
-import view.ProfileMenu;
+import view.*;
 
 import java.util.Scanner;
 
@@ -13,7 +10,7 @@ public class Main {
         LoginMenu loginMenu = new LoginMenu();
         MainMenu mainMenu = new MainMenu();
         ProfileMenu profileMenu = new ProfileMenu();
-        GameMenu gameMenu = new GameMenu();
+        MutatedGameMenu gameMenu = new MutatedGameMenu();
 	    while (menu != -1){
             switch (menu){
                 case 0:
@@ -26,7 +23,7 @@ public class Main {
                     menu = profileMenu.run(scanner);
                     break;
                 case 3:
-                    menu = gameMenu.run(scanner);
+                    menu = gameMenu.run(scanner,menu);
                     break;
                 default: break;
             }
