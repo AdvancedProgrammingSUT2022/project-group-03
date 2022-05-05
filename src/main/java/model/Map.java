@@ -194,7 +194,7 @@ public class Map {
                 for (int j = 0; j < 6; j++) {
                     if (lastRiverSides[0].isRiverWithNeighbour(j)) riverNumber++;
                 }
-                int riverNumber1 = 1;
+                int riverNumber1 = 0;
                 for (int j = 0; j < 6; j++) {
                     if (lastRiverSides[1].isRiverWithNeighbour(j)) riverNumber1++;
                 }
@@ -213,10 +213,11 @@ public class Map {
                     breaker++;
                     if (breaker > 7) break;
                 }
-                riverSides[1] = tiles[startX][startY].getNeighbours(neighbour);
+                riverSides[1] = riverSides[0].getNeighbours(neighbour);
                 riverSides[0].setTilesWithRiver(neighbour);
                 riverSides[1].setTilesWithRiver((neighbour + 3) % 6);
                 remainingLength--;
+                System.out.println(riverSides[0].getX()+ "," +riverSides[0].getY() + " - > " + riverSides[1].getX() + "," +riverSides[1].getY());
 
             }
         }
@@ -635,7 +636,7 @@ public class Map {
             Color rightTileColor = initRightTileColor(backReset,
                     tileConditions, i, j, false);
             color0 = initColor(i, j, tileConditions, 0);
-            color1 = initColor(i, j + 1, tileConditions, 1);
+            color1 = initColor(i, j + 1, tileConditions, 4);
             if(color1 == Color.RESET) color1 = rightTileColor;
             color2 = initColor(i, j, tileConditions, 2);
             if (i >= 10) iString = "  " + i;
@@ -645,7 +646,7 @@ public class Map {
             mapString.append(color0).append("/").
                     append(Color.RESET).append(currentTileColor)
                     .append(iString).append(",")
-                    .append(jString).append(color2).append(Color.RESET).append("\\")
+                    .append(jString).append(Color.RESET).append(color2).append("\\")
                     .append(Color.RESET)
                     .append(rightTileColor).append(color1).append("_____")
                     .append(Color.RESET);

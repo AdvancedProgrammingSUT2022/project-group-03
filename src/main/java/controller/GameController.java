@@ -132,7 +132,6 @@ public class GameController {
                 map.coordinatesToTile(x, y).getTileType() == TileType.OCEAN ||
                 map.coordinatesToTile(x, y).getTileType() == TileType.MOUNTAIN)
             return false;
-        //TODO if x,y ==current
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(), TaskTypes.UNIT));
         selectedUnit.setState(UnitState.AWAKE);
         return selectedUnit.move(map.coordinatesToTile(x, y), true);
@@ -534,7 +533,7 @@ public class GameController {
         for (int i = 0; i < civilizations.get(playerTurn).getUnits().size(); i++)
             if (civilizations.get(playerTurn).getUnits().get(i).getRemainedCost() == 0 &&
                     civilizations.get(playerTurn).getUnits().get(i).getState() == UnitState.AWAKE &&
-                    civilizations.get(playerTurn).getUnits().get(i).getDestinationTile()!=null)
+                    civilizations.get(playerTurn).getUnits().get(i).getDestinationTile() ==null)
                 unfinishedTasks.add(new Tasks(civilizations.get(playerTurn).getUnits()
                         .get(i).getCurrentTile(), TaskTypes.UNIT));
         for (int i = 0; i < civilizations.get(playerTurn).getCities().size(); i++)
