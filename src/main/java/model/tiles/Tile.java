@@ -37,7 +37,7 @@ public class Tile {
     }
 
     public int getMovingPrice() {
-        if(containedFeature!=null)
+        if (containedFeature != null)
             return tileType.movementPoint + containedFeature.getFeatureType().movePoint;
         return tileType.movementPoint;
     }
@@ -55,19 +55,20 @@ public class Tile {
     }
 
     public Tile getNeighbours(int i) {
-        if(i >= 0 && i < 6){
+        if (i >= 0 && i < 6) {
             return neighbours[i];
         }
         return null;
     }
-    public void setTilesWithRiver(int i){
-        if(i >= 0 && i < 6){
+
+    public void setTilesWithRiver(int i) {
+        if (i >= 0 && i < 6) {
             tilesWithRiver[i] = true;
         }
     }
 
-    public boolean isRiverWithNeighbour(int i ){
-        if(i >= 0 && i < 6){
+    public boolean isRiverWithNeighbour(int i) {
+        if (i >= 0 && i < 6) {
             return tilesWithRiver[i];
         }
         return false;
@@ -86,44 +87,42 @@ public class Tile {
         return containedResource;
     }
 
-    public Tile(TileType tileType,int x, int y){
+    public Tile(TileType tileType, int x, int y) {
         this.x = x;
         this.y = y;
         this.tileType = tileType;
     }
 
 
-
-
-    public boolean isFeatureTypeValid(FeatureType featureType){
+    public boolean isFeatureTypeValid(FeatureType featureType) {
         FeatureType[] list = tileType.featureTypes;
         for (FeatureType validFeatureType : list)
             if (validFeatureType == featureType) {
-                if(featureType == FeatureType.DELTA) {
+                if (featureType == FeatureType.DELTA) {
                     for (int i = 0; i < 6; i++)
-                        if(tilesWithRiver[i])
+                        if (tilesWithRiver[i])
                             return true;
                     return false;
                 }
                 return true;
             }
-        return false; }
-
-
-    public boolean isResourceTypeValid(ResourcesTypes resourcesType){
-        ResourcesTypes[] list1 = tileType.resourcesTypes;
-        ResourcesTypes[] list2 = new ResourcesTypes[1];
-        if(containedFeature != null) list2 = containedFeature.getFeatureType().resourcesTypes;
-        for (ResourcesTypes types : list1)
-            if(types == resourcesType) return true;
-        for (ResourcesTypes types : list2)
-            if(types == resourcesType) return true;
         return false;
     }
 
 
+    public boolean isResourceTypeValid(ResourcesTypes resourcesType) {
+        ResourcesTypes[] list1 = tileType.resourcesTypes;
+        ResourcesTypes[] list2 = new ResourcesTypes[1];
+        if (containedFeature != null) list2 = containedFeature.getFeatureType().resourcesTypes;
+        for (ResourcesTypes types : list1)
+            if (types == resourcesType) return true;
+        for (ResourcesTypes types : list2)
+            if (types == resourcesType) return true;
+        return false;
+    }
 
-    public void setResource(ResourcesTypes resource){
+
+    public void setResource(ResourcesTypes resource) {
         this.containedResource = resource;
     }
 
@@ -133,7 +132,7 @@ public class Tile {
             civilian = null;
             return;
         }
-        if(unit.getUnitType().combatType== CombatType.CIVILIAN)
+        if (unit.getUnitType().combatType == CombatType.CIVILIAN)
             this.civilian = unit;
     }
 
@@ -141,11 +140,10 @@ public class Tile {
         this.nonCivilian = nonCivilian;
     }
 
-    public int getCombatChange(){
-        if(containedFeature != null){
+    public int getCombatChange() {
+        if (containedFeature != null) {
             return this.containedFeature.getFeatureType().combatChange + tileType.combatChange;
-        }
-        else return tileType.combatChange;
+        } else return tileType.combatChange;
     }
 
     public void setCivilization(Civilization civilization) {
@@ -157,7 +155,7 @@ public class Tile {
         newTile.tilesWithRiver = this.tilesWithRiver;
         newTile.containedResource = null;
         newTile.containedFeature = containedFeature;
-        if(containedResource != null && containedResource.isTechnologyUnlocked(civilization,this))
+        if (containedResource != null && containedResource.isTechnologyUnlocked(civilization, this))
             newTile.containedResource = this.containedResource;
         newTile.improvement = this.improvement;
         newTile.civilization = this.civilization;
@@ -165,6 +163,7 @@ public class Tile {
         newTile.nonCivilian = this.nonCivilian;
         newTile.city = this.city;
         newTile.raidLevel = this.raidLevel;
+        newTile.road = this.road;
         return newTile;
     }
 
@@ -195,6 +194,4 @@ public class Tile {
     public Improvement getRoad() {
         return road;
     }
-
-
 }

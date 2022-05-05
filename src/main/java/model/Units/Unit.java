@@ -54,7 +54,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
                 (currentTile.getContainedFeature()
                         .getFeatureType() == FeatureType.JUNGLE ||
                         currentTile.getContainedFeature()
-                        .getFeatureType() == FeatureType.FOREST ||
+                                .getFeatureType() == FeatureType.FOREST ||
                         currentTile.getContainedFeature()
                                 .getFeatureType() == FeatureType.ICE)) combat *= 0.9;
 
@@ -115,9 +115,9 @@ public abstract class Unit implements Producible, CanGetAttacked {
                 if ((currentTile.getImprovement().getImprovementType() == ImprovementType.FARM
                         || currentTile.getImprovement().getImprovementType() == ImprovementType.MINE) &&
                         (currentTile.getContainedFeature().getFeatureType() == FeatureType.JUNGLE
-                                ||currentTile.getContainedFeature().getFeatureType() == FeatureType.SWAMP
-                                ||currentTile.getContainedFeature().getFeatureType() == FeatureType.FOREST))
-                currentTile.setContainedFeature(null);
+                                || currentTile.getContainedFeature().getFeatureType() == FeatureType.SWAMP
+                                || currentTile.getContainedFeature().getFeatureType() == FeatureType.FOREST))
+                    currentTile.setContainedFeature(null);
             }
         }
         if (unitType == UnitType.WORKER &&
@@ -135,13 +135,15 @@ public abstract class Unit implements Producible, CanGetAttacked {
         if (unitType == UnitType.WORKER && state == UnitState.REPAIRING) {
             if (currentTile.getImprovement() != null &&
                     currentTile.getImprovement().getNeedsRepair() != 0) {
-                currentTile.getImprovement()
-                        .setNeedsRepair(currentTile.getImprovement()
-                                .getNeedsRepair() - 1);
+                currentTile.getImprovement().setNeedsRepair(currentTile.getImprovement().getNeedsRepair() - 1);
                 if (currentTile.getImprovement().getNeedsRepair() == 0)
                     state = UnitState.AWAKE;
-            }
-            else
+            } else if (currentTile.getRoad() != null &&
+                    currentTile.getRoad().getNeedsRepair() != 0) {
+                currentTile.getRoad().setNeedsRepair(currentTile.getRoad().getNeedsRepair() - 1);
+                if (currentTile.getRoad().getNeedsRepair() == 0)
+                    state = UnitState.AWAKE;
+            } else
                 state = UnitState.AWAKE;
         }
         if (unitType == UnitType.WORKER &&
@@ -154,8 +156,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
                     state = UnitState.AWAKE;
                     currentTile.setContainedFeature(null);
                 }
-            }
-            else
+            } else
                 state = UnitState.AWAKE;
         }
     }

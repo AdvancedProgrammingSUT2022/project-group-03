@@ -186,7 +186,8 @@ public class GameMenu extends MutatedMenu {
                             unitCancelMission();
                             return 3;
                         case "remove":
-                            unitRemoveFromTile(object);
+                            if(!object.equals("init"))
+                                unitRemoveFromTile(object);
                             return 3;
                         case "repair":
                             unitRepair();
@@ -389,7 +390,7 @@ public class GameMenu extends MutatedMenu {
         @Parameter(names = {"open_map", "-op"},
                 description = "Id of the Customer who's using the services")
         boolean openMap = false;
-        @Parameter(names = {"take_city", "-op"},
+        @Parameter(names = {"take_city", "-tc"},
                 description = "Id of the Customer who's using the services")
         boolean takeCity = false;
         @Parameter(names = {"technology", "-t"},
@@ -426,8 +427,7 @@ public class GameMenu extends MutatedMenu {
             else if (openMap)
                 GameController.openMap();
             else if (!unit.equals("init") && (x != -1989 && y != -1989) && !obj.equals("init")) {
-                UnitType unitType = UnitType.stringToEnum(obj);
-                GameController.cheatUnit(x, y, unitType);
+                cheatUnit(x, y, obj);
             } else
                 System.out.println("invalid command");
             production = false;
@@ -650,6 +650,9 @@ public class GameMenu extends MutatedMenu {
             case 2:
                 System.out.println("the selected unit is not yours");
                 break;
+            case 3:
+                System.out.println("the selected unit is a civilian");
+                break;
         }
     }
 
@@ -664,6 +667,9 @@ public class GameMenu extends MutatedMenu {
             case 2:
                 System.out.println("the selected unit is not yours");
                 break;
+            case 3:
+                System.out.println("the selected unit is a civilian");
+                break;
         }
     }
 
@@ -677,6 +683,9 @@ public class GameMenu extends MutatedMenu {
                 break;
             case 2:
                 System.out.println("the selected unit is not yours");
+                break;
+            case 3:
+                System.out.println("the selected unit is a civilian");
                 break;
         }
     }
@@ -913,8 +922,8 @@ public class GameMenu extends MutatedMenu {
             System.out.println("you don't have the prerequisite technologies");
         if (result == 5)
             System.out.println("this improvement cannot be inserted here");
-        if (result == 6)
-            System.out.println("you don't have the railroad technology yet");
+        if(result==6)
+            System.out.println("you already have one here");
     }
 
     private static void infoResearches() {
@@ -1010,11 +1019,11 @@ public class GameMenu extends MutatedMenu {
 
     }
 
-    private static void startProducingUnit(String type) {
+    public static boolean startProducingUnit(String type) {
         switch (GameController.startProducingUnit(type)) {
             case 0:
                 System.out.println("production started successfully");
-                break;
+                return true;
             case 1:
                 System.out.println("no product with this name is defined");
                 break;
@@ -1034,12 +1043,13 @@ public class GameMenu extends MutatedMenu {
                 System.out.println("you don't have the required technology");
                 break;
         }
+        return false;
     }
 
     private static void buyTile(int ox, int oy) {
         switch (GameController.buyTile(ox, oy)) {
             case 0:
-                System.out.println("Tile added successfully");
+                System.out.println("Tile's been bought successfully");
                 break;
             case 1:
                 System.out.println("Already has an owner");
@@ -1054,7 +1064,7 @@ public class GameMenu extends MutatedMenu {
                 System.out.println("Select your city first");
                 break;
             case 5:
-                System.out.println("Out of bond Tile");
+                System.out.println("you don't have enough money");
                 break;
         }
     }
@@ -1152,9 +1162,28 @@ public class GameMenu extends MutatedMenu {
             case 3:
                 System.out.println("you don't have enough money");
                 break;
+            case 4:
+                System.out.println("the selected tile is occupied by another unit");
+                break;
         }
     }
 
+    private static void cheatUnit(int x, int y, String obj)
+    {
+        UnitType unitType = UnitType.stringToEnum(obj);
+        switch (GameController.cheatUnit(x, y, unitType))
+        {
+            case 0:
+                System.out.println("cheat activated successfully");
+                break;
+            case 1:
+                System.out.println("the unit cannot be placed here");
+                break;
+            case 2:
+                System.out.println("the selected tile is occupied by another unit");
+                break;
+        }
+    }
     protected JCommander jCommander() {
         JCommander jCommander = new JCommander();
         jCommander.setAllowAbbreviatedOptions(false);

@@ -6,7 +6,7 @@ import model.resources.ResourcesTypes;
 import java.util.List;
 import java.util.Random;
 public enum FeatureType {
-    JUNGLE("DF",1,-1,0,25,2, new ImprovementType[]{ImprovementType.MINE,ImprovementType.FIELD},new ResourcesTypes[]{ResourcesTypes.BANANA,ResourcesTypes.GEMSTONE,ResourcesTypes.COLOR}),
+    JUNGLE("JU",1,-1,0,25,2, new ImprovementType[]{ImprovementType.MINE,ImprovementType.FIELD},new ResourcesTypes[]{ResourcesTypes.BANANA,ResourcesTypes.GEMSTONE,ResourcesTypes.COLOR}),
     FOREST("FO",1,1,0,25,2,new ImprovementType[]{ImprovementType.CAMP,ImprovementType.LUMBER_MILL,ImprovementType.MINE,ImprovementType.FIELD},new ResourcesTypes[]{ResourcesTypes.DEER,ResourcesTypes.FUR,ResourcesTypes.COLOR,ResourcesTypes.SILK}),
     ICE("IC",0,0,0,0,12345, new ImprovementType[]{},new ResourcesTypes[]{}),
     OASIS("OA",3,0,1,-33,1, new ImprovementType[]{},new ResourcesTypes[]{}),

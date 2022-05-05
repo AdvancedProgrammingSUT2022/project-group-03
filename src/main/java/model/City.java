@@ -397,7 +397,7 @@ public class City implements CanAttack, CanGetAttacked {
     public int cyclesToComplete(int remainedCost) {
         if (collectProduction() == 0)
             return 12345;
-        return (int) Math.ceil((double) remainedCost / (double) collectProduction());
+        return (int) Math.ceil((double) remainedCost / (double) collectProduction()-0.03);
     }
 
 
