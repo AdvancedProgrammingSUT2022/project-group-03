@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="" />
+    <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/MutatedGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MutatedGameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/SettingMenu.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$FreeFlagCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$FreeFlagCommands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$increase.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$increase.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$tileXAndYFlag.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$tileXAndYFlag.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$tileXAndYFlagSelectUnit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$tileXAndYFlagSelectUnit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$unitState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$unitState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -82,7 +92,7 @@
       <recent name="model.features" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.MutatedGameMenu">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="untitled5" />
@@ -91,8 +101,10 @@
       </method>
     </configuration>
     <configuration name="MutatedGameMenu" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../../Program Files/Java/jdk-17.0.1" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="view.MutatedGameMenu" />
-      <module name="untitled5" />
+      <module name="Civilization" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="view.*" />
@@ -160,8 +172,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
         <item itemvalue="Application.MutatedGameMenu" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.CityTest.attack" />
         <item itemvalue="JUnit.CityTest.getGold" />
         <item itemvalue="JUnit.CityTest.startTheTurn" />
@@ -201,6 +213,7 @@
       <workItem from="1651656420264" duration="10453000" />
       <workItem from="1651667879141" duration="1956000" />
       <workItem from="1651679760474" duration="516000" />
+      <workItem from="1651734506686" duration="1001000" />
     </task>
     <servers />
   </component>

@@ -4,16 +4,12 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import controller.GameController;
 import model.Map;
-import model.Units.Unit;
-
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.regex.Matcher;
 
-public class MutatedGameMenu extends MutatedMenu{
-    static class FreeFlagCommands implements Runnable{
-        public int run(String name){
-            switch (name){
+public class MutatedGameMenu extends MutatedMenu {
+    static class FreeFlagCommands implements Runnable {
+        public int run(String name) {
+            switch (name) {
                 case "exit":
                     return 2;
                 case "menu_show_current":
@@ -44,7 +40,7 @@ public class MutatedGameMenu extends MutatedMenu{
                     cityDestiny(true);
                     return 3;
                 case "build_wall":
-                    switch (GameController.buildWall()){
+                    switch (GameController.buildWall()) {
                         case 0:
                             System.out.println("wall's production started successfully");
 
@@ -63,7 +59,7 @@ public class MutatedGameMenu extends MutatedMenu{
                     }
                     return 3;
                 case "skip_unit_task":
-                    switch (GameController.skipUnitTask()){
+                    switch (GameController.skipUnitTask()) {
                         case 0:
                             System.out.println("task skipped successfully");
 
@@ -85,6 +81,7 @@ public class MutatedGameMenu extends MutatedMenu{
             }
             return 3;
         }
+
         private void cityDestiny(boolean burn) {
             switch (GameController.cityDestiny(burn)) {
                 case 0:
@@ -103,25 +100,27 @@ public class MutatedGameMenu extends MutatedMenu{
         }
 
     }
-    static class tileXAndYFlag implements Runnable{
-        @Parameter(names = { "--tilex", "-x" },
+
+    static class tileXAndYFlag implements Runnable {
+        @Parameter(names = {"--tilex", "-x"},
                 description = "Id of the Customer who's using the services",
                 arity = 1,
                 required = true)
         int x;
-        @Parameter(names = { "--tiley", "-y" },
+        @Parameter(names = {"--tiley", "-y"},
                 description = "Id of the Customer who's using the services",
                 arity = 1,
                 required = true)
         int y;
+
         public int run(String name) {
-            switch (name){
+            switch (name) {
                 case "map_show":
-                    GameController.mapShowPosition(x- Map.WINDOW_X / 2,
+                    GameController.mapShowPosition(x - Map.WINDOW_X / 2,
                             y - Map.WINDOW_Y / 2 + 1);
                     System.out.println(GameController.printMap());
                     return 3;
-                    case "city_attack":
+                case "city_attack":
                     switch (GameController.cityAttack(x, y)) {
                         case 0:
                             System.out.println("Attacked successfully");
@@ -149,34 +148,35 @@ public class MutatedGameMenu extends MutatedMenu{
         }
 
     }
+
     static class tileXAndYFlagSelectUnit implements Runnable {
-        @Parameter(names = { "--tilex", "-x" },
+        @Parameter(names = {"--tilex", "-x"},
                 description = "Id of the Customer who's using the services",
                 arity = 1,
                 required = true)
         int x;
-        @Parameter(names = { "--tiley", "-y" },
+        @Parameter(names = {"--tiley", "-y"},
                 description = "Id of the Customer who's using the services",
                 arity = 1,
                 required = true)
         int y;
-        @Parameter(names = { "--civilian", "-c" },
+        @Parameter(names = {"--civilian", "-c"},
                 description = "Id of the Customer who's using the services",
                 required = true)
         boolean civilian = false;
 
-        @Parameter(names = { "unit" },
+        @Parameter(names = {"unit"},
                 description = "Id of the Customer who's using the services",
                 required = true)
         boolean shit = false;
+
         public int run(String name) {
-            if(!civilian){
+            if (!civilian) {
                 if (GameController.setSelectedCombatUnit(x, y))
                     System.out.println("combat unit selected successfully");
                 else
                     System.out.println("selection failed");
-            }
-            else {
+            } else {
                 if (GameController.setSelectedNonCombatUnit(x, y))
                     System.out.println("noncombat unit selected successfully");
                 else
@@ -186,29 +186,29 @@ public class MutatedGameMenu extends MutatedMenu{
         }
 
     }
+
     static class increase implements Runnable {
-        @Parameter(names = { "--amount", "-a" },
+        @Parameter(names = {"--amount", "-a"},
                 description = "Id of the Customer who's using the services",
                 arity = 1,
                 required = true)
         int amount;
-        @Parameter(names = { "--type", "-t" },
+        @Parameter(names = {"--type", "-t"},
                 description = "Id of the Customer who's using the services",
                 arity = 1,
                 required = true)
-        String  type;
+        String type;
+
         public int run(String name) {
-            if(type.equals("gold")|| type.equals("g"))
-            {
+            if (type.equals("gold") || type.equals("g")) {
                 GameController.getCivilizations().get(GameController.getPlayerTurn())
                         .increaseGold(amount);
                 System.out.println("cheat activated successfully");
-            }
-            else if(type.equals("turn")|| type.equals("t")){
+            } else if (type.equals("turn") || type.equals("t")) {
                 for (int i = 0; i < amount * GameController.getCivilizations().size(); i++)
                     GameController.nextTurn();
                 System.out.println("cheat activated successfully");
-            }else System.out.println("invalid command");
+            } else System.out.println("invalid command");
             return 3;
         }
 
@@ -217,36 +217,37 @@ public class MutatedGameMenu extends MutatedMenu{
 
     static class unitState implements Runnable {
 
-        @Parameter (names = { "--state", "-s" },
+        @Parameter(names = {"--state", "-s"},
                 description = "Id of the Customer who's using the services",
                 arity = 1,
                 required = false)
-        String  state = "init";
-        @Parameter (names = { "do", "-d" },
+        String state = "init";
+        @Parameter(names = {"do", "-d"},
                 description = "Id of the Customer who's using the services",
                 arity = 1,
                 required = false)
-        String  move = "init";
-        @Parameter (names = { "--obj", "-o" },
+        String move = "init";
+        @Parameter(names = {"--obj", "-o"},
                 description = "Id of the Customer who's using the services",
                 arity = 1,
                 required = false)
-        String  object = "init";
-        @Parameter(names = { "--tilex", "-x" },
+        String object = "init";
+        @Parameter(names = {"--tilex", "-x"},
                 description = "Id of the Customer who's using the services",
                 arity = 1,
                 required = false)
         int x = -1989;
-        @Parameter(names = { "--tiley", "-y" },
+        @Parameter(names = {"--tiley", "-y"},
                 description = "Id of the Customer who's using the services",
                 arity = 1,
                 required = false)
         int y = -1989;
+
         public int run(String name) {
             boolean choose = false;
-            switch (state){
+            switch (state) {
                 case "sleep":
-                    switch (GameController.unitSleep()){
+                    switch (GameController.unitSleep()) {
                         case 0:
                             System.out.println("the selected unit has been set to sleep successfully");
                             return 3;
@@ -259,7 +260,7 @@ public class MutatedGameMenu extends MutatedMenu{
                     }
                     return 3;
                 case "alert":
-                    switch (GameController.unitAlert()){
+                    switch (GameController.unitAlert()) {
                         case 0:
                             System.out.println("the selected unit has been set to alert successfully");
                             return 3;
@@ -275,7 +276,7 @@ public class MutatedGameMenu extends MutatedMenu{
                     }
                     return 3;
                 case "fortify":
-                    switch (GameController.unitFortify()){
+                    switch (GameController.unitFortify()) {
                         case 0:
                             System.out.println("the selected unit has been set to fortify successfully");
                             return 3;
@@ -288,7 +289,7 @@ public class MutatedGameMenu extends MutatedMenu{
                     }
                     return 3;
                 case "fortify_until_heal":
-                    switch (GameController.unitFortifyUntilFullHealth()){
+                    switch (GameController.unitFortifyUntilFullHealth()) {
                         case 0:
                             System.out.println("the selected unit has been set to fortifyUntilFullHealth successfully");
                             return 3;
@@ -301,7 +302,7 @@ public class MutatedGameMenu extends MutatedMenu{
                     }
                     return 3;
                 case "garrison":
-                    switch (GameController.unitGarrison()){
+                    switch (GameController.unitGarrison()) {
                         case 0:
                             System.out.println("the selected unit has been set to garrison successfully");
                             return 3;
@@ -330,12 +331,12 @@ public class MutatedGameMenu extends MutatedMenu{
                     }
                     return 3;
                 case "init":
-                    switch (move){
+                    switch (move) {
                         case "init":
                             System.out.println("invalid command");
                             return 3;
                         case "moveto":
-                            if(x == -1989 || y == -1989) System.out.println("This command needs x and y");
+                            if (x == -1989 || y == -1989) System.out.println("This command needs x and y");
                             else {
                                 if (GameController.unitMoveTo(x, y))
                                     System.out.println("Moved successfully");
@@ -345,7 +346,7 @@ public class MutatedGameMenu extends MutatedMenu{
                             }
                             return 3;
                         case "attack":
-                            if(x == -1989 || y == -1989) System.out.println("This command needs x and y");
+                            if (x == -1989 || y == -1989) System.out.println("This command needs x and y");
                             else {
                                 switch (GameController.unitAttack(x, y)) {
                                     case 0:
@@ -439,10 +440,10 @@ public class MutatedGameMenu extends MutatedMenu{
                             }
                             return 3;
                         case "remove":
-                            if(object.equals("jungle")) choose = true;
-                            else if(object.equals("route")) choose = false;
+                            if (object.equals("jungle")) choose = true;
+                            else if (object.equals("route")) choose = false;
                             else return 3;
-                            switch (GameController.unitRemoveFromTile(choose)){
+                            switch (GameController.unitRemoveFromTile(choose)) {
                                 case 0:
                                     System.out.println(object + "'s removal from the tile operation started successfully");
                                     return 3;
@@ -464,7 +465,7 @@ public class MutatedGameMenu extends MutatedMenu{
                             }
                             return 3;
                         case "repair":
-                            switch (GameController.unitRepair()){
+                            switch (GameController.unitRepair()) {
                                 case 0:
                                     System.out.println("improvement repaired successfully");
                                     return 3;
@@ -487,45 +488,38 @@ public class MutatedGameMenu extends MutatedMenu{
                             return 3;
 
                     }
-
-
             }
             return 3;
         }
-
-
     }
 
-
-
-        protected JCommander jCommander(){
+    protected JCommander jCommander() {
         JCommander jCommander = new JCommander();
         jCommander.setAllowAbbreviatedOptions(true);
-        jCommander.addCommand("unit",new increase());
-        jCommander.addCommand("increase",new increase());
-        jCommander.addCommand("select",new tileXAndYFlagSelectUnit());
-        jCommander.addCommand("city_attack",new tileXAndYFlag());
-        jCommander.addCommand("map_show",new tileXAndYFlag());
-        jCommander.addCommand("select_city",new tileXAndYFlag());
-        jCommander.addCommand("exit",new FreeFlagCommands());
-        jCommander.addCommand("menu_show_current",new FreeFlagCommands());
-        jCommander.addCommand("next_turn",new FreeFlagCommands());
-        jCommander.addCommand("selected_unit_info",new FreeFlagCommands());
-        jCommander.addCommand("city_show_details",new FreeFlagCommands());
-        jCommander.addCommand("print_map",new FreeFlagCommands());
-        jCommander.addCommand("capture_city",new FreeFlagCommands());
-        jCommander.addCommand("burn_city",new FreeFlagCommands());
-        jCommander.addCommand("build_wall",new FreeFlagCommands());
-        jCommander.addCommand("skip_unit_task",new FreeFlagCommands());
-        jCommander.addCommand("burn_city",new FreeFlagCommands());
-        jCommander.addCommand("burn_city",new FreeFlagCommands());
+        jCommander.addCommand("unit", new unitState());
+        jCommander.addCommand("increase", new increase());
+        jCommander.addCommand("select", new tileXAndYFlagSelectUnit());
+        jCommander.addCommand("city_attack", new tileXAndYFlag());
+        jCommander.addCommand("map_show", new tileXAndYFlag());
+        jCommander.addCommand("select_city", new tileXAndYFlag());
+        jCommander.addCommand("exit", new FreeFlagCommands());
+        jCommander.addCommand("menu_show_current", new FreeFlagCommands());
+        jCommander.addCommand("next_turn", new FreeFlagCommands());
+        jCommander.addCommand("selected_unit_info", new FreeFlagCommands());
+        jCommander.addCommand("city_show_details", new FreeFlagCommands());
+        jCommander.addCommand("print_map", new FreeFlagCommands());
+        jCommander.addCommand("capture_city", new FreeFlagCommands());
+        jCommander.addCommand("burn_city", new FreeFlagCommands());
+        jCommander.addCommand("build_wall", new FreeFlagCommands());
+        jCommander.addCommand("skip_unit_task", new FreeFlagCommands());
+        jCommander.addCommand("burn_city", new FreeFlagCommands());
+        jCommander.addCommand("burn_city", new FreeFlagCommands());
         return jCommander;
     }
 
     public static void main(String[] args) {
-        new MutatedGameMenu().run(new Scanner(System.in),3);
+        new MutatedGameMenu().run(new Scanner(System.in), 3);
     }
-
 
 
 }
