@@ -32,6 +32,8 @@ public class GameController {
         for (int i = 0; i < PlayersNames.size(); i++)
             civilizations.get(i).setTileConditions
                     (new Civilization.TileCondition[map.getX()][map.getY()]);
+        map.addStartingSettlers(civilizations);
+
         //HARDCODE
 //        NonCivilian unit =
 //                new NonCivilian(map.coordinatesToTile(3, 3),
@@ -495,10 +497,22 @@ public class GameController {
     public static void nextTurn() {
         civilizations.get(playerTurn).endTheTurn();
         playerTurn = (playerTurn + 1) % civilizations.size();
+        if(civilizations.get(playerTurn).getCities().size()==0 &&
+        civilizations.get(playerTurn).getUnits().size()==0)
+        {
+            nextTurn();
+            return;
+        }
         civilizations.get(playerTurn).startTheTurn();
         setUnfinishedTasks();
         selectedCity = null;
         selectedUnit = null;
+        if(civilizations.get(playerTurn).getCities().size()!=0)
+            mapShowPosition(civilizations.get(playerTurn).getCities().get(0).getMainTile().getX(),
+                    civilizations.get(playerTurn).getCities().get(0).getMainTile().getY());
+        else if(civilizations.get(playerTurn).getUnits().size()!=0)
+            mapShowPosition(civilizations.get(playerTurn).getUnits().get(0).getCurrentTile().getX(),
+                    civilizations.get(playerTurn).getUnits().get(0).getCurrentTile().getY());
     }
 
     public static void setUnfinishedTasks() {

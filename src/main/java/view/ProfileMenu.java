@@ -11,24 +11,26 @@ public class ProfileMenu extends Menu{
                 "^menu exit$",
                 "^menu show-current$",
                 "^profile change (--nickname|-n) (.+).*",
-                "^profile change (--password|-p).*"
+                "^profile change (--password|-p).*",
+                "^menu enter.*"
         };
     }
     private final String[] fieldRegexes = {
-            ".*--current (\\w+).*",
-            ".*--new (\\w+).*"
+            ".*--current (\\S+).*",
+            ".*--new (\\S+).*"
     };
 
 
     @Override
     protected boolean commands(String command)
     {
-        commandNumber = getCommandNumber(command, regexes);
+        commandNumber = getCommandNumber(command, regexes,true);
         switch (commandNumber) {
             case -1:
                 System.out.println("invalid command");
                 break;
             case 0:
+                System.out.println("exited successfully");
                 nextMenu = 1;
                 return true;
             case 1:
@@ -36,12 +38,15 @@ public class ProfileMenu extends Menu{
                 break;
             case 2: changeNickname(command); break;
             case 3: changePassword(command); break;
+            case 4:
+                System.out.println("menu navigation is not possible");
+                break;
         }
         return false;
     }
     private void changeNickname(String command)
     {
-        Matcher matcher = getMatcher(regexes[2],command);
+        Matcher matcher = getMatcher(regexes[2],command,false);
         String newNickname = matcher.group(2);
         int outputNumber = LoginController.changeNickname(newNickname);
         switch (outputNumber)
@@ -58,9 +63,9 @@ public class ProfileMenu extends Menu{
             System.out.println("invalid command");
             return;
         }
-        Matcher matcher = getMatcher(fieldRegexes[0], command);
+        Matcher matcher = getMatcher(fieldRegexes[0], command,false);
         String currentPass = matcher.group(1);
-        matcher = getMatcher(fieldRegexes[1],command );
+        matcher = getMatcher(fieldRegexes[1],command,false );
         String newPass = matcher.group(1);
         int outputNumber = LoginController.changePassword(currentPass, newPass);
         switch (outputNumber)

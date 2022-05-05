@@ -15,8 +15,8 @@ public class MainMenu extends Menu {
                 "^menu exit$",
                 "^menu show-current$",
                 "^user logout$",
-                "play game.*",
-                "^menu enter Profile$"
+                "^play game.*",
+                "^menu enter.*$"
         };
     }
 
@@ -40,24 +40,35 @@ public class MainMenu extends Menu {
             addPlayerRegex = addPlayerRegex.replaceFirst("[0-9]", Integer.toString(playerNumber));
         }
         if(usersList.size() < 2){
-            System.out.println("choose at least one player");
+            System.out.println("you need to at least choose one player");
             return false;
         }
         GameController.startGame(usersList);
         nextMenu = 3;
         return true;
     }
-
+    private boolean menuEnter(String command)
+    {
+        if(!command.startsWith(" profile", 10))
+        {
+            System.out.println("menu navigation is not possible");
+            return false;
+        }
+        System.out.println("entered profile menu successfully");
+        nextMenu=2;
+        return true;
+    }
     @Override
     protected boolean commands(String command) {
 
-        commandNumber = getCommandNumber(command, regexes);
+        commandNumber = getCommandNumber(command, regexes,true);
         switch (commandNumber) {
             case -1:
                 System.out.println("invalid command");
                 break;
             case 0,2:
             {
+                System.out.println("exited successfully");
                 nextMenu = 0;
                 return true;
             }
@@ -69,8 +80,9 @@ public class MainMenu extends Menu {
                     return true;
                 break;
             case 4:
-                nextMenu = 2;
-                return true;
+                if(menuEnter(command))
+                    return true;
+                break;
         }
         return false;
     }

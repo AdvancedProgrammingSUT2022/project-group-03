@@ -2,6 +2,7 @@ package view;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
+import controller.GameController;
 import org.mockito.internal.matchers.Null;
 
 import java.util.ArrayList;
@@ -14,33 +15,34 @@ import java.util.regex.Pattern;
 public abstract class MutatedMenu {
     protected static Scanner scanner;
     protected int nextMenu;
-    public int run(Scanner scanner,int menu) {
+
+    public int run(Scanner scanner, int menu) {
         nextMenu = menu;
-        Menu.scanner = scanner;
+        MutatedMenu.scanner = scanner;
         String command;
         JCommander jCommander = jCommander();
 
         while (true) {
-             try {
-                 jCommander = jCommander();
-                 jCommander.parse(translateCommandline(scanner.nextLine()));
-                 String parsedCommand = jCommander.getParsedCommand();
-                 JCommander parsedJCommander = jCommander.getCommands().get(parsedCommand);
-                 if(parsedJCommander == null)
-                 {
-                     System.out.println("invalid Command");
-                     continue;
-                 }
-                 Object commandObject = parsedJCommander.getObjects().get(0);
-                 int x = ((Runnable)commandObject).run(parsedCommand.toLowerCase(Locale.ROOT));
-                 if(nextMenu != x) {
-                     nextMenu = x;
-                     break;
-                 }
-             }
-             catch (ParameterException e){
-                 System.out.println("invalid Command");
-             }
+            try {
+                jCommander = jCommander();
+                jCommander.parse(translateCommandline(scanner.nextLine()));
+                String parsedCommand = jCommander.getParsedCommand();
+                JCommander parsedJCommander = jCommander.getCommands().get(parsedCommand);
+                if (parsedJCommander == null) {
+                    System.out.println("invalid Command");
+                    continue;
+                }
+                Object commandObject = parsedJCommander.getObjects().get(0);
+                int x = ((Runnable) commandObject).run(parsedCommand.toLowerCase(Locale.ROOT));
+                if (nextMenu == 3)
+                    System.out.println(GameController.printMap());
+                if (nextMenu != x) {
+                    nextMenu = x;
+                    break;
+                }
+            } catch (ParameterException e) {
+                System.out.println("invalid Command");
+            }
             if (gameOver())
                 break;
         }
@@ -53,7 +55,9 @@ public abstract class MutatedMenu {
         matcher.find();
         return matcher;
     }
+
     protected abstract JCommander jCommander();
+
     protected static int getCommandNumber(String input, String[] commands) {
         for (int i = 0; i < commands.length; i++)
             if (Pattern.compile(commands[i].toLowerCase(Locale.ROOT)).matcher(input.toLowerCase(Locale.ROOT)).matches())
@@ -63,9 +67,9 @@ public abstract class MutatedMenu {
 
     protected String[] regexes;
     protected int commandNumber;
+
     //abstract protected boolean commands(String command);
-    protected boolean gameOver()
-    {
+    protected boolean gameOver() {
         return false;
     }
 

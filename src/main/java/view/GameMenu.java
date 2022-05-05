@@ -14,7 +14,6 @@ import model.resources.ResourcesTypes;
 import model.technologies.Technology;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class GameMenu extends MutatedMenu {
     static class FreeFlagCommands implements Runnable {
@@ -36,6 +35,7 @@ public class GameMenu extends MutatedMenu {
             return 3;
         }
     }
+
 
     static class tileXAndYFlagSelectUnit implements Runnable {
         @Parameter(names = {"--tilex", "-x"},
@@ -405,13 +405,12 @@ public class GameMenu extends MutatedMenu {
         @Parameter(names = {"enter", "-e"},
                 description = "Id of the Customer who's using the services")
         String nextMenu = "init";
-
         public int run(String name) {
-            if (exit && !show && nextMenu.equals("init")) {
+            if (exit && !show && nextMenu.equals("init"))
                 return 2;
-            } else if (show && nextMenu.equals("init")) {
+            else if (show && nextMenu.equals("init"))
                 System.out.println("Game Menu");
-            } else if (nextMenu.equals("Technologies")) {
+            else if (nextMenu.equals("technologies")) {
                 if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0)
                     System.out.println("you need at least one city to enter the technology menu");
                 else {
@@ -419,7 +418,7 @@ public class GameMenu extends MutatedMenu {
                     chooseTechnology.printDetails();
                     chooseTechnology.run(scanner);
                 }
-            } else if (nextMenu.equals("CityProduction")) {
+            } else if (nextMenu.equals("city_production")) {
                 if (GameController.getSelectedCity() == null)
                     System.out.println("no city is selected");
                 else if (GameController.getSelectedCity().getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
@@ -429,9 +428,10 @@ public class GameMenu extends MutatedMenu {
                     productionCityMenu.printDetails();
                     productionCityMenu.run(scanner);
                 }
-            } else {
+            } else if (!nextMenu.equals("init"))
+                System.out.println("menu navigation is not possible");
+            else
                 System.out.println("invalid command");
-            }
             return 3;
         }
     }
@@ -659,14 +659,14 @@ public class GameMenu extends MutatedMenu {
             } else {
                 System.out.println("invalid command");
             }
-            production=false;
-            science=false;
-            resource=false;
-            amount=-1989;
-            unit="init";
-            x=-1989;
-            y=-1989;
-            obj="init";
+            production = false;
+            science = false;
+            resource = false;
+            amount = -1989;
+            unit = "init";
+            x = -1989;
+            y = -1989;
+            obj = "init";
             return 3;
         }
     }

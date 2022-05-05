@@ -72,7 +72,7 @@ public class CitiesList extends Menu {
 
     @Override
     protected boolean commands(String command) {
-        commandNumber = getCommandNumber(command, regexes);
+        commandNumber = getCommandNumber(command, regexes,true);
         switch (commandNumber) {
             case -1:
                 System.out.println("invalid command");

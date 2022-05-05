@@ -82,7 +82,7 @@ public class ChooseTechnology extends Menu {
     }
 
     private void addTechnologyToProduction(String command) {
-        Matcher matcher = getMatcher(regexes[2], command);
+        Matcher matcher = getMatcher(regexes[2], command,true);
         int entryNumber = Integer.parseInt(matcher.group(1));
         if (TechnologyController.addTechnologyToProduction(possibleTechnologies, entryNumber))
             System.out.println(possibleTechnologies.get(entryNumber - 1).getTechnologyType() +
@@ -94,7 +94,7 @@ public class ChooseTechnology extends Menu {
 
     @Override
     protected boolean commands(String command) {
-        commandNumber = getCommandNumber(command, regexes);
+        commandNumber = getCommandNumber(command, regexes,true);
         switch (commandNumber) {
             case -1:
                 System.out.println("invalid command");
