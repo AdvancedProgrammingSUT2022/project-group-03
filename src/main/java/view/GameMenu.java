@@ -917,6 +917,7 @@ public class GameMenu extends MutatedMenu {
         jCommander.addCommand("menu", new menuCommands());
         jCommander.addCommand("unit", new unitState());
         jCommander.addCommand("increase", new increase());
+        //TODO CHEAT INCREASE LIKE DOC
         jCommander.addCommand("select", new tileXAndYFlagSelectUnit());
         jCommander.addCommand("next-turn", new FreeFlagCommands());
         jCommander.addCommand("capture_city", new FreeFlagCommands());

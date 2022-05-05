@@ -35,7 +35,6 @@ public class GameController {
         map.addStartingSettlers(civilizations);
         for (int i = 0; i < GameController.getCivilizations().size(); i++)
             GameController.nextTurn();
-        printMap();
     }
 
     public static City getSelectedCity() {
@@ -609,7 +608,8 @@ public class GameController {
     }
 
     public static String printMap() {
-        return map.printMap(civilizations.get(playerTurn).getTileConditions(),
+        return civilizations.get(playerTurn).getUser().getNickname() + ":\n" +
+                map.printMap(civilizations.get(playerTurn).getTileConditions(),
                 startWindowX, startWindowY);
     }
 

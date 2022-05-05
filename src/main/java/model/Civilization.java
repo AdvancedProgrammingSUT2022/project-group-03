@@ -26,7 +26,6 @@ public class Civilization {
         public boolean getIsClear() {
             return isClear;
         }
-
     }
 
     private TileCondition[][] tileConditions;
