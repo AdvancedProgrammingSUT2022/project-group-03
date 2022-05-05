@@ -7,14 +7,15 @@
     <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/ChooseTechnology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ChooseTechnology.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/CitiesList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/CitiesList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/MutatedGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MutatedGameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/UnitsList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/UnitsList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/MutatedGameMenu.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/SettingMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$FreeFlagCommands.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$increase.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$tileXAndYFlag.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$tileXAndYFlagSelectUnit.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$unitState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,20 +94,11 @@
       <recent name="model.features" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.MutatedGameMenu">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="17" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="Civilization" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MutatedGameMenu" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="GameMenu" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../../Program Files/Java/jdk-17.0.1" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="view.MutatedGameMenu" />
+      <option name="MAIN_CLASS_NAME" value="view.GameMenu" />
       <module name="Civilization" />
       <extension name="coverage">
         <pattern>
@@ -114,6 +106,15 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="Civilization" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -175,8 +176,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.MutatedGameMenu" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.MutatedGameMenu" />
         <item itemvalue="JUnit.CityTest.attack" />
         <item itemvalue="JUnit.CityTest.getGold" />
         <item itemvalue="JUnit.CityTest.startTheTurn" />

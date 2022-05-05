@@ -10,7 +10,7 @@ public class Main {
         LoginMenu loginMenu = new LoginMenu();
         MainMenu mainMenu = new MainMenu();
         ProfileMenu profileMenu = new ProfileMenu();
-        MutatedGameMenu gameMenu = new MutatedGameMenu();
+        GameMenu gameMenu = new GameMenu();
 	    while (menu != -1){
             switch (menu){
                 case 0:
