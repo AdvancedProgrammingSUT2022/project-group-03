@@ -77,4 +77,11 @@ public enum UnitType {
     }
 
 
+    public ResourcesTypes getResourcesType() {
+        return resourcesType;
+    }
+
+    public TechnologyType getTechnologyRequired() {
+        return technologyRequired;
+    }
 }

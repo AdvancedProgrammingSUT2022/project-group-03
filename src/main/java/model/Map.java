@@ -53,6 +53,7 @@ public class Map {
             }
             Civilian hardcodeUnit = new Civilian(coordinatesToTile(settlerX, settlerY),
                     civilizations.get(i), UnitType.SETTLER);
+            hardcodeUnit.setRemainedCost(0);
             civilizations.get(i).getUnits().add(hardcodeUnit);
             coordinatesToTile(settlerX, settlerY).setCivilian(hardcodeUnit);
             GameController.openNewArea(coordinatesToTile(settlerX, settlerY),
@@ -477,7 +478,7 @@ public class Map {
             if (j >= y - 1 || i + j % 2 >= x) return backReset;
             return setBackgroundColor(tileConditions[i + j % 2][j + 1]);
         }
-        if (i + j % 2 - 1 < 0 || j >= y - 1 || i - 1 + j % 2 >= x || i < 0)
+        if (i + j % 2 < 1 || j >= y - 1 || i - 1 + j % 2 >= x || i < 0)
             return backReset;
         return setBackgroundColor(tileConditions[i - 1 + j % 2][j + 1]);
     }
@@ -591,7 +592,7 @@ public class Map {
                     tileConditions, i, j, false);
             color0 = initColor(i, j, tileConditions, 0);
             color2 = initColor(i, j, tileConditions, 2);
-            if (i + j % 2 > 1 && j < y - 1 && i < x &&
+            if (i + j % 2 >0 && j < y - 1 && i < x &&
                     tileConditions[i - 1 + (j % 2)][j + 1] != null)
                 iString = tileConditions[i - 1 + (j % 2)][j + 1].getOpenedArea().getTileType().icon;
             else iString = "   ";
@@ -794,6 +795,7 @@ public class Map {
             mapString.append("  ").append(Color.RESET).append(color0).append("\\").
                     append(Color.RESET).append(currentTileColor).append(color1).append("_____")
                     .append(Color.RESET).append(color2).append("/")
+
                     .append(rightTileColor).append(iString).append(",").append(jString);
         }
         mapString.append(Color.RESET).append("\n");

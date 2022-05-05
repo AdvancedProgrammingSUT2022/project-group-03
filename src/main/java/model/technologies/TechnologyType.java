@@ -1,9 +1,8 @@
 package model.technologies;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import model.Units.UnitType;
+
+import java.util.*;
 
 public enum TechnologyType {
     AGRICULTURE(20),
@@ -159,5 +158,13 @@ public enum TechnologyType {
     TechnologyType(int cost)
     {
         this.cost = cost;
+    }
+    public static final List<TechnologyType> VALUES = List.of(values());
+    public static TechnologyType stringToEnum(String string)
+    {
+        for (TechnologyType value : VALUES)
+            if (string.toLowerCase(Locale.ROOT).equals(value.toString().toLowerCase(Locale.ROOT)))
+                return value;
+        return null;
     }
 }
