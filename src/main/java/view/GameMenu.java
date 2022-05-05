@@ -469,6 +469,9 @@ public class GameMenu extends MutatedMenu {
         @Parameter(names = {"burn", "-bn"},
                 description = "Id of the Customer who's using the services")
         boolean burn = false;
+        @Parameter(names = {"unit", "-u"},
+                description = "Id of the Customer who's using the services")
+        String unit = "init";
         @Parameter(names = {"capture", "-ca"},
                 description = "Id of the Customer who's using the services")
         boolean capture = false;
@@ -497,6 +500,8 @@ public class GameMenu extends MutatedMenu {
                 startProducingUnit(type);
             else if ((buy.equals("tile") || buy.equals("t") && (ox != -1989 && oy != -1989)))
                 buyTile(ox, oy);
+            else if((buy.equals("unit") || buy.equals("u")) && (!unit.equals("init")) && ox!=-1989 && oy!=-1989)
+                buyUnit(unit,ox,oy);
             else if (citizen.equals("work") && (dx != -1989 && dy != -1989))
                 assignCitizen(ox, oy, dx, dy);
             else if (burn)
@@ -1128,6 +1133,24 @@ public class GameMenu extends MutatedMenu {
                 break;
             case 2:
                 System.out.println("you have not unlocked the position of this city yet");
+                break;
+        }
+    }
+    private static void buyUnit(String unit, int x, int y)
+    {
+        switch (GameController.buyUnit(unit,x,y))
+        {
+            case 0:
+                System.out.println("unit purchased successfully");
+                break;
+            case 1:
+                System.out.println("no unit exists with this name");
+                break;
+            case 2:
+                System.out.println("the given coordinate is not in your territory");
+                break;
+            case 3:
+                System.out.println("you don't have enough money");
                 break;
         }
     }

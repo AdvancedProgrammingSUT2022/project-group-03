@@ -814,5 +814,18 @@ public class GameController {
         city.changeCivilization(civilizations.get(playerTurn));
         return 0;
     }
+    public static int buyUnit(String string, int x, int y)
+    {
+        UnitType unitType = UnitType.stringToEnum(string);
+        if(unitType==null)
+            return 1;
+        Tile tile = map.coordinatesToTile(x,y);
+        if(tile.getCivilization()!=civilizations.get(playerTurn))
+            return 2;
+        if(civilizations.get(playerTurn).getGold()<unitType.getCost())
+            return 3;
+        cheatUnit(x,y,unitType);
+        return 0;
+    }
 
 }
