@@ -1,6 +1,6 @@
 package view;
 
-import model.building.controller.GameController;
+import controller.GameController;
 import model.City;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class CitiesList extends Menu {
     }
     public static void cityBanner(City city) {
         if(city==null)
-            city=GameController.getSelectedCity();
+            city= GameController.getSelectedCity();
         if(city==null)
         {
             System.out.println("no city is selected");

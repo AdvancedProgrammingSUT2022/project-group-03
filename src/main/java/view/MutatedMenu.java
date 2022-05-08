@@ -2,7 +2,7 @@ package view;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
-import model.building.controller.GameController;
+import controller.GameController;
 
 import java.util.ArrayList;
 import java.util.Locale;

@@ -167,6 +167,10 @@ public class Tile {
         return newTile;
     }
 
+    public void setTileType(TileType tileType) {
+        this.tileType = tileType;
+    }
+
     public void setCity(City city) {
         this.city = city;
     }

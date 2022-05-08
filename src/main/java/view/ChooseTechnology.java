@@ -1,8 +1,9 @@
 package view;
 
-import model.building.controller.GameController;
-import model.building.controller.TechnologyController;
 
+
+import controller.GameController;
+import controller.TechnologyController;
 import model.Civilization;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;

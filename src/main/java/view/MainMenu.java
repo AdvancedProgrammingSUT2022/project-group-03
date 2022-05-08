@@ -1,7 +1,8 @@
 package view;
 
-import model.building.controller.GameController;
-import model.building.controller.LoginController;
+
+import controller.GameController;
+import controller.LoginController;
 import model.User;
 
 import java.util.ArrayList;

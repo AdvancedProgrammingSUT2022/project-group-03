@@ -1,6 +1,6 @@
 package model;
 
-import model.building.controller.GameController;
+import controller.GameController;
 import model.Units.Civilian;
 import model.Units.Unit;
 
@@ -24,6 +24,10 @@ public class Map {
     private int x;
     private int y;
     private final Random random = new Random();
+
+    public Tile[][] getTiles() {
+        return tiles;
+    }
 
     public Map(ArrayList<Civilization> civilizations) {
         GenerateMap(civilizations);
@@ -347,8 +351,7 @@ public class Map {
                         if (unit.getUnitType() == UnitType.SCOUT) remainingMP -= 1;
                         else {
                             if (check.getRoad() != null &&
-                                    check.getRoad().getRemainedCost()==0 &&
-                                    check.getCivilization() == unit.getCivilization()) {
+                                    check.getRoad().getRemainedCost()==0 ) {
                                 if (check.getRoad().getImprovementType() == ImprovementType.ROAD) {
                                     remainingMP -= (2 * check.getMovingPrice() / 3);
                                 } else {
@@ -359,7 +362,8 @@ public class Map {
                             }
                         }
                         if (remainingMP < 0 ||
-                                visited[c].get(i).isRiverWithNeighbour(j)) remainingMP = 0;
+                                (visited[c].get(i).isRiverWithNeighbour(j) && check.getRoad() == null))
+                            remainingMP = 0;
                         if (!visitedWithMove.get(c).containsKey(check)) {
                             visitedWithMove.get(c).put(check,
                                     new BestMoveClass(remainingMP, visited[c].get(i), c));

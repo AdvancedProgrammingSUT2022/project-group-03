@@ -1,6 +1,6 @@
 package model.Units;
 
-import model.building.controller.GameController;
+import controller.GameController;
 import model.CanGetAttacked;
 import model.City;
 import model.Civilization;

@@ -2,8 +2,9 @@ package view;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
-import model.building.controller.GameController;
-import model.building.controller.TechnologyController;
+
+import controller.GameController;
+import controller.TechnologyController;
 import model.City;
 import model.Civilization;
 import model.Map;

@@ -1,4 +1,4 @@
-package model.building.controller;
+package controller;
 
 import model.User;
 

@@ -4,18 +4,62 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-<<<<<<< HEAD
     <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="isinrange checks the whole map">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Civilization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Civilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Civilian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/resources/ResourcesTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/resources/ResourcesTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ChooseTechnology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ChooseTechnology.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/CitiesList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/CitiesList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/GameController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/MutatedMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MutatedMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ProductionCityMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ProductionCityMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/UnitsList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/UnitsList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/controller/TechnologyControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/controller/TechnologyControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/model/CityTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/CityTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/model/Units/CivilianTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/Units/CivilianTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map$BestMoveClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map$BestMoveClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map$TileAndMP.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map$TileAndMP.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Map.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Civilian.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Civilian.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/model/Units/NonCivilian.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/NonCivilian.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/building/controller/GameController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/building/controller/LoginController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/building/controller/TechnologyController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/resources/ResourcesTypes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/resources/ResourcesTypes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/tiles/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/tiles/Tile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/ChooseTechnology.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/ChooseTechnology.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/CitiesList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/CitiesList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$FreeFlagCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$FreeFlagCommands.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$cheatCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$cheatCommands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$cityCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$cityCommands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$increase.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$increase.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$infoCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$infoCommands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$mapCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$mapCommands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$menuCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$menuCommands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$tileXAndYFlagSelectUnit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$tileXAndYFlagSelectUnit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$unitState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$unitState.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MainMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/MainMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/MutatedMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/ProductionCityMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/ProductionCityMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/ProfileMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/ProfileMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/UnitsList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/UnitsList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/controller/TechnologyControllerTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/controller/TechnologyControllerTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/model/CityTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/CityTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/model/Units/CivilianTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/Units/CivilianTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/model/Units/UnitTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/Units/UnitTest.class" afterDir="false" />
     </list>
-=======
-    <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="isinrange checks the whole map" />
->>>>>>> Moein
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -93,7 +137,7 @@
       <recent name="model.features" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.MapTest.findNextTile">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../../Program Files/Java/jdk-17.0.1" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -157,8 +201,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CityTest.startTheTurn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Civilization" />
+    <configuration name="MapTest.findNextTile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="untitled5" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="model.*" />
@@ -166,8 +210,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="model" />
-      <option name="MAIN_CLASS_NAME" value="model.CityTest" />
-      <option name="METHOD_NAME" value="startTheTurn" />
+      <option name="MAIN_CLASS_NAME" value="model.MapTest" />
+      <option name="METHOD_NAME" value="findNextTile" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -176,17 +220,17 @@
     <list>
       <item itemvalue="Application.MutatedGameMenu" />
       <item itemvalue="Application.Main" />
-      <item itemvalue="JUnit.CityTest.startTheTurn" />
       <item itemvalue="JUnit.CityTest.getGold" />
       <item itemvalue="JUnit.CityTest.attack" />
+      <item itemvalue="JUnit.MapTest.findNextTile" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MapTest.findNextTile" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.MutatedGameMenu" />
         <item itemvalue="JUnit.CityTest.attack" />
         <item itemvalue="JUnit.CityTest.getGold" />
-        <item itemvalue="JUnit.CityTest.startTheTurn" />
       </list>
     </recent_temporary>
   </component>
@@ -266,22 +310,19 @@
           <option name="timeStamp" value="39" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/model/Map.java</url>
-          <line>70</line>
-          <option name="timeStamp" value="95" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-<<<<<<< HEAD
-=======
           <url>file://$PROJECT_DIR$/src/main/java/model/City.java</url>
           <line>174</line>
           <option name="timeStamp" value="106" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
->>>>>>> Moein
           <url>file://$PROJECT_DIR$/src/main/java/view/ProductionCityMenu.java</url>
           <line>49</line>
           <option name="timeStamp" value="108" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/model/MapTest.java</url>
+          <line>45</line>
+          <option name="timeStamp" value="119" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -297,189 +338,189 @@
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/project_group_03$UserTest.ic" NAME="UserTest Coverage Results" MODIFIED="1651584284133" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_getCurrentTile.ic" NAME="UnitTest.getCurrentTile Coverage Results" MODIFIED="1651612918458" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.Units.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$TileTest_isResourceTypeValid.ic" NAME="TileTest.isResourceTypeValid Coverage Results" MODIFIED="1651585319814" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$TileTest_isFeatureTypeValid.ic" NAME="TileTest.isFeatureTypeValid Coverage Results" MODIFIED="1651584853958" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.tiles.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$ImprovementTest_getRemainedCost.ic" NAME="ImprovementTest.getRemainedCost Coverage Results" MODIFIED="1651587678190" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_getDestinationTile.ic" NAME="UnitTest.getDestinationTile Coverage Results" MODIFIED="1651612972019" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$ImprovementTypeTest.ic" NAME="ImprovementTypeTest Coverage Results" MODIFIED="1651566181103" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.improvements.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$ResourcesTypesTest.ic" NAME="ResourcesTypesTest Coverage Results" MODIFIED="1651587701261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.resources.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_move.ic" NAME="UnitTest.move Coverage Results" MODIFIED="1651594152656" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.Units.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$ImprovementTest.ic" NAME="ImprovementTest Coverage Results" MODIFIED="1651587685350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.improvements.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_getCombatStrength.ic" NAME="CityTest.getCombatStrength Coverage Results" MODIFIED="1651656349132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_startTheTurn.ic" NAME="CityTest.startTheTurn Coverage Results" MODIFIED="1651667736775" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$TileTest.ic" NAME="TileTest Coverage Results" MODIFIED="1651587739860" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.tiles.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$TechnologyControllerTest_getCivilizationsResearches.ic" NAME="TechnologyControllerTest.getCivilizationsResearches Coverage Results" MODIFIED="1651589230179" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>controller.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_checkToDestroy.ic" NAME="CityTest.checkToDestroy Coverage Results" MODIFIED="1651618596081" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_getRemainedCost.ic" NAME="UnitTest.getRemainedCost Coverage Results" MODIFIED="1651612673486" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.Units.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CivilianTest_remove.ic" NAME="CivilianTest.remove Coverage Results" MODIFIED="1651615458190" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.Units.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_endTheTurn.ic" NAME="UnitTest.endTheTurn Coverage Results" MODIFIED="1651594761610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.Units.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$TechnologyTest.ic" NAME="TechnologyTest Coverage Results" MODIFIED="1651587719404" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.technologies.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_destroy.ic" NAME="CityTest.destroy Coverage Results" MODIFIED="1651617330967" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$TileTest_cloneTileForCivilization.ic" NAME="TileTest.cloneTileForCivilization Coverage Results" MODIFIED="1651586532948" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.tiles.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$CityTest_cyclesToComplete.ic" NAME="CityTest.cyclesToComplete Coverage Results" MODIFIED="1651616599433" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$BuildingTest.ic" NAME="BuildingTest Coverage Results" MODIFIED="1651590401292" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.building.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_takeDamage.ic" NAME="UnitTest.takeDamage Coverage Results" MODIFIED="1651612582432" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$TileTest_setResource.ic" NAME="TileTest.setResource Coverage Results" MODIFIED="1651586723107" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.tiles.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_collectProduction.ic" NAME="CityTest.collectProduction Coverage Results" MODIFIED="1651666092693" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$ResourcesTypesTest_getImprovementType.ic" NAME="ResourcesTypesTest.getImprovementType Coverage Results" MODIFIED="1651612096025" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.resources.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_getName.ic" NAME="UnitTest.getName Coverage Results" MODIFIED="1651613231366" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$TechnologyTest_getTechnologyType.ic" NAME="TechnologyTest.getTechnologyType Coverage Results" MODIFIED="1651612166974" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.technologies.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$UnitTest_checkToDestroy.ic" NAME="UnitTest.checkToDestroy Coverage Results" MODIFIED="1651600196970" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.Units.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_expandBorders.ic" NAME="CityTest.expandBorders Coverage Results" MODIFIED="1651655591161" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_getCitizen.ic" NAME="CityTest.getCitizen Coverage Results" MODIFIED="1651654647783" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$BuildingTest_getName.ic" NAME="BuildingTest.getName Coverage Results" MODIFIED="1651611985286" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.building.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest.ic" NAME="CityTest Coverage Results" MODIFIED="1651616172218" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_collectResources.ic" NAME="CityTest.collectResources Coverage Results" MODIFIED="1651665891217" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_getCombatStrength.ic" NAME="UnitTest.getCombatStrength Coverage Results" MODIFIED="1651613104329" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.Units.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$FeatureTypeTest.ic" NAME="FeatureTypeTest Coverage Results" MODIFIED="1651587669204" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.features.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_getGold.ic" NAME="CityTest.getGold Coverage Results" MODIFIED="1651667847383" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$TechnologyControllerTest_addTechnologyToProduction.ic" NAME="TechnologyControllerTest.addTechnologyToProduction Coverage Results" MODIFIED="1651590109836" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$TechnologyControllerTest_getCivilizationsResearches.ic" NAME="TechnologyControllerTest.getCivilizationsResearches Coverage Results" MODIFIED="1651589230179" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>controller.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$All_in_Civilization.ic" NAME="All in Civilization Coverage Results" MODIFIED="1651668864601" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_calculateDamage.ic" NAME="CityTest.calculateDamage Coverage Results" MODIFIED="1651616903220" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_startTheTur.ic" NAME="UnitTest.startTheTur Coverage Results" MODIFIED="1651600351922" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_startTheTurn.ic" NAME="CityTest.startTheTurn Coverage Results" MODIFIED="1651667736775" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$UnitTest.ic" NAME="UnitTest Coverage Results" MODIFIED="1651597565738" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.Units.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_getDestinationTile.ic" NAME="UnitTest.getDestinationTile Coverage Results" MODIFIED="1651612972019" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.Units.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_isTileNeighbor.ic" NAME="CityTest.isTileNeighbor Coverage Results" MODIFIED="1651655712986" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_startTheTur.ic" NAME="UnitTest.startTheTur Coverage Results" MODIFIED="1651600351922" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.Units.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$Main.ic" NAME="Main Coverage Results" MODIFIED="1651749920337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/project_group_03$TileTest_isFeatureTypeValid.ic" NAME="TileTest.isFeatureTypeValid Coverage Results" MODIFIED="1651584853958" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$TileTypeTest.ic" NAME="TileTypeTest Coverage Results" MODIFIED="1651587728836" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.tiles.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_changeCivilization.ic" NAME="CityTest.changeCivilization Coverage Results" MODIFIED="1651657052736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$UserTest.ic" NAME="UserTest Coverage Results" MODIFIED="1651584284133" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$TileTest_getCombatChange.ic" NAME="TileTest.getCombatChange Coverage Results" MODIFIED="1651585926177" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.tiles.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_startTheTurn.ic" NAME="UnitTest.startTheTurn Coverage Results" MODIFIED="1651613982853" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.Units.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_addTile.ic" NAME="CityTest.addTile Coverage Results" MODIFIED="1651617740884" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_getGold.ic" NAME="CityTest.getGold Coverage Results" MODIFIED="1651667847383" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_getMovementPrice.ic" NAME="UnitTest.getMovementPrice Coverage Results" MODIFIED="1651612441727" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.Units.*</FILTER>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_destroy.ic" NAME="CityTest.destroy Coverage Results" MODIFIED="1651617330967" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$FeatureTest.ic" NAME="FeatureTest Coverage Results" MODIFIED="1651587662840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.features.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$TechnologyTest_getTechnologyType.ic" NAME="TechnologyTest.getTechnologyType Coverage Results" MODIFIED="1651612166974" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$TechnologyTest.ic" NAME="TechnologyTest Coverage Results" MODIFIED="1651587719404" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.technologies.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CivilianTest_city.ic" NAME="CivilianTest.city Coverage Results" MODIFIED="1651615279829" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.Units.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_getName.ic" NAME="CityTest.getName Coverage Results" MODIFIED="1651594979154" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_calculateDamage.ic" NAME="CityTest.calculateDamage Coverage Results" MODIFIED="1651616903220" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_collectProduction.ic" NAME="CityTest.collectProduction Coverage Results" MODIFIED="1651666092693" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_getPopulation.ic" NAME="CityTest.getPopulation Coverage Results" MODIFIED="1651617818358" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$TechnologyControllerTest_cyclesToComplete.ic" NAME="TechnologyControllerTest.cyclesToComplete Coverage Results" MODIFIED="1651589877099" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>controller.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_getName.ic" NAME="UnitTest.getName Coverage Results" MODIFIED="1651613231366" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.Units.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_getWall.ic" NAME="CityTest.getWall Coverage Results" MODIFIED="1651615922247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_expandBorders.ic" NAME="CityTest.expandBorders Coverage Results" MODIFIED="1651655591161" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$TasksTest.ic" NAME="TasksTest Coverage Results" MODIFIED="1651587760160" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_takeDamage.ic" NAME="UnitTest.takeDamage Coverage Results" MODIFIED="1651612582432" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_changeCivilization.ic" NAME="CityTest.changeCivilization Coverage Results" MODIFIED="1651657052736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_getCombatStrength.ic" NAME="CityTest.getCombatStrength Coverage Results" MODIFIED="1651656349132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_getName.ic" NAME="CityTest.getName Coverage Results" MODIFIED="1651594979154" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$TechnologyControllerTest_cyclesToComplete.ic" NAME="TechnologyControllerTest.cyclesToComplete Coverage Results" MODIFIED="1651589877099" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_getCurrentTile.ic" NAME="UnitTest.getCurrentTile Coverage Results" MODIFIED="1651612918458" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.Units.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$UnitTypeTest.ic" NAME="UnitTypeTest Coverage Results" MODIFIED="1651587750848" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$CivilianTest_remove.ic" NAME="CivilianTest.remove Coverage Results" MODIFIED="1651615458190" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.Units.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$BuildingTest.ic" NAME="BuildingTest Coverage Results" MODIFIED="1651590401292" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.building.*</FILTER>
+    <SUITE FILE_PATH="coverage/project_group_03$FeatureTypeTest.ic" NAME="FeatureTypeTest Coverage Results" MODIFIED="1651572265632" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.features.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$TileTest_setResource.ic" NAME="TileTest.setResource Coverage Results" MODIFIED="1651586723107" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.tiles.*</FILTER>
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_move.ic" NAME="UnitTest.move Coverage Results" MODIFIED="1651594152656" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_getCombatStrength.ic" NAME="UnitTest.getCombatStrength Coverage Results" MODIFIED="1651600259610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_addTile.ic" NAME="CityTest.addTile Coverage Results" MODIFIED="1651617740884" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$CityTest_assignCitizenToTiles.ic" NAME="CityTest.assignCitizenToTiles Coverage Results" MODIFIED="1651657169814" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$ImprovementTypeTest.ic" NAME="ImprovementTypeTest Coverage Results" MODIFIED="1651587693536" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.improvements.*</FILTER>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest.ic" NAME="CityTest Coverage Results" MODIFIED="1651596863492" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$TileTypeTest.ic" NAME="TileTypeTest Coverage Results" MODIFIED="1651587728836" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.tiles.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$ResourcesTypesTest_getImprovementType.ic" NAME="ResourcesTypesTest.getImprovementType Coverage Results" MODIFIED="1651612096025" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>model.resources.*</FILTER>
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTypeTest.ic" NAME="UnitTypeTest Coverage Results" MODIFIED="1651587750848" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$CityTest_attack.ic" NAME="CityTest.attack Coverage Results" MODIFIED="1651668732782" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$ResourcesTypesTest_isTechnologyUnlocked.ic" NAME="ResourcesTypesTest.isTechnologyUnlocked Coverage Results" MODIFIED="1651578699146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_checkToDestroy.ic" NAME="CityTest.checkToDestroy Coverage Results" MODIFIED="1651618596081" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$ResourcesTypesTest_isTechnologyUnlocked.ic" NAME="ResourcesTypesTest.isTechnologyUnlocked Coverage Results" MODIFIED="1651581014381" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.resources.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$CityTest_collectFood.ic" NAME="CityTest.collectFood Coverage Results" MODIFIED="1651666510714" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/project_group_03$TechnologyControllerTest_addTechnologyToProduction.ic" NAME="TechnologyControllerTest.addTechnologyToProduction Coverage Results" MODIFIED="1651590109836" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_getWall.ic" NAME="CityTest.getWall Coverage Results" MODIFIED="1651615922247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$FeatureTest.ic" NAME="FeatureTest Coverage Results" MODIFIED="1651587662840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.features.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$ImprovementTest_getRemainedCost.ic" NAME="ImprovementTest.getRemainedCost Coverage Results" MODIFIED="1651587678190" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.improvements.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$All_in_Civilization.ic" NAME="All in Civilization Coverage Results" MODIFIED="1651596890216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/project_group_03$TileTest.ic" NAME="TileTest Coverage Results" MODIFIED="1651587739860" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.tiles.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_endTheTurn.ic" NAME="UnitTest.endTheTurn Coverage Results" MODIFIED="1651594761610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$TileTest_cloneTileForCivilization.ic" NAME="TileTest.cloneTileForCivilization Coverage Results" MODIFIED="1651586532948" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.tiles.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$BuildingTest_getName.ic" NAME="BuildingTest.getName Coverage Results" MODIFIED="1651611985286" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.building.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$TileTest_isResourceTypeValid.ic" NAME="TileTest.isResourceTypeValid Coverage Results" MODIFIED="1651585319814" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.tiles.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_collectFood.ic" NAME="CityTest.collectFood Coverage Results" MODIFIED="1651598774415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_getMovementPrice.ic" NAME="UnitTest.getMovementPrice Coverage Results" MODIFIED="1651612441727" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$Main.ic" NAME="Main Coverage Results" MODIFIED="1651580275841" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_isTileNeighbor.ic" NAME="CityTest.isTileNeighbor Coverage Results" MODIFIED="1651655712986" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_startTheTurn.ic" NAME="UnitTest.startTheTurn Coverage Results" MODIFIED="1651601116576" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$UnitTest_getRemainedCost.ic" NAME="UnitTest.getRemainedCost Coverage Results" MODIFIED="1651612673486" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$ResourcesTypesTest.ic" NAME="ResourcesTypesTest Coverage Results" MODIFIED="1651581105479" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.resources.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_getCitizen.ic" NAME="CityTest.getCitizen Coverage Results" MODIFIED="1651654647783" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CivilianTest_city.ic" NAME="CivilianTest.city Coverage Results" MODIFIED="1651615279829" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_getPopulation.ic" NAME="CityTest.getPopulation Coverage Results" MODIFIED="1651617818358" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$ImprovementTest.ic" NAME="ImprovementTest Coverage Results" MODIFIED="1651587685350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.improvements.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CityTest_collectResources.ic" NAME="CityTest.collectResources Coverage Results" MODIFIED="1651665891217" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
   </component>

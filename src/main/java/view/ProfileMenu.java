@@ -1,6 +1,7 @@
 package view;
 
-import model.building.controller.LoginController;
+
+import controller.LoginController;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

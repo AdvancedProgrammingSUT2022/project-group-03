@@ -1,6 +1,6 @@
 package model.Units;
 
-import model.building.controller.GameController;
+import controller.GameController;
 import model.Civilization;
 import model.Map;
 import model.features.Feature;
