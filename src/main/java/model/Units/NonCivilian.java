@@ -61,13 +61,7 @@ public class NonCivilian extends Unit implements CanAttack{
         }
     }
 
-    public boolean setUpForAttack(){
-        //TODO
-        if(movementPrice <= 0) return false;
-        movementPrice =0;
-        state = UnitState.SETUP;
-        return true;
-    }
+
 
     public NonCivilian(Tile tile, Civilization civilization, UnitType unitType) {
         super(tile, civilization,unitType);

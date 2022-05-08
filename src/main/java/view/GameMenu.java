@@ -63,12 +63,12 @@ public class GameMenu extends MutatedMenu {
         public int run(String command) {
             if ((type.equals("noncivilian") || type.equals("ncu")) && x != -1989 && y != -1989) {
                 if (GameController.setSelectedCombatUnit(x, y))
-                    System.out.println("civilian unit selected successfully");
+                    System.out.println("noncivilian unit selected successfully");
                 else
                     System.out.println("selection failed");
             } else if ((type.equals("civilian") || type.equals("cu")) && x != -1989 && y != -1989) {
                 if (GameController.setSelectedNonCombatUnit(x, y))
-                    System.out.println("noncivilian unit selected successfully");
+                    System.out.println("civilian unit selected successfully");
                 else
                     System.out.println("selection failed");
             } else if ((type.equals("city") || type.equals("c")) && x != -1989 && y != -1989) {
@@ -88,23 +88,23 @@ public class GameMenu extends MutatedMenu {
     }
 
     static class increase implements Runnable {
-        @Parameter(names = {"--amount", "-a"},
+        @Parameter(names = {"--turn", "-t"},
                 description = "Id of the Customer who's using the services",
                 arity = 1,
-                required = true)
-        int amount;
-        @Parameter(names = {"--type", "-t"},
+                required = false)
+        int turn = -1989;
+        @Parameter(names = {"--gold", "-g"},
                 description = "Id of the Customer who's using the services",
                 arity = 1,
-                required = true)
-        String type;
+                required = false)
+        int gold = -1989;
 
         public int run(String name) {
-            if (type.equals("gold") || type.equals("g")) {
-                GameController.getCivilizations().get(GameController.getPlayerTurn()).increaseGold(amount);
+            if (gold != -1989) {
+                GameController.getCivilizations().get(GameController.getPlayerTurn()).increaseGold(gold);
                 System.out.println("cheat activated successfully");
-            } else if (type.equals("turn") || type.equals("t")) {
-                for (int i = 0; i < amount * GameController.getCivilizations().size(); i++)
+            } else if (turn != 1989) {
+                for (int i = 0; i < turn * GameController.getCivilizations().size(); i++)
                     GameController.nextTurn();
                 System.out.println("cheat activated successfully");
             } else System.out.println("invalid command");
@@ -416,7 +416,7 @@ public class GameMenu extends MutatedMenu {
                 cheatScience(amount);
             else if (production && amount != -1989)
                 cheatProduction(amount);
-            else if (technology && amount != 1989)
+            else if (technology && !obj.equals("init"))
                 cheatTechnology(TechnologyType.stringToEnum(obj));
             else if (resource && amount != -1989 && !obj.equals("init"))
                 cheatResource(amount, ResourcesTypes.stringToEnum(obj));
@@ -1194,7 +1194,6 @@ public class GameMenu extends MutatedMenu {
         jCommander.addCommand("menu", new menuCommands());
         jCommander.addCommand("unit", new unitState());
         jCommander.addCommand("increase", new increase());
-        //TODO CHEAT INCREASE LIKE DOC
         jCommander.addCommand("select", new tileXAndYFlagSelectUnit());
         jCommander.addCommand("next-turn", new FreeFlagCommands());
         jCommander.addCommand("capture_city", new FreeFlagCommands());
