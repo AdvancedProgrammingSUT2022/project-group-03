@@ -384,9 +384,9 @@ public class GameMenu extends MutatedMenu {
         @Parameter(names = {"science", "-s"},
                 description = "Id of the Customer who's using the services")
         boolean science = false;
-        @Parameter(names = {"all_science", "-s"},
+        @Parameter(names = {"road_everywhere", "-re"},
                 description = "Id of the Customer who's using the services")
-        boolean allScience = false;
+        boolean roadEverywhere = false;
         @Parameter(names = {"moveit-moveit", "-mi"},
                 description = "Id of the Customer who's using the services")
         boolean moveit = false;
@@ -429,8 +429,8 @@ public class GameMenu extends MutatedMenu {
                 cheatCaptureCity(nameCity);
             else if (openMap)
                 GameController.openMap();
-            else if(allScience)
-                cheatAllScience();
+            else if(roadEverywhere)
+                cheatRoadEverywhere();
             else if (!unit.equals("init") && (x != -1989 && y != -1989) && !obj.equals("init")) {
                 cheatUnit(x, y, obj);
             } else
@@ -1190,9 +1190,9 @@ public class GameMenu extends MutatedMenu {
         }
     }
 
-    private static void cheatAllScience()
+    private static void cheatRoadEverywhere()
     {
-        if (GameController.cheatAllScience() == 0)
+        if (GameController.cheatRoadEverywhere() == 0)
             System.out.println("cheat activated successfully");
     }
     protected JCommander jCommander() {
