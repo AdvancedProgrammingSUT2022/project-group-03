@@ -1,12 +1,9 @@
 package view;
 
-import controller.GameController;
-import controller.TechnologyController;
+import model.building.controller.GameController;
+import model.building.controller.TechnologyController;
 
 import model.Civilization;
-import model.Units.UnitType;
-import model.improvements.ImprovementType;
-import model.resources.ResourcesTypes;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;
 

@@ -2,8 +2,7 @@ package view;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
-import controller.GameController;
-import org.mockito.internal.matchers.Null;
+import model.building.controller.GameController;
 
 import java.util.ArrayList;
 import java.util.Locale;

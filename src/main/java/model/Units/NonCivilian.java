@@ -1,6 +1,6 @@
 package model.Units;
 
-import controller.GameController;
+import model.building.controller.GameController;
 import model.CanGetAttacked;
 import model.City;
 import model.Civilization;
@@ -17,12 +17,7 @@ public class NonCivilian extends Unit implements CanAttack{
         return unitType;
     }
 
-    public void attack(Tile tile) {
-        CanGetAttacked target;
-        if(tile.getCity() != null) target = tile.getCity();
-        else if (tile.getNonCivilian() != null) target = tile.getNonCivilian();
-        else if (tile.getCivilian() != null) target = tile.getCivilian();
-        else return ;
+    private double calculateRatio(CanGetAttacked target){
         double ratio = getCombatStrength(true) /
                 target.getCombatStrength(false);
         if((unitType == UnitType.PIKEMAN ||
@@ -37,6 +32,16 @@ public class NonCivilian extends Unit implements CanAttack{
         if(unitType == UnitType.ANTI_TANK_GUN &&
                 target instanceof Unit &&
                 ((Unit) target).unitType == UnitType.TANK) ratio *= 1.1;
+        return ratio;
+    }
+
+    public void attack(Tile tile) {
+        CanGetAttacked target;
+        if(tile.getCity() != null) target = tile.getCity();
+        else if (tile.getNonCivilian() != null) target = tile.getNonCivilian();
+        else if (tile.getCivilian() != null) target = tile.getCivilian();
+        else return ;
+        double ratio = calculateRatio(target);
 
         target.takeDamage(calculateDamage(ratio));
         GameController.openNewArea(tile,civilization,null);

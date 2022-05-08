@@ -1,14 +1,12 @@
 package model.resources;
 
-import controller.GameController;
+import model.building.controller.GameController;
 import model.Civilization;
 import model.improvements.ImprovementType;
-import model.Units.UnitType;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;
 import model.tiles.Tile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;

@@ -2,6 +2,8 @@ package controller;
 
 import model.Civilization;
 import model.User;
+import model.building.controller.GameController;
+import model.building.controller.TechnologyController;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;
 import org.junit.jupiter.api.Test;
