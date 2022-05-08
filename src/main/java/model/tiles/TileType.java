@@ -59,7 +59,7 @@ public enum TileType {
         this.resourcesTypes = resources;
         this.improvementTypes=improvementTypes;
     }
-    public static boolean canHaveTheImprovement(TileType tileType,ImprovementType improvementType)
+    public static boolean canContainImprovement(TileType tileType, ImprovementType improvementType)
     {
         for (ImprovementType type : tileType.improvementTypes)
             if(type==improvementType)

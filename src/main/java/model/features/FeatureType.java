@@ -2,6 +2,7 @@ package model.features;
 
 import model.improvements.ImprovementType;
 import model.resources.ResourcesTypes;
+import model.tiles.TileType;
 
 import java.util.List;
 import java.util.Random;
@@ -23,7 +24,7 @@ public enum FeatureType {
     public final int combatChange;
     public final int movePoint;
     public final ResourcesTypes[] resourcesTypes;
-    public final ImprovementType[] improvementTypes;
+    private final ImprovementType[] improvementTypes;
     FeatureType(String icon, int food, int production, int gold, int combatChange, int movePoint, ImprovementType[] improvementTypes,ResourcesTypes[] resourcesTypes)
     {
         this.icon = icon;
@@ -39,8 +40,10 @@ public enum FeatureType {
         return VALUES.get(RANDOM.nextInt(SIZE));
     }
 
-    public static boolean canHaveTheImprovement(FeatureType featureType, ImprovementType improvementType)
+    public static boolean doesContainImprovement(FeatureType featureType, ImprovementType improvementType)
     {
+        if(featureType==null)
+            return false;
         for (ImprovementType type : featureType.improvementTypes)
             if(type==improvementType)
                 return true;
