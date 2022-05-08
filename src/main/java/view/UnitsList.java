@@ -37,10 +37,10 @@ public class UnitsList extends Menu{
             return false;
         }
         if(units.get(number-1).getUnitType().combatType== CombatType.CIVILIAN)
-            GameController.setSelectedNonCombatUnit
+            GameController.setSelectedCivilian
                     (units.get(number-1).getCurrentTile().getX(),units.get(number-1).getCurrentTile().getY());
         else
-            GameController.setSelectedNonCombatUnit
+            GameController.setSelectedCivilian
                     (units.get(number-1).getCurrentTile().getX(),units.get(number-1).getCurrentTile().getY());
         return true;
     }
