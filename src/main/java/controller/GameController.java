@@ -863,7 +863,7 @@ public class GameController {
         cheatUnit(x,y,unitType);
         return 0;
     }
-    public static int cheatAllScience()
+    public static int cheatRoadEverywhere()
     {
         for (int i = 0; i < map.getX(); i++)
             for (int j = 0; j < map.getY(); j++) {
@@ -873,5 +873,4 @@ public class GameController {
             }
         return 0;
     }
-
 }
