@@ -15,9 +15,9 @@ class FeatureTypeTest {
 
     @Test
     void canHaveTheImprovement() {
-        boolean actual = FeatureType.canHaveTheImprovement(FeatureType.JUNGLE, ImprovementType.MINE);
+        boolean actual = FeatureType.doesContainImprovement(FeatureType.JUNGLE, ImprovementType.MINE);
         assertTrue(actual);
-        actual = FeatureType.canHaveTheImprovement(FeatureType.ICE, ImprovementType.MINE);
+        actual = FeatureType.doesContainImprovement(FeatureType.ICE, ImprovementType.MINE);
         assertFalse(actual);
     }
 
