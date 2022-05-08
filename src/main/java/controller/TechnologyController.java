@@ -31,6 +31,6 @@ public class TechnologyController {
             return 12345;
         return (int) Math.ceil((double)technology.getRemainedCost() /
                 (double)GameController.getCivilizations()
-                        .get(GameController.getPlayerTurn()).collectScience());
+                        .get(GameController.getPlayerTurn()).collectScience()-0.03);
     }
 }

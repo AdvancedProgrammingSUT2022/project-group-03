@@ -347,6 +347,7 @@ public class Map {
                         if (unit.getUnitType() == UnitType.SCOUT) remainingMP -= 1;
                         else {
                             if (check.getRoad() != null &&
+                                    check.getRoad().getRemainedCost()==0 &&
                                     check.getCivilization() == unit.getCivilization()) {
                                 if (check.getRoad().getImprovementType() == ImprovementType.ROAD) {
                                     remainingMP -= (2 * check.getMovingPrice() / 3);
@@ -609,7 +610,8 @@ public class Map {
                 jString = tileConditions[i][j].getOpenedArea().getImprovement().getImprovementType().icon;
             else jString = "  ";
             if (i < x && j < y && tileConditions[i][j] != null &&
-                    tileConditions[i][j].getOpenedArea().getRoad() != null) {
+                    tileConditions[i][j].getOpenedArea().getRoad() != null &&
+                    tileConditions[i][j].getOpenedArea().getRoad().getRemainedCost()==0) {
                 openString = tileConditions[i][j].getOpenedArea().getRoad().getImprovementType().icon;
             } else openString = " ";
             mapString.append(" ").append(Color.RESET).append(color0).append("/").
@@ -753,9 +755,9 @@ public class Map {
                 jString = tileConditions[i + j % 2][j + 1]
                         .getOpenedArea().getImprovement().getImprovementType().icon;
             else jString = "  ";
-            if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1]
-                    != null && tileConditions[i + j % 2][j + 1]
-                    .getOpenedArea().getRoad() != null) {
+            if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null &&
+                    tileConditions[i + j % 2][j + 1].getOpenedArea().getRoad() != null &&
+                    tileConditions[i + j % 2][j + 1].getOpenedArea().getRoad().getRemainedCost()==0) {
                 openString = tileConditions[i + j % 2][j + 1]
                         .getOpenedArea().getRoad().getImprovementType().icon;
             } else openString = " ";

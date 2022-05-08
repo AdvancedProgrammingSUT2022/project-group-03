@@ -84,4 +84,8 @@ public enum UnitType {
     public TechnologyType getTechnologyRequired() {
         return technologyRequired;
     }
+
+    public int getCost() {
+        return cost;
+    }
 }

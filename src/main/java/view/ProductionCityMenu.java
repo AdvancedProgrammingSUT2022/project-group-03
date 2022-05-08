@@ -15,7 +15,7 @@ public class ProductionCityMenu extends Menu{
         };
     }
 
-    private ArrayList<Unit> possibleUnits = new ArrayList<>();
+    private final ArrayList<Unit> possibleUnits = new ArrayList<>();
     public void printDetails()
     {
         City city = GameController.getSelectedCity();
@@ -38,7 +38,7 @@ public class ProductionCityMenu extends Menu{
             else
             {
                 for (Unit unit : GameController.getSelectedCity().getHalfProducedUnits())
-                    if(unit.getRemainedCost()!=0 && unit.getUnitType()==UnitType.VALUES.get(i))
+                    if(unit.getRemainedCost()!=0 && unit.getUnitType()==UnitType.VALUES.get(i) && city.getProduct()!=unit)
                     {
                         possibleUnits.add(unit);
                         continue mainFor;
@@ -65,17 +65,15 @@ public class ProductionCityMenu extends Menu{
             System.out.println("you can't produce anything right now");
     }
 
-    private void createUnit(String command)
+    private boolean createUnit(String command)
     {
         int number = Integer.parseInt(command);
         if(number-1>possibleUnits.size() || number<1)
         {
             System.out.println("invalid number");
-            return;
+            return false;
         }
-        GameController.startProducingUnit(possibleUnits.get(number-1).getUnitType().toString());
-        System.out.println("production started successfully");
-
+        return GameMenu.startProducingUnit(possibleUnits.get(number-1).getUnitType().toString());
     }
     @Override
     protected boolean commands(String command)
@@ -92,7 +90,9 @@ public class ProductionCityMenu extends Menu{
                 System.out.println("Production Menu");
                 break;
             case 2:
-                createUnit(command); break;
+                if(createUnit(command))
+                    return true;
+                break;
 
         }
         return false;
