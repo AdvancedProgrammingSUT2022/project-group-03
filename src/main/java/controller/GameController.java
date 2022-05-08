@@ -330,12 +330,11 @@ public class GameController {
 
 
     private static boolean canHaveTheImprovement(Tile tile, ImprovementType improvementType) {
-        if (!TileType.canHaveTheImprovement(tile.getTileType(), improvementType) || tile.getCivilization() !=
-                selectedUnit.getCivilization())
+        if(tile.getCivilization() != selectedUnit.getCivilization())
             return false;
-        if (tile.getContainedFeature() != null &&
-                !FeatureType.canHaveTheImprovement(tile.getContainedFeature().getFeatureType(),
-                        improvementType))
+        if ((tile.getContainedFeature()==null ||
+                !FeatureType.doesContainImprovement(tile.getContainedFeature().getFeatureType(),improvementType)) &&
+                !TileType.canContainImprovement(tile.getTileType(), improvementType))
             return false;
         return true;
     }

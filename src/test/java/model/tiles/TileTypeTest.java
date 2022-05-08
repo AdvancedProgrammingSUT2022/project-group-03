@@ -15,9 +15,9 @@ class TileTypeTest {
 
     @Test
     void canHaveTheImprovement() {
-        boolean actual = TileType.canHaveTheImprovement(TileType.FLAT, ImprovementType.PASTURE);
+        boolean actual = TileType.canContainImprovement(TileType.FLAT, ImprovementType.PASTURE);
         assertTrue(actual);
-        actual = TileType.canHaveTheImprovement(TileType.OCEAN, ImprovementType.PASTURE);
+        actual = TileType.canContainImprovement(TileType.OCEAN, ImprovementType.PASTURE);
         assertFalse(actual);
     }
 }

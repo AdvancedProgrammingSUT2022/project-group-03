@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="isinrange checks the whole map" />
+    <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="isinrange checks the whole map">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/features/FeatureType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/features/FeatureType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/tiles/TileType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/tiles/TileType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/model/tiles/TileTypeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/tiles/TileTypeTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -214,6 +220,9 @@
       <workItem from="1651679760474" duration="516000" />
       <workItem from="1651734506686" duration="1936000" />
       <workItem from="1651772679588" duration="9723000" />
+      <workItem from="1651795507388" duration="161000" />
+      <workItem from="1651838574592" duration="1203000" />
+      <workItem from="1652014094182" duration="1405000" />
     </task>
     <task id="LOCAL-00001" summary="isinrange checks the whole map">
       <created>1651758513457</created>
