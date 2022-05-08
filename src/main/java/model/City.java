@@ -1,6 +1,6 @@
 package model;
 
-import controller.GameController;
+import model.building.controller.GameController;
 import model.Units.*;
 import model.building.Building;
 import model.building.BuildingType;

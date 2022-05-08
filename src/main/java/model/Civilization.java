@@ -1,6 +1,6 @@
 package model;
 
-import controller.GameController;
+import model.building.controller.GameController;
 import model.Units.Unit;
 import model.resources.ResourcesCategory;
 import model.resources.ResourcesTypes;

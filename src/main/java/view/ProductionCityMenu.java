@@ -1,6 +1,6 @@
 package view;
 
-import controller.GameController;
+import model.building.controller.GameController;
 import model.City;
 import model.Units.*;
 

@@ -1,6 +1,6 @@
 package model;
 
-import controller.GameController;
+import model.building.controller.GameController;
 import model.Units.Civilian;
 import model.Units.Unit;
 
@@ -226,7 +226,7 @@ public class Map {
     private TileType randomTile(int i, int j) {
         TileType type = TileType.randomTile();
         int distanceFromBoarder = (int) Math.sqrt((x - i) ^ 2 + (y - j) ^ 2);
-        while (y / 10 + 2 - distanceFromBoarder >= 0 &&
+        while (y / 10  - distanceFromBoarder >= 0 &&
                 hasNeighborWithType(i, j, TileType.OCEAN)) {
             if (type == TileType.OCEAN) return type;
             type = TileType.randomTile();

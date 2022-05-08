@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="isinrange checks the whole map">
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
@@ -12,6 +13,9 @@
       <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$cheatCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$cheatCommands.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu.class" afterDir="false" />
     </list>
+=======
+    <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="isinrange checks the whole map" />
+>>>>>>> Moein
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -267,6 +271,14 @@
           <option name="timeStamp" value="95" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
+<<<<<<< HEAD
+=======
+          <url>file://$PROJECT_DIR$/src/main/java/model/City.java</url>
+          <line>174</line>
+          <option name="timeStamp" value="106" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+>>>>>>> Moein
           <url>file://$PROJECT_DIR$/src/main/java/view/ProductionCityMenu.java</url>
           <line>49</line>
           <option name="timeStamp" value="108" />
