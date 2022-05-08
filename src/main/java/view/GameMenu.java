@@ -416,7 +416,7 @@ public class GameMenu extends MutatedMenu {
                 cheatScience(amount);
             else if (production && amount != -1989)
                 cheatProduction(amount);
-            else if (technology && amount != 1989)
+            else if (technology && !obj.equals("init"))
                 cheatTechnology(TechnologyType.stringToEnum(obj));
             else if (resource && amount != -1989 && !obj.equals("init"))
                 cheatResource(amount, ResourcesTypes.stringToEnum(obj));

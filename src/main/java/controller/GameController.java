@@ -532,14 +532,18 @@ public class GameController {
         }
         civilizations.get(playerTurn).startTheTurn();
         setUnfinishedTasks();
+        if (civilizations.get(playerTurn).getCities().size() != 0)
+            mapShowPosition(civilizations.get(playerTurn).getCities()
+                            .get(0).getMainTile().getX() - Map.WINDOW_X / 2,
+                    civilizations.get(playerTurn).getCities().get(0)
+                            .getMainTile().getY()- Map.WINDOW_Y / 2 + 1);
+        else if (civilizations.get(playerTurn).getUnits().size() != 0)
+            mapShowPosition(civilizations.get(playerTurn).getUnits().get(0)
+                            .getCurrentTile().getX() - Map.WINDOW_X / 2,
+                    civilizations.get(playerTurn).getUnits().get(0)
+                            .getCurrentTile().getY()- Map.WINDOW_Y / 2 + 1);
         selectedCity = null;
         selectedUnit = null;
-        if (civilizations.get(playerTurn).getCities().size() != 0)
-            mapShowPosition(civilizations.get(playerTurn).getCities().get(0).getMainTile().getX() - Map.WINDOW_X / 2,
-                    civilizations.get(playerTurn).getCities().get(0).getMainTile().getY()- Map.WINDOW_Y / 2 + 1);
-        else if (civilizations.get(playerTurn).getUnits().size() != 0)
-            mapShowPosition(civilizations.get(playerTurn).getUnits().get(0).getCurrentTile().getX() - Map.WINDOW_X / 2,
-                    civilizations.get(playerTurn).getUnits().get(0).getCurrentTile().getY()- Map.WINDOW_Y / 2 + 1);
         if(civilizations.get(playerTurn).getCities().size()!=0)
             selectedCity = civilizations.get(playerTurn).getCities().get(0);
         if(civilizations.get(playerTurn).getUnits().size()!=0)

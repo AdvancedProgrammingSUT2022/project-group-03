@@ -23,7 +23,10 @@ public class ProductionCityMenu extends Menu{
         if(city.getProduct() ==null)
             System.out.println("production: -");
         else if(city.getProduct() instanceof Unit)
-            System.out.println("production: " + ((Unit) city.getProduct()).getUnitType());
+            System.out.println("production: " +
+                    ((Unit) city.getProduct()).getUnitType() +
+                    ", " + city.cyclesToComplete(city.getProduct().getRemainedCost()) +
+                    " cycles to finish");
         boolean doesHaveAny = false;
         mainFor: for(int i = 0 ; i < UnitType.VALUES.size();i++)
         {
@@ -38,17 +41,23 @@ public class ProductionCityMenu extends Menu{
             else
             {
                 for (Unit unit : GameController.getSelectedCity().getHalfProducedUnits())
-                    if(unit.getRemainedCost()!=0 && unit.getUnitType()==UnitType.VALUES.get(i) && city.getProduct()!=unit)
+                    if(unit.getRemainedCost()!=0 && unit.getUnitType()==UnitType.VALUES.get(i) &&
+                            (city.getProduct()==null || (city.getProduct()!= null &&((Unit) city.getProduct()).getUnitType()!=unit.getUnitType())))
                     {
                         possibleUnits.add(unit);
                         continue mainFor;
                     }
-                if(UnitType.VALUES.get(i).combatType == CombatType.CIVILIAN)
-                    possibleUnits.add(new Civilian(GameController.getSelectedCity().getMainTile(),
-                            GameController.getSelectedCity().getCivilization(),UnitType.VALUES.get(i)));
-                else
-                    possibleUnits.add(new NonCivilian(GameController.getSelectedCity().getMainTile(),
-                            GameController.getSelectedCity().getCivilization(),UnitType.VALUES.get(i)));
+                if(city.getProduct()==null ||
+                        (city.getProduct()!=null && ((Unit) city.getProduct()).getUnitType()!=UnitType.VALUES.get(i)))
+                {
+                    if(UnitType.VALUES.get(i).combatType == CombatType.CIVILIAN)
+                        possibleUnits.add(new Civilian(GameController.getSelectedCity().getMainTile(),
+                                GameController.getSelectedCity().getCivilization(),UnitType.VALUES.get(i)));
+                    else
+                        possibleUnits.add(new NonCivilian(GameController.getSelectedCity().getMainTile(),
+                                GameController.getSelectedCity().getCivilization(),UnitType.VALUES.get(i)));
+                }
+
             }
         }
         for(int i = 0 ; i< possibleUnits.size();i++)
@@ -59,7 +68,7 @@ public class ProductionCityMenu extends Menu{
                 System.out.println("never, your production is 0");
             else
                 System.out.println(GameController.getSelectedCity().cyclesToComplete(possibleUnits.get(i).getRemainedCost()) +
-                        " cycles to complete");
+                        " cycles to finish");
         }
         if(!doesHaveAny)
             System.out.println("you can't produce anything right now");
