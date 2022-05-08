@@ -85,6 +85,71 @@ public abstract class Unit implements Producible, CanGetAttacked {
         destinationTile = null;
     }
 
+    private void workerBuildImprovementProgress() {
+        currentTile.getImprovement()
+                .setRemainedCost(currentTile.getImprovement()
+                        .getRemainedCost() - 1);
+        if (currentTile.getImprovement().getRemainedCost() == 0) {
+            state = UnitState.AWAKE;
+            if ((currentTile.getImprovement().getImprovementType() == ImprovementType.FARM
+                    || currentTile.getImprovement().getImprovementType() == ImprovementType.MINE) &&
+                    (currentTile.getContainedFeature().getFeatureType() == FeatureType.JUNGLE
+                            || currentTile.getContainedFeature().getFeatureType() == FeatureType.SWAMP
+                            || currentTile.getContainedFeature().getFeatureType() == FeatureType.FOREST))
+                currentTile.setContainedFeature(null);
+        }
+    }
+    private void workerBuildRoadProgress()
+    {
+        currentTile.getRoad().setRemainedCost(currentTile.getRoad().getRemainedCost() - 1);
+        if (currentTile.getRoad().getRemainedCost() == 0)
+            state = UnitState.AWAKE;
+    }
+
+    private void workerRemoveProgress()
+    {
+        if (currentTile.getContainedFeature() != null &&
+                currentTile.getContainedFeature().getCyclesToFinish() != 0) {
+            currentTile.getContainedFeature()
+                    .setCyclesToFinish(currentTile.getContainedFeature().getCyclesToFinish() - 1);
+            if (currentTile.getContainedFeature().getCyclesToFinish() == 0) {
+                state = UnitState.AWAKE;
+                currentTile.setContainedFeature(null);
+            }
+        } else
+            state = UnitState.AWAKE;
+    }
+    private void workerRepairProgress()
+    {
+        if (currentTile.getImprovement() != null &&
+                currentTile.getImprovement().getNeedsRepair() != 0) {
+            currentTile.getImprovement().setNeedsRepair(currentTile.getImprovement().getNeedsRepair() - 1);
+            if (currentTile.getImprovement().getNeedsRepair() == 0)
+                state = UnitState.AWAKE;
+        } else if (currentTile.getRoad() != null &&
+                currentTile.getRoad().getNeedsRepair() != 0) {
+            currentTile.getRoad().setNeedsRepair(currentTile.getRoad().getNeedsRepair() - 1);
+            if (currentTile.getRoad().getNeedsRepair() == 0)
+                state = UnitState.AWAKE;
+        } else
+            state = UnitState.AWAKE;
+    }
+
+    private void startTheTurnForWorker() {
+        if (state == UnitState.BUILDING &&
+                currentTile.getImprovement() != null &&
+                currentTile.getImprovement().getRemainedCost() != 0)
+            workerBuildImprovementProgress();
+        if (state == UnitState.BUILDING &&
+                currentTile.getRoad() != null &&
+                currentTile.getRoad().getRemainedCost() != 0)
+            workerBuildRoadProgress();
+        if (state == UnitState.REPAIRING)
+            workerRepairProgress();
+        if (state == UnitState.REMOVING)
+            workerRemoveProgress();
+    }
+
     public void startTheTurn() {
         GameController.openNewArea(currentTile, civilization, this);
         health += 5;
@@ -94,71 +159,14 @@ public abstract class Unit implements Producible, CanGetAttacked {
             if (state == UnitState.FORTIFY_UNTIL_FULL_HEALTH) state = UnitState.AWAKE;
             health = 100;
         }
-
         movementPrice = unitType.getDefaultMovementPrice();
-
         if (unitType.combatType != CombatType.CIVILIAN &&
                 (state == UnitState.FORTIFY || state == UnitState.SETUP) &&
                 ((NonCivilian) this).getFortifiedCycle() != 2)
-            ((NonCivilian) this).setFortifiedCycle(((NonCivilian) this)
-                    .getFortifiedCycle() + 1);
+            ((NonCivilian) this).setFortifiedCycle(((NonCivilian) this).getFortifiedCycle() + 1);
 
-        if (unitType == UnitType.WORKER &&
-                state == UnitState.BUILDING &&
-                currentTile.getImprovement() != null &&
-                currentTile.getImprovement().getRemainedCost() != 0) {
-            currentTile.getImprovement()
-                    .setRemainedCost(currentTile.getImprovement()
-                            .getRemainedCost() - 1);
-            if (currentTile.getImprovement().getRemainedCost() == 0) {
-                state = UnitState.AWAKE;
-                if ((currentTile.getImprovement().getImprovementType() == ImprovementType.FARM
-                        || currentTile.getImprovement().getImprovementType() == ImprovementType.MINE) &&
-                        (currentTile.getContainedFeature().getFeatureType() == FeatureType.JUNGLE
-                                || currentTile.getContainedFeature().getFeatureType() == FeatureType.SWAMP
-                                || currentTile.getContainedFeature().getFeatureType() == FeatureType.FOREST))
-                    currentTile.setContainedFeature(null);
-            }
-        }
-        if (unitType == UnitType.WORKER &&
-                state == UnitState.BUILDING &&
-                currentTile.getRoad() != null &&
-                currentTile.getRoad().getRemainedCost() != 0) {
-            currentTile.getRoad()
-                    .setRemainedCost(currentTile.getRoad()
-                            .getRemainedCost() - 1);
-            if (currentTile.getRoad().getRemainedCost() == 0) {
-                state = UnitState.AWAKE;
-            }
-        }
-
-        if (unitType == UnitType.WORKER && state == UnitState.REPAIRING) {
-            if (currentTile.getImprovement() != null &&
-                    currentTile.getImprovement().getNeedsRepair() != 0) {
-                currentTile.getImprovement().setNeedsRepair(currentTile.getImprovement().getNeedsRepair() - 1);
-                if (currentTile.getImprovement().getNeedsRepair() == 0)
-                    state = UnitState.AWAKE;
-            } else if (currentTile.getRoad() != null &&
-                    currentTile.getRoad().getNeedsRepair() != 0) {
-                currentTile.getRoad().setNeedsRepair(currentTile.getRoad().getNeedsRepair() - 1);
-                if (currentTile.getRoad().getNeedsRepair() == 0)
-                    state = UnitState.AWAKE;
-            } else
-                state = UnitState.AWAKE;
-        }
-        if (unitType == UnitType.WORKER &&
-                state == UnitState.REMOVING) {
-            if (currentTile.getContainedFeature() != null &&
-                    currentTile.getContainedFeature().getCyclesToFinish() != 0) {
-                currentTile.getContainedFeature()
-                        .setCyclesToFinish(currentTile.getContainedFeature().getCyclesToFinish() - 1);
-                if (currentTile.getContainedFeature().getCyclesToFinish() == 0) {
-                    state = UnitState.AWAKE;
-                    currentTile.setContainedFeature(null);
-                }
-            } else
-                state = UnitState.AWAKE;
-        }
+        if (unitType == UnitType.WORKER)
+            startTheTurnForWorker();
     }
 
     public void endTheTurn() {

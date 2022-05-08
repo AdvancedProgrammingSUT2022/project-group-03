@@ -863,5 +863,15 @@ public class GameController {
         cheatUnit(x,y,unitType);
         return 0;
     }
+    public static int cheatAllScience()
+    {
+        for (int i = 0; i < map.getX(); i++)
+            for (int j = 0; j < map.getY(); j++) {
+                Improvement improvement = new Improvement(ImprovementType.ROAD,map.coordinatesToTile(i,j));
+                improvement.setRemainedCost(0);
+                map.coordinatesToTile(i,j).setRoad(improvement);
+            }
+        return 0;
+    }
 
 }

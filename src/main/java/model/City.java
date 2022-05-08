@@ -169,11 +169,7 @@ public class City implements CanAttack, CanGetAttacked {
         return null;
     }
 
-    public void startTheTurn() {
-        HP += 10;
-        if (HP > 200) HP = 200;
-        food += collectFood();
-        production += collectProduction();
+    private void productStartTheTurnProgress() {
         if (product != null) {
             int tempRemaining = product.getRemainedCost();
             product.setRemainedCost(product.getRemainedCost() - production);
@@ -205,11 +201,18 @@ public class City implements CanAttack, CanGetAttacked {
                 product = null;
             }
         }
+    }
+
+    public void startTheTurn() {
+        HP += 10;
+        if (HP > 200) HP = 200;
+        food += collectFood();
+        production += collectProduction();
+        productStartTheTurnProgress();
         food = food - population;
         if (food < 0) {
             food = 0;
             civilization.changeHappiness(-1);
-
         }
         if (food > foodForCitizen) {
             food -= foodForCitizen;
@@ -397,7 +400,7 @@ public class City implements CanAttack, CanGetAttacked {
     public int cyclesToComplete(int remainedCost) {
         if (collectProduction() == 0)
             return 12345;
-        return (int) Math.ceil((double) remainedCost / (double) collectProduction()-0.03);
+        return (int) Math.ceil((double) remainedCost / (double) collectProduction() - 0.03);
     }
 
 

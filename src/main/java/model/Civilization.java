@@ -24,6 +24,7 @@ public class Civilization {
         public Tile getOpenedArea() {
             return openedArea;
         }
+
         public boolean getIsClear() {
             return isClear;
         }
@@ -47,6 +48,7 @@ public class Civilization {
     private Technology gettingResearchedTechnology;
     private HashMap<ResourcesTypes, Boolean> usedLuxuryResources = new HashMap<>();
     public int cheatScience;
+
     public Civilization(User user, int color) {
         this.color = color;
         this.user = user;
@@ -62,7 +64,7 @@ public class Civilization {
     public boolean isInTheCivilizationsBorder(Tile tile) {
         for (City city : cities)
             for (Tile cityTile : city.getTiles())
-                if (GameController.getMap().isInRange(2,cityTile,tile))
+                if (GameController.getMap().isInRange(2, cityTile, tile))
                     return true;
         return false;
     }
@@ -130,12 +132,11 @@ public class Civilization {
     public void startTheTurn() {
         turnOffTileConditionsBoolean();
         usedLuxuryResources = new HashMap<>();
-        for(int i = 0 ; i < ResourcesTypes.VALUES.size();i++)
-            if(ResourcesTypes.VALUES.get(i).getResourcesCategory()== ResourcesCategory.LUXURY &&
-            resourcesAmount.containsKey(ResourcesTypes.VALUES.get(i)))
-            {
+        for (int i = 0; i < ResourcesTypes.VALUES.size(); i++)
+            if (ResourcesTypes.VALUES.get(i).getResourcesCategory() == ResourcesCategory.LUXURY &&
+                    resourcesAmount.containsKey(ResourcesTypes.VALUES.get(i))) {
                 resourcesAmount.remove(ResourcesTypes.VALUES.get(i));
-                resourcesAmount.put(ResourcesTypes.VALUES.get(i),0);
+                resourcesAmount.put(ResourcesTypes.VALUES.get(i), 0);
             }
         for (City city : cities)
             city.collectResources(city.getCivilization().getResourcesAmount());
@@ -143,51 +144,42 @@ public class Civilization {
             city.startTheTurn();
             gold += city.getGold();
         }
-        if(gold<0)
-            gold=0;
-        for (City city : cities) {
+        for (City city : cities)
             city.collectFood();
-        }
         science = collectScience();
         for (Unit unit : units) unit.startTheTurn();
         gold -= units.size();
-        /*if (gold < 0 && !units.isEmpty()) {
-            if (units.get(0) instanceof NonCivilian)
-                units.get(0).getCurrentTile().setNonCivilian(null);
-            else units.get(0).getCurrentTile().setCivilian(null);
-            units.remove(0);
-        }*/
-        //initialize
+        if (gold < 0)
+            gold = 0;
         if (gettingResearchedTechnology != null) {
             int tempRemaining = gettingResearchedTechnology.getRemainedCost();
             getGettingResearchedTechnology().changeRemainedCost(-science);
             science -= tempRemaining;
             if (science <= 0)
                 science = 0;
-            if (gettingResearchedTechnology.getRemainedCost() <= 0)
-            {
+            if (gettingResearchedTechnology.getRemainedCost() <= 0) {
                 gettingResearchedTechnology.setRemainedCost(0);
                 gettingResearchedTechnology = null;
-
             }
         }
     }
+
     public int collectScience() {
         int returner = 0;
         for (City city : cities)
             returner += city.getPopulation();
         for (City city : cities)
-            if(city.isCapital) returner += 3;
-        if(gold==0)
-        {
+            if (city.isCapital) returner += 3;
+        if (gold == 0) {
             int temp = 0;
             for (City city : cities)
                 temp += city.getGold();
-            if(temp<0)
-                returner+=temp;
+            if (temp < 0)
+                returner += temp;
         }
         return returner + cheatScience;
     }
+
     public void endTheTurn() {
         //using
         for (Unit unit : units) unit.endTheTurn();
@@ -198,7 +190,7 @@ public class Civilization {
     }
 
     public boolean canBeTheNextResearch(TechnologyType technologyType) {
-        if(doesContainTechnology(technologyType)!=3)
+        if (doesContainTechnology(technologyType) != 3)
             return false;
         for (int i = 0; i < TechnologyType.prerequisites.get(technologyType).size(); i++)
             if (!canTechnologyBeAchivedNext(i, technologyType))
@@ -218,39 +210,36 @@ public class Civilization {
     }
 
     public int doesContainTechnology(TechnologyType technologyType) {
-        if(technologyType==null)
+        if (technologyType == null)
             return 1;
         for (Technology research : researches)
-            if (research.getTechnologyType() == technologyType)
-            {
-                if(research.getRemainedCost()==0)
+            if (research.getTechnologyType() == technologyType) {
+                if (research.getRemainedCost() == 0)
                     return 1;
                 return 2;
             }
         return 3;
     }
 
-    public City getCapital()
-    {
+    public City getCapital() {
         for (City city : cities)
-            if(city.isCapital)
+            if (city.isCapital)
                 return city;
         return null;
     }
 
-    public int getSize()
-    {
-        int size=0;
+    public int getSize() {
+        int size = 0;
         for (City city : cities)
-            size+=city.getTiles().size();
+            size += city.getTiles().size();
         return size;
     }
-    public boolean areTechnologiesFinished()
-    {
-        if(researches.size()!=TechnologyType.values().length)
+
+    public boolean areTechnologiesFinished() {
+        if (researches.size() != TechnologyType.values().length)
             return false;
         for (Technology research : researches)
-            if(research.getRemainedCost()!=0)
+            if (research.getRemainedCost() != 0)
                 return false;
         return true;
     }
