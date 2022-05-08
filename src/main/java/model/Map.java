@@ -217,8 +217,6 @@ public class Map {
                 riverSides[0].setTilesWithRiver(neighbour);
                 riverSides[1].setTilesWithRiver((neighbour + 3) % 6);
                 remainingLength--;
-                System.out.println(riverSides[0].getX()+ "," +riverSides[0].getY() + " - > " + riverSides[1].getX() + "," +riverSides[1].getY());
-
             }
         }
     }
@@ -606,7 +604,8 @@ public class Map {
                     tileConditions[i][j].getOpenedArea().getCity() != null)
                 jString = "C ";
             else if (i < x && j < y && tileConditions[i][j] != null &&
-                    tileConditions[i][j].getOpenedArea().getImprovement() != null)
+                    tileConditions[i][j].getOpenedArea().getImprovement() != null &&
+                    tileConditions[i][j].getOpenedArea().getImprovement().getRemainedCost()==0)
                 jString = tileConditions[i][j].getOpenedArea().getImprovement().getImprovementType().icon;
             else jString = "  ";
             if (i < x && j < y && tileConditions[i][j] != null &&
@@ -751,7 +750,8 @@ public class Map {
                     tileConditions[i + j % 2][j + 1].getOpenedArea().getCity() != null)
                 jString = "C ";
             else if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null &&
-                    tileConditions[i + j % 2][j + 1].getOpenedArea().getImprovement() != null)
+                    tileConditions[i + j % 2][j + 1].getOpenedArea().getImprovement() != null &&
+                    tileConditions[i + j % 2][j + 1].getOpenedArea().getImprovement().getRemainedCost() ==0)
                 jString = tileConditions[i + j % 2][j + 1]
                         .getOpenedArea().getImprovement().getImprovementType().icon;
             else jString = "  ";

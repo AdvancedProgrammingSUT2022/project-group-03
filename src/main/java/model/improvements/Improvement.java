@@ -40,7 +40,6 @@ public class Improvement {
     public void setNeedsRepair(int needsRepair) {
         this.needsRepair = needsRepair;
     }
-
     public ImprovementType getImprovementType() {
         return improvementType;
     }

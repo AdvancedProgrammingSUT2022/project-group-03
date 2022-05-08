@@ -186,7 +186,7 @@ public class GameMenu extends MutatedMenu {
                             unitCancelMission();
                             return 3;
                         case "remove":
-                            if(!object.equals("init"))
+                            if (!object.equals("init"))
                                 unitRemoveFromTile(object);
                             return 3;
                         case "repair":
@@ -289,8 +289,7 @@ public class GameMenu extends MutatedMenu {
                 GameController.mapShowPosition(x - Map.WINDOW_X / 2,
                         y - Map.WINDOW_Y / 2 + 1);
                 System.out.println(GameController.printMap());
-            }
-            else if (move) {
+            } else if (move) {
                 if (dir.matches("[RULD]")) {
                     if (amount == -1989)
                         GameController.mapMove(1, dir);
@@ -429,7 +428,7 @@ public class GameMenu extends MutatedMenu {
                 cheatCaptureCity(nameCity);
             else if (openMap)
                 GameController.openMap();
-            else if(roadEverywhere)
+            else if (roadEverywhere)
                 cheatRoadEverywhere();
             else if (!unit.equals("init") && (x != -1989 && y != -1989) && !obj.equals("init")) {
                 cheatUnit(x, y, obj);
@@ -505,8 +504,8 @@ public class GameMenu extends MutatedMenu {
                 startProducingUnit(type);
             else if ((buy.equals("tile") || buy.equals("t") && (ox != -1989 && oy != -1989)))
                 buyTile(ox, oy);
-            else if((buy.equals("unit") || buy.equals("u")) && (!unit.equals("init")) && ox!=-1989 && oy!=-1989)
-                buyUnit(unit,ox,oy);
+            else if ((buy.equals("unit") || buy.equals("u")) && (!unit.equals("init")) && ox != -1989 && oy != -1989)
+                buyUnit(unit, ox, oy);
             else if (citizen.equals("work") && (dx != -1989 && dy != -1989))
                 assignCitizen(ox, oy, dx, dy);
             else if (burn)
@@ -742,25 +741,30 @@ public class GameMenu extends MutatedMenu {
 
     private static void unitAttack(int x, int y) {
         if (x == -1989 || y == -1989) System.out.println("This command needs x and y");
-        else {
+        else
             switch (GameController.unitAttack(x, y)) {
                 case 0:
                     System.out.println("Attacked successfully");
                     break;
                 case 1:
-                    System.out.println("There is nothing to attack");
+                    System.out.println("no unit is selected");
                     break;
                 case 2:
-                    System.out.println("Out of bond tile");
+                    System.out.println("the selected unit is not yours");
                     break;
                 case 3:
-                    System.out.println("Select your unit first");
+                    System.out.println("the selected unit is not a nonCivilian");
                     break;
                 case 4:
-                    System.out.println("Can't find a route");
+                    System.out.println("the entered tile is not valid");
+                    break;
+                case 5:
+                    System.out.println("there is nothing to attack to");
+                    break;
+                case 6:
+                    System.out.println("can't attack");
                     break;
             }
-        }
     }
 
     private static void unitFoundCity(String name) {
@@ -927,7 +931,7 @@ public class GameMenu extends MutatedMenu {
             System.out.println("you don't have the prerequisite technologies");
         if (result == 5)
             System.out.println("this improvement cannot be inserted here");
-        if(result==6)
+        if (result == 6)
             System.out.println("you already have one here");
     }
 
@@ -978,9 +982,15 @@ public class GameMenu extends MutatedMenu {
         City capital = civilization.getCapital();
         if (capital != null)
             System.out.print(" | capital: " + capital.getName());
-        System.out.println(" | science: " + civilization.collectScience() +
-                " | happiness: " + civilization.getHappiness() +
-                " | gold: " + civilization.getGold() +
+        System.out.print(" | science: " + civilization.collectScience() +
+                " | happiness: " + civilization.getHappiness());
+        if (civilization.getHappiness() < 0)
+            System.out.print(", unhappy");
+        if (civilization.getHappiness() == 0)
+            System.out.print(", breathing");
+        if (civilization.getHappiness() > 3)
+            System.out.print(", happy");
+        System.out.println(" | gold: " + civilization.getGold() +
                 " | units: " + civilization.getUnits().size() +
                 " | size: " + civilization.getSize());
         System.out.println("resources: ");
@@ -1104,19 +1114,22 @@ public class GameMenu extends MutatedMenu {
                 System.out.println("Attacked successfully");
                 break;
             case 1:
-                System.out.println("Can not attack there");
+                System.out.println("no city is selected");
                 break;
             case 2:
-                System.out.println("Out of bond tile");
+                System.out.println("the selected city is not yours");
                 break;
             case 3:
-                System.out.println("Select your city first");
+                System.out.println("the entered tile is not valid");
                 break;
             case 4:
-                System.out.println("Out of range");
+                System.out.println("no nonCivilian is standing there");
                 break;
             case 5:
-                System.out.println("Siege need setup before attack");
+                System.out.println("you can't attack your own units");
+                break;
+            case 6:
+                System.out.println("Can not attack there");
                 break;
         }
     }
@@ -1151,10 +1164,9 @@ public class GameMenu extends MutatedMenu {
                 break;
         }
     }
-    private static void buyUnit(String unit, int x, int y)
-    {
-        switch (GameController.buyUnit(unit,x,y))
-        {
+
+    private static void buyUnit(String unit, int x, int y) {
+        switch (GameController.buyUnit(unit, x, y)) {
             case 0:
                 System.out.println("unit purchased successfully");
                 break;
@@ -1173,11 +1185,14 @@ public class GameMenu extends MutatedMenu {
         }
     }
 
-    private static void cheatUnit(int x, int y, String obj)
-    {
+    private static void cheatUnit(int x, int y, String obj) {
         UnitType unitType = UnitType.stringToEnum(obj);
-        switch (GameController.cheatUnit(x, y, unitType))
+        if(unitType==null)
         {
+            System.out.println("no unit with this name exists");
+            return;
+        }
+        switch (GameController.cheatUnit(x, y, unitType)) {
             case 0:
                 System.out.println("cheat activated successfully");
                 break;
@@ -1190,11 +1205,11 @@ public class GameMenu extends MutatedMenu {
         }
     }
 
-    private static void cheatRoadEverywhere()
-    {
+    private static void cheatRoadEverywhere() {
         if (GameController.cheatRoadEverywhere() == 0)
             System.out.println("cheat activated successfully");
     }
+
     protected JCommander jCommander() {
         JCommander jCommander = new JCommander();
         jCommander.setAllowAbbreviatedOptions(false);
