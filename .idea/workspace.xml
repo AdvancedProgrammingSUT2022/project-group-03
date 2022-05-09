@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="isinrange checks the whole map">
+    <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataBase/users.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" afterDir="false" />
@@ -105,7 +105,7 @@
       <recent name="model.resources" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.MapTest.printMap">
+  <component name="RunManager" selected="JUnit.All in untitled5">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="untitled5" />
@@ -178,8 +178,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.MapTest.printMap" />
         <item itemvalue="JUnit.All in untitled5" />
+        <item itemvalue="JUnit.MapTest.printMap" />
         <item itemvalue="JUnit.CityTest.startTheTurn" />
         <item itemvalue="JUnit.CityTest.assignCitizenToTiles" />
         <item itemvalue="Application.Main" />
@@ -328,7 +328,7 @@
     <SUITE FILE_PATH="coverage/project_group_03$CityTest_assignCitizenToTiles.ic" NAME="CityTest.assignCitizenToTiles Coverage Results" MODIFIED="1652133311000" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$All_in_untitled5.ic" NAME="All in untitled5 Coverage Results" MODIFIED="1652133676238" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/project_group_03$All_in_untitled5.ic" NAME="All in untitled5 Coverage Results" MODIFIED="1652134122050" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/project_group_03$CityTest_checkToDestroy.ic" NAME="CityTest.checkToDestroy Coverage Results" MODIFIED="1651618596081" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>

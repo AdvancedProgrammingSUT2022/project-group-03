@@ -123,7 +123,7 @@ class MapTest {
                                 ,GameController.getCivilizations().get(1),UnitType.ARCHER));
         GameController.getMap().getTiles()[5][4].setCivilian(new Civilian(GameController.getMap().getTiles()[5][4],GameController.getCivilizations().get(0),UnitType.SETTLER));
         GameController.getMap().getTiles()[5][4].setNonCivilian(new NonCivilian(GameController.getMap().getTiles()[5][4],GameController.getCivilizations().get(1),UnitType.ARCHER));
-        GameController.getMap().getTiles()[4][4].setCivilian(new Civilian(GameController.getMap().getTiles()[4][4],GameController.getCivilizations().get(0),UnitType.SETTLER));
+        GameController.getMap().getTiles()[4][4].setCivilian(new Civilian(GameController.getMap().coordinatesToTile(4,4),GameController.getCivilizations().get(0),UnitType.SETTLER));
         CheatCommandsController.cheatTechnology(TechnologyType.MINING);
         CheatCommandsController.cheatTechnology(TechnologyType.ANIMAL_HUSBANDRY);
         CheatCommandsController.cheatTechnology(TechnologyType.AGRICULTURE);
