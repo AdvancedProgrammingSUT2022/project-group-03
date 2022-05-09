@@ -73,13 +73,15 @@ public class NonCivilian extends Unit implements CanAttack {
 
     public boolean pillage() {
         boolean result = false;
-        if (currentTile.getCivilization() != civilization && currentTile.getImprovement() != null
+        if (currentTile.getCivilization() != civilization &&
+                currentTile.getImprovement() != null
                 && currentTile.getImprovement().getNeedsRepair() < 3) {
             currentTile.getImprovement().setNeedsRepair(3);
             result = true;
         }
         if (currentTile.getCivilization() != civilization &&
-                currentTile.getRoad() != null && currentTile.getRoad().getNeedsRepair() < 3) {
+                currentTile.getRoad() != null &&
+                currentTile.getRoad().getNeedsRepair() < 3) {
             currentTile.getImprovement().setNeedsRepair(3);
             result = true;
         }
