@@ -11,17 +11,13 @@ import model.tiles.Tile;
 public class NonCivilian extends Unit implements CanAttack {
 
     private int fortifiedCycle = 0;
+    public boolean attacked = false;
 
     public UnitType getUnitType() {
         return unitType;
     }
 
-    public void attack(Tile tile) {
-        CanGetAttacked target;
-        if (tile.getCity() != null) target = tile.getCity();
-        else if (tile.getNonCivilian() != null) target = tile.getNonCivilian();
-        else if (tile.getCivilian() != null) target = tile.getCivilian();
-        else return;
+    private double calculateRatio(CanGetAttacked target){
         double ratio = getCombatStrength(true) /
                 target.getCombatStrength(false);
         if ((unitType == UnitType.PIKEMAN ||
@@ -36,7 +32,17 @@ public class NonCivilian extends Unit implements CanAttack {
         if (unitType == UnitType.ANTI_TANK_GUN &&
                 target instanceof Unit &&
                 ((Unit) target).unitType == UnitType.TANK) ratio *= 1.1;
+        return ratio;
+    }
 
+    public void attack(Tile tile) {
+        CanGetAttacked target;
+        if(tile.getCity() != null) target = tile.getCity();
+        else if (tile.getNonCivilian() != null) target = tile.getNonCivilian();
+        else if (tile.getCivilian() != null) target = tile.getCivilian();
+        else return ;
+        double ratio = calculateRatio(target);
+        attacked = true;
         target.takeDamage(calculateDamage(ratio));
         GameController.openNewArea(tile, civilization, null);
         state = UnitState.AWAKE;

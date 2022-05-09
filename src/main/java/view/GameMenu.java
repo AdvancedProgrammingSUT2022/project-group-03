@@ -2,6 +2,7 @@ package view;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+
 import controller.GameController;
 import controller.TechnologyController;
 import model.City;
@@ -753,6 +754,12 @@ public class GameMenu extends MutatedMenu {
                 case 6:
                     System.out.println("can't attack");
                     break;
+                case 7:
+                    System.out.println("need setup");
+                    break;
+                case 8:
+                    System.out.println("already attacked");
+                    break;
             }
     }
 
@@ -1001,6 +1008,7 @@ public class GameMenu extends MutatedMenu {
             return;
         }
         System.out.println("name: " + city.getName());
+        System.out.println("owner: " + city.getCivilization().getUser().getNickname());
         System.out.println("founder: " + city.getFounder().getUser().getNickname());
         if (city.getCivilization() == GameController.getCivilizations().get(GameController.getPlayerTurn())) {
             System.out.println("gold: " + city.getGold());
@@ -1211,7 +1219,6 @@ public class GameMenu extends MutatedMenu {
         jCommander.addCommand("increase", new increase());
         jCommander.addCommand("select", new tileXAndYFlagSelectUnit());
         jCommander.addCommand("next-turn", new FreeFlagCommands());
-        jCommander.addCommand("capture_city", new FreeFlagCommands());
         return jCommander;
     }
 }

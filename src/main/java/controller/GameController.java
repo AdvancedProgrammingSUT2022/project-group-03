@@ -130,8 +130,9 @@ public class GameController {
 
     public static boolean unitMoveTo(int x, int y) {
         if (selectedUnit == null || x < 0 || y < 0 ||
-                x >= map.getX() || y > map.getY() ||
-                map.coordinatesToTile(x, y).getTileType() == TileType.OCEAN ||
+                x >= map.getX()||y > map.getY()
+                 || civilizations.get(playerTurn) != selectedUnit.getCivilization()
+                || map.coordinatesToTile(x, y).getTileType() == TileType.OCEAN ||
                 map.coordinatesToTile(x, y).getTileType() == TileType.MOUNTAIN)
             return false;
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(), TaskTypes.UNIT));
@@ -453,7 +454,7 @@ public class GameController {
         if (tile.getNonCivilian() == null ||
                 tile.getNonCivilian().getCivilization() == city.getCivilization())
             return false;
-        return !map.isInRange(2, city.getMainTile(), tile);
+        return map.isInRange(2, city.getMainTile(), tile);
 
     }
 
@@ -695,10 +696,18 @@ public class GameController {
             return 2;
         if (!(selectedUnit instanceof NonCivilian))
             return 3;
+        if(((NonCivilian)selectedUnit).attacked) return 8;
         if (x < 0 || y < 0 || x >= map.getX() || y >= map.getY()) return 4;
+        if(selectedUnit.getUnitType().combatType == CombatType.SIEGE &&
+                (selectedUnit.getState() != UnitState.SETUP ||  ((NonCivilian) selectedUnit).getFortifiedCycle() < 1))
+            return 7;
         if (!canUnitAttack(map.coordinatesToTile(x, y))) return 5;
+        Tile startTile = selectedUnit.getCurrentTile();
         if (!selectedUnit.move(map.coordinatesToTile(x, y), true)) return 6;
-        deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(), TaskTypes.UNIT));
+        deleteFromUnfinishedTasks(new Tasks(startTile, TaskTypes.UNIT));
+        if(selectedUnit.getCurrentTile() == startTile
+                && selectedUnit.getUnitType().combatType == CombatType.SIEGE)
+            selectedUnit.setState(UnitState.SETUP);
         return 0;
     }
 

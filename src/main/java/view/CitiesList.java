@@ -38,20 +38,22 @@ public class CitiesList extends Menu {
     }
     public static void cityBanner(City city) {
         if(city==null)
-            city=GameController.getSelectedCity();
+            city= GameController.getSelectedCity();
         if(city==null)
         {
             System.out.println("no city is selected");
             return;
         }
         System.out.print(city.getName() +
+                " | founder: " + city.getFounder().getUser().getNickname() +
                 " | mainTileX: " + city.getMainTile().getX() +
                 " | mainTileY: " + city.getMainTile().getY() +
+                " | HP: " + city.getHP() +
                 " | population: " + city.getPopulation() +
                 " | food: " + city.collectFood() +
                 " | citizen: " + city.getCitizen() +
                 " | founder: " + city.getFounder().getUser().getNickname() +
-                " | defense strength: " + city.getCombatStrength(false) +
+                " | defense strength: " + city.getCombatStrength(false) + "\n" +
                 " | attack strength: " + city.getCombatStrength(true) +
                 " | production: " + city.collectProduction() +
                 " | doesHaveWall: ");

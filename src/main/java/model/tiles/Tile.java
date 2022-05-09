@@ -8,6 +8,8 @@ import model.features.FeatureType;
 import model.improvements.Improvement;
 import model.resources.ResourcesTypes;
 
+import java.util.ArrayList;
+
 public class Tile {
     private boolean[] tilesWithRiver = new boolean[6];
     private TileType tileType;
@@ -22,6 +24,7 @@ public class Tile {
     private City city;
     private int raidLevel;
     private Improvement road;
+    private ArrayList<Civilization> inZOC = new ArrayList<>();
     private final Tile[] neighbours = new Tile[6];// LU, clockwise
 
     public int getX() {
@@ -165,6 +168,10 @@ public class Tile {
         newTile.raidLevel = this.raidLevel;
         newTile.road = this.road;
         return newTile;
+    }
+
+    public void setTileType(TileType tileType) {
+        this.tileType = tileType;
     }
 
     public void setCity(City city) {

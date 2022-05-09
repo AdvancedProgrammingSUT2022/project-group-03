@@ -4,6 +4,7 @@ import model.Civilization;
 import model.User;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -13,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -48,8 +49,8 @@ class TechnologyControllerTest {
             ArrayList <Technology> technologies = new ArrayList<>();
             technologies.add(new Technology(TechnologyType.MINING));
             when(civilization.doesContainTechnology(any())).thenReturn(3);
-            assertFalse(TechnologyController.addTechnologyToProduction(technologies, 0));
-            assertTrue(TechnologyController.addTechnologyToProduction(technologies, 1));
+            Assertions.assertFalse(TechnologyController.addTechnologyToProduction(technologies, 0));
+            Assertions.assertTrue(TechnologyController.addTechnologyToProduction(technologies, 1));
 
         }
     }
