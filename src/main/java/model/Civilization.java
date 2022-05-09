@@ -1,6 +1,6 @@
 package model;
 
-import controller.GameController;
+import controller.gameController.GameController;
 import model.Units.Unit;
 import model.resources.ResourcesCategory;
 import model.resources.ResourcesTypes;
@@ -97,9 +97,6 @@ public class Civilization {
                     tileConditions[i][j].isClear = false;
     }
 
-    public int getScience() {
-        return science;
-    }
 
     public ArrayList<City> getCities() {
         return cities;
@@ -143,7 +140,7 @@ public class Civilization {
                 resourcesAmount.put(ResourcesTypes.VALUES.get(i), 0);
             }
         for (City city : cities)
-            city.collectResources(city.getCivilization().getResourcesAmount());
+            city.collectResources(resourcesAmount);
         for (City city : cities) {
             city.startTheTurn();
             gold += city.getGold();

@@ -1,5 +1,6 @@
 package controller;
 
+import controller.gameController.*;
 import model.*;
 import model.Units.*;
 import model.building.Building;
@@ -33,9 +34,8 @@ class GameControllerTest {
     @Mock NonCivilian nonCivilian;
     @Mock NonCivilian nonCivilian1;
     @Mock
-    City city,city2;
+    City city;
     @Mock Map map;
-
     @Mock
     Civilization civilization,civilization2;
     @Mock Tile tile;
@@ -59,24 +59,24 @@ class GameControllerTest {
         ArrayList<City> cities = new ArrayList<>();
         cities.add(city);
         when(civilization.getCities()).thenReturn(cities);
-        GameController.setSelectedCityByName("randomName");
+        TileXAndYFlagSelectUnitController.setSelectedCityByName("randomName");
         assertEquals(city,GameController.getSelectedCity());
         Civilization.TileCondition[][] tileConditions = new Civilization.TileCondition[100][100];
         tileConditions[2][3] = null;
         when(civilization.getTileConditions()).thenReturn(tileConditions);
         when(city.getMainTile()).thenReturn(tile);
-        GameController.mapShowCityName("randomName");
+        MapCommandsController.mapShowCityName("randomName");
         tileConditions[2][3] = new Civilization.TileCondition(tile,true);
-        GameController.mapShowCityName("randomName");
-        GameController.mapShowCityName("bla bla bla");
+        MapCommandsController.mapShowCityName("randomName");
+        MapCommandsController.mapShowCityName("bla bla bla");
         when(map.coordinatesToTile(2,3)).thenReturn(tile);
         GameController.setMap(map);
-        GameController.setSelectedCityByPosition(2,3);
+        TileXAndYFlagSelectUnitController.setSelectedCityByPosition(2,3);
         assertEquals(city,GameController.getSelectedCity());
         tile.setCity(city);
-        GameController.setSelectedCityByPosition(2,3);
+        TileXAndYFlagSelectUnitController.setSelectedCityByPosition(2,3);
         assertEquals(city,GameController.getSelectedCity());
-        GameController.setSelectedCityByName("bla bla bla");
+        TileXAndYFlagSelectUnitController.setSelectedCityByName("bla bla bla");
         assertEquals(city,GameController.getSelectedCity());
     }
 
@@ -86,11 +86,11 @@ class GameControllerTest {
         Tile tile = new Tile(TileType.DESERT, 2 ,3);
         when(map.coordinatesToTile(2,3)).thenReturn(tile);
         GameController.setMap(map);
-        GameController.setSelectedNonCivilian(2,3);
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,3);
         assertNull(GameController.getSelectedUnit());
         NonCivilian unit = new NonCivilian(tile,civilization, UnitType.RIFLEMAN);
         tile.setNonCivilian(unit);
-        GameController.setSelectedNonCivilian(2,3);
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,3);
         assertEquals(GameController.getSelectedUnit(),unit);
     }
 
@@ -99,23 +99,23 @@ class GameControllerTest {
         Tile tile = new Tile(TileType.DESERT, 2 ,3);
         when(map.coordinatesToTile(2,3)).thenReturn(tile);
         GameController.setMap(map);
-        GameController.setSelectedCivilian(2,3);
+        TileXAndYFlagSelectUnitController.setSelectedCivilian(2,3);
         GameController.setSelectedUnit(null);
         assertNull(GameController.getSelectedUnit());
         Civilian unit = new Civilian(tile,civilization, UnitType.SETTLER);
         tile.setCivilian(unit);
-        GameController.setSelectedCivilian(2,3);
+        TileXAndYFlagSelectUnitController.setSelectedCivilian(2,3);
         assertEquals(GameController.getSelectedUnit(),unit);
     }
 
     @Test
     void reAssignCitizen() {
         GameController.setMap(map);
-        assertEquals(2,GameController.assignCitizen(3,3));
-        assertEquals(2,GameController.reAssignCitizen(3,3,3,3));
+        assertEquals(2, CityCommandsController.assignCitizen(3,3));
+        assertEquals(2, CityCommandsController.reAssignCitizen(3,3,3,3));
         GameController.setSelectedCity(null);
-        assertEquals(3,GameController.assignCitizen(3,3));
-        assertEquals(3,GameController.reAssignCitizen(3,3,3,3));
+        assertEquals(3, CityCommandsController.assignCitizen(3,3));
+        assertEquals(3, CityCommandsController.reAssignCitizen(3,3,3,3));
         if (GameController.getCivilizations().size() > 0)
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
         when(city.getName()).thenReturn("randomName");
@@ -124,13 +124,13 @@ class GameControllerTest {
         cities.add(city);
         when(civilization.getCities()).thenReturn(cities);
         when(city.getCivilization()).thenReturn(civilization);
-        GameController.setSelectedCityByName("randomName");
-        assertEquals(1,GameController.assignCitizen(3,-4));
-        assertEquals(1,GameController.reAssignCitizen(3,3,3,-4));
+        TileXAndYFlagSelectUnitController.setSelectedCityByName("randomName");
+        assertEquals(1, CityCommandsController.assignCitizen(3,-4));
+        assertEquals(1, CityCommandsController.reAssignCitizen(3,3,3,-4));
         when(map.getX()).thenReturn(100);
         when(map.getY()).thenReturn(100);
-        assertEquals(4,GameController.assignCitizen(3,3));
-        assertEquals(4,GameController.reAssignCitizen(3,3,3,3));
+        assertEquals(4, CityCommandsController.assignCitizen(3,3));
+        assertEquals(4, CityCommandsController.reAssignCitizen(3,3,3,3));
     }
 
     @Test
@@ -151,11 +151,10 @@ class GameControllerTest {
         GameController.setMap(map);
         when(map.getY()).thenReturn(100);
         when(map.getX()).thenReturn(100);
-        Civilization.TileCondition[][] list = new Civilization.TileCondition[1][1];
-        assertFalse(GameController.unitMoveTo(0, 0));
+        assertFalse(UnitStateController.unitMoveTo(0, 0));
         when(civilian.getCivilization()).thenReturn(civilization);
         when(map.coordinatesToTile(0,0)).thenReturn(tile);
-        assertFalse(GameController.unitMoveTo(0, 0));
+        assertFalse(UnitStateController.unitMoveTo(0, 0));
     }
 
     @Test
@@ -163,22 +162,22 @@ class GameControllerTest {
         if (GameController.getCivilizations().size() > 0)
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
         GameController.setSelectedUnit(null);
-        assertEquals(1,GameController.unitSleep());
+        assertEquals(1, UnitStateController.unitSleep());
         GameController.getCivilizations().add(civilization);
         Tile tile = new Tile(TileType.DESERT, 2 ,3);
         NonCivilian unit = new NonCivilian(tile,civilization2, UnitType.RIFLEMAN);
         tile.setNonCivilian(unit);
         when(map.coordinatesToTile(2,3)).thenReturn(tile);
         GameController.setMap(map);
-        GameController.setSelectedNonCivilian(2,3);
-        assertEquals(2,GameController.unitSleep());
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,3);
+        assertEquals(2, UnitStateController.unitSleep());
 
         Tile tile2 = new Tile(TileType.DESERT, 2 ,4);
         NonCivilian unit2 = new NonCivilian(tile2,civilization, UnitType.RIFLEMAN);
         tile2.setNonCivilian(unit2);
         when(map.coordinatesToTile(2,4)).thenReturn(tile2);
-        GameController.setSelectedNonCivilian(2,4);
-        assertEquals(0,GameController.unitSleep());
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,4);
+        assertEquals(0, UnitStateController.unitSleep());
     }
 
     @Test
@@ -186,7 +185,7 @@ class GameControllerTest {
         if (GameController.getCivilizations().size() > 0)
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
         GameController.setSelectedUnit(null);
-        assertEquals(1,GameController.unitAlert());
+        assertEquals(1, UnitStateController.unitAlert());
         GameController.getCivilizations().add(civilization);
         when(civilization.getTileConditions()).thenReturn(new Civilization.TileCondition[15][15]);
         Tile tile = new Tile(TileType.DESERT, 2 ,3);
@@ -194,18 +193,18 @@ class GameControllerTest {
         tile.setNonCivilian(unit);
         when(map.coordinatesToTile(2,3)).thenReturn(tile);
         GameController.setMap(map);
-        GameController.setSelectedNonCivilian(2,3);
-        assertEquals(2,GameController.unitAlert());
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,3);
+        assertEquals(2, UnitStateController.unitAlert());
 
         Tile tile2 = new Tile(TileType.DESERT, 2 ,4);
         NonCivilian unit2 = new NonCivilian(tile2,civilization, UnitType.RIFLEMAN);
         tile2.setNonCivilian(unit2);
         when(map.coordinatesToTile(2,4)).thenReturn(tile2);
-        GameController.setSelectedNonCivilian(2,4);
-        assertEquals(0,GameController.unitAlert());
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,4);
+        assertEquals(0, UnitStateController.unitAlert());
         tile2.setNeighbours(1,tile);
         tile.setNeighbours(2,tile2);
-        assertEquals(3,GameController.unitAlert());
+        assertEquals(3, UnitStateController.unitAlert());
     }
 
     @Test
@@ -214,31 +213,31 @@ class GameControllerTest {
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
 
         GameController.setSelectedUnit(null);
-        assertEquals(1,GameController.unitChangeState(0));
+        assertEquals(1, UnitStateController.unitChangeState(0));
         GameController.getCivilizations().add(civilization);
         Tile tile = new Tile(TileType.DESERT, 2 ,3);
         NonCivilian unit = new NonCivilian(tile,civilization2, UnitType.RIFLEMAN);
         tile.setNonCivilian(unit);
         when(map.coordinatesToTile(2,3)).thenReturn(tile);
         GameController.setMap(map);
-        GameController.setSelectedNonCivilian(2,3);
-        assertEquals(2,GameController.unitChangeState(0));
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,3);
+        assertEquals(2, UnitStateController.unitChangeState(0));
 
         Tile tile2 = new Tile(TileType.DESERT, 2 ,4);
         Civilian unit2 = new Civilian(tile2,civilization, UnitType.SETTLER);
         tile2.setCivilian(unit2);
         when(map.coordinatesToTile(2,4)).thenReturn(tile2);
-        GameController.setSelectedCivilian(2,4);
-        assertEquals(3,GameController.unitChangeState(0));
+        TileXAndYFlagSelectUnitController.setSelectedCivilian(2,4);
+        assertEquals(3, UnitStateController.unitChangeState(0));
 
         NonCivilian unit3 = new NonCivilian(tile2,civilization, UnitType.RIFLEMAN);
         tile2.setNonCivilian(unit3);
         when(map.coordinatesToTile(2,4)).thenReturn(tile2);
-        GameController.setSelectedNonCivilian(2,4);
-        assertEquals(0,GameController.unitChangeState(0));
-        assertEquals(0,GameController.unitChangeState(1));
-        assertEquals(0,GameController.unitChangeState(2));
-        assertEquals(0,GameController.unitChangeState(3));
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,4);
+        assertEquals(0, UnitStateController.unitChangeState(0));
+        assertEquals(0, UnitStateController.unitChangeState(1));
+        assertEquals(0, UnitStateController.unitChangeState(2));
+        assertEquals(0, UnitStateController.unitChangeState(3));
     }
 
     @Test
@@ -247,28 +246,28 @@ class GameControllerTest {
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
 
         GameController.setSelectedUnit(null);
-        assertEquals(1,GameController.unitSetupRanged());
+        assertEquals(1, UnitStateController.unitSetupRanged());
         GameController.getCivilizations().add(civilization);
         Tile tile = new Tile(TileType.DESERT, 2 ,3);
         NonCivilian unit = new NonCivilian(tile,civilization2, UnitType.ARCHER);
         tile.setNonCivilian(unit);
         when(map.coordinatesToTile(2,3)).thenReturn(tile);
         GameController.setMap(map);
-        GameController.setSelectedNonCivilian(2,3);
-        assertEquals(2,GameController.unitSetupRanged());
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,3);
+        assertEquals(2, UnitStateController.unitSetupRanged());
 
         Tile tile2 = new Tile(TileType.DESERT, 2 ,4);
         Civilian unit4 = new Civilian(tile2,civilization, UnitType.SETTLER);
         tile2.setCivilian(unit4);
         when(map.coordinatesToTile(2,4)).thenReturn(tile2);
-        GameController.setSelectedCivilian(2,4);
-        assertEquals(3,GameController.unitSetupRanged());
+        TileXAndYFlagSelectUnitController.setSelectedCivilian(2,4);
+        assertEquals(3, UnitStateController.unitSetupRanged());
 
         NonCivilian unit3 = new NonCivilian(tile2,civilization, UnitType.CANON);
         tile2.setNonCivilian(unit3);
         when(map.coordinatesToTile(2,4)).thenReturn(tile2);
-        GameController.setSelectedNonCivilian(2,4);
-        assertEquals(0,GameController.unitSetupRanged());
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,4);
+        assertEquals(0, UnitStateController.unitSetupRanged());
 
     }
 
@@ -283,7 +282,7 @@ class GameControllerTest {
         when(civilian.getCurrentTile()).thenReturn(tile);
         Civilization.TileCondition[][] list = new Civilization.TileCondition[1][1];
         when(civilization.getTileConditions()).thenReturn(list);
-        assertEquals(0,GameController.unitFoundCity("nude"));
+        assertEquals(0,UnitStateController.unitFoundCity("nude"));
     }
 
     @Test
@@ -294,7 +293,7 @@ class GameControllerTest {
         GameController.setSelectedUnit(nonCivilian);
         when(nonCivilian.getCivilization()).thenReturn(civilization);
         when(nonCivilian.getState()).thenReturn(UnitState.SLEEP);
-        assertEquals(0,GameController.unitCancelMission());
+        assertEquals(0,UnitStateController.unitCancelMission());
         GameController.getCivilizations().add(civilization);
     }
 
@@ -302,23 +301,23 @@ class GameControllerTest {
     void unitDelete() {
         if (GameController.getCivilizations().size() > 0)
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
-        assertEquals(1,GameController.unitDelete(null));
+        assertEquals(1, UnitStateController.unitDelete(null));
         GameController.getCivilizations().add(civilization);
         Tile tile = new Tile(TileType.DESERT, 2 ,3);
         NonCivilian unit = new NonCivilian(tile,civilization2, UnitType.RIFLEMAN);
         tile.setNonCivilian(unit);
         GameController.setMap(map);
-        assertEquals(2,GameController.unitDelete(unit));
+        assertEquals(2, UnitStateController.unitDelete(unit));
 
         Tile tile2 = new Tile(TileType.DESERT, 2 ,4);
         NonCivilian unit2 = new NonCivilian(tile2,civilization, UnitType.RIFLEMAN);
         tile2.setNonCivilian(unit2);
         when(civilization.getTileConditions()).thenReturn(new Civilization.TileCondition[40][40]);
-        assertEquals(0,GameController.unitDelete(unit2));
+        assertEquals(0, UnitStateController.unitDelete(unit2));
 
         Civilian unit3 = new Civilian(tile2,civilization, UnitType.SETTLER);
         tile2.setNonCivilian(unit2);
-        assertEquals(0,GameController.unitDelete(unit3));
+        assertEquals(0, UnitStateController.unitDelete(unit3));
     }
 
     @Test
@@ -326,35 +325,35 @@ class GameControllerTest {
         if (GameController.getCivilizations().size() > 0)
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
         GameController.setSelectedUnit(null);
-        assertEquals(1,GameController.unitBuild(ImprovementType.PASTURE));
+        assertEquals(1, UnitStateController.unitBuild(ImprovementType.PASTURE));
         GameController.getCivilizations().add(civilization);
         Tile tile = new Tile(TileType.DESERT, 2 ,3);
         NonCivilian unit = new NonCivilian(tile,civilization2, UnitType.RIFLEMAN);
         tile.setNonCivilian(unit);
         when(map.coordinatesToTile(2,3)).thenReturn(tile);
         GameController.setMap(map);
-        GameController.setSelectedNonCivilian(2,3);
-        assertEquals(2,GameController.unitBuild(ImprovementType.PASTURE));
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,3);
+        assertEquals(2, UnitStateController.unitBuild(ImprovementType.PASTURE));
 
         Tile tile2 = new Tile(TileType.DESERT, 2 ,4);
         NonCivilian unit2 = new NonCivilian(tile2,civilization, UnitType.RIFLEMAN);
         tile2.setNonCivilian(unit2);
         when(map.coordinatesToTile(2,4)).thenReturn(tile2);
-        GameController.setSelectedNonCivilian(2,4);
-        assertEquals(3,GameController.unitBuild(ImprovementType.PASTURE));
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,4);
+        assertEquals(3, UnitStateController.unitBuild(ImprovementType.PASTURE));
         Civilian civilian = new Civilian(tile2, civilization, UnitType.WORKER);
         tile2.setCivilian(civilian);
-        GameController.setSelectedCivilian(2,4);
-        assertEquals(4,GameController.unitBuild(ImprovementType.PASTURE));
+        TileXAndYFlagSelectUnitController.setSelectedCivilian(2,4);
+        assertEquals(4, UnitStateController.unitBuild(ImprovementType.PASTURE));
         tile2.setImprovement(new Improvement(ImprovementType.PASTURE,tile2));
         tile2.setContainedFeature(null);
         when(civilization.doesContainTechnology(TechnologyType.ANIMAL_HUSBANDRY)).thenReturn(1);
-        assertEquals(5,GameController.unitBuild(ImprovementType.PASTURE));
+        assertEquals(5, UnitStateController.unitBuild(ImprovementType.PASTURE));
         tile2.getImprovement().setNeedsRepair(4);
         tile2.setCivilization(civilization);
-        assertEquals(0,GameController.unitBuild(ImprovementType.PASTURE));
+        assertEquals(0, UnitStateController.unitBuild(ImprovementType.PASTURE));
         tile2.setContainedFeature(new Feature(FeatureType.JUNGLE));
-        assertEquals(0,GameController.unitBuild(ImprovementType.PASTURE));
+        assertEquals(0, UnitStateController.unitBuild(ImprovementType.PASTURE));
     }
 
     @Test
@@ -366,28 +365,28 @@ class GameControllerTest {
         if (GameController.getCivilizations().size() > 0)
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
         GameController.setSelectedUnit(null);
-        assertEquals(1,GameController.unitBuildRoad());
+        assertEquals(1, UnitStateController.unitBuildRoad());
         GameController.getCivilizations().add(civilization);
         Tile tile = new Tile(TileType.DESERT, 2 ,3);
         NonCivilian unit = new NonCivilian(tile,civilization2, UnitType.RIFLEMAN);
         tile.setNonCivilian(unit);
         when(map.coordinatesToTile(2,3)).thenReturn(tile);
         GameController.setMap(map);
-        GameController.setSelectedNonCivilian(2,3);
-        assertEquals(2,GameController.unitBuildRoad());
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,3);
+        assertEquals(2, UnitStateController.unitBuildRoad());
 
         Tile tile2 = new Tile(TileType.DESERT, 2 ,4);
         NonCivilian unit2 = new NonCivilian(tile2,civilization, UnitType.RIFLEMAN);
         tile2.setNonCivilian(unit2);
         when(map.coordinatesToTile(2,4)).thenReturn(tile2);
-        GameController.setSelectedNonCivilian(2,4);
-        assertEquals(3,GameController.unitBuildRoad());
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,4);
+        assertEquals(3, UnitStateController.unitBuildRoad());
 
         Civilian civilian = new Civilian(tile2, civilization, UnitType.WORKER);
         tile2.setCivilian(civilian);
-        GameController.setSelectedCivilian(2,4);
-        assertEquals(0,GameController.unitBuildRoad());
-        assertEquals(6,GameController.unitBuildRoad());
+        TileXAndYFlagSelectUnitController.setSelectedCivilian(2,4);
+        assertEquals(0, UnitStateController.unitBuildRoad());
+        assertEquals(6, UnitStateController.unitBuildRoad());
     }
 
     @Test
@@ -395,30 +394,30 @@ class GameControllerTest {
         if (GameController.getCivilizations().size() > 0)
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
         GameController.setSelectedUnit(null);
-        assertEquals(1,GameController.unitBuildRailRoad());
+        assertEquals(1, UnitStateController.unitBuildRailRoad());
         GameController.getCivilizations().add(civilization);
         Tile tile = new Tile(TileType.DESERT, 2 ,3);
         NonCivilian unit = new NonCivilian(tile,civilization2, UnitType.RIFLEMAN);
         tile.setNonCivilian(unit);
         when(map.coordinatesToTile(2,3)).thenReturn(tile);
         GameController.setMap(map);
-        GameController.setSelectedNonCivilian(2,3);
-        assertEquals(2,GameController.unitBuildRailRoad());
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,3);
+        assertEquals(2, UnitStateController.unitBuildRailRoad());
 
         Tile tile2 = new Tile(TileType.DESERT, 2 ,4);
         NonCivilian unit2 = new NonCivilian(tile2,civilization, UnitType.RIFLEMAN);
         tile2.setNonCivilian(unit2);
         when(map.coordinatesToTile(2,4)).thenReturn(tile2);
-        GameController.setSelectedNonCivilian(2,4);
-        assertEquals(3,GameController.unitBuildRailRoad());
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,4);
+        assertEquals(3, UnitStateController.unitBuildRailRoad());
 
         Civilian civilian = new Civilian(tile2, civilization, UnitType.WORKER);
         tile2.setCivilian(civilian);
-        GameController.setSelectedCivilian(2,4);
-        assertEquals(4,GameController.unitBuildRailRoad());
+        TileXAndYFlagSelectUnitController.setSelectedCivilian(2,4);
+        assertEquals(4, UnitStateController.unitBuildRailRoad());
         when(civilization.doesContainTechnology(TechnologyType.RAILROAD)).thenReturn(1);
-        assertEquals(0,GameController.unitBuildRailRoad());
-        assertEquals(6,GameController.unitBuildRailRoad());
+        assertEquals(0, UnitStateController.unitBuildRailRoad());
+        assertEquals(6, UnitStateController.unitBuildRailRoad());
     }
 
     @Test
@@ -426,35 +425,35 @@ class GameControllerTest {
         if (GameController.getCivilizations().size() > 0)
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
         GameController.setSelectedUnit(null);
-        assertEquals(1,GameController.unitRemoveFromTile(false));
-        assertEquals(1,GameController.unitRemoveFromTile(true));
+        assertEquals(1, UnitStateController.unitRemoveFromTile(false));
+        assertEquals(1, UnitStateController.unitRemoveFromTile(true));
         GameController.getCivilizations().add(civilization);
         Tile tile = new Tile(TileType.DESERT, 2 ,3);
         NonCivilian unit = new NonCivilian(tile,civilization2, UnitType.RIFLEMAN);
         tile.setNonCivilian(unit);
         when(map.coordinatesToTile(2,3)).thenReturn(tile);
         GameController.setMap(map);
-        GameController.setSelectedNonCivilian(2,3);
-        assertEquals(2,GameController.unitRemoveFromTile(false));
-        assertEquals(2,GameController.unitRemoveFromTile(true));
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,3);
+        assertEquals(2, UnitStateController.unitRemoveFromTile(false));
+        assertEquals(2, UnitStateController.unitRemoveFromTile(true));
 
         Tile tile2 = new Tile(TileType.DESERT, 2 ,4);
         NonCivilian unit2 = new NonCivilian(tile2,civilization, UnitType.RIFLEMAN);
         tile2.setNonCivilian(unit2);
         when(map.coordinatesToTile(2,4)).thenReturn(tile2);
-        GameController.setSelectedNonCivilian(2,4);
-        assertEquals(3,GameController.unitRemoveFromTile(false));
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,4);
+        assertEquals(3, UnitStateController.unitRemoveFromTile(false));
         Civilian civilian = new Civilian(tile2, civilization, UnitType.WORKER);
         tile2.setCivilian(civilian);
-        GameController.setSelectedCivilian(2,4);
+        TileXAndYFlagSelectUnitController.setSelectedCivilian(2,4);
         tile2.setContainedFeature(new Feature(FeatureType.DELTA));
-        assertEquals(4,GameController.unitRemoveFromTile(true));
-        assertEquals(5,GameController.unitRemoveFromTile(false));
+        assertEquals(4, UnitStateController.unitRemoveFromTile(true));
+        assertEquals(5, UnitStateController.unitRemoveFromTile(false));
         tile2.setRoad(new Improvement(ImprovementType.ROAD,tile2));
-        assertEquals(0,GameController.unitRemoveFromTile(false));
+        assertEquals(0, UnitStateController.unitRemoveFromTile(false));
         tile2.setContainedFeature(new Feature(FeatureType.FOREST));
         when(civilization.getTileConditions()).thenReturn(new Civilization.TileCondition[30][30]);
-        assertEquals(0,GameController.unitRemoveFromTile(true));
+        assertEquals(0, UnitStateController.unitRemoveFromTile(true));
     }
 
     @Test
@@ -462,36 +461,36 @@ class GameControllerTest {
         if (GameController.getCivilizations().size() > 0)
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
         GameController.setSelectedUnit(null);
-        assertEquals(1,GameController.unitRepair());
+        assertEquals(1, UnitStateController.unitRepair());
         GameController.getCivilizations().add(civilization);
         Tile tile = new Tile(TileType.DESERT, 2 ,3);
         NonCivilian unit = new NonCivilian(tile,civilization2, UnitType.RIFLEMAN);
         tile.setNonCivilian(unit);
         when(map.coordinatesToTile(2,3)).thenReturn(tile);
         GameController.setMap(map);
-        GameController.setSelectedNonCivilian(2,3);
-        assertEquals(2,GameController.unitRepair());
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,3);
+        assertEquals(2, UnitStateController.unitRepair());
 
         Tile tile2 = new Tile(TileType.DESERT, 2 ,4);
         NonCivilian unit2 = new NonCivilian(tile2,civilization, UnitType.RIFLEMAN);
         tile2.setNonCivilian(unit2);
         when(map.coordinatesToTile(2,4)).thenReturn(tile2);
-        GameController.setSelectedNonCivilian(2,4);
-        assertEquals(3,GameController.unitRepair());
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,4);
+        assertEquals(3, UnitStateController.unitRepair());
         Civilian civilian = new Civilian(tile2, civilization, UnitType.WORKER);
         tile2.setCivilian(civilian);
-        GameController.setSelectedCivilian(2,4);
-        assertEquals(4,GameController.unitRepair());
+        TileXAndYFlagSelectUnitController.setSelectedCivilian(2,4);
+        assertEquals(4, UnitStateController.unitRepair());
         tile2.setImprovement(new Improvement(ImprovementType.PASTURE,tile2));
-        assertEquals(5,GameController.unitRepair());
+        assertEquals(5, UnitStateController.unitRepair());
         tile2.getImprovement().setNeedsRepair(4);
-        assertEquals(0,GameController.unitRepair());
+        assertEquals(0, UnitStateController.unitRepair());
     }
 
     @Test
     void mapShowPosition() {
-        GameController.mapShowPosition(-10,-10);
-        GameController.mapShowPosition(200,200);
+        MapCommandsController.mapShowPosition(-10,-10);
+        MapCommandsController.mapShowPosition(200,200);
     }
 
     @Test
@@ -500,10 +499,10 @@ class GameControllerTest {
 
     @Test
     void mapMove() {
-        GameController.mapMove(4,"r");
-        GameController.mapMove(4,"l");
-        GameController.mapMove(4,"u");
-        GameController.mapMove(4,"d");
+        MapCommandsController.mapMove(4,"r");
+        MapCommandsController.mapMove(4,"l");
+        MapCommandsController.mapMove(4,"u");
+        MapCommandsController.mapMove(4,"d");
     }
 
     @Test
@@ -511,42 +510,42 @@ class GameControllerTest {
         if (GameController.getCivilizations().size() > 0)
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
         GameController.getCivilizations().add(civilization);
-        assertEquals(2,GameController.buyTile(-2,-2));
+        assertEquals(2,CityCommandsController.buyTile(-2,-2));
         when(map.getX()).thenReturn(100);
         when(map.getY()).thenReturn(100);
         GameController.setMap(map);
-        assertEquals(4,GameController.buyTile(10,10));
+        assertEquals(4, CityCommandsController.buyTile(10,10));
         GameController.setSelectedCity(city);
         when(city.getCivilization()).thenReturn(GameController.getCivilizations().get(0));
-        assertEquals(3,GameController.buyTile(10,10));
+        assertEquals(3, CityCommandsController.buyTile(10,10));
         when(city.isTileNeighbor(any())).thenReturn(true);
-        assertEquals(1,GameController.buyTile(10,10));
+        assertEquals(1, CityCommandsController.buyTile(10,10));
         when(city.addTile(any())).thenReturn(true);
-        assertEquals(0,GameController.buyTile(10,10));
+        assertEquals(0, CityCommandsController.buyTile(10,10));
     }
 
     @Test
     void buildWall() {
         if (GameController.getCivilizations().size() > 0)
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
-        assertEquals(1,GameController.buildWall());
+        assertEquals(1, CityCommandsController.buildWall());
         when(city.getName()).thenReturn("randomName");
         GameController.getCivilizations().add(civilization);
         ArrayList<City> cities = new ArrayList<>();
         cities.add(city);
         when(civilization.getCities()).thenReturn(cities);
-        GameController.setSelectedCityByName("randomName");
-        assertEquals(2,GameController.buildWall());
+        TileXAndYFlagSelectUnitController.setSelectedCityByName("randomName");
+        assertEquals(2, CityCommandsController.buildWall());
         when(city.getCivilization()).thenReturn(civilization);
-        assertEquals(0,GameController.buildWall());
+        assertEquals(0, CityCommandsController.buildWall());
         Building wall = new Building(BuildingType.WALL);
         ArrayList<Building> walls = new ArrayList<>();
         walls.add(wall);
         when(city.getHalfProducedBuildings()).thenReturn(walls);
-        assertEquals(0,GameController.buildWall());
+        assertEquals(0, CityCommandsController.buildWall());
         wall.setRemainedCost(0);
         when(city.getWall()).thenReturn(wall);
-        assertEquals(3,GameController.buildWall());
+        assertEquals(3, CityCommandsController.buildWall());
     }
 
     @Test
@@ -554,13 +553,6 @@ class GameControllerTest {
         assertFalse(GameController.nextTurnIfYouCan());
         if (GameController.getUnfinishedTasks().size() > 0)
             GameController.getUnfinishedTasks().subList(0, GameController.getUnfinishedTasks().size()).clear();
-//        if (GameController.getCivilizations().size() > 0)
-//            GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
-//        GameController.setSelectedUnit(null);
-//        GameController.getCivilizations().add(civilization);
-//        GameController.getCivilizations().add(civilization2);
-
-//        civilization.getCities().add(city2);
         assertTrue(GameController.nextTurnIfYouCan());
     }
 
@@ -596,10 +588,10 @@ class GameControllerTest {
         tile.setNonCivilian(unit);
         when(map.coordinatesToTile(2,3)).thenReturn(tile);
         GameController.setMap(map);
-        GameController.setSelectedNonCivilian(2,3);
-        assertEquals(0,GameController.cheatUnit(2,3,UnitType.SETTLER));
-        assertEquals(2,GameController.cheatUnit(2,3,UnitType.SETTLER));
-        assertEquals(2,GameController.cheatUnit(2,3,UnitType.SPEARMAN));
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,3);
+        assertEquals(0, CheatCommandsController.cheatUnit(2,3,UnitType.SETTLER));
+        assertEquals(2, CheatCommandsController.cheatUnit(2,3,UnitType.SETTLER));
+        assertEquals(2, CheatCommandsController.cheatUnit(2,3,UnitType.SPEARMAN));
     }
 
     @Test
@@ -642,7 +634,6 @@ class GameControllerTest {
         when(city.getHalfProducedUnits()).thenReturn(u);
         assertEquals(0,GameController.startProducingUnit("SWORDSMAN"));
 
-
     }
 
     @Test
@@ -671,22 +662,19 @@ class GameControllerTest {
         when(nonCivilian.getCivilization()).thenReturn(civilization);
         when(nonCivilian.getUnitType()).thenReturn(UnitType.ARCHER);
         when(nonCivilian.move(tile,true)).thenReturn(true);
-        assertEquals(5,GameController.unitAttack(tile.getX(), tile.getY()));
+        assertEquals(5,UnitStateController.unitAttack(tile.getX(), tile.getY()));
         when(map.coordinatesToTile(tile.getX(), tile.getY()).getCivilian()).thenReturn(civilian);
-        assertEquals(0,GameController.unitAttack(tile.getX(), tile.getY()));
+        assertEquals(0,UnitStateController.unitAttack(tile.getX(), tile.getY()));
         when(nonCivilian.getUnitType()).thenReturn(UnitType.CATAPULT);
-        assertEquals(7,GameController.unitAttack(tile.getX(), tile.getY()));
+        assertEquals(7,UnitStateController.unitAttack(tile.getX(), tile.getY()));
         when(nonCivilian.getState()).thenReturn(UnitState.SETUP);
         when(nonCivilian.getFortifiedCycle()).thenReturn(1);
         when(tile.getNonCivilian()).thenReturn(nonCivilian1);
         when(nonCivilian1.getCivilization()).thenReturn(null);
-        assertEquals(0,GameController.unitAttack(tile.getX(), tile.getY()));
+        assertEquals(0,UnitStateController.unitAttack(tile.getX(), tile.getY()));
         when(tile.getCity()).thenReturn(city);
         when(city.getCivilization()).thenReturn(null);
-        assertEquals(0,GameController.unitAttack(tile.getX(), tile.getY()));
-
-
-
+        assertEquals(0,UnitStateController.unitAttack(tile.getX(), tile.getY()));
 
     }
 
@@ -702,7 +690,8 @@ class GameControllerTest {
         when(map.getX()).thenReturn(100);
         when(map.getY()).thenReturn(100);
         when(map.coordinatesToTile(tile.getX(), tile.getY()).getNonCivilian()).thenReturn(nonCivilian);
-        assertEquals(0,GameController.cityAttack(tile.getX(), tile.getY()));
+        when(map.isInRange(2,null,tile)).thenReturn(true);
+        assertEquals(0,CityCommandsController.cityAttack(tile.getX(), tile.getY()));
     }
 
     @Test
@@ -712,14 +701,14 @@ class GameControllerTest {
         GameController.getCivilizations().add(civilization);
         GameController.setSelectedCity(city);
         city.takeDamage(city.getHP());
-        assertEquals(0,GameController.cityDestiny(true));
-        assertEquals(0,GameController.cityDestiny(false));
+        assertEquals(0,CityCommandsController.cityDestiny(true));
+        assertEquals(0,CityCommandsController.cityDestiny(false));
 
     }
 
     @Test
     void cheatScience() {
-        GameController.cheatScience(10);
+        CheatCommandsController.cheatScience(10);
     }
 
     @Test
@@ -732,12 +721,12 @@ class GameControllerTest {
         ArrayList<City> cities = new ArrayList<>();
         cities.add(city);
         when(civilization.getCities()).thenReturn(cities);
-        assertEquals(1,GameController.cheatProduction(3));
-        GameController.setSelectedCityByName("randomName");
+        assertEquals(1, CheatCommandsController.cheatProduction(3));
+        TileXAndYFlagSelectUnitController.setSelectedCityByName("randomName");
         assertEquals(city,GameController.getSelectedCity());
-        assertEquals(2,GameController.cheatProduction(3));
+        assertEquals(2, CheatCommandsController.cheatProduction(3));
         when(city.getCivilization()).thenReturn(civilization);
-        assertEquals(0,GameController.cheatProduction(3));
+        assertEquals(0, CheatCommandsController.cheatProduction(3));
     }
 
     @Test
@@ -748,7 +737,7 @@ class GameControllerTest {
         resource.put(ResourcesTypes.GEMSTONE,3);
         GameController.getCivilizations().add(civilization);
         when(civilization.getResourcesAmount()).thenReturn(resource);
-        GameController.cheatResource(4, ResourcesTypes.GEMSTONE);
+        CheatCommandsController.cheatResource(4, ResourcesTypes.GEMSTONE);
     }
 
     @Test
@@ -759,7 +748,7 @@ class GameControllerTest {
         GameController.nextTurn();
         GameController.setSelectedUnit(nonCivilian);
         when(nonCivilian.getCivilization()).thenReturn(civilization);
-        assertEquals(3 , GameController.unitPillage());
+        assertEquals(3 , UnitStateController.unitPillage());
 
     }
 
@@ -768,7 +757,7 @@ class GameControllerTest {
         if (GameController.getCivilizations().size() > 0)
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
         GameController.setSelectedUnit(null);
-        assertEquals(1,GameController.skipUnitTask());
+        assertEquals(1, UnitStateController.skipUnitTask());
         GameController.getCivilizations().add(civilization);
         when(civilization.getTileConditions()).thenReturn(new Civilization.TileCondition[100][100]);
         Tile tile = new Tile(TileType.DESERT, 2 ,3);
@@ -776,45 +765,44 @@ class GameControllerTest {
         tile.setNonCivilian(unit);
         when(map.coordinatesToTile(2,3)).thenReturn(tile);
         GameController.setMap(map);
-        GameController.setSelectedNonCivilian(2,3);
-        assertEquals(2,GameController.skipUnitTask());
-
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,3);
+        assertEquals(2, UnitStateController.skipUnitTask());
         Tile tile2 = new Tile(TileType.DESERT, 2 ,4);
         NonCivilian unit2 = new NonCivilian(tile2,civilization, UnitType.RIFLEMAN);
         tile2.setNonCivilian(unit2);
         when(map.coordinatesToTile(2,4)).thenReturn(tile2);
-        GameController.setSelectedNonCivilian(2,4);
-        assertEquals(0,GameController.unitAlert());
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,4);
+        assertEquals(0, UnitStateController.unitAlert());
         tile2.setNeighbours(1,tile);
         tile.setNeighbours(2,tile2);
-        assertEquals(3,GameController.skipUnitTask());
+        assertEquals(3, UnitStateController.skipUnitTask());
         GameController.getUnfinishedTasks().add(new Tasks(tile2,TaskTypes.UNIT));
-        assertEquals(0,GameController.skipUnitTask());
+        assertEquals(0, UnitStateController.skipUnitTask());
         tile2.setCivilian(new Civilian(tile2,civilization2,UnitType.SETTLER));
         tile.setCivilian(new Civilian(tile,civilization2,UnitType.SETTLER));
         GameController.getSelectedUnit().setState(UnitState.ALERT);
         unit2.setState(UnitState.ALERT);
-        assertEquals(3,GameController.unitAlert());
+        assertEquals(3, UnitStateController.unitAlert());
     }
 
     @Test
     void cheatTechnology() {
         if (GameController.getCivilizations().size() > 0)
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
-        assertEquals(1,GameController.cheatTechnology(null));
+        assertEquals(1, CheatCommandsController.cheatTechnology(null));
         Civilization civilization3 = new Civilization(user, 3);
         GameController.getCivilizations().add(civilization3);
         GameController.getCivilizations().add(civilization2);
         Map map2 = new Map(GameController.getCivilizations());
         GameController.setMap(map2);
-        assertEquals(0,GameController.cheatTechnology(TechnologyType.TELEGRAPH));
+        assertEquals(0, CheatCommandsController.cheatTechnology(TechnologyType.TELEGRAPH));
         Technology technology = new Technology(TechnologyType.ELECTRICITY);
         technology.setRemainedCost(5);
         civilization3.getResearches().add(technology);
-        assertEquals(2,GameController.cheatTechnology(TechnologyType.TELEGRAPH));
-        assertEquals(0,GameController.cheatTechnology(TechnologyType.ELECTRICITY));
+        assertEquals(2, CheatCommandsController.cheatTechnology(TechnologyType.TELEGRAPH));
+        assertEquals(0, CheatCommandsController.cheatTechnology(TechnologyType.ELECTRICITY));
         technology.setRemainedCost(0);
-        assertEquals(2,GameController.cheatTechnology(TechnologyType.ELECTRICITY));
+        assertEquals(2, CheatCommandsController.cheatTechnology(TechnologyType.ELECTRICITY));
     }
 
     @Test
@@ -824,7 +812,7 @@ class GameControllerTest {
         civilizations.add(civilization2);
         Map map2 = new Map(civilizations);
         GameController.setMap(map2);
-        GameController.openMap();
+        CheatCommandsController.openMap();
     }
 
     @Test
@@ -832,15 +820,15 @@ class GameControllerTest {
         if (GameController.getCivilizations().size() > 0)
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
         GameController.setSelectedUnit(null);
-        assertEquals(1,GameController.cheatMoveIt(2,3));
+        assertEquals(1, CheatCommandsController.cheatMoveIt(2,3));
         GameController.getCivilizations().add(civilization);
         Tile tile = new Tile(TileType.DESERT, 2 ,3);
         NonCivilian unit = new NonCivilian(tile,civilization2, UnitType.RIFLEMAN);
         tile.setNonCivilian(unit);
         when(map.coordinatesToTile(2,3)).thenReturn(tile);
         GameController.setMap(map);
-        GameController.setSelectedNonCivilian(2,3);
-        assertEquals(2,GameController.cheatMoveIt(2,3));
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,3);
+        assertEquals(2, CheatCommandsController.cheatMoveIt(2,3));
 
         Tile tile2 = new Tile(TileType.DESERT, 2 ,4);
         NonCivilian unit2 = new NonCivilian(tile2,civilization, UnitType.RIFLEMAN);
@@ -848,13 +836,13 @@ class GameControllerTest {
         tile2.setNonCivilian(unit2);
         tile2.setCivilian(civilian);
         when(map.coordinatesToTile(2,4)).thenReturn(tile2);
-        GameController.setSelectedNonCivilian(2,4);
-        assertEquals(3,GameController.cheatMoveIt(-10,-10));
+        TileXAndYFlagSelectUnitController.setSelectedNonCivilian(2,4);
+        assertEquals(3, CheatCommandsController.cheatMoveIt(-10,-10));
         when(map.getX()).thenReturn(100);
         when(map.getY()).thenReturn(100);
-        assertEquals(0,GameController.cheatMoveIt(2,4));
-        GameController.setSelectedCivilian(2,4);
-        assertEquals(0,GameController.cheatMoveIt(2,4));
+        assertEquals(0, CheatCommandsController.cheatMoveIt(2,4));
+        TileXAndYFlagSelectUnitController.setSelectedCivilian(2,4);
+        assertEquals(0, CheatCommandsController.cheatMoveIt(2,4));
     }
 
     @Test
@@ -862,15 +850,14 @@ class GameControllerTest {
         if (GameController.getCivilizations().size() > 0)
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
         when(city.getName()).thenReturn("randomName");
-        Tile tile = new Tile(TileType.DESERT, 2 ,3);
         GameController.getCivilizations().add(civilization);
         ArrayList<City> cities = new ArrayList<>();
         cities.add(city);
         when(civilization.getCities()).thenReturn(cities);
-        assertEquals(1, GameController.cheatCaptureCity("bla bla"));
-        assertEquals(0, GameController.cheatCaptureCity("randomName"));
+        assertEquals(1, CheatCommandsController.cheatCaptureCity("bla bla"));
+        assertEquals(0, CheatCommandsController.cheatCaptureCity("randomName"));
         when(city.getCivilization()).thenReturn(civilization);
-        assertEquals(2, GameController.cheatCaptureCity("randomName"));
+        assertEquals(2, CheatCommandsController.cheatCaptureCity("randomName"));
     }
 
     @Test
@@ -879,21 +866,21 @@ class GameControllerTest {
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
         GameController.getCivilizations().add(civilization);
         Tile tile = new Tile(TileType.DESERT, 2 ,3);
-        assertEquals(1,GameController.buyUnit("asghar",58,96));
+        assertEquals(1, CityCommandsController.buyUnit("asghar",58,96));
         when(GameController.getMap().coordinatesToTile(2, 3)).thenReturn(tile);
-        assertEquals(2,GameController.buyUnit("archer",2,3));
+        assertEquals(2, CityCommandsController.buyUnit("archer",2,3));
         tile.setCivilization(civilization);
-        assertEquals(3,GameController.buyUnit("archer",2,3));
+        assertEquals(3, CityCommandsController.buyUnit("archer",2,3));
         when(civilian.getUnitType()).thenReturn(UnitType.SETTLER);
         tile.setCivilian(civilian);
         tile.setNonCivilian(nonCivilian);
         when(civilization.getGold()).thenReturn(10000);
-        assertEquals(4,GameController.buyUnit("settler",2,3));
-        assertEquals(4,GameController.buyUnit("archer",2,3));
+        assertEquals(4, CityCommandsController.buyUnit("settler",2,3));
+        assertEquals(4, CityCommandsController.buyUnit("archer",2,3));
         tile.setNonCivilian(null);
         Civilization.TileCondition[][] tileConditions = new Civilization.TileCondition[40][40];
         when(civilization.getTileConditions()).thenReturn(tileConditions);
-        assertEquals(0,GameController.buyUnit("archer",2,3));
+        assertEquals(0, CityCommandsController.buyUnit("archer",2,3));
     }
 
     @Test
@@ -908,7 +895,7 @@ class GameControllerTest {
         when(user.getNickname()).thenReturn("nick");
         Map map2 = new Map(GameController.getCivilizations());
         GameController.setMap(map2);
-        GameController.cheatRoadEverywhere();
+        CheatCommandsController.cheatRoadEverywhere();
         assertNotNull(GameController.printMap());
     }
 }

@@ -1,6 +1,6 @@
 package model;
 
-import controller.GameController;
+import controller.gameController.GameController;
 import model.Units.NonCivilian;
 import model.Units.UnitType;
 import model.features.Feature;
@@ -13,9 +13,8 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
-import static controller.GameController.openNewArea;
+import static controller.gameController.GameController.openNewArea;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 class MapTest {
 

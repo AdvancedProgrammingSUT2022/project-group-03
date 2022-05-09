@@ -1,6 +1,6 @@
 package model;
 
-import controller.GameController;
+import controller.gameController.GameController;
 import model.Units.Civilian;
 import model.Units.Unit;
 
@@ -11,7 +11,7 @@ import model.improvements.ImprovementType;
 import model.resources.ResourcesTypes;
 import model.tiles.Tile;
 import model.tiles.TileType;
-import view.Color;
+import view.gameMenu.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
