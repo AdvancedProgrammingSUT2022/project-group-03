@@ -30,7 +30,8 @@ public class ProductionCityMenu extends Menu{
         boolean doesHaveAny = false;
         mainFor: for(int i = 0 ; i < UnitType.VALUES.size();i++)
         {
-            if(GameController.getSelectedCity().getCivilization().doesContainTechnology(UnitType.VALUES.get(i).technologyRequired)!=1)
+            if(GameController.getSelectedCity().getCivilization()
+                            .doesContainTechnology(UnitType.VALUES.get(i).technologyRequired)!=1)
                 continue;
             doesHaveAny=true;
             if( (UnitType.VALUES.get(i).resourcesType!=null &&

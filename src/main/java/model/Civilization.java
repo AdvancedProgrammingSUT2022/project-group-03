@@ -214,6 +214,8 @@ public class Civilization {
     }
 
     public int doesContainTechnology(TechnologyType technologyType) {
+        if(technologyType==null)
+            return 1;
         for (Technology research : researches)
             if (research.getTechnologyType() == technologyType) {
                 if (research.getRemainedCost() == 0)
