@@ -729,8 +729,8 @@ public class GameController {
     public static int cityDestiny(boolean burn) {
         if (selectedCity == null) return 2;
         if (selectedCity.getHP() > 0) return 1;
-        if (selectedCity.isCapital && burn) return 4;
-        if (burn) selectedCity.destroy();
+        if (selectedCity.isCapital && burn) return 3;
+        if (burn) selectedCity.destroy(civilizations.get(playerTurn));
         else selectedCity.changeCivilization(civilizations.get(playerTurn));
         deleteFromUnfinishedTasks(new Tasks(selectedCity.getMainTile(), TaskTypes.CITY_DESTINY));
         return 0;

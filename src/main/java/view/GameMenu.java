@@ -143,57 +143,74 @@ public class GameMenu extends MutatedMenu {
         public int run(String name) {
             switch (state) {
                 case "sleep":
+                case "sl":
                     unitSleep();
                     return 3;
                 case "alert":
+                case "al":
                     unitAlert();
                     return 3;
                 case "fortify":
+                case "fo":
                     unitFortify(false);
                     return 3;
                 case "fortify_until_heal":
+                case "fuh":
                     unitFortify(true);
                     return 3;
                 case "garrison":
+                case "ga":
                     unitGarrison();
                     return 3;
                 case "wake":
+                case "wa":
                     unitWake();
                     return 3;
                 case "setup":
+                case "se":
                     unitSetupRanged();
                     return 3;
                 case "init":
                     switch (move) {
                         case "moveto":
+                        case "mv":
                             unitMoveTo(x, y);
                             return 3;
                         case "attack":
+                        case "at":
                             unitAttack(x, y);
                             return 3;
                         case "found_city":
+                        case "fc":
                             unitFoundCity(nameCity);
                             return 3;
                         case "pillage":
+                        case "pi":
                             unitPillage();
                             return 3;
                         case "skip":
+                        case "sk":
                             skipUnitTask();
                             return 3;
                         case "delete":
+                        case "del":
                             unitDelete();
                             return 3;
                         case "cancel_mission":
+                        case "cm":
                             unitCancelMission();
                             return 3;
                         case "remove":
+                        case "rm":
                             if (!object.equals("init"))
                                 unitRemoveFromTile(object);
                             return 3;
                         case "repair":
+                        case "re":
                             unitRepair();
                             return 3;
                         case "build":
+                        case "bu":
                             if (object.equals("init"))
                                 System.out.println("invalid command");
                             else

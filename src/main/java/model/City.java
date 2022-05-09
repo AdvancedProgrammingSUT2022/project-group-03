@@ -355,7 +355,7 @@ public class City implements CanAttack, CanGetAttacked {
     }
 
     public double getCombatStrength(boolean isAttack) {
-        double strength = 1;
+        double strength = 4;
         if (mainTile.getNonCivilian() != null &&
                 mainTile.getNonCivilian().getCivilization() == civilization &&
                 mainTile.getNonCivilian().getState() == UnitState.GARRISON) {
@@ -363,9 +363,10 @@ public class City implements CanAttack, CanGetAttacked {
                 strength += mainTile.getNonCivilian().getUnitType().rangedCombatStrength;
             else strength += mainTile.getNonCivilian().getUnitType().combatStrength;
         }
-        if (tiles.size() > 10 && !isAttack) strength += 2 * (tiles.size() - 10);
+        if (tiles.size() > 10) strength += 2 * (tiles.size() - 10);
+        if(tiles.size() > 10 && isAttack) strength -=  (tiles.size() - 10);
         if (!isAttack) strength += tiles.size();
-        if(mainTile.getTileType() == TileType.HILL) strength *= 1.1;
+        if(mainTile.getTileType() == TileType.HILL) strength *= 1.2;
         if (wall != null && !isAttack) strength = (strength * 1.2);
         return strength;
     }
@@ -391,20 +392,33 @@ public class City implements CanAttack, CanGetAttacked {
         return true;
     }
 
-    public void destroy() {
+    public void destroy(Civilization civilization) {
         civilization.getCities().remove(this);
-        for (Tile tile : tiles)
+        for (Tile tile : tiles) {
             tile.setImprovement(null);
+            tile.setCivilization(null);
+        }
+        for (Tile tile : tiles) {
+            GameController.openNewArea(tile,this.civilization,null);
+            GameController.openNewArea(tile,civilization,null);
+        }
+
     }
 
     public void changeCivilization(Civilization civilization) {
         HP = 25;
         anxiety = 5;
-        for (Tile tile : tiles)
-            tile.setCivilization(civilization);
+        for (Tile tile : tiles) tile.setCivilization(civilization);
+        for (Tile tile : tiles) {
+            GameController.openNewArea(tile,this.civilization,null);
+            GameController.openNewArea(tile,civilization,null);
+        }
+        isCapital = false;
         product = null;
         while (halfProducedUnits.size() != 0)
             halfProducedUnits.remove(0);
+        this.civilization.getCities().remove(this);
+        civilization.getCities().add(this);
         this.civilization = civilization;
 
     }

@@ -264,7 +264,7 @@ class CityTest {
 
     @Test
     void destroy() {
-        city.destroy();
+        city.destroy(civilization);
         assertNull(tile.getCity());
     }
 
