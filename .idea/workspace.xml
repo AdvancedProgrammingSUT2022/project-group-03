@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="isinrange checks the whole map" />
+    <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="isinrange checks the whole map">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataBase/users.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/model/MapTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/MapTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/model/MapTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/MapTest.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,8 +90,8 @@
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
-      <recent name="model.Units" />
       <recent name="model" />
+      <recent name="model.Units" />
       <recent name="view" />
       <recent name="controller" />
       <recent name="model.resources" />
@@ -108,23 +113,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CitiesListTest.openCityBanner" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Civilization" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="view.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="view" />
-      <option name="MAIN_CLASS_NAME" value="view.CitiesListTest" />
-      <option name="METHOD_NAME" value="openCityBanner" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CivilizationTest.collect" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MapTest.findNextTile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="untitled5" />
       <extension name="coverage">
         <pattern>
@@ -133,42 +122,59 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="model" />
-      <option name="MAIN_CLASS_NAME" value="model.CivilizationTest" />
-      <option name="METHOD_NAME" value="collect" />
+      <option name="MAIN_CLASS_NAME" value="model.MapTest" />
+      <option name="METHOD_NAME" value="findNextTile" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameControllerTest.cityAttack" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Civilization" />
+    <configuration name="MapTest.isInRange" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="untitled5" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="controller.*" />
+          <option name="PATTERN" value="model.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="controller" />
-      <option name="MAIN_CLASS_NAME" value="controller.GameControllerTest" />
-      <option name="METHOD_NAME" value="cityAttack" />
+      <option name="PACKAGE_NAME" value="model" />
+      <option name="MAIN_CLASS_NAME" value="model.MapTest" />
+      <option name="METHOD_NAME" value="isInRange" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MapTest.printMap" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="untitled5" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model" />
+      <option name="MAIN_CLASS_NAME" value="model.MapTest" />
+      <option name="METHOD_NAME" value="printMap" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.CivilizationTest.collect" />
-      <item itemvalue="JUnit.GameControllerTest.cityAttack" />
-      <item itemvalue="JUnit.CitiesListTest.openCityBanner" />
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.All in untitled5" />
+      <item itemvalue="JUnit.MapTest.isInRange" />
+      <item itemvalue="JUnit.MapTest.printMap" />
+      <item itemvalue="JUnit.MapTest.findNextTile" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.All in untitled5" />
+        <item itemvalue="JUnit.MapTest.findNextTile" />
+        <item itemvalue="JUnit.MapTest.printMap" />
+        <item itemvalue="JUnit.MapTest.isInRange" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.CitiesListTest.openCityBanner" />
-        <item itemvalue="JUnit.GameControllerTest.cityAttack" />
       </list>
     </recent_temporary>
   </component>
@@ -284,8 +290,14 @@
     <SUITE FILE_PATH="coverage/project_group_03$CivilizationTest_getCapital.ic" NAME="CivilizationTest.getCapital Coverage Results" MODIFIED="1652127956169" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$MapTest_isInRange.ic" NAME="MapTest.isInRange Coverage Results" MODIFIED="1652130485652" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$GameControllerTest_cheatTechnology.ic" NAME="GameControllerTest.cheatTechnology Coverage Results" MODIFIED="1652125581472" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$NonCivilianTest_pillage.ic" NAME="NonCivilianTest.pillage Coverage Results" MODIFIED="1652129501432" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.Units.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$CivilizationTest_collect.ic" NAME="CivilizationTest.collect Coverage Results" MODIFIED="1652128874981" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
@@ -296,9 +308,12 @@
     <SUITE FILE_PATH="coverage/project_group_03$CivilizationTest_getSize.ic" NAME="CivilizationTest.getSize Coverage Results" MODIFIED="1652127893256" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$MapTest_printMap.ic" NAME="MapTest.printMap Coverage Results" MODIFIED="1652132034349" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$CivilizationTest_startTheTurn.ic" NAME="CivilizationTest.startTheTurn Coverage Results" MODIFIED="1652128647868" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$All_in_untitled5.ic" NAME="All in untitled5 Coverage Results" MODIFIED="1652128928562" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/project_group_03$All_in_untitled5.ic" NAME="All in untitled5 Coverage Results" MODIFIED="1652129916708" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
