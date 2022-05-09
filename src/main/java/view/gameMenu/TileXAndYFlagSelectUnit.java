@@ -1,7 +1,7 @@
 package view.gameMenu;
 
 import com.beust.jcommander.Parameter;
-import controller.gameController.GameController;
+import controller.gameController.TileXAndYFlagSelectUnitController;
 import view.Runnable;
 
 public class TileXAndYFlagSelectUnit {
@@ -26,22 +26,22 @@ public class TileXAndYFlagSelectUnit {
 
         public int run(String command) {
             if ((type.equals("noncivilian") || type.equals("ncu")) && x != -1989 && y != -1989) {
-                if (GameController.setSelectedNonCivilian(x, y))
+                if (TileXAndYFlagSelectUnitController.setSelectedNonCivilian(x, y))
                     System.out.println("noncivilian unit selected successfully");
                 else
                     System.out.println("selection failed");
             } else if ((type.equals("civilian") || type.equals("cu")) && x != -1989 && y != -1989) {
-                if (GameController.setSelectedCivilian(x, y))
+                if (TileXAndYFlagSelectUnitController.setSelectedCivilian(x, y))
                     System.out.println("civilian unit selected successfully");
                 else
                     System.out.println("selection failed");
             } else if ((type.equals("city") || type.equals("c")) && x != -1989 && y != -1989) {
-                if (!GameController.setSelectedCityByPosition(x, y))
+                if (!TileXAndYFlagSelectUnitController.setSelectedCityByPosition(x, y))
                     System.out.println("city does not exist");
                 else
                     System.out.println("city selected successfully");
             } else if ((type.equals("city") || type.equals("c")) && !name.equals("init")) {
-                if (!GameController.setSelectedCityByName(name))
+                if (!TileXAndYFlagSelectUnitController.setSelectedCityByName(name))
                     System.out.println("city does not exist");
                 else
                     System.out.println("city selected successfully");

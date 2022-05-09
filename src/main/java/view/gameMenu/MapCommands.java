@@ -2,6 +2,7 @@ package view.gameMenu;
 
 import com.beust.jcommander.Parameter;
 import controller.gameController.GameController;
+import controller.gameController.MapCommandsController;
 import model.Map;
 import view.Runnable;
 
@@ -41,14 +42,14 @@ public class MapCommands {
             else if (show && !city.equals("init") && (x == -1989 && y == -1989) && !move)
                 mapShowCityName(city);
             else if (show && !move && (x != -1989 && y != -1989)) {
-                GameController.mapShowPosition(x - Map.WINDOW_X / 2,
+                MapCommandsController.mapShowPosition(x - Map.WINDOW_X / 2,
                         y - Map.WINDOW_Y / 2 + 1);
                 System.out.println(GameController.printMap());
             } else if (move) {
                 if (dir.matches("[RULD]")) {
                     if (amount == -1989)
-                        GameController.mapMove(1, dir);
-                    else GameController.mapMove(amount, dir);
+                        MapCommandsController.mapMove(1, dir);
+                    else MapCommandsController.mapMove(amount, dir);
                     System.out.println("map moved successfully");
                 }
             } else System.out.println("invalid command");
@@ -57,7 +58,7 @@ public class MapCommands {
     }
 
     private static void mapShowCityName(String city) {
-        switch (GameController.mapShowCityName(city)) {
+        switch (MapCommandsController.mapShowCityName(city)) {
             case 0:
                 System.out.println("city selected successfully");
                 break;

@@ -1,6 +1,7 @@
 package view.gameMenu;
 
 import com.beust.jcommander.Parameter;
+import controller.gameController.CityCommandsController;
 import controller.gameController.GameController;
 import model.City;
 import model.resources.ResourcesTypes;
@@ -82,7 +83,7 @@ public class CityCommands {
         }
     }
     private static void cityDestiny(boolean burn) {
-        switch (GameController.cityDestiny(burn)) {
+        switch (CityCommandsController.cityDestiny(burn)) {
             case 0:
                 if (burn) System.out.println("The city destroyed");
                 else System.out.println("The city captured");
@@ -99,7 +100,7 @@ public class CityCommands {
     }
 
     private static void buyTile(int ox, int oy) {
-        switch (GameController.buyTile(ox, oy)) {
+        switch (CityCommandsController.buyTile(ox, oy)) {
             case 0:
                 System.out.println("Tile's been bought successfully");
                 break;
@@ -124,8 +125,8 @@ public class CityCommands {
     private static void assignCitizen(int ox, int oy, int dx, int dy) {
         int x;
         if ((ox != -1989 && oy != -1989))
-            x = GameController.reAssignCitizen(ox, oy, dx, dy);
-        else x = GameController.assignCitizen(dx, dy);
+            x = CityCommandsController.reAssignCitizen(ox, oy, dx, dy);
+        else x = CityCommandsController.assignCitizen(dx, dy);
         switch (x) {
             case 0:
                 System.out.println("Assigned successfully");
@@ -146,7 +147,7 @@ public class CityCommands {
     }
 
     private static void cityAttack(int dx, int dy) {
-        switch (GameController.cityAttack(dx, dy)) {
+        switch (CityCommandsController.cityAttack(dx, dy)) {
             case 0:
                 System.out.println("Attacked successfully");
                 break;
@@ -172,7 +173,7 @@ public class CityCommands {
     }
 
     private static void buildWall() {
-        switch (GameController.buildWall()) {
+        switch (CityCommandsController.buildWall()) {
             case 0:
                 System.out.println("wall's production started successfully");
                 break;
@@ -218,7 +219,7 @@ public class CityCommands {
     }
 
     private static void buyUnit(String unit, int x, int y) {
-        switch (GameController.buyUnit(unit, x, y)) {
+        switch (CityCommandsController.buyUnit(unit, x, y)) {
             case 0:
                 System.out.println("unit purchased successfully");
                 break;

@@ -2,6 +2,7 @@ package view.gameMenu;
 
 import com.beust.jcommander.Parameter;
 import controller.gameController.GameController;
+import controller.gameController.UnitStateController;
 import model.improvements.ImprovementType;
 import view.Runnable;
 
@@ -103,7 +104,7 @@ public class UnitStateView {
     }
 
     private static void unitSleep() {
-        switch (GameController.unitSleep()) {
+        switch (UnitStateController.unitSleep()) {
             case 0:
                 System.out.println("the selected unit has been set to sleep successfully");
                 break;
@@ -117,7 +118,7 @@ public class UnitStateView {
     }
 
     private static void unitAlert() {
-        switch (GameController.unitAlert()) {
+        switch (UnitStateController.unitAlert()) {
             case 0:
                 System.out.println("the selected unit has been set to alert successfully");
                 break;
@@ -137,7 +138,7 @@ public class UnitStateView {
         int boolToInt = 0;
         if (untilFullHealth)
             boolToInt = 1;
-        switch (GameController.unitChangeState(boolToInt)) {
+        switch (UnitStateController.unitChangeState(boolToInt)) {
             case 0:
                 if (untilFullHealth)
                     System.out.println("the selected unit has been set to fortifyUntilFullHealth successfully");
@@ -157,7 +158,7 @@ public class UnitStateView {
     }
 
     private static void unitGarrison() {
-        switch (GameController.unitChangeState(2)) {
+        switch (UnitStateController.unitChangeState(2)) {
             case 0:
                 System.out.println("the selected unit has been set to garrison successfully");
                 break;
@@ -174,7 +175,7 @@ public class UnitStateView {
     }
 
     private static void unitWake() {
-        switch (GameController.unitChangeState(3)) {
+        switch (UnitStateController.unitChangeState(3)) {
             case 0:
                 System.out.println("the selected unit has been awaken successfully");
                 break;
@@ -191,7 +192,7 @@ public class UnitStateView {
     }
 
     private static void unitSetupRanged() {
-        switch (GameController.unitSetupRanged()) {
+        switch (UnitStateController.unitSetupRanged()) {
             case 0:
                 System.out.println("the selected unit started setup successfully");
                 break;
@@ -211,7 +212,7 @@ public class UnitStateView {
         if (x == -1989 || y == -1989)
             System.out.println("This command needs x and y");
         else {
-            if (GameController.unitMoveTo(x, y))
+            if (UnitStateController.unitMoveTo(x, y))
                 System.out.println("Moved successfully");
             else
                 System.out.println("Moving failed");
@@ -221,7 +222,7 @@ public class UnitStateView {
     private static void unitAttack(int x, int y) {
         if (x == -1989 || y == -1989) System.out.println("This command needs x and y");
         else
-            switch (GameController.unitAttack(x, y)) {
+            switch (UnitStateController.unitAttack(x, y)) {
                 case 0:
                     System.out.println("Attacked successfully");
                     break;
@@ -257,7 +258,7 @@ public class UnitStateView {
             System.out.println("please insert a name");
             return;
         }
-        switch (GameController.unitFoundCity(name)) {
+        switch (UnitStateController.unitFoundCity(name)) {
             case 0:
                 System.out.println("city founded successfully");
                 break;
@@ -280,7 +281,7 @@ public class UnitStateView {
     }
 
     private static void unitPillage() {
-        switch (GameController.unitPillage()) {
+        switch (UnitStateController.unitPillage()) {
             case 4:
                 System.out.println("Select your unit first");
                 break;
@@ -294,7 +295,7 @@ public class UnitStateView {
     }
 
     private static void skipUnitTask() {
-        switch (GameController.skipUnitTask()) {
+        switch (UnitStateController.skipUnitTask()) {
             case 0:
                 System.out.println("task skipped successfully");
                 break;
@@ -311,7 +312,7 @@ public class UnitStateView {
     }
 
     private static void unitDelete() {
-        switch (GameController.unitDelete(GameController.getSelectedUnit())) {
+        switch (UnitStateController.unitDelete(GameController.getSelectedUnit())) {
             case 0:
                 System.out.println("the selected unit has been deleted successfully");
                 break;
@@ -325,7 +326,7 @@ public class UnitStateView {
     }
 
     private static void unitCancelMission() {
-        switch (GameController.unitCancelMission()) {
+        switch (UnitStateController.unitCancelMission()) {
             case 0:
                 System.out.println("mission cancelled successfully");
                 break;
@@ -346,7 +347,7 @@ public class UnitStateView {
         if (object.equals("jungle")) choose = true;
         else if (object.equals("route")) choose = false;
         else return;
-        switch (GameController.unitRemoveFromTile(choose)) {
+        switch (UnitStateController.unitRemoveFromTile(choose)) {
             case 0:
                 System.out.println(object + "'s removal from the tile operation started successfully");
                 break;
@@ -369,7 +370,7 @@ public class UnitStateView {
     }
 
     private static void unitRepair() {
-        switch (GameController.unitRepair()) {
+        switch (UnitStateController.unitRepair()) {
             case 0:
                 System.out.println("improvement repaired successfully");
                 break;
@@ -395,11 +396,11 @@ public class UnitStateView {
         ImprovementType improvementType = ImprovementType.stringToImprovementType(object);
         int result;
         if (improvementType != null)
-            result = GameController.unitBuild(improvementType);
+            result = UnitStateController.unitBuild(improvementType);
         else if (object.equals("road"))
-            result = GameController.unitBuildRoad();
+            result = UnitStateController.unitBuildRoad();
         else if (object.equals("railroad"))
-            result = GameController.unitBuildRailRoad();
+            result = UnitStateController.unitBuildRailRoad();
         else {
             System.out.println("no improvement with that name exists");
             return;

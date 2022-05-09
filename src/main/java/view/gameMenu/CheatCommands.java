@@ -1,8 +1,7 @@
 package view.gameMenu;
 
 import com.beust.jcommander.Parameter;
-import controller.gameController.GameController;
-import controller.gameController.InfoCommandsController;
+import controller.gameController.CheatCommandsController;
 import model.Units.UnitType;
 import model.resources.ResourcesTypes;
 import model.technologies.TechnologyType;
@@ -70,7 +69,7 @@ public class CheatCommands {
             else if (takeCity && !nameCity.equals("init"))
                 cheatCaptureCity(nameCity);
             else if (openMap)
-                InfoCommandsController.openMap();
+                CheatCommandsController.openMap();
             else if (roadEverywhere)
                 cheatRoadEverywhere();
             else if (!unit.equals("init") && (x != -1989 && y != -1989) && !obj.equals("init")) {
@@ -91,7 +90,7 @@ public class CheatCommands {
         }
     }
     private static void cheatCaptureCity(String name) {
-        switch (InfoCommandsController.cheatCaptureCity(name)) {
+        switch (CheatCommandsController.cheatCaptureCity(name)) {
             case 0:
                 System.out.println("city captured successfully");
                 break;
@@ -105,7 +104,7 @@ public class CheatCommands {
     }
 
     private static void cheatTechnology(TechnologyType technologyType) {
-        switch (InfoCommandsController.cheatTechnology(technologyType)) {
+        switch (CheatCommandsController.cheatTechnology(technologyType)) {
             case 0:
                 System.out.println("cheat activated successfully");
                 break;
@@ -119,7 +118,7 @@ public class CheatCommands {
     }
 
     private static void cheatProduction(int amount) {
-        switch (InfoCommandsController.cheatProduction(amount)) {
+        switch (CheatCommandsController.cheatProduction(amount)) {
             case 0:
                 System.out.println("cheat activated successfully");
                 break;
@@ -133,7 +132,7 @@ public class CheatCommands {
     }
 
     private static void cheatMoveIt(int x, int y) {
-        switch (InfoCommandsController.cheatMoveIt(x, y)) {
+        switch (CheatCommandsController.cheatMoveIt(x, y)) {
             case 0:
                 System.out.println("cheat activated successfully");
                 break;
@@ -150,12 +149,12 @@ public class CheatCommands {
     }
 
     private static void cheatScience(int amount) {
-        GameController.cheatScience(amount);
+        CheatCommandsController.cheatScience(amount);
         System.out.println("cheat activated successfully");
     }
 
     private static void cheatResource(int amount, ResourcesTypes resourcesTypes) {
-        InfoCommandsController.cheatResource(amount, resourcesTypes);
+        CheatCommandsController.cheatResource(amount, resourcesTypes);
         System.out.println("cheat activated successfully");
     }
 
@@ -166,7 +165,7 @@ public class CheatCommands {
             System.out.println("no unit with this name exists");
             return;
         }
-        switch (GameController.cheatUnit(x, y, unitType)) {
+        switch (CheatCommandsController.cheatUnit(x, y, unitType)) {
             case 0:
                 System.out.println("cheat activated successfully");
                 break;
@@ -180,7 +179,7 @@ public class CheatCommands {
     }
 
     private static void cheatRoadEverywhere() {
-        if (InfoCommandsController.cheatRoadEverywhere() == 0)
+        if (CheatCommandsController.cheatRoadEverywhere() == 0)
             System.out.println("cheat activated successfully");
     }
 

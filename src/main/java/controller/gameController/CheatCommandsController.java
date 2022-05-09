@@ -2,7 +2,9 @@ package controller.gameController;
 
 import model.City;
 import model.Units.Civilian;
+import model.Units.CombatType;
 import model.Units.NonCivilian;
+import model.Units.UnitType;
 import model.improvements.Improvement;
 import model.improvements.ImprovementType;
 import model.resources.ResourcesTypes;
@@ -10,7 +12,7 @@ import model.technologies.Technology;
 import model.technologies.TechnologyType;
 import model.tiles.Tile;
 
-public class InfoCommandsController {
+public class CheatCommandsController {
     public static void openMap() {
         for (int i = 0; i < GameController.getMap().getX(); i++)
             for (int j = 0; j < GameController.getMap().getY(); j += 2)
@@ -90,6 +92,36 @@ public class InfoCommandsController {
                 improvement.setRemainedCost(0);
                 GameController.getMap().coordinatesToTile(i, j).setRoad(improvement);
             }
+        return 0;
+    }
+
+    public static void cheatScience(int number) {
+        GameController.getCivilizations().get(GameController.getPlayerTurn()).cheatScience = number;
+    }
+
+    public static int cheatUnit(int x, int y, UnitType unitType) {
+        if (GameController.getMap().coordinatesToTile(x, y).getMovingPrice() > 123) return 1;
+        if (unitType.combatType == CombatType.CIVILIAN) {
+            if (GameController.getMap().coordinatesToTile(x, y).getCivilian() != null)
+                return 2;
+            Civilian hardcodeUnit = new Civilian(GameController.getMap().coordinatesToTile(x, y),
+                    GameController.getCivilizations().get(GameController.getPlayerTurn()), unitType);
+            hardcodeUnit.setRemainedCost(0);
+            GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().add(hardcodeUnit);
+            GameController.getMap().coordinatesToTile(x, y).setCivilian(hardcodeUnit);
+            GameController.openNewArea(GameController.getMap().coordinatesToTile(x, y),
+                    GameController.getCivilizations().get(GameController.getPlayerTurn()), hardcodeUnit);
+        } else {
+            if (GameController.getMap().coordinatesToTile(x, y).getNonCivilian() != null)
+                return 2;
+            NonCivilian hardcodeUnit = new NonCivilian(GameController.getMap().coordinatesToTile(x, y),
+                    GameController.getCivilizations().get(GameController.getPlayerTurn()), unitType);
+            hardcodeUnit.setRemainedCost(0);
+            GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().add(hardcodeUnit);
+            GameController.getMap().coordinatesToTile(x, y).setNonCivilian(hardcodeUnit);
+            GameController.openNewArea(GameController.getMap().coordinatesToTile(x, y),
+                    GameController.getCivilizations().get(GameController.getPlayerTurn()), hardcodeUnit);
+        }
         return 0;
     }
 }

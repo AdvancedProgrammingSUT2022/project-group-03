@@ -1,6 +1,7 @@
 package model.Units;
 
 import controller.gameController.GameController;
+import controller.gameController.TileXAndYFlagSelectUnitController;
 import model.City;
 import model.Civilization;
 import model.tiles.Tile;
@@ -14,7 +15,7 @@ public class Civilian extends Unit {
         City tempCity = new City(this.currentTile , string,civilization);
         civilization.getCities().add(tempCity);
         currentTile.setCity(tempCity);
-        GameController.setSelectedCityByPosition(currentTile.getX(),currentTile.getY());
+        TileXAndYFlagSelectUnitController.setSelectedCityByPosition(currentTile.getX(),currentTile.getY());
         GameController.setUnfinishedTasks();
     }
     public void remove(int isJungle)

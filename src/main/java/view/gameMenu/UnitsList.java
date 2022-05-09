@@ -1,6 +1,7 @@
 package view.gameMenu;
 
 import controller.gameController.GameController;
+import controller.gameController.TileXAndYFlagSelectUnitController;
 import model.Units.CombatType;
 import model.Units.Unit;
 import view.Menu;
@@ -36,10 +37,10 @@ public class UnitsList extends Menu {
             return false;
         }
         if (units.get(number - 1).getUnitType().combatType == CombatType.CIVILIAN)
-            GameController.setSelectedCivilian(units.get(number - 1)
+            TileXAndYFlagSelectUnitController.setSelectedCivilian(units.get(number - 1)
                     .getCurrentTile().getX(), units.get(number - 1).getCurrentTile().getY());
         else
-            GameController.setSelectedCivilian(units.get(number - 1)
+            TileXAndYFlagSelectUnitController.setSelectedCivilian(units.get(number - 1)
                     .getCurrentTile().getX(), units.get(number - 1).getCurrentTile().getY());
         return true;
     }
