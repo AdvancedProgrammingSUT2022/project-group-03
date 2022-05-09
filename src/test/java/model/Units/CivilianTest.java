@@ -47,11 +47,5 @@ class CivilianTest {
         civilian.remove(1);
         assertEquals(6,civilian.getCurrentTile().getContainedFeature().getCyclesToFinish());
     }
-    @Test
-    void city(){
-        p
-        doNothing().when();
-
-
-    }
+  
 }
