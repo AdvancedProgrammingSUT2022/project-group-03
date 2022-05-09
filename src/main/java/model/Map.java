@@ -47,13 +47,12 @@ public class Map {
                     end= false;
                     continue;
                 }
-                for (int j = 0; j < i; j++) {
+                for (int j = 0; j < i; j++)
                     if (Math.abs(settlerX - settlers[0][j]) < 5 &&
                             Math.abs(settlers[1][j] - settlerX) < 5) {
                         end = false;
                         break;
                     }
-                }
             }
             Civilian hardcodeUnit = new Civilian(coordinatesToTile(settlerX, settlerY),
                     civilizations.get(i), UnitType.SETTLER);
@@ -190,18 +189,16 @@ public class Map {
             riverSides[1] = tiles[startX][startY];
             int neighbour;
             int remainingLength = length;
-            while (remainingLength > 0) {
+            mainWhile: while (remainingLength > 0) {
                 lastRiverSides[0] = riverSides[0];
                 lastRiverSides[1] = riverSides[1];
                 riverSides = new Tile[2];
                 int riverNumber = 0;
-                for (int j = 0; j < 6; j++) {
+                for (int j = 0; j < 6; j++)
                     if (lastRiverSides[0].isRiverWithNeighbour(j)) riverNumber++;
-                }
                 int riverNumber1 = 0;
-                for (int j = 0; j < 6; j++) {
+                for (int j = 0; j < 6; j++)
                     if (lastRiverSides[1].isRiverWithNeighbour(j)) riverNumber1++;
-                }
                 if (riverNumber > riverNumber1 + 1) riverSides[0] = lastRiverSides[1];
                 else if (1 + riverNumber < riverNumber1) riverSides[0] = lastRiverSides[0];
                 else riverSides[0] = lastRiverSides[random.nextInt(2)];
@@ -215,7 +212,8 @@ public class Map {
                                 length != remainingLength)) {
                     neighbour = (neighbour + 1) % 6;
                     breaker++;
-                    if (breaker > 7) break;
+                    if (breaker > 7)
+                        break mainWhile;
                 }
                 riverSides[1] = riverSides[0].getNeighbours(neighbour);
                 riverSides[0].setTilesWithRiver(neighbour);

@@ -37,12 +37,6 @@ class CivilianTest {
     }
 
     @Test
-    void city() {
-        civilian.city("fuck");
-        assertNotNull(tile.getCity());
-    }
-
-    @Test
     void remove() {
         tile.setContainedFeature(new Feature(FeatureType.JUNGLE));
         civilian.remove(1);

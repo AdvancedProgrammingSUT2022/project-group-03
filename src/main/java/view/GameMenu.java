@@ -63,12 +63,12 @@ public class GameMenu extends MutatedMenu {
 
         public int run(String command) {
             if ((type.equals("noncivilian") || type.equals("ncu")) && x != -1989 && y != -1989) {
-                if (GameController.setSelectedCombatUnit(x, y))
+                if (GameController.setSelectedNonCivilian(x, y))
                     System.out.println("noncivilian unit selected successfully");
                 else
                     System.out.println("selection failed");
             } else if ((type.equals("civilian") || type.equals("cu")) && x != -1989 && y != -1989) {
-                if (GameController.setSelectedNonCombatUnit(x, y))
+                if (GameController.setSelectedCivilian(x, y))
                     System.out.println("civilian unit selected successfully");
                 else
                     System.out.println("selection failed");
@@ -149,10 +149,10 @@ public class GameMenu extends MutatedMenu {
                     unitAlert();
                     return 3;
                 case "fortify":
-                    unitFortify();
+                    unitFortify(false);
                     return 3;
                 case "fortify_until_heal":
-                    unitFortifyUntilFullHealth();
+                    unitFortify(true);
                     return 3;
                 case "garrison":
                     unitGarrison();
@@ -644,27 +644,16 @@ public class GameMenu extends MutatedMenu {
         }
     }
 
-    private static void unitFortify() {
-        switch (GameController.unitFortify()) {
+    private static void unitFortify(boolean untilFullHealth) {
+        int boolToInt = 0;
+        if(untilFullHealth)
+            boolToInt=1;
+        switch (GameController.unitChangeState(boolToInt)) {
             case 0:
-                System.out.println("the selected unit has been set to fortify successfully");
-                break;
-            case 1:
-                System.out.println("no unit is selected");
-                break;
-            case 2:
-                System.out.println("the selected unit is not yours");
-                break;
-            case 3:
-                System.out.println("the selected unit is a civilian");
-                break;
-        }
-    }
-
-    private static void unitFortifyUntilFullHealth() {
-        switch (GameController.unitFortifyUntilFullHealth()) {
-            case 0:
-                System.out.println("the selected unit has been set to fortifyUntilFullHealth successfully");
+                if(untilFullHealth)
+                    System.out.println("the selected unit has been set to fortifyUntilFullHealth successfully");
+                else
+                    System.out.println("the selected unit has been set to fortify successfully");
                 break;
             case 1:
                 System.out.println("no unit is selected");
@@ -679,7 +668,7 @@ public class GameMenu extends MutatedMenu {
     }
 
     private static void unitGarrison() {
-        switch (GameController.unitGarrison()) {
+        switch (GameController.unitChangeState(2)) {
             case 0:
                 System.out.println("the selected unit has been set to garrison successfully");
                 break;
@@ -696,7 +685,7 @@ public class GameMenu extends MutatedMenu {
     }
 
     private static void unitWake() {
-        switch (GameController.unitWake()) {
+        switch (GameController.unitChangeState(3)) {
             case 0:
                 System.out.println("the selected unit has been awaken successfully");
                 break;

@@ -93,6 +93,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
             state = UnitState.AWAKE;
             if ((currentTile.getImprovement().getImprovementType() == ImprovementType.FARM
                     || currentTile.getImprovement().getImprovementType() == ImprovementType.MINE) &&
+                    currentTile.getContainedFeature()!=null &&
                     (currentTile.getContainedFeature().getFeatureType() == FeatureType.JUNGLE
                             || currentTile.getContainedFeature().getFeatureType() == FeatureType.SWAMP
                             || currentTile.getContainedFeature().getFeatureType() == FeatureType.FOREST))
