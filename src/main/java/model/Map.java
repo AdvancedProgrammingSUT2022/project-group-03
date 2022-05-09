@@ -43,8 +43,8 @@ public class Map {
                 end = true;
                 settlerX = 3 + random.nextInt(x - 6);
                 settlerY = 5 + random.nextInt(x - 10);
-                if (coordinatesToTile(settlerX, settlerY).getMovingPrice() > 123){
-                    end= false;
+                if (coordinatesToTile(settlerX, settlerY).getMovingPrice() > 123) {
+                    end = false;
                     continue;
                 }
                 for (int j = 0; j < i; j++)
@@ -86,15 +86,15 @@ public class Map {
         isVisitedEver.put(center, true);
         Tile check;
         for (int i = 0; i < range; i++) {
-            for (int j = 0; j <  visited[i].size() &&
-                    visitedWithMove.get(i).get(visited[i].get(j)).movePoint > 0;j++) {
+            for (int j = 0; j < visited[i].size() &&
+                    visitedWithMove.get(i).get(visited[i].get(j)).movePoint > 0; j++) {
                 for (int k = 0; k < 6; k++) {
                     check = visited[i].get(j).getNeighbours(k);
                     int remainingMP = visitedWithMove.get(i).get(visited[i].get(j)).movePoint;
                     if (check == null) break;
                     if (!visitedWithMove.get(i).containsKey(check)) {
                         visitedWithMove.get(i).put(check,
-                                new BestMoveClass(remainingMP -1,
+                                new BestMoveClass(remainingMP - 1,
                                         visited[i].get(j), i));
                         visited[i].add(check);
                     } else if (visitedWithMove.get(i).get(check).movePoint < 0) {
@@ -189,7 +189,8 @@ public class Map {
             riverSides[1] = tiles[startX][startY];
             int neighbour;
             int remainingLength = length;
-            mainWhile: while (remainingLength > 0) {
+            mainWhile:
+            while (remainingLength > 0) {
                 lastRiverSides[0] = riverSides[0];
                 lastRiverSides[1] = riverSides[1];
                 riverSides = new Tile[2];
@@ -226,7 +227,7 @@ public class Map {
     private TileType randomTile(int i, int j) {
         TileType type = TileType.randomTile();
         int distanceFromBoarder = (int) Math.sqrt((x - i) ^ 2 + (y - j) ^ 2);
-        while (y / 10  - distanceFromBoarder >= 0 &&
+        while (y / 10 - distanceFromBoarder >= 0 &&
                 hasNeighborWithType(i, j, TileType.OCEAN)) {
             if (type == TileType.OCEAN) return type;
             type = TileType.randomTile();
@@ -315,7 +316,7 @@ public class Map {
                     tiles[i][j].setContainedFeature(new Feature(FeatureType.FOREST));
                 } else {
                     tiles[i][j] = civilizationMap[i][j].getOpenedArea();
-                    if (!civilizationMap[i][j].getIsClear()){
+                    if (!civilizationMap[i][j].getIsClear()) {
                         tiles[i][j].setNonCivilian(null);
                         tiles[i][j].setCivilian(null);
                     }
@@ -331,9 +332,10 @@ public class Map {
         boolean foundDestination = false;
         int finalTurn = -10;
     }
-    private boolean zoneOfControl(Tile check,Civilization civilization){
+
+    private boolean zoneOfControl(Tile check, Civilization civilization) {
         for (int i = 0; i < 6; i++) {
-            if(check.getNeighbours(i)!= null &&
+            if (check.getNeighbours(i) != null &&
                     check.getNeighbours(i).getNonCivilian() != null
                     && check.getNeighbours(i).getNonCivilian().getCivilization() != civilization)
                 return true;
@@ -351,7 +353,7 @@ public class Map {
         while (!findNextClass.isOver && !findNextClass.foundDestination) {
             findNextClass.isOver = true;
             for (int i = 0; i < visited[c].size(); i++) {
-                if(visitedWithMove.get(c).get(visited[c].get(i)).movePoint < 0) continue;
+                if (visitedWithMove.get(c).get(visited[c].get(i)).movePoint < 0) continue;
                 for (int j = 0; j < 6; j++) {
                     check = visited[c].get(i).getNeighbours(j);
                     if (check != null) {
@@ -363,7 +365,7 @@ public class Map {
                         if (unit.getUnitType() == UnitType.SCOUT) remainingMP -= 1;
                         else {
                             if (check.getRoad() != null &&
-                                    check.getRoad().getRemainedCost()==0 ) {
+                                    check.getRoad().getRemainedCost() == 0) {
                                 if (check.getRoad().getImprovementType() == ImprovementType.ROAD) {
                                     remainingMP -= (2 * check.getMovingPrice() / 3);
                                 } else {
@@ -375,7 +377,7 @@ public class Map {
                         }
                         if (remainingMP < 0 ||
                                 (visited[c].get(i).isRiverWithNeighbour(j) && check.getRoad() == null)
-                                || zoneOfControl(check,civilization))
+                                || zoneOfControl(check, civilization))
                             remainingMP = 0;
                         if (!visitedWithMove.get(c).containsKey(check)) {
                             visitedWithMove.get(c).put(check,
@@ -445,7 +447,7 @@ public class Map {
         for (int c = 0; !findNextClass.isOver &&
                 !findNextClass.foundDestination && c < 10; c++) {
             findNextTileWhile(visited, visitedWithMove, unit, c,
-                    destinationTile, isVisitedEver, findNextClass,civilization);
+                    destinationTile, isVisitedEver, findNextClass, civilization);
             findNextTileFor(civilization, mp, isCivilian, c, visited,
                     isVisitedEver, findNextClass, visitedWithMove);
         }
@@ -611,7 +613,7 @@ public class Map {
                     tileConditions, i, j, false);
             color0 = initColor(i, j, tileConditions, 0);
             color2 = initColor(i, j, tileConditions, 2);
-            if (i + j % 2 >0 && j < y - 1 && i < x &&
+            if (i + j % 2 > 0 && j < y - 1 && i < x &&
                     tileConditions[i - 1 + (j % 2)][j + 1] != null)
                 iString = tileConditions[i - 1 + (j % 2)][j + 1].getOpenedArea().getTileType().icon;
             else iString = "   ";
@@ -624,12 +626,12 @@ public class Map {
                 jString = "C ";
             else if (i < x && j < y && tileConditions[i][j] != null &&
                     tileConditions[i][j].getOpenedArea().getImprovement() != null &&
-                    tileConditions[i][j].getOpenedArea().getImprovement().getRemainedCost()==0)
+                    tileConditions[i][j].getOpenedArea().getImprovement().getRemainedCost() == 0)
                 jString = tileConditions[i][j].getOpenedArea().getImprovement().getImprovementType().icon;
             else jString = "  ";
             if (i < x && j < y && tileConditions[i][j] != null &&
                     tileConditions[i][j].getOpenedArea().getRoad() != null &&
-                    tileConditions[i][j].getOpenedArea().getRoad().getRemainedCost()==0) {
+                    tileConditions[i][j].getOpenedArea().getRoad().getRemainedCost() == 0) {
                 openString = tileConditions[i][j].getOpenedArea().getRoad().getImprovementType().icon;
             } else openString = " ";
             mapString.append(" ").append(Color.RESET).append(color0).append("/").
@@ -656,9 +658,9 @@ public class Map {
             Color rightTileColor = initRightTileColor(backReset,
                     tileConditions, i, j, false);
             color0 = initColor(i, j, tileConditions, 0);
-            if(j % 2 == 1) color1 = initColor(i, j + 1, tileConditions, 4);
-            else  color1 = initColor(i, j + 1, tileConditions, 1);
-            if(color1 == Color.RESET) color1 = rightTileColor;
+            if (j % 2 == 1) color1 = initColor(i, j + 1, tileConditions, 4);
+            else color1 = initColor(i, j + 1, tileConditions, 1);
+            if (color1 == Color.RESET) color1 = rightTileColor;
             color2 = initColor(i, j, tileConditions, 2);
             if (i >= 10) iString = "  " + i;
             else iString = "   " + i;
@@ -771,13 +773,13 @@ public class Map {
                 jString = "C ";
             else if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null &&
                     tileConditions[i + j % 2][j + 1].getOpenedArea().getImprovement() != null &&
-                    tileConditions[i + j % 2][j + 1].getOpenedArea().getImprovement().getRemainedCost() ==0)
+                    tileConditions[i + j % 2][j + 1].getOpenedArea().getImprovement().getRemainedCost() == 0)
                 jString = tileConditions[i + j % 2][j + 1]
                         .getOpenedArea().getImprovement().getImprovementType().icon;
             else jString = "  ";
             if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null &&
                     tileConditions[i + j % 2][j + 1].getOpenedArea().getRoad() != null &&
-                    tileConditions[i + j % 2][j + 1].getOpenedArea().getRoad().getRemainedCost()==0) {
+                    tileConditions[i + j % 2][j + 1].getOpenedArea().getRoad().getRemainedCost() == 0) {
                 openString = tileConditions[i + j % 2][j + 1]
                         .getOpenedArea().getRoad().getImprovementType().icon;
             } else openString = " ";
@@ -810,7 +812,7 @@ public class Map {
             color0 = initColor(i, j, tileConditions, 5);
             color1 = initColor(i, j, tileConditions, 4);
             color2 = initColor(i, j, tileConditions, 3);
-            if(color1 == Color.RESET) color1 = currentTileColor;
+            if (color1 == Color.RESET) color1 = currentTileColor;
             if (i + j % 2 >= 10) iString = "  " + (i + j % 2);
             else iString = "   " + (i + j % 2);
             if (j + 1 >= 10) jString = (j + 1) + "";

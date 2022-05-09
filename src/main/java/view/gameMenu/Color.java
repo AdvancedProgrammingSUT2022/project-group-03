@@ -79,8 +79,9 @@ public enum Color {
     Color(String code) {
         this.code = code;
     }
-    public static Color getColorByNumber(int i){
-        switch (i){
+
+    public static Color getColorByNumber(int i) {
+        switch (i) {
             case 0:
                 return RED_BOLD_BRIGHT;
             case 1:
@@ -96,8 +97,9 @@ public enum Color {
         }
         return null;
     }
-    public static Color getBackgroundColorWithNumber(int i){
-        switch (i){
+
+    public static Color getBackgroundColorWithNumber(int i) {
+        switch (i) {
             case 0:
                 return RED_BACKGROUND;
             case 1:
@@ -113,9 +115,7 @@ public enum Color {
         }
         return null;
     }
-    public static boolean isBrightBackground(Color color){
-        return color.code.startsWith("\033[1;9");
-    }
+
     @Override
     public String toString() {
         return code;

@@ -17,7 +17,8 @@ public class CitiesList extends Menu {
     }
 
     public void printCities() {
-        ArrayList<City> cities = GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities();
+        ArrayList<City> cities = GameController.getCivilizations()
+                .get(GameController.getPlayerTurn()).getCities();
         for (int i = 0; i < cities.size(); i++)
             System.out.println(i + 1 + ". " + cities.get(i).getName()
                     + " | strength: " + cities.get(i).getCombatStrength(false)
@@ -25,7 +26,8 @@ public class CitiesList extends Menu {
     }
 
     public boolean openCityBanner(String command) {
-        ArrayList<City> cities = GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities();
+        ArrayList<City> cities = GameController.getCivilizations()
+                .get(GameController.getPlayerTurn()).getCities();
         int number = Integer.parseInt(command);
         if (number < 1 || number > cities.size()) {
             System.out.println("invalid number");

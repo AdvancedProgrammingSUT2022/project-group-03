@@ -23,7 +23,8 @@ public class MapCommandsController {
         City tempCity = GameController.nameToCity(name);
         if (tempCity == null) return 1;
         if (GameController.getCivilizations().get(GameController.getPlayerTurn())
-                .getTileConditions()[tempCity.getMainTile().getX()][tempCity.getMainTile().getY()] == null)
+                .getTileConditions()[tempCity.getMainTile()
+                .getX()][tempCity.getMainTile().getY()] == null)
             return 2;
         mapShowPosition(tempCity.getMainTile().getX() - Map.WINDOW_X / 2,
                 tempCity.getMainTile().getY() - Map.WINDOW_Y / 2 + 1);

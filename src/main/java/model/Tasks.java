@@ -22,8 +22,8 @@ public class Tasks {
         this.tile = tile;
     }
 
-    public Tasks(Tile tile, TaskTypes taskTypes){
-        this.tile= tile;
-        this.taskTypes=taskTypes;
+    public Tasks(Tile tile, TaskTypes taskTypes) {
+        this.tile = tile;
+        this.taskTypes = taskTypes;
     }
 }

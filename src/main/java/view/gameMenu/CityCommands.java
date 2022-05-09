@@ -66,7 +66,8 @@ public class CityCommands {
                 startProducingUnit(type);
             else if ((buy.equals("tile") || buy.equals("t") && (ox != -1989 && oy != -1989)))
                 buyTile(ox, oy);
-            else if ((buy.equals("unit") || buy.equals("u")) && (!unit.equals("init")) && ox != -1989 && oy != -1989)
+            else if ((buy.equals("unit") || buy.equals("u")) &&
+                    (!unit.equals("init")) && ox != -1989 && oy != -1989)
                 buyUnit(unit, ox, oy);
             else if (citizen.equals("work") && (dx != -1989 && dy != -1989))
                 assignCitizen(ox, oy, dx, dy);
@@ -82,6 +83,7 @@ public class CityCommands {
             return 3;
         }
     }
+
     private static void cityDestiny(boolean burn) {
         switch (CityCommandsController.cityDestiny(burn)) {
             case 0:
@@ -188,6 +190,7 @@ public class CityCommands {
                 break;
         }
     }
+
     private static void showBanner() {
         City city = GameController.getSelectedCity();
         if (city == null) {
@@ -197,7 +200,8 @@ public class CityCommands {
         System.out.println("name: " + city.getName());
         System.out.println("owner: " + city.getCivilization().getUser().getNickname());
         System.out.println("founder: " + city.getFounder().getUser().getNickname());
-        if (city.getCivilization() == GameController.getCivilizations().get(GameController.getPlayerTurn())) {
+        if (city.getCivilization() == GameController
+                .getCivilizations().get(GameController.getPlayerTurn())) {
             System.out.println("gold: " + city.getGold());
             System.out.println("production: " + city.collectProduction());
             System.out.println("food: " + city.collectFood());

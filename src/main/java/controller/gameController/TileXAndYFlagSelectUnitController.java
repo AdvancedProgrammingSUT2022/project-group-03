@@ -6,13 +6,15 @@ public class TileXAndYFlagSelectUnitController {
     public static boolean setSelectedNonCivilian(int x, int y) {
         if (GameController.getMap().coordinatesToTile(x, y).getNonCivilian() == null)
             return false;
-        GameController.setSelectedUnit(GameController.getMap().coordinatesToTile(x, y).getNonCivilian());
+        GameController.setSelectedUnit(GameController.getMap()
+                .coordinatesToTile(x, y).getNonCivilian());
         return true;
     }
 
     public static boolean setSelectedCivilian(int x, int y) {
         if (GameController.getMap().coordinatesToTile(x, y).getCivilian() == null) return false;
-        GameController.setSelectedUnit(GameController.getMap().coordinatesToTile(x, y).getCivilian());
+        GameController.setSelectedUnit(GameController.getMap()
+                .coordinatesToTile(x, y).getCivilian());
         return true;
     }
 
@@ -25,7 +27,8 @@ public class TileXAndYFlagSelectUnitController {
 
     public static boolean setSelectedCityByPosition(int x, int y) {
         if (GameController.getMap().coordinatesToTile(x, y).getCity() != null) {
-            GameController.setSelectedCity(GameController.getMap().coordinatesToTile(x, y).getCity());
+            GameController.setSelectedCity(GameController
+                    .getMap().coordinatesToTile(x, y).getCity());
             return true;
         }
         return false;

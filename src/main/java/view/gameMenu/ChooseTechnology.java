@@ -29,11 +29,14 @@ public class ChooseTechnology extends Menu {
             System.out.println();
         });
     }
+
     public void printDetails() {
-        System.out.println(TechnologyAndProductionController.initializeResearchInfo(true, possibleTechnologies));
+        System.out.println(TechnologyAndProductionController
+                .initializeResearchInfo(true, possibleTechnologies));
         System.out.println("\nPossible researches: ");
         for (int i = 0; i < possibleTechnologies.size(); i++) {
-            int cyclesToComplete = TechnologyAndProductionController.cyclesToComplete(possibleTechnologies.get(i));
+            int cyclesToComplete = TechnologyAndProductionController
+                    .cyclesToComplete(possibleTechnologies.get(i));
             if (cyclesToComplete == 12345)
                 System.out.println(i + 1 + ". " +
                         possibleTechnologies.get(i).getTechnologyType() +
@@ -47,7 +50,8 @@ public class ChooseTechnology extends Menu {
 
     private boolean addTechnologyToProduction(String command) {
         int entryNumber = Integer.parseInt(getMatcher(regexes[2], command, true).group(1));
-        if (TechnologyAndProductionController.addTechnologyToProduction(possibleTechnologies, entryNumber)) {
+        if (TechnologyAndProductionController
+                .addTechnologyToProduction(possibleTechnologies, entryNumber)) {
             System.out.println(possibleTechnologies.get(entryNumber - 1).getTechnologyType() +
                     "'s production started successfully");
             return true;

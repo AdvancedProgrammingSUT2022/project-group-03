@@ -1,7 +1,6 @@
 package view;
 
 
-
 import controller.LoginController;
 
 import java.util.regex.Matcher;
@@ -44,13 +43,12 @@ public class LoginMenu extends Menu {
     @Override
     protected boolean commands(String command) {
 
-        commandNumber = getCommandNumber(command, regexes,true);
+        commandNumber = getCommandNumber(command, regexes, true);
         switch (commandNumber) {
             case -1:
                 System.out.println("invalid command");
                 break;
-            case 0:
-            {
+            case 0: {
                 nextMenu = -1;
                 return true;
             }
@@ -71,10 +69,12 @@ public class LoginMenu extends Menu {
         return false;
     }
 
-    private boolean initializeUserPassNick(String command, StringBuffer username, StringBuffer password, StringBuffer nickname, boolean isLogin) {
-        int UsernameCommandNumber = getCommandNumber(command, userRegexes,false);
-        int PasswordCommandNumber = getCommandNumber(command, passRegexes,false);
-        int NicknameCommandNumber = getCommandNumber(command, nickRegexes,false);
+    private boolean initializeUserPassNick(String command, StringBuffer username,
+                                           StringBuffer password, StringBuffer nickname,
+                                           boolean isLogin) {
+        int UsernameCommandNumber = getCommandNumber(command, userRegexes, false);
+        int PasswordCommandNumber = getCommandNumber(command, passRegexes, false);
+        int NicknameCommandNumber = getCommandNumber(command, nickRegexes, false);
         if (UsernameCommandNumber == -1 ||
                 PasswordCommandNumber == -1 ||
                 (!isLogin && NicknameCommandNumber == -1)) {
@@ -87,8 +87,7 @@ public class LoginMenu extends Menu {
         matcher = patterns[PasswordCommandNumber + 2].matcher(command);
         matcher.find();
         password.append(matcher.group(1));
-        if(!isLogin)
-        {
+        if (!isLogin) {
             matcher = patterns[NicknameCommandNumber + 4].matcher(command);
             matcher.find();
             nickname.append(matcher.group(1));
@@ -97,10 +96,13 @@ public class LoginMenu extends Menu {
     }
 
     private void createNewUser(String command) {
-        StringBuffer username = new StringBuffer(), password = new StringBuffer(), nickname = new StringBuffer();
-        if(!initializeUserPassNick(command, username, password, nickname, false))
+        StringBuffer username = new StringBuffer(),
+                password = new StringBuffer(),
+                nickname = new StringBuffer();
+        if (!initializeUserPassNick(command, username, password, nickname, false))
             return;
-        int outputNumber = LoginController.createNewUser(username.toString(), password.toString(), nickname.toString());
+        int outputNumber = LoginController.createNewUser(username.toString(),
+                password.toString(), nickname.toString());
         switch (outputNumber) {
             case 0:
                 System.out.println("user created successfully!");
@@ -117,8 +119,10 @@ public class LoginMenu extends Menu {
     }
 
     private boolean loginUser(String command) {
-        StringBuffer username = new StringBuffer(), password = new StringBuffer(), nickname = new StringBuffer();
-        if(!initializeUserPassNick(command, username, password, nickname,true))
+        StringBuffer username = new StringBuffer(),
+                password = new StringBuffer(),
+                nickname = new StringBuffer();
+        if (!initializeUserPassNick(command, username, password, nickname, true))
             return false;
         int outputNumber = LoginController.loginUser(username.toString(), password.toString());
         switch (outputNumber) {

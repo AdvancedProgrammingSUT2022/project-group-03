@@ -77,5 +77,4 @@ public class ProfileMenu extends Menu{
             case 3: System.out.println("the new password is weak"); break;
         }
     }
-
 }

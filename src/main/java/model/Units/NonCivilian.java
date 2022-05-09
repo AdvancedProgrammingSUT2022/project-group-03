@@ -17,7 +17,7 @@ public class NonCivilian extends Unit implements CanAttack {
         return unitType;
     }
 
-    private double calculateRatio(CanGetAttacked target){
+    private double calculateRatio(CanGetAttacked target) {
         double ratio = getCombatStrength(true) /
                 target.getCombatStrength(false);
         if ((unitType == UnitType.PIKEMAN ||
@@ -37,10 +37,10 @@ public class NonCivilian extends Unit implements CanAttack {
 
     public void attack(Tile tile) {
         CanGetAttacked target;
-        if(tile.getCity() != null) target = tile.getCity();
+        if (tile.getCity() != null) target = tile.getCity();
         else if (tile.getNonCivilian() != null) target = tile.getNonCivilian();
         else if (tile.getCivilian() != null) target = tile.getCivilian();
-        else return ;
+        else return;
         double ratio = calculateRatio(target);
         attacked = true;
         target.takeDamage(calculateDamage(ratio));

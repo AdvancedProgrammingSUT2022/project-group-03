@@ -26,13 +26,11 @@ public class MainMenu extends Menu {
         int playerNumber = 1;
         ArrayList<User> usersList = new ArrayList<>();
         usersList.add(LoginController.getLoggedUser());
-        while (Pattern.compile(addPlayerRegex).matcher(command).matches())
-        {
+        while (Pattern.compile(addPlayerRegex).matcher(command).matches()) {
             Matcher matcher = Pattern.compile(addPlayerRegex).matcher(command);
             matcher.find();
-            User tempUser = User.findUser(matcher.group(1),false);
-            if(tempUser==null)
-            {
+            User tempUser = User.findUser(matcher.group(1), false);
+            if (tempUser == null) {
                 System.out.println("no user with this username exists");
                 return false;
             }
@@ -40,7 +38,7 @@ public class MainMenu extends Menu {
             playerNumber++;
             addPlayerRegex = addPlayerRegex.replaceFirst("[0-9]", Integer.toString(playerNumber));
         }
-        if(usersList.size() < 2){
+        if (usersList.size() < 2) {
             System.out.println("you need to at least choose one player");
             return false;
         }
@@ -49,27 +47,26 @@ public class MainMenu extends Menu {
         System.out.println(GameController.printMap());
         return true;
     }
-    private boolean menuEnter(String command)
-    {
-        if(!command.startsWith(" profile", 10))
-        {
+
+    private boolean menuEnter(String command) {
+        if (!command.startsWith(" profile", 10)) {
             System.out.println("menu navigation is not possible");
             return false;
         }
         System.out.println("entered profile menu successfully");
-        nextMenu=2;
+        nextMenu = 2;
         return true;
     }
+
     @Override
     protected boolean commands(String command) {
 
-        commandNumber = getCommandNumber(command, regexes,true);
+        commandNumber = getCommandNumber(command, regexes, true);
         switch (commandNumber) {
             case -1:
                 System.out.println("invalid command");
                 break;
-            case 0,2:
-            {
+            case 0, 2: {
                 System.out.println("exited successfully");
                 nextMenu = 0;
                 return true;
@@ -82,7 +79,7 @@ public class MainMenu extends Menu {
                     return true;
                 break;
             case 4:
-                if(menuEnter(command))
+                if (menuEnter(command))
                     return true;
                 break;
         }

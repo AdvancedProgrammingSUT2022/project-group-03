@@ -23,7 +23,8 @@ public class menuCommands {
             else if (show && nextMenu.equals("init"))
                 System.out.println("Game Menu");
             else if (nextMenu.equals("technologies") || nextMenu.equals("t")) {
-                if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0)
+                if (GameController.getCivilizations()
+                        .get(GameController.getPlayerTurn()).getCities().size() == 0)
                     System.out.println("you need at least one city to enter the technology menu");
                 else {
                     ChooseTechnology chooseTechnology = new ChooseTechnology();
@@ -33,7 +34,8 @@ public class menuCommands {
             } else if (nextMenu.equals("city-production") || nextMenu.equals("cp")) {
                 if (GameController.getSelectedCity() == null)
                     System.out.println("no city is selected");
-                else if (GameController.getSelectedCity().getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
+                else if (GameController.getSelectedCity().getCivilization() !=
+                        GameController.getCivilizations().get(GameController.getPlayerTurn()))
                     System.out.println("the selected city is not yours");
                 else {
                     ProductionCityMenu productionCityMenu = new ProductionCityMenu();

@@ -47,7 +47,8 @@ public class CheatCommandsController {
                 .get(GameController.getPlayerTurn()).doesContainTechnology(technologyType);
         if (result == 1) return 2;
         if (result == 2) {
-            for (Technology research : GameController.getCivilizations().get(GameController.getPlayerTurn()).getResearches())
+            for (Technology research : GameController.getCivilizations()
+                    .get(GameController.getPlayerTurn()).getResearches())
                 if (research.getTechnologyType() == technologyType) {
                     research.setRemainedCost(0);
                     break;
@@ -55,7 +56,8 @@ public class CheatCommandsController {
         } else {
             Technology technology = new Technology(technologyType);
             technology.setRemainedCost(0);
-            GameController.getCivilizations().get(GameController.getPlayerTurn()).getResearches().add(technology);
+            GameController.getCivilizations().get(GameController
+                    .getPlayerTurn()).getResearches().add(technology);
         }
         GameController.setUnfinishedTasks();
         return 0;
@@ -80,7 +82,8 @@ public class CheatCommandsController {
     public static int cheatCaptureCity(String name) {
         City city = GameController.nameToCity(name);
         if (city == null) return 1;
-        if (city.getCivilization() == GameController.getCivilizations().get(GameController.getPlayerTurn()))
+        if (city.getCivilization() == GameController
+                .getCivilizations().get(GameController.getPlayerTurn()))
             return 2;
         city.changeCivilization(GameController.getCivilizations().get(GameController.getPlayerTurn()));
         return 0;
