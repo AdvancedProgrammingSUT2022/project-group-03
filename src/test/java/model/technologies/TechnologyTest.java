@@ -37,5 +37,8 @@ class TechnologyTest {
         Technology technology = new Technology(TechnologyType.WRITING);
         technology.setRemainedCost(22);
         assertEquals(technology.getRemainedCost(),22);
+
+        assertNull(TechnologyType.stringToEnum("bibidibu"));
+        assertEquals(TechnologyType.WRITING,TechnologyType.stringToEnum("writing"));
     }
 }

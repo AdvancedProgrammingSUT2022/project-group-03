@@ -162,6 +162,10 @@ class CityTest {
         city.setProduct(building);
         city.getProduct().setRemainedCost(0);
         city.startTheTurn();
+        city.getTiles().get(0).setCivilian(new Civilian(null,null,UnitType.SETTLER));
+        assertEquals(0,city.getAnxiety());
+        city.startTheTurn();
+
     }
 
     @Test
@@ -225,6 +229,8 @@ class CityTest {
         assertFalse(city.assignCitizenToTiles(anotherTile,tile));
         city.getTiles().add(anotherTile);
         assertFalse(city.assignCitizenToTiles(anotherTile,tile));
+        city.getGettingWorkedOnByCitizensTiles().add(anotherTile);
+        assertTrue(city.assignCitizenToTiles(anotherTile,tile));
     }
 
     @Test

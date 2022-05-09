@@ -101,8 +101,6 @@ class MapTest {
 
 
         }
-        int x = 4;
-        x++;
 
 
     }
@@ -167,7 +165,4 @@ class MapTest {
     void testFindNextTile() {
     }
 
-    @Test
-    void testPrintMap() {
-    }
 }
