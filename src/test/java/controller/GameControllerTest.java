@@ -528,6 +528,7 @@ class GameControllerTest {
 //        GameController.setSelectedUnit(null);
 //        GameController.getCivilizations().add(civilization);
 //        GameController.getCivilizations().add(civilization2);
+//        GameController.getCivilizations().get(0).getCities().add(city);
         assertTrue(GameController.nextTurnIfYouCan());
     }
 
