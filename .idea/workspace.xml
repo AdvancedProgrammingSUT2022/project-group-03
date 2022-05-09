@@ -8,20 +8,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataBase/users.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Civilization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/UnitsList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/UnitsList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/Units/CivilianTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/Units/CivilianTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Civilization.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Civilization.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$tileXAndYFlagSelectUnit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$tileXAndYFlagSelectUnit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$unitState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$unitState.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/UnitsList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/UnitsList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/Units/CivilianTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/Units/CivilianTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/controller/GameControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/controller/GameControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/model/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/UserTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -230,7 +219,8 @@
       <workItem from="1652014094182" duration="3905000" />
       <workItem from="1652035262238" duration="2241000" />
       <workItem from="1652037531127" duration="6719000" />
-      <workItem from="1652044279585" duration="4990000" />
+      <workItem from="1652044279585" duration="7144000" />
+      <workItem from="1652088610335" duration="10689000" />
     </task>
     <task id="LOCAL-00001" summary="isinrange checks the whole map">
       <created>1651758513457</created>
@@ -275,8 +265,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/controller/GameControllerTest.java</url>
-          <line>528</line>
-          <option name="timeStamp" value="104" />
+          <line>422</line>
+          <option name="timeStamp" value="113" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -397,7 +387,7 @@
     <SUITE FILE_PATH="coverage/project_group_03$TechnologyControllerTest_addTechnologyToProduction.ic" NAME="TechnologyControllerTest.addTechnologyToProduction Coverage Results" MODIFIED="1651590109836" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>controller.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$All_in_Civilization.ic" NAME="All in Civilization Coverage Results" MODIFIED="1652049159373" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/project_group_03$All_in_Civilization.ic" NAME="All in Civilization Coverage Results" MODIFIED="1652099385568" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/project_group_03$CityTest_calculateDamage.ic" NAME="CityTest.calculateDamage Coverage Results" MODIFIED="1651616903220" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>

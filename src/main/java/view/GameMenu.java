@@ -43,20 +43,20 @@ public class GameMenu extends MutatedMenu {
 
     static class tileXAndYFlagSelectUnit implements Runnable {
         @Parameter(names = {"--tilex", "-x"},
-                description = "Id of the Customer who's using the services",
+                description = "X of the entry tile",
                 arity = 1)
         int x = -1989;
         @Parameter(names = {"--tiley", "-y"},
-                description = "Id of the Customer who's using the services",
+                description = "Y of the entry tile",
                 arity = 1)
         int y = -1989;
         @Parameter(names = {"--object", "-o"},
-                description = "Id of the Customer who's using the services",
+                description = "the entry object",
                 arity = 1,
                 required = true)
         String type;
         @Parameter(names = {"--name", "-n"},
-                description = "Id of the Customer who's using the services",
+                description = "the name of the entry",
                 arity = 1)
         String name = "init";
 
@@ -89,12 +89,12 @@ public class GameMenu extends MutatedMenu {
 
     static class increase implements Runnable {
         @Parameter(names = {"--turn", "-t"},
-                description = "Id of the Customer who's using the services",
+                description = "the command that chooses changing turns",
                 arity = 1,
                 required = false)
         int turn = -1989;
         @Parameter(names = {"--gold", "-g"},
-                description = "Id of the Customer who's using the services",
+                description = "the command that chooses increasing gold",
                 arity = 1,
                 required = false)
         int gold = -1989;
@@ -115,27 +115,27 @@ public class GameMenu extends MutatedMenu {
     static class unitState implements Runnable {
 
         @Parameter(names = {"--state", "-s"},
-                description = "Id of the Customer who's using the services",
+                description = "state of the selected unit",
                 arity = 1)
         String state = "init";
         @Parameter(names = {"do", "-d"},
-                description = "Id of the Customer who's using the services",
+                description = "doing an operation like building, repairing and...",
                 arity = 1)
         String move = "init";
         @Parameter(names = {"--object", "-o"},
-                description = "Id of the Customer who's using the services",
+                description = "the entry object",
                 arity = 1)
         String object = "init";
         @Parameter(names = {"--name", "-n"},
-                description = "Id of the Customer who's using the services",
+                description = "the name of the entry",
                 arity = 1)
         String nameCity = "init";
         @Parameter(names = {"--tilex", "-x"},
-                description = "Id of the Customer who's using the services",
+                description = "X of the entry tile",
                 arity = 1)
         int x = -1989;
         @Parameter(names = {"--tiley", "-y"},
-                description = "Id of the Customer who's using the services",
+                description = "Y of the entry tile",
                 arity = 1)
         int y = -1989;
 
@@ -211,13 +211,13 @@ public class GameMenu extends MutatedMenu {
 
     static class menuCommands implements Runnable {
         @Parameter(names = {"exit", "-x"},
-                description = "Id of the Customer who's using the services")
+                description = "exits the current menu")
         boolean exit = false;
         @Parameter(names = {"show-current", "-s"},
-                description = "Id of the Customer who's using the services")
+                description = "shows the naem of the current menu")
         boolean show = false;
         @Parameter(names = {"enter", "-e"},
-                description = "Id of the Customer who's using the services")
+                description = "enters the menu you select(if it was not forbidden to do so)")
         String nextMenu = "init";
 
         public int run(String name) {
@@ -253,30 +253,30 @@ public class GameMenu extends MutatedMenu {
 
     static class mapCommands implements Runnable {
         @Parameter(names = {"print", "-p"},
-                description = "Id of the Customer who's using the services")
+                description = "prints out tha map")
         boolean print = false;
         @Parameter(names = {"show", "-s"},
-                description = "Id of the Customer who's using the services")
+                description = "shows the thing you choose")
         boolean show = false;
         @Parameter(names = {"--city", "-c"},
-                description = "Id of the Customer who's using the services")
+                description = "shows the place of the city on the map")
         String city = "init";
         @Parameter(names = {"--tilex", "-x"},
-                description = "Id of the Customer who's using the services")
+                description = "X of the entry tile")
         int x = -1989;
         @Parameter(names = {"--tiley", "-y"},
-                description = "Id of the Customer who's using the services",
+                description = "Y of the entry tile",
                 arity = 1)
         int y = -1989;
         @Parameter(names = {"--direction", "-d"},
-                description = "Id of the Customer who's using the services",
+                description = "direction to move the screen",
                 arity = 1)
         String dir = "init";
         @Parameter(names = {"move", "-m"},
-                description = "Id of the Customer who's using the services")
+                description = "this command is used to move the screen")
         boolean move = false;
         @Parameter(names = {"--amount", "-a"},
-                description = "Id of the Customer who's using the services",
+                description = "this command is used to get the needed amount",
                 arity = 1)
         int amount = -1989;
 
@@ -368,48 +368,48 @@ public class GameMenu extends MutatedMenu {
 
     static class cheatCommands implements Runnable {
         @Parameter(names = {"--amount", "-a"},
-                description = "Id of the Customer who's using the services",
+                description = "this command is used to get the needed amount",
                 arity = 1)
         int amount = -1989;
         @Parameter(names = {"--object", "-o"},
-                description = "Id of the Customer who's using the services")
+                description = "the entry object")
         String obj = "init";
         @Parameter(names = {"--name", "-n"},
-                description = "Id of the Customer who's using the services")
+                description = "the name of the entry")
         String nameCity = "init";
         @Parameter(names = {"production", "-p"},
-                description = "Id of the Customer who's using the services")
+                description = "no caption needed")
         boolean production = false;
         @Parameter(names = {"science", "-s"},
-                description = "Id of the Customer who's using the services")
+                description = "no caption needed")
         boolean science = false;
         @Parameter(names = {"road_everywhere", "-re"},
-                description = "Id of the Customer who's using the services")
+                description = "inserts a road on every tiles of the map")
         boolean roadEverywhere = false;
         @Parameter(names = {"moveit-moveit", "-mi"},
-                description = "Id of the Customer who's using the services")
+                description = "moves the selected unit without caring about errors")
         boolean moveit = false;
         @Parameter(names = {"open_map", "-op"},
-                description = "Id of the Customer who's using the services")
+                description = "opens up to you every tile of the map without having to go to them")
         boolean openMap = false;
         @Parameter(names = {"take_city", "-tc"},
-                description = "Id of the Customer who's using the services")
+                description = "it's like taking photos, but with cities")
         boolean takeCity = false;
         @Parameter(names = {"technology", "-t"},
-                description = "Id of the Customer who's using the services")
+                description = "technology is the thing the you develop to become dumber(even more than before)")
         boolean technology = false;
         @Parameter(names = {"resource", "-r"},
-                description = "Id of the Customer who's using the services")
+                description = "resource is the thing they say when someone does a source twice")
         boolean resource = false;
         @Parameter(names = {"create", "-c"},
-                description = "Id of the Customer who's using the services")
+                description = "creates a unit selected by the you")
         String unit = "init";
         @Parameter(names = {"--tilex", "-x"},
-                description = "Id of the Customer who's using the services",
+                description = "X of the entry tile",
                 arity = 1)
         int x = -1989;
         @Parameter(names = {"--tiley", "-y"},
-                description = "Id of the Customer who's using the services",
+                description = "Y of the entry tile",
                 arity = 1)
         int y = -1989;
 
@@ -450,50 +450,50 @@ public class GameMenu extends MutatedMenu {
 
     static class cityCommands implements Runnable {
         @Parameter(names = {"show", "-s"},
-                description = "Id of the Customer who's using the services")
+                description = "shows the details of the city")
         String show = "init";
         @Parameter(names = {"start", "-st"},
-                description = "Id of the Customer who's using the services")
+                description = "starts producing the thing you choose")
         String startProducing = "init";
         @Parameter(names = {"--type", "-t"},
-                description = "Id of the Customer who's using the services")
+                description = "the type of entry")
         String type = "init";
         @Parameter(names = {"buy", "-b"},
-                description = "Id of the Customer who's using the services")
+                description = "buys the thing you choose")
         String buy = "init";
         @Parameter(names = {"citizen", "-c"},
-                description = "Id of the Customer who's using the services")
+                description = "assigns to citizen to the entry tile")
         String citizen = "init";
         @Parameter(names = {"build", "-bd"},
-                description = "Id of the Customer who's using the services")
+                description = "makes the builder build")
         String build = "init";
         @Parameter(names = {"attack", "-a"},
-                description = "Id of the Customer who's using the services")
+                description = "the act of assaulting someone")
         boolean attack = false;
         @Parameter(names = {"burn", "-bn"},
-                description = "Id of the Customer who's using the services")
+                description = "it burns")
         boolean burn = false;
         @Parameter(names = {"unit", "-u"},
-                description = "Id of the Customer who's using the services")
+                description = "is only used to buy unit")
         String unit = "init";
         @Parameter(names = {"capture", "-ca"},
-                description = "Id of the Customer who's using the services")
+                description = "the act of taking someone else's personal items")
         boolean capture = false;
 
         @Parameter(names = {"--destinationx", "-dx"},
-                description = "Id of the Customer who's using the services",
+                description = "X of the entry destination",
                 arity = 1)
         int dx = -1989;
         @Parameter(names = {"--destinationy", "-dy"},
-                description = "Id of the Customer who's using the services",
+                description = "Y of the entry destination",
                 arity = 1)
         int dy = -1989;
         @Parameter(names = {"--tilex", "-x"},
-                description = "Id of the Customer who's using the services",
+                description = "X of the entry",
                 arity = 1)
         int ox = -1989;
         @Parameter(names = {"--tiley", "-y"},
-                description = "Id of the Customer who's using the services",
+                description = "X of the entry",
                 arity = 1)
         int oy = -1989;
 
