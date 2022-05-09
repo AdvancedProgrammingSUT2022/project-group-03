@@ -11,16 +11,14 @@ public class TileXAndYFlagSelectUnitController {
     }
 
     public static boolean setSelectedCivilian(int x, int y) {
-        if (GameController.getMap().coordinatesToTile(x, y).getCivilian() == null)
-            return false;
+        if (GameController.getMap().coordinatesToTile(x, y).getCivilian() == null) return false;
         GameController.setSelectedUnit(GameController.getMap().coordinatesToTile(x, y).getCivilian());
         return true;
     }
 
     public static boolean setSelectedCityByName(String name) {
         City tempCity = GameController.nameToCity(name);
-        if (tempCity == null)
-            return false;
+        if (tempCity == null) return false;
         GameController.setSelectedCity(tempCity);
         return true;
     }

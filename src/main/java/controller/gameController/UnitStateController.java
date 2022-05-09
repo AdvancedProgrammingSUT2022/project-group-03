@@ -80,10 +80,9 @@ public class UnitStateController {
     }
 
     public static int unitFoundCity(String string) {
-        if (GameController.getSelectedUnit() == null)
-            return 1;
-        if (GameController.getSelectedUnit().getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
-            return 2;
+        if (GameController.getSelectedUnit() == null) return 1;
+        if (GameController.getSelectedUnit().getCivilization() != GameController.getCivilizations()
+                .get(GameController.getPlayerTurn())) return 2;
         if (GameController.getSelectedUnit().getUnitType() != UnitType.SETTLER)
             return 3;
         if (GameController.getSelectedUnit().getCurrentTile().getCity() != null)
@@ -105,13 +104,11 @@ public class UnitStateController {
     }
 
     public static int unitCancelMission() {
-        if (GameController.getSelectedUnit() == null)
-            return 1;
-        if (GameController.getSelectedUnit().getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
-            return 2;
+        if (GameController.getSelectedUnit() == null) return 1;
+        if (GameController.getSelectedUnit().getCivilization() != GameController.getCivilizations()
+                .get(GameController.getPlayerTurn())) return 2;
         if (GameController.getSelectedUnit().getDestinationTile() == null &&
-                GameController.getSelectedUnit().getState() == UnitState.AWAKE)
-            return 3;
+                GameController.getSelectedUnit().getState() == UnitState.AWAKE) return 3;
         GameController.getSelectedUnit().cancelMission();
         return 0;
     }
@@ -224,12 +221,10 @@ public class UnitStateController {
     }
 
     public static int unitAttack(int x, int y) {
-        if (GameController.getSelectedUnit() == null)
-            return 1;
-        if (GameController.getSelectedUnit().getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
-            return 2;
-        if (!(GameController.getSelectedUnit() instanceof NonCivilian))
-            return 3;
+        if (GameController.getSelectedUnit() == null) return 1;
+        if (GameController.getSelectedUnit().getCivilization() != GameController.getCivilizations()
+                .get(GameController.getPlayerTurn())) return 2;
+        if (!(GameController.getSelectedUnit() instanceof NonCivilian)) return 3;
         if(((NonCivilian) GameController.getSelectedUnit()).attacked) return 8;
         if (x < 0 || y < 0 || x >= GameController.getMap().getX() || y >= GameController.getMap().getY()) return 4;
         if(GameController.getSelectedUnit().getUnitType().combatType == CombatType.SIEGE &&
@@ -247,8 +242,8 @@ public class UnitStateController {
 
     public static int unitPillage() {
         if (!(GameController.getSelectedUnit() instanceof NonCivilian) ||
-                GameController.getSelectedUnit().getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
-            return 4;
+                GameController.getSelectedUnit().getCivilization() != GameController.getCivilizations()
+                        .get(GameController.getPlayerTurn())) return 4;
         if (((NonCivilian) GameController.getSelectedUnit()).pillage()) return 0;
         return 3;
     }

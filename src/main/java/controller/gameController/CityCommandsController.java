@@ -68,16 +68,20 @@ public class CityCommandsController {
     }
 
     public static int cityAttack(int x, int y) {
-        if (GameController.getSelectedCity() == null)
-            return 1;
-        if (GameController.getSelectedCity().getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
-            return 2;
-        if (x < 0 || y < 0 || x >= GameController.getMap().getX() || y > GameController.getMap().getY() || GameController.getMap().coordinatesToTile(x, y) == null) return 3;
+        if (GameController.getSelectedCity() == null) return 1;
+        if (GameController.getSelectedCity().getCivilization() != GameController.getCivilizations()
+                .get(GameController.getPlayerTurn())) return 2;
+        if (x < 0 || y < 0 || x >= GameController.getMap().getX() ||
+                y > GameController.getMap().getY() ||
+                GameController.getMap().coordinatesToTile(x, y) == null) return 3;
         if (GameController.getMap().coordinatesToTile(x, y).getNonCivilian() == null)
             return 4;
-        if (GameController.getMap().coordinatesToTile(x, y).getNonCivilian().getCivilization() == GameController.getCivilizations().get(GameController.getPlayerTurn()))
+        if (GameController.getMap().coordinatesToTile(x, y).getNonCivilian().getCivilization() ==
+                GameController.getCivilizations().get(GameController.getPlayerTurn()))
             return 5;
-        if (!GameController.canCityAttack(GameController.getSelectedCity(), GameController.getMap().coordinatesToTile(x, y))) return 6;
+        if (!GameController.getMap().isInRange(2,
+                GameController.getSelectedCity().getMainTile(),
+                GameController.getMap().coordinatesToTile(x,y))) return 6;
         GameController.getSelectedCity().attack(GameController.getMap().coordinatesToTile(x, y));
         return 0;
     }
@@ -94,8 +98,7 @@ public class CityCommandsController {
 
     public static int buyUnit(String string, int x, int y) {
         UnitType unitType = UnitType.stringToEnum(string);
-        if (unitType == null)
-            return 1;
+        if (unitType == null) return 1;
         Tile tile = GameController.getMap().coordinatesToTile(x, y);
         if (tile.getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
             return 2;

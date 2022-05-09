@@ -21,8 +21,7 @@ public class MapCommandsController {
 
     public static int mapShowCityName(String name) {
         City tempCity = GameController.nameToCity(name);
-        if (tempCity == null)
-            return 1;
+        if (tempCity == null) return 1;
         if (GameController.getCivilizations().get(GameController.getPlayerTurn())
                 .getTileConditions()[tempCity.getMainTile().getX()][tempCity.getMainTile().getY()] == null)
             return 2;
@@ -38,7 +37,6 @@ public class MapCommandsController {
             mapShowPosition(GameController.startWindowX, GameController.startWindowY - number);
         if (Objects.equals(direction, "u"))
             mapShowPosition(GameController.startWindowX - number, GameController.startWindowY);
-        else
-            mapShowPosition(GameController.startWindowX + number, GameController.startWindowY);
+        else mapShowPosition(GameController.startWindowX + number, GameController.startWindowY);
     }
 }

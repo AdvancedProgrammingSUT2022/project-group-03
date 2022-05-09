@@ -81,8 +81,7 @@ public class GameController {
                 selectedUnit != null &&
                 selectedUnit.getCurrentTile().getContainedFeature() != null &&
                 selectedUnit.getCurrentTile().getContainedFeature().getFeatureType() == FeatureType.SWAMP &&
-                selectedUnit.getCivilization().doesContainTechnology(TechnologyType.MASONRY) != 1)
-            return false;
+                selectedUnit.getCivilization().doesContainTechnology(TechnologyType.MASONRY) != 1) return false;
         return improvementType != ImprovementType.FARM ||
                 tile.getContainedFeature() == null ||
                 tile.getContainedFeature().getFeatureType() != FeatureType.FOREST ||
@@ -126,17 +125,8 @@ public class GameController {
         return false;
     }
 
-    static boolean canCityAttack(City city, Tile tile) {
-        if (tile.getNonCivilian() == null ||
-                tile.getNonCivilian().getCivilization() == city.getCivilization())
-            return false;
-        return map.isInRange(2, city.getMainTile(), tile);
-
-    }
-
     public static boolean nextTurnIfYouCan() {
-        if (unfinishedTasks.size() != 0)
-            return false;
+        if (unfinishedTasks.size() != 0) return false;
         nextTurn();
         return true;
     }
@@ -292,12 +282,9 @@ public class GameController {
 
     public static int startProducingUnit(String productIcon) {
         UnitType tempType = UnitType.stringToEnum(productIcon);
-        if (tempType == null)
-            return 1;
-        if (selectedCity == null)
-            return 2;
-        if (selectedCity.getCivilization() != civilizations.get(playerTurn))
-            return 3;
+        if (tempType == null) return 1;
+        if (selectedCity == null) return 2;
+        if (selectedCity.getCivilization() != civilizations.get(playerTurn)) return 3;
         if (tempType.getResourcesType() != null &&
                 (!civilizations.get(playerTurn).getResourcesAmount().containsKey(tempType.getResourcesType()) ||
                         (civilizations.get(playerTurn).getResourcesAmount().containsKey(tempType.getResourcesType()) &&
