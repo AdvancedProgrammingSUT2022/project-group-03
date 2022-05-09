@@ -2,11 +2,9 @@ package model.Units;
 
 import model.City;
 import model.Civilization;
-import model.User;
 import model.improvements.Improvement;
 import model.improvements.ImprovementType;
 import model.tiles.Tile;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -18,24 +16,29 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class NonCivilianTest {
     @Mock
-    User user;
-    @Mock
     Tile tile,tile2;
     @Mock
     City city;
     @Mock
-    Improvement improvement;
-    @Mock
     Civilization civilization, civilization2;
-    NonCivilian nonCivilian;
+    NonCivilian nonCivilian,nonCivilian2;
 
     @Test
     void attack() {
-        nonCivilian = new NonCivilian(tile,civilization,UnitType.ARCHER);
-        when(tile2.getCity()).thenReturn(city);
-        when(tile.getCombatChange()).thenReturn(10);
-        when(civilization.getHappiness()).thenReturn(10);
+        nonCivilian = new NonCivilian(tile,civilization,UnitType.PIKEMAN);
+        nonCivilian2 = new NonCivilian(tile2,civilization,UnitType.HORSEMAN);
+        when(tile2.getNonCivilian()).thenReturn(nonCivilian2);
         when(civilization.getTileConditions()).thenReturn(new Civilization.TileCondition[20][20]);
+        nonCivilian.attack(tile2);
+        nonCivilian = new NonCivilian(tile,civilization,UnitType.ANTI_TANK_GUN);
+        nonCivilian2 = new NonCivilian(tile2,civilization,UnitType.TANK);
+        when(tile2.getNonCivilian()).thenReturn(nonCivilian2);
+        nonCivilian.attack(tile2);
+        nonCivilian = new NonCivilian(tile,civilization,UnitType.CATAPULT);
+        when(tile2.getCity()).thenReturn(city);
+        when(civilization.getHappiness()).thenReturn(10);
+        nonCivilian.attack(tile2);
+        nonCivilian = new NonCivilian(tile,civilization,UnitType.TANK);
         nonCivilian.attack(tile2);
     }
 
