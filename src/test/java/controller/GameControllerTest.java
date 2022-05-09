@@ -35,7 +35,7 @@ class GameControllerTest {
     @Mock Civilian civilian;
     @Mock NonCivilian nonCivilian;
     @Mock
-    City city;
+    City city,city2;
     @Mock Map map;
 
     @Mock
@@ -528,7 +528,8 @@ class GameControllerTest {
 //        GameController.setSelectedUnit(null);
 //        GameController.getCivilizations().add(civilization);
 //        GameController.getCivilizations().add(civilization2);
-//        GameController.getCivilizations().get(0).getCities().add(city);
+
+//        civilization.getCities().add(city2);
         assertTrue(GameController.nextTurnIfYouCan());
     }
 

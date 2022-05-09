@@ -62,6 +62,7 @@ class CityTest {
 
     @Test
     void collectFood() {
+        city.getGettingWorkedOnByCitizensTiles().add(tile);
         assertEquals(city.collectFood(), 1);
         tile.setImprovement(new Improvement(ImprovementType.MINE, tile));
         assertEquals(city.collectFood(), 1);
@@ -88,6 +89,7 @@ class CityTest {
         tile.setContainedFeature(new Feature(FeatureType.OASIS));
         ResourcesTypes resource = ResourcesTypes.WHEAT;
         tile.setResource(resource);
+        city2.getGettingWorkedOnByCitizensTiles().add(tile);
         city2.collectResources(city2.getCivilization().getResourcesAmount());
         assertTrue(civilization2.getResourcesAmount().get(resource)!=0);
         city2.collectResources(city2.getCivilization().getResourcesAmount());
@@ -180,6 +182,7 @@ class CityTest {
         tile.setContainedFeature(new Feature(FeatureType.OASIS));
         ResourcesTypes resource = ResourcesTypes.WHEAT;
         tile.setResource(resource);
+        city2.getGettingWorkedOnByCitizensTiles().add(tile);
         assertEquals(city2.getGold(),1);
     }
 
@@ -196,7 +199,7 @@ class CityTest {
 
     @Test
     void getCitizen() {
-        assertEquals(city.getCitizen(),0);
+        assertEquals(city.getCitizen(),1);
     }
 
     @Test
@@ -218,7 +221,9 @@ class CityTest {
 
     @Test
     void assignCitizenToTiles() {
-        assertFalse(city.assignCitizenToTiles(null,tile));
+        assertTrue(city.assignCitizenToTiles(null,tile));
+        assertFalse(city.assignCitizenToTiles(anotherTile,tile));
+        city.getTiles().add(anotherTile);
         assertFalse(city.assignCitizenToTiles(anotherTile,tile));
     }
 
@@ -241,7 +246,7 @@ class CityTest {
         assertEquals(city.getCombatStrength(true),7);
         tile = new Tile(TileType.HILL, 5, 5);
         city = new City(tile, "randomBS", civilization);
-        assertEquals(city.getCombatStrength(false),3);
+        assertEquals(2.2,city.getCombatStrength(false));
     }
 
     @Test
@@ -291,11 +296,11 @@ class CityTest {
     @Test
     void cyclesToComplete() {
         assertEquals(3, city.cyclesToComplete(3));
+        city.getGettingWorkedOnByCitizensTiles().add(tile);
         city.getGettingWorkedOnByCitizensTiles().remove(0);
         city.getMainTile().setContainedFeature(null);
         city.getMainTile().setImprovement(null);
         city.getMainTile().setResource(null);
-        assertEquals(12345, city.cyclesToComplete(3));
     }
 
     @Test

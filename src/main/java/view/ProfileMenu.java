@@ -74,6 +74,7 @@ public class ProfileMenu extends Menu{
             case 0: System.out.println("password changed successfully!"); break;
             case 1: System.out.println("current password is invalid"); break;
             case 2: System.out.println("please enter a new password"); break;
+            case 3: System.out.println("the new password is weak"); break;
         }
     }
 

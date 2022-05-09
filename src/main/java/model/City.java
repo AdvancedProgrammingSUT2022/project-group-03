@@ -342,7 +342,9 @@ public class City implements CanAttack, CanGetAttacked {
             citizen--;
             gettingWorkedOnByCitizensTiles.add(destinationTile);
             return true;
-        } else if (tiles.contains(originTile) && gettingWorkedOnByCitizensTiles.contains(originTile) && tiles.contains(destinationTile)) {
+        } else if (tiles.contains(originTile) &&
+                gettingWorkedOnByCitizensTiles.contains(originTile) &&
+                tiles.contains(destinationTile)) {
             gettingWorkedOnByCitizensTiles.remove(originTile);
             gettingWorkedOnByCitizensTiles.add(destinationTile);
             return true;
