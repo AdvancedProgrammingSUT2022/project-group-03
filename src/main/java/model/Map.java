@@ -333,7 +333,8 @@ public class Map {
     }
     private boolean zoneOfControl(Tile check,Civilization civilization){
         for (int i = 0; i < 6; i++) {
-            if(check.getNeighbours(i).getNonCivilian() != null
+            if(check.getNeighbours(i)!= null &&
+                    check.getNeighbours(i).getNonCivilian() != null
                     && check.getNeighbours(i).getNonCivilian().getCivilization() != civilization)
                 return true;
         }

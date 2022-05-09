@@ -83,6 +83,8 @@ class UnitTest {
 
     @Test
     void move() {
+        nonCivilian = new NonCivilian(tile,civilization,UnitType.ARCHER);
+        when(civilization.getTileConditions()).thenReturn(new Civilization.TileCondition[30][30]);
         nonCivilian.movementPrice = 0;
         assertFalse(nonCivilian.move(tile,true));
         nonCivilian.state = UnitState.ATTACK;

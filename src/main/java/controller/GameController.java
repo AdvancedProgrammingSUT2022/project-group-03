@@ -130,7 +130,7 @@ public class GameController {
 
     public static boolean unitMoveTo(int x, int y) {
         if (selectedUnit == null || x < 0 || y < 0 ||
-                x >= map.getX()||y > map.getY()
+                x >= map.getX()||y >= map.getY()
                  || civilizations.get(playerTurn) != selectedUnit.getCivilization()
                 || map.coordinatesToTile(x, y).getTileType() == TileType.OCEAN ||
                 map.coordinatesToTile(x, y).getTileType() == TileType.MOUNTAIN)
@@ -195,14 +195,10 @@ public class GameController {
     }
 
     public static int unitFoundCity(String string) {
-        if (selectedUnit == null)
-            return 1;
-        if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
-            return 2;
-        if (selectedUnit.getUnitType() != UnitType.SETTLER)
-            return 3;
-        if (selectedUnit.getCurrentTile().getCity() != null)
-            return 4;
+        if (selectedUnit == null) return 1;
+        if (selectedUnit.getCivilization() != civilizations.get(playerTurn)) return 2;
+        if (selectedUnit.getUnitType() != UnitType.SETTLER) return 3;
+        if (selectedUnit.getCurrentTile().getCity() != null) return 4;
         for (Civilization civilization : civilizations)
             if (civilization.isInTheCivilizationsBorder(selectedUnit.getCurrentTile()))
                 return 4;
@@ -220,13 +216,10 @@ public class GameController {
     }
 
     public static int unitCancelMission() {
-        if (selectedUnit == null)
-            return 1;
-        if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
-            return 2;
+        if (selectedUnit == null) return 1;
+        if (selectedUnit.getCivilization() != civilizations.get(playerTurn)) return 2;
         if (selectedUnit.getDestinationTile() == null &&
-                selectedUnit.getState() == UnitState.AWAKE)
-            return 3;
+                selectedUnit.getState() == UnitState.AWAKE) return 3;
         selectedUnit.cancelMission();
         return 0;
     }
@@ -450,13 +443,7 @@ public class GameController {
         return false;
     }
 
-    private static boolean canCityAttack(City city, Tile tile) {
-        if (tile.getNonCivilian() == null ||
-                tile.getNonCivilian().getCivilization() == city.getCivilization())
-            return false;
-        return map.isInRange(2, city.getMainTile(), tile);
 
-    }
 
     public static int buildWall() {
         if (selectedCity == null)
@@ -658,12 +645,9 @@ public class GameController {
 
     public static int startProducingUnit(String productIcon) {
         UnitType tempType = UnitType.stringToEnum(productIcon);
-        if (tempType == null)
-            return 1;
-        if (selectedCity == null)
-            return 2;
-        if (selectedCity.getCivilization() != civilizations.get(playerTurn))
-            return 3;
+        if (tempType == null) return 1;
+        if (selectedCity == null) return 2;
+        if (selectedCity.getCivilization() != civilizations.get(playerTurn)) return 3;
         if (tempType.getResourcesType() != null &&
                 (!civilizations.get(playerTurn).getResourcesAmount().containsKey(tempType.getResourcesType()) ||
                         (civilizations.get(playerTurn).getResourcesAmount().containsKey(tempType.getResourcesType()) &&
@@ -690,12 +674,9 @@ public class GameController {
 
 
     public static int unitAttack(int x, int y) {
-        if (selectedUnit == null)
-            return 1;
-        if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
-            return 2;
-        if (!(selectedUnit instanceof NonCivilian))
-            return 3;
+        if (selectedUnit == null) return 1;
+        if (selectedUnit.getCivilization() != civilizations.get(playerTurn)) return 2;
+        if (!(selectedUnit instanceof NonCivilian)) return 3;
         if(((NonCivilian)selectedUnit).attacked) return 8;
         if (x < 0 || y < 0 || x >= map.getX() || y >= map.getY()) return 4;
         if(selectedUnit.getUnitType().combatType == CombatType.SIEGE &&
@@ -712,16 +693,12 @@ public class GameController {
     }
 
     public static int cityAttack(int x, int y) {
-        if (selectedCity == null)
-            return 1;
-        if (selectedCity.getCivilization() != civilizations.get(playerTurn))
-            return 2;
+        if (selectedCity == null) return 1;
+        if (selectedCity.getCivilization() != civilizations.get(playerTurn)) return 2;
         if (x < 0 || y < 0 || x >= map.getX() || y > map.getY() || map.coordinatesToTile(x, y) == null) return 3;
-        if (map.coordinatesToTile(x, y).getNonCivilian() == null)
-            return 4;
-        if (map.coordinatesToTile(x, y).getNonCivilian().getCivilization() == civilizations.get(playerTurn))
-            return 5;
-        if (!canCityAttack(selectedCity, map.coordinatesToTile(x, y))) return 6;
+        if (map.coordinatesToTile(x, y).getNonCivilian() == null) return 4;
+        if (map.coordinatesToTile(x, y).getNonCivilian().getCivilization() == civilizations.get(playerTurn)) return 5;
+        if (map.isInRange(2, selectedCity.getMainTile(),map.coordinatesToTile(x, y))) return 6;
         selectedCity.attack(map.coordinatesToTile(x, y));
         return 0;
     }
@@ -759,8 +736,7 @@ public class GameController {
 
     public static int unitPillage() {
         if (!(selectedUnit instanceof NonCivilian) ||
-                selectedUnit.getCivilization() != civilizations.get(playerTurn))
-            return 4;
+                selectedUnit.getCivilization() != civilizations.get(playerTurn)) return 4;
         if (((NonCivilian) selectedUnit).pillage()) return 0;
         return 3;
     }

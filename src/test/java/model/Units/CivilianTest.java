@@ -12,9 +12,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.powermock.*;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,5 +46,12 @@ class CivilianTest {
         tile.setContainedFeature(new Feature(FeatureType.JUNGLE));
         civilian.remove(1);
         assertEquals(6,civilian.getCurrentTile().getContainedFeature().getCyclesToFinish());
+    }
+    @Test
+    void city(){
+        p
+        doNothing().when();
+
+
     }
 }

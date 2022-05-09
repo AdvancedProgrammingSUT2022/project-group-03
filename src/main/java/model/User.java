@@ -74,4 +74,12 @@ public class User {
     public String getNickname() {
         return nickname;
     }
+
+    public static void deleteUser(User user)
+    {
+        if(user==null)
+            return;
+        listOfUsers.remove(user);
+        saveData();
+    }
 }

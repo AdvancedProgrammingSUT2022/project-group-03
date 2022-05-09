@@ -42,6 +42,8 @@ public class LoginController {
             return 1;
         if (loggedUser.isPasswordCorrect(newPassword))
             return 2;
+        if (!isPasswordValid(newPassword))
+            return 3;
         loggedUser.changePassword(newPassword);
         return 0;
     }
