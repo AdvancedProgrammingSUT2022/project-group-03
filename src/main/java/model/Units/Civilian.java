@@ -1,6 +1,6 @@
 package model.Units;
 
-import controller.GameController;
+import controller.gameController.GameController;
 import model.City;
 import model.Civilization;
 import model.tiles.Tile;

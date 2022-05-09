@@ -2,7 +2,7 @@ package view;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
-import controller.GameController;
+import controller.gameController.GameController;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class MutatedMenu {
-    protected static Scanner scanner;
+    public static Scanner scanner;
     protected int nextMenu;
 
     public int run(Scanner scanner, int menu) {

@@ -1,6 +1,6 @@
 package model.resources;
 
-import controller.GameController;
+import controller.gameController.GameController;
 import model.Civilization;
 import model.improvements.ImprovementType;
 import model.technologies.Technology;

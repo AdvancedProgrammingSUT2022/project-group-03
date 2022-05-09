@@ -1,6 +1,6 @@
 package model;
 
-import controller.GameController;
+import controller.gameController.GameController;
 import model.Units.Civilian;
 import model.Units.NonCivilian;
 import model.Units.UnitState;

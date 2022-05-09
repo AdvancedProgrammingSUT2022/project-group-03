@@ -1,7 +1,7 @@
 package view;
 
 
-import controller.GameController;
+import controller.gameController.GameController;
 import controller.LoginController;
 import model.User;
 

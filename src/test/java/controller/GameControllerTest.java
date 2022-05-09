@@ -1,5 +1,7 @@
 package controller;
 
+import controller.gameController.GameController;
+import controller.gameController.InfoCommandsController;
 import model.*;
 import model.Units.Civilian;
 import model.Units.NonCivilian;
@@ -626,12 +628,12 @@ class GameControllerTest {
         ArrayList<City> cities = new ArrayList<>();
         cities.add(city);
         when(civilization.getCities()).thenReturn(cities);
-        assertEquals(1,GameController.cheatProduction(3));
+        assertEquals(1, InfoCommandsController.cheatProduction(3));
         GameController.setSelectedCityByName("randomName");
         assertEquals(city,GameController.getSelectedCity());
-        assertEquals(2,GameController.cheatProduction(3));
+        assertEquals(2, InfoCommandsController.cheatProduction(3));
         when(city.getCivilization()).thenReturn(civilization);
-        assertEquals(0,GameController.cheatProduction(3));
+        assertEquals(0, InfoCommandsController.cheatProduction(3));
     }
 
     @Test
@@ -642,7 +644,7 @@ class GameControllerTest {
         resource.put(ResourcesTypes.GEMSTONE,3);
         GameController.getCivilizations().add(civilization);
         when(civilization.getResourcesAmount()).thenReturn(resource);
-        GameController.cheatResource(4, ResourcesTypes.GEMSTONE);
+        InfoCommandsController.cheatResource(4, ResourcesTypes.GEMSTONE);
     }
 
     @Test
@@ -687,20 +689,20 @@ class GameControllerTest {
     void cheatTechnology() {
         if (GameController.getCivilizations().size() > 0)
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
-        assertEquals(1,GameController.cheatTechnology(null));
+        assertEquals(1, InfoCommandsController.cheatTechnology(null));
         Civilization civilization3 = new Civilization(user, 3);
         GameController.getCivilizations().add(civilization3);
         GameController.getCivilizations().add(civilization2);
         Map map2 = new Map(GameController.getCivilizations());
         GameController.setMap(map2);
-        assertEquals(0,GameController.cheatTechnology(TechnologyType.TELEGRAPH));
+        assertEquals(0, InfoCommandsController.cheatTechnology(TechnologyType.TELEGRAPH));
         Technology technology = new Technology(TechnologyType.ELECTRICITY);
         technology.setRemainedCost(5);
         civilization3.getResearches().add(technology);
-        assertEquals(2,GameController.cheatTechnology(TechnologyType.TELEGRAPH));
-        assertEquals(0,GameController.cheatTechnology(TechnologyType.ELECTRICITY));
+        assertEquals(2, InfoCommandsController.cheatTechnology(TechnologyType.TELEGRAPH));
+        assertEquals(0, InfoCommandsController.cheatTechnology(TechnologyType.ELECTRICITY));
         technology.setRemainedCost(0);
-        assertEquals(2,GameController.cheatTechnology(TechnologyType.ELECTRICITY));
+        assertEquals(2, InfoCommandsController.cheatTechnology(TechnologyType.ELECTRICITY));
     }
 
     @Test
@@ -710,7 +712,7 @@ class GameControllerTest {
         civilizations.add(civilization2);
         Map map2 = new Map(civilizations);
         GameController.setMap(map2);
-        GameController.openMap();
+        InfoCommandsController.openMap();
     }
 
     @Test
@@ -718,7 +720,7 @@ class GameControllerTest {
         if (GameController.getCivilizations().size() > 0)
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
         GameController.setSelectedUnit(null);
-        assertEquals(1,GameController.cheatMoveIt(2,3));
+        assertEquals(1, InfoCommandsController.cheatMoveIt(2,3));
         GameController.getCivilizations().add(civilization);
         Tile tile = new Tile(TileType.DESERT, 2 ,3);
         NonCivilian unit = new NonCivilian(tile,civilization2, UnitType.RIFLEMAN);
@@ -726,7 +728,7 @@ class GameControllerTest {
         when(map.coordinatesToTile(2,3)).thenReturn(tile);
         GameController.setMap(map);
         GameController.setSelectedNonCivilian(2,3);
-        assertEquals(2,GameController.cheatMoveIt(2,3));
+        assertEquals(2, InfoCommandsController.cheatMoveIt(2,3));
 
         Tile tile2 = new Tile(TileType.DESERT, 2 ,4);
         NonCivilian unit2 = new NonCivilian(tile2,civilization, UnitType.RIFLEMAN);
@@ -735,12 +737,12 @@ class GameControllerTest {
         tile2.setCivilian(civilian);
         when(map.coordinatesToTile(2,4)).thenReturn(tile2);
         GameController.setSelectedNonCivilian(2,4);
-        assertEquals(3,GameController.cheatMoveIt(-10,-10));
+        assertEquals(3, InfoCommandsController.cheatMoveIt(-10,-10));
         when(map.getX()).thenReturn(100);
         when(map.getY()).thenReturn(100);
-        assertEquals(0,GameController.cheatMoveIt(2,4));
+        assertEquals(0, InfoCommandsController.cheatMoveIt(2,4));
         GameController.setSelectedCivilian(2,4);
-        assertEquals(0,GameController.cheatMoveIt(2,4));
+        assertEquals(0, InfoCommandsController.cheatMoveIt(2,4));
     }
 
     @Test
@@ -753,10 +755,10 @@ class GameControllerTest {
         ArrayList<City> cities = new ArrayList<>();
         cities.add(city);
         when(civilization.getCities()).thenReturn(cities);
-        assertEquals(1, GameController.cheatCaptureCity("bla bla"));
-        assertEquals(0, GameController.cheatCaptureCity("randomName"));
+        assertEquals(1, InfoCommandsController.cheatCaptureCity("bla bla"));
+        assertEquals(0, InfoCommandsController.cheatCaptureCity("randomName"));
         when(city.getCivilization()).thenReturn(civilization);
-        assertEquals(2, GameController.cheatCaptureCity("randomName"));
+        assertEquals(2, InfoCommandsController.cheatCaptureCity("randomName"));
     }
 
     @Test
@@ -794,7 +796,7 @@ class GameControllerTest {
         when(user.getNickname()).thenReturn("nick");
         Map map2 = new Map(GameController.getCivilizations());
         GameController.setMap(map2);
-        GameController.cheatRoadEverywhere();
+        InfoCommandsController.cheatRoadEverywhere();
         assertNotNull(GameController.printMap());
     }
 }
