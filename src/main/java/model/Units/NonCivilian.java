@@ -11,6 +11,7 @@ import model.tiles.Tile;
 public class NonCivilian extends Unit implements CanAttack {
 
     private int fortifiedCycle = 0;
+    public boolean attacked = false;
 
     public UnitType getUnitType() {
         return unitType;
@@ -41,7 +42,7 @@ public class NonCivilian extends Unit implements CanAttack {
         else if (tile.getCivilian() != null) target = tile.getCivilian();
         else return ;
         double ratio = calculateRatio(target);
-
+        attacked = true;
         target.takeDamage(calculateDamage(ratio));
         GameController.openNewArea(tile, civilization, null);
         state = UnitState.AWAKE;

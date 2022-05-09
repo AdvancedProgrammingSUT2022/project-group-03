@@ -154,6 +154,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
         GameController.openNewArea(currentTile, civilization, this);
         health += 5;
         if (state == UnitState.FORTIFY) health += 15;
+        if(unitType.combatType != CombatType.CIVILIAN) ((NonCivilian)this).attacked = false;
         if (currentTile.getCivilization() == civilization) health += 5;
         if (health > 100) {
             if (state == UnitState.FORTIFY_UNTIL_FULL_HEALTH) state = UnitState.AWAKE;
@@ -182,7 +183,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
         return currentTile;
     }
 
-    private int initializeMove(boolean ogCall , Map.TileAndMP[] tileAndMPS){
+    private int initializeMove(boolean ogCall , Map.TileAndMP[] tileAndMPS,Tile destinationTile){
         if (ogCall) {
             GameController.openNewArea(this.currentTile, civilization, null);
             this.destinationTile = destinationTile;
@@ -217,17 +218,19 @@ public abstract class Unit implements Producible, CanGetAttacked {
     }
 
     public boolean move(Tile destinationTile, boolean ogCall) {
-        if (movementPrice == 0) return false;
-        Tile startTile = this.currentTile;
+        GameController.openNewArea(this.currentTile,civilization,this);
         if (state == UnitState.ATTACK && GameController.getMap()
                 .isInRange(unitType.range, destinationTile, currentTile)) {
             attack(destinationTile);
             return ogCall;
         }
+        if (movementPrice == 0) return false;
+        Tile startTile = this.currentTile;
         Map.TileAndMP[] tileAndMPS = GameController.getMap().findNextTile(civilization,
                 currentTile, movementPrice, unitType.movePoint, destinationTile,
                 unitType.combatType == CombatType.CIVILIAN, this);
-        int i = initializeMove(ogCall, tileAndMPS);
+        int i = initializeMove(ogCall, tileAndMPS,destinationTile);
+        if(i == -1) return false;
         boolean notEnd = true;
         for (int j = i; j > 0 && notEnd && movementPrice > 0; j--) {
             notEnd = move(tileAndMPS[j - 1].tile, false);

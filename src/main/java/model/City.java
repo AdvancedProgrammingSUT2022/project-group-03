@@ -30,7 +30,7 @@ public class City implements CanAttack, CanGetAttacked {
     public boolean isCapital;
     public int productionCheat;
     private Building wall;
-
+    private int anxiety = 0;
     public String getName() {
         return name;
     }
@@ -56,15 +56,29 @@ public class City implements CanAttack, CanGetAttacked {
                 mainTile.getNeighbours(i).setCivilization(civilization);
             }
         population = 1;
-        Random random = new Random();
-        if (tiles.size() > 1)
-            gettingWorkedOnByCitizensTiles.add(tiles.get(1 + random.nextInt(tiles.size() - 1)));
-        else gettingWorkedOnByCitizensTiles.add(tiles.get(0));
+        citizen = 1;
         for (Tile value : tiles) GameController.openNewArea(value, civilization, null);
         GameController.setUnfinishedTasks();
         isCapital = civilization.getCities().size() == 0;
     }
-
+    private boolean doesContainSettler (){
+        for (Tile tile : tiles) {
+            if(tile.getCivilian() != null
+                    && tile.getCivilian().getCivilization() != civilization
+                    && tile.getCivilian().getUnitType() == UnitType.SETTLER)
+                return true;
+        }
+        return false;
+    }
+    private boolean doesContainWorker (){
+        for (Tile tile : tiles) {
+            if(tile.getCivilian() != null
+                    && tile.getCivilian().getCivilization() != civilization
+                    && tile.getCivilian().getUnitType() == UnitType.WORKER)
+                return true;
+        }
+        return false;
+    }
     public int collectFood() {
         int food = 0;
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
@@ -131,7 +145,7 @@ public class City implements CanAttack, CanGetAttacked {
                     gettingWorkedOnByCitizensTile.getImprovement().getImprovementType())
                 production += gettingWorkedOnByCitizensTile.getResource().production;
         }
-        return production + productionCheat;
+        return production + productionCheat + citizen;
     }
 
     private void minus5Percent() {
@@ -169,6 +183,10 @@ public class City implements CanAttack, CanGetAttacked {
         return null;
     }
 
+    public int getAnxiety() {
+        return anxiety;
+    }
+
     private void productStartTheTurnProgress() {
         if (product != null) {
             int tempRemaining = product.getRemainedCost();
@@ -204,6 +222,8 @@ public class City implements CanAttack, CanGetAttacked {
     }
 
     public void startTheTurn() {
+        anxiety--;
+        if(anxiety<0)anxiety = 0;
         HP += 10;
         if (HP > 200) HP = 200;
         food += collectFood();
@@ -221,6 +241,8 @@ public class City implements CanAttack, CanGetAttacked {
             citizen++;
             expandBorders();
         }
+        if(doesContainSettler()) food = 0;
+        if(doesContainWorker()) food = 0;
         minus5Percent();
         for (Tile tile : tiles) GameController.openNewArea(tile, civilization, null);
     }
@@ -283,9 +305,16 @@ public class City implements CanAttack, CanGetAttacked {
     }
 
     public void attack(Tile tile) {
-        tile.getNonCivilian().takeDamage(calculateDamage(getCombatStrength(true) /
-                tile.getNonCivilian().getCombatStrength(false)));
-        tile.getNonCivilian().checkToDestroy();
+        if(tile.getNonCivilian() != null){
+            tile.getNonCivilian().takeDamage(calculateDamage(getCombatStrength(true) /
+                    tile.getNonCivilian().getCombatStrength(false)));
+            tile.getNonCivilian().checkToDestroy();
+        }else {
+            tile.getCivilian().takeDamage(calculateDamage(getCombatStrength(true) /
+                    tile.getCivilian().getCombatStrength(false)));
+            tile.getCivilian().checkToDestroy();
+        }
+
         GameController.openNewArea(tile, civilization, null);
     }
 
@@ -336,10 +365,7 @@ public class City implements CanAttack, CanGetAttacked {
         }
         if (tiles.size() > 10 && !isAttack) strength += 2 * (tiles.size() - 10);
         if (!isAttack) strength += tiles.size();
-        for (Tile tile : tiles) {
-            if (!isAttack && (tile.getTileType() == TileType.MOUNTAIN || tile.getTileType() == TileType.HILL))
-                strength += 1;
-        }
+        if(mainTile.getTileType() == TileType.HILL) strength *= 1.1;
         if (wall != null && !isAttack) strength = (strength * 1.2);
         return strength;
     }
@@ -373,12 +399,14 @@ public class City implements CanAttack, CanGetAttacked {
 
     public void changeCivilization(Civilization civilization) {
         HP = 25;
+        anxiety = 5;
         for (Tile tile : tiles)
             tile.setCivilization(civilization);
         product = null;
         while (halfProducedUnits.size() != 0)
             halfProducedUnits.remove(0);
         this.civilization = civilization;
+
     }
 
     public int calculateDamage(double ratio) {

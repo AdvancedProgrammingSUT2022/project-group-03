@@ -22,6 +22,7 @@ public class UnitsList extends Menu{
             System.out.println(i+1 + ", " + units.get(i).getUnitType() + ": "
                     + units.get(i).getState() + "; "
                     + units.get(i).getCurrentTile().getX() + ", "
+                    + units.get(i).getCurrentTile().getY() + " | "
                     + units.get(i).getCurrentTile().getTileType());
         if(units.size()==0)
             System.out.println("you don't have any units right now");

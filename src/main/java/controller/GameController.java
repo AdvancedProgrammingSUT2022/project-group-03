@@ -128,8 +128,9 @@ public class GameController {
 
     public static boolean unitMoveTo(int x, int y) {
         if (selectedUnit == null || x < 0 || y < 0 ||
-                x >= map.getX() || y > map.getY() ||
-                map.coordinatesToTile(x, y).getTileType() == TileType.OCEAN ||
+                x >= map.getX()||y > map.getY()
+                 || civilizations.get(playerTurn) != selectedUnit.getCivilization()
+                || map.coordinatesToTile(x, y).getTileType() == TileType.OCEAN ||
                 map.coordinatesToTile(x, y).getTileType() == TileType.MOUNTAIN)
             return false;
         deleteFromUnfinishedTasks(new Tasks(selectedUnit.getCurrentTile(), TaskTypes.UNIT));
@@ -492,7 +493,7 @@ public class GameController {
         if (tile.getNonCivilian() == null ||
                 tile.getNonCivilian().getCivilization() == city.getCivilization())
             return false;
-        return !map.isInRange(2, city.getMainTile(), tile);
+        return map.isInRange(2, city.getMainTile(), tile);
 
     }
 
@@ -610,10 +611,7 @@ public class GameController {
             if (tile.getNeighbours(i).getTileType() == TileType.MOUNTAIN ||
                     tile.getNeighbours(i).getTileType() == TileType.HILL ||
                     (tile.getNeighbours(i).getContainedFeature() != null &&
-                            (tile.getNeighbours(i).getContainedFeature()
-                                    .getFeatureType() == FeatureType.FOREST ||
-                                    tile.getNeighbours(i).getContainedFeature()
-                                            .getFeatureType() == FeatureType.JUNGLE)))
+                            tile.getNeighbours(i).getContainedFeature().getFeatureType() == FeatureType.JUNGLE))
                 continue;
             for (int j = 0; j < 6; j++) {
                 if (tile.getNeighbours(i).getNeighbours(j) == null)
@@ -648,7 +646,7 @@ public class GameController {
     }
 
     public static String printMap() {
-        return civilizations.get(playerTurn).getUser().getNickname() + ":\n" +
+        return playerTurn+1 + ". " + civilizations.get(playerTurn).getUser().getNickname() + ":\n" +
                 map.printMap(civilizations.get(playerTurn).getTileConditions(),
                 startWindowX, startWindowY);
     }
@@ -716,27 +714,38 @@ public class GameController {
 
 
     public static int unitAttack(int x, int y) {
-        if (!(selectedUnit instanceof NonCivilian) ||
-                selectedUnit.getCivilization() != civilizations.get(playerTurn))
+        if (selectedUnit == null)
+            return 1;
+        if (selectedUnit.getCivilization() != civilizations.get(playerTurn))
             return 2;
-        if (x < 0 || y < 0 || x >= map.getX() || y > map.getY()) return 3;
-        if (!canUnitAttack(map.coordinatesToTile(x, y))) return 1;
-        if (selectedUnit.move(map.coordinatesToTile(x, y), true)) return 0;
-        return 4;
+        if (!(selectedUnit instanceof NonCivilian))
+            return 3;
+        if(((NonCivilian)selectedUnit).attacked) return 8;
+        if (x < 0 || y < 0 || x >= map.getX() || y >= map.getY()) return 4;
+        if(selectedUnit.getUnitType().combatType == CombatType.SIEGE &&
+                (selectedUnit.getState() != UnitState.SETUP ||  ((NonCivilian) selectedUnit).getFortifiedCycle() < 1))
+            return 7;
+        if (!canUnitAttack(map.coordinatesToTile(x, y))) return 5;
+        Tile startTile = selectedUnit.getCurrentTile();
+        if (!selectedUnit.move(map.coordinatesToTile(x, y), true)) return 6;
+        deleteFromUnfinishedTasks(new Tasks(startTile, TaskTypes.UNIT));
+        if(selectedUnit.getCurrentTile() == startTile
+                && selectedUnit.getUnitType().combatType == CombatType.SIEGE)
+            selectedUnit.setState(UnitState.SETUP);
+        return 0;
     }
 
     public static int cityAttack(int x, int y) {
-        if (selectedCity.getCivilization() != civilizations.get(playerTurn)) return 3;
-        if (x < 0 || y < 0 || x >= map.getX() || y > map.getY()) return 2;
-        if (selectedUnit.getUnitType().combatType == CombatType.SIEGE &&
-                (selectedUnit.getState() != UnitState.SETUP ||
-                        ((NonCivilian) selectedUnit).getFortifiedCycle() < 1))
-            return 5;
-        if (selectedUnit.getUnitType().combatType == CombatType.SIEGE &&
-                !map.isInRange(selectedUnit.getUnitType().range,
-                        selectedUnit.getCurrentTile(), map.coordinatesToTile(x, y)))
+        if (selectedCity == null)
+            return 1;
+        if (selectedCity.getCivilization() != civilizations.get(playerTurn))
+            return 2;
+        if (x < 0 || y < 0 || x >= map.getX() || y > map.getY() || map.coordinatesToTile(x, y)==null) return 3;
+        if (map.coordinatesToTile(x, y).getNonCivilian()==null)
             return 4;
-        if (!canCityAttack(selectedCity, map.coordinatesToTile(x, y))) return 1;
+        if(map.coordinatesToTile(x, y).getNonCivilian().getCivilization()==civilizations.get(playerTurn))
+            return 5;
+        if (!canCityAttack(selectedCity, map.coordinatesToTile(x, y))) return 6;
         selectedCity.attack(map.coordinatesToTile(x, y));
         return 0;
     }
@@ -759,7 +768,7 @@ public class GameController {
         if (selectedCity == null)
             return 1;
         if (selectedCity.getCivilization() != civilizations.get(playerTurn))
-            return 1;
+            return 2;
         selectedCity.productionCheat += number;
         return 0;
     }

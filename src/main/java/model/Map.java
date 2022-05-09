@@ -221,8 +221,6 @@ public class Map {
                 riverSides[0].setTilesWithRiver(neighbour);
                 riverSides[1].setTilesWithRiver((neighbour + 3) % 6);
                 remainingLength--;
-                System.out.println(riverSides[0].getX()+ "," +riverSides[0].getY() + " - > " + riverSides[1].getX() + "," +riverSides[1].getY());
-
             }
         }
     }
@@ -317,7 +315,13 @@ public class Map {
                 if (civilizationMap[i][j] == null) {
                     tiles[i][j] = new Tile(TileType.HILL, i, j);
                     tiles[i][j].setContainedFeature(new Feature(FeatureType.FOREST));
-                } else tiles[i][j] = civilizationMap[i][j].getOpenedArea();
+                } else {
+                    tiles[i][j] = civilizationMap[i][j].getOpenedArea();
+                    if (!civilizationMap[i][j].getIsClear()){
+                        tiles[i][j].setNonCivilian(null);
+                        tiles[i][j].setCivilian(null);
+                    }
+                }
                 setNeighborsOfTile(tiles, i, j);
             }
         }
@@ -329,17 +333,26 @@ public class Map {
         boolean foundDestination = false;
         int finalTurn = -10;
     }
+    private boolean zoneOfControl(Tile check,Civilization civilization){
+        for (int i = 0; i < 6; i++) {
+            if(check.getNeighbours(i).getNonCivilian() != null
+                    && check.getNeighbours(i).getNonCivilian().getCivilization() != civilization)
+                return true;
+        }
+        return false;
+    }
 
     private void findNextTileWhile(ArrayList<Tile>[] visited,
                                    HashMap<Integer, HashMap<Tile, BestMoveClass>> visitedWithMove,
                                    Unit unit, int c, Tile destinationTile,
                                    HashMap<Tile, Boolean> isVisitedEver,
-                                   FindNextClass findNextClass) {
+                                   FindNextClass findNextClass,
+                                   Civilization civilization) {
         Tile check;
         while (!findNextClass.isOver && !findNextClass.foundDestination) {
             findNextClass.isOver = true;
-            for (int i = 0; i < visited[c].size() &&
-                    visitedWithMove.get(c).get(visited[c].get(i)).movePoint > 0; i++) {
+            for (int i = 0; i < visited[c].size(); i++) {
+                if(visitedWithMove.get(c).get(visited[c].get(i)).movePoint < 0) continue;
                 for (int j = 0; j < 6; j++) {
                     check = visited[c].get(i).getNeighbours(j);
                     if (check != null) {
@@ -362,7 +375,8 @@ public class Map {
                             }
                         }
                         if (remainingMP < 0 ||
-                                (visited[c].get(i).isRiverWithNeighbour(j) && check.getRoad() == null))
+                                (visited[c].get(i).isRiverWithNeighbour(j) && check.getRoad() == null)
+                                || zoneOfControl(check,civilization))
                             remainingMP = 0;
                         if (!visitedWithMove.get(c).containsKey(check)) {
                             visitedWithMove.get(c).put(check,
@@ -425,14 +439,14 @@ public class Map {
             visitedWithMove.put(i, new HashMap<>());
         }
         visitedWithMove.get(0).put(tile,
-                new BestMoveClass(remainedMP, null, mp));
+                new BestMoveClass(remainedMP, null, -1));
         visited[0].add(tile);
         isVisitedEver.put(tile, true);
         FindNextClass findNextClass = new FindNextClass();
         for (int c = 0; !findNextClass.isOver &&
                 !findNextClass.foundDestination && c < 10; c++) {
             findNextTileWhile(visited, visitedWithMove, unit, c,
-                    destinationTile, isVisitedEver, findNextClass);
+                    destinationTile, isVisitedEver, findNextClass,civilization);
             findNextTileFor(civilization, mp, isCivilian, c, visited,
                     isVisitedEver, findNextClass, visitedWithMove);
         }
@@ -610,7 +624,8 @@ public class Map {
                     tileConditions[i][j].getOpenedArea().getCity() != null)
                 jString = "C ";
             else if (i < x && j < y && tileConditions[i][j] != null &&
-                    tileConditions[i][j].getOpenedArea().getImprovement() != null)
+                    tileConditions[i][j].getOpenedArea().getImprovement() != null &&
+                    tileConditions[i][j].getOpenedArea().getImprovement().getRemainedCost()==0)
                 jString = tileConditions[i][j].getOpenedArea().getImprovement().getImprovementType().icon;
             else jString = "  ";
             if (i < x && j < y && tileConditions[i][j] != null &&
@@ -642,7 +657,8 @@ public class Map {
             Color rightTileColor = initRightTileColor(backReset,
                     tileConditions, i, j, false);
             color0 = initColor(i, j, tileConditions, 0);
-            color1 = initColor(i, j + 1, tileConditions, 4);
+            if(j % 2 == 1) color1 = initColor(i, j + 1, tileConditions, 4);
+            else  color1 = initColor(i, j + 1, tileConditions, 1);
             if(color1 == Color.RESET) color1 = rightTileColor;
             color2 = initColor(i, j, tileConditions, 2);
             if (i >= 10) iString = "  " + i;
@@ -755,7 +771,8 @@ public class Map {
                     tileConditions[i + j % 2][j + 1].getOpenedArea().getCity() != null)
                 jString = "C ";
             else if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null &&
-                    tileConditions[i + j % 2][j + 1].getOpenedArea().getImprovement() != null)
+                    tileConditions[i + j % 2][j + 1].getOpenedArea().getImprovement() != null &&
+                    tileConditions[i + j % 2][j + 1].getOpenedArea().getImprovement().getRemainedCost() ==0)
                 jString = tileConditions[i + j % 2][j + 1]
                         .getOpenedArea().getImprovement().getImprovementType().icon;
             else jString = "  ";
@@ -801,8 +818,7 @@ public class Map {
             else jString = (j + 1) + " ";
             mapString.append("  ").append(Color.RESET).append(color0).append("\\").
                     append(Color.RESET).append(currentTileColor).append(color1).append("_____")
-                    .append(Color.RESET).append(color2).append("/")
-
+                    .append(Color.RESET).append(color2).append("/").append(Color.RESET)
                     .append(rightTileColor).append(iString).append(",").append(jString);
         }
         mapString.append(Color.RESET).append("\n");

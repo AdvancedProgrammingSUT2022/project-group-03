@@ -43,7 +43,7 @@ public class Civilization {
     private final ArrayList<Technology> researches = new ArrayList<>();
     private final ArrayList<City> cities = new ArrayList<>();
     private int science;
-    private int happiness = 2;
+    private int happiness;
     private final HashMap<ResourcesTypes, Integer> resourcesAmount = new HashMap<>();
     private Technology gettingResearchedTechnology;
     private HashMap<ResourcesTypes, Boolean> usedLuxuryResources = new HashMap<>();
@@ -130,8 +130,12 @@ public class Civilization {
     }
 
     public void startTheTurn() {
+        happiness = 5;
+        happiness -= cities.size();
         turnOffTileConditionsBoolean();
         usedLuxuryResources = new HashMap<>();
+        for (City city : cities)
+            if(city.getAnxiety() > 0) happiness-=2;
         for (int i = 0; i < ResourcesTypes.VALUES.size(); i++)
             if (ResourcesTypes.VALUES.get(i).getResourcesCategory() == ResourcesCategory.LUXURY &&
                     resourcesAmount.containsKey(ResourcesTypes.VALUES.get(i))) {

@@ -45,13 +45,15 @@ public class CitiesList extends Menu {
             return;
         }
         System.out.print(city.getName() +
+                " | founder: " + city.getFounder().getUser().getNickname() +
                 " | mainTileX: " + city.getMainTile().getX() +
                 " | mainTileY: " + city.getMainTile().getY() +
+                " | HP: " + city.getHP() +
                 " | population: " + city.getPopulation() +
                 " | food: " + city.collectFood() +
                 " | citizen: " + city.getCitizen() +
                 " | founder: " + city.getFounder().getUser().getNickname() +
-                " | defense strength: " + city.getCombatStrength(false) +
+                " | defense strength: " + city.getCombatStrength(false) + "\n" +
                 " | attack strength: " + city.getCombatStrength(true) +
                 " | production: " + city.collectProduction() +
                 " | doesHaveWall: ");
