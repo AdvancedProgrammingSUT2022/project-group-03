@@ -54,7 +54,8 @@ public class InfoCommands {
 
     private static void infoResearches() {
         Technology technology =
-                GameController.getCivilizations().get(GameController.getPlayerTurn()).getGettingResearchedTechnology();
+                GameController.getCivilizations()
+                        .get(GameController.getPlayerTurn()).getGettingResearchedTechnology();
         if (technology == null) {
             System.out.println("you don't have any technology in the development right now");
             return;
@@ -94,7 +95,8 @@ public class InfoCommands {
     }
 
     private static void infoDemographic() {
-        Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
+        Civilization civilization = GameController
+                .getCivilizations().get(GameController.getPlayerTurn());
         System.out.print("nickname: " + civilization.getUser().getNickname());
         City capital = civilization.getCapital();
         if (capital != null)

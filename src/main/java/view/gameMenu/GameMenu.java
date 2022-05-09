@@ -14,7 +14,8 @@ public class GameMenu extends MutatedMenu {
 
 
     public static void printMilitaryOverview() {
-        ArrayList<Unit> units = GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits();
+        ArrayList<Unit> units = GameController.getCivilizations()
+                .get(GameController.getPlayerTurn()).getUnits();
         for (Unit unit : units)
             printUnitInfo(unit);
         if (units.size() == 0)
@@ -40,7 +41,8 @@ public class GameMenu extends MutatedMenu {
     }
 
     public static void infoEconomic() {
-        for (City city : GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities())
+        for (City city : GameController.getCivilizations()
+                .get(GameController.getPlayerTurn()).getCities())
             CitiesList.cityBanner(city);
     }
 

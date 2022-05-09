@@ -1,10 +1,10 @@
 package model.features;
 
 public class Feature {
-    private FeatureType featureType;
+    private final FeatureType featureType;
     private int cyclesToFinish;
-    public Feature(FeatureType featureType)
-    {
+
+    public Feature(FeatureType featureType) {
         this.featureType = featureType;
         this.cyclesToFinish = -1;
     }

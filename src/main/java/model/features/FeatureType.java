@@ -2,19 +2,39 @@ package model.features;
 
 import model.improvements.ImprovementType;
 import model.resources.ResourcesTypes;
-import model.tiles.TileType;
 
 import java.util.List;
 import java.util.Random;
+
 public enum FeatureType {
-    JUNGLE("JU",1,-1,0,25,2, new ImprovementType[]{ImprovementType.MINE,ImprovementType.FIELD},new ResourcesTypes[]{ResourcesTypes.BANANA,ResourcesTypes.GEMSTONE,ResourcesTypes.COLOR}),
-    FOREST("FO",1,1,0,25,2,new ImprovementType[]{ImprovementType.CAMP,ImprovementType.LUMBER_MILL,ImprovementType.MINE,ImprovementType.FIELD},new ResourcesTypes[]{ResourcesTypes.DEER,ResourcesTypes.FUR,ResourcesTypes.COLOR,ResourcesTypes.SILK}),
-    ICE("IC",0,0,0,0,12345, new ImprovementType[]{},new ResourcesTypes[]{}),
-    OASIS("OA",3,0,1,-33,1, new ImprovementType[]{},new ResourcesTypes[]{}),
-    DELTA("DE",2,0,0,-33,1, new ImprovementType[]{ImprovementType.FIELD},new ResourcesTypes[]{ResourcesTypes.WHEAT,ResourcesTypes.SUGAR}),
-    SWAMP("SW",-1,0,0,-33,2, new ImprovementType[]{ImprovementType.MINE,ImprovementType.FIELD},new ResourcesTypes[]{ResourcesTypes.SUGAR});
-    private static final List<FeatureType> VALUES =
-            List.of(values());
+    JUNGLE("JU", 1, -1, 0, 25, 2,
+            new ImprovementType[]{ImprovementType.MINE,
+                    ImprovementType.FIELD},
+            new ResourcesTypes[]{ResourcesTypes.BANANA,
+                    ResourcesTypes.GEMSTONE,
+                    ResourcesTypes.COLOR}),
+    FOREST("FO", 1, 1, 0, 25, 2,
+            new ImprovementType[]{ImprovementType.CAMP,
+                    ImprovementType.LUMBER_MILL,
+                    ImprovementType.MINE,
+                    ImprovementType.FIELD},
+            new ResourcesTypes[]{ResourcesTypes.DEER,
+                    ResourcesTypes.FUR,
+                    ResourcesTypes.COLOR,
+                    ResourcesTypes.SILK}),
+    ICE("IC", 0, 0, 0, 0, 12345,
+            new ImprovementType[]{},
+            new ResourcesTypes[]{}),
+    OASIS("OA", 3, 0, 1, -33, 1,
+            new ImprovementType[]{},
+            new ResourcesTypes[]{}),
+    DELTA("DE", 2, 0, 0, -33, 1,
+            new ImprovementType[]{ImprovementType.FIELD},
+            new ResourcesTypes[]{ResourcesTypes.WHEAT, ResourcesTypes.SUGAR}),
+    SWAMP("SW", -1, 0, 0, -33, 2,
+            new ImprovementType[]{ImprovementType.MINE, ImprovementType.FIELD},
+            new ResourcesTypes[]{ResourcesTypes.SUGAR});
+    private static final List<FeatureType> VALUES = List.of(values());
     private static final int SIZE = VALUES.size();
     private static final Random RANDOM = new Random();
     public final String icon;
@@ -25,8 +45,9 @@ public enum FeatureType {
     public final int movePoint;
     public final ResourcesTypes[] resourcesTypes;
     private final ImprovementType[] improvementTypes;
-    FeatureType(String icon, int food, int production, int gold, int combatChange, int movePoint, ImprovementType[] improvementTypes,ResourcesTypes[] resourcesTypes)
-    {
+
+    FeatureType(String icon, int food, int production, int gold, int combatChange,
+                int movePoint, ImprovementType[] improvementTypes, ResourcesTypes[] resourcesTypes) {
         this.icon = icon;
         this.food = food;
         this.production = production;
@@ -36,16 +57,16 @@ public enum FeatureType {
         this.improvementTypes = improvementTypes;
         this.resourcesTypes = resourcesTypes;
     }
-    public static FeatureType randomFeature()  {
+
+    public static FeatureType randomFeature() {
         return VALUES.get(RANDOM.nextInt(SIZE));
     }
 
-    public static boolean doesContainImprovement(FeatureType featureType, ImprovementType improvementType)
-    {
-        if(featureType==null)
+    public static boolean doesContainImprovement(FeatureType featureType, ImprovementType improvementType) {
+        if (featureType == null)
             return false;
         for (ImprovementType type : featureType.improvementTypes)
-            if(type==improvementType)
+            if (type == improvementType)
                 return true;
         return false;
     }

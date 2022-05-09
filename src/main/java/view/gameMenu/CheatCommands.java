@@ -89,6 +89,7 @@ public class CheatCommands {
             return 3;
         }
     }
+
     private static void cheatCaptureCity(String name) {
         switch (CheatCommandsController.cheatCaptureCity(name)) {
             case 0:
@@ -160,8 +161,7 @@ public class CheatCommands {
 
     private static void cheatUnit(int x, int y, String obj) {
         UnitType unitType = UnitType.stringToEnum(obj);
-        if(unitType==null)
-        {
+        if (unitType == null) {
             System.out.println("no unit with this name exists");
             return;
         }

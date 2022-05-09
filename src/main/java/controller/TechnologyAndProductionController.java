@@ -16,7 +16,9 @@ public class TechnologyAndProductionController {
         return GameController.getCivilizations()
                 .get(GameController.getPlayerTurn()).getResearches();
     }
-    public static boolean addTechnologyToProduction(ArrayList<Technology> possibleTechnologies, int entry) {
+
+    public static boolean addTechnologyToProduction(ArrayList<Technology> possibleTechnologies,
+                                                    int entry) {
         if (entry > possibleTechnologies.size() || entry < 1)
             return false;
         Technology tempTechnology = possibleTechnologies.get(entry - 1);
@@ -33,9 +35,9 @@ public class TechnologyAndProductionController {
     public static int cyclesToComplete(Technology technology) {
         if (GameController.getCivilizations().get(GameController.getPlayerTurn()).collectScience() == 0)
             return 12345;
-        return (int) Math.ceil((double)technology.getRemainedCost() /
-                (double)GameController.getCivilizations()
-                        .get(GameController.getPlayerTurn()).collectScience()-0.03);
+        return (int) Math.ceil((double) technology.getRemainedCost() /
+                (double) GameController.getCivilizations()
+                        .get(GameController.getPlayerTurn()).collectScience() - 0.03);
     }
 
     public static String initializeResearchInfo(boolean showFinishedResearches,
@@ -59,7 +61,7 @@ public class TechnologyAndProductionController {
                 continue;
             }
             if (showFinishedResearches)
-                stringBuilder.append(i+1).append(". ")
+                stringBuilder.append(i + 1).append(". ")
                         .append(researches.get(i).getTechnologyType()).append("\n");
             ArrayList<TechnologyType> technologyTypes =
                     TechnologyType.nextTech.get(researches.get(i).getTechnologyType());
@@ -81,77 +83,73 @@ public class TechnologyAndProductionController {
     }
 
 
-    private static String printPossibleUnits(boolean doesHaveAny, ArrayList<Unit> possibleUnits)
-    {
+    private static String printPossibleUnits(boolean doesHaveAny, ArrayList<Unit> possibleUnits) {
         StringBuilder stringBuilder = new StringBuilder();
-        for(int i = 0 ; i< possibleUnits.size();i++)
-        {
+        for (int i = 0; i < possibleUnits.size(); i++) {
             int cyclesToComplete = GameController.getSelectedCity()
                     .cyclesToComplete(possibleUnits.get(i).getRemainedCost());
-            stringBuilder.append(i+1).append(". ").append(possibleUnits.get(i).getUnitType()).append(": ");
-            if(cyclesToComplete == 12345)
+            stringBuilder.append(i + 1).append(". ").append(possibleUnits.get(i).getUnitType()).append(": ");
+            if (cyclesToComplete == 12345)
                 stringBuilder.append("never, your production is 0\n");
             else
                 stringBuilder.append(GameController.getSelectedCity()
                                 .cyclesToComplete(possibleUnits.get(i).getRemainedCost()))
                         .append(" cycles to finish\n");
         }
-        if(!doesHaveAny)
+        if (!doesHaveAny)
             stringBuilder.append("you can't produce anything right now\n");
         return stringBuilder.toString();
     }
-    public static String printDetails(ArrayList<Unit> possibleUnits)
-    {
+
+    public static String printDetails(ArrayList<Unit> possibleUnits) {
         StringBuilder stringBuilder = new StringBuilder();
         City city = GameController.getSelectedCity();
         stringBuilder.append("name: ").append(city.getName()).append(" | ");
-        if(city.getProduct() ==null)
+        if (city.getProduct() == null)
             stringBuilder.append("production: -\n");
-        else if(city.getProduct() instanceof Unit)
+        else if (city.getProduct() instanceof Unit)
             stringBuilder.append("production: ")
                     .append(((Unit) city.getProduct()).getUnitType())
                     .append(", ").append(city.cyclesToComplete(city.getProduct().getRemainedCost()))
                     .append(" cycles to finish\n");
         boolean doesHaveAny = false;
-        mainFor: for(int i = 0; i < UnitType.VALUES.size(); i++)
-        {
-            if(GameController.getSelectedCity().getCivilization()
-                    .doesContainTechnology(UnitType.VALUES.get(i).technologyRequired)!=1)
+        mainFor:
+        for (int i = 0; i < UnitType.VALUES.size(); i++) {
+            if (GameController.getSelectedCity().getCivilization()
+                    .doesContainTechnology(UnitType.VALUES.get(i).technologyRequired) != 1)
                 continue;
-            doesHaveAny=true;
-            if( (UnitType.VALUES.get(i).resourcesType!=null &&
+            doesHaveAny = true;
+            if ((UnitType.VALUES.get(i).resourcesType != null &&
                     !GameController.getSelectedCity().getCivilization()
                             .getResourcesAmount().containsKey(UnitType.VALUES.get(i).resourcesType)) ||
                     (GameController.getSelectedCity().getCivilization()
                             .getResourcesAmount().containsKey(UnitType.VALUES.get(i).resourcesType) &&
                             GameController.getSelectedCity().getCivilization()
-                                    .getResourcesAmount().get(UnitType.VALUES.get(i).resourcesType)==0))
+                                    .getResourcesAmount().get(UnitType.VALUES.get(i).resourcesType) == 0))
                 stringBuilder.append("(not enough ")
                         .append(UnitType.VALUES.get(i).resourcesType)
                         .append(") ").append(UnitType.VALUES.get(i)).append("\n");
-            else
-            {
+            else {
                 for (Unit unit : GameController.getSelectedCity().getHalfProducedUnits())
-                    if(unit.getRemainedCost()!=0 && unit.getUnitType()==UnitType.VALUES.get(i) &&
-                            (city.getProduct()==null || (city.getProduct()!= null &&
-                                    ((Unit) city.getProduct()).getUnitType()!=unit.getUnitType())))
-                    {
+                    if (unit.getRemainedCost() != 0 && unit.getUnitType() == UnitType.VALUES.get(i) &&
+                            (city.getProduct() == null || (city.getProduct() != null &&
+                                    ((Unit) city.getProduct()).getUnitType() != unit.getUnitType()))) {
                         possibleUnits.add(unit);
                         continue mainFor;
                     }
-                if(city.getProduct()==null ||
-                        (city.getProduct()!=null && ((Unit) city.getProduct()).getUnitType()!=UnitType.VALUES.get(i)))
-                {
-                    if(UnitType.VALUES.get(i).combatType == CombatType.CIVILIAN)
+                if (city.getProduct() == null ||
+                        (city.getProduct() != null &&
+                                ((Unit) city.getProduct()).getUnitType() != UnitType.VALUES.get(i))) {
+                    if (UnitType.VALUES.get(i).combatType == CombatType.CIVILIAN)
                         possibleUnits.add(new Civilian(GameController.getSelectedCity().getMainTile(),
-                                GameController.getSelectedCity().getCivilization(),UnitType.VALUES.get(i)));
+                                GameController.getSelectedCity().getCivilization(), UnitType.VALUES.get(i)));
                     else
                         possibleUnits.add(new NonCivilian(GameController.getSelectedCity().getMainTile(),
-                                GameController.getSelectedCity().getCivilization(),UnitType.VALUES.get(i)));
+                                GameController.getSelectedCity().getCivilization(), UnitType.VALUES.get(i)));
                 }
             }
         }
-        stringBuilder.append(printPossibleUnits(doesHaveAny,possibleUnits));
+        stringBuilder.append(printPossibleUnits(doesHaveAny, possibleUnits));
         return stringBuilder.toString();
     }
 }

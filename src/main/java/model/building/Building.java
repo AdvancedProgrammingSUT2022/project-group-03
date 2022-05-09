@@ -5,17 +5,17 @@ import model.Producible;
 public class Building implements Producible {
     BuildingType buildingType;
     int remainedCost;
-    public Building(BuildingType buildingType)
-    {
+
+    public Building(BuildingType buildingType) {
         this.buildingType = buildingType;
         remainedCost = buildingType.cost;
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return buildingType.toString();
     }
+
     @Override
     public int getRemainedCost() {
         return remainedCost;

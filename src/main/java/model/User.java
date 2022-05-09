@@ -21,14 +21,15 @@ public class User {
     static {
         try {
             String json = new String(Files.readAllBytes(Paths.get("dataBase/users.json")));
-            listOfUsers = new Gson().fromJson(json, new TypeToken<List<User>>(){}.getType());
+            listOfUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
+            }.getType());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void saveData(){
-        FileWriter fileWriter = null;
+    private static void saveData() {
+        FileWriter fileWriter;
         try {
             fileWriter = new FileWriter("dataBase/users.json");
             fileWriter.write(new Gson().toJson(listOfUsers));
@@ -37,7 +38,6 @@ public class User {
             e.printStackTrace();
         }
     }
-
 
 
     public static User findUser(String string, boolean isNickname) {
@@ -75,9 +75,8 @@ public class User {
         return nickname;
     }
 
-    public static void deleteUser(User user)
-    {
-        if(user==null)
+    public static void deleteUser(User user) {
+        if (user == null)
             return;
         listOfUsers.remove(user);
         saveData();

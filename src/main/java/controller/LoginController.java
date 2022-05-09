@@ -12,7 +12,7 @@ public class LoginController {
             return 1;
         if (User.findUser(nickname, true) != null)
             return 2;
-        if(!isPasswordValid(password))
+        if (!isPasswordValid(password))
             return 3;
         new User(username, password, nickname);
         return 0;

@@ -5,8 +5,59 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="isinrange checks the whole map">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataBase/users.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/TechnologyAndProductionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/TechnologyAndProductionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/CheatCommandsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/CheatCommandsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/CityCommandsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/CityCommandsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/MapCommandsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/MapCommandsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/TileXAndYFlagSelectUnitController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/TileXAndYFlagSelectUnitController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/UnitStateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/UnitStateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/CanAttack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/CanAttack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/CanGetAttacked.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/CanGetAttacked.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Civilization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Producible.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Producible.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Tasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Tasks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Civilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Civilian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/NonCivilian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/UnitType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/UnitType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/building/Building.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/building/Building.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/building/BuildingType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/building/BuildingType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/features/Feature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/features/Feature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/features/FeatureType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/features/FeatureType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/Improvement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/Improvement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/improvements/ImprovementType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/improvements/ImprovementType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/resources/ResourcesTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/resources/ResourcesTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/technologies/TechnologyType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/technologies/TechnologyType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/tiles/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/tiles/Tile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/tiles/TileType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/tiles/TileType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/MutatedMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MutatedMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/CheatCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/CheatCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/ChooseTechnology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/ChooseTechnology.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/CitiesList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/CitiesList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/CityCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/CityCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/Color.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/Color.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/FreeFlagCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/FreeFlagCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/GameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/IncreaseView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/IncreaseView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/InfoCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/InfoCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/ProductionCityMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/ProductionCityMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/UnitsList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/UnitsList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/menuCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/menuCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/view/CitiesListTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/view/CitiesListTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/gameController/CityCommandsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/gameController/CityCommandsController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/gameController/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/gameController/GameController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,6 +178,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="CitiesListTest.openCityBanner" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Civilization" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="view.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="view" />
+      <option name="MAIN_CLASS_NAME" value="view.CitiesListTest" />
+      <option name="METHOD_NAME" value="openCityBanner" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GameControllerTest.cityAttack" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Civilization" />
       <extension name="coverage">
@@ -143,36 +210,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LoginControllerTest.changePassword" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Civilization" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="controller.gameController.CheatCommandsController" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="controller" />
-      <option name="MAIN_CLASS_NAME" value="controller.LoginControllerTest" />
-      <option name="METHOD_NAME" value="changePassword" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.All in Civilization" />
-      <item itemvalue="JUnit.LoginControllerTest.changePassword" />
       <item itemvalue="JUnit.ChooseTechnologyTest.initializeResearchInfo" />
       <item itemvalue="JUnit.GameControllerTest.cityAttack" />
+      <item itemvalue="JUnit.CitiesListTest.openCityBanner" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.All in Civilization" />
+        <item itemvalue="JUnit.CitiesListTest.openCityBanner" />
         <item itemvalue="JUnit.GameControllerTest.cityAttack" />
         <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.ChooseTechnologyTest.initializeResearchInfo" />
-        <item itemvalue="JUnit.LoginControllerTest.changePassword" />
       </list>
     </recent_temporary>
   </component>
@@ -220,7 +271,7 @@
       <workItem from="1652088610335" duration="10689000" />
       <workItem from="1652106913346" duration="5566000" />
       <workItem from="1652113296145" duration="9298000" />
-      <workItem from="1652123843413" duration="797000" />
+      <workItem from="1652123843413" duration="3997000" />
     </task>
     <task id="LOCAL-00001" summary="isinrange checks the whole map">
       <created>1651758513457</created>
@@ -258,11 +309,6 @@
           <properties class="java.util.ConcurrentModificationException" package="java.util" />
           <option name="timeStamp" value="39" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/model/Units/Unit.java</url>
-          <line>220</line>
-          <option name="timeStamp" value="128" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
@@ -397,7 +443,7 @@
     <SUITE FILE_PATH="coverage/project_group_03$TechnologyControllerTest_addTechnologyToProduction.ic" NAME="TechnologyControllerTest.addTechnologyToProduction Coverage Results" MODIFIED="1651590109836" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>controller.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$All_in_Civilization.ic" NAME="All in Civilization Coverage Results" MODIFIED="1652124362164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/project_group_03$All_in_Civilization.ic" NAME="All in Civilization Coverage Results" MODIFIED="1652126235903" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/project_group_03$CityTest_calculateDamage.ic" NAME="CityTest.calculateDamage Coverage Results" MODIFIED="1651616903220" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>
@@ -418,6 +464,9 @@
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$GameControllerTest_setSelectedCombatUnit.ic" NAME="GameControllerTest.setSelectedCombatUnit Coverage Results" MODIFIED="1652032156493" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/project_group_03$CitiesListTest_openCityBanner.ic" NAME="CitiesListTest.openCityBanner Coverage Results" MODIFIED="1652127823754" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>view.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/project_group_03$Main.ic" NAME="Main Coverage Results" MODIFIED="1651749920337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/project_group_03$GameControllerTest_unitRepair.ic" NAME="GameControllerTest.unitRepair Coverage Results" MODIFIED="1652038604609" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

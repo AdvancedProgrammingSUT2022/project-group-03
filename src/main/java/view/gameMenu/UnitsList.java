@@ -18,7 +18,8 @@ public class UnitsList extends Menu {
     }
 
     public void printUnits() {
-        ArrayList<Unit> units = GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits();
+        ArrayList<Unit> units = GameController.getCivilizations()
+                .get(GameController.getPlayerTurn()).getUnits();
         for (int i = 0; i < units.size(); i++)
             System.out.println(i + 1 + ", " + units.get(i).getUnitType() + ": "
                     + units.get(i).getState() + "; "
@@ -31,7 +32,8 @@ public class UnitsList extends Menu {
 
     private boolean selectUnit(String command) {
         int number = Integer.parseInt(command);
-        ArrayList<Unit> units = GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits();
+        ArrayList<Unit> units = GameController.getCivilizations()
+                .get(GameController.getPlayerTurn()).getUnits();
         if (number > units.size() || number < 1) {
             System.out.println("invalid number");
             return false;

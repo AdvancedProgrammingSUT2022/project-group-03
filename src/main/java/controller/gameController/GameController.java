@@ -92,7 +92,8 @@ public class GameController {
         if (tile.getCivilization() != selectedUnit.getCivilization())
             return false;
         return (tile.getContainedFeature() != null &&
-                FeatureType.doesContainImprovement(tile.getContainedFeature().getFeatureType(), improvementType)) ||
+                FeatureType.doesContainImprovement(tile.getContainedFeature().getFeatureType(),
+                        improvementType)) ||
                 TileType.canContainImprovement(tile.getTileType(), improvementType);
     }
 
@@ -185,7 +186,8 @@ public class GameController {
             unfinishedTasks.add(new Tasks(null, TaskTypes.TECHNOLOGY_PROJECT));
     }
 
-    private static boolean secondForOpenArea(int i, Tile tile, Civilization civilization, Unit unit, boolean isThereAnyEnemy) {
+    private static boolean secondForOpenArea(int i, Tile tile, Civilization civilization,
+                                             Unit unit, boolean isThereAnyEnemy) {
         for (int j = 0; j < 6; j++) {
             if (tile.getNeighbours(i).getNeighbours(j) == null)
                 continue;
@@ -256,7 +258,8 @@ public class GameController {
         for (Unit unit : selectedCity.getHalfProducedUnits())
             if (unit.getRemainedCost() != 0 && unit.getUnitType() == tempType) {
                 selectedCity.setProduct(unit);
-                GameController.deleteFromUnfinishedTasks(new Tasks(selectedCity.getMainTile(), TaskTypes.CITY_PRODUCTION));
+                GameController.deleteFromUnfinishedTasks(new Tasks(selectedCity.getMainTile(),
+                        TaskTypes.CITY_PRODUCTION));
                 return;
             }
         if (tempType.combatType == CombatType.CIVILIAN) {
@@ -286,9 +289,12 @@ public class GameController {
         if (selectedCity == null) return 2;
         if (selectedCity.getCivilization() != civilizations.get(playerTurn)) return 3;
         if (tempType.getResourcesType() != null &&
-                (!civilizations.get(playerTurn).getResourcesAmount().containsKey(tempType.getResourcesType()) ||
-                        (civilizations.get(playerTurn).getResourcesAmount().containsKey(tempType.getResourcesType()) &&
-                                civilizations.get(playerTurn).getResourcesAmount().get(tempType.getResourcesType()) == 0)))
+                (!civilizations.get(playerTurn).getResourcesAmount()
+                        .containsKey(tempType.getResourcesType()) ||
+                        (civilizations.get(playerTurn).getResourcesAmount()
+                                .containsKey(tempType.getResourcesType()) &&
+                                civilizations.get(playerTurn)
+                                        .getResourcesAmount().get(tempType.getResourcesType()) == 0)))
             return 5;
         if (civilizations.get(playerTurn).doesContainTechnology(tempType.getTechnologyRequired()) != 1)
             return 6;

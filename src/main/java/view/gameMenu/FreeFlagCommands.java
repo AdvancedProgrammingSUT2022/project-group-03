@@ -10,10 +10,12 @@ public class FreeFlagCommands {
                 if (GameController.nextTurnIfYouCan())
                     System.out.println("turn ended successfully");
                 else {
-                    System.out.print("failed to end the turn: " + GameController.getUnfinishedTasks().get(0).getTaskTypes());
+                    System.out.print("failed to end the turn: " +
+                            GameController.getUnfinishedTasks().get(0).getTaskTypes());
                     if (GameController.getUnfinishedTasks().get(0).getTile() == null)
                         System.out.println();
-                    else System.out.println(" | x: " + GameController.getUnfinishedTasks().get(0).getTile().getX() +
+                    else System.out.println(" | x: " +
+                            GameController.getUnfinishedTasks().get(0).getTile().getX() +
                             " y: " + GameController.getUnfinishedTasks().get(0).getTile().getY());
                 }
                 return 3;

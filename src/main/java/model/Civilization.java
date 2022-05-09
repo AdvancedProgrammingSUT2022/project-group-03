@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class Civilization {
     public static class TileCondition {
-        private Tile openedArea;
+        private final Tile openedArea;
         private boolean isClear;
 
         public TileCondition(Tile tile, boolean isClear) {
@@ -42,7 +42,6 @@ public class Civilization {
     private final ArrayList<Unit> units = new ArrayList<>();
     private final ArrayList<Technology> researches = new ArrayList<>();
     private final ArrayList<City> cities = new ArrayList<>();
-    private int science;
     private int happiness;
     private final HashMap<ResourcesTypes, Integer> resourcesAmount = new HashMap<>();
     private Technology gettingResearchedTechnology;
@@ -97,10 +96,6 @@ public class Civilization {
                     tileConditions[i][j].isClear = false;
     }
 
-    public int getScience() {
-        return science;
-    }
-
     public ArrayList<City> getCities() {
         return cities;
     }
@@ -135,7 +130,7 @@ public class Civilization {
         turnOffTileConditionsBoolean();
         usedLuxuryResources = new HashMap<>();
         for (City city : cities)
-            if(city.getAnxiety() > 0) happiness-=2;
+            if (city.getAnxiety() > 0) happiness -= 2;
         for (int i = 0; i < ResourcesTypes.VALUES.size(); i++)
             if (ResourcesTypes.VALUES.get(i).getResourcesCategory() == ResourcesCategory.LUXURY &&
                     resourcesAmount.containsKey(ResourcesTypes.VALUES.get(i))) {
@@ -150,17 +145,13 @@ public class Civilization {
         }
         for (City city : cities)
             city.collectFood();
-        science = collectScience();
+        int science = collectScience();
         for (Unit unit : units) unit.startTheTurn();
         gold -= units.size();
         if (gold < 0)
             gold = 0;
         if (gettingResearchedTechnology != null) {
-            int tempRemaining = gettingResearchedTechnology.getRemainedCost();
             getGettingResearchedTechnology().changeRemainedCost(-science);
-            science -= tempRemaining;
-            if (science <= 0)
-                science = 0;
             if (gettingResearchedTechnology.getRemainedCost() <= 0) {
                 gettingResearchedTechnology.setRemainedCost(0);
                 gettingResearchedTechnology = null;
@@ -197,12 +188,12 @@ public class Civilization {
         if (doesContainTechnology(technologyType) != 3)
             return false;
         for (int i = 0; i < TechnologyType.prerequisites.get(technologyType).size(); i++)
-            if (!canTechnologyBeAchivedNext(i, technologyType))
+            if (!canTechnologyBeAchievedNext(i, technologyType))
                 return false;
         return true;
     }
 
-    private boolean canTechnologyBeAchivedNext(int j, TechnologyType technologyType) {
+    private boolean canTechnologyBeAchievedNext(int j, TechnologyType technologyType) {
         for (Technology research : researches)
             if (research.getTechnologyType() == TechnologyType.prerequisites.get(technologyType).get(j))
                 return true;
@@ -214,7 +205,7 @@ public class Civilization {
     }
 
     public int doesContainTechnology(TechnologyType technologyType) {
-        if(technologyType==null)
+        if (technologyType == null)
             return 1;
         for (Technology research : researches)
             if (research.getTechnologyType() == technologyType) {
