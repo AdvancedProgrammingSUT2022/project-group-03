@@ -6,13 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataBase/users.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/CheatCommandsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/CheatCommandsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/CityCommandsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/CityCommandsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/TileXAndYFlagSelectUnitController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/TileXAndYFlagSelectUnitController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/UnitStateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/UnitStateController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Civilization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/ChooseTechnology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/ChooseTechnology.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/CivilizationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/CivilizationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/CheatCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/CheatCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/CityCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/CityCommands.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +50,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager" selected="JUnit.All in Civilization">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Civilization" />
@@ -69,8 +68,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.All in Civilization" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.All in Civilization" />
       </list>
     </recent_temporary>
   </component>
@@ -83,7 +82,7 @@
       <option name="presentableId" value="Default" />
       <updated>1652195146173</updated>
       <workItem from="1652195148568" duration="1316000" />
-      <workItem from="1652203693785" duration="6228000" />
+      <workItem from="1652203693785" duration="8104000" />
     </task>
     <servers />
   </component>
@@ -117,6 +116,6 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/project_group_03$All_in_Civilization.ic" NAME="All in Civilization Coverage Results" MODIFIED="1652210252480" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/project_group_03$All_in_Civilization.ic" NAME="All in Civilization Coverage Results" MODIFIED="1652210399997" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

@@ -18,10 +18,8 @@ public class CityCommandsController {
         if (GameController.getSelectedCity().getCivilization() != GameController
                 .getCivilizations().get(GameController.getPlayerTurn()))
             return 2;
-        if (originX < 0 || originY < 0 ||
-                destinationY < 0 || destinationX < 0 ||
-                originX > GameController.getMap().getX() || originY > GameController.getMap().getY() ||
-                destinationX > GameController.getMap().getX() || destinationY > GameController.getMap().getY())
+        if (GameController.getMap().coordinatesToTile(originX,originY)==null ||
+        GameController.getMap().coordinatesToTile(destinationX,destinationY)==null)
             return 1;
         if (GameController.getSelectedCity()
                 .assignCitizenToTiles(GameController.getMap().coordinatesToTile(originX, originY),
@@ -35,9 +33,7 @@ public class CityCommandsController {
         if (GameController.getSelectedCity().getCivilization() !=
                 GameController.getCivilizations().get(GameController.getPlayerTurn()))
             return 2;
-        if (destinationY < 0 || destinationX < 0 ||
-                destinationX > GameController.getMap().getX() ||
-                destinationY > GameController.getMap().getY())
+        if (GameController.getMap().coordinatesToTile(destinationX,destinationY)==null)
             return 1;
         if (GameController.getSelectedCity().assignCitizenToTiles(null,
                 GameController.getMap().coordinatesToTile(destinationX, destinationY))) return 0;
@@ -45,7 +41,7 @@ public class CityCommandsController {
     }
 
     public static int buyTile(int x, int y) {
-        if (x < 0 || y < 0 || x >= GameController.getMap().getX() || y > GameController.getMap().getY()) return 2;
+        if (GameController.getMap().coordinatesToTile(x,y)==null) return 2;
         if (GameController.getSelectedCity() == null ||
                 GameController.getSelectedCity().getCivilization() != GameController
                         .getCivilizations().get(GameController.getPlayerTurn()))
@@ -85,9 +81,7 @@ public class CityCommandsController {
         if (GameController.getSelectedCity() == null) return 1;
         if (GameController.getSelectedCity().getCivilization() != GameController.getCivilizations()
                 .get(GameController.getPlayerTurn())) return 2;
-        if (x < 0 || y < 0 || x >= GameController.getMap().getX() ||
-                y > GameController.getMap().getY() ||
-                GameController.getMap().coordinatesToTile(x, y) == null) return 3;
+        if (GameController.getMap().coordinatesToTile(x, y) == null) return 3;
         if (GameController.getMap().coordinatesToTile(x, y).getNonCivilian() == null)
             return 4;
         if (GameController.getMap().coordinatesToTile(x, y).getNonCivilian().getCivilization() ==
@@ -118,6 +112,8 @@ public class CityCommandsController {
         UnitType unitType = UnitType.stringToEnum(string);
         if (unitType == null) return 1;
         Tile tile = GameController.getMap().coordinatesToTile(x, y);
+        if(tile==null)
+            return 5;
         if (tile.getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
             return 2;
         if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getGold() < unitType.getCost())

@@ -14,8 +14,8 @@ import model.tiles.TileType;
 
 public class UnitStateController {
     public static boolean unitMoveTo(int x, int y) {
-        if (GameController.getSelectedUnit() == null || x < 0 || y < 0 ||
-                x >= GameController.getMap().getX() || y > GameController.getMap().getY() ||
+        if (GameController.getSelectedUnit() == null ||
+                GameController.getMap().coordinatesToTile(x,y)==null ||
                 GameController.getCivilizations().get(GameController.getPlayerTurn()) !=
                         GameController.getSelectedUnit().getCivilization() ||
                 GameController.getMap().coordinatesToTile(x, y).getTileType() == TileType.OCEAN ||
@@ -267,8 +267,7 @@ public class UnitStateController {
                 .get(GameController.getPlayerTurn())) return 2;
         if (!(GameController.getSelectedUnit() instanceof NonCivilian)) return 3;
         if (((NonCivilian) GameController.getSelectedUnit()).attacked) return 8;
-        if (x < 0 || y < 0 || x >= GameController.getMap().getX() ||
-                y >= GameController.getMap().getY()) return 4;
+        if (GameController.getMap().coordinatesToTile(x,y)==null) return 4;
         if (GameController.getSelectedUnit().getUnitType().combatType == CombatType.SIEGE &&
                 (GameController.getSelectedUnit().getState() != UnitState.SETUP ||
                         ((NonCivilian) GameController.getSelectedUnit()).getFortifiedCycle() < 1))

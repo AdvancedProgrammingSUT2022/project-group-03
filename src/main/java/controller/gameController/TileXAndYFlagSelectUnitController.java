@@ -4,7 +4,8 @@ import model.City;
 
 public class TileXAndYFlagSelectUnitController {
     public static boolean setSelectedNonCivilian(int x, int y) {
-        if (GameController.getMap().coordinatesToTile(x, y).getNonCivilian() == null)
+        if (GameController.getMap().coordinatesToTile(x, y)==null ||
+                GameController.getMap().coordinatesToTile(x, y).getNonCivilian() == null)
             return false;
         GameController.setSelectedUnit(GameController.getMap()
                 .coordinatesToTile(x, y).getNonCivilian());
@@ -12,7 +13,8 @@ public class TileXAndYFlagSelectUnitController {
     }
 
     public static boolean setSelectedCivilian(int x, int y) {
-        if (GameController.getMap().coordinatesToTile(x, y).getCivilian() == null) return false;
+        if (GameController.getMap().coordinatesToTile(x, y)==null ||
+                GameController.getMap().coordinatesToTile(x, y).getCivilian() == null) return false;
         GameController.setSelectedUnit(GameController.getMap()
                 .coordinatesToTile(x, y).getCivilian());
         return true;
@@ -26,7 +28,8 @@ public class TileXAndYFlagSelectUnitController {
     }
 
     public static boolean setSelectedCityByPosition(int x, int y) {
-        if (GameController.getMap().coordinatesToTile(x, y).getCity() != null) {
+        if (GameController.getMap().coordinatesToTile(x, y)!=null &&
+                GameController.getMap().coordinatesToTile(x, y).getCity() != null) {
             GameController.setSelectedCity(GameController
                     .getMap().coordinatesToTile(x, y).getCity());
             return true;
