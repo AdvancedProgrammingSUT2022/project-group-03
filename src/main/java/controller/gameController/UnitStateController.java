@@ -164,6 +164,9 @@ public class UnitStateController {
                 (new Improvement(improvementType,
                         GameController.getSelectedUnit().getCurrentTile()));
         GameController.getSelectedUnit().setState(UnitState.BUILDING);
+        GameController.getCivilizations().get(GameController.getPlayerTurn())
+                .putNotification(GameController.getSelectedCity().getName() + ": " +
+                        improvementType + "'s production started, cycle: ",GameController.getCycle());
         return 0;
     }
 
@@ -183,6 +186,10 @@ public class UnitStateController {
                 (new Improvement(ImprovementType.ROAD,
                         GameController.getSelectedUnit().getCurrentTile()));
         GameController.getSelectedUnit().setState(UnitState.BUILDING);
+        GameController.getCivilizations().get(GameController.getPlayerTurn())
+                .putNotification(GameController.getSelectedCity().getName() + ": " +
+                        ImprovementType.ROAD + "'s production started, cycle: "
+                        ,GameController.getCycle());
         return 0;
     }
 
@@ -205,6 +212,10 @@ public class UnitStateController {
                 (new Improvement(ImprovementType.RAILROAD,
                         GameController.getSelectedUnit().getCurrentTile()));
         GameController.getSelectedUnit().setState(UnitState.BUILDING);
+        GameController.getCivilizations().get(GameController.getPlayerTurn())
+                .putNotification(GameController.getSelectedCity().getName() + ": " +
+                                ImprovementType.RAILROAD + "'s production started, cycle: "
+                        ,GameController.getCycle());
         return 0;
     }
 

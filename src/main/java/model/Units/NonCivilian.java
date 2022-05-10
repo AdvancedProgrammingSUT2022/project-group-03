@@ -43,7 +43,7 @@ public class NonCivilian extends Unit implements CanAttack {
         else return;
         double ratio = calculateRatio(target);
         attacked = true;
-        target.takeDamage(calculateDamage(ratio));
+        target.takeDamage(calculateDamage(ratio),civilization);
         GameController.openNewArea(tile, civilization, null);
         state = UnitState.AWAKE;
         destinationTile = null;

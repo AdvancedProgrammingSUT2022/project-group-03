@@ -8,6 +8,10 @@ import model.features.FeatureType;
 import model.Producible;
 import model.improvements.ImprovementType;
 import model.tiles.Tile;
+import view.gameMenu.Color;
+
+import javax.swing.text.View;
+import java.awt.*;
 
 public abstract class Unit implements Producible, CanGetAttacked {
     protected Civilization civilization;
@@ -31,6 +35,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
     public boolean checkToDestroy() {
         if (health <= 0) {
             civilization.getUnits().remove(this);
+            this.civilization.putNotification("unit died",GameController.getCycle());
             if (this instanceof NonCivilian)
                 currentTile.setNonCivilian(null);
             else currentTile.setCivilian(null);
@@ -91,6 +96,10 @@ public abstract class Unit implements Producible, CanGetAttacked {
                         .getRemainedCost() - 1);
         if (currentTile.getImprovement().getRemainedCost() == 0) {
             state = UnitState.AWAKE;
+            GameController.getCivilizations().get(GameController.getPlayerTurn())
+                    .putNotification(GameController.getSelectedCity().getName() + ": " +
+                            currentTile.getImprovement().getImprovementType() +
+                            "'s production ended, cycle: ",GameController.getCycle());
             if ((currentTile.getImprovement().getImprovementType() == ImprovementType.FARM
                     || currentTile.getImprovement().getImprovementType() == ImprovementType.MINE) &&
                     currentTile.getContainedFeature() != null &&
@@ -104,7 +113,13 @@ public abstract class Unit implements Producible, CanGetAttacked {
     private void workerBuildRoadProgress() {
         currentTile.getRoad().setRemainedCost(currentTile.getRoad().getRemainedCost() - 1);
         if (currentTile.getRoad().getRemainedCost() == 0)
+        {
             state = UnitState.AWAKE;
+            GameController.getCivilizations().get(GameController.getPlayerTurn())
+                    .putNotification(GameController.getSelectedCity().getName() + ": " +
+                            currentTile.getRoad().getImprovementType() +
+                            "'s production ended, cycle: ",GameController.getCycle());
+        }
     }
 
     private void workerRemoveProgress() {
@@ -263,8 +278,11 @@ public abstract class Unit implements Producible, CanGetAttacked {
     public void attack(Tile tile) {
     }
 
-    public void takeDamage(int amount) {
+    public void takeDamage(int amount,Civilization civilization) {
         health -= amount;
+        civilization.putNotification(unitType+ " @ "+ currentTile.getX() + " , "+ currentTile.getY()  + " : " +
+                "oopsy woopsy you just got smashed by"+ Color.getColorByNumber(civilization.getColor())
+                + civilization.getUser().getNickname() + Color.RESET ,GameController.getCycle());
     }
 
     public void setState(UnitState state) {

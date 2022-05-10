@@ -8,6 +8,8 @@ import model.resources.ResourcesCategory;
 import model.resources.ResourcesTypes;
 import model.tiles.Tile;
 import model.tiles.TileType;
+import view.gameMenu.Color;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -224,6 +226,9 @@ public class City implements CanAttack, CanGetAttacked {
                     if (((Building) product).getBuildingType() == BuildingType.WALL)
                         wall = ((Building) product);
                 }
+                GameController.getCivilizations().get(GameController.getPlayerTurn())
+                        .putNotification(this.name + ": " +
+                        product.getName() + "'s production ended, cycle: ",GameController.getCycle());
                 product = null;
             }
         }
@@ -315,11 +320,11 @@ public class City implements CanAttack, CanGetAttacked {
     public void attack(Tile tile) {
         if (tile.getNonCivilian() != null) {
             tile.getNonCivilian().takeDamage(calculateDamage(getCombatStrength(true) /
-                    tile.getNonCivilian().getCombatStrength(false)));
+                    tile.getNonCivilian().getCombatStrength(false)),civilization);
             tile.getNonCivilian().checkToDestroy();
         } else {
             tile.getCivilian().takeDamage(calculateDamage(getCombatStrength(true) /
-                    tile.getCivilian().getCombatStrength(false)));
+                    tile.getCivilian().getCombatStrength(false)),civilization);
             tile.getCivilian().checkToDestroy();
         }
 
@@ -403,7 +408,11 @@ public class City implements CanAttack, CanGetAttacked {
     }
 
     public void destroy(Civilization civilization) {
-        civilization.getCities().remove(this);
+        this.civilization.putNotification("The "+Color.getColorByNumber(civilization.getColor())
+                + civilization.getUser().getNickname() + Color.RESET
+                + " dudes burned your city " + name,GameController.getCycle());
+        civilization.putNotification("You burned "+name+" successfully",GameController.getCycle());
+        this.civilization.getCities().remove(this);
         for (Tile tile : tiles) {
             tile.setImprovement(null);
             tile.setCivilization(null);
@@ -418,6 +427,10 @@ public class City implements CanAttack, CanGetAttacked {
     public void changeCivilization(Civilization civilization) {
         HP = 25;
         anxiety = 5;
+        this.civilization.putNotification("The "+Color.getColorByNumber(civilization.getColor())
+                + civilization.getUser().getNickname() + Color.RESET
+                + " dudes captured your city " + name,GameController.getCycle());
+        civilization.putNotification("You captured "+name+" successfully",GameController.getCycle());
         for (Tile tile : tiles) tile.setCivilization(civilization);
         for (Tile tile : tiles) {
             GameController.openNewArea(tile,this.civilization,null);
@@ -441,8 +454,11 @@ public class City implements CanAttack, CanGetAttacked {
 
     }
 
-    public void takeDamage(int amount) {
+    public void takeDamage(int amount,Civilization civilization) {
         HP -= amount;
+        civilization.putNotification(name+ " @ "+ mainTile.getX() + " , "+ mainTile.getY()  + " : " +
+                "oopsy woopsy you just got smashed by"+ Color.getColorByNumber(civilization.getColor())
+                + civilization.getUser().getNickname() + Color.RESET ,GameController.getCycle());
     }
 
     public void setProduct(Producible product) {

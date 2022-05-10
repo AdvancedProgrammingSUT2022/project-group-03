@@ -11,6 +11,8 @@ import model.resources.ResourcesTypes;
 import model.technologies.Technology;
 import view.Runnable;
 
+import java.util.ArrayList;
+
 public class InfoCommands {
 
     static class InnerClass implements Runnable {
@@ -22,7 +24,9 @@ public class InfoCommands {
         @Parameter(names = {"selected", "s"},
                 description = "Id of the Customer who's using the services")
         boolean selected = false;
-
+        @Parameter(names = {"value", "-v"},
+                description = "value of the entry")
+        int value = -1989;
         public int run(String name) {
             switch (info) {
                 case "researches", "r":
@@ -45,6 +49,10 @@ public class InfoCommands {
                 case "military", "m":
                     GameMenu.printMilitaryOverview();
                     return 3;
+                case "notification", "n":
+                    if(value!=-1989)
+                        infoNotifications(value);
+                    break;
                 default:
                     System.out.println("invalid command");
             }
@@ -122,5 +130,19 @@ public class InfoCommands {
             if (v)
                 System.out.print(k + " |");
         });
+    }
+
+    private static void infoNotifications(int cycles)
+    {
+        for(int i = GameController.getCycle();i>GameController.getCycle()-cycles;i--)
+        {
+            if(!GameController.getCivilizations()
+                    .get(GameController.getPlayerTurn()).getNotifications().containsKey(i))
+                continue;
+            ArrayList<String> strings = GameController.getCivilizations()
+                    .get(GameController.getPlayerTurn()).getNotifications().get(i);
+            for (String string : strings)
+                System.out.println(i + ". " + string);
+        }
     }
 }

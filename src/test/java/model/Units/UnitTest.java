@@ -149,7 +149,7 @@ class UnitTest {
     @Test
     void takeDamage() {
         int health = civilian.health;
-        civilian.takeDamage(3);
+        civilian.takeDamage(3,civilization);
         assertEquals(health-3,civilian.getHealth());
     }
 

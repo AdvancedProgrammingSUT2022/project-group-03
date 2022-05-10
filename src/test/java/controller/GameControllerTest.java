@@ -700,7 +700,7 @@ class GameControllerTest {
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
         GameController.getCivilizations().add(civilization);
         GameController.setSelectedCity(city);
-        city.takeDamage(city.getHP());
+        city.takeDamage(city.getHP(),civilization);
         assertEquals(0,CityCommandsController.cityDestiny(true));
         assertEquals(0,CityCommandsController.cityDestiny(false));
 

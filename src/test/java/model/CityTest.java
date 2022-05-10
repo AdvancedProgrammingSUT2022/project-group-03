@@ -258,7 +258,7 @@ class CityTest {
     @Test
     void checkToDestroy() {
         assertFalse(city.checkToDestroy());
-        city.takeDamage(city.getHP());
+        city.takeDamage(city.getHP(),civilization);
         NonCivilian nonCivilian = new NonCivilian(tile, civilization, UnitType.SETTLER);
         tile.setNonCivilian(nonCivilian);
         nonCivilian.setState(UnitState.GARRISON);
@@ -298,7 +298,7 @@ class CityTest {
     @Test
     void takeDamage() {
         int hp = city.getHP();
-        city.takeDamage(2);
+        city.takeDamage(2,civilization);
         assertEquals(city.getHP(), hp - 2);
     }
 
