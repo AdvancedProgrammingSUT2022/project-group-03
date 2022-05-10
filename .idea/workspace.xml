@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/UnitStateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/UnitStateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/gameMenu/UnitStateView$InnerClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/gameMenu/UnitStateView$InnerClass.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -163,11 +166,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/view/gameMenu/InfoCommands.java</url>
           <line>51</line>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/view/gameMenu/InfoCommands.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java</url>
