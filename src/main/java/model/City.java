@@ -8,7 +8,6 @@ import model.resources.ResourcesCategory;
 import model.resources.ResourcesTypes;
 import model.tiles.Tile;
 import model.tiles.TileType;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
