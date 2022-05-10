@@ -3,6 +3,7 @@ package model.Units;
 import controller.gameController.GameController;
 import model.Civilization;
 import model.Map;
+import model.User;
 import model.features.Feature;
 import model.features.FeatureType;
 import model.improvements.Improvement;
@@ -16,6 +17,8 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,6 +30,8 @@ class UnitTest {
     Civilization civilization;
     @Mock
     Map map;
+    @Mock
+    User user;
     Tile tile = new Tile(TileType.FLAT,0,0);
     NonCivilian nonCivilian = new NonCivilian(tile,civilization,UnitType.ARCHER);
     Civilian civilian = new Civilian(tile,civilization,UnitType.SETTLER);
@@ -149,6 +154,7 @@ class UnitTest {
     @Test
     void takeDamage() {
         int health = civilian.health;
+        when(civilization.getUser()).thenReturn(user);
         civilian.takeDamage(3,civilization);
         assertEquals(health-3,civilian.getHealth());
     }
@@ -187,7 +193,12 @@ class UnitTest {
             civilian.startTheTurn();
             assertEquals(5,tile.getImprovement().getRemainedCost());
             tile.getImprovement().setRemainedCost(1);
+            GameController.getCivilizations().add(civilization);
+            ArrayList<Civilization> civilizations = new ArrayList<>();
+            civilizations.add(civilization);
+            when(GameController.getCivilizations()).thenReturn(civilizations);
             civilian.startTheTurn();
+            GameController.getCivilizations().remove(civilization);
             assertEquals(0,tile.getImprovement().getRemainedCost());
             tile.getImprovement().setNeedsRepair(1);
             civilian.state = UnitState.REPAIRING;

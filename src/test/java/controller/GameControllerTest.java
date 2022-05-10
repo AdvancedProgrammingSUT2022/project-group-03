@@ -127,10 +127,12 @@ class GameControllerTest {
         TileXAndYFlagSelectUnitController.setSelectedCityByName("randomName");
         assertEquals(1, CityCommandsController.assignCitizen(3,-4));
         assertEquals(1, CityCommandsController.reAssignCitizen(3,3,3,-4));
-        when(map.getX()).thenReturn(100);
-        when(map.getY()).thenReturn(100);
+//        when(map.getX()).thenReturn(100);
+//        when(map.getY()).thenReturn(100);
+        when(GameController.getMap().coordinatesToTile(3,3)).thenReturn(tile);
         assertEquals(4, CityCommandsController.assignCitizen(3,3));
         assertEquals(4, CityCommandsController.reAssignCitizen(3,3,3,3));
+
     }
 
     @Test
@@ -149,8 +151,8 @@ class GameControllerTest {
         GameController.getCivilizations().add(civilization);
         GameController.setSelectedUnit(civilian);
         GameController.setMap(map);
-        when(map.getY()).thenReturn(100);
-        when(map.getX()).thenReturn(100);
+//        when(map.getY()).thenReturn(100);
+//        when(map.getX()).thenReturn(100);
         assertFalse(UnitStateController.unitMoveTo(0, 0));
         when(civilian.getCivilization()).thenReturn(civilization);
         when(map.coordinatesToTile(0,0)).thenReturn(tile);
@@ -511,9 +513,10 @@ class GameControllerTest {
             GameController.getCivilizations().subList(0, GameController.getCivilizations().size()).clear();
         GameController.getCivilizations().add(civilization);
         assertEquals(2,CityCommandsController.buyTile(-2,-2));
-        when(map.getX()).thenReturn(100);
-        when(map.getY()).thenReturn(100);
+//        when(map.getX()).thenReturn(100);
+//        when(map.getY()).thenReturn(100);
         GameController.setMap(map);
+        when(GameController.getMap().coordinatesToTile(10,10)).thenReturn(tile);
         assertEquals(4, CityCommandsController.buyTile(10,10));
         GameController.setSelectedCity(city);
         when(city.getCivilization()).thenReturn(GameController.getCivilizations().get(0));
@@ -657,8 +660,8 @@ class GameControllerTest {
         GameController.setSelectedUnit(nonCivilian);
         GameController.setMap(map);
         when(map.coordinatesToTile(tile.getX(), tile.getY())).thenReturn(tile);
-        when(map.getX()).thenReturn(100);
-        when(map.getY()).thenReturn(100);
+//        when(map.getX()).thenReturn(100);
+//        when(map.getY()).thenReturn(100);
         when(nonCivilian.getCivilization()).thenReturn(civilization);
         when(nonCivilian.getUnitType()).thenReturn(UnitType.ARCHER);
         when(nonCivilian.move(tile,true)).thenReturn(true);
@@ -687,8 +690,6 @@ class GameControllerTest {
         GameController.setSelectedCity(city);
         when(city.getCivilization()).thenReturn(civilization);
         when(map.coordinatesToTile(tile.getX(), tile.getY())).thenReturn(tile);
-        when(map.getX()).thenReturn(100);
-        when(map.getY()).thenReturn(100);
         when(map.coordinatesToTile(tile.getX(), tile.getY()).getNonCivilian()).thenReturn(nonCivilian);
         when(map.isInRange(2,null,tile)).thenReturn(true);
         assertEquals(0,CityCommandsController.cityAttack(tile.getX(), tile.getY()));

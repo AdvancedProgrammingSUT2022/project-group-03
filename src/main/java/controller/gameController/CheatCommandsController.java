@@ -71,6 +71,8 @@ public class CheatCommandsController {
         if (x < 0 || y < 0 || x > GameController.getMap().getX() || y > GameController.getMap().getY())
             return 3;
         Tile tempTile = GameController.getMap().coordinatesToTile(x, y);
+        if(tempTile==null)
+            return 4;
         GameController.getSelectedUnit().setCurrentTile(GameController.getMap().coordinatesToTile(x, y));
         if (GameController.getSelectedUnit() instanceof Civilian)
             tempTile.setCivilian(GameController.getSelectedUnit());
@@ -105,6 +107,8 @@ public class CheatCommandsController {
     }
 
     public static int cheatUnit(int x, int y, UnitType unitType) {
+        if(GameController.getMap().coordinatesToTile(x, y)==null)
+            return 3;
         if (GameController.getMap().coordinatesToTile(x, y).getMovingPrice() > 123) return 1;
         if (unitType.combatType == CombatType.CIVILIAN) {
             if (GameController.getMap().coordinatesToTile(x, y).getCivilian() != null) return 2;

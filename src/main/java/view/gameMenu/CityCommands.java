@@ -110,7 +110,7 @@ public class CityCommands {
                 System.out.println("Already has an owner");
                 break;
             case 2:
-                System.out.println("Select valid tile");
+                System.out.println("out of bound");
                 break;
             case 3:
                 System.out.println("Don't go too far");
@@ -134,7 +134,7 @@ public class CityCommands {
                 System.out.println("Assigned successfully");
                 break;
             case 1:
-                System.out.println("Select valid tile");
+                System.out.println("Out of bound");
                 break;
             case 2:
                 System.out.println("Not your city");
@@ -160,7 +160,7 @@ public class CityCommands {
                 System.out.println("the selected city is not yours");
                 break;
             case 3:
-                System.out.println("the entered tile is not valid");
+                System.out.println("Out of bound");
                 break;
             case 4:
                 System.out.println("no nonCivilian is standing there");
@@ -238,6 +238,9 @@ public class CityCommands {
                 break;
             case 4:
                 System.out.println("the selected tile is occupied by another unit");
+                break;
+            case 5:
+                System.out.println("out of bound");
                 break;
         }
     }

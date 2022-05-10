@@ -156,8 +156,7 @@ public class Civilization {
             if (gettingResearchedTechnology.getRemainedCost() <= 0) {
                 gettingResearchedTechnology.setRemainedCost(0);
                 GameController.getCivilizations().get(GameController.getPlayerTurn())
-                        .putNotification(GameController.getSelectedCity() + ": " +
-                                gettingResearchedTechnology.getName() +
+                        .putNotification(gettingResearchedTechnology.getName() +
                                 "'s production ended successfully",GameController.getCycle());
                 gettingResearchedTechnology = null;
             }

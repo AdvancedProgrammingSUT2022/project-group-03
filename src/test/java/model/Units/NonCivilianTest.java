@@ -2,6 +2,7 @@ package model.Units;
 
 import model.City;
 import model.Civilization;
+import model.User;
 import model.improvements.Improvement;
 import model.improvements.ImprovementType;
 import model.tiles.Tile;
@@ -21,6 +22,8 @@ class NonCivilianTest {
     City city;
     @Mock
     Civilization civilization, civilization2;
+    @Mock
+    User user;
     NonCivilian nonCivilian,nonCivilian2;
 
     @Test
@@ -29,6 +32,10 @@ class NonCivilianTest {
         nonCivilian2 = new NonCivilian(tile2,civilization,UnitType.HORSEMAN);
         when(tile2.getNonCivilian()).thenReturn(nonCivilian2);
         when(civilization.getTileConditions()).thenReturn(new Civilization.TileCondition[20][20]);
+        when(civilization.getUser()).thenReturn(user);
+        when(user.getNickname()).thenReturn("I've got some tricks up my sleeve");
+        when(civilization.getUser()).thenReturn(user);
+        when(user.getNickname()).thenReturn("lord save me");
         nonCivilian.attack(tile2);
         nonCivilian = new NonCivilian(tile,civilization,UnitType.ANTI_TANK_GUN);
         nonCivilian2 = new NonCivilian(tile2,civilization,UnitType.TANK);

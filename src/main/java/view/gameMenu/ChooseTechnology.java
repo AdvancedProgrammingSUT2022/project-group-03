@@ -53,8 +53,7 @@ public class ChooseTechnology extends Menu {
         int entryNumber = Integer.parseInt(getMatcher(regexes[2], command, true).group(1));
         if (TechnologyAndProductionController
                 .addTechnologyToProduction(possibleTechnologies, entryNumber)) {
-            String string = GameController.getSelectedCity().getName() + ": " +
-                    possibleTechnologies.get(entryNumber - 1).getTechnologyType() +
+            String string = possibleTechnologies.get(entryNumber - 1).getTechnologyType() +
                     "'s production started successfully";
             System.out.println(string);
             GameController.getCivilizations().get(GameController.getPlayerTurn())

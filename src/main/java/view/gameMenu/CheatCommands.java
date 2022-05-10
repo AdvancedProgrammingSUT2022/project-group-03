@@ -146,6 +146,9 @@ public class CheatCommands {
             case 3:
                 System.out.println("invalid coordinates");
                 break;
+            case 4:
+                System.out.println("out of bound");
+                break;
         }
     }
 
@@ -174,6 +177,9 @@ public class CheatCommands {
                 break;
             case 2:
                 System.out.println("the selected tile is occupied by another unit");
+                break;
+            case 3:
+                System.out.println("out of bound");
                 break;
         }
     }
