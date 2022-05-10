@@ -16,6 +16,8 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -187,7 +189,12 @@ class UnitTest {
             civilian.startTheTurn();
             assertEquals(5,tile.getImprovement().getRemainedCost());
             tile.getImprovement().setRemainedCost(1);
+            GameController.getCivilizations().add(civilization);
+            ArrayList<Civilization> civilizations = new ArrayList<>();
+            civilizations.add(civilization);
+            when(GameController.getCivilizations()).thenReturn(civilizations);
             civilian.startTheTurn();
+            GameController.getCivilizations().remove(civilization);
             assertEquals(0,tile.getImprovement().getRemainedCost());
             tile.getImprovement().setNeedsRepair(1);
             civilian.state = UnitState.REPAIRING;

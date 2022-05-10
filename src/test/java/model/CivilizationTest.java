@@ -115,7 +115,9 @@ class CivilizationTest {
         civilization.setGettingResearchedTechnology(technology);
         civilization.getResourcesAmount().put(ResourcesTypes.GOLD,1);
         GameController.setMap(map);
+        GameController.getCivilizations().add(civilization);
         civilization.startTheTurn();
+        GameController.getCivilizations().remove(civilization);
 
 
     }

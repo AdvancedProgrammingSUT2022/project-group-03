@@ -92,8 +92,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
         if (currentTile.getImprovement().getRemainedCost() == 0) {
             state = UnitState.AWAKE;
             GameController.getCivilizations().get(GameController.getPlayerTurn())
-                    .putNotification(GameController.getSelectedCity().getName() + ": " +
-                            currentTile.getImprovement().getImprovementType() +
+                    .putNotification(currentTile.getImprovement().getImprovementType() +
                             "'s production ended, cycle: ",GameController.getCycle());
             if ((currentTile.getImprovement().getImprovementType() == ImprovementType.FARM
                     || currentTile.getImprovement().getImprovementType() == ImprovementType.MINE) &&
