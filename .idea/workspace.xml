@@ -5,28 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataBase/users.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/CityCommandsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/CityCommandsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/UnitStateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/UnitStateController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/CityTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/CityTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/gameController/CityCommandsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/gameController/CityCommandsController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Civilization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/ChooseTechnology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/ChooseTechnology.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/InfoCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/InfoCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/model/City.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/City.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$cityCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$cityCommands.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$mapCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$mapCommands.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$menuCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$menuCommands.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/gameMenu/CheatCommands$InnerClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/gameMenu/CheatCommands$InnerClass.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/gameMenu/InfoCommands$InnerClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/gameMenu/InfoCommands$InnerClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/gameMenu/UnitStateView$InnerClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/gameMenu/UnitStateView$InnerClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/CityTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/CityTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +23,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -88,12 +84,34 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1652195146173</updated>
-      <workItem from="1652195148568" duration="739000" />
+      <workItem from="1652195148568" duration="1316000" />
+      <workItem from="1652203693785" duration="4521000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/view/gameMenu/InfoCommands.java</url>
+          <line>135</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/view/gameMenu/InfoCommands.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/view/gameMenu/InfoCommands.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/project_group_03$All_in_Civilization.ic" NAME="All in Civilization Coverage Results" MODIFIED="1652195742692" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

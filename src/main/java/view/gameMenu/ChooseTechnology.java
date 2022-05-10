@@ -2,6 +2,7 @@ package view.gameMenu;
 
 
 import controller.TechnologyAndProductionController;
+import controller.gameController.GameController;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;
 import view.Menu;
@@ -52,8 +53,12 @@ public class ChooseTechnology extends Menu {
         int entryNumber = Integer.parseInt(getMatcher(regexes[2], command, true).group(1));
         if (TechnologyAndProductionController
                 .addTechnologyToProduction(possibleTechnologies, entryNumber)) {
-            System.out.println(possibleTechnologies.get(entryNumber - 1).getTechnologyType() +
-                    "'s production started successfully");
+            String string = GameController.getSelectedCity().getName() + ": " +
+                    possibleTechnologies.get(entryNumber - 1).getTechnologyType() +
+                    "'s production started successfully";
+            System.out.println(string);
+            GameController.getCivilizations().get(GameController.getPlayerTurn())
+                    .putNotification(string,GameController.getCycle());
             return true;
         }
         System.out.println("Invalid number");

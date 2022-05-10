@@ -19,9 +19,11 @@ public class GameController {
     static int startWindowX = 0;
     static int startWindowY = 0;
     private static int playerTurn = 0;
+    private static int cycle;
     private static ArrayList<Tasks> unfinishedTasks = new ArrayList<>();
 
     public static void startGame(ArrayList<User> PlayersNames) {
+        cycle = 1;
         setCivilizations(PlayersNames);
         map = new Map(civilizations);
         for (int i = 0; i < PlayersNames.size(); i++)
@@ -148,6 +150,8 @@ public class GameController {
             if (!isItTheEnd) nextTurn();
             return;
         }
+        if(playerTurn%civilizations.size()==0)
+            cycle++;
         civilizations.get(playerTurn).startTheTurn();
         setUnfinishedTasks();
         if (civilizations.get(playerTurn).getCities().size() != 0)
@@ -166,6 +170,11 @@ public class GameController {
             selectedCity = civilizations.get(playerTurn).getCities().get(0);
         if (civilizations.get(playerTurn).getUnits().size() != 0)
             selectedUnit = civilizations.get(playerTurn).getUnits().get(0);
+        if(GameController.getCivilizations()
+                .get(GameController.getPlayerTurn()).getNotifications().containsKey(cycle))
+            for (String string : GameController.getCivilizations()
+                    .get(GameController.getPlayerTurn()).getNotifications().get(cycle))
+                System.out.println(cycle + ". " + string);
     }
 
     public static void setUnfinishedTasks() {
@@ -281,6 +290,8 @@ public class GameController {
         }
         GameController.deleteFromUnfinishedTasks(new Tasks(selectedCity.getMainTile(),
                 TaskTypes.CITY_PRODUCTION));
+        civilizations.get(playerTurn).putNotification(selectedCity.getName() + ": " +
+                tempType + "'s production started",cycle);
     }
 
     public static int startProducingUnit(String productIcon) {
@@ -326,5 +337,9 @@ public class GameController {
 
     public static void setSelectedCity(City selectedCity) {
         GameController.selectedCity = selectedCity;
+    }
+
+    public static int getCycle() {
+        return cycle;
     }
 }

@@ -224,6 +224,9 @@ public class City implements CanAttack, CanGetAttacked {
                     if (((Building) product).getBuildingType() == BuildingType.WALL)
                         wall = ((Building) product);
                 }
+                GameController.getCivilizations().get(GameController.getPlayerTurn())
+                        .putNotification(this.name + ": " +
+                        product.getName() + "'s production ended, cycle: ",GameController.getCycle());
                 product = null;
             }
         }
