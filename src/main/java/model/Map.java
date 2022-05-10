@@ -826,7 +826,7 @@ public class Map {
     }
 
     private static Color setBackgroundColor(Civilization.TileCondition tileCondition) {
-        if (tileCondition == null)
+        if (tileCondition == null || !tileCondition.getIsClear())
             return Color.WHITE_BACKGROUND;
         else if (tileCondition.getOpenedArea().getCivilization() == null)
             return Color.BLACK_BACKGROUND_BRIGHT;

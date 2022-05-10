@@ -1,0 +1,1001 @@
+Index: src/main/java/view/MutatedLoginMenu.java
+===================================================================
+diff --git a/src/main/java/view/MutatedLoginMenu.java b/src/main/java/view/MutatedLoginMenu.java
+deleted file mode 100644
+--- a/src/main/java/view/MutatedLoginMenu.java	(revision 1e57a1ca7c144c6636562fd51358eb2fcb813395)
++++ /dev/null	(revision 1e57a1ca7c144c6636562fd51358eb2fcb813395)
+@@ -1,22 +0,0 @@
+-package view;
+-
+-import com.beust.jcommander.JCommander;
+-
+-public class MutatedLoginMenu extends MutatedMenu{
+-
+-    protected JCommander jCommander() {
+-        JCommander jCommander = new JCommander();
+-        jCommander.setAllowAbbreviatedOptions(true);
+-        jCommander.addCommand("city", new MutatedGameMenu.cityCommands());
+-        jCommander.addCommand("cheat", new MutatedGameMenu.cheatCommands());
+-        jCommander.addCommand("info", new MutatedGameMenu.infoCommands());
+-        jCommander.addCommand("map", new MutatedGameMenu.mapCommands());
+-        jCommander.addCommand("menu", new MutatedGameMenu.menuCommands());
+-        jCommander.addCommand("unit", new MutatedGameMenu.unitState());
+-        jCommander.addCommand("increase", new MutatedGameMenu.increase());
+-        jCommander.addCommand("select", new MutatedGameMenu.tileXAndYFlagSelectUnit());
+-        jCommander.addCommand("next-turn", new MutatedGameMenu.FreeFlagCommands());
+-        jCommander.addCommand("capture_city", new MutatedGameMenu.FreeFlagCommands());
+-        return jCommander;
+-    }
+-}
+Index: src/main/java/view/MutatedGameMenu.java
+===================================================================
+diff --git a/src/main/java/view/MutatedGameMenu.java b/src/main/java/view/MutatedGameMenu.java
+deleted file mode 100644
+--- a/src/main/java/view/MutatedGameMenu.java	(revision 1e57a1ca7c144c6636562fd51358eb2fcb813395)
++++ /dev/null	(revision 1e57a1ca7c144c6636562fd51358eb2fcb813395)
+@@ -1,921 +0,0 @@
+-package view;
+-
+-import com.beust.jcommander.JCommander;
+-import com.beust.jcommander.Parameter;
+-import controller.GameController;
+-import controller.TechnologyController;
+-import model.City;
+-import model.Civilization;
+-import model.Map;
+-import model.Units.Unit;
+-import model.Units.UnitType;
+-import model.improvements.ImprovementType;
+-import model.resources.ResourcesTypes;
+-import model.technologies.Technology;
+-
+-import java.util.ArrayList;
+-import java.util.Scanner;
+-import java.util.regex.Matcher;
+-
+-public class MutatedGameMenu extends MutatedMenu {
+-    static class FreeFlagCommands implements Runnable {
+-        public int run(String name) {
+-            switch (name) {
+-                case "next-turn":
+-                    if (GameController.nextTurnIfYouCan())
+-                        System.out.println("turn ended successfully");
+-                    else {
+-                        System.out.print("failed to end the turn: " + GameController.getUnfinishedTasks().get(0).getTaskTypes());
+-                        if (GameController.getUnfinishedTasks().get(0).getTile() == null)
+-                            System.out.println();
+-                        else System.out.println(" | x: " + GameController.getUnfinishedTasks().get(0).getTile().getX() +
+-                                " y: " + GameController.getUnfinishedTasks().get(0).getTile().getY());
+-                    }
+-                    return 3;
+-                default:
+-                    System.out.println("invalid command");
+-
+-            }
+-            return 3;
+-        }
+-
+-    }
+-
+-
+-
+-    static class tileXAndYFlagSelectUnit implements Runnable {
+-        @Parameter(names = {"--tilex", "-x"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        int x = -1989;
+-        @Parameter(names = {"--tiley", "-y"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        int y = -1989;
+-        @Parameter(names = {"--object", "-o"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = true)
+-        String type;
+-        @Parameter(names = {"--name", "-n"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        String name = "init";
+-
+-        public int run(String name) {
+-            if ((type.equals("noncivilian") || type.equals("ncu")) && x != -1989 && y != -1989) {
+-                if (GameController.setSelectedCombatUnit(x, y))
+-                    System.out.println("combat unit selected successfully");
+-                else
+-                    System.out.println("selection failed");
+-            } else if ((type.equals("civilian") || type.equals("cu")) && x != -1989 && y != -1989) {
+-                if (GameController.setSelectedNonCombatUnit(x, y))
+-                    System.out.println("noncombat unit selected successfully");
+-                else
+-                    System.out.println("selection failed");
+-            } else if ((type.equals("city") || type.equals("c")) && x != -1989 && y != -1989) {
+-                if (!GameController.setSelectedCityByPosition(x, y))
+-                    System.out.println("city does not exist");
+-                else
+-                    System.out.println("city selected successfully");
+-            } else if ((type.equals("city") || type.equals("c")) && !name.equals("init")) {
+-                if (!GameController.setSelectedCityByName(name))
+-                    System.out.println("city does not exist");
+-                else
+-                    System.out.println("city selected successfully");
+-            } else System.out.println("invalid command");
+-            return 3;
+-        }
+-
+-    }
+-
+-    static class increase implements Runnable {
+-        @Parameter(names = {"--amount", "-a"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = true)
+-        int amount;
+-        @Parameter(names = {"--type", "-t"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = true)
+-        String type;
+-
+-        public int run(String name) {
+-            if (type.equals("gold") || type.equals("g")) {
+-                GameController.getCivilizations().get(GameController.getPlayerTurn())
+-                        .increaseGold(amount);
+-                System.out.println("cheat activated successfully");
+-            } else if (type.equals("turn") || type.equals("t")) {
+-                for (int i = 0; i < amount * GameController.getCivilizations().size(); i++)
+-                    GameController.nextTurn();
+-                System.out.println("cheat activated successfully");
+-            } else System.out.println("invalid command");
+-            return 3;
+-        }
+-
+-
+-    }
+-
+-    static class unitState implements Runnable {
+-
+-        @Parameter(names = {"--state", "-s"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        String state = "init";
+-        @Parameter(names = {"do", "-d"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        String move = "init";
+-        @Parameter(names = {"--obj", "-o"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        String object = "init";
+-        @Parameter(names = {"--tilex", "-x"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        int x = -1989;
+-        @Parameter(names = {"--tiley", "-y"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        int y = -1989;
+-
+-        public int run(String name) {
+-            boolean choose = false;
+-            switch (state) {
+-                case "sleep":
+-                    switch (GameController.unitSleep()) {
+-                        case 0:
+-                            System.out.println("the selected unit has been set to sleep successfully");
+-                            return 3;
+-                        case 1:
+-                            System.out.println("no unit is selected");
+-                            return 3;
+-                        case 2:
+-                            System.out.println("the selected unit is not yours");
+-                            return 3;
+-                    }
+-                    return 3;
+-                case "alert":
+-                    switch (GameController.unitAlert()) {
+-                        case 0:
+-                            System.out.println("the selected unit has been set to alert successfully");
+-                            return 3;
+-                        case 1:
+-                            System.out.println("no unit is selected");
+-                            return 3;
+-                        case 2:
+-                            System.out.println("the selected unit is not yours");
+-                            return 3;
+-                        case 3:
+-                            System.out.println("you can't go to alert position when there is enemy around");
+-                            return 3;
+-                    }
+-                    return 3;
+-                case "fortify":
+-                    switch (GameController.unitFortify()) {
+-                        case 0:
+-                            System.out.println("the selected unit has been set to fortify successfully");
+-                            return 3;
+-                        case 1:
+-                            System.out.println("no unit is selected");
+-                            return 3;
+-                        case 2:
+-                            System.out.println("the selected unit is not yours");
+-                            return 3;
+-                    }
+-                    return 3;
+-                case "fortify_until_heal":
+-                    switch (GameController.unitFortifyUntilFullHealth()) {
+-                        case 0:
+-                            System.out.println("the selected unit has been set to fortifyUntilFullHealth successfully");
+-                            return 3;
+-                        case 1:
+-                            System.out.println("no unit is selected");
+-                            return 3;
+-                        case 2:
+-                            System.out.println("the selected unit is not yours");
+-                            return 3;
+-                    }
+-                    return 3;
+-                case "garrison":
+-                    switch (GameController.unitGarrison()) {
+-                        case 0:
+-                            System.out.println("the selected unit has been set to garrison successfully");
+-                            return 3;
+-                        case 1:
+-                            System.out.println("no unit is selected");
+-                            return 3;
+-                        case 2:
+-                            System.out.println("the selected unit is not yours");
+-                            return 3;
+-                    }
+-                    return 3;
+-                case "wake":
+-                    switch (GameController.unitWake()) {
+-                        case 0:
+-                            System.out.println("the selected unit has been awaken successfully");
+-                            return 3;
+-                        case 1:
+-                            System.out.println("no unit is selected");
+-                            return 3;
+-                        case 2:
+-                            System.out.println("the selected unit is not yours");
+-                            return 3;
+-                        case 3:
+-                            System.out.println("the selected unit is already awake");
+-                            return 3;
+-                    }
+-                    return 3;
+-                case "init":
+-                    switch (move) {
+-                        case "init":
+-                            System.out.println("invalid command");
+-                            return 3;
+-                        case "moveto":
+-                            if (x == -1989 || y == -1989) System.out.println("This command needs x and y");
+-                            else {
+-                                if (GameController.unitMoveTo(x, y))
+-                                    System.out.println("Moved successfully");
+-                                else
+-                                    System.out.println("Moving failed");
+-                                return 3;
+-                            }
+-                            return 3;
+-                        case "attack":
+-                            if (x == -1989 || y == -1989) System.out.println("This command needs x and y");
+-                            else {
+-                                switch (GameController.unitAttack(x, y)) {
+-                                    case 0:
+-                                        System.out.println("Attacked successfully");
+-                                        break;
+-                                    case 1:
+-                                        System.out.println("There is nothing to attack");
+-                                        break;
+-                                    case 2:
+-                                        System.out.println("Out of bond tile");
+-                                        break;
+-                                    case 3:
+-                                        System.out.println("Select your unit first");
+-                                        break;
+-                                    case 4:
+-                                        System.out.println("Can't find a route");
+-                                }
+-                            }
+-                            return 3;
+-                        case "foundcity":
+-                            switch (GameController.unitWake()) {
+-                                case 0:
+-                                    System.out.println("the selected unit has been awaken successfully");
+-                                    return 3;
+-                                case 1:
+-                                    System.out.println("no unit is selected");
+-                                    return 3;
+-                                case 2:
+-                                    System.out.println("the selected unit is not yours");
+-                                    return 3;
+-                                case 3:
+-                                    System.out.println("the selected unit is already awake");
+-                                    return 3;
+-                            }
+-                            return 3;
+-                        case "pillage":
+-                            switch (GameController.unitPillage()) {
+-                                case 4:
+-                                    System.out.println("Select your unit first");
+-                                    break;
+-                                case 3:
+-                                    System.out.println("Nothing to pillage");
+-                                    break;
+-                                case 0:
+-                                    System.out.println("Pillaged successfully");
+-                            }
+-                            return 3;
+-                        case "skip":
+-                            switch (GameController.skipUnitTask()) {
+-                                case 0:
+-                                    System.out.println("task skipped successfully");
+-                                    return 3;
+-                                case 1:
+-                                    System.out.println("no unit is selected");
+-                                    return 3;
+-                                case 2:
+-                                    System.out.println("the selected unit is not yours");
+-                                    return 3;
+-                                case 3:
+-                                    System.out.println("the selected unit does not need a task");
+-                                    return 3;
+-                            }
+-                            return 3;
+-                        case "delete":
+-                            switch (GameController.unitDelete(GameController.getSelectedUnit())) {
+-                                case 0:
+-                                    System.out.println("the selected unit has been deleted successfully");
+-                                    return 3;
+-                                case 1:
+-                                    System.out.println("no unit is selected");
+-                                    return 3;
+-                                case 2:
+-                                    System.out.println("the selected unit is not yours");
+-                                    return 3;
+-                            }
+-                            return 3;
+-                        case "cancel_mission":
+-                            switch (GameController.unitCancelMission()) {
+-                                case 0:
+-                                    System.out.println("mission cancelled successfully");
+-                                    return 3;
+-                                case 1:
+-                                    System.out.println("not unit is selected");
+-                                    return 3;
+-                                case 2:
+-                                    System.out.println("the selected unit is not yours");
+-                                    return 3;
+-                                case 3:
+-                                    System.out.println("the selected unit has no missions");
+-                                    return 3;
+-                            }
+-                            return 3;
+-                        case "remove":
+-                            if (object.equals("jungle")) choose = true;
+-                            else if (object.equals("route")) choose = false;
+-                            else return 3;
+-                            switch (GameController.unitRemoveFromTile(choose)) {
+-                                case 0:
+-                                    System.out.println(object + "'s removal from the tile operation started successfully");
+-                                    return 3;
+-                                case 1:
+-                                    System.out.println("no unit is selected");
+-                                    return 3;
+-                                case 2:
+-                                    System.out.println("the selected unit is not yours");
+-                                    return 3;
+-                                case 3:
+-                                    System.out.println("the selected unit is not a worker");
+-                                    return 3;
+-                                case 4:
+-                                    System.out.println("the selected tile does not have a jungle");
+-                                    return 3;
+-                                case 5:
+-                                    System.out.println("the selected tile does not have any road or railroad");
+-                                    return 3;
+-                            }
+-                            return 3;
+-                        case "repair":
+-                            switch (GameController.unitRepair()) {
+-                                case 0:
+-                                    System.out.println("improvement repaired successfully");
+-                                    return 3;
+-                                case 1:
+-                                    System.out.println("no unit is selected");
+-                                    return 3;
+-                                case 2:
+-                                    System.out.println("the selected unit is not yours");
+-                                    return 3;
+-                                case 3:
+-                                    System.out.println("the selected unit is not a worker");
+-                                    return 3;
+-                                case 4:
+-                                    System.out.println("there are no improvements here");
+-                                    return 3;
+-                                case 5:
+-                                    System.out.println("the selected improvement does not need repairing");
+-                                    return 3;
+-                            }
+-                            return 3;
+-                        default:
+-                            System.out.println("invalid command");
+-
+-
+-                    }
+-                default:
+-                    System.out.println("invalid command");
+-
+-
+-            }
+-            return 3;
+-        }
+-
+-    }
+-
+-    static class menuCommands implements Runnable {
+-        @Parameter(names = {"exit"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        boolean exit = false;
+-        @Parameter(names = {"show-current"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        boolean show = false;
+-        @Parameter(names = {"enter"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        String nextmenu = "init";
+-
+-        public int run(String name) {
+-            if (exit && !show && nextmenu.equals("init")) {
+-                return 2;
+-            } else if (show && nextmenu.equals("init")) {
+-                System.out.println("Game Menu");
+-            } else if (nextmenu.equals("Technologies")) {
+-                if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0)
+-                    System.out.println("you need at least one city to enter the technology menu");
+-                else {
+-                    ChooseTechnology chooseTechnology = new ChooseTechnology();
+-                    chooseTechnology.printDetails();
+-                    chooseTechnology.run(scanner);
+-                }
+-            } else if (nextmenu.equals("CityProduction")) {
+-                if (GameController.getSelectedCity() == null)
+-                    System.out.println("no city is selected");
+-                else if (GameController.getSelectedCity().getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
+-                    System.out.println("the selected city is not yours");
+-                else {
+-                    ProductionCityMenu productionCityMenu = new ProductionCityMenu();
+-                    productionCityMenu.printDetails();
+-                    productionCityMenu.run(scanner);
+-                }
+-            } else {
+-                System.out.println("invalid command");
+-            }
+-            return 3;
+-        }
+-    }
+-
+-    static class mapCommands implements Runnable {
+-        @Parameter(names = {"print"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        boolean print = false;
+-        @Parameter(names = {"show"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        boolean show = false;
+-        @Parameter(names = {"--city", "-c"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        String city = "init";
+-        @Parameter(names = {"--tilex", "-x"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        int x = -1989;
+-        @Parameter(names = {"--tiley", "-y"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        int y = -1989;
+-        @Parameter(names = {"--direction", "-d"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        String dir = "init";
+-        @Parameter(names = {"move", "-m"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        boolean move = false;
+-        @Parameter(names = {"--amount", "-a"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        int amount = -1989;
+-
+-        public int run(String name) {
+-            if (print && !move && !show && city.equals("init")) {
+-                System.out.println(GameController.printMap());
+-            } else if (show && !city.equals("init") && (x == -1989 && y == -1989) && !move) {
+-                int result = GameController.mapShowCityName(city);
+-                if (result == 1)
+-                    System.out.println("no city with this name exists");
+-                if (result == 2)
+-                    System.out.println("you have not unlocked the position of this city yet");
+-                if (result == 0)
+-                    System.out.println("city selected successfully");
+-                System.out.println(GameController.printMap());
+-            } else if (show && !move && (x != -1989 && y != -1989)) {
+-                GameController.mapShowPosition(x - Map.WINDOW_X / 2,
+-                        y - Map.WINDOW_Y / 2 + 1);
+-                System.out.println(GameController.printMap());
+-            } else if (move) {
+-                if (dir.matches("[RULD]")) {
+-                    if (amount == -1989)
+-                        GameController.mapMove(1, dir);
+-                    else GameController.mapMove(amount, dir);
+-                    System.out.println("map moved successfully");
+-                }
+-            } else {
+-                System.out.println("invalid command");
+-            }
+-            return 3;
+-        }
+-    }
+-
+-    static class infoCommands implements Runnable {
+-        @Parameter(names = {"--type", "-t"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = true)
+-        String info = "init";
+-        @Parameter(names = {"selected", "s"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        boolean selected = false;
+-
+-        public int run(String name) {
+-            switch (info) {
+-                case "researches":
+-                case "r":
+-                    Technology technology =
+-                            GameController.getCivilizations().get(GameController.getPlayerTurn()).getGettingResearchedTechnology();
+-                    if (technology == null) {
+-                        System.out.println("you don't have any technology in the development right now");
+-                        return 3;
+-                    }
+-                    StringBuilder tempString;
+-                    tempString = new StringBuilder(technology.getTechnologyType() + ": (");
+-                    int cyclesToComplete = TechnologyController.cyclesToComplete(technology);
+-                    if (cyclesToComplete == 12345)
+-                        tempString.append("never, your science is 0)");
+-                    else
+-                        tempString.append(cyclesToComplete).append(" cycles to complete)");
+-                    System.out.println(tempString);
+-                    System.out.println("what unlocks after:");
+-                    for (int i = 0; i < UnitType.VALUES.size(); i++)
+-                        if (UnitType.VALUES.get(i).technologyRequired == technology.getTechnologyType())
+-                            System.out.print(UnitType.VALUES.get(i) + " |");
+-                    for (int i = 0; i < ResourcesTypes.VALUES.size(); i++)
+-                        if (ResourcesTypes.VALUES.get(i).technologyTypes == technology.getTechnologyType())
+-                            System.out.print(ResourcesTypes.VALUES.get(i) + " |");
+-                    for (int i = 0; i < ImprovementType.VALUES.size(); i++)
+-                        if (ImprovementType.VALUES.get(i).prerequisitesTechnologies == technology.getTechnologyType())
+-                            System.out.print(ImprovementType.VALUES.get(i) + " |");
+-                    System.out.println();
+-                    return 3;
+-                case "units":
+-                case "u":
+-                    if(selected){
+-                        if (GameController.getSelectedUnit() == null)
+-                            System.out.println("no unit selected");
+-                        else
+-                            printUnitInfo(GameController.getSelectedUnit());
+-                    }
+-                    else {
+-                        UnitsList unitsList = new UnitsList();
+-                        unitsList.printUnits();
+-                        unitsList.run(scanner);
+-                        return 3;
+-                    }
+-
+-                case "city":
+-                case "c":
+-                    CitiesList citiesList = new CitiesList();
+-                    citiesList.printCities();
+-                    citiesList.run(scanner);
+-                    return 3;
+-                case "economic":
+-                case "e":
+-                    for (City city : GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities())
+-                        CitiesList.cityBanner(city);
+-                    return 3;
+-                case "demographic":
+-                case "d":
+-                    Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
+-                    System.out.print("nickname: " + civilization.getUser().getNickname());
+-                    City capital = civilization.getCapital();
+-                    if (capital != null)
+-                        System.out.print(" | capital: " + capital.getName());
+-                    System.out.println(" | science: " + civilization.collectScience() +
+-                            " | happiness: " + civilization.getHappiness() +
+-                            " | gold: " + civilization.getGold() +
+-                            " | units: " + civilization.getUnits().size() +
+-                            " | size: " + civilization.getSize());
+-                    System.out.println("resources: ");
+-                    civilization.getResourcesAmount().forEach((k, v) -> {
+-                        if (v != 0)
+-                            System.out.println(k + ": " + v);
+-                    });
+-                    System.out.print("luxury resources: ");
+-                    civilization.getUsedLuxuryResources().forEach((k, v) -> {
+-                        if (v)
+-                            System.out.print(k + " |");
+-                    });
+-                    return 3;
+-                case "military":
+-                case "m":
+-                    printMilitaryOverview();
+-                    return 3;
+-                default:
+-                    System.out.println("invalid command");
+-
+-            }
+-            return 3;
+-        }
+-
+-    }
+-    public static void printMilitaryOverview() {
+-        ArrayList<Unit> units = GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits();
+-        for (Unit unit : units)
+-            printUnitInfo(unit);
+-        if (units.size() == 0)
+-            System.out.println("you don't have any units right now");
+-    }
+-    private static void printUnitInfo(Unit unit) {
+-        System.out.print(unit.getUnitType() +
+-                ": | Health: " + unit.getHealth() +
+-                " | currentX: " + unit.getCurrentTile().getX() +
+-                " | currentY: " + unit.getCurrentTile().getY() +
+-                " | defense Strength: " + unit.getCombatStrength(false) +
+-                " | attack Strength: " + unit.getCombatStrength(true) +
+-                " | movementPoint: " + unit.getMovementPrice());
+-        if (unit.getDestinationTile() != null)
+-            System.out.print(" | destinationX: " + unit.getDestinationTile().getX()
+-                    + " destinationY: " + unit.getDestinationTile().getY());
+-        System.out.println();
+-    }
+-
+-    static class cheatCommands implements Runnable {
+-        @Parameter(names = {"--amount", "-a"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        int amount = -1989;
+-        @Parameter(names = {"--object", "-o"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        String obj = "init";
+-        @Parameter(names = {"science", "-s"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        boolean science = false;
+-        @Parameter(names = {"production", "-p"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        boolean production = false;
+-        @Parameter(names = {"resource", "-r"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        boolean resource = false;
+-        @Parameter(names = {"create"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        String unit = "init";
+-        @Parameter(names = {"--tilex", "-x"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        int x = -1989;
+-        @Parameter(names = {"--tiley", "-y"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        int y = -1989;
+-
+-        public int run(String name) {
+-            if (science && amount != -1989) {
+-                GameController.cheatScience(amount);
+-            } else if (production && amount != -1989) {
+-                GameController.cheatProduction(amount);
+-            } else if (resource && amount != -1989 && !obj.equals("init")) {
+-                GameController.cheatResource(amount, ResourcesTypes.stringToEnum(obj));
+-            } else if (!unit.equals("init") && (x != -1989 && y != -1989)) {
+-                UnitType unitType = UnitType.stringToEnum(obj);
+-                GameController.cheatUnit(x, y, unitType);
+-            } else {
+-                System.out.println("invalid command");
+-            }
+-            return 3;
+-        }
+-
+-    }
+-
+-    static class cityCommands implements Runnable {
+-        @Parameter(names = {"show"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        String show = "init";
+-        @Parameter(names = {"start"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        String startProducing = "init";
+-        @Parameter(names = {"--type","-t"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        String type = "init";
+-        @Parameter(names = {"buy"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        String buy = "init";
+-        @Parameter(names = {"citizen"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        String citizen = "init";
+-        @Parameter(names = {"build"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        String build = "init";
+-        @Parameter(names = {"attack"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        boolean attack = false;
+-        @Parameter(names = {"burn"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        boolean burn = false;
+-        @Parameter(names = {"capture"},
+-                description = "Id of the Customer who's using the services",
+-                required = false)
+-        boolean capture = false;
+-
+-        @Parameter(names = {"--destinationx", "-dx"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        int dx;
+-        @Parameter(names = {"--destinationy", "-dy"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        int dy;
+-        @Parameter(names = {"--tilex", "-x"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        int ox =-1989;
+-        @Parameter(names = {"--tiley", "-y"},
+-                description = "Id of the Customer who's using the services",
+-                arity = 1,
+-                required = false)
+-        int oy = -1989;
+-        public int run(String name) {
+-            if(!show.equals("init")){
+-                City city = GameController.getSelectedCity();
+-                if (city == null) {
+-                    System.out.println("no city is selected");
+-                    return 3;
+-                }
+-                System.out.println("name: " + city.getName());
+-                System.out.println("founder: " + city.getFounder().getUser().getNickname());
+-                if (city.getCivilization() == GameController.getCivilizations().get(GameController.getPlayerTurn())) {
+-                    System.out.println("gold: " + city.getGold());
+-                    System.out.println("production: " + city.collectProduction());
+-                    System.out.println("food: " + city.collectFood());
+-                    System.out.println("population: " + city.getPopulation());
+-                    System.out.println("citizens: " + city.getCitizen());
+-                    System.out.print("getting worked on tiles: ");
+-                    for (int i = 0; i < city.getGettingWorkedOnByCitizensTiles().size(); i++)
+-                        System.out.print(city.getGettingWorkedOnByCitizensTiles().get(i).getX() + "," +
+-                                city.getGettingWorkedOnByCitizensTiles().get(i).getY() + "   |   ");
+-                    System.out.println("\nHP: " + city.getHP());
+-                    System.out.println("attack strength: " + city.getCombatStrength(true));
+-                    System.out.println("defence strength: " + city.getCombatStrength(false));
+-                }
+-
+-            }
+-            else if(startProducing.equals("producing")&& !type.equals("init")){
+-                int result = GameController.startProducingUnit(type);
+-                if (result == 0)
+-                    System.out.println("production started successfully");
+-                if (result == 1)
+-                    System.out.println("no product with this name is defined");
+-                if (result == 2)
+-                    System.out.println("no city is selected");
+-                if (result == 3)
+-                    System.out.println("the selected city is not yours");
+-                if (result == 4)
+-                    System.out.println("you don't have enough money");
+-            }
+-            else if((buy.equals("tile")|| buy.equals("t") && (ox != -1989 && oy != -1989))){
+-                switch (GameController.buyTile(ox, oy)) {
+-                    case 0:
+-                        System.out.println("Tile added successfully");
+-                        break;
+-                    case 1:
+-                        System.out.println("Already has an owner");
+-                        break;
+-                    case 2:
+-                        System.out.println("Select valid tile");
+-                        break;
+-                    case 3:
+-                        System.out.println("Don't go too far");
+-                        break;
+-                    case 4:
+-                        System.out.println("Select your city first");
+-                        break;
+-                    case 5:
+-                        System.out.println("Out of bond Tile");
+-                        break;
+-                }
+-            }
+-            else if(citizen.equals("work") &&(dx != -1989 && dy != -1989)){
+-                int x;
+-                if ((ox != -1989 && oy != -1989))
+-                    x = GameController.reAssignCitizen(ox,oy,dx,dy);
+-                else x = GameController.assignCitizen(dx,dy);
+-                switch (x) {
+-                    case 0:
+-                        System.out.println("Assigned successfully");
+-                        break;
+-                    case 1:
+-                        System.out.println("Select valid tile");
+-                        break;
+-                    case 2:
+-                        System.out.println("Not your city");
+-                        break;
+-                    case 3:
+-                        System.out.println("Select a city jackass");
+-                        break;
+-                    case 4:
+-                        System.out.println("Failed");
+-                        break;
+-                }
+-            }
+-            else if(burn){
+-                cityDestiny(true);
+-            }
+-            else if(capture){
+-                cityDestiny(false);
+-            }
+-            else if(attack && (dx != -1989 && dy != -1989)){
+-                switch (GameController.cityAttack(dx, dy)) {
+-                    case 0:
+-                        System.out.println("Attacked successfully");
+-                        break;
+-                    case 1:
+-                        System.out.println("Can not attack there");
+-                        break;
+-                    case 2:
+-                        System.out.println("Out of bond tile");
+-                        break;
+-                    case 3:
+-                        System.out.println("Select your city first");
+-                        break;
+-                    case 4:
+-                        System.out.println("Out of range");
+-                        break;
+-                    case 5:
+-                        System.out.println("Siege need setup before attack");
+-                        break;
+-                }
+-            }
+-            else if(build.equals("wall")) {
+-                int result = GameController.buildWall();
+-                if (result == 0)
+-                    System.out.println("wall's production started successfully");
+-                if (result == 1)
+-                    System.out.println("no city is selected");
+-                if (result == 2)
+-                    System.out.println("the selected city is not yours");
+-                if (result == 3)
+-                    System.out.println("the selected city already has a wall");
+-            }
+-            else System.out.println("invalid command");
+-            return 3;
+-
+-
+-        }
+-        private void cityDestiny(boolean burn) {
+-            switch (GameController.cityDestiny(burn)) {
+-                case 0:
+-                    if (burn) System.out.println("The city destroyed");
+-                    else System.out.println("The city captured");
+-                    break;
+-                case 1:
+-                    System.out.println("The city still standing");
+-                    break;
+-                case 2:
+-                    System.out.println("Select a surrendered city first");
+-                    break;
+-                case 3:
+-                    System.out.println("Can not burn a capital");
+-            }
+-        }
+-    }
+-
+-
+-    protected JCommander jCommander() {
+-        JCommander jCommander = new JCommander();
+-        jCommander.setAllowAbbreviatedOptions(true);
+-        jCommander.addCommand("city", new cityCommands());
+-        jCommander.addCommand("cheat", new cheatCommands());
+-        jCommander.addCommand("info", new infoCommands());
+-        jCommander.addCommand("map", new mapCommands());
+-        jCommander.addCommand("menu", new menuCommands());
+-        jCommander.addCommand("unit", new unitState());
+-        jCommander.addCommand("increase", new increase());
+-        jCommander.addCommand("select", new tileXAndYFlagSelectUnit());
+-        jCommander.addCommand("next-turn", new FreeFlagCommands());
+-        jCommander.addCommand("capture_city", new FreeFlagCommands());
+-        return jCommander;
+-    }
+-
+-
+-}
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"fedd4e93-c33f-48d0-945b-fd442c1faf9e\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/controller/GameController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/controller/GameController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/model/City.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/model/City.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/view/GameMenu.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/view/GameMenu.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/view/Menu.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/view/Menu.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/view/MutatedMenu.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/view/MutatedMenu.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/controller/GameController.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/controller/GameController.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/view/GameMenu$cheatCommands.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/view/GameMenu$cheatCommands.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/view/GameMenu$cityCommands.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/view/GameMenu$cityCommands.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/view/GameMenu$infoCommands.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/view/GameMenu$infoCommands.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/view/GameMenu$menuCommands.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/view/GameMenu$menuCommands.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/view/GameMenu.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/view/GameMenu.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/view/MutatedMenu.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/view/MutatedMenu.class\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Enum\" />\r\n        <option value=\"package.json\" />\r\n        <option value=\"AnnotationType\" />\r\n        <option value=\"JUnit5 Test Class\" />\r\n        <option value=\"Interface\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitSEFilterConfiguration\">\r\n    <file-type-list>\r\n      <filtered-out-file-type name=\"LOCAL_BRANCH\" />\r\n      <filtered-out-file-type name=\"REMOTE_BRANCH\" />\r\n      <filtered-out-file-type name=\"TAG\" />\r\n      <filtered-out-file-type name=\"COMMIT_BY_MESSAGE\" />\r\n    </file-type-list>\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"MavenImportPreferences\">\r\n    <option name=\"generalSettings\">\r\n      <MavenGeneralSettings>\r\n        <option name=\"useMavenConfig\" value=\"true\" />\r\n      </MavenGeneralSettings>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"283yGACvgKIht5IbqflopBPeoM6\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\r\n    <property name=\"SHARE_PROJECT_CONFIGURATION_FILES\" value=\"true\" />\r\n    <property name=\"TODO_SCOPE\" value=\"All Places\" />\r\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\r\n    <property name=\"com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary\" value=\"JUnit5\" />\r\n    <property name=\"com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5\" value=\"\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$\" />\r\n    <property name=\"nodejs_package_manager_path\" value=\"npm\" />\r\n    <property name=\"project.structure.last.edited\" value=\"Modules\" />\r\n    <property name=\"project.structure.proportion\" value=\"0.15\" />\r\n    <property name=\"project.structure.side.proportion\" value=\"0.2\" />\r\n    <property name=\"settings.editor.selected.configurable\" value=\"preferences.pluginManager\" />\r\n  </component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\user\\IdeaProjects\\untitled5\\src\\main\\java\\model\" />\r\n    </key>\r\n    <key name=\"CreateTestDialog.Recents.Supers\">\r\n      <recent name=\"\" />\r\n    </key>\r\n    <key name=\"MoveClassesOrPackagesDialog.RECENTS_KEY\">\r\n      <recent name=\"\" />\r\n    </key>\r\n    <key name=\"CreateTestDialog.RecentsKey\">\r\n      <recent name=\"model.Units\" />\r\n      <recent name=\"model\" />\r\n      <recent name=\"model.resources\" />\r\n      <recent name=\"model.improvements\" />\r\n      <recent name=\"model.features\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Application.Main\">\r\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"Main\" />\r\n      <module name=\"untitled5\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"ALTERNATIVE_JRE_PATH\" value=\"17\" />\r\n      <option name=\"ALTERNATIVE_JRE_PATH_ENABLED\" value=\"true\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"Main\" />\r\n      <module name=\"Civilization\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"MutatedGameMenu\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"view.MutatedGameMenu\" />\r\n      <module name=\"untitled5\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"view.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"CityTest.attack\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Civilization\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"view.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"model\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"model.CityTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"attack\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"CityTest.getGold\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Civilization\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"model.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"model\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"model.CityTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"getGold\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"CityTest.startTheTurn\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Civilization\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"model.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"model\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"model.CityTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"startTheTurn\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <list>\r\n      <item itemvalue=\"Application.MutatedGameMenu\" />\r\n      <item itemvalue=\"Application.Main\" />\r\n      <item itemvalue=\"JUnit.CityTest.startTheTurn\" />\r\n      <item itemvalue=\"JUnit.CityTest.getGold\" />\r\n      <item itemvalue=\"JUnit.CityTest.attack\" />\r\n    </list>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Application.Main\" />\r\n        <item itemvalue=\"Application.MutatedGameMenu\" />\r\n        <item itemvalue=\"JUnit.CityTest.attack\" />\r\n        <item itemvalue=\"JUnit.CityTest.getGold\" />\r\n        <item itemvalue=\"JUnit.CityTest.startTheTurn\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"fedd4e93-c33f-48d0-945b-fd442c1faf9e\" name=\"Changes\" comment=\"\" />\r\n      <created>1650459469777</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1650459469777</updated>\r\n      <workItem from=\"1650459474118\" duration=\"8989000\" />\r\n      <workItem from=\"1650479074626\" duration=\"24000\" />\r\n      <workItem from=\"1650560221518\" duration=\"6738000\" />\r\n      <workItem from=\"1650629703966\" duration=\"11377000\" />\r\n      <workItem from=\"1650874176897\" duration=\"333000\" />\r\n      <workItem from=\"1650875667155\" duration=\"1815000\" />\r\n      <workItem from=\"1650885253659\" duration=\"694000\" />\r\n      <workItem from=\"1650898427319\" duration=\"2043000\" />\r\n      <workItem from=\"1650900501884\" duration=\"13287000\" />\r\n      <workItem from=\"1650895032230\" duration=\"998000\" />\r\n      <workItem from=\"1651243519954\" duration=\"13348000\" />\r\n      <workItem from=\"1651298926484\" duration=\"8997000\" />\r\n      <workItem from=\"1651429063181\" duration=\"128000\" />\r\n      <workItem from=\"1651485284165\" duration=\"5165000\" />\r\n      <workItem from=\"1651496753773\" duration=\"11616000\" />\r\n      <workItem from=\"1651517339100\" duration=\"649000\" />\r\n      <workItem from=\"1651518006067\" duration=\"1615000\" />\r\n      <workItem from=\"1651558292795\" duration=\"350000\" />\r\n      <workItem from=\"1651597526470\" duration=\"3660000\" />\r\n      <workItem from=\"1651612204917\" duration=\"1792000\" />\r\n      <workItem from=\"1651614021311\" duration=\"5525000\" />\r\n      <workItem from=\"1651654180614\" duration=\"2196000\" />\r\n      <workItem from=\"1651656420264\" duration=\"10453000\" />\r\n      <workItem from=\"1651667879141\" duration=\"1956000\" />\r\n      <workItem from=\"1651679760474\" duration=\"516000\" />\r\n      <workItem from=\"1651734506686\" duration=\"1936000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"merge\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"merge\" />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <breakpoint-manager>\r\n      <breakpoints>\r\n        <breakpoint enabled=\"true\" type=\"java-exception\">\r\n          <properties class=\"java.util.ConcurrentModificationException\" package=\"java.util\" />\r\n          <option name=\"timeStamp\" value=\"39\" />\r\n        </breakpoint>\r\n        <line-breakpoint enabled=\"true\" type=\"java-line\">\r\n          <url>file://$PROJECT_DIR$/src/main/java/model/City.java</url>\r\n          <line>91</line>\r\n          <option name=\"timeStamp\" value=\"68\" />\r\n        </line-breakpoint>\r\n      </breakpoints>\r\n    </breakpoint-manager>\r\n    <watches-manager>\r\n      <configuration name=\"Application\">\r\n        <watch expression=\"this\" />\r\n        <watch expression=\"this\" />\r\n      </configuration>\r\n    </watches-manager>\r\n  </component>\r\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\r\n    <expand />\r\n    <select />\r\n  </component>\r\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$TileTest_isFeatureTypeValid.ic\" NAME=\"TileTest.isFeatureTypeValid Coverage Results\" MODIFIED=\"1651584853958\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.tiles.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$UnitTest_getDestinationTile.ic\" NAME=\"UnitTest.getDestinationTile Coverage Results\" MODIFIED=\"1651612972019\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.Units.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$ImprovementTypeTest.ic\" NAME=\"ImprovementTypeTest Coverage Results\" MODIFIED=\"1651566181103\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.improvements.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_cyclesToComplete.ic\" NAME=\"CityTest.cyclesToComplete Coverage Results\" MODIFIED=\"1651616599433\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$BuildingTest.ic\" NAME=\"BuildingTest Coverage Results\" MODIFIED=\"1651590401292\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.building.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$UnitTest_takeDamage.ic\" NAME=\"UnitTest.takeDamage Coverage Results\" MODIFIED=\"1651612582432\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.Units.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$TileTest_setResource.ic\" NAME=\"TileTest.setResource Coverage Results\" MODIFIED=\"1651586723107\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.tiles.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_collectProduction.ic\" NAME=\"CityTest.collectProduction Coverage Results\" MODIFIED=\"1651666092693\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$ResourcesTypesTest_getImprovementType.ic\" NAME=\"ResourcesTypesTest.getImprovementType Coverage Results\" MODIFIED=\"1651612096025\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.resources.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$UnitTest_getName.ic\" NAME=\"UnitTest.getName Coverage Results\" MODIFIED=\"1651613231366\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.Units.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$TechnologyTest_getTechnologyType.ic\" NAME=\"TechnologyTest.getTechnologyType Coverage Results\" MODIFIED=\"1651612166974\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.technologies.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$UnitTest_checkToDestroy.ic\" NAME=\"UnitTest.checkToDestroy Coverage Results\" MODIFIED=\"1651600196970\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.Units.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$TechnologyControllerTest_getCivilizationsResearches.ic\" NAME=\"TechnologyControllerTest.getCivilizationsResearches Coverage Results\" MODIFIED=\"1651589230179\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>controller.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$UnitTest_startTheTur.ic\" NAME=\"UnitTest.startTheTur Coverage Results\" MODIFIED=\"1651600351922\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.Units.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_startTheTurn.ic\" NAME=\"CityTest.startTheTurn Coverage Results\" MODIFIED=\"1651667736775\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$UnitTest.ic\" NAME=\"UnitTest Coverage Results\" MODIFIED=\"1651597565738\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.Units.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$TileTypeTest.ic\" NAME=\"TileTypeTest Coverage Results\" MODIFIED=\"1651587728836\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.tiles.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$UserTest.ic\" NAME=\"UserTest Coverage Results\" MODIFIED=\"1651584284133\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$TileTest_getCombatChange.ic\" NAME=\"TileTest.getCombatChange Coverage Results\" MODIFIED=\"1651585926177\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.tiles.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_getGold.ic\" NAME=\"CityTest.getGold Coverage Results\" MODIFIED=\"1651667847383\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_destroy.ic\" NAME=\"CityTest.destroy Coverage Results\" MODIFIED=\"1651617330967\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$TechnologyTest.ic\" NAME=\"TechnologyTest Coverage Results\" MODIFIED=\"1651587719404\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.technologies.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_calculateDamage.ic\" NAME=\"CityTest.calculateDamage Coverage Results\" MODIFIED=\"1651616903220\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_expandBorders.ic\" NAME=\"CityTest.expandBorders Coverage Results\" MODIFIED=\"1651655591161\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$TasksTest.ic\" NAME=\"TasksTest Coverage Results\" MODIFIED=\"1651587760160\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_changeCivilization.ic\" NAME=\"CityTest.changeCivilization Coverage Results\" MODIFIED=\"1651657052736\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_getCombatStrength.ic\" NAME=\"CityTest.getCombatStrength Coverage Results\" MODIFIED=\"1651656349132\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_getName.ic\" NAME=\"CityTest.getName Coverage Results\" MODIFIED=\"1651594979154\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$TechnologyControllerTest_cyclesToComplete.ic\" NAME=\"TechnologyControllerTest.cyclesToComplete Coverage Results\" MODIFIED=\"1651589877099\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>controller.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$UnitTest_getCurrentTile.ic\" NAME=\"UnitTest.getCurrentTile Coverage Results\" MODIFIED=\"1651612918458\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.Units.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CivilianTest_remove.ic\" NAME=\"CivilianTest.remove Coverage Results\" MODIFIED=\"1651615458190\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.Units.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$FeatureTypeTest.ic\" NAME=\"FeatureTypeTest Coverage Results\" MODIFIED=\"1651572265632\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.features.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$UnitTest_move.ic\" NAME=\"UnitTest.move Coverage Results\" MODIFIED=\"1651594152656\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.Units.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$UnitTest_getCombatStrength.ic\" NAME=\"UnitTest.getCombatStrength Coverage Results\" MODIFIED=\"1651600259610\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.Units.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_addTile.ic\" NAME=\"CityTest.addTile Coverage Results\" MODIFIED=\"1651617740884\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_assignCitizenToTiles.ic\" NAME=\"CityTest.assignCitizenToTiles Coverage Results\" MODIFIED=\"1651657169814\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest.ic\" NAME=\"CityTest Coverage Results\" MODIFIED=\"1651596863492\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$UnitTypeTest.ic\" NAME=\"UnitTypeTest Coverage Results\" MODIFIED=\"1651587750848\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.Units.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_attack.ic\" NAME=\"CityTest.attack Coverage Results\" MODIFIED=\"1651668732782\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_checkToDestroy.ic\" NAME=\"CityTest.checkToDestroy Coverage Results\" MODIFIED=\"1651618596081\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$ResourcesTypesTest_isTechnologyUnlocked.ic\" NAME=\"ResourcesTypesTest.isTechnologyUnlocked Coverage Results\" MODIFIED=\"1651581014381\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.resources.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$TechnologyControllerTest_addTechnologyToProduction.ic\" NAME=\"TechnologyControllerTest.addTechnologyToProduction Coverage Results\" MODIFIED=\"1651590109836\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>controller.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_getWall.ic\" NAME=\"CityTest.getWall Coverage Results\" MODIFIED=\"1651615922247\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$FeatureTest.ic\" NAME=\"FeatureTest Coverage Results\" MODIFIED=\"1651587662840\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.features.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$ImprovementTest_getRemainedCost.ic\" NAME=\"ImprovementTest.getRemainedCost Coverage Results\" MODIFIED=\"1651587678190\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.improvements.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$All_in_Civilization.ic\" NAME=\"All in Civilization Coverage Results\" MODIFIED=\"1651596890216\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" />\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$TileTest.ic\" NAME=\"TileTest Coverage Results\" MODIFIED=\"1651587739860\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.tiles.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$UnitTest_endTheTurn.ic\" NAME=\"UnitTest.endTheTurn Coverage Results\" MODIFIED=\"1651594761610\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.Units.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$TileTest_cloneTileForCivilization.ic\" NAME=\"TileTest.cloneTileForCivilization Coverage Results\" MODIFIED=\"1651586532948\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.tiles.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$BuildingTest_getName.ic\" NAME=\"BuildingTest.getName Coverage Results\" MODIFIED=\"1651611985286\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.building.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$TileTest_isResourceTypeValid.ic\" NAME=\"TileTest.isResourceTypeValid Coverage Results\" MODIFIED=\"1651585319814\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.tiles.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_collectFood.ic\" NAME=\"CityTest.collectFood Coverage Results\" MODIFIED=\"1651598774415\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$UnitTest_getMovementPrice.ic\" NAME=\"UnitTest.getMovementPrice Coverage Results\" MODIFIED=\"1651612441727\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.Units.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$Main.ic\" NAME=\"Main Coverage Results\" MODIFIED=\"1651580275841\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" />\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_isTileNeighbor.ic\" NAME=\"CityTest.isTileNeighbor Coverage Results\" MODIFIED=\"1651655712986\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$UnitTest_startTheTurn.ic\" NAME=\"UnitTest.startTheTurn Coverage Results\" MODIFIED=\"1651601116576\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.Units.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$UnitTest_getRemainedCost.ic\" NAME=\"UnitTest.getRemainedCost Coverage Results\" MODIFIED=\"1651612673486\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.Units.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$ResourcesTypesTest.ic\" NAME=\"ResourcesTypesTest Coverage Results\" MODIFIED=\"1651581105479\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.resources.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_getCitizen.ic\" NAME=\"CityTest.getCitizen Coverage Results\" MODIFIED=\"1651654647783\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CivilianTest_city.ic\" NAME=\"CivilianTest.city Coverage Results\" MODIFIED=\"1651615279829\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.Units.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_getPopulation.ic\" NAME=\"CityTest.getPopulation Coverage Results\" MODIFIED=\"1651617818358\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$ImprovementTest.ic\" NAME=\"ImprovementTest Coverage Results\" MODIFIED=\"1651587685350\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.improvements.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/project_group_03$CityTest_collectResources.ic\" NAME=\"CityTest.collectResources Coverage Results\" MODIFIED=\"1651665891217\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>model.*</FILTER>\r\n    </SUITE>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 1e57a1ca7c144c6636562fd51358eb2fcb813395)
++++ b/.idea/workspace.xml	(date 1651757406565)
+@@ -6,18 +6,27 @@
+   <component name="ChangeListManager">
+     <list default="true" id="fedd4e93-c33f-48d0-945b-fd442c1faf9e" name="Changes" comment="">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/GameController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/view/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Menu.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/view/MutatedMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MutatedMenu.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/view/MutatedGameMenu.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/view/MutatedLoginMenu.java" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/GameController.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$cheatCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$cheatCommands.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$cityCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$cityCommands.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$infoCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$infoCommands.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$mapCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$mapCommands.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$menuCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$menuCommands.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu$unitState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu$unitState.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/MutatedMenu.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$FreeFlagCommands.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$cheatCommands.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$cityCommands.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$increase.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$infoCommands.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$mapCommands.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$menuCommands.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$tileXAndYFlagSelectUnit.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu$unitState.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedGameMenu.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/view/MutatedLoginMenu.class" beforeDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
