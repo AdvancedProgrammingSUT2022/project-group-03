@@ -5,37 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataBase/users.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/CheatCommandsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/CheatCommandsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/CityCommandsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/CityCommandsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/TileXAndYFlagSelectUnitController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/TileXAndYFlagSelectUnitController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/UnitStateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/UnitStateController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Civilization.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/CheatCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/CheatCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/ChooseTechnology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/ChooseTechnology.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/CityCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/CityCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/controller/GameControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/controller/GameControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/CityTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/CityTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/CivilizationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/CivilizationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/Units/NonCivilianTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/Units/NonCivilianTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/gameController/CheatCommandsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/gameController/CheatCommandsController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/gameController/CityCommandsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/gameController/CityCommandsController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/gameController/TileXAndYFlagSelectUnitController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/gameController/TileXAndYFlagSelectUnitController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/gameController/UnitStateController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/gameController/UnitStateController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/model/Units/CivilianTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/Units/CivilianTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/model/Civilization.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Civilization.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Units/Unit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/gameMenu/CheatCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/gameMenu/CheatCommands.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/gameMenu/ChooseTechnology.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/gameMenu/ChooseTechnology.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/gameMenu/CityCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/gameMenu/CityCommands.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/controller/GameControllerTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/controller/GameControllerTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/CityTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/CityTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/CivilizationTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/CivilizationTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/Units/NonCivilianTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/Units/NonCivilianTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/model/Units/UnitTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/Units/UnitTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/model/Units/CivilianTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/model/Units/CivilianTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,7 +136,7 @@
       <updated>1652195146173</updated>
       <workItem from="1652195148568" duration="1316000" />
       <workItem from="1652203693785" duration="8104000" />
-      <workItem from="1652215254532" duration="339000" />
+      <workItem from="1652215254532" duration="1095000" />
     </task>
     <servers />
   </component>
@@ -226,7 +202,7 @@
     <SUITE FILE_PATH="coverage/project_group_03$GameControllerTest_assignCitizen.ic" NAME="GameControllerTest.assignCitizen Coverage Results" MODIFIED="1652032458380" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>controller.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/doc_2022_05_11_01_09_28_git$All_in_doc_2022_05_11_01_09_28_git.ic" NAME="All in doc_2022-05-11_01-09-28.git Coverage Results" MODIFIED="1652215566299" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/doc_2022_05_11_01_09_28_git$All_in_doc_2022_05_11_01_09_28_git.ic" NAME="All in doc_2022-05-11_01-09-28.git Coverage Results" MODIFIED="1652216340973" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/project_group_03$UnitTest_move.ic" NAME="UnitTest.move Coverage Results" MODIFIED="1651594152656" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.Units.*</FILTER>
     </SUITE>

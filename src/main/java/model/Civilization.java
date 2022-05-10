@@ -47,7 +47,7 @@ public class Civilization {
     private Technology gettingResearchedTechnology;
     private HashMap<ResourcesTypes, Boolean> usedLuxuryResources = new HashMap<>();
     public int cheatScience;
-    private final HashMap<Integer,ArrayList<String>> notifications = new HashMap<>();
+    private final HashMap<Integer, ArrayList<String>> notifications = new HashMap<>();
 
     public Civilization(User user, int color) {
         this.color = color;
@@ -157,7 +157,7 @@ public class Civilization {
                 gettingResearchedTechnology.setRemainedCost(0);
                 GameController.getCivilizations().get(GameController.getPlayerTurn())
                         .putNotification(gettingResearchedTechnology.getName() +
-                                "'s production ended successfully",GameController.getCycle());
+                                "'s production ended successfully", GameController.getCycle());
                 gettingResearchedTechnology = null;
             }
         }
@@ -173,8 +173,7 @@ public class Civilization {
             int temp = 0;
             for (City city : cities)
                 temp += city.getGold();
-            if (temp < 0)
-                returner += temp;
+            if (temp < 0) returner += temp;
         }
         return returner + cheatScience;
     }
@@ -189,11 +188,9 @@ public class Civilization {
     }
 
     public boolean canBeTheNextResearch(TechnologyType technologyType) {
-        if (doesContainTechnology(technologyType) != 3)
-            return false;
+        if (doesContainTechnology(technologyType) != 3) return false;
         for (int i = 0; i < TechnologyType.prerequisites.get(technologyType).size(); i++)
-            if (!canTechnologyBeAchievedNext(i, technologyType))
-                return false;
+            if (!canTechnologyBeAchievedNext(i, technologyType)) return false;
         return true;
     }
 
@@ -209,8 +206,7 @@ public class Civilization {
     }
 
     public int doesContainTechnology(TechnologyType technologyType) {
-        if (technologyType == null)
-            return 1;
+        if (technologyType == null) return 1;
         for (Technology research : researches)
             if (research.getTechnologyType() == technologyType) {
                 if (research.getRemainedCost() == 0)
@@ -242,12 +238,11 @@ public class Civilization {
                 return false;
         return true;
     }
-    public void putNotification(String string, int cycle)
-    {
-        if(!notifications.containsKey(cycle))
-        {
+
+    public void putNotification(String string, int cycle) {
+        if (!notifications.containsKey(cycle)) {
             ArrayList<String> strings = new ArrayList<>();
-            notifications.put(cycle,strings);
+            notifications.put(cycle, strings);
         }
         notifications.get(cycle).add(string);
     }

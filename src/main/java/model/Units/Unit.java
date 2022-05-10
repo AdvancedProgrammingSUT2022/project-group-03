@@ -99,8 +99,8 @@ public abstract class Unit implements Producible, CanGetAttacked {
             GameController.getCivilizations().get(GameController.getPlayerTurn())
                     .putNotification(currentTile.getImprovement().getImprovementType() +
                             "'s production ended, cycle: ",GameController.getCycle());
-            if ((currentTile.getImprovement().getImprovementType() == ImprovementType.FARM
-                    || currentTile.getImprovement().getImprovementType() == ImprovementType.MINE) &&
+            if ((currentTile.getImprovement().getImprovementType() == ImprovementType.FARM ||
+                    currentTile.getImprovement().getImprovementType() == ImprovementType.MINE) &&
                     currentTile.getContainedFeature() != null &&
                     (currentTile.getContainedFeature().getFeatureType() == FeatureType.JUNGLE
                             || currentTile.getContainedFeature().getFeatureType() == FeatureType.SWAMP

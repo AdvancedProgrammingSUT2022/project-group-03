@@ -42,6 +42,11 @@ class CivilianTest {
     }
 
     @Test
+    void city() {
+        civilian.city("bboo");
+    }
+
+    @Test
     void remove() {
         tile.setContainedFeature(new Feature(FeatureType.JUNGLE));
         civilian.remove(1);
