@@ -90,7 +90,7 @@ class CityTest {
         ResourcesTypes resource = ResourcesTypes.WHEAT;
         tile.setResource(resource);
         city2.getGettingWorkedOnByCitizensTiles().add(tile);
-        city2.collectResources(city2.getCivilization().getResourcesAmount());
+        city2.getCivilization().getResourcesAmount().put(resource,1);
         assertTrue(civilization2.getResourcesAmount().get(resource)!=0);
         city2.collectResources(city2.getCivilization().getResourcesAmount());
         assertTrue(civilization2.getResourcesAmount().get(resource)!=0);
@@ -245,14 +245,14 @@ class CityTest {
         NonCivilian nonCivilian = new NonCivilian(tile,city.getCivilization(),UnitType.TANK);
         nonCivilian.setState(UnitState.GARRISON);
         tile.setNonCivilian(nonCivilian);
-        assertEquals(city.getCombatStrength(true),51);
+        assertEquals(city.getCombatStrength(true),54);
         nonCivilian = new NonCivilian(tile,city.getCivilization(),UnitType.ARCHER);
         nonCivilian.setState(UnitState.GARRISON);
         tile.setNonCivilian(nonCivilian);
-        assertEquals(city.getCombatStrength(true),7);
+        assertEquals(10,city.getCombatStrength(true));
         tile = new Tile(TileType.HILL, 5, 5);
         city = new City(tile, "randomBS", civilization);
-        assertEquals(2.2,city.getCombatStrength(false));
+        assertEquals(6,city.getCombatStrength(false));
     }
 
     @Test
@@ -275,12 +275,15 @@ class CityTest {
 
     @Test
     void destroy() {
-        city.destroy();
+        city.destroy(civilization);
         assertNull(tile.getCity());
     }
 
     @Test
     void changeCivilization() {
+        Civilization.TileCondition[][] list = new Civilization.TileCondition[10][10];
+        list[tile.getX()][tile.getY()] = new Civilization.TileCondition(tile,true);
+        when(anotherCivilization.getTileConditions()).thenReturn(list);
         city.getHalfProducedUnits().add(civilian);
         city.changeCivilization(anotherCivilization);
         assertEquals(city.getCivilization(), anotherCivilization);

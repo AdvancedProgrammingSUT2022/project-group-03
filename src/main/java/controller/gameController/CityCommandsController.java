@@ -104,7 +104,8 @@ public class CityCommandsController {
         if (GameController.getSelectedCity() == null) return 2;
         if (GameController.getSelectedCity().getHP() > 0) return 1;
         if (GameController.getSelectedCity().isCapital && burn) return 4;
-        if (burn) GameController.getSelectedCity().destroy();
+        if (burn) GameController.getSelectedCity().destroy(GameController
+                .getCivilizations().get(GameController.getPlayerTurn()));
         else
             GameController.getSelectedCity().changeCivilization(GameController
                     .getCivilizations().get(GameController.getPlayerTurn()));
