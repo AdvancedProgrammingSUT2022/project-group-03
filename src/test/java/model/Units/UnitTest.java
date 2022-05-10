@@ -52,9 +52,9 @@ class UnitTest {
         assertTrue(Math.abs(nonCivilian.getCombatStrength(false) - 2.5)< 0.5);
         when(civilization.getHappiness()).thenReturn(-1);
         tile.setContainedFeature(new Feature(FeatureType.FOREST));
-        assertTrue(Math.abs(nonCivilian.getCombatStrength(false) - 2.5)< 0.5);
+        assertTrue(nonCivilian.getCombatStrength(false) >=0.5);
         tile.setContainedFeature(new Feature(FeatureType.ICE));
-        assertTrue(Math.abs(nonCivilian.getCombatStrength(false) - 2.5)< 0.5);
+        assertTrue(nonCivilian.getCombatStrength(false)> 0.5);
 
     }
 

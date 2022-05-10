@@ -280,7 +280,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
     public void takeDamage(int amount,Civilization civilization) {
         health -= amount;
         civilization.putNotification(unitType+ " @ "+ currentTile.getX() + " , "+ currentTile.getY()  + " : " +
-                "oopsy woopsy you just got smashed by"+ Color.getColorByNumber(civilization.getColor())
+                "oopsy woopsy you just got smashed by "+ Color.getColorByNumber(civilization.getColor())
                 + civilization.getUser().getNickname() + Color.RESET ,GameController.getCycle());
     }
 
