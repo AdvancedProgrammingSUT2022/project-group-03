@@ -74,16 +74,6 @@ public class City implements CanAttack, CanGetAttacked {
         return false;
     }
 
-    private boolean doesContainWorker() {
-        for (Tile tile : tiles) {
-            if (tile.getCivilian() != null
-                    && tile.getCivilian().getCivilization() != civilization
-                    && tile.getCivilian().getUnitType() == UnitType.WORKER)
-                return true;
-        }
-        return false;
-    }
-
     public int collectFood() {
         int food = 0;
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
@@ -255,7 +245,6 @@ public class City implements CanAttack, CanGetAttacked {
             expandBorders();
         }
         if (doesContainSettler()) food = 0;
-        if (doesContainWorker()) food = 0;
         minus5Percent();
         for (Tile tile : tiles) GameController.openNewArea(tile, civilization, null);
     }

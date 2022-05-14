@@ -130,7 +130,7 @@ class CivilizationTest {
         civilization.getUser();
         civilization.increaseGold(0);
         civilization.changeHappiness(1);
-        civilization.changeGold(1);
+        civilization.increaseGold(1);
     }
 
     @Test

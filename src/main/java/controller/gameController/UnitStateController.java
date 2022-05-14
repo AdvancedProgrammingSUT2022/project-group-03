@@ -141,6 +141,9 @@ public class UnitStateController {
             unit.getCurrentTile().setNonCivilian(null);
         else
             unit.getCurrentTile().setCivilian(null);
+        GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().remove(unit);
+        GameController.getCivilizations().get(GameController.getPlayerTurn())
+                .increaseGold(unit.getUnitType().getCost()/10);
         GameController.openNewArea(unit.getCurrentTile(), unit.getCivilization(), null);
         return 0;
     }
