@@ -233,7 +233,9 @@ public class UnitStateController {
                         GameController.getSelectedUnit().getCurrentTile()
                                 .getContainedFeature().getFeatureType() != FeatureType.JUNGLE &&
                         GameController.getSelectedUnit().getCurrentTile()
-                                .getContainedFeature().getFeatureType() != FeatureType.FOREST)))
+                                .getContainedFeature().getFeatureType() != FeatureType.FOREST &&
+                        GameController.getSelectedUnit().getCurrentTile()
+                                .getContainedFeature().getFeatureType() != FeatureType.SWAMP)))
             return 4;
         if (!isJungle && GameController.getSelectedUnit().getCurrentTile().getRoad() == null)
             return 5;
