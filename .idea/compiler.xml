@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="doc_2022-05-11_01-09-28.git" />
+        <module name="untitled5" />
         <module name="Civilization" />
       </profile>
     </annotationProcessing>
