@@ -106,7 +106,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
 
     private void workerBuildRoadProgress() {
         currentTile.getRoad().setRemainedCost(currentTile.getRoad().getRemainedCost() - 1);
-        if (currentTile.getRoad().getRemainedCost() == 0)
+        if (currentTile.getRoad().getRemainedCost() == 0 && GameController.getSelectedCity()!=null)
         {
             state = UnitState.AWAKE;
             GameController.getCivilizations().get(GameController.getPlayerTurn())

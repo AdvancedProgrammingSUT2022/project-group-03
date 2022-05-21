@@ -16,7 +16,7 @@ public class User {
     private final String username;
     private String password;
     private String nickname;
-    int score;
+    private int score;
 
     static {
         try {
@@ -52,8 +52,8 @@ public class User {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
+        this.score=0;
         listOfUsers.add(this);
-
         saveData();
     }
 
