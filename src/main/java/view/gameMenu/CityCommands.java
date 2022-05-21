@@ -200,6 +200,9 @@ public class CityCommands {
         System.out.println("name: " + city.getName());
         System.out.println("owner: " + city.getCivilization().getUser().getNickname());
         System.out.println("founder: " + city.getFounder().getUser().getNickname());
+        System.out.println("HP: " + city.getHP());
+        System.out.println("attack strength: " + city.getCombatStrength(true));
+        System.out.println("defence strength: " + city.getCombatStrength(false));
         if (city.getCivilization() == GameController
                 .getCivilizations().get(GameController.getPlayerTurn())) {
             System.out.println("gold: " + city.getGold());
@@ -211,12 +214,9 @@ public class CityCommands {
             for (int i = 0; i < city.getGettingWorkedOnByCitizensTiles().size(); i++)
                 System.out.print(city.getGettingWorkedOnByCitizensTiles().get(i).getX() + "," +
                         city.getGettingWorkedOnByCitizensTiles().get(i).getY() + "   |   ");
-            System.out.println("\nHP: " + city.getHP());
-            System.out.println("attack strength: " + city.getCombatStrength(true));
-            System.out.println("defence strength: " + city.getCombatStrength(false));
             HashMap<ResourcesTypes, Integer> resourcesAmount = new HashMap<>();
             city.collectResources(resourcesAmount);
-            System.out.println("resources: ");
+            System.out.println("\nresources: ");
             resourcesAmount.forEach((k, v) -> System.out.print(k + ": " + v));
         }
 

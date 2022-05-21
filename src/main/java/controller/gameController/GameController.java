@@ -168,7 +168,15 @@ public class GameController {
         selectedUnit = null;
         if (civilizations.get(playerTurn).getCities().size() != 0)
             selectedCity = civilizations.get(playerTurn).getCities().get(0);
-        if (civilizations.get(playerTurn).getUnits().size() != 0)
+        for (Unit unit : civilizations.get(playerTurn).getUnits()) {
+            if(unit.getState()==UnitState.AWAKE)
+            {
+                selectedUnit = unit;
+                break;
+            }
+        }
+        if (selectedUnit==null &&
+                civilizations.get(playerTurn).getUnits().size() != 0)
             selectedUnit = civilizations.get(playerTurn).getUnits().get(0);
         if(GameController.getCivilizations()
                 .get(GameController.getPlayerTurn()).getNotifications().containsKey(cycle))

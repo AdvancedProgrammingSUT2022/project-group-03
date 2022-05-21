@@ -54,7 +54,7 @@ public class CityCommandsController {
         if (!GameController.getSelectedCity()
                 .addTile(GameController.getMap().coordinatesToTile(x, y))) return 1;
         GameController.getSelectedCity().getCivilization()
-                .changeGold(-(15 + 10 * (GameController.getSelectedCity().getTiles().size() - 6)));
+                .increaseGold(-(15 + 10 * (GameController.getSelectedCity().getTiles().size() - 6)));
         return 0;
     }
 

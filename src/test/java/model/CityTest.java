@@ -34,6 +34,8 @@ class CityTest {
     Civilization anotherCivilization;
     @Mock
     ResourcesTypes resourcesTypes;
+    @Mock
+    User user;
 
     City city;
     Tile tile;
@@ -212,6 +214,8 @@ class CityTest {
         city.setProduct(nonCivilian);
         city.getProduct().setRemainedCost(0);
         city.startTheTurn();
+        when(civilization.getUser()).thenReturn(user);
+        when(user.getNickname()).thenReturn("love you too the moon and to saturn");
         city.attack(tile);
     }
 
@@ -258,7 +262,9 @@ class CityTest {
     @Test
     void checkToDestroy() {
         assertFalse(city.checkToDestroy());
-        city.takeDamage(city.getHP());
+        when(civilization.getUser()).thenReturn(user);
+        when(user.getNickname()).thenReturn("I've got some tricks up my sleeve");
+        city.takeDamage(city.getHP(),civilization);
         NonCivilian nonCivilian = new NonCivilian(tile, civilization, UnitType.SETTLER);
         tile.setNonCivilian(nonCivilian);
         nonCivilian.setState(UnitState.GARRISON);
@@ -275,6 +281,8 @@ class CityTest {
 
     @Test
     void destroy() {
+        when(civilization.getUser()).thenReturn(user);
+        when(user.getNickname()).thenReturn("is this the end of all the endings?");
         city.destroy(civilization);
         assertNull(tile.getCity());
     }
@@ -285,6 +293,8 @@ class CityTest {
         list[tile.getX()][tile.getY()] = new Civilization.TileCondition(tile,true);
         when(anotherCivilization.getTileConditions()).thenReturn(list);
         city.getHalfProducedUnits().add(civilian);
+        when(anotherCivilization.getUser()).thenReturn(user);
+        when(user.getNickname()).thenReturn("nice to meet you,where you been");
         city.changeCivilization(anotherCivilization);
         assertEquals(city.getCivilization(), anotherCivilization);
     }
@@ -298,7 +308,9 @@ class CityTest {
     @Test
     void takeDamage() {
         int hp = city.getHP();
-        city.takeDamage(2);
+        when(civilization.getUser()).thenReturn(user);
+        when(user.getNickname()).thenReturn("stronger than a 90's trend");
+        city.takeDamage(2,civilization);
         assertEquals(city.getHP(), hp - 2);
     }
 

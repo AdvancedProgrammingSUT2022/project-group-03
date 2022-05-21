@@ -8,6 +8,10 @@ import model.features.FeatureType;
 import model.Producible;
 import model.improvements.ImprovementType;
 import model.tiles.Tile;
+import view.gameMenu.Color;
+
+import javax.swing.text.View;
+import java.awt.*;
 
 public abstract class Unit implements Producible, CanGetAttacked {
     protected Civilization civilization;
@@ -31,6 +35,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
     public boolean checkToDestroy() {
         if (health <= 0) {
             civilization.getUnits().remove(this);
+            this.civilization.putNotification("unit died",GameController.getCycle());
             if (this instanceof NonCivilian)
                 currentTile.setNonCivilian(null);
             else currentTile.setCivilian(null);
@@ -44,11 +49,8 @@ public abstract class Unit implements Producible, CanGetAttacked {
         if (isAttack)
             combat = unitType.rangedCombatStrength;
         else combat = unitType.combatStrength;
-        if (unitType.combatType != CombatType.MOUNTED &&
-                unitType.combatType != CombatType.SIEGE
-                && unitType.combatType != CombatType.ARMORED)
-            combat = combat *
-                    ((double) (100 + currentTile.getCombatChange()) / 100);
+        combat = combat *
+                ((double) (100 + currentTile.getCombatChange()) / 100);
         if (unitType == UnitType.CHARIOT_ARCHER &&
                 currentTile.getContainedFeature() != null &&
                 (currentTile.getContainedFeature()
@@ -58,7 +60,10 @@ public abstract class Unit implements Producible, CanGetAttacked {
                         currentTile.getContainedFeature()
                                 .getFeatureType() == FeatureType.ICE)) combat *= 0.9;
 
-        if (!isAttack && state == UnitState.FORTIFY)
+        if (!isAttack && state == UnitState.FORTIFY &&
+                (unitType.combatType != CombatType.MOUNTED &&
+                unitType.combatType != CombatType.SIEGE
+                && unitType.combatType != CombatType.ARMORED))
             combat = (combat * (((NonCivilian) this).getFortifiedCycle() + 10)) / 10;
         if (civilization.getHappiness() < 0) combat = 0.75 * combat;
         combat = combat * (50 + (double) health / 2) / 100;
@@ -94,8 +99,8 @@ public abstract class Unit implements Producible, CanGetAttacked {
             GameController.getCivilizations().get(GameController.getPlayerTurn())
                     .putNotification(currentTile.getImprovement().getImprovementType() +
                             "'s production ended, cycle: ",GameController.getCycle());
-            if ((currentTile.getImprovement().getImprovementType() == ImprovementType.FARM
-                    || currentTile.getImprovement().getImprovementType() == ImprovementType.MINE) &&
+            if ((currentTile.getImprovement().getImprovementType() == ImprovementType.FARM ||
+                    currentTile.getImprovement().getImprovementType() == ImprovementType.MINE) &&
                     currentTile.getContainedFeature() != null &&
                     (currentTile.getContainedFeature().getFeatureType() == FeatureType.JUNGLE
                             || currentTile.getContainedFeature().getFeatureType() == FeatureType.SWAMP
@@ -110,8 +115,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
         {
             state = UnitState.AWAKE;
             GameController.getCivilizations().get(GameController.getPlayerTurn())
-                    .putNotification(GameController.getSelectedCity().getName() + ": " +
-                            currentTile.getRoad().getImprovementType() +
+                    .putNotification(currentTile.getRoad().getImprovementType() +
                             "'s production ended, cycle: ",GameController.getCycle());
         }
     }
@@ -272,8 +276,11 @@ public abstract class Unit implements Producible, CanGetAttacked {
     public void attack(Tile tile) {
     }
 
-    public void takeDamage(int amount) {
+    public void takeDamage(int amount,Civilization civilization) {
         health -= amount;
+        civilization.putNotification(unitType+ " @ "+ currentTile.getX() + " , "+ currentTile.getY()  + " : " +
+                "oopsy woopsy you just got smashed by "+ Color.getColorByNumber(civilization.getColor())
+                + civilization.getUser().getNickname() + Color.RESET ,GameController.getCycle());
     }
 
     public void setState(UnitState state) {

@@ -52,6 +52,7 @@ public class InfoCommands {
                 case "notification", "n":
                     if(value!=-1989)
                         infoNotifications(value);
+                    else System.out.println("invalid command");
                     break;
                 default:
                     System.out.println("invalid command");

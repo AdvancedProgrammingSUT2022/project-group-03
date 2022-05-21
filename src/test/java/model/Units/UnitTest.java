@@ -3,6 +3,7 @@ package model.Units;
 import controller.gameController.GameController;
 import model.Civilization;
 import model.Map;
+import model.User;
 import model.features.Feature;
 import model.features.FeatureType;
 import model.improvements.Improvement;
@@ -29,6 +30,8 @@ class UnitTest {
     Civilization civilization;
     @Mock
     Map map;
+    @Mock
+    User user;
     Tile tile = new Tile(TileType.FLAT,0,0);
     NonCivilian nonCivilian = new NonCivilian(tile,civilization,UnitType.ARCHER);
     Civilian civilian = new Civilian(tile,civilization,UnitType.SETTLER);
@@ -49,9 +52,9 @@ class UnitTest {
         assertTrue(Math.abs(nonCivilian.getCombatStrength(false) - 2.5)< 0.5);
         when(civilization.getHappiness()).thenReturn(-1);
         tile.setContainedFeature(new Feature(FeatureType.FOREST));
-        assertTrue(Math.abs(nonCivilian.getCombatStrength(false) - 2.5)< 0.5);
+        assertTrue(nonCivilian.getCombatStrength(false) >=0.5);
         tile.setContainedFeature(new Feature(FeatureType.ICE));
-        assertTrue(Math.abs(nonCivilian.getCombatStrength(false) - 2.5)< 0.5);
+        assertTrue(nonCivilian.getCombatStrength(false)> 0.5);
 
     }
 
@@ -151,7 +154,8 @@ class UnitTest {
     @Test
     void takeDamage() {
         int health = civilian.health;
-        civilian.takeDamage(3);
+        when(civilization.getUser()).thenReturn(user);
+        civilian.takeDamage(3,civilization);
         assertEquals(health-3,civilian.getHealth());
     }
 
