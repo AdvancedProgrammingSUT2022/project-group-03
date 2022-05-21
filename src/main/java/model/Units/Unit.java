@@ -241,7 +241,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
         Tile startTile = this.currentTile;
         Map.TileAndMP[] tileAndMPS = GameController.getMap().findNextTile(civilization,
                 currentTile, movementPrice, unitType.movePoint, destinationTile,
-                unitType.combatType == CombatType.CIVILIAN, this);
+                this instanceof Civilian, this);
         int i = initializeMove(ogCall, tileAndMPS, destinationTile);
         if (i == -1) return false;
         boolean notEnd = true;

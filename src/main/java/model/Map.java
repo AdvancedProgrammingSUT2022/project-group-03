@@ -2,6 +2,7 @@ package model;
 
 import controller.gameController.GameController;
 import model.Units.Civilian;
+import model.Units.NonCivilian;
 import model.Units.Unit;
 
 import model.Units.UnitType;
@@ -444,6 +445,9 @@ public class Map {
         visited[0].add(tile);
         isVisitedEver.put(tile, true);
         FindNextClass findNextClass = new FindNextClass();
+        if((destinationTile.getNonCivilian() != null && !isCivilian)
+                || (destinationTile.getCivilian() != null && isCivilian))
+            return null;
         for (int c = 0; !findNextClass.isOver &&
                 !findNextClass.foundDestination && c < 10; c++) {
             findNextTileWhile(visited, visitedWithMove, unit, c,
