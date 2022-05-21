@@ -166,7 +166,7 @@ public class City implements CanAttack, CanGetAttacked {
             return mainTile;
         for (int i = 0; i < 6; i++)
             if (mainTile.getNeighbours(i) != null &&
-                    mainTile.getNeighbours(i).getMovingPrice() != 123 &&
+                    mainTile.getNeighbours(i).getMovingPrice() <12345 &&
                     ((!isCivilian && mainTile.getNeighbours(i).getNonCivilian() == null) ||
                             (isCivilian && mainTile.getNeighbours(i).getCivilian() == null)))
                 return mainTile.getNeighbours(i);
@@ -175,7 +175,7 @@ public class City implements CanAttack, CanGetAttacked {
                 continue;
             for (int j = 0; j < 6; j++)
                 if (mainTile.getNeighbours(i).getNeighbours(j) != null &&
-                        mainTile.getNeighbours(i).getNeighbours(j).getMovingPrice() != 123 &&
+                        mainTile.getNeighbours(i).getNeighbours(j).getMovingPrice() <12345 &&
                         ((!isCivilian && mainTile.getNeighbours(i).getNeighbours(j).getNonCivilian() == null) ||
                                 (isCivilian && mainTile.getNeighbours(i).getNeighbours(j).getCivilian() == null)))
                     return mainTile.getNeighbours(i).getNeighbours(j);

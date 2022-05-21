@@ -6,7 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/UnitStateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/UnitStateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataBase/users.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/TechnologyAndProductionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/TechnologyAndProductionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameController/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameController/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/City.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Units/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/gameMenu/InfoCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/gameMenu/InfoCommands.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,26 +59,26 @@
       <recent name="model.Units" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in doc_2022-05-11_01-09-28.git">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../../Program Files/Java/jdk-17.0.2" />
+      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../../../Program Files/Java/jdk-17.0.1" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="untitled5" />
+      <module name="Civilization" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in doc_2022-05-11_01-09-28.git" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="doc_2022-05-11_01-09-28.git" />
+    <configuration name="All in Civilization" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Civilization" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in untitled5" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="untitled5" />
+    <configuration name="All in doc_2022-05-11_01-09-28.git" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="doc_2022-05-11_01-09-28.git" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
       <method v="2">
@@ -116,15 +121,16 @@
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
-      <item itemvalue="JUnit.All in untitled5" />
       <item itemvalue="JUnit.GameControllerTest.cityAttack" />
       <item itemvalue="JUnit.GameControllerTest.buyTile" />
       <item itemvalue="JUnit.All in doc_2022-05-11_01-09-28.git" />
+      <item itemvalue="JUnit.All in Civilization" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.All in doc_2022-05-11_01-09-28.git" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.All in Civilization" />
+        <item itemvalue="JUnit.All in doc_2022-05-11_01-09-28.git" />
         <item itemvalue="JUnit.GameControllerTest.buyTile" />
         <item itemvalue="JUnit.GameControllerTest.cityAttack" />
       </list>
@@ -165,16 +171,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/view/gameMenu/InfoCommands.java</url>
-          <line>135</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/view/gameMenu/InfoCommands.java</url>
-          <line>51</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java</url>
           <line>199</line>
@@ -321,7 +317,7 @@
     <SUITE FILE_PATH="coverage/project_group_03$TechnologyControllerTest_addTechnologyToProduction.ic" NAME="TechnologyControllerTest.addTechnologyToProduction Coverage Results" MODIFIED="1651590109836" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>controller.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/project_group_03$All_in_Civilization.ic" NAME="All in Civilization Coverage Results" MODIFIED="1651596890216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/project_group_03$All_in_Civilization.ic" NAME="All in Civilization Coverage Results" MODIFIED="1653158992585" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/project_group_03$CityTest_calculateDamage.ic" NAME="CityTest.calculateDamage Coverage Results" MODIFIED="1651616903220" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>model.*</FILTER>
     </SUITE>

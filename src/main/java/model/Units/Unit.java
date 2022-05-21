@@ -115,8 +115,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
         {
             state = UnitState.AWAKE;
             GameController.getCivilizations().get(GameController.getPlayerTurn())
-                    .putNotification(GameController.getSelectedCity().getName() + ": " +
-                            currentTile.getRoad().getImprovementType() +
+                    .putNotification(currentTile.getRoad().getImprovementType() +
                             "'s production ended, cycle: ",GameController.getCycle());
         }
     }

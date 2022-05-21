@@ -53,6 +53,7 @@ public class TechnologyAndProductionController {
                     .append(" cycles to finish\n");
         if (showFinishedResearches)
             stringBuilder.append("Finished researches: \n");
+        int sizeOfFinished = 1;
         for (int i = 0; i < researches.size(); i++) {
             if (researches.get(i).getRemainedCost() > 0) {
                 if (GameController.getCivilizations().get(GameController.getPlayerTurn())
@@ -61,8 +62,12 @@ public class TechnologyAndProductionController {
                 continue;
             }
             if (showFinishedResearches)
-                stringBuilder.append(i + 1).append(". ")
+            {
+                stringBuilder.append(sizeOfFinished).append(". ")
                         .append(researches.get(i).getTechnologyType()).append("\n");
+                sizeOfFinished++;
+            }
+
             ArrayList<TechnologyType> technologyTypes =
                     TechnologyType.nextTech.get(researches.get(i).getTechnologyType());
             for (TechnologyType technologyType : technologyTypes)
