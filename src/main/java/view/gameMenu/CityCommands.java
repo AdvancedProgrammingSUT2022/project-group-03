@@ -71,6 +71,8 @@ public class CityCommands {
                 buyUnit(unit, ox, oy);
             else if (citizen.equals("work") && (dx != -1989 && dy != -1989))
                 assignCitizen(ox, oy, dx, dy);
+            else if (citizen.equals("remove") && (ox != -1989 && oy != -1989))
+                removeCitizen(ox, oy);
             else if (burn)
                 cityDestiny(true);
             else if (capture)
@@ -132,6 +134,25 @@ public class CityCommands {
         switch (x) {
             case 0:
                 System.out.println("Assigned successfully");
+                break;
+            case 1:
+                System.out.println("Out of bound");
+                break;
+            case 2:
+                System.out.println("Not your city");
+                break;
+            case 3:
+                System.out.println("Select a city jackass");
+                break;
+            case 4:
+                System.out.println("Failed");
+                break;
+        }
+    }
+    private static void removeCitizen(int ox, int oy){
+        switch (CityCommandsController.removeCitizen(ox,oy)) {
+            case 0:
+                System.out.println("Removed successfully");
                 break;
             case 1:
                 System.out.println("Out of bound");

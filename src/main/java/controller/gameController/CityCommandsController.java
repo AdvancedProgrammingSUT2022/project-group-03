@@ -39,6 +39,18 @@ public class CityCommandsController {
                 GameController.getMap().coordinatesToTile(destinationX, destinationY))) return 0;
         return 4;
     }
+    public static int removeCitizen(int x, int y) {
+        if (GameController.getSelectedCity() == null)
+            return 3;
+        if (GameController.getSelectedCity().getCivilization() !=
+                GameController.getCivilizations().get(GameController.getPlayerTurn()))
+            return 2;
+        if (GameController.getMap().coordinatesToTile(x,y)==null)
+            return 1;
+        if (GameController.getSelectedCity().removeCitizen(GameController.getMap().coordinatesToTile(x, y))) return 0;
+        return 4;
+    }
+
 
     public static int buyTile(int x, int y) {
         if (GameController.getMap().coordinatesToTile(x,y)==null) return 2;

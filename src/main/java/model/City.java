@@ -353,6 +353,14 @@ public class City implements CanAttack, CanGetAttacked {
         }
         return false;
     }
+    public boolean removeCitizen(Tile tile){
+        if(tiles.contains(tile) &&
+                gettingWorkedOnByCitizensTiles.contains(tile)) {
+            gettingWorkedOnByCitizensTiles.remove(tile);
+            return true;
+        }
+        return false;
+    }
 
     public boolean doWeHaveEnoughMoney(UnitType unitType) {
         return unitType.cost <= civilization.getGold();
