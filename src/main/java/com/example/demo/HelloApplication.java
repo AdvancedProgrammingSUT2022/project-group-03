@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.view.StageController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,8 +20,8 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         //This line is nothing. just for testing the git.
-        globeStage = stage;
-        sceneChanger("loginMenu.fxml");
+        StageController.setStage(stage);
+
     }
 
     public static void main(String[] args) {
@@ -28,19 +29,5 @@ public class HelloApplication extends Application {
     }
 
 
-    public static void sceneChanger(String fxmlName) throws IOException {
-        globeStage.close();
-        pane = FXMLLoader.load(Objects
-                .requireNonNull(HelloApplication.class.getResource(fxmlName)));
-        scene = new Scene(pane);
-        globeStage.setTitle("Civilization Zero");
-        globeStage.setScene(scene);
-        globeStage.setMaximized(true);
-        globeStage.setFullScreen(true);
-        globeStage.show();
-    }
 
-    public static Scene getScene() {
-        return scene;
-    }
 }

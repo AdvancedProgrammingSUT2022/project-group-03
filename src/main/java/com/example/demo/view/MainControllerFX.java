@@ -41,17 +41,17 @@ public class MainControllerFX implements Initializable {
     }
     @FXML
     public void logout() throws IOException {
-        HelloApplication.sceneChanger("loginMenu.fxml");
+        StageController.sceneChanger("loginMenu.fxml");
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Platform.runLater(() ->gameMenuButton.setLayoutX(HelloApplication.getScene().getWidth()/2- gameMenuButton.getWidth()/2));
-        Platform.runLater(() ->profileMenuButton.setLayoutX(HelloApplication.getScene().getWidth()/2- profileMenuButton.getWidth()/2));
-        Platform.runLater(() ->scoreBoardButton.setLayoutX(HelloApplication.getScene().getWidth()/2- scoreBoardButton.getWidth()/2));
-        Platform.runLater(() ->chatButton.setLayoutX(HelloApplication.getScene().getWidth()/2- chatButton.getWidth()/2));
-        Platform.runLater(() ->logoutButton.setLayoutX(HelloApplication.getScene().getWidth()- logoutButton.getWidth()*1.5));
-        Platform.runLater(() ->background.setFitWidth(HelloApplication.getScene().getWidth()));
-        Platform.runLater(() ->background.setFitHeight(HelloApplication.getScene().getHeight()));
+        Platform.runLater(() ->gameMenuButton.setLayoutX(StageController.getScene().getWidth()/2- gameMenuButton.getWidth()/2));
+        Platform.runLater(() ->profileMenuButton.setLayoutX(StageController.getScene().getWidth()/2- profileMenuButton.getWidth()/2));
+        Platform.runLater(() ->scoreBoardButton.setLayoutX(StageController.getScene().getWidth()/2- scoreBoardButton.getWidth()/2));
+        Platform.runLater(() ->chatButton.setLayoutX(StageController.getScene().getWidth()/2- chatButton.getWidth()/2));
+        Platform.runLater(() ->logoutButton.setLayoutX(StageController.getScene().getWidth()- logoutButton.getWidth()*1.5));
+        Platform.runLater(() ->background.setFitWidth(StageController.getScene().getWidth()));
+        Platform.runLater(() ->background.setFitHeight(StageController.getScene().getHeight()));
     }
 }

@@ -48,7 +48,7 @@ public class LoginControllerFX implements Initializable {
 
         switch (LoginController.loginUser(username.getText(),
                 password.getText())) {
-            case 0 -> HelloApplication.sceneChanger("mainMenu.fxml");
+            case 0 -> StageController.sceneChanger("mainMenu.fxml");
             case 1 -> errorMaker("Input not valid",
                     "type something dumbAss");
             case 2 -> errorMaker("Input not valid",
@@ -61,17 +61,18 @@ public class LoginControllerFX implements Initializable {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         errorAlert.setHeaderText(header);
         errorAlert.setContentText(content);
+        errorAlert.initOwner(StageController.getStage());
         errorAlert.showAndWait();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Platform.runLater(() ->username.setLayoutX(HelloApplication.getScene().getWidth()/2- username.getWidth()/2));
-        Platform.runLater(() ->password.setLayoutX(HelloApplication.getScene().getWidth()/2- password.getWidth()/2));   
-        Platform.runLater(() ->nickname.setLayoutX(HelloApplication.getScene().getWidth()/2- nickname.getWidth()/2));
-        Platform.runLater(() ->loginButton.setLayoutX(HelloApplication.getScene().getWidth()/2- loginButton.getWidth()/2));
-        Platform.runLater(() ->registerButton.setLayoutX(HelloApplication.getScene().getWidth()/2- registerButton.getWidth()/2));
-        Platform.runLater(() ->background.setFitWidth(HelloApplication.getScene().getWidth()));
-        Platform.runLater(() ->background.setFitHeight(HelloApplication.getScene().getHeight()));
+        Platform.runLater(() ->username.setLayoutX(StageController.getScene().getWidth()/2- username.getWidth()/2));
+        Platform.runLater(() ->password.setLayoutX(StageController.getScene().getWidth()/2- password.getWidth()/2));
+        Platform.runLater(() ->nickname.setLayoutX(StageController.getScene().getWidth()/2- nickname.getWidth()/2));
+        Platform.runLater(() ->loginButton.setLayoutX(StageController.getScene().getWidth()/2- loginButton.getWidth()/2));
+        Platform.runLater(() ->registerButton.setLayoutX(StageController.getScene().getWidth()/2- registerButton.getWidth()/2));
+        Platform.runLater(() ->background.setFitWidth(StageController.getScene().getWidth()));
+        Platform.runLater(() ->background.setFitHeight(StageController.getScene().getHeight()));
     }
 }
