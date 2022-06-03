@@ -18,6 +18,7 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        //This line is nothing. just for testing the git.
         globeStage = stage;
         sceneChanger("loginMenu.fxml");
     }
