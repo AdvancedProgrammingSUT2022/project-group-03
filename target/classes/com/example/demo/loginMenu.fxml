@@ -25,13 +25,13 @@
                 <Font size="18.0"/>
             </font>
         </Label>
-        <ImageView fitHeight="800.0" fitWidth="1280.0">
+        <ImageView fx:id="background">
             <Image url="@assets/backgrounds/1.png"/>
         </ImageView>
-        <TextField fx:id="username" layoutX="570.0" layoutY="515.0" promptText="enter your username"/>
-        <TextField fx:id="password" layoutX="570.0" layoutY="550.0" promptText="enter your password"/>
-        <TextField fx:id="nickname" layoutX="570.0" layoutY="585.0" promptText="enter your nickname"/>
-        <Button layoutX="616.0" layoutY="642.0" mnemonicParsing="false" text="login" onAction="#login"/>
-        <Button layoutX="611.0" layoutY="682.0" mnemonicParsing="false" text="register" onAction="#register"/>
+        <TextField fx:id="username" layoutY="515.0" promptText="enter your username"/>
+        <TextField fx:id="password" layoutY="550.0" promptText="enter your password"/>
+        <TextField fx:id="nickname" layoutY="585.0" promptText="enter your nickname"/>
+        <Button fx:id="loginButton" layoutY="642.0" mnemonicParsing="false" text="login" onAction="#login"/>
+        <Button fx:id="registerButton" layoutY="682.0" mnemonicParsing="false" text="register" onAction="#register"/>
     </AnchorPane>
 </VBox>

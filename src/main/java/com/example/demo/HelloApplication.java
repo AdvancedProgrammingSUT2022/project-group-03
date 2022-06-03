@@ -34,6 +34,12 @@ public class HelloApplication extends Application {
         scene = new Scene(pane);
         globeStage.setTitle("Civilization Zero");
         globeStage.setScene(scene);
+        globeStage.setMaximized(true);
+        globeStage.setFullScreen(true);
         globeStage.show();
+    }
+
+    public static Scene getScene() {
+        return scene;
     }
 }
