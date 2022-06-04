@@ -14,4 +14,7 @@ public class ChatController {
 
     public void sendMessage(ActionEvent event) {
     }
+
+    public void newChat(ActionEvent event) {
+    }
 }

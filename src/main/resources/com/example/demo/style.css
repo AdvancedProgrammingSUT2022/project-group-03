@@ -1,14 +1,13 @@
 .usersBar {
-    -fx-padding: 10;
+    /*-fx-padding: 10;*/
     -fx-background-color: #c5fac5;
     -fx-font-size: 25;
 }
 
 .user {
-    -fx-label-padding: 10;
-    -fx-padding: 10;
-    -fx-border-width: 3;
-    -fx-border-color: #498a49;
+    -fx-pref-width: 300;
+    -fx-pref-height: 40;
+    -fx-border-color: #072307;
 }
 
 .topBar {

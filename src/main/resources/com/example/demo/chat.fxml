@@ -20,17 +20,29 @@
 
 
     <top>
-        <HBox alignment="CENTER" maxWidth="Infinity" spacing="10" styleClass="topBar">
-            <Text textAlignment="CENTER" text="Online Chat"/>
+        <HBox maxWidth="Infinity" spacing="10" styleClass="topBar">
+            <VBox alignment="CENTER">
+                <Text textAlignment="CENTER" text="Online Chat" style="-fx-text-fill: white; -fx-padding: 5"
+                />
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <HBox style="-fx-padding: 5" spacing="10">
+            <Button text="Back" onAction="#newChat"/>
+            <Button text="New Chat" onAction="#newChat"/>
+            <Button text="Settings" onAction="#newChat"/>
+            </HBox>
         </HBox>
     </top>
 
     <left>
 
-        <VBox fx:id="usersBar" prefWidth="300" spacing="20" styleClass="usersBar">
-            <Text text="Sayyed Ali Tayyeb" textAlignment="CENTER" styleClass="user"/>
-            <Text text="Moeen Samadi Azad"/>
-            <Text text="Arya Torabi"/>
+        <VBox prefWidth="300" spacing="5" alignment="TOP_CENTER" styleClass="usersBar">
+            <VBox fx:id="usersBar" alignment="TOP_CENTER">
+                <Button styleClass="user" text="Public Chat"/>
+                <Button styleClass="user" text="Sayyed Ali Tayyeb"/>
+                <Button styleClass="user" text="Moeen Samadi Azad"/>
+                <Button styleClass="user" text="Arya Torabi"/>
+            </VBox>
         </VBox>
     </left>
     <center>
