@@ -1,6 +1,5 @@
 package com.example.demo.view;
 
-import com.example.demo.HelloApplication;
 import com.example.demo.controller.LoginController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -9,7 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
+import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -56,6 +55,10 @@ public class LoginControllerFX implements Initializable {
         }
     }
 
+    public void checkEnter(KeyEvent keyEvent) throws IOException {
+        if (keyEvent.getCode().toString().equals("ENTER"))
+            login();
+    }
 
     public void errorMaker(String header, String content) {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);

@@ -22,10 +22,10 @@
         <ImageView fx:id="background">
             <Image url="@assets/backgrounds/1.png"/>
         </ImageView>
-        <TextField fx:id="username" layoutY="515.0" promptText="enter your username"/>
-        <TextField fx:id="password" layoutY="550.0" promptText="enter your password"/>
+        <TextField fx:id="username" layoutY="515.0" promptText="enter your username" text="u" onKeyReleased="#checkEnter"/>
+        <TextField fx:id="password" layoutY="550.0" promptText="enter your password" text="pap" onKeyReleased="#checkEnter"/>
         <TextField fx:id="nickname" layoutY="585.0" promptText="enter your nickname"/>
-        <Button fx:id="loginButton" layoutY="642.0" mnemonicParsing="false" text="login" onAction="#login"/>
+        <Button fx:id="loginButton" layoutY="642.0" mnemonicParsing="false" text="login" onKeyReleased="#checkEnter" onAction="#login"/>
         <Button fx:id="registerButton" layoutY="682.0" mnemonicParsing="false" text="register" onAction="#register"/>
     </AnchorPane>
 </VBox>

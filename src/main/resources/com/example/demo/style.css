@@ -1,0 +1,45 @@
+.usersBar {
+    -fx-padding: 10;
+    -fx-background-color: #c5fac5;
+    -fx-font-size: 25;
+}
+
+.user {
+    -fx-label-padding: 10;
+    -fx-padding: 10;
+    -fx-border-width: 3;
+    -fx-border-color: #498a49;
+}
+
+.topBar {
+    -fx-padding: 10;
+    -fx-font-size: 40;
+    -fx-background-color: #25b625;
+}
+
+.bottomBar {
+    -fx-max-height: 25;
+    -fx-font-size: 30;
+    -fx-padding: 15;
+    -fx-background-color: #87bb87;
+}
+
+TextField{
+    -fx-max-height: 20;
+    -fx-pref-width: 500;
+    -fx-font-size: 20;
+}
+
+Button {
+    -fx-font-size: 17;
+    -fx-font-weight: bold;
+    -fx-pref-width: 100;
+    -fx-max-height: 20;
+    -fx-border-radius: 5;
+    -fx-background-color: #0e670a;
+    -fx-text-fill: #ffffff;
+}
+
+Button:hover {
+    -fx-background-color: #0e3b0c;
+}

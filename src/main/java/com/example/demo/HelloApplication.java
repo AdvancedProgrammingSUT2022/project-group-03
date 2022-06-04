@@ -21,7 +21,6 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         //This line is nothing. just for testing the git.
         StageController.setStage(stage);
-
     }
 
     public static void main(String[] args) {
