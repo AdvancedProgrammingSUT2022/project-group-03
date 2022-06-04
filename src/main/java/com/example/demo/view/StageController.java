@@ -3,6 +3,7 @@ package com.example.demo.view;
 import com.example.demo.HelloApplication;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -30,6 +31,7 @@ public class StageController {
         stage.setMaximized(true);
         stage.setFullScreen(true);
         stage.show();
+
     }
 
     public static Scene getScene() {
@@ -44,5 +46,12 @@ public class StageController {
         pane = FXMLLoader.load(Objects
                 .requireNonNull(HelloApplication.class.getResource(fxmlName)));
         scene.setRoot(pane);
+    }
+    public static void errorMaker(String header, String content) {
+        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+        errorAlert.setHeaderText(header);
+        errorAlert.setContentText(content);
+        errorAlert.initOwner(StageController.getStage());
+        errorAlert.showAndWait();
     }
 }

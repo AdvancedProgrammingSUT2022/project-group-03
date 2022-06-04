@@ -27,7 +27,12 @@ public class MainControllerFX implements Initializable {
     @FXML
     public void profileMenu()
     {
-
+        try {
+            AssetsController.openLeadersAvatars();
+            StageController.sceneChanger("profileMenu.fxml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     @FXML
     public void scoreBoard()

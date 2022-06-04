@@ -32,23 +32,23 @@ public class LoginController {
         return 0;
     }
 
-    public static int changeNickname(String newNickName) {
-        User tempUser = User.findUser(newNickName, true);
-        if (tempUser != null)
-            return 1;
-        loggedUser.changeNickname(newNickName);
-        return 0;
-    }
 
-    public static int changePassword(String currentPassword,
-                                     String newPassword) {
+    public static int changeData(String currentPassword,
+                                     String newPassword,String nickname) {
         if (!loggedUser.isPasswordCorrect(currentPassword))
             return 1;
-        if (loggedUser.isPasswordCorrect(newPassword))
-            return 2;
-        if (!isPasswordValid(newPassword))
-            return 3;
-        loggedUser.changePassword(newPassword);
+        if(!newPassword.equals("")) {
+            if (loggedUser.isPasswordCorrect(newPassword))
+                return 2;
+            if (!isPasswordValid(newPassword))
+                return 3;
+            loggedUser.changePassword(newPassword);
+        }
+        if(!nickname.equals("")){
+            if(User.findUser(nickname,true) == null){
+                loggedUser.changeNickname(nickname);
+            }else return 4;
+        }
         return 0;
     }
 

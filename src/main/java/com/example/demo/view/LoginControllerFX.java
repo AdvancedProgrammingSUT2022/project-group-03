@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static com.example.demo.view.StageController.errorMaker;
+
 public class LoginControllerFX implements Initializable {
     public Button loginButton;
     public Button registerButton;
@@ -30,6 +32,7 @@ public class LoginControllerFX implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("what a dumb username");
                 alert.setContentText("user created successfully");
+                alert.initOwner(StageController.getStage());
                 alert.showAndWait();
             }
             case 1 -> errorMaker("Input not valid",
@@ -57,13 +60,6 @@ public class LoginControllerFX implements Initializable {
     }
 
 
-    public void errorMaker(String header, String content) {
-        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        errorAlert.setHeaderText(header);
-        errorAlert.setContentText(content);
-        errorAlert.initOwner(StageController.getStage());
-        errorAlert.showAndWait();
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
