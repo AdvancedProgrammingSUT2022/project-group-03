@@ -26,7 +26,8 @@ public class MainControllerFX implements Initializable {
     @FXML
     public void profileMenu()
     {
-
+        AssetsController.openLeadersAvatars();
+        StageController.sceneChanger("profileMenu.fxml");
     }
     @FXML
     public void scoreBoard()
@@ -36,7 +37,7 @@ public class MainControllerFX implements Initializable {
     @FXML
     public void chat()
     {
-
+        StageController.sceneChanger("chat.fxml");
     }
     @FXML
     public void logout() throws IOException {

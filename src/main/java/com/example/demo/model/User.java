@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.example.demo.HelloApplication;
+import com.example.demo.view.UserIcon;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -16,12 +18,12 @@ import java.util.Random;
 public class User {
     private final static int SIZE_OF_AVATARS = 3;
     private static ArrayList<User> listOfUsers = new ArrayList<>();
-    private int avatarNumber;
+    private UserIcon icon;
     private final String username;
     private String password;
     private String nickname;
+    private String customAvatar;
     private int score;
-
     static {
         try {
             String json = new String(Files.readAllBytes(Paths.get("dataBase/users.json")));
@@ -38,7 +40,7 @@ public class User {
         }
     }
 
-    private static void saveData() {
+    public static void saveData() {
         FileWriter fileWriter;
         try {
             fileWriter = new FileWriter("dataBase/users.json");
@@ -63,8 +65,7 @@ public class User {
         this.password = password;
         this.nickname = nickname;
         this.score = 0;
-        Random random = new Random();
-        this.avatarNumber = random.nextInt(SIZE_OF_AVATARS - 1);
+        icon = UserIcon.randomIcon();
         listOfUsers.add(this);
         saveData();
     }
@@ -92,5 +93,22 @@ public class User {
             return;
         listOfUsers.remove(user);
         saveData();
+    }
+
+    public void setCustomAvatar(String customAvatar) {
+        this.customAvatar = customAvatar;
+    }
+
+    public void setIcon(UserIcon icon) {
+        this.icon = icon;
+    }
+
+    public String getAvatar() {
+        if (icon == UserIcon.CUSTOM) return customAvatar;
+        return HelloApplication.class.getResource(icon.getImage()).toExternalForm();
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

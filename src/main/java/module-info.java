@@ -5,7 +5,7 @@ module com.example.demo {
     requires com.google.gson;
 
 
-    opens com.example.demo to javafx.fxml;
+    opens com.example.demo;
     exports com.example.demo;
     exports com.example.demo.controller;
     exports com.example.demo.model;

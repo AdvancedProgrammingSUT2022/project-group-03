@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static com.example.demo.view.StageController.errorMaker;
+
 public class LoginControllerFX implements Initializable {
     public Button loginButton;
     public Button registerButton;
@@ -27,19 +29,16 @@ public class LoginControllerFX implements Initializable {
         switch (LoginController.createNewUser(username.getText(),
                 password.getText(), nickname.getText())) {
             case 0 -> {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("what a dumb username");
-                alert.setContentText("user created successfully");
-                alert.showAndWait();
+                StageController.errorMaker("what a dumb username","user created successfully", Alert.AlertType.INFORMATION);
             }
             case 1 -> errorMaker("Input not valid",
-                    "type something dumbAss");
+                    "type something dumbAss", Alert.AlertType.ERROR);
             case 2 -> errorMaker("Input not valid",
-                    "a user with this username already exists");
+                    "a user with this username already exists", Alert.AlertType.ERROR);
             case 3 -> errorMaker("Input not valid",
-                    "a user with this nickname already exists");
+                    "a user with this nickname already exists", Alert.AlertType.ERROR);
             case 4 -> errorMaker("Input not valid",
-                    "nice joke. now please insert some real password");
+                    "nice joke. now please insert some real password", Alert.AlertType.ERROR);
         }
     }
 
@@ -50,20 +49,13 @@ public class LoginControllerFX implements Initializable {
                 password.getText())) {
             case 0 -> StageController.sceneChanger("mainMenu.fxml");
             case 1 -> errorMaker("Input not valid",
-                    "type something dumbAss");
+                    "type something dumbAss", Alert.AlertType.ERROR);
             case 2 -> errorMaker("Input not valid",
-                    "username or password is incorrect");
+                    "username or password is incorrect", Alert.AlertType.ERROR);
         }
     }
 
 
-    public void errorMaker(String header, String content) {
-        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        errorAlert.setHeaderText(header);
-        errorAlert.setContentText(content);
-        errorAlert.initOwner(StageController.getStage());
-        errorAlert.showAndWait();
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
