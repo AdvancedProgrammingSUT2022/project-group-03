@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -22,8 +23,9 @@ public class LoginControllerFX implements Initializable {
     public Button registerButton;
     public ImageView background;
     @FXML
-    private TextField username, password, nickname;
-
+    private TextField username, nickname;
+    @FXML
+    private PasswordField password;
     @FXML
     private void register() {
         switch (LoginController.createNewUser(username.getText(),
