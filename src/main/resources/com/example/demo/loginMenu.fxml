@@ -19,19 +19,13 @@
       xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.demo.view.LoginControllerFX">
     <AnchorPane fx:id="pane" VBox.vgrow="ALWAYS">
-        <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;"
-               text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Label>
         <ImageView fx:id="background">
             <Image url="@assets/backgrounds/1.png"/>
         </ImageView>
-        <TextField fx:id="username" layoutY="515.0" promptText="enter your username"/>
-        <TextField fx:id="password" layoutY="550.0" promptText="enter your password"/>
+        <TextField fx:id="username" layoutY="515.0" promptText="enter your username" text="u" onKeyReleased="#checkEnter"/>
+        <TextField fx:id="password" layoutY="550.0" promptText="enter your password" text="pap" onKeyReleased="#checkEnter"/>
         <TextField fx:id="nickname" layoutY="585.0" promptText="enter your nickname"/>
-        <Button fx:id="loginButton" layoutY="642.0" mnemonicParsing="false" text="login" onAction="#login"/>
+        <Button fx:id="loginButton" layoutY="642.0" mnemonicParsing="false" text="login" onKeyReleased="#checkEnter" onAction="#login"/>
         <Button fx:id="registerButton" layoutY="682.0" mnemonicParsing="false" text="register" onAction="#register"/>
     </AnchorPane>
 </VBox>

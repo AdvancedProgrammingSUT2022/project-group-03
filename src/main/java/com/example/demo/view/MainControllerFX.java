@@ -20,9 +20,8 @@ public class MainControllerFX implements Initializable {
     public ImageView background;
 
     @FXML
-    public void gameMenu()
-    {
-
+    public void gameMenu() throws IOException {
+        StageController.sceneChanger("gameEntryMenu.fxml");
     }
     @FXML
     public void profileMenu()
@@ -42,7 +41,11 @@ public class MainControllerFX implements Initializable {
     @FXML
     public void chat()
     {
-
+        try {
+            StageController.sceneChanger("chat.fxml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     @FXML
     public void logout() throws IOException {
@@ -51,6 +54,11 @@ public class MainControllerFX implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        gameMenuButton.setPrefWidth(81);
+        profileMenuButton.setPrefWidth(84);
+        scoreBoardButton.setPrefWidth(77);
+        chatButton.setPrefWidth(41);
+        logoutButton.setPrefWidth(54);
         Platform.runLater(() ->gameMenuButton.setLayoutX(StageController.getScene().getWidth()/2- gameMenuButton.getWidth()/2));
         Platform.runLater(() ->profileMenuButton.setLayoutX(StageController.getScene().getWidth()/2- profileMenuButton.getWidth()/2));
         Platform.runLater(() ->scoreBoardButton.setLayoutX(StageController.getScene().getWidth()/2- scoreBoardButton.getWidth()/2));

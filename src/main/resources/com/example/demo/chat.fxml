@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+
+<!--        prefHeight="800.0" prefWidth="1280.0"-->
+
+<?import javafx.scene.shape.Rectangle?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="640.0"
+            xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.view.ChatController"
+            stylesheets="@./style.css">
+
+
+    <top>
+        <HBox maxWidth="Infinity" spacing="10" styleClass="topBar">
+            <VBox alignment="CENTER">
+                <Text textAlignment="CENTER" text="Online Chat" style="-fx-text-fill: white; -fx-padding: 5"
+                />
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <HBox style="-fx-padding: 5" spacing="10">
+            <Button text="Back" onAction="#newChat"/>
+            <Button text="New Chat" onAction="#newChat"/>
+            <Button text="Settings" onAction="#newChat"/>
+            </HBox>
+        </HBox>
+    </top>
+
+    <left>
+
+        <VBox prefWidth="300" spacing="5" alignment="TOP_CENTER" styleClass="usersBar">
+            <VBox fx:id="usersBar" alignment="TOP_CENTER">
+                <Button styleClass="user" text="Public Chat"/>
+                <Button styleClass="user" text="Sayyed Ali Tayyeb"/>
+                <Button styleClass="user" text="Moeen Samadi Azad"/>
+                <Button styleClass="user" text="Arya Torabi"/>
+            </VBox>
+        </VBox>
+    </left>
+    <center>
+        <VBox fx:id="chatSection" alignment="CENTER">
+            <Text text="hello!"/>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER" spacing="10" styleClass="bottomBar">
+            <TextField fx:id="messageField" promptText="Write a message..."/>
+            <Button text="Send" onAction="#sendMessage"/>
+        </HBox>
+    </bottom>
+</BorderPane>
+
