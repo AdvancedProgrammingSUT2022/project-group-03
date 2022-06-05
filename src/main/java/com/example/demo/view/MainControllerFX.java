@@ -26,12 +26,8 @@ public class MainControllerFX implements Initializable {
     @FXML
     public void profileMenu()
     {
-        try {
-            AssetsController.openLeadersAvatars();
-            StageController.sceneChanger("profileMenu.fxml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        AssetsController.openLeadersAvatars();
+        StageController.sceneChanger("profileMenu.fxml");
     }
     @FXML
     public void scoreBoard()
@@ -41,11 +37,7 @@ public class MainControllerFX implements Initializable {
     @FXML
     public void chat()
     {
-        try {
-            StageController.sceneChanger("chat.fxml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        StageController.sceneChanger("chat.fxml");
     }
     @FXML
     public void logout() throws IOException {

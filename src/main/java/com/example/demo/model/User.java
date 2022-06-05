@@ -104,8 +104,11 @@ public class User {
     }
 
     public String getAvatar() {
-        if(icon == UserIcon.CUSTOM) return customAvatar;
-        return  HelloApplication.class.getResource(icon.getImage()).toExternalForm();
+        if (icon == UserIcon.CUSTOM) return customAvatar;
+        return HelloApplication.class.getResource(icon.getImage()).toExternalForm();
+    }
 
+    public String getUsername() {
+        return username;
     }
 }

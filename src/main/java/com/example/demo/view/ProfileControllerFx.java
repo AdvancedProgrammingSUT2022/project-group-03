@@ -77,27 +77,15 @@ public class ProfileControllerFx implements Initializable {
 
     public void delete(MouseEvent mouseEvent) {
         User.deleteUser(LoginController.getLoggedUser());
-        try {
-            StageController.sceneChanger("loginMenu.fxml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        StageController.sceneChanger("loginMenu.fxml");
     }
 
     public void back(MouseEvent mouseEvent) {
-        try {
-            StageController.sceneChanger("mainMenu.fxml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        StageController.sceneChanger("mainMenu.fxml");
     }
 
     public void exit(MouseEvent mouseEvent) {
-        try {
-            StageController.sceneChanger("loginMenu.fxml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        StageController.sceneChanger("loginMenu.fxml");
     }
 
     private void initializeElements(){
