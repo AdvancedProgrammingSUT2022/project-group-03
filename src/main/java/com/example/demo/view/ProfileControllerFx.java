@@ -15,8 +15,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -26,26 +29,22 @@ public class ProfileControllerFx implements Initializable {
     @FXML private  ImageView background;
     @FXML private  AnchorPane pane;
     @FXML private  TextField nickname;
-    @FXML private  Button confirm;
-    @FXML private  Button exit;
-    @FXML private  Button back;
     private final HashMap<Rectangle,UserIcon> icons = new HashMap<>();
-    @FXML private Label errorBox;
     @FXML private PasswordField oldPassword;
     @FXML private PasswordField newPassword;
+    private String avatarPath;
     @FXML
     private Button profile;
     public void initialize(URL location, ResourceBundle resources) {
-        changeProfile(false,profile,200, LoginController.getLoggedUser().getIcon());
+        changeProfile(profile,200, LoginController.getLoggedUser().getAvatar());
         initializeElements();
         initializeIcons();
         Platform.runLater(() ->background.setFitWidth(StageController.getScene().getWidth()));
         Platform.runLater(() ->background.setFitHeight(StageController.getScene().getHeight()));
 
     }
-    public static void changeProfile(boolean toGif,Button profile,int size,UserIcon icon){
-        String Address = HelloApplication.class.getResource(icon.image).toExternalForm();
-        Image image = new Image(Address);
+    public static void changeProfile(Button profile,int size,String adress){
+        Image image = new Image(adress);
         BackgroundImage b = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 new BackgroundSize(size,size,false,false,false,false));
         Background background = new Background(b);
@@ -54,23 +53,25 @@ public class ProfileControllerFx implements Initializable {
 
 
     public void changeUserData(ActionEvent mouseEvent) {
-        switch (LoginController.changeData(oldPassword.getText(),newPassword.getText(),nickname.getText())){
+        switch (LoginController.changeData(oldPassword.getText(),newPassword.getText(),nickname.getText(),avatarPath)){
             case 0:
-                StageController.errorMaker("Input not valid","changed successfully");
+                StageController.errorMaker("Successful","changed successfully", Alert.AlertType.INFORMATION);
                 break;
             case 1:
-                StageController.errorMaker("Input not valid","wrong password");
+                StageController.errorMaker("Input not valid","wrong password", Alert.AlertType.ERROR);
                 break;
             case 2:
-                StageController.errorMaker("Input not valid","enter new password");
+                StageController.errorMaker("Input not valid","enter new password", Alert.AlertType.ERROR);
                 break;
             case 3:
-                StageController.errorMaker("Input not valid","not a valid password");
+                StageController.errorMaker("Input not valid","not a valid password", Alert.AlertType.ERROR);
                 break;
             case 4:
-                StageController.errorMaker("Input not valid","choose another nickname");
+                StageController.errorMaker("Input not valid","choose another nickname", Alert.AlertType.ERROR);
                 break;
         }
+        User.saveData();
+        changeProfile(profile,(int)(200*SIZE_RATIO),LoginController.getLoggedUser().getAvatar());
     }
 
 
@@ -100,12 +101,41 @@ public class ProfileControllerFx implements Initializable {
     }
 
     private void initializeElements(){
+        FileChooser avatarFile = new FileChooser();
+        Button button = new Button("Choose custom avatar");
+        button.setLayoutX(170);
+        button.setLayoutY(750);
+        Label label = new Label("no file selected");
+        label.setLayoutX(150);
+        label.setLayoutY(800);
+        label.setStyle("-fx-font-size: 25;-fx-text-fill: white");
+        pane.getChildren().add(button);
+        pane.getChildren().add(label);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e)
+            {
+                File file = avatarFile.showOpenDialog(StageController.getStage());
+                if (file != null) {
+                    label.setText(file.getAbsolutePath()
+                            + "  selected");
+                    try {
+                        avatarPath =file.toURI().toURL().toExternalForm();
+                    } catch (MalformedURLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
+
+            }
+        });
+
         for (Node child : pane.getChildren()) {
             if(child != background) {
                 child.setLayoutX(child.getLayoutX() * SIZE_RATIO);
                 child.setLayoutY(child.getLayoutY() * SIZE_RATIO);
             }
         }
+
 
 
     }
@@ -126,7 +156,7 @@ public class ProfileControllerFx implements Initializable {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
                         LoginController.getLoggedUser().setIcon(icons.get(mouseEvent.getSource()));
-                        changeProfile(false,profile, (int) (200* SIZE_RATIO),LoginController.getLoggedUser().getIcon());
+                        changeProfile(profile, (int) (200* SIZE_RATIO),LoginController.getLoggedUser().getAvatar());
                     }
                 });
                 rectangle.setWidth(100* SIZE_RATIO);

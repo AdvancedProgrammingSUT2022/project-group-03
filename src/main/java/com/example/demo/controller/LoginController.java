@@ -1,6 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.User;
+import com.example.demo.view.UserIcon;
+
+import java.nio.file.Path;
 
 public class LoginController {
     private static User loggedUser;
@@ -34,7 +37,11 @@ public class LoginController {
 
 
     public static int changeData(String currentPassword,
-                                     String newPassword,String nickname) {
+                                     String newPassword,String nickname,String path) {
+        if(path != null){
+            loggedUser.setIcon(UserIcon.CUSTOM);
+             loggedUser.setCustomAvatar(path);
+        }
         if (!loggedUser.isPasswordCorrect(currentPassword))
             return 1;
         if(!newPassword.equals("")) {

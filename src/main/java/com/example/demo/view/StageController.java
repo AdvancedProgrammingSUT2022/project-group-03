@@ -47,8 +47,8 @@ public class StageController {
                 .requireNonNull(HelloApplication.class.getResource(fxmlName)));
         scene.setRoot(pane);
     }
-    public static void errorMaker(String header, String content) {
-        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+    public static void errorMaker(String header, String content,Alert.AlertType type) {
+        Alert errorAlert = new Alert(type);
         errorAlert.setHeaderText(header);
         errorAlert.setContentText(content);
         errorAlert.initOwner(StageController.getStage());

@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.HelloApplication;
 import com.example.demo.view.UserIcon;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,6 +22,7 @@ public class User {
     private final String username;
     private String password;
     private String nickname;
+    private String customAvatar;
     private int score;
     static {
         try {
@@ -38,7 +40,7 @@ public class User {
         }
     }
 
-    private static void saveData() {
+    public static void saveData() {
         FileWriter fileWriter;
         try {
             fileWriter = new FileWriter("dataBase/users.json");
@@ -93,11 +95,17 @@ public class User {
         saveData();
     }
 
-    public UserIcon getIcon() {
-        return icon;
+    public void setCustomAvatar(String customAvatar) {
+        this.customAvatar = customAvatar;
     }
 
     public void setIcon(UserIcon icon) {
         this.icon = icon;
+    }
+
+    public String getAvatar() {
+        if(icon == UserIcon.CUSTOM) return customAvatar;
+        return  HelloApplication.class.getResource(icon.getImage()).toExternalForm();
+
     }
 }

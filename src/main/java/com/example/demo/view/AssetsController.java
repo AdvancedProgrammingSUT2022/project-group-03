@@ -10,7 +10,7 @@ public class AssetsController {
     public static void openLeadersAvatars(){
         userAvatarImages = new ArrayList<>();
         for (UserIcon value : UserIcon.getVALUES()) {
-            userAvatarImages.add(new Image(HelloApplication.class.getResource(value.image).toExternalForm()));
+            userAvatarImages.add(new Image(HelloApplication.class.getResource(value.getImage()).toExternalForm()));
         }
     }
 

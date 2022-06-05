@@ -57,8 +57,9 @@ public enum UserIcon {
     TRAJAN("assets/icons/51.png"),
     VICTORIA("assets/icons/52.png"),
     WILFRID_LAURIER("assets/icons/53.png"),
-    WILHELMINA("assets/icons/54.png");
-    final String image;
+    WILHELMINA("assets/icons/54.png"),
+    CUSTOM("");
+    private final String image;
     final static int ICON_NUMBER = 54;
     private static final List<UserIcon> VALUES = List.of(values());
     private static final int SIZE = VALUES.size();
@@ -71,5 +72,9 @@ public enum UserIcon {
     }
     public static List<UserIcon> getVALUES() {
         return VALUES;
+    }
+
+    public String getImage() {
+        return image;
     }
 }
