@@ -15,7 +15,6 @@ public class StageController {
     private static Pane pane;
 
 
-
     public static void setStage(Stage stage) {
         StageController.stage = stage;
         stage.setTitle("Civilization Zero");
@@ -40,9 +39,13 @@ public class StageController {
         return stage;
     }
 
-    public static void sceneChanger(String fxmlName) throws IOException {
-        pane = FXMLLoader.load(Objects
-                .requireNonNull(HelloApplication.class.getResource(fxmlName)));
-        scene.setRoot(pane);
+    public static void sceneChanger(String fxmlName) {
+        try {
+            pane = FXMLLoader.load(Objects
+                    .requireNonNull(HelloApplication.class.getResource(fxmlName)));
+            scene.setRoot(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

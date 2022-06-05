@@ -93,4 +93,8 @@ public class User {
         listOfUsers.remove(user);
         saveData();
     }
+
+    public String getUsername() {
+        return username;
+    }
 }

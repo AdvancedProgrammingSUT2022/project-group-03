@@ -36,11 +36,7 @@ public class MainControllerFX implements Initializable {
     @FXML
     public void chat()
     {
-        try {
-            StageController.sceneChanger("chat.fxml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        StageController.sceneChanger("chat.fxml");
     }
     @FXML
     public void logout() throws IOException {
