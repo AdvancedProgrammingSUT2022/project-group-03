@@ -46,17 +46,31 @@ public class MainControllerFX implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        gameMenuButton.setPrefWidth(81);
-        profileMenuButton.setPrefWidth(84);
-        scoreBoardButton.setPrefWidth(77);
-        chatButton.setPrefWidth(41);
-        logoutButton.setPrefWidth(54);
-        Platform.runLater(() ->gameMenuButton.setLayoutX(StageController.getScene().getWidth()/2- gameMenuButton.getWidth()/2));
-        Platform.runLater(() ->profileMenuButton.setLayoutX(StageController.getScene().getWidth()/2- profileMenuButton.getWidth()/2));
-        Platform.runLater(() ->scoreBoardButton.setLayoutX(StageController.getScene().getWidth()/2- scoreBoardButton.getWidth()/2));
-        Platform.runLater(() ->chatButton.setLayoutX(StageController.getScene().getWidth()/2- chatButton.getWidth()/2));
-        Platform.runLater(() ->logoutButton.setLayoutX(StageController.getScene().getWidth()- logoutButton.getWidth()*1.5));
-        Platform.runLater(() ->background.setFitWidth(StageController.getScene().getWidth()));
-        Platform.runLater(() ->background.setFitHeight(StageController.getScene().getHeight()));
+
+        Platform.runLater(this::runLater);
+    }
+
+    public void runLater()
+    {
+
+        gameMenuButton.setPrefWidth(81 * StageController.getStage().getWidth()/1920);
+        profileMenuButton.setPrefWidth(84 * StageController.getStage().getWidth()/1920);
+        scoreBoardButton.setPrefWidth(77 * StageController.getStage().getWidth()/1920);
+        chatButton.setPrefWidth(41 * StageController.getStage().getWidth()/1920);
+        logoutButton.setPrefWidth(54 * StageController.getStage().getWidth()/1920);
+
+        gameMenuButton.setLayoutY(StageController.getStage().getHeight()*0.19);
+        profileMenuButton.setLayoutY(StageController.getStage().getHeight()*0.22);
+        scoreBoardButton.setLayoutY(StageController.getStage().getHeight()*0.25);
+        chatButton.setLayoutY(StageController.getStage().getHeight()*0.28);
+        logoutButton.setLayoutY(StageController.getStage().getHeight()*0.012);
+
+        gameMenuButton.setLayoutX(StageController.getScene().getWidth()*0.16- gameMenuButton.getWidth()/2);
+        profileMenuButton.setLayoutX(StageController.getScene().getWidth()*0.16- profileMenuButton.getWidth()/2);
+        scoreBoardButton.setLayoutX(StageController.getScene().getWidth()*0.16- scoreBoardButton.getWidth()/2);
+        chatButton.setLayoutX(StageController.getScene().getWidth()*0.16- chatButton.getWidth()/2);
+        logoutButton.setLayoutX(StageController.getScene().getWidth()- logoutButton.getWidth()*1.5);
+        background.setFitWidth(StageController.getScene().getWidth());
+        background.setFitHeight(StageController.getScene().getHeight());
     }
 }

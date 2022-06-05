@@ -16,7 +16,7 @@
             minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="800.0" prefWidth="1280.0" fx:id="pane">
     <ImageView fx:id="background" fitWidth="1280.0">
-        <Image url="@assets/backgrounds/1.png"/>
+        <Image url="@assets/backgrounds/profileMenuBackground.png"/>
     </ImageView>
     <Button fx:id="profile" layoutX="100" layoutY="20.0" mnemonicParsing="false"
             prefHeight="200.0" prefWidth="200.0"/>

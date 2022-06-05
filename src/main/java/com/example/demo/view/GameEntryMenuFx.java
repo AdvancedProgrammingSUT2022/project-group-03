@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -23,6 +24,7 @@ public class GameEntryMenuFx implements Initializable {
     public ImageView background;
     public ScrollPane savesListScrollBar;
     public Text selectedSaveNumber;
+    public Button back;
     int mapX = 60, mapY = 90;
     int autoSave = 0;
     int autoSaveNumbers = 5;
@@ -49,7 +51,7 @@ public class GameEntryMenuFx implements Initializable {
     public void morePlayers() {
         numberOfPlayers++;
         numberOfPlayersTest.setText(String.valueOf(numberOfPlayers));
-        numberOfPlayersTest.setX(StageController.getStage().getWidth() * 0.92 - numberOfPlayersTest.getLayoutBounds().getWidth() / 2);
+        numberOfPlayersTest.setX(StageController.getStage().getWidth() * 0.91 - numberOfPlayersTest.getLayoutBounds().getWidth() / 2);
     }
 
     @FXML
@@ -58,7 +60,7 @@ public class GameEntryMenuFx implements Initializable {
             return;
         numberOfPlayers--;
         numberOfPlayersTest.setText(String.valueOf(numberOfPlayers));
-        numberOfPlayersTest.setX(StageController.getStage().getWidth() * 0.92 - numberOfPlayersTest.getLayoutBounds().getWidth() / 2);
+        numberOfPlayersTest.setX(StageController.getStage().getWidth() * 0.91 - numberOfPlayersTest.getLayoutBounds().getWidth() / 2);
     }
 
     @FXML
@@ -66,7 +68,7 @@ public class GameEntryMenuFx implements Initializable {
         mapX += 2;
         mapY += 3;
         mapXY.setText("X: " + mapX + " Y: " + mapY);
-        mapXY.setX(StageController.getStage().getWidth() * 0.68 - mapXY.getLayoutBounds().getWidth() / 2);
+        mapXY.setX(StageController.getStage().getWidth() * 0.91 - mapXY.getLayoutBounds().getWidth() / 2);
     }
 
     @FXML
@@ -76,7 +78,7 @@ public class GameEntryMenuFx implements Initializable {
         mapX -= 2;
         mapY -= 3;
         mapXY.setText("X: " + mapX + " Y: " + mapY);
-        mapXY.setX(StageController.getStage().getWidth() * 0.68 - mapXY.getLayoutBounds().getWidth() / 2);
+        mapXY.setX(StageController.getStage().getWidth() * 0.91 - mapXY.getLayoutBounds().getWidth() / 2);
     }
 
     @FXML
@@ -99,7 +101,7 @@ public class GameEntryMenuFx implements Initializable {
     public void moreAutoSave() {
         autoSaveNumbers++;
         numberOfAutoSaveText.setText(String.valueOf(autoSaveNumbers));
-        numberOfAutoSaveText.setX(StageController.getStage().getWidth() * 0.41 - numberOfAutoSaveText.getLayoutBounds().getWidth() / 2);
+        numberOfAutoSaveText.setX(StageController.getStage().getWidth() * 0.91 - numberOfAutoSaveText.getLayoutBounds().getWidth() / 2);
     }
 
     @FXML
@@ -108,7 +110,7 @@ public class GameEntryMenuFx implements Initializable {
             return;
         autoSaveNumbers--;
         numberOfAutoSaveText.setText(String.valueOf(autoSaveNumbers));
-        numberOfAutoSaveText.setX(StageController.getStage().getWidth() * 0.41 - numberOfAutoSaveText.getLayoutBounds().getWidth() / 2);
+        numberOfAutoSaveText.setX(StageController.getStage().getWidth() * 0.91 - numberOfAutoSaveText.getLayoutBounds().getWidth() / 2);
     }
 
     @Override
@@ -122,6 +124,9 @@ public class GameEntryMenuFx implements Initializable {
 
     private void runLaterPlease() {
         Font font = new Font(30 * StageController.getStage().getWidth() / 1920);
+
+        back.setLayoutX(StageController.getStage().getWidth()*0.02);
+        back.setLayoutY(StageController.getStage().getHeight() - back.getHeight()*1.5);
 
         autoMapToggle.fire();
         mapDetails.setOpacity(0.5);
@@ -206,6 +211,10 @@ public class GameEntryMenuFx implements Initializable {
         background.setFitHeight(StageController.getScene().getHeight());
     }
 
+    public void back(MouseEvent mouseEvent) {
+        StageController.sceneChanger("mainMenu.fxml");
+    }
+
     private EventHandler<ActionEvent> setAutoSave(int i) {
         System.out.println(i);
         autoSave = i;
@@ -225,6 +234,7 @@ public class GameEntryMenuFx implements Initializable {
 
     private void setWithMoreLess(Text textDetails, Font font, double percent, Text text, Button less,
                                  Button more, String textString, String increaseString, String decreaseString, double yPercent) {
+
         textDetails.setFont(font);
         textDetails.setX(StageController.getStage().getWidth() * percent - textDetails.getLayoutBounds().getWidth() / 2);
         textDetails.setY(StageController.getStage().getHeight() * yPercent);

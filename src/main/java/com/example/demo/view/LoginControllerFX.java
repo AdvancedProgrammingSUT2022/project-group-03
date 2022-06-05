@@ -59,17 +59,32 @@ public class LoginControllerFX implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        username.setPrefWidth(150);
-        password.setPrefWidth(150);
-        nickname.setPrefWidth(150);
-        loginButton.setPrefWidth(43);
-        registerButton.setPrefWidth(57);
-        Platform.runLater(() -> username.setLayoutX(StageController.getScene().getWidth() / 2 - username.getWidth() / 2));
-        Platform.runLater(() -> password.setLayoutX(StageController.getScene().getWidth() / 2 - password.getWidth() / 2));
-        Platform.runLater(() -> nickname.setLayoutX(StageController.getScene().getWidth() / 2 - nickname.getWidth() / 2));
-        Platform.runLater(() -> loginButton.setLayoutX(StageController.getScene().getWidth() / 2 - loginButton.getWidth() / 2));
-        Platform.runLater(() -> registerButton.setLayoutX(StageController.getScene().getWidth() / 2 - registerButton.getWidth() / 2));
-        Platform.runLater(() -> background.setFitWidth(StageController.getScene().getWidth()));
-        Platform.runLater(() -> background.setFitHeight(StageController.getScene().getHeight()));
+
+
+        Platform.runLater(this::runLater);
+    }
+
+    public void runLater()
+    {
+
+        username.setPrefWidth(150 * StageController.getStage().getWidth()/1920);
+        password.setPrefWidth(150 * StageController.getStage().getWidth()/1920);
+        nickname.setPrefWidth(150 * StageController.getStage().getWidth()/1920);
+        loginButton.setPrefWidth(43 * StageController.getStage().getWidth()/1920);
+        registerButton.setPrefWidth(57 * StageController.getStage().getWidth()/1920);
+
+        username.setLayoutY(StageController.getStage().getHeight()*0.476);
+        password.setLayoutY(StageController.getStage().getHeight()*0.509);
+        nickname.setLayoutY(StageController.getStage().getHeight()*0.541);
+        loginButton.setLayoutY(StageController.getStage().getHeight()*0.594);
+        registerButton.setLayoutY(StageController.getStage().getHeight()*0.631);
+
+        username.setLayoutX(StageController.getScene().getWidth() *0.24 - username.getWidth() / 2);
+        password.setLayoutX(StageController.getScene().getWidth() *0.24- password.getWidth() / 2);
+        nickname.setLayoutX(StageController.getScene().getWidth() *0.24 - nickname.getWidth() / 2);
+        loginButton.setLayoutX(StageController.getScene().getWidth() *0.24 - loginButton.getWidth() / 2);
+        registerButton.setLayoutX(StageController.getScene().getWidth() *0.24 - registerButton.getWidth() / 2);
+        background.setFitWidth(StageController.getScene().getWidth());
+        background.setFitHeight(StageController.getScene().getHeight());
     }
 }
