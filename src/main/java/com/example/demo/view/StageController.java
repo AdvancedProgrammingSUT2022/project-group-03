@@ -40,6 +40,10 @@ public class StageController {
         return stage;
     }
 
+    public static Pane getPane() {
+        return pane;
+    }
+
     public static void sceneChanger(String fxmlName) throws IOException {
         pane = FXMLLoader.load(Objects
                 .requireNonNull(HelloApplication.class.getResource(fxmlName)));

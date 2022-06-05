@@ -12,6 +12,8 @@
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.ScrollPane?>
 <VBox prefHeight="400.0" prefWidth="640.0"
       fx:controller="com.example.demo.view.GameEntryMenuFx"
       xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
@@ -38,6 +40,8 @@
         <Text fx:id="numberOfAutoSaveText"/>
         <Button fx:id="moreAutoSavesButton" mnemonicParsing="false" text="+" onMouseClicked="#moreAutoSave"/>
         <Button fx:id="lessAutoSavesButton" mnemonicParsing="false" text="-" onMouseClicked="#lessAutoSave"/>
+        <ScrollPane fx:id="savesListScrollBar" />
+        <Text fx:id="selectedSaveNumber"/>
 
 
         <SplitMenuButton fx:id="autoSaveOrNot" layoutX="103.0" layoutY="302.0" mnemonicParsing="false" text="AutoSave"/>

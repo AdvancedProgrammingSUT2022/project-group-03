@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -20,6 +21,8 @@ public class GameEntryMenuFx implements Initializable {
     public Button lessAutoSavesButton;
     public Button moreAutoSavesButton;
     public ImageView background;
+    public ScrollPane savesListScrollBar;
+    public Text selectedSaveNumber;
     int mapX = 60, mapY = 90;
     int autoSave = 0;
     int autoSaveNumbers = 5;
@@ -126,82 +129,78 @@ public class GameEntryMenuFx implements Initializable {
         moreMapXButton.setDisable(true);
         lessMapYButton.setDisable(true);
 
-        numberOfPlayersDetail.setFont(font);
-        numberOfPlayersDetail.setX(StageController.getStage().getWidth() * 0.92 - numberOfPlayersDetail.getLayoutBounds().getWidth() / 2);
-        numberOfPlayersDetail.setY(StageController.getStage().getHeight() * 0.05);
 
-        numberOfPlayersTest.setText(String.valueOf(numberOfPlayers));
-        numberOfPlayersTest.setFont(font);
-        numberOfPlayersTest.setX(StageController.getStage().getWidth() * 0.92 - numberOfPlayersTest.getLayoutBounds().getWidth() / 2);
-        numberOfPlayersTest.setY(StageController.getStage().getHeight() * 0.1);
+        setWithMoreLess(numberOfPlayersDetail,
+                font, 0.91,
+                numberOfPlayersTest, lessPlayersButton,
+                morePlayersButton, String.valueOf(numberOfPlayers),
+                "Increases the number of players",
+                "Increases the number of players",0.05);
 
-        morePlayersButton.setLayoutX(StageController.getStage().getWidth() * 0.92 + morePlayersButton.getWidth() * 0.1);
-        morePlayersButton.setLayoutY(numberOfPlayersTest.getY() + numberOfPlayersTest.getLayoutBounds().getHeight() / 2);
-        morePlayersButton.setTooltip(new Tooltip("Increases the number of players"));
-
-        lessPlayersButton.setLayoutX(StageController.getStage().getWidth() * 0.92 - 1.1 * lessPlayersButton.getWidth());
-        lessPlayersButton.setLayoutY(numberOfPlayersTest.getY() + numberOfPlayersTest.getLayoutBounds().getHeight() / 2);
-        lessPlayersButton.setTooltip(new Tooltip("Decreases the number of players"));
-
-
-        autoMapToggle.setLayoutX(StageController.getStage().getWidth() * 0.80 - autoMapToggle.getWidth() / 2);
-        autoMapToggle.setLayoutY(StageController.getStage().getHeight() * 0.1);
+        autoMapToggle.setLayoutX(StageController.getStage().getWidth() * 0.91 - autoMapToggle.getWidth() / 2);
+        autoMapToggle.setLayoutY(StageController.getStage().getHeight() * 0.18);
         autoMapToggle.setTooltip(new Tooltip("Set/onset Auto-generate-map"));
 
-        mapDetails.setFont(font);
-        mapDetails.setX(StageController.getStage().getWidth() * 0.68 - mapDetails.getLayoutBounds().getWidth() / 2);
-        mapDetails.setY(StageController.getStage().getHeight() * 0.05);
+        setWithMoreLess(mapDetails, font, 0.91, mapXY,
+                lessMapYButton, moreMapXButton, "X: " + mapX + " Y: " + mapY,
+                "Increases the size of map",
+                "Decreases the size of map",0.25);
 
-        mapXY.setFont(font);
-        mapXY.setText("X: " + mapX + " Y: " + mapY);
-        mapXY.setX(StageController.getStage().getWidth() * 0.68 - mapXY.getLayoutBounds().getWidth() / 2);
-        mapXY.setY(StageController.getStage().getHeight() * 0.1);
-
-        moreMapXButton.setLayoutX(StageController.getStage().getWidth() * 0.68 + moreMapXButton.getWidth() * 0.1);
-        moreMapXButton.setLayoutY(mapXY.getY() + mapXY.getLayoutBounds().getHeight() / 2);
-        moreMapXButton.setTooltip(new Tooltip("Increases the size of map"));
-
-        lessMapYButton.setLayoutX(StageController.getStage().getWidth() * 0.68 - lessMapYButton.getWidth() * 1.1);
-        lessMapYButton.setLayoutY(mapXY.getY() + mapXY.getLayoutBounds().getHeight() / 2);
-        lessMapYButton.setTooltip(new Tooltip("Decreases the size of map"));
-
-
-        invitationId.setLayoutX(StageController.getStage().getWidth() * 0.56 - invitationId.getWidth() / 2);
-        invitationId.setLayoutY(StageController.getStage().getHeight() * 0.05);
-        sendInvitationButton.setLayoutX(StageController.getStage().getWidth() * 0.56 - sendInvitationButton.getWidth() / 2);
-        sendInvitationButton.setLayoutY(StageController.getStage().getHeight() * 0.1);
+        invitationId.setLayoutX(StageController.getStage().getWidth() * 0.91 - invitationId.getWidth() / 2);
+        invitationId.setLayoutY(StageController.getStage().getHeight() * 0.60);
+        sendInvitationButton.setLayoutX(StageController.getStage().getWidth() * 0.91 - sendInvitationButton.getWidth() / 2);
+        sendInvitationButton.setLayoutY(StageController.getStage().getHeight() * 0.63);
         sendInvitationButton.setTooltip(new Tooltip("sends invitation to the username you type"));
 
         MenuItem[] menuItems = {new MenuItem("off"), new MenuItem("each round"), new MenuItem("each city occupation")};
         autoSaveOrNot.getItems().addAll(menuItems);
+        autoSaveOrNot.setLayoutX(StageController.getStage().getWidth() * 0.91 - autoSaveOrNot.getWidth() / 2);
+        autoSaveOrNot.setLayoutY(StageController.getStage().getHeight()*0.38);
 
         for (int i = 0; i < menuItems.length; i++) {
             int finalI = i;
             menuItems[i].setOnAction((e) -> {
-               setAutoSave(finalI);
+                setAutoSave(finalI);
             });
         }
 
-        numberOfAutoSaveDetail.setFont(font);
-        numberOfAutoSaveDetail.setX(StageController.getStage().getWidth() * 0.41 - numberOfAutoSaveDetail.getLayoutBounds().getWidth() / 2);
-        numberOfAutoSaveDetail.setY(StageController.getStage().getHeight() * 0.05);
-
-        numberOfAutoSaveText.setText(String.valueOf(autoSaveNumbers));
-        numberOfAutoSaveText.setFont(font);
-        numberOfAutoSaveText.setX(StageController.getStage().getWidth() * 0.41 - numberOfAutoSaveText.getLayoutBounds().getWidth() / 2);
-        numberOfAutoSaveText.setY(StageController.getStage().getHeight() * 0.1);
-
-        moreAutoSavesButton.setLayoutX(StageController.getStage().getWidth() * 0.41 + moreAutoSavesButton.getWidth() * 0.1);
-        moreAutoSavesButton.setLayoutY(numberOfAutoSaveText.getY() + numberOfAutoSaveText.getLayoutBounds().getHeight() / 2);
-        moreAutoSavesButton.setTooltip(new Tooltip("Increases the number of autoSaves"));
-
-        lessAutoSavesButton.setLayoutX(StageController.getStage().getWidth() * 0.41 - 1.1 * lessAutoSavesButton.getWidth());
-        lessAutoSavesButton.setLayoutY(numberOfAutoSaveText.getY() + numberOfAutoSaveText.getLayoutBounds().getHeight() / 2);
-        lessAutoSavesButton.setTooltip(new Tooltip("Decreases the number of autoSaves"));
+        setWithMoreLess(numberOfAutoSaveDetail, font, 0.91, numberOfAutoSaveText,
+                lessAutoSavesButton, moreAutoSavesButton, String.valueOf(autoSaveNumbers),
+                "Increases the number of autoSaves", "Decreases the number of autoSaves",0.45);
 
         startGameButton.setLayoutX(StageController.getScene().getWidth() - startGameButton.getWidth() * 1.5);
         startGameButton.setLayoutY(StageController.getScene().getHeight() - startGameButton.getHeight() * 1.5);
         startGameButton.setTooltip(new Tooltip("This button starts the game, obviously."));
+        AnchorPane tempAnchorPane = new AnchorPane();
+        savesListScrollBar.setPrefSize(StageController.getScene().getWidth()*0.06, StageController.getScene().getWidth()*0.1);
+        savesListScrollBar.setContent(tempAnchorPane);
+        savesListScrollBar.setLayoutY(StageController.getScene().getHeight()*0.5);
+        selectedSaveNumber.setText("Selected Save: New Game");
+        selectedSaveNumber.setFont(font);
+        selectedSaveNumber.setX(StageController.getStage().getWidth()*0.11 - selectedSaveNumber.getLayoutBounds().getWidth()/2);
+        savesListScrollBar.setLayoutX(StageController.getScene().getWidth()*0.11 - selectedSaveNumber.getLayoutBounds().getWidth()/2);
+        selectedSaveNumber.setY(StageController.getStage().getHeight()*0.48);
+
+        //hardcode save text
+        Button[] saves = new Button[20];
+        saves[0] = new Button();
+        saves[0].setText("new Game");
+        saves[0].setOnAction(actionEvent -> selectedSaveNumber.setText("Selected Save: New Game"));
+        saves[0].setLayoutY(0);
+        tempAnchorPane.getChildren().add(saves[0]);
+        for (int i = 1; i < saves.length; i++) {
+            saves[i] = new Button();
+            saves[i].setText("Save" + i);
+            saves[i].setLayoutY(i*StageController.getScene().getHeight()*0.03);
+            int finalI = i;
+            saves[i].setOnAction(actionEvent -> selectedSaveNumber.setText("Selected Save: save" + finalI));
+            tempAnchorPane.getChildren().add(saves[i]);
+        }
+        //
+
+
+//        savesListScrollBar.setOrientation(Orientation.VERTICAL);
+//        savesListScrollBar.s
 
         background.setFitWidth(StageController.getScene().getWidth());
         background.setFitHeight(StageController.getScene().getHeight());
@@ -222,5 +221,25 @@ public class GameEntryMenuFx implements Initializable {
             lessAutoSavesButton.setDisable(false);
         }
         return null;
+    }
+
+    private void setWithMoreLess(Text textDetails, Font font, double percent, Text text, Button less,
+                                 Button more, String textString, String increaseString, String decreaseString, double yPercent) {
+        textDetails.setFont(font);
+        textDetails.setX(StageController.getStage().getWidth() * percent - textDetails.getLayoutBounds().getWidth() / 2);
+        textDetails.setY(StageController.getStage().getHeight() * yPercent);
+
+        text.setText(textString);
+        text.setFont(font);
+        text.setX(StageController.getStage().getWidth() * percent - text.getLayoutBounds().getWidth() / 2);
+        text.setY(StageController.getStage().getHeight() * (yPercent+0.05));
+
+        more.setLayoutX(StageController.getStage().getWidth() * percent + more.getWidth() * 0.1);
+        more.setLayoutY(text.getY() + text.getLayoutBounds().getHeight() / 2);
+        more.setTooltip(new Tooltip(increaseString));
+
+        less.setLayoutX(StageController.getStage().getWidth() * percent - 1.1 * less.getWidth());
+        less.setLayoutY(text.getY() + text.getLayoutBounds().getHeight() / 2);
+        less.setTooltip(new Tooltip(decreaseString));
     }
 }
