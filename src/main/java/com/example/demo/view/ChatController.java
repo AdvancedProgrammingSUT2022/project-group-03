@@ -4,6 +4,7 @@ import com.example.demo.controller.LoginController;
 import com.example.demo.model.Chat;
 import com.example.demo.model.Message;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -25,6 +26,8 @@ import java.util.*;
 public class ChatController {
 
     @FXML
+    private HBox commandBar;
+    @FXML
     private Button sendButton;
     @FXML
     private TextField messageField;
@@ -40,6 +43,72 @@ public class ChatController {
 
 
     public void initialize() {
+
+        //command bar
+        commandBar.getChildren().clear();
+        Button deleteForMe = new Button("Delete for me");
+        Button deleteForAll = new Button("Delete for all");
+        Button edit = new Button("Edit");
+        deleteForAll.setVisible(false);
+        deleteForMe.setVisible(false);
+        edit.setVisible(false);
+        commandBar.getChildren().addAll(deleteForAll, deleteForMe, edit);
+        deleteForAll.setOnAction(event -> {
+            Alert alert = new Alert(Alert.AlertType.NONE, "Delete selected Message(s)?", ButtonType.OK, ButtonType.CANCEL);
+            alert.setTitle("Delete for all");
+            alert.initOwner(StageController.getStage());
+            alert.showAndWait().ifPresent(buttonType -> {
+                if (buttonType.equals(ButtonType.OK)) {
+                    for (Message message : currentChat.getAllMessages())
+                        if (message.isSelected()) {
+                            message.setContent("This message was deleted.");
+                            message.toggleSelected();
+                        }
+                    updateSavedMessages();
+                    loadChats(currentChat.getName());
+                }
+                commandBarShowHide();
+            });
+        });
+
+        deleteForMe.setOnAction(event -> {
+            Alert alert = new Alert(Alert.AlertType.NONE, "Delete selected Message(s)?", ButtonType.OK, ButtonType.CANCEL);
+            alert.setTitle("Delete for me");
+            alert.initOwner(StageController.getStage());
+            alert.showAndWait().ifPresent(buttonType -> {
+                if (buttonType.equals(ButtonType.OK)) {
+                    currentChat.getAllMessages().removeIf(Message::isSelected);
+                    updateSavedMessages();
+                    loadChats(currentChat.getName());
+                }
+                commandBarShowHide();
+            });
+        });
+
+        edit.setOnAction(event -> {
+            Message selectedMessage = null;
+            int counter = 0;
+            for (Message message : currentChat.getAllMessages())
+                if (message.isSelected()) {
+                    selectedMessage = message;
+                    counter++;
+                    if (counter == 2)
+                        break;
+                }
+            if (counter == 1) {
+                messageField.setText(selectedMessage.getContent());
+                sendButton.setText("Edit");
+                Message finalSelectedMessage = selectedMessage;
+                sendButton.setOnAction(event1 -> editMessage(finalSelectedMessage));
+            } else {
+                Alert alert = new Alert(Alert.AlertType.NONE, "Cannot edit multiple messages at once.", ButtonType.OK);
+                alert.initOwner(StageController.getStage());
+                alert.show();
+            }
+        });
+
+
+        //load chats
         try {
             FileInputStream fileInputStream = new FileInputStream("dataBase/chats.dat");
             ObjectInputStream objectStream = new ObjectInputStream(fileInputStream);
@@ -56,6 +125,16 @@ public class ChatController {
         }
 
         showUsersBar();
+    }
+
+    private void editMessage(Message message) {
+        message.setContent(messageField.getText());
+        loadChats(currentChat.getName());
+        updateSavedMessages();
+        message.setSelected(false);
+        messageField.setText("");
+        sendButton.setText("Send");
+        sendButton.setOnAction(event1 -> sendMessage());
     }
 
 
@@ -82,7 +161,15 @@ public class ChatController {
         scroll.setStyle("-fx-background: #0e1621; -fx-border-color: #0e1621; -fx-padding: 10");
         mainSection.getChildren().add(scroll);
 
+        //unselect all
+        for (Chat chat : chats)
+            if (chat.getName().equals(chatName))
+                for (Message message : chat.getAllMessages())
+                    message.setSelected(false);
+
         loadChats(chatName);
+
+        commandBarShowHide();
 
         scroll.vvalueProperty().bind(chatVBox.heightProperty());
         messageField.requestFocus();
@@ -93,8 +180,10 @@ public class ChatController {
         for (Chat chat : chats) {
             if (chat.getName().equals(chatName)) {
                 currentChat = chat;
-                for (Message message : chat.getAllMessages())
+                for (Message message : chat.getAllMessages()) {
                     showMessage(message);
+                }
+                break;
             }
         }
     }
@@ -131,33 +220,44 @@ public class ChatController {
         avatar.setFitHeight(50);
         avatar.setFitWidth(50);
 
-        Label senderName = getLabel(title, 30);
-        Label messageLabel = getLabel(msg, 20);
+        Label senderName = getLabel(title, 30, message);
+        Label messageLabel = getLabel(msg, 20, message);
 
         VBox totalMessage = new VBox(senderName, messageLabel);
         totalMessage.setOnMouseClicked(mouseEvent -> {
-            editMessage(message);
+            message.toggleSelected();
+            updateSavedMessages();
+            loadChats(currentChat.getName());
+            commandBarShowHide();
         });
         chatVBox.getChildren().add(new HBox(avatar, totalMessage));
     }
 
-    private void editMessage(Message message) {
-        message.setContent("This message was deleted.");
-        loadChats(currentChat.getName());
-        updateSavedMessages();
+    private void commandBarShowHide() {
+        boolean weHaveSelectedMessages = false;
+        for (Message message : currentChat.getAllMessages()) {
+            if (message.isSelected()) {
+                weHaveSelectedMessages = true;
+                break;
+            }
+        }
+        for (int i = 0; i < 3; i++)
+            commandBar.getChildren().get(i).setVisible(weHaveSelectedMessages);
     }
 
-
-    private Label getLabel(Text title, int fontSize) {
-        Label label2 = new Label();
-        label2.setStyle("-fx-text-fill: white");
-        label2.setBackground(new Background(new BackgroundFill(Color.rgb(24, 37, 51), null, null)));
-        label2.setText(title.getText());
-        label2.setWrapText(true);
-        label2.setMaxWidth(800);
-        label2.setPadding(new Insets(10));
-        label2.setFont(new Font("Arial", fontSize));
-        return label2;
+    private Label getLabel(Text title, int fontSize, Message message) {
+        Label label = new Label();
+        label.setStyle("-fx-text-fill: white");
+        if (message.isSelected())
+            label.setBackground(new Background(new BackgroundFill(Color.rgb(46, 112, 164), null, null)));
+        else
+            label.setBackground(new Background(new BackgroundFill(Color.rgb(24, 37, 51), null, null)));
+        label.setText(title.getText());
+        label.setWrapText(true);
+        label.setMaxWidth(800);
+        label.setPadding(new Insets(10));
+        label.setFont(new Font("Arial", fontSize));
+        return label;
     }
 
     public void newChat(ActionEvent event) {
@@ -212,6 +312,7 @@ public class ChatController {
 
     public void checkEnter(KeyEvent keyEvent) {
         if (keyEvent.getCode().toString().equals("ENTER"))
-            sendMessage();
+            if (sendButton.getText().equals("Send"))
+                sendMessage();
     }
 }

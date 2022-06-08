@@ -25,6 +25,8 @@
                 <Text textAlignment="CENTER" text=" Chat" style="-fx-fill: white; -fx-padding: 5"/>
             </VBox>
             <Region HBox.hgrow="ALWAYS"/>
+            <HBox fx:id="commandBar" spacing="10" style="-fx-padding: 5"/>
+            <Region HBox.hgrow="ALWAYS"/>
             <HBox style="-fx-padding: 5" spacing="10">
                 <Button text="Back" onAction="#back"/>
                 <Button text="New Chat" onAction="#newChat"/>

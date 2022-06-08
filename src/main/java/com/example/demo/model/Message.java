@@ -9,6 +9,7 @@ public class Message implements Serializable {
     private String content;
     private boolean sent;
     private boolean seen;
+    private boolean isSelected;
 
     public Message(String sender, Date date, String content) {
         this.sender = sender;
@@ -46,5 +47,17 @@ public class Message implements Serializable {
 
     public void setSeen(boolean seen) {
         this.seen = seen;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void toggleSelected() {
+        isSelected = !isSelected;
     }
 }
