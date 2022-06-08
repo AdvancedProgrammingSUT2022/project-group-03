@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -16,7 +18,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 import java.io.*;
 import java.util.*;
@@ -31,7 +32,8 @@ public class ChatController {
     private VBox usersBar;
     @FXML
     private VBox mainSection;
-    private VBox chatSection;
+
+    private VBox chatVBox;
     private ScrollPane scroll;
     private List<Chat> chats = new ArrayList<>();
     private Chat currentChat;
@@ -52,6 +54,18 @@ public class ChatController {
             Chat publicChat = new Chat("publicChat");
             chats.add(publicChat);
         }
+
+        showUsersBar();
+    }
+
+
+    private void showUsersBar() {
+        usersBar.getChildren().clear();
+        for (Chat chat : chats) {
+            Button button = new Button(chat.getName());
+            button.setOnAction(event -> startChatting(chat.getName()));
+            usersBar.getChildren().add(button);
+        }
     }
 
     public void startChatting(String chatName) {
@@ -59,23 +73,30 @@ public class ChatController {
         messageField.setDisable(false);
         sendButton.setDisable(false);
         mainSection.getChildren().clear();
-        chatSection = new VBox();
-        chatSection.setAlignment(Pos.CENTER);
-        chatSection.setSpacing(15);
-        scroll = new ScrollPane(chatSection);
+        chatVBox = new VBox();
+        chatVBox.setAlignment(Pos.BOTTOM_CENTER);
+        chatVBox.setSpacing(15);
+        chatVBox.setStyle("-fx-background-color: #0e1621");
+        chatVBox.setFillWidth(true);
+        scroll = new ScrollPane(chatVBox);
+        scroll.setStyle("-fx-background: #0e1621; -fx-border-color: #0e1621; -fx-padding: 10");
         mainSection.getChildren().add(scroll);
 
-        //load chats:
-        for (Chat chat : chats) {
-            if (chat.getName().equals(chatName))
-                for (Message message : chat.getAllMessages())
-                    showMessage(message);
-        }
+        loadChats(chatName);
+
+        scroll.vvalueProperty().bind(chatVBox.heightProperty());
+        messageField.requestFocus();
     }
 
-    public void gotoPublicChat(ActionEvent event) {
-        currentChat = chats.get(0);
-        startChatting("publicChat");
+    private void loadChats(String chatName) {
+        chatVBox.getChildren().clear();
+        for (Chat chat : chats) {
+            if (chat.getName().equals(chatName)) {
+                currentChat = chat;
+                for (Message message : chat.getAllMessages())
+                    showMessage(message);
+            }
+        }
     }
 
     public void sendMessage() {
@@ -86,7 +107,7 @@ public class ChatController {
         currentChat.sendMessage(message);
         showMessage(message);
         messageField.setText("");
-        scroll.vvalueProperty().bind(chatSection.heightProperty());
+        scroll.vvalueProperty().bind(chatVBox.heightProperty());
         updateSavedMessages();
     }
 
@@ -104,17 +125,39 @@ public class ChatController {
     }
 
     private void showMessage(Message message) {
+        Text title = new Text(message.getSender());
         Text msg = new Text(message.getContent());
-        msg.setStyle("-fx-font-size: 20");
-        msg.setWrappingWidth(750);
-        Label label = new Label();
-        label.setBackground(new Background(new BackgroundFill(Color.rgb(212, 250, 180), null, null)));
-        label.setText(msg.getText());
-        label.setWrapText(true);
-        label.setPrefWidth(800);
-        label.setPadding(new Insets(10));
-        label.setFont(new Font("Arial", 25));
-        chatSection.getChildren().add(label);
+        ImageView avatar = new ImageView(new Image(LoginController.getLoggedUser().getAvatar()));
+        avatar.setFitHeight(50);
+        avatar.setFitWidth(50);
+
+        Label senderName = getLabel(title, 30);
+        Label messageLabel = getLabel(msg, 20);
+
+        VBox totalMessage = new VBox(senderName, messageLabel);
+        totalMessage.setOnMouseClicked(mouseEvent -> {
+            editMessage(message);
+        });
+        chatVBox.getChildren().add(new HBox(avatar, totalMessage));
+    }
+
+    private void editMessage(Message message) {
+        message.setContent("This message was deleted.");
+        loadChats(currentChat.getName());
+        updateSavedMessages();
+    }
+
+
+    private Label getLabel(Text title, int fontSize) {
+        Label label2 = new Label();
+        label2.setStyle("-fx-text-fill: white");
+        label2.setBackground(new Background(new BackgroundFill(Color.rgb(24, 37, 51), null, null)));
+        label2.setText(title.getText());
+        label2.setWrapText(true);
+        label2.setMaxWidth(800);
+        label2.setPadding(new Insets(10));
+        label2.setFont(new Font("Arial", fontSize));
+        return label2;
     }
 
     public void newChat(ActionEvent event) {
@@ -123,12 +166,12 @@ public class ChatController {
         mainSection.setAlignment(Pos.CENTER);
         mainSection.getChildren().clear();
         Text text = new Text("Enter a username to start chatting:");
-        text.setStyle("-fx-font-size: 30");
+        text.setStyle("-fx-font-size: 30;-fx-fill: white");
         TextField field = new TextField();
         field.setMaxWidth(600);
         field.setPromptText("Enter a username");
         Text error = new Text();
-        error.setStyle("-fx-font-size: 20");
+        error.setStyle("-fx-font-size: 20;-fx-fill: white;");
         Button startChat = new Button("Start messaging");
         startChat.setOnAction(event1 -> startPrivateChat(field, error));
         Hyperlink link = new Hyperlink("You can create a chat room with multiple users.");
@@ -140,15 +183,24 @@ public class ChatController {
                 startPrivateChat(field, error);
         });
 
+        field.requestFocus();
     }
 
     private void startPrivateChat(TextField usernameField, Text error) {
         if (usernameField.getText().equals(""))
             error.setText("Enter a username.");
-        else
-            //TODO: username validation
-            error.setText("No User exists with this username.");
+            //TODO: username validation = error.setText("No User exists with this username.");
+        else {
+            Chat chat = new Chat(usernameField.getText());
+            chat.addUser(LoginController.getLoggedUser());
+            //TODO: add the second user to chat: chat.addUser( ? );
+            chats.add(chat);
+            showUsersBar();
+            startChatting(chat.getName());
+        }
+
     }
+
 
     public void settings(ActionEvent event) {
     }

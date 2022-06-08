@@ -22,8 +22,7 @@
     <top>
         <HBox maxWidth="Infinity" spacing="10" styleClass="topBar">
             <VBox alignment="CENTER">
-                <Text textAlignment="CENTER" text="Online Chat" style="-fx-text-fill: white; -fx-padding: 5"
-                />
+                <Text textAlignment="CENTER" text=" Chat" style="-fx-fill: white; -fx-padding: 5"/>
             </VBox>
             <Region HBox.hgrow="ALWAYS"/>
             <HBox style="-fx-padding: 5" spacing="10">
@@ -37,12 +36,9 @@
 
     <!--The left side users bar-->
     <left>
-        <VBox prefWidth="300" spacing="5" alignment="TOP_CENTER" styleClass="usersBar">
+        <VBox prefWidth="350" spacing="5" alignment="TOP_CENTER" styleClass="usersBar">
             <VBox fx:id="usersBar" alignment="TOP_CENTER">
-                <Button styleClass="user" text="Public Chat" onAction="#gotoPublicChat"/>
-                <!--                <Button styleClass="user" text="Sayyed Ali Tayyeb"/>-->
-                <!--                <Button styleClass="user" text="Moeen Samadi Azad"/>-->
-                <!--                <Button styleClass="user" text="Arya Torabi"/>-->
+<!--                <Button styleClass="user" text="Public Chat" onAction="#gotoPublicChat"/>-->
             </VBox>
         </VBox>
     </left>
@@ -50,7 +46,7 @@
 
     <!--The center section-->
     <center>
-        <VBox fx:id="mainSection" alignment="CENTER" spacing="15">
+        <VBox fx:id="mainSection" alignment="CENTER" spacing="15" styleClass="centerChat">
 
         </VBox>
     </center>

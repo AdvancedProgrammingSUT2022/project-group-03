@@ -21,8 +21,8 @@
         <ImageView fx:id="background">
             <Image url="@assets/backgrounds/1.png"/>
         </ImageView>
-        <TextField fx:id="username" promptText="enter your username"/>
-        <PasswordField fx:id="password" promptText="enter your password"/>
+        <TextField fx:id="username" text="u" promptText="enter your username"/>
+        <PasswordField fx:id="password" text="pap" promptText="enter your password"/>
         <TextField fx:id="nickname" promptText="enter your nickname"/>
         <Button fx:id="loginButton" mnemonicParsing="false" text="login" onAction="#login"/>
         <Button fx:id="registerButton" mnemonicParsing="false" text="register" onAction="#register"/>
