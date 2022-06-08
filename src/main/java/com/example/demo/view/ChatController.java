@@ -170,6 +170,9 @@ public class ChatController {
         loadChats(chatName);
 
         commandBarShowHide();
+        sendButton.setText("Send");
+        sendButton.setOnAction(event1 -> sendMessage());
+        messageField.setText("");
 
         scroll.vvalueProperty().bind(chatVBox.heightProperty());
         messageField.requestFocus();
@@ -260,7 +263,7 @@ public class ChatController {
         return label;
     }
 
-    public void newChat(ActionEvent event) {
+    public void newChat() {
         messageField.setDisable(true);
         sendButton.setDisable(true);
         mainSection.setAlignment(Pos.CENTER);
@@ -275,6 +278,7 @@ public class ChatController {
         Button startChat = new Button("Start messaging");
         startChat.setOnAction(event1 -> startPrivateChat(field, error));
         Hyperlink link = new Hyperlink("You can create a chat room with multiple users.");
+        link.setOnAction(event1 -> createRoom());
         mainSection.getChildren().addAll(text, field, error, startChat, link);
 
         field.setOnKeyReleased(event2 -> {
@@ -284,6 +288,83 @@ public class ChatController {
         });
 
         field.requestFocus();
+    }
+
+    private void createRoom() {
+        mainSection.getChildren().clear();
+        Text title1 = new Text("Enter the room name:");
+        title1.setStyle("-fx-font-size: 30;-fx-fill: white");
+
+        TextField nameField = new TextField();
+        nameField.setMaxWidth(600);
+        nameField.setPromptText("Enter a name");
+
+        Text title2 = new Text("Who would you like to add?");
+        title2.setStyle("-fx-font-size: 30;-fx-fill: white");
+
+        TextField userField = new TextField();
+        userField.setMaxWidth(600);
+        userField.setPromptText("Enter a username");
+
+        Set<String> usersSet = new HashSet<>();
+        Button add = new Button("Add user");
+        Text users = new Text("Added users: ");
+        users.setStyle("-fx-font-size: 15;-fx-fill: white;");
+
+        Text error = new Text();
+        error.setStyle("-fx-font-size: 20;-fx-fill: white;");
+
+        add.setOnAction(event -> {
+            if (userField.getText().isEmpty())
+                error.setText("Enter a username.");
+            else {
+                if (usersSet.add(userField.getText()))
+                    users.setText(users.getText() + userField.getText() + ", ");
+                userField.setText("");
+            }
+        });
+
+        Button startChat = new Button("Create room");
+        startChat.setOnAction(event1 -> startRoomChat(nameField, usersSet, error));
+        mainSection.getChildren().addAll(title1, nameField, title2, userField, error, add, startChat, users);
+
+        nameField.setOnKeyReleased(event2 -> {
+            error.setText("");
+            if (event2.getCode().toString().equals("ENTER"))
+                startRoomChat(nameField, usersSet, error);
+        });
+
+        userField.setOnKeyReleased(event2 -> {
+            error.setText("");
+            if (event2.getCode().toString().equals("ENTER")) {
+                if (userField.getText().isEmpty())
+                    error.setText("Enter a username.");
+                else {
+                    if (usersSet.add(userField.getText()))
+                        users.setText(users.getText() + userField.getText() + ", ");
+                    userField.setText("");
+                }
+            }
+        });
+
+        nameField.requestFocus();
+    }
+
+    private void startRoomChat(TextField nameField, Set<String> usersSet, Text error) {
+        if (nameField.getText().equals(""))
+            error.setText("Enter a name for the room.");
+        else if (usersSet.isEmpty())
+            error.setText("Add at list one user to the room.");
+            //TODO: username validation = error.setText("No User exists with this username.");
+        else {
+            Chat chat = new Chat("room: " + nameField.getText());
+            chat.addUser(LoginController.getLoggedUser());
+            //TODO: add the users to chat: chat.addUser( ? );
+            chats.add(chat);
+            showUsersBar();
+            updateSavedMessages();
+            startChatting(chat.getName());
+        }
     }
 
     private void startPrivateChat(TextField usernameField, Text error) {
@@ -296,6 +377,7 @@ public class ChatController {
             //TODO: add the second user to chat: chat.addUser( ? );
             chats.add(chat);
             showUsersBar();
+            updateSavedMessages();
             startChatting(chat.getName());
         }
 
