@@ -1,28 +1,25 @@
 package com.example.demo.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Message implements Serializable {
     private final String sender;
-    private final Date date;
     private String content;
     private boolean sent;
     private boolean seen;
     private boolean isSelected;
+    private Calendar calendar;
 
-    public Message(String sender, Date date, String content) {
+    public Message(String sender, String content) {
         this.sender = sender;
-        this.date = date;
         this.content = content;
+        calendar = Calendar.getInstance();
     }
 
     public String getSender() {
         return sender;
-    }
-
-    public Date getDate() {
-        return date;
     }
 
     public String getContent() {
@@ -59,5 +56,9 @@ public class Message implements Serializable {
 
     public void toggleSelected() {
         isSelected = !isSelected;
+    }
+
+    public Calendar getCalendar() {
+        return calendar;
     }
 }

@@ -21,6 +21,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.io.*;
+import java.text.DateFormatSymbols;
 import java.util.*;
 
 public class ChatController {
@@ -195,7 +196,7 @@ public class ChatController {
         String content = messageField.getText();
         if (content.equals("") || content.matches("^\\s+$"))
             return;
-        Message message = new Message(LoginController.getLoggedUser().getUsername(), new Date(), content);
+        Message message = new Message(LoginController.getLoggedUser().getUsername(), content);
         currentChat.sendMessage(message);
         showMessage(message);
         messageField.setText("");
@@ -217,8 +218,11 @@ public class ChatController {
     }
 
     private void showMessage(Message message) {
+        Calendar calendar = message.getCalendar();
+        String date = calendar.getTime().toString();// + calendar.get(Calendar.DAY_OF_MONTH) + " " + new DateFormatSymbols().getShortMonths()[calendar.get(Calendar.MONTH)] + " " + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND);
+        date = date.substring(0, date.length() - 10);
         Text title = new Text(message.getSender());
-        Text msg = new Text(message.getContent());
+        Text msg = new Text(message.getContent() + "\n_________________\n" + date);
         ImageView avatar = new ImageView(new Image(LoginController.getLoggedUser().getAvatar()));
         avatar.setFitHeight(50);
         avatar.setFitWidth(50);
