@@ -42,16 +42,14 @@ public class GameControllerFX {
             double delta = 1.15;
             double scale = pane.getScaleY();
             scale *= (scrollEvent.getDeltaY() > 0) ? (delta) : (1 / delta);
-            scale = Math.min(scale, 2.5);
-            scale = Math.max(scale, 0.4);
+            if ((scale > 2.5) || (scale < 0.4))
+                return;
             pane.setScaleX(scale);
             pane.setScaleY(scale);
             //move the visible area according to the zoom state:
-            if (0.4 < scale && scale < 2.5) {
-                double translateScale = (scrollEvent.getDeltaY() > 0) ? (delta) : (1 / delta);
-                pane.setTranslateX(pane.getTranslateX() * translateScale);
-                pane.setTranslateY(pane.getTranslateY() * translateScale);
-            }
+            double translateScale = (scrollEvent.getDeltaY() > 0) ? (delta) : (1 / delta);
+            pane.setTranslateX(pane.getTranslateX() * translateScale);
+            pane.setTranslateY(pane.getTranslateY() * translateScale);
         });
 
         renderMap(anchorPane);
