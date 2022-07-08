@@ -28,10 +28,13 @@ public class HelloApplication extends Application {
         StageController.setStage(stage);
     }
 
+    public static String getResource(String name) {
+        return Objects.requireNonNull(HelloApplication.class.getResource(name)).toExternalForm();
+    }
+
     public static void main(String[] args) {
         launch();
     }
-
 
 
 }
