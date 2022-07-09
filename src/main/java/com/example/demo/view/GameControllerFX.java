@@ -42,7 +42,7 @@ public class GameControllerFX {
             double delta = 1.15;
             double scale = pane.getScaleY();
             scale *= (scrollEvent.getDeltaY() > 0) ? (delta) : (1 / delta);
-            if ((scale > 2.5) || (scale < 0.4))
+            if ((scale > 2.5) || (scale < 0.3))
                 return;
             pane.setScaleX(scale);
             pane.setScaleY(scale);

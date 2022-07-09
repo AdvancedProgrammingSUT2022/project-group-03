@@ -1,10 +1,9 @@
 package com.example.demo.view.model;
 
-import com.example.demo.HelloApplication;
 import com.example.demo.model.features.Feature;
 import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.Tile;
-import javafx.scene.image.Image;
+import com.example.demo.view.ImageLoader;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
@@ -20,7 +19,7 @@ public class GraphicTile implements Serializable {
         this.tile = tile;
 
         //load tile
-        tileImage = new ImageView(new Image(HelloApplication.getResource("/com/example/demo/tiles/" + tile.getTileType() + ".png"), 150, 0, true, true, true));
+        tileImage = new ImageView(ImageLoader.get(tile.getTileType().toString()));
         tileImage.setFitHeight(75);
         tileImage.setFitWidth(120);
         tileImage.setOnMouseClicked(mouseEvent -> clicked());
@@ -29,7 +28,7 @@ public class GraphicTile implements Serializable {
         //load feature
         Feature feature = tile.getContainedFeature();
         if (feature != null) {
-            featureImage = new ImageView(new Image(HelloApplication.getResource("/com/example/demo/features/" + feature.getFeatureType() + ".png"), 150, 0, true, true, true));
+            featureImage = new ImageView(ImageLoader.get(feature.getFeatureType().toString()));
             featureImage.setFitHeight(75);
             featureImage.setFitWidth(120);
             featureImage.setOnMouseClicked(mouseEvent -> clicked());
@@ -39,7 +38,7 @@ public class GraphicTile implements Serializable {
         //load resource
         ResourcesTypes resource = tile.getResource();
         if (resource != null) {
-            resourceImage = new ImageView(new Image(HelloApplication.getResource("/com/example/demo/resources/" + resource + ".png"), 30, 0, true, true, true));
+            resourceImage = new ImageView(ImageLoader.get(resource.toString()));
             resourceImage.setFitHeight(30);
             resourceImage.setFitWidth(30);
             resourceImage.setOnMouseClicked(mouseEvent -> clicked());
