@@ -69,11 +69,11 @@ public class LoginControllerFX implements Initializable {
     public void runLater()
     {
 
-        username.setPrefWidth(150 * StageController.getStage().getWidth()/1920);
-        password.setPrefWidth(150 * StageController.getStage().getWidth()/1920);
-        nickname.setPrefWidth(150 * StageController.getStage().getWidth()/1920);
-        loginButton.setPrefWidth(43 * StageController.getStage().getWidth()/1920);
-        registerButton.setPrefWidth(57 * StageController.getStage().getWidth()/1920);
+//        username.setPrefWidth(150 * StageController.getStage().getWidth()/1920);
+//        password.setPrefWidth(150 * StageController.getStage().getWidth()/1920);
+//        nickname.setPrefWidth(150 * StageController.getStage().getWidth()/1920);
+//        loginButton.setPrefWidth(43 * StageController.getStage().getWidth()/1920);
+//        registerButton.setPrefWidth(57 * StageController.getStage().getWidth()/1920);
 
         username.setLayoutY(StageController.getStage().getHeight()*0.476);
         password.setLayoutY(StageController.getStage().getHeight()*0.509);

@@ -1,5 +1,8 @@
 package com.example.demo.view;
 
+import com.example.demo.controller.gameController.GameController;
+import com.example.demo.model.Map;
+import com.example.demo.model.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class GameEntryMenuFx implements Initializable {
@@ -25,6 +29,8 @@ public class GameEntryMenuFx implements Initializable {
     public ScrollPane savesListScrollBar;
     public Text selectedSaveNumber;
     public Button back;
+    public TextField addPlayerId;
+    public Button addPlayerButton;
     int mapX = 60, mapY = 90;
     int autoSave = 0;
     int autoSaveNumbers = 5;
@@ -34,17 +40,34 @@ public class GameEntryMenuFx implements Initializable {
     public TextField invitationId;
     public SplitMenuButton autoSaveOrNot;
     int numberOfPlayers = 1;
+    public ArrayList<User> users = new ArrayList<>();
     @FXML
     Button startGameButton, sendInvitationButton;
 
     @FXML
     public void startGame() {
-
+        StageController.sceneChanger("game.fxml");
+        Map.setX(mapX);
+        Map.setY(mapY);
+        GameController.startGame(users);
     }
 
     @FXML
     public void sendInvitation() {
 
+    }
+
+    @FXML
+    public void addPlayer()
+    {
+        User user = User.findUser(addPlayerId.getText().toString(),false);
+        if(user==null ||
+                users.contains(user))
+        {
+            addPlayerId.setText("");
+            return;
+        }
+        users.add(User.findUser(addPlayerId.toString(),false));
     }
 
     @FXML
@@ -116,6 +139,7 @@ public class GameEntryMenuFx implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         numberOfPlayers = 0;
+        users = new ArrayList<>();
         Platform.runLater(this::runLaterPlease);
 //        startGameButton.setPrefWidth();
 //        sendInvitationButton.setLayoutX(StageController.getStage().getWidth() - sendInvitationButton.getWidth()*1.5);
@@ -135,6 +159,7 @@ public class GameEntryMenuFx implements Initializable {
         lessMapYButton.setDisable(true);
 
 
+        numberOfPlayers=1;
         setWithMoreLess(numberOfPlayersDetail,
                 font, 0.91,
                 numberOfPlayersTest, lessPlayersButton,
@@ -156,6 +181,12 @@ public class GameEntryMenuFx implements Initializable {
         sendInvitationButton.setLayoutX(StageController.getStage().getWidth() * 0.91 - sendInvitationButton.getWidth() / 2);
         sendInvitationButton.setLayoutY(StageController.getStage().getHeight() * 0.63);
         sendInvitationButton.setTooltip(new Tooltip("sends invitation to the username you type"));
+
+        addPlayerId.setLayoutX(StageController.getStage().getWidth() * 0.91 - addPlayerId.getWidth() / 2);
+        addPlayerId.setLayoutY(StageController.getStage().getHeight() * 0.72);
+        addPlayerButton.setLayoutX(StageController.getStage().getWidth() * 0.91 - addPlayerButton.getWidth() / 2);
+        addPlayerButton.setLayoutY(StageController.getStage().getHeight() * 0.75);
+        addPlayerButton.setTooltip(new Tooltip("adds the username you type"));
 
         MenuItem[] menuItems = {new MenuItem("off"), new MenuItem("each round"), new MenuItem("each city occupation")};
         autoSaveOrNot.getItems().addAll(menuItems);

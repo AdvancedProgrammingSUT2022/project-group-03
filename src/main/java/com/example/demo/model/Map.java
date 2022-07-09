@@ -20,8 +20,8 @@ public class Map {
     public final static int WINDOW_X = 5;
     public final static int WINDOW_Y = 14;
     private Tile[][] tiles;
-    private int x;
-    private int y;
+    private static int x;
+    private static int y;
     private final Random random = new Random();
 
     public Tile[][] getTiles() {
@@ -857,6 +857,14 @@ public class Map {
             this.movePoint = movePoint;
             this.tile = tile;
         }
+    }
+
+    public static void setX(int x) {
+        Map.x = x;
+    }
+
+    public static void setY(int y) {
+        Map.y = y;
     }
 }
 

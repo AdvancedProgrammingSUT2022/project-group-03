@@ -20,7 +20,8 @@ public class MainControllerFX implements Initializable {
     public ImageView background;
 
     @FXML
-    public void gameMenu() throws IOException {
+    public void gameMenu()
+    {
         StageController.sceneChanger("gameEntryMenu.fxml");
     }
     @FXML
@@ -40,7 +41,7 @@ public class MainControllerFX implements Initializable {
         StageController.sceneChanger("chat.fxml");
     }
     @FXML
-    public void logout() throws IOException {
+    public void logout() {
         StageController.sceneChanger("loginMenu.fxml");
     }
 
@@ -53,11 +54,11 @@ public class MainControllerFX implements Initializable {
     public void runLater()
     {
 
-        gameMenuButton.setPrefWidth(81 * StageController.getStage().getWidth()/1920);
-        profileMenuButton.setPrefWidth(84 * StageController.getStage().getWidth()/1920);
-        scoreBoardButton.setPrefWidth(77 * StageController.getStage().getWidth()/1920);
-        chatButton.setPrefWidth(41 * StageController.getStage().getWidth()/1920);
-        logoutButton.setPrefWidth(54 * StageController.getStage().getWidth()/1920);
+//        gameMenuButton.setPrefWidth(81 * StageController.getStage().getWidth()/1920);
+//        profileMenuButton.setPrefWidth(84 * StageController.getStage().getWidth()/1920);
+//        scoreBoardButton.setPrefWidth(77 * StageController.getStage().getWidth()/1920);
+//        chatButton.setPrefWidth(41 * StageController.getStage().getWidth()/1920);
+//        logoutButton.setPrefWidth(54 * StageController.getStage().getWidth()/1920);
 
         gameMenuButton.setLayoutY(StageController.getStage().getHeight()*0.19);
         profileMenuButton.setLayoutY(StageController.getStage().getHeight()*0.22);
