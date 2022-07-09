@@ -18,8 +18,8 @@ public class GameControllerFX {
     private Pane pane;
     @FXML
     private AnchorPane anchorPane;
-    double startX;
-    double startY;
+    private double startX;
+    private double startY;
 
     public void initialize() {
 
@@ -30,8 +30,6 @@ public class GameControllerFX {
             startX = pane.getTranslateX() - mouseEvent.getScreenX();
             startY = pane.getTranslateY() - mouseEvent.getScreenY();
         });
-
-        //move on map
         pane.addEventFilter(MouseEvent.MOUSE_DRAGGED, mouseEvent -> {
             pane.setTranslateX(mouseEvent.getScreenX() + startX);
             pane.setTranslateY(mouseEvent.getScreenY() + startY);

@@ -5,6 +5,7 @@ import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.ImageLoader;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 import java.io.Serializable;
@@ -22,7 +23,7 @@ public class GraphicTile implements Serializable {
         tileImage = new ImageView(ImageLoader.get(tile.getTileType().toString()));
         tileImage.setFitHeight(75);
         tileImage.setFitWidth(120);
-        tileImage.setOnMouseClicked(mouseEvent -> clicked());
+        tileImage.setOnMouseReleased(this::clicked);
         pane.getChildren().add(tileImage);
 
         //load feature
@@ -31,7 +32,7 @@ public class GraphicTile implements Serializable {
             featureImage = new ImageView(ImageLoader.get(feature.getFeatureType().toString()));
             featureImage.setFitHeight(75);
             featureImage.setFitWidth(120);
-            featureImage.setOnMouseClicked(mouseEvent -> clicked());
+            featureImage.setOnMouseReleased(this::clicked);
             pane.getChildren().add(featureImage);
         }
 
@@ -41,7 +42,7 @@ public class GraphicTile implements Serializable {
             resourceImage = new ImageView(ImageLoader.get(resource.toString()));
             resourceImage.setFitHeight(30);
             resourceImage.setFitWidth(30);
-            resourceImage.setOnMouseClicked(mouseEvent -> clicked());
+            resourceImage.setOnMouseReleased(this::clicked);
             pane.getChildren().add(resourceImage);
         }
     }
@@ -70,7 +71,7 @@ public class GraphicTile implements Serializable {
         return tileImage.getFitHeight();
     }
 
-    private void clicked() {
+    private void clicked(MouseEvent mouseEvent) {
         //TODO: If we click on a tile this methode runs...
         System.out.println(tile.getTileType());
     }
