@@ -1,5 +1,6 @@
 package com.example.demo.view.model;
 
+import com.example.demo.model.Units.Unit;
 import com.example.demo.model.features.Feature;
 import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.Tile;
@@ -15,6 +16,9 @@ public class GraphicTile implements Serializable {
     private final ImageView tileImage;
     private ImageView resourceImage;
     private ImageView featureImage;
+    private ImageView civilianImage;
+    private ImageView militaryImage;
+
 
     public GraphicTile(Tile tile, Pane pane) {
         this.tile = tile;
@@ -40,10 +44,32 @@ public class GraphicTile implements Serializable {
         ResourcesTypes resource = tile.getResource();
         if (resource != null) {
             resourceImage = new ImageView(ImageLoader.get(resource.toString()));
-            resourceImage.setFitHeight(30);
-            resourceImage.setFitWidth(30);
+            resourceImage.setFitHeight(17);
+            resourceImage.setFitWidth(17);
             resourceImage.setOnMouseReleased(this::clicked);
             pane.getChildren().add(resourceImage);
+        }
+
+        //load civilian units
+        Unit civilian = tile.getCivilian();
+        if (civilian != null) {
+            civilianImage = new ImageView(ImageLoader.get(civilian.getName()));
+            civilianImage.setFitHeight(80);
+            civilianImage.setFitWidth(80);
+            civilianImage.setOnMouseReleased(this::clicked);
+            civilianImage.setViewOrder(-1);
+            pane.getChildren().add(civilianImage);
+        }
+
+        //load military units
+        Unit military = tile.getNonCivilian();
+        if (military != null) {
+            militaryImage = new ImageView(ImageLoader.get(military.getName()));
+            militaryImage.setFitHeight(80);
+            militaryImage.setFitWidth(80);
+            militaryImage.setOnMouseReleased(this::clicked);
+            militaryImage.setViewOrder(-1);
+            pane.getChildren().add(militaryImage);
         }
     }
 
@@ -59,7 +85,17 @@ public class GraphicTile implements Serializable {
         //resource
         if (resourceImage != null) {
             resourceImage.setLayoutX(x + 40);
-            resourceImage.setLayoutY(y + 40);
+            resourceImage.setLayoutY(y + 50);
+        }
+        //civilian unit
+        if (civilianImage != null) {
+            civilianImage.setLayoutX(x + 50);
+            civilianImage.setLayoutY(y + 60);
+        }
+        //military unit
+        if (militaryImage != null) {
+            militaryImage.setLayoutX(x - 10);
+            militaryImage.setLayoutY(y + 60);
         }
     }
 
