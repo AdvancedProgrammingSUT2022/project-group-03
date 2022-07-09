@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-public class User {
+public class User implements Serializable {
     private final static int SIZE_OF_AVATARS = 3;
     private static ArrayList<User> listOfUsers = new ArrayList<>();
     private UserIcon icon;

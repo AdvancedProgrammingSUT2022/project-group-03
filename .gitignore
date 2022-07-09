@@ -7,6 +7,6 @@
 #/dataSources/
 #/dataSources.local.xml
 
-target
 .idea
 dataBase/chats.dat
+/target/

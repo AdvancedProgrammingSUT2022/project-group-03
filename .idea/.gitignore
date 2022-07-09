@@ -6,3 +6,6 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+
+../target/classes/com/example/demo/*
+../dataBase/chats.dat

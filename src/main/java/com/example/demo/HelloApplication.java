@@ -4,6 +4,7 @@ import com.example.demo.view.StageController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -19,15 +20,21 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        //This line is nothing. just for testing the git.
+        try {
+            stage.getIcons().add(new Image(String.valueOf(HelloApplication.class.getResource("/com/example/demo/assets/icon.png"))));
+        } catch (Exception e) {
+            System.out.println("cannot load icon / " + e.getMessage());
+        }
         StageController.setStage(stage);
+    }
 
+    public static String getResource(String name) {
+        return Objects.requireNonNull(HelloApplication.class.getResource(name)).toExternalForm();
     }
 
     public static void main(String[] args) {
         launch();
     }
-
 
 
 }
