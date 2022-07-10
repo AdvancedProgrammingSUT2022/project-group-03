@@ -51,8 +51,8 @@ public class GraphicTile implements Serializable {
         if(tile.getNonCivilian()!=null)
         {
             nonCivilianUnitImage = new ImageView(ImageLoader.get(tile.getNonCivilian().getUnitType().toString()));
-            nonCivilianUnitImage.setFitHeight(50);
-            nonCivilianUnitImage.setFitWidth(50);
+            nonCivilianUnitImage.setFitHeight(80);
+            nonCivilianUnitImage.setFitWidth(80);
             nonCivilianUnitImage.setOnMouseClicked(this::clicked);
             nonCivilianUnitImage.setViewOrder(-1);
             pane.getChildren().add(nonCivilianUnitImage);
@@ -60,8 +60,8 @@ public class GraphicTile implements Serializable {
         if(tile.getCivilian()!=null)
         {
             civilianUnitImage = new ImageView(ImageLoader.get(tile.getCivilian().getUnitType().toString()));
-            civilianUnitImage.setFitHeight(40);
-            civilianUnitImage.setFitWidth(40);
+            civilianUnitImage.setFitHeight(80);
+            civilianUnitImage.setFitWidth(80);
             civilianUnitImage.setOnMouseClicked(this::clicked);
             civilianUnitImage.setViewOrder(-1);
             pane.getChildren().add(civilianUnitImage);

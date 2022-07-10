@@ -29,7 +29,7 @@ public class ImageLoader {
                 images.put(resource.toString(), image);
             }
             for (UnitType unit : UnitType.values()) {
-                Image image = new Image(HelloApplication.getResource("/com/example/demo/units/" + unit + ".png"), 40, 0, true, true, true);
+                Image image = new Image(HelloApplication.getResource("/com/example/demo/units/" + unit + ".png"), 120, 0, true, true, true);
                 images.put(unit.toString(), image);
             }
         } catch (RuntimeException e) {

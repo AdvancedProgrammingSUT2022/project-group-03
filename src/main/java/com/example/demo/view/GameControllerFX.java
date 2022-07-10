@@ -1,5 +1,6 @@
 package com.example.demo.view;
 
+import com.example.demo.controller.LoginController;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.Map;
 import com.example.demo.model.User;
@@ -22,6 +23,8 @@ public class GameControllerFX {
     private double startY;
 
     public void initialize() {
+
+        startAFakeGame();
 
         //move on map
         pane.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
@@ -64,5 +67,22 @@ public class GameControllerFX {
                 graphicTile.setPosition(positionX, positionY);
             }
         }
+    }
+
+
+    /*
+     * This methode is only for testing
+     */
+    private void startAFakeGame() {
+        //start a fake game
+        User user = new User("Sayyed", "ali", "Tayyeb");
+        User user2 = new User("Sayyed2", "ali", "Tayyeb");
+        ArrayList<User> users = new ArrayList<>();
+        users.add(user);
+        users.add(user2);
+        LoginController.loginUser("u", "pap");
+        Map.setX(60);
+        Map.setY(90);
+        GameController.startGame(users);
     }
 }
