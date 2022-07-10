@@ -1,11 +1,12 @@
 package com.example.demo.view.model;
 
-import com.example.demo.model.Units.UnitType;
+import com.example.demo.model.Units.Unit;
 import com.example.demo.model.features.Feature;
 import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.ImageLoader;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 import java.io.Serializable;
@@ -25,7 +26,7 @@ public class GraphicTile implements Serializable {
         tileImage = new ImageView(ImageLoader.get(tile.getTileType().toString()));
         tileImage.setFitHeight(103);
         tileImage.setFitWidth(120);
-        tileImage.setOnMouseClicked(mouseEvent -> clicked());
+        tileImage.setOnMouseReleased(this::clicked);
         pane.getChildren().add(tileImage);
 
         //load feature
@@ -34,7 +35,7 @@ public class GraphicTile implements Serializable {
             featureImage = new ImageView(ImageLoader.get(feature.getFeatureType().toString()));
             featureImage.setFitHeight(103);
             featureImage.setFitWidth(120);
-            featureImage.setOnMouseClicked(mouseEvent -> clicked());
+            featureImage.setOnMouseReleased(this::clicked);
             pane.getChildren().add(featureImage);
         }
 
@@ -42,9 +43,9 @@ public class GraphicTile implements Serializable {
         ResourcesTypes resource = tile.getResource();
         if (resource != null) {
             resourceImage = new ImageView(ImageLoader.get(resource.toString()));
-            resourceImage.setFitHeight(30);
-            resourceImage.setFitWidth(30);
-            resourceImage.setOnMouseClicked(mouseEvent -> clicked());
+            resourceImage.setFitHeight(17);
+            resourceImage.setFitWidth(17);
+            resourceImage.setOnMouseReleased(this::clicked);
             pane.getChildren().add(resourceImage);
         }
         if(tile.getNonCivilian()!=null)
@@ -52,7 +53,8 @@ public class GraphicTile implements Serializable {
             nonCivilianUnitImage = new ImageView(ImageLoader.get(tile.getNonCivilian().getUnitType().toString()));
             nonCivilianUnitImage.setFitHeight(50);
             nonCivilianUnitImage.setFitWidth(50);
-            nonCivilianUnitImage.setOnMouseClicked(mouseEvent -> clicked());
+            nonCivilianUnitImage.setOnMouseClicked(this::clicked);
+            nonCivilianUnitImage.setViewOrder(-1);
             pane.getChildren().add(nonCivilianUnitImage);
         }
         if(tile.getCivilian()!=null)
@@ -60,10 +62,10 @@ public class GraphicTile implements Serializable {
             civilianUnitImage = new ImageView(ImageLoader.get(tile.getCivilian().getUnitType().toString()));
             civilianUnitImage.setFitHeight(40);
             civilianUnitImage.setFitWidth(40);
-            civilianUnitImage.setOnMouseClicked(mouseEvent -> clicked());
+            civilianUnitImage.setOnMouseClicked(this::clicked);
+            civilianUnitImage.setViewOrder(-1);
             pane.getChildren().add(civilianUnitImage);
         }
-
     }
 
     public void setPosition(double x, double y) {
@@ -78,7 +80,7 @@ public class GraphicTile implements Serializable {
         //resource
         if (resourceImage != null) {
             resourceImage.setLayoutX(x + tileImage.getFitWidth()/2 - resourceImage.getFitWidth()/2);
-            resourceImage.setLayoutY(y + 40);
+            resourceImage.setLayoutY(y + 50);
         }
         if(nonCivilianUnitImage !=null)
         {
@@ -100,7 +102,7 @@ public class GraphicTile implements Serializable {
         return tileImage.getFitHeight();
     }
 
-    private void clicked() {
+    private void clicked(MouseEvent mouseEvent) {
         //TODO: If we click on a tile this methode runs...
         System.out.println(tile.getTileType());
     }
