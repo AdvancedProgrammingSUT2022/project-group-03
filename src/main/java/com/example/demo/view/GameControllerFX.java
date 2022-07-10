@@ -23,8 +23,6 @@ public class GameControllerFX {
 
     public void initialize() {
 
-        startAFakeGame();
-
         //move on map
         pane.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
             startX = pane.getTranslateX() - mouseEvent.getScreenX();
@@ -52,10 +50,10 @@ public class GameControllerFX {
             pane.setTranslateY(pane.getTranslateY() * translateScale);
         });
 
-        renderMap(anchorPane);
+        renderMap();
     }
 
-    private void renderMap(AnchorPane anchorPane) {
+    private void renderMap() {
         Map map = GameController.getMap();
         Tile[][] tiles = map.getTiles();
         for (int j = 0; j < map.getY(); j++) {
@@ -68,18 +66,5 @@ public class GameControllerFX {
                 graphicTile.setPosition(positionX, positionY);
             }
         }
-    }
-
-
-    /*
-     * This methode is only for testing
-     */
-    private void startAFakeGame() {
-        User user = new User("Sayyed", "ali", "Tayyeb");
-        User user2 = new User("Sayyed2", "ali", "Tayyeb");
-        ArrayList<User> users = new ArrayList<>();
-        users.add(user);
-        users.add(user2);
-        GameController.startGame(users);
     }
 }

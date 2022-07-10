@@ -62,6 +62,7 @@ public class Map {
                     civilizations.get(i), hardcodeUnit);
             settlers[0][i] = settlerX;
             settlers[1][i] = settlerY;
+            System.out.println(settlerX + " " + settlerY);
         }
     }
 
@@ -126,7 +127,7 @@ public class Map {
     }
 
     private void GenerateMap(ArrayList<Civilization> civilizations) {
-        setXAndY(civilizations.size());
+        System.out.println("x: " + x + " y: " + y);
         tiles = new Tile[x][y];
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {

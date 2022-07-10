@@ -1,5 +1,6 @@
 package com.example.demo.view.model;
 
+import com.example.demo.model.Units.UnitType;
 import com.example.demo.model.features.Feature;
 import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.Tile;
@@ -14,13 +15,15 @@ public class GraphicTile implements Serializable {
     private final ImageView tileImage;
     private ImageView resourceImage;
     private ImageView featureImage;
+    private ImageView nonCivilianUnitImage;
+    private ImageView civilianUnitImage;
 
     public GraphicTile(Tile tile, Pane pane) {
         this.tile = tile;
 
         //load tile
         tileImage = new ImageView(ImageLoader.get(tile.getTileType().toString()));
-        tileImage.setFitHeight(75);
+        tileImage.setFitHeight(103);
         tileImage.setFitWidth(120);
         tileImage.setOnMouseClicked(mouseEvent -> clicked());
         pane.getChildren().add(tileImage);
@@ -29,7 +32,7 @@ public class GraphicTile implements Serializable {
         Feature feature = tile.getContainedFeature();
         if (feature != null) {
             featureImage = new ImageView(ImageLoader.get(feature.getFeatureType().toString()));
-            featureImage.setFitHeight(75);
+            featureImage.setFitHeight(103);
             featureImage.setFitWidth(120);
             featureImage.setOnMouseClicked(mouseEvent -> clicked());
             pane.getChildren().add(featureImage);
@@ -44,6 +47,23 @@ public class GraphicTile implements Serializable {
             resourceImage.setOnMouseClicked(mouseEvent -> clicked());
             pane.getChildren().add(resourceImage);
         }
+        if(tile.getNonCivilian()!=null)
+        {
+            nonCivilianUnitImage = new ImageView(ImageLoader.get(tile.getNonCivilian().getUnitType().toString()));
+            nonCivilianUnitImage.setFitHeight(50);
+            nonCivilianUnitImage.setFitWidth(50);
+            nonCivilianUnitImage.setOnMouseClicked(mouseEvent -> clicked());
+            pane.getChildren().add(nonCivilianUnitImage);
+        }
+        if(tile.getCivilian()!=null)
+        {
+            civilianUnitImage = new ImageView(ImageLoader.get(tile.getCivilian().getUnitType().toString()));
+            civilianUnitImage.setFitHeight(40);
+            civilianUnitImage.setFitWidth(40);
+            civilianUnitImage.setOnMouseClicked(mouseEvent -> clicked());
+            pane.getChildren().add(civilianUnitImage);
+        }
+
     }
 
     public void setPosition(double x, double y) {
@@ -57,8 +77,18 @@ public class GraphicTile implements Serializable {
         }
         //resource
         if (resourceImage != null) {
-            resourceImage.setLayoutX(x + 40);
+            resourceImage.setLayoutX(x + tileImage.getFitWidth()/2 - resourceImage.getFitWidth()/2);
             resourceImage.setLayoutY(y + 40);
+        }
+        if(nonCivilianUnitImage !=null)
+        {
+            nonCivilianUnitImage.setLayoutX(x + tileImage.getFitWidth()*3.5/5 - nonCivilianUnitImage.getFitWidth()/2);
+            nonCivilianUnitImage.setLayoutY(y+tileImage.getFitHeight()*3.5/5 - nonCivilianUnitImage.getFitHeight()/2);
+        }
+        if(civilianUnitImage !=null)
+        {
+            civilianUnitImage.setLayoutX(x + tileImage.getFitWidth()*1.5/5 - civilianUnitImage.getFitWidth()/2);
+            civilianUnitImage.setLayoutY(y+tileImage.getFitHeight()*1.5/5 - civilianUnitImage.getFitHeight()/2);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.demo.view;
 
+import com.example.demo.controller.LoginController;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.Map;
 import com.example.demo.model.User;
@@ -46,10 +47,10 @@ public class GameEntryMenuFx implements Initializable {
 
     @FXML
     public void startGame() {
-        StageController.sceneChanger("game.fxml");
         Map.setX(mapX);
         Map.setY(mapY);
         GameController.startGame(users);
+        StageController.sceneChanger("game.fxml");
     }
 
     @FXML
@@ -96,7 +97,7 @@ public class GameEntryMenuFx implements Initializable {
 
     @FXML
     public void lessMapY() {
-        if (mapX < 10)
+        if (mapX < 20)
             return;
         mapX -= 2;
         mapY -= 3;
@@ -140,6 +141,7 @@ public class GameEntryMenuFx implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         numberOfPlayers = 0;
         users = new ArrayList<>();
+        users.add(LoginController.getLoggedUser());
         Platform.runLater(this::runLaterPlease);
 //        startGameButton.setPrefWidth();
 //        sendInvitationButton.setLayoutX(StageController.getStage().getWidth() - sendInvitationButton.getWidth()*1.5);

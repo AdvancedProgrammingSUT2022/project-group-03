@@ -7,6 +7,7 @@ import com.example.demo.model.improvements.ImprovementType;
 import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.model.tiles.TileType;
+import com.example.demo.view.GameControllerFX;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -33,6 +34,8 @@ public class GameController {
         for (int i = 0; i < GameController.getCivilizations().size(); i++)
             GameController.nextTurn();
         setUnfinishedTasks();
+//        GameControllerFX.renderMap(anchorPane);
+
     }
 
     public static City getSelectedCity() {

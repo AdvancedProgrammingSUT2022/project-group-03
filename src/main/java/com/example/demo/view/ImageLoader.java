@@ -1,12 +1,16 @@
 package com.example.demo.view;
 
 import com.example.demo.HelloApplication;
+import com.example.demo.model.Units.Unit;
+import com.example.demo.model.Units.UnitType;
 import com.example.demo.model.features.FeatureType;
 import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.TileType;
 import javafx.scene.image.Image;
 
 import java.util.HashMap;
+
+import static com.example.demo.model.Units.UnitType.SETTLER;
 
 public class ImageLoader {
     private static final HashMap<String, Image> images = new HashMap<>();
@@ -24,6 +28,10 @@ public class ImageLoader {
             for (ResourcesTypes resource : ResourcesTypes.values()) {
                 Image image = new Image(HelloApplication.getResource("/com/example/demo/resources/" + resource + ".png"), 30, 0, true, true, true);
                 images.put(resource.toString(), image);
+            }
+            for (UnitType unit : UnitType.values()) {
+                Image image = new Image(HelloApplication.getResource("/com/example/demo/units/" + unit + ".png"), 40, 0, true, true, true);
+                images.put(unit.toString(), image);
             }
         } catch (RuntimeException e) {
             System.out.println("There is a problem in loading images in ImageLoader.");
