@@ -75,6 +75,24 @@ public class Tile {
         return false;
     }
 
+    public boolean doesHaveRiver()
+    {
+        for (boolean b : tilesWithRiver) {
+            if(b)
+                return true;
+        }
+        return false;
+    }
+
+    public boolean doesHaveLakeAround()
+    {
+        for (Tile neighbour : neighbours) {
+            if(neighbour.tileType==TileType.OCEAN)
+                return true;
+        }
+        return false;
+    }
+
     public void setNeighbours(int i, Tile tile) {
         neighbours[i] = tile;
     }

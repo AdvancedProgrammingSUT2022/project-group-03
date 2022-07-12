@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.Units.Unit;
+import com.example.demo.model.building.BuildingType;
+import com.example.demo.model.features.FeatureType;
 import com.example.demo.model.resources.ResourcesCategory;
 import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.technologies.Technology;
@@ -142,6 +144,7 @@ public class Civilization {
         }
         for (City city : cities)
             city.collectFood();
+
         int science = collectScience();
         for (Unit unit : units) unit.startTheTurn();
         gold -= units.size();
@@ -161,10 +164,22 @@ public class Civilization {
 
     public int collectScience() {
         int returner = 0;
-        for (City city : cities)
+        for (City city : cities) {
             returner += city.getPopulation();
-        for (City city : cities)
+            if (city.findBuilding(BuildingType.LIBRARY) != null)
+                returner += city.getPopulation() / 2;
+            if (city.findBuilding(BuildingType.UNIVERSITY) != null)
+                returner = (int) ((double) returner * 1.5);
+            if (city.findBuilding(BuildingType.SATRAPS_COURT) != null)
+                returner = (int) ((double) returner * 1.5);
+            if (city.findBuilding(BuildingType.UNIVERSITY) != null) {
+                for (Tile gettingWorkedOnByCitizensTile : city.getGettingWorkedOnByCitizensTiles()) {
+                    if(gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType()== FeatureType.JUNGLE)
+                        returner+=3;
+                }
+            }
             if (city.isCapital) returner += 3;
+        }
         if (gold == 0) {
             int temp = 0;
             for (City city : cities)

@@ -54,7 +54,7 @@ public class GraphicTile implements Serializable {
             nonCivilianUnitImage.setFitHeight(50);
             nonCivilianUnitImage.setFitWidth(50);
             nonCivilianUnitImage.setOnMouseClicked(this::clicked);
-            nonCivilianUnitImage.setViewOrder(-1);
+            civilianUnitImage.setViewOrder(-1);
             pane.getChildren().add(nonCivilianUnitImage);
         }
         if(tile.getCivilian()!=null)
