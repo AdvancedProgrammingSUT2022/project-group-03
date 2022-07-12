@@ -112,10 +112,10 @@ public class GameControllerFX {
         for (int j = 0; j < map.getY(); j++) {
             for (int i = 0; i < map.getX(); i++) {
                 GraphicTile graphicTile = new GraphicTile(tiles[i][j], mapPane, leftPanel);
-                double positionX = 20 + (graphicTile.getWidth() * 3 / 2) * i / 2;
-                double positionY = 20 + (graphicTile.getHeight() * j);
+                double positionX = 20 + ((graphicTile.getWidth() * 3 / 2) * i / 2)*(1+2/(Math.sqrt(3)*15));
+                double positionY = 20 + (graphicTile.getHeight() * j)*16/15;
                 if (i % 2 != 0) //odd columns
-                    positionY += graphicTile.getHeight() / 2;
+                    positionY += graphicTile.getHeight() / 2 + graphicTile.getHeight()/30;
                 graphicTile.setPosition(positionX, positionY);
             }
         }

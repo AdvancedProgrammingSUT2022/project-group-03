@@ -164,7 +164,6 @@ public class Map {
 
     private void setFeature(int i, int j) {
         FeatureType featureType = FeatureType.randomFeature();
-
         while (!tiles[i][j].isFeatureTypeValid(featureType) &&
                 tiles[i][j].getTileType().featureTypes.length != 0) {
             featureType = FeatureType.randomFeature();

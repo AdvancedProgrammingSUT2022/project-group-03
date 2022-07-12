@@ -24,6 +24,7 @@ public class GraphicTile implements Serializable {
     private ImageView featureImage;
     private ImageView nonCivilianUnitImage;
     private ImageView civilianUnitImage;
+    private ImageView[] riversImages = new ImageView[6];
     private final VBox leftPanel;
     private final Pane pane;
 
@@ -33,13 +34,13 @@ public class GraphicTile implements Serializable {
         this.tile = tile;
 
         Civilization.TileCondition[][] tileConditions = GameController.getCivilizations().get(GameController.getPlayerTurn()).getTileConditions();
-        if (tileConditions[tile.getX()][tile.getY()] == null) {
-            tileImage = new ImageView(ImageLoader.get("CLOUD"));
-            tileImage.setFitHeight(103);
-            tileImage.setFitWidth(120);
-            pane.getChildren().add(tileImage);
-            return;
-        }
+//        if (tileConditions[tile.getX()][tile.getY()] == null) {
+//            tileImage = new ImageView(ImageLoader.get("CLOUD"));
+//            tileImage.setFitHeight(103);
+//            tileImage.setFitWidth(120);
+//            pane.getChildren().add(tileImage);
+//            return;
+//        }
 
         //load tile
         tileImage = new ImageView(ImageLoader.get(tile.getTileType().toString()));
@@ -86,6 +87,16 @@ public class GraphicTile implements Serializable {
             civilianUnitImage.setOnMouseClicked(this::civilianClicked);
             civilianUnitImage.setViewOrder(-1);
             pane.getChildren().add(civilianUnitImage);
+        }
+        for (int i = 0; i < 6; i++) {
+            if (tile.isRiverWithNeighbour(i)) {
+                riversImages[i] = new ImageView(ImageLoader.get("riverDown"));
+                riversImages[i].setFitHeight(8);
+                riversImages[i].setFitWidth(78);
+                riversImages[i].setRotate(120 + 60 * i);
+                pane.getChildren().add(riversImages[i]);
+            }
+
         }
     }
 
@@ -159,6 +170,38 @@ public class GraphicTile implements Serializable {
         if (civilianUnitImage != null) {
             civilianUnitImage.setLayoutX(x + tileImage.getFitWidth() * 1.5 / 5 - civilianUnitImage.getFitWidth() / 2);
             civilianUnitImage.setLayoutY(y + tileImage.getFitHeight() * 1.5 / 5 - civilianUnitImage.getFitHeight() / 2);
+        }
+        for (int i = 0; i < 6; i++) {
+            if (riversImages[i] != null) {
+//                double edge= Math.sqrt(tileImage.getFitHeight()*tileImage.getFitHeight()+ tileImage.getFitWidth()*tileImage.getFitWidth())/15;
+                switch (i) {
+                    case 0 -> {
+                        riversImages[i].setLayoutX(x + tileImage.getFitWidth() / 8 - riversImages[i].getFitWidth() / 2 - riversImages[i].getFitHeight() / 2 +1);
+                        riversImages[i].setLayoutY(y - riversImages[i].getFitHeight() / 2 + tileImage.getFitHeight() / 4-2);
+                    }
+                    case 1 -> {
+                        riversImages[i].setLayoutX(x + tileImage.getFitWidth() / 2 - riversImages[i].getFitWidth() / 2);
+                        riversImages[i].setLayoutY(y - riversImages[i].getFitHeight());
+                    }
+                    case 2 -> {
+                        riversImages[i].setLayoutX(x + tileImage.getFitWidth() *7/ 8 - riversImages[i].getFitWidth() / 2 + riversImages[i].getFitHeight() / 2);
+                        riversImages[i].setLayoutY(y - riversImages[i].getFitHeight() / 2 + tileImage.getFitHeight() / 4-1);
+                    }
+                    case 3 -> {
+                        riversImages[i].setLayoutX(x + tileImage.getFitWidth() *7/ 8 - riversImages[i].getFitWidth() / 2 + riversImages[i].getFitHeight() / 2);
+                        riversImages[i].setLayoutY(y + tileImage.getFitHeight()/2 + tileImage.getFitHeight() / 4  - riversImages[i].getFitHeight() / 2+2);
+                    }
+                    case 4 -> {
+                        riversImages[i].setLayoutX(x + tileImage.getFitWidth() / 2 - riversImages[i].getFitWidth() / 2);
+                        riversImages[i].setLayoutY(y + tileImage.getFitHeight());
+                    }
+                    case 5 -> {
+                        riversImages[i].setLayoutX(x + tileImage.getFitWidth() / 8 - riversImages[i].getFitWidth() / 2 - riversImages[i].getFitHeight() / 2+1);
+                        riversImages[i].setLayoutY(y + tileImage.getFitHeight()/2 + tileImage.getFitHeight() / 4  - riversImages[i].getFitHeight() / 2+2);
+                    }
+                }
+                System.out.println(riversImages[i].getFitWidth());
+            }
         }
     }
 
