@@ -5,9 +5,12 @@ import com.example.demo.model.features.Feature;
 import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.ImageLoader;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 import java.io.Serializable;
 
@@ -18,8 +21,10 @@ public class GraphicTile implements Serializable {
     private ImageView featureImage;
     private ImageView nonCivilianUnitImage;
     private ImageView civilianUnitImage;
+    private final VBox leftPanel;
 
-    public GraphicTile(Tile tile, Pane pane) {
+    public GraphicTile(Tile tile, Pane pane, VBox leftPanel) {
+        this.leftPanel = leftPanel;
         this.tile = tile;
 
         //load tile
@@ -48,24 +53,50 @@ public class GraphicTile implements Serializable {
             resourceImage.setOnMouseReleased(this::clicked);
             pane.getChildren().add(resourceImage);
         }
-        if(tile.getNonCivilian()!=null)
-        {
+
+        //load nonCivilian unit
+        if (tile.getNonCivilian() != null) {
             nonCivilianUnitImage = new ImageView(ImageLoader.get(tile.getNonCivilian().getUnitType().toString()));
             nonCivilianUnitImage.setFitHeight(80);
             nonCivilianUnitImage.setFitWidth(80);
-            nonCivilianUnitImage.setOnMouseClicked(this::clicked);
+            nonCivilianUnitImage.setOnMouseClicked(this::nonCivilianClicked);
             nonCivilianUnitImage.setViewOrder(-1);
             pane.getChildren().add(nonCivilianUnitImage);
         }
-        if(tile.getCivilian()!=null)
-        {
+
+        //load civilian unit
+        if (tile.getCivilian() != null) {
             civilianUnitImage = new ImageView(ImageLoader.get(tile.getCivilian().getUnitType().toString()));
             civilianUnitImage.setFitHeight(80);
             civilianUnitImage.setFitWidth(80);
-            civilianUnitImage.setOnMouseClicked(this::clicked);
+            civilianUnitImage.setOnMouseClicked(this::civilianClicked);
             civilianUnitImage.setViewOrder(-1);
             pane.getChildren().add(civilianUnitImage);
         }
+    }
+
+    private void civilianClicked(MouseEvent mouseEvent) {
+        Button move = new Button("Move");
+        Button sleep = new Button("Sleep");
+        leftPanel.getChildren().addAll(move, sleep);
+        Unit unit = tile.getCivilian();
+        switch (unit.getUnitType()) {
+            case SETTLER -> {
+                Button foundCity = new Button("Found City");
+                //TODO: found city
+                foundCity.setOnAction(event -> System.out.println("found city"));
+                leftPanel.getChildren().add(foundCity);
+            }
+            case WORKER -> {
+                Button buildRoad = new Button("Build Road");
+                Button buildRailRoad = new Button("Build Rail Road");
+                leftPanel.getChildren().addAll(buildRoad, buildRailRoad);
+            }
+        }
+    }
+
+    private void nonCivilianClicked(MouseEvent mouseEvent) {
+
     }
 
     public void setPosition(double x, double y) {
@@ -79,18 +110,18 @@ public class GraphicTile implements Serializable {
         }
         //resource
         if (resourceImage != null) {
-            resourceImage.setLayoutX(x + tileImage.getFitWidth()/2 - resourceImage.getFitWidth()/2);
+            resourceImage.setLayoutX(x + tileImage.getFitWidth() / 2 - resourceImage.getFitWidth() / 2);
             resourceImage.setLayoutY(y + 50);
         }
-        if(nonCivilianUnitImage !=null)
-        {
-            nonCivilianUnitImage.setLayoutX(x + tileImage.getFitWidth()*3.5/5 - nonCivilianUnitImage.getFitWidth()/2);
-            nonCivilianUnitImage.setLayoutY(y+tileImage.getFitHeight()*3.5/5 - nonCivilianUnitImage.getFitHeight()/2);
+        //nonCivilian Unit
+        if (nonCivilianUnitImage != null) {
+            nonCivilianUnitImage.setLayoutX(x + tileImage.getFitWidth() * 3.5 / 5 - nonCivilianUnitImage.getFitWidth() / 2);
+            nonCivilianUnitImage.setLayoutY(y + tileImage.getFitHeight() * 3.5 / 5 - nonCivilianUnitImage.getFitHeight() / 2);
         }
-        if(civilianUnitImage !=null)
-        {
-            civilianUnitImage.setLayoutX(x + tileImage.getFitWidth()*1.5/5 - civilianUnitImage.getFitWidth()/2);
-            civilianUnitImage.setLayoutY(y+tileImage.getFitHeight()*1.5/5 - civilianUnitImage.getFitHeight()/2);
+        //civilian Unit
+        if (civilianUnitImage != null) {
+            civilianUnitImage.setLayoutX(x + tileImage.getFitWidth() * 1.5 / 5 - civilianUnitImage.getFitWidth() / 2);
+            civilianUnitImage.setLayoutY(y + tileImage.getFitHeight() * 1.5 / 5 - civilianUnitImage.getFitHeight() / 2);
         }
     }
 
@@ -104,7 +135,10 @@ public class GraphicTile implements Serializable {
 
     private void clicked(MouseEvent mouseEvent) {
         //TODO: If we click on a tile this methode runs...
-        System.out.println(tile.getTileType());
+        leftPanel.getChildren().clear();
+        Text text = new Text("Tile: " + tile.getTileType());
+        Text text1 = new Text("Have Resource: " + tile.getResource());
+        leftPanel.getChildren().addAll(text, text1);
     }
 
     public Tile getTile() {

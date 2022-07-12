@@ -7,7 +7,9 @@ import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.TileType;
 import javafx.scene.image.Image;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.Objects;
 
 import static com.example.demo.model.Units.UnitType.SETTLER;
 
@@ -32,6 +34,15 @@ public class ImageLoader {
                 Image image = new Image(HelloApplication.getResource("/com/example/demo/units/" + unit + ".png"), 120, 0, true, true, true);
                 images.put(unit.toString(), image);
             }
+            Image image = new Image(HelloApplication.getResource("/com/example/demo/assets/gold.png"), 25, 0, true, true, true);
+            images.put("gold", image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/assets/happiness.png"), 25, 0, true, true, true);
+            images.put("happiness", image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/assets/science.png"), 25, 0, true, true, true);
+            images.put("science", image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/assets/technology.png"), 25, 0, true, true, true);
+            images.put("technology", image);
+
         } catch (RuntimeException e) {
             System.out.println("There is a problem in loading images in ImageLoader.");
             e.printStackTrace();
