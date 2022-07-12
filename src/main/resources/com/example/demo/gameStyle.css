@@ -26,6 +26,10 @@ Button:hover{
     -fx-padding: 20;
 }
 
+.LeftPanel>Button{
+    -fx-pref-width: 200;
+}
+
 .rightPanel{
     -fx-background-color: #FFFFFF;
     -fx-opacity: 0.9;

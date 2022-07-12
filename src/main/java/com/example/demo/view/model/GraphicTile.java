@@ -100,6 +100,10 @@ public class GraphicTile implements Serializable {
         Button remove = new Button("Remove");
         leftPanel.getChildren().addAll(move, sleep, remove);
 
+        remove.setOnAction(event -> {
+
+        });
+
         switch (unit.getUnitType()) {
             case SETTLER -> {
                 Button foundCity = new Button("Found City");
