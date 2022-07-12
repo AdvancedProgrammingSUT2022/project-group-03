@@ -43,6 +43,9 @@ public class ImageLoader {
             image = new Image(HelloApplication.getResource("/com/example/demo/assets/technology.png"), 25, 0, true, true, true);
             images.put("technology", image);
 
+            image = new Image(HelloApplication.getResource("/com/example/demo/tiles/CLOUD.png"), 400, 0, true, true, true);
+            images.put("CLOUD", image);
+
         } catch (RuntimeException e) {
             System.out.println("There is a problem in loading images in ImageLoader.");
             e.printStackTrace();

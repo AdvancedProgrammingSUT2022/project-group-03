@@ -1,5 +1,8 @@
 package com.example.demo.view.model;
 
+import com.example.demo.controller.gameController.GameController;
+import com.example.demo.controller.gameController.UnitStateController;
+import com.example.demo.model.Civilization;
 import com.example.demo.model.Units.Unit;
 import com.example.demo.model.features.Feature;
 import com.example.demo.model.resources.ResourcesTypes;
@@ -22,10 +25,21 @@ public class GraphicTile implements Serializable {
     private ImageView nonCivilianUnitImage;
     private ImageView civilianUnitImage;
     private final VBox leftPanel;
+    private final Pane pane;
 
     public GraphicTile(Tile tile, Pane pane, VBox leftPanel) {
+        this.pane = pane;
         this.leftPanel = leftPanel;
         this.tile = tile;
+
+        Civilization.TileCondition[][] tileConditions = GameController.getCivilizations().get(GameController.getPlayerTurn()).getTileConditions();
+        if (tileConditions[tile.getX()][tile.getY()] == null) {
+            tileImage = new ImageView(ImageLoader.get("CLOUD"));
+            tileImage.setFitHeight(103);
+            tileImage.setFitWidth(120);
+            pane.getChildren().add(tileImage);
+            return;
+        }
 
         //load tile
         tileImage = new ImageView(ImageLoader.get(tile.getTileType().toString()));
@@ -76,18 +90,28 @@ public class GraphicTile implements Serializable {
     }
 
     private void civilianClicked(MouseEvent mouseEvent) {
+        leftPanel.getChildren().clear();
+        Unit unit = tile.getCivilian();
+        GameController.setSelectedUnit(unit);
+        Text title = new Text("Selected Unit: " + unit.getUnitType());
+        leftPanel.getChildren().add(title);
         Button move = new Button("Move");
         Button sleep = new Button("Sleep");
-        leftPanel.getChildren().addAll(move, sleep);
-        Unit unit = tile.getCivilian();
+        Button remove = new Button("Remove");
+        leftPanel.getChildren().addAll(move, sleep, remove);
+
         switch (unit.getUnitType()) {
             case SETTLER -> {
                 Button foundCity = new Button("Found City");
-                //TODO: found city
-                foundCity.setOnAction(event -> System.out.println("found city"));
                 leftPanel.getChildren().add(foundCity);
+                foundCity.setOnAction(event -> {
+                    UnitStateController.unitFoundCity("City");
+                    pane.getChildren().remove(civilianUnitImage);
+                    civilianUnitImage = null;
+                });
             }
             case WORKER -> {
+                //TODO:
                 Button buildRoad = new Button("Build Road");
                 Button buildRailRoad = new Button("Build Rail Road");
                 leftPanel.getChildren().addAll(buildRoad, buildRailRoad);
@@ -97,6 +121,15 @@ public class GraphicTile implements Serializable {
 
     private void nonCivilianClicked(MouseEvent mouseEvent) {
 
+    }
+
+    private void clicked(MouseEvent mouseEvent) {
+        //TODO: If we click on a tile this methode runs...
+        leftPanel.getChildren().clear();
+        GameController.setSelectedUnit(null);
+        Text text = new Text("Tile: " + tile.getTileType());
+        Text text1 = new Text("Have Resource: " + tile.getResource());
+        leftPanel.getChildren().addAll(text, text1);
     }
 
     public void setPosition(double x, double y) {
@@ -131,14 +164,6 @@ public class GraphicTile implements Serializable {
 
     public double getHeight() {
         return tileImage.getFitHeight();
-    }
-
-    private void clicked(MouseEvent mouseEvent) {
-        //TODO: If we click on a tile this methode runs...
-        leftPanel.getChildren().clear();
-        Text text = new Text("Tile: " + tile.getTileType());
-        Text text1 = new Text("Have Resource: " + tile.getResource());
-        leftPanel.getChildren().addAll(text, text1);
     }
 
     public Tile getTile() {

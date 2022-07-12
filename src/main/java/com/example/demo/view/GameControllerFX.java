@@ -2,8 +2,10 @@ package com.example.demo.view;
 
 import com.example.demo.controller.LoginController;
 import com.example.demo.controller.gameController.GameController;
+import com.example.demo.model.Civilization;
 import com.example.demo.model.Map;
 import com.example.demo.model.User;
+import com.example.demo.model.technologies.Technology;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.model.GraphicTile;
 import javafx.fxml.FXML;
@@ -67,8 +69,9 @@ public class GameControllerFX {
             pane.setTranslateY(pane.getTranslateY() * translateScale);
         });
 
-        renderMap();
         updateStatusBar();
+        renderMap();
+
     }
 
     private void updateStatusBar() {
@@ -84,10 +87,16 @@ public class GameControllerFX {
         statusBar.getChildren().add(science);
         statusBar.getChildren().add(technology);
         //TODO: Make amounts of Gold, happiness, science, and technology valid.
-        Text goldAmount = new Text(GameController.getCivilizations().get(0).getGold() + "  ");
-        Text happinessAmount = new Text(GameController.getCivilizations().get(0).getHappiness() + "  ");
-        Text scienceAmount = new Text("NaN  ");
-        Text technologyName = new Text("Farming");
+        Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
+        Text goldAmount = new Text(civilization.getGold() + "  ");
+        Text happinessAmount = new Text(civilization.getHappiness() + "  ");
+        Text scienceAmount = new Text("0  ");
+        Technology tech = civilization.getGettingResearchedTechnology();
+        Text technologyName;
+        if (tech == null)
+            technologyName = new Text("nothing");
+        else
+            technologyName = new Text(tech.getName());
         statusBar.getChildren().add(2, goldAmount);
         statusBar.getChildren().add(4, happinessAmount);
         statusBar.getChildren().add(6, scienceAmount);
