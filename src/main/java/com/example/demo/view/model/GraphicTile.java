@@ -20,6 +20,7 @@ import java.io.Serializable;
 public class GraphicTile implements Serializable {
     private final Tile tile;
     private final ImageView tileImage;
+    private ImageView cloud;
     private ImageView resourceImage;
     private ImageView featureImage;
     private ImageView nonCivilianUnitImage;
@@ -34,13 +35,13 @@ public class GraphicTile implements Serializable {
         this.tile = tile;
 
         Civilization.TileCondition[][] tileConditions = GameController.getCivilizations().get(GameController.getPlayerTurn()).getTileConditions();
-//        if (tileConditions[tile.getX()][tile.getY()] == null) {
-//            tileImage = new ImageView(ImageLoader.get("CLOUD"));
-//            tileImage.setFitHeight(103);
-//            tileImage.setFitWidth(120);
-//            pane.getChildren().add(tileImage);
-//            return;
-//        }
+        if (tileConditions[tile.getX()][tile.getY()] == null) {
+            cloud = new ImageView(ImageLoader.get("CLOUD"));
+            cloud.setFitHeight(103);
+            cloud.setFitWidth(120);
+            cloud.setViewOrder(-2);
+            pane.getChildren().add(cloud);
+        }
 
         //load tile
         tileImage = new ImageView(ImageLoader.get(tile.getTileType().toString()));
@@ -96,7 +97,6 @@ public class GraphicTile implements Serializable {
                 riversImages[i].setRotate(120 + 60 * i);
                 pane.getChildren().add(riversImages[i]);
             }
-
         }
     }
 
@@ -148,6 +148,11 @@ public class GraphicTile implements Serializable {
     }
 
     public void setPosition(double x, double y) {
+        //cloud fog
+        if (cloud != null){
+            cloud.setLayoutX(x);
+            cloud.setLayoutY(y);
+        }
         //tile
         tileImage.setLayoutX(x);
         tileImage.setLayoutY(y);
@@ -168,9 +173,10 @@ public class GraphicTile implements Serializable {
         }
         //civilian Unit
         if (civilianUnitImage != null) {
-            civilianUnitImage.setLayoutX(x + tileImage.getFitWidth() * 1.5 / 5 - civilianUnitImage.getFitWidth() / 2);
+            civilianUnitImage.setLayoutX(x + tileImage.getFitWidth() * 1.5 / 5 - civilianUnitImage.getFitWidth() / 3);
             civilianUnitImage.setLayoutY(y + tileImage.getFitHeight() * 1.5 / 5 - civilianUnitImage.getFitHeight() / 2);
         }
+
         for (int i = 0; i < 6; i++) {
             if (riversImages[i] != null) {
 //                double edge= Math.sqrt(tileImage.getFitHeight()*tileImage.getFitHeight()+ tileImage.getFitWidth()*tileImage.getFitWidth())/15;
@@ -200,7 +206,7 @@ public class GraphicTile implements Serializable {
                         riversImages[i].setLayoutY(y + tileImage.getFitHeight()/2 + tileImage.getFitHeight() / 4  - riversImages[i].getFitHeight() / 2+2);
                     }
                 }
-                System.out.println(riversImages[i].getFitWidth());
+//                System.out.println(riversImages[i].getFitWidth());
             }
         }
     }
