@@ -3,6 +3,7 @@ package com.example.demo.view;
 import com.example.demo.HelloApplication;
 import com.example.demo.model.Units.UnitType;
 import com.example.demo.model.features.FeatureType;
+import com.example.demo.model.improvements.ImprovementType;
 import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.TileType;
 import javafx.scene.image.Image;
@@ -34,6 +35,10 @@ public class ImageLoader {
                 Image image = new Image(HelloApplication.getResource("/com/example/demo/units/" + unit + ".png"), 100, 0, true, true, true);
                 images.put(unit.toString(), image);
             }
+            for (ImprovementType improvementType : ImprovementType.values()) {
+                Image image = new Image(HelloApplication.getResource("/com/example/demo/improvements/" + improvementType + ".png"), 120, 0, true, true, true);
+                images.put(improvementType.toString(), image);
+            }
             Image image = new Image(HelloApplication.getResource("/com/example/demo/assets/gold.png"), 25, 0, true, true, true);
             images.put("gold", image);
             image = new Image(HelloApplication.getResource("/com/example/demo/assets/happiness.png"), 25, 0, true, true, true);
@@ -47,6 +52,8 @@ public class ImageLoader {
             images.put("CLOUD", image);
             image = new Image(HelloApplication.getResource("/com/example/demo/tiles/riverDown.png"), 0.5, 0, true, true, true);
             images.put("riverDown",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/buildings/city.png"), 120, 0, true, true, true);
+            images.put("city",image);
 
         } catch (RuntimeException e) {
             System.out.println("There is a problem in loading images in ImageLoader.");

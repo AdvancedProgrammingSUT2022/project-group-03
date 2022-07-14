@@ -7,6 +7,7 @@ import com.example.demo.model.Units.Unit;
 import com.example.demo.model.Units.UnitType;
 import com.example.demo.model.features.Feature;
 import com.example.demo.model.features.FeatureType;
+import com.example.demo.model.improvements.Improvement;
 import com.example.demo.model.improvements.ImprovementType;
 import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.Tile;
@@ -62,7 +63,6 @@ public class Map {
                     civilizations.get(i), hardcodeUnit);
             settlers[0][i] = settlerX;
             settlers[1][i] = settlerY;
-            System.out.println(settlerX + " " + settlerY);
         }
     }
 

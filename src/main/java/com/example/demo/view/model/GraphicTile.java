@@ -25,7 +25,10 @@ public class GraphicTile implements Serializable {
     private ImageView featureImage;
     private ImageView nonCivilianUnitImage;
     private ImageView civilianUnitImage;
-    private ImageView[] riversImages = new ImageView[6];
+    private ImageView improvementImage;
+    private ImageView roadImage;
+    private ImageView cityImage;
+    private final ImageView[] riversImages = new ImageView[6];
     private final VBox leftPanel;
     private final Pane pane;
 
@@ -89,6 +92,30 @@ public class GraphicTile implements Serializable {
             civilianUnitImage.setViewOrder(-1);
             pane.getChildren().add(civilianUnitImage);
         }
+        if(tile.getImprovement()!=null && tile.getImprovement().getRemainedCost()<=0)
+        {
+            improvementImage = new ImageView(ImageLoader.get(tile.getImprovement().getImprovementType().toString()));
+            improvementImage.setFitWidth(40);
+            improvementImage.setFitHeight(40);
+            //set on mouse clicked ?
+            pane.getChildren().add(improvementImage);
+        }
+        if(tile.getRoad()!=null)
+        {
+            roadImage = new ImageView(ImageLoader.get(tile.getRoad().getImprovementType().toString()));
+            roadImage.setFitWidth(40);
+            roadImage.setFitHeight(40);
+            pane.getChildren().add(roadImage);
+        }
+
+        if(tile.getCity()!=null)
+        {
+            cityImage = new ImageView(ImageLoader.get("city"));
+            cityImage.setFitHeight(40);
+            cityImage.setFitWidth(40);
+            pane.getChildren().add(cityImage);
+        }
+
         for (int i = 0; i < 6; i++) {
             if (tile.isRiverWithNeighbour(i)) {
                 riversImages[i] = new ImageView(ImageLoader.get("riverDown"));
@@ -97,6 +124,7 @@ public class GraphicTile implements Serializable {
                 riversImages[i].setRotate(120 + 60 * i);
                 pane.getChildren().add(riversImages[i]);
             }
+
         }
     }
 
@@ -175,6 +203,23 @@ public class GraphicTile implements Serializable {
         if (civilianUnitImage != null) {
             civilianUnitImage.setLayoutX(x + tileImage.getFitWidth() * 1.5 / 5 - civilianUnitImage.getFitWidth() / 3);
             civilianUnitImage.setLayoutY(y + tileImage.getFitHeight() * 1.5 / 5 - civilianUnitImage.getFitHeight() / 2);
+        }
+
+        if(improvementImage!=null)
+        {
+            improvementImage.setLayoutX(x + tileImage.getFitWidth()*1.5/5 - improvementImage.getFitWidth()/2);
+            improvementImage.setLayoutY(y + tileImage.getFitHeight()*3.5/5 - improvementImage.getFitHeight()/2);
+        }
+
+        if(roadImage!=null)
+        {
+            roadImage.setLayoutX(x+tileImage.getFitWidth()*3.5/5 - roadImage.getFitWidth()/2);
+            roadImage.setLayoutY(y+tileImage.getFitHeight()*3.5/5 - roadImage.getFitHeight()/2);
+        }
+        if(cityImage!=null)
+        {
+            cityImage.setLayoutX(x+tileImage.getFitWidth()/2 - cityImage.getFitWidth()/2);
+            cityImage.setLayoutY(y+tileImage.getFitHeight()*4/5 - cityImage.getFitHeight()/2);
         }
 
         for (int i = 0; i < 6; i++) {
