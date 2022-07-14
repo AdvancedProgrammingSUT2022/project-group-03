@@ -16,7 +16,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.Serializable;
-
 public class GraphicTile implements Serializable {
     private final Tile tile;
     private final ImageView tileImage;
@@ -27,24 +26,28 @@ public class GraphicTile implements Serializable {
     private ImageView improvementImage;
     private ImageView roadImage;
     private ImageView cityImage;
+    private ImageView fogImage;
     private final ImageView[] riversImages = new ImageView[6];
     private final VBox leftPanel;
     private final Pane pane;
 
-    public GraphicTile(Tile tile, Pane pane, VBox leftPanel) {
+    public GraphicTile(Tile tile, Pane pane, VBox leftPanel, int x, int y) {
         this.pane = pane;
         this.leftPanel = leftPanel;
-        this.tile = tile;
-
         Civilization.TileCondition[][] tileConditions = GameController.getCivilizations().get(GameController.getPlayerTurn()).getTileConditions();
         if (tileConditions[tile.getX()][tile.getY()] == null) {
+            this.tile = tile;
             tileImage = new ImageView(ImageLoader.get("CLOUD"));
             tileImage.setFitHeight(103);
             tileImage.setFitWidth(120);
             pane.getChildren().add(tileImage);
             return;
         }
-
+        if(!tileConditions[tile.getX()][tile.getY()].getIsClear())
+        {
+            tile=tileConditions[tile.getX()][tile.getY()].getOpenedArea();
+        }
+        this.tile = tile;
         //load tile
         tileImage = new ImageView(ImageLoader.get(tile.getTileType().toString()));
         tileImage.setFitHeight(103);
@@ -124,6 +127,14 @@ public class GraphicTile implements Serializable {
                 pane.getChildren().add(riversImages[i]);
             }
 
+        }
+        if(!tileConditions[tile.getX()][tile.getY()].getIsClear())
+        {
+            tile=tileConditions[tile.getX()][tile.getY()].getOpenedArea();
+            fogImage = new ImageView(ImageLoader.get("fog"));
+            fogImage.setFitHeight(103);
+            fogImage.setFitWidth(120);
+            pane.getChildren().add(fogImage);
         }
     }
 
@@ -214,6 +225,11 @@ public class GraphicTile implements Serializable {
         {
             cityImage.setLayoutX(x+tileImage.getFitWidth()/2 - cityImage.getFitWidth()/2);
             cityImage.setLayoutY(y+tileImage.getFitHeight()*4/5 - cityImage.getFitHeight()/2);
+        }
+        if(fogImage!=null)
+        {
+            fogImage.setLayoutX(x);
+            fogImage.setLayoutY(y);
         }
 
         for (int i = 0; i < 6; i++) {

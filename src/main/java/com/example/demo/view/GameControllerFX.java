@@ -8,17 +8,33 @@ import com.example.demo.model.User;
 import com.example.demo.model.technologies.Technology;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.model.GraphicTile;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
+import com.example.demo.view.InfoController.*;
 
 import java.util.ArrayList;
 
 public class GameControllerFX {
+    public HBox infoBar;
+    public Button infoButton;
+    public Button researchesButton;
+    public Button unitsButton;
+    public Button economicsButton;
+    public Button demographicsButton;
+    public Button militaryButton;
+    public Button notificationsButton;
+    public VBox infoTab;
+    public Text infoText;
+    public int infoTabNumber = -1;
+    public Button cityButton;
     @FXML
     private VBox leftPanel;
     @FXML
@@ -35,9 +51,7 @@ public class GameControllerFX {
     private double startY;
 
     public void initialize() {
-
         startAFakeGame();
-
         //move on map
         root.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
             startX = pane.getTranslateX() - mouseEvent.getScreenX();
@@ -68,10 +82,70 @@ public class GameControllerFX {
             pane.setTranslateX(pane.getTranslateX() * translateScale);
             pane.setTranslateY(pane.getTranslateY() * translateScale);
         });
-
+        infoButton.setOnMouseClicked(this::infoButtonClicked);
+        researchesButton.setOnMouseClicked(event -> eachInfoButtonsClicked(0));
+        unitsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(1));
+        cityButton.setOnMouseClicked(event -> eachInfoButtonsClicked(2));
+        economicsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(3));
+        demographicsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(4));
+        militaryButton.setOnMouseClicked(event -> eachInfoButtonsClicked(5));
+        notificationsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(6));
         updateStatusBar();
         renderMap();
+    }
 
+    private void eachInfoButtonsClicked(int number) {
+        if (infoTabNumber == number) {
+            infoTab.setOpacity(0);
+            infoTabNumber = -1;
+        } else {
+            switch (number) {
+                case 0:
+                    infoText.setText(InfoController.infoResearches());
+                    break;
+                case 1:
+//                    infoText.setText();
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    infoText.setText(InfoController.infoEconomic());
+                    break;
+                case 4:
+                    infoText.setText(InfoController.infoDemographic());
+                    break;
+                case 5:
+                    infoText.setText(InfoController.printMilitaryOverview());
+                    break;
+                case 6:
+                    infoText.setText(InfoController.infoNotifications(10));
+                    break;
+            }
+            infoTab.setOpacity(1);
+            infoTabNumber = number;
+        }
+    }
+
+
+    private void infoButtonClicked(MouseEvent mouseEvent) {
+        if (infoBar.getOpacity() == 1) {
+            infoBar.setOpacity(0);
+            infoTab.setOpacity(0);
+            researchesButton.setDisable(true);
+            unitsButton.setDisable(true);
+            economicsButton.setDisable(true);
+            demographicsButton.setDisable(true);
+            militaryButton.setDisable(true);
+            notificationsButton.setDisable(true);
+        } else {
+            infoBar.setOpacity(1);
+            researchesButton.setDisable(false);
+            unitsButton.setDisable(false);
+            economicsButton.setDisable(false);
+            demographicsButton.setDisable(false);
+            militaryButton.setDisable(false);
+            notificationsButton.setDisable(false);
+        }
     }
 
     private void updateStatusBar() {
@@ -101,8 +175,6 @@ public class GameControllerFX {
         statusBar.getChildren().add(4, happinessAmount);
         statusBar.getChildren().add(6, scienceAmount);
         statusBar.getChildren().add(8, technologyName);
-
-
     }
 
 
@@ -111,11 +183,11 @@ public class GameControllerFX {
         Tile[][] tiles = map.getTiles();
         for (int j = 0; j < map.getY(); j++) {
             for (int i = 0; i < map.getX(); i++) {
-                GraphicTile graphicTile = new GraphicTile(tiles[i][j], mapPane, leftPanel);
-                double positionX = 20 + ((graphicTile.getWidth() * 3 / 2) * i / 2)*(1+2/(Math.sqrt(3)*15));
-                double positionY = 20 + (graphicTile.getHeight() * j)*16/15;
+                GraphicTile graphicTile = new GraphicTile(tiles[i][j], mapPane, leftPanel, i, j);
+                double positionX = 20 + ((graphicTile.getWidth() * 3 / 2) * i / 2) * (1 + 2 / (Math.sqrt(3) * 15));
+                double positionY = 20 + (graphicTile.getHeight() * j) * 16 / 15;
                 if (i % 2 != 0) //odd columns
-                    positionY += graphicTile.getHeight() / 2 + graphicTile.getHeight()/30;
+                    positionY += graphicTile.getHeight() / 2 + graphicTile.getHeight() / 30;
                 graphicTile.setPosition(positionX, positionY);
             }
         }

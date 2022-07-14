@@ -17,6 +17,11 @@ Button:hover{
     -fx-padding: 10;
 }
 
+.popUp{
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 10;
+}
+
 .LeftPanel{
     -fx-font-size: 15;
     -fx-font-weight: bold;

@@ -25,8 +25,18 @@
     <top>
         <HBox alignment="CENTER" spacing="5">
             <HBox fx:id="statusBar" alignment="CENTER" spacing="5" styleClass="panel">
-                <Button text="Info"/>
+                <Button fx:id="infoButton" text="Info"/>
             </HBox>
+            <HBox fx:id="infoBar" alignment="CENTER" spacing="5" styleClass="popUp" opacity="0">
+                <Button fx:id="researchesButton" text="Researches"/>
+                <Button fx:id="unitsButton" text="Units"/>
+                <Button fx:id="cityButton" text="Cities"/>
+                <Button fx:id="economicsButton" text="Economics"/>
+                <Button fx:id="demographicsButton" text="Demographics"/>
+                <Button fx:id="militaryButton" text="Military"/>
+                <Button fx:id="notificationsButton" text="Notifications"/>
+            </HBox>
+
             <Region HBox.hgrow="ALWAYS"/>
             <HBox spacing="10" alignment="CENTER" styleClass="panel">
                 <Button text="menu"/>
@@ -36,12 +46,18 @@
     </top>
 
     <left>
+
         <VBox alignment="CENTER" spacing="5" maxHeight="Infinity">
+            <VBox fx:id="infoTab" spacing="5" styleClass="popUp" opacity="0">
+                <Text fx:id="infoText" text="wtf"/>
+            </VBox>
             <Region VBox.vgrow="ALWAYS"/>
+
             <VBox fx:id="leftPanel" alignment="BOTTOM_CENTER" spacing="5" styleClass="LeftPanel">
                 <Button text="attack"/>
             </VBox>
         </VBox>
+
     </left>
 
     <right>
