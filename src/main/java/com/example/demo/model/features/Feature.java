@@ -20,4 +20,9 @@ public class Feature {
     public void setCyclesToFinish(int cyclesToFinish) {
         this.cyclesToFinish = cyclesToFinish;
     }
+
+    @Override
+    public String toString() {
+        return this.getFeatureType().toString();
+    }
 }

@@ -7,7 +7,6 @@ import com.example.demo.model.City;
 import com.example.demo.model.Civilization;
 import com.example.demo.model.Map;
 import com.example.demo.model.User;
-import com.example.demo.model.technologies.Technology;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.model.GraphicTile;
 import javafx.fxml.FXML;
@@ -19,7 +18,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.stage.Screen;
 
 import java.util.ArrayList;
 
@@ -39,76 +37,26 @@ public class GameControllerFX {
     public ScrollPane cityPage;
     public Text cityText;
     private static City openedPanelCity;
+    private static boolean selectingTile;
+    public static final Text publicText = new Text("");
     @FXML
     private VBox leftPanel;
     @FXML
     private HBox statusBar;
     @FXML
-    private Text status;
-    @FXML
     private BorderPane root;
     @FXML
     private AnchorPane mapPane;
     @FXML
-    private Pane pane;
+    private Pane upperMapPane;
     private double startX;
     private double startY;
     private boolean isCityPanelOpen = false;
     private static boolean waitingToSelectTileToBuy = false;
-    private static boolean waitingToSelectTileToAttackFromCity=false;
+    private static boolean waitingToSelectTileToAttackFromCity = false;
     private static Text buyTileText;
     private static Text attackTileFromCity;
 
-    public void initialize() {
-        startAFakeGame();
-        //move on map
-        pane.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
-            startX = pane.getTranslateX() - mouseEvent.getScreenX();
-            startY = pane.getTranslateY() - mouseEvent.getScreenY();
-        });
-        pane.addEventFilter(MouseEvent.MOUSE_DRAGGED, mouseEvent -> {
-            double x = mouseEvent.getScreenX() + startX;
-            double y = mouseEvent.getScreenY() + startY;
-//            if (x < 500 && x > -mapPane.getWidth() + 700)
-            pane.setTranslateX(x);
-//            if (y < 500 && y > -mapPane.getHeight() + 500)
-            pane.setTranslateY(y);
-        });
-
-        //zoom in/out on map
-        pane.setPrefHeight(Screen.getPrimary().getBounds().getHeight());
-        pane.setPrefWidth(Screen.getPrimary().getBounds().getWidth());
-        pane.addEventFilter(ScrollEvent.SCROLL, scrollEvent -> {
-            double delta = 1.15;
-            double scale = pane.getScaleY();
-            scale *= (scrollEvent.getDeltaY() > 0) ? (delta) : (1 / delta);
-            if ((scale > 2.5) || (scale < 0.3))
-                return;
-            pane.setScaleX(scale);
-            pane.setScaleY(scale);
-            //move the visible area according to the zoom state:
-            double translateScale = (scrollEvent.getDeltaY() > 0) ? (delta) : (1 / delta);
-            pane.setTranslateX(pane.getTranslateX() * translateScale);
-            pane.setTranslateY(pane.getTranslateY() * translateScale);
-        });
-        infoButton.setOnMouseClicked(this::infoButtonClicked);
-        researchesButton.setOnMouseClicked(event -> eachInfoButtonsClicked(0));
-        unitsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(1));
-        cityButton.setOnMouseClicked(event -> eachInfoButtonsClicked(2));
-        economicsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(3));
-        demographicsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(4));
-        militaryButton.setOnMouseClicked(event -> eachInfoButtonsClicked(5));
-        notificationsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(6));
-        updateStatusBar();
-        renderMap();
-//        Platform.runLater(()->infoTab.setLayoutY(infoBar.getHeight()*2 + infoBar.getLayoutY()));
-//        infoTab.addEventFilter(ScrollEvent.SCROLL_STARTED, (l) -> {
-//            isScrolling=true;
-//        });infoTab.addEventFilter(ScrollEvent.SCROLL_FINISHED, (l) -> {
-//            isScrolling=false;
-//        });
-
-    }
 
     private void eachInfoButtonsClicked(int number) {
         if (infoTabNumber == number) {
@@ -196,9 +144,8 @@ public class GameControllerFX {
         buyTileText = text;
         Text finalText = text;
         button.setOnKeyPressed(keyEvent -> {
-            if(keyEvent.getCode().getName().equals("e") || keyEvent.getCode().getName().equals("E"))
-            {
-                waitingToSelectTileToBuy=false;
+            if (keyEvent.getCode().getName().equals("e") || keyEvent.getCode().getName().equals("E")) {
+                waitingToSelectTileToBuy = false;
                 finalText.setOpacity(0);
             }
         });
@@ -215,9 +162,8 @@ public class GameControllerFX {
         attackTileFromCity = text;
         Text finalText1 = text;
         button.setOnKeyPressed(keyEvent -> {
-            if(keyEvent.getCode().getName().equals("e") || keyEvent.getCode().getName().equals("E"))
-            {
-                waitingToSelectTileToAttackFromCity=false;
+            if (keyEvent.getCode().getName().equals("e") || keyEvent.getCode().getName().equals("E")) {
+                waitingToSelectTileToAttackFromCity = false;
                 finalText1.setOpacity(0);
             }
         });
@@ -230,19 +176,18 @@ public class GameControllerFX {
         isCityPanelOpen = true;
     }
 
-    private void attackTileClicked(Button button, Text text)
-    {
+
+    private void attackTileClicked(Button button, Text text) {
         text.setLayoutX(button.getLayoutX() + button.getWidth() + 10);
         text.setOpacity(1);
         System.out.println(text.getOpacity());
-        waitingToSelectTileToAttackFromCity=true;
+        waitingToSelectTileToAttackFromCity = true;
     }
 
-    private void buyTileClicked(Button button, Text text)
-    {
+    private void buyTileClicked(Button button, Text text) {
         text.setLayoutX(button.getLayoutX() + button.getWidth() + 10);
         text.setOpacity(1);
-        waitingToSelectTileToBuy=true;
+        waitingToSelectTileToBuy = true;
     }
 
     private void infoButtonClicked(MouseEvent mouseEvent) {
@@ -266,49 +211,40 @@ public class GameControllerFX {
         }
     }
 
-    private void updateStatusBar() {
-        //TODO: init status bar once and update status bar every time
-//        statusBar.getChildren().clear();
-        ImageView gold = new ImageView(ImageLoader.get("gold"));
-        ImageView science = new ImageView(ImageLoader.get("science"));
-        ImageView happiness = new ImageView(ImageLoader.get("happiness"));
-        ImageView technology = new ImageView(ImageLoader.get("technology"));
+    public void initialize() {
+        startAFakeGame();
+        MapMoveController mapMove = new MapMoveController(root, upperMapPane);
+        StatusBarController.init(statusBar);
+        infoButton.setOnMouseClicked(this::infoButtonClicked);
+        researchesButton.setOnMouseClicked(event -> eachInfoButtonsClicked(0));
+        unitsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(1));
+        cityButton.setOnMouseClicked(event -> eachInfoButtonsClicked(2));
+        economicsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(3));
+        demographicsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(4));
+        militaryButton.setOnMouseClicked(event -> eachInfoButtonsClicked(5));
+        notificationsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(6));
+        renderMap();
+    }
 
-        statusBar.getChildren().add(gold);
-        statusBar.getChildren().add(happiness);
-        statusBar.getChildren().add(science);
-        statusBar.getChildren().add(technology);
-        //TODO: Make amounts of Gold, happiness, science, and technology valid.
-        Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
-        Text goldAmount = new Text(civilization.getGold() + "  ");
-        Text happinessAmount = new Text(civilization.getHappiness() + "  ");
-        Text scienceAmount = new Text("0  ");
-        Technology tech = civilization.getGettingResearchedTechnology();
-        Text technologyName;
-        if (tech == null)
-            technologyName = new Text("nothing");
-        else
-            technologyName = new Text(tech.getName());
-        statusBar.getChildren().add(2, goldAmount);
-        statusBar.getChildren().add(4, happinessAmount);
-        statusBar.getChildren().add(6, scienceAmount);
-        statusBar.getChildren().add(8, technologyName);
+    private static GraphicTile[][] graphicMap;
+
+    public static boolean getSelectingTile() {
+        return selectingTile;
+    }
+
+    public static void setSelectingTile(boolean mode) {
+        selectingTile = mode;
     }
 
 
-    private void renderMap() {
+    public void renderMap() {
+        mapPane.getChildren().clear();
         Map map = GameController.getMap();
+        graphicMap = new GraphicTile[map.getX()][map.getY()];
         Tile[][] tiles = map.getTiles();
-        for (int j = 0; j < map.getY(); j++) {
-            for (int i = 0; i < map.getX(); i++) {
-                GraphicTile graphicTile = new GraphicTile(tiles[i][j], mapPane, leftPanel, i, j);
-                double positionX = 20 + ((graphicTile.getWidth() * 3 / 2) * i / 2) * (1 + 2 / (Math.sqrt(3) * 15));
-                double positionY = 20 + (graphicTile.getHeight() * j) * 16 / 15;
-                if (i % 2 != 0) //odd columns
-                    positionY += graphicTile.getHeight() / 2 + graphicTile.getHeight() / 30;
-                graphicTile.setPosition(positionX, positionY);
-            }
-        }
+        for (int j = 0; j < map.getY(); j++)
+            for (int i = 0; i < map.getX(); i++)
+                graphicMap[i][j] = new GraphicTile(tiles[i][j], mapPane, leftPanel);
     }
 
 
@@ -336,26 +272,28 @@ public class GameControllerFX {
         return waitingToSelectTileToAttackFromCity;
     }
 
-    public static void buyTile(Tile tile)
-    {
+    public static void buyTile(Tile tile) {
         switch (CityCommandsController.buyTile(tile.getX(), tile.getY(), openedPanelCity)) {
             case 0 -> StageController.errorMaker("The tile is yours", "you bought the tile successfully", Alert.AlertType.INFORMATION);
             case 1 -> StageController.errorMaker("You're dumber than a box of rocks", "the selected tile is not a neighbour to your city", Alert.AlertType.ERROR);
             case 2 -> StageController.errorMaker("You don't deserve the tile", "it's price is too high", Alert.AlertType.ERROR);
             case 3 -> StageController.errorMaker("what", "the selected tile is already a property of another civilization(or maybe even it's yours)", Alert.AlertType.ERROR);
         }
-        waitingToSelectTileToBuy=false;
+        waitingToSelectTileToBuy = false;
         buyTileText.setOpacity(0);
     }
 
-    public static void attackTile(Tile tile)
-    {
-        switch (CityCommandsController.cityAttack(tile.getX(),tile.getY(),openedPanelCity)){
+    public static void attackTile(Tile tile) {
+        switch (CityCommandsController.cityAttack(tile.getX(), tile.getY(), openedPanelCity)) {
             case 0 -> StageController.errorMaker("nicely done", "you attacked successfully", Alert.AlertType.INFORMATION);
-            case 1-> StageController.errorMaker("self-harm is haram", "the selected tile is your city's main tile", Alert.AlertType.ERROR);
-            case 2-> StageController.errorMaker("attack what", "there are no nonCivilians over there", Alert.AlertType.ERROR);
-            case 3-> StageController.errorMaker("bruh", "you selected one of your own units", Alert.AlertType.ERROR);
-            case 4-> StageController.errorMaker("no ranges?", "the selected tile is not in your range", Alert.AlertType.ERROR);
+            case 1 -> StageController.errorMaker("self-harm is haram", "the selected tile is your city's main tile", Alert.AlertType.ERROR);
+            case 2 -> StageController.errorMaker("attack what", "there are no nonCivilians over there", Alert.AlertType.ERROR);
+            case 3 -> StageController.errorMaker("bruh", "you selected one of your own units", Alert.AlertType.ERROR);
+            case 4 -> StageController.errorMaker("no ranges?", "the selected tile is not in your range", Alert.AlertType.ERROR);
         }
+    }
+
+    public static GraphicTile[][] getGraphicMap() {
+        return graphicMap;
     }
 }
