@@ -63,6 +63,19 @@ public class Map {
                     civilizations.get(i), hardcodeUnit);
             settlers[0][i] = settlerX;
             settlers[1][i] = settlerY;
+
+
+            Civilian civilian = new Civilian(coordinatesToTile(settlerX+2, settlerY),civilizations.get(i),UnitType.WORKER);
+            civilizations.get(i).getUnits().add(civilian);
+            coordinatesToTile(settlerX+2,settlerY).setCivilian(civilian);
+            civilian.setRemainedCost(0);
+
+
+            Civilian civilian2 = new Civilian(coordinatesToTile(settlerX+5, settlerY+ 5),civilizations.get(i),UnitType.WORKER);
+            civilizations.get(i).getUnits().add(civilian2);
+            coordinatesToTile(settlerX+5,settlerY+5).setCivilian(civilian2);
+            civilian2.setRemainedCost(0);
+
         }
     }
 

@@ -27,20 +27,19 @@ public class GameControllerFX {
     public void initialize() {
         startAFakeGame();
         MapMoveController mapMove = new MapMoveController(root, upperMapPane);
-        StatusBarController statusBarController = new StatusBarController(statusBar);
+        StatusBarController.init(statusBar);
+
         renderMap();
     }
 
 
     private void renderMap() {
-        upperMapPane.getChildren().clear();
         Map map = GameController.getMap();
         graphicMap = new GraphicTile[map.getX()][map.getY()];
         Tile[][] tiles = map.getTiles();
         for (int j = 0; j < map.getY(); j++)
             for (int i = 0; i < map.getX(); i++)
                 graphicMap[i][j] = new GraphicTile(tiles[i][j], mapPane, leftPanel);
-        upperMapPane.getChildren().add(mapPane);
     }
 
 

@@ -4,10 +4,15 @@ import com.example.demo.controller.gameController.GameController;
 import com.example.demo.controller.gameController.UnitStateController;
 import com.example.demo.model.Civilization;
 import com.example.demo.model.Units.Unit;
+import com.example.demo.model.Units.UnitState;
 import com.example.demo.model.features.Feature;
+import com.example.demo.model.features.FeatureType;
+import com.example.demo.model.improvements.ImprovementType;
 import com.example.demo.model.resources.ResourcesTypes;
+import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.ImageLoader;
+import com.example.demo.view.StatusBarController;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -58,13 +63,22 @@ public class GraphicTile implements Serializable {
         Text title = new Text("Selected Unit: " + unit.getUnitType());
         leftPanel.getChildren().add(title);
         Button move = new Button("Move");
-        Button sleep = new Button("Sleep");
-        Button remove = new Button("Remove");
-        leftPanel.getChildren().addAll(move, sleep, remove);
-
-        remove.setOnAction(event -> {
-
+        if (!unit.getState().equals(UnitState.SLEEP)) {
+            Button sleep = new Button("Sleep");
+            sleep.setOnAction(event -> UnitStateController.unitSleep());
+            leftPanel.getChildren().add(sleep);
+        }else{
+            Button awake = new Button("Awake");
+            awake.setOnAction(event -> UnitStateController.unitChangeState(3));
+            leftPanel.getChildren().add(awake);
+        }
+        Button delete = new Button("Delete unit");
+        delete.setOnAction(event -> {
+            pane.getChildren().remove(civilianUnitImage);
+            UnitStateController.unitDelete(unit);
+            StatusBarController.update();
         });
+        leftPanel.getChildren().addAll(move, delete);
 
         switch (unit.getUnitType()) {
             case SETTLER -> {
@@ -77,10 +91,38 @@ public class GraphicTile implements Serializable {
                 });
             }
             case WORKER -> {
-                //TODO:
-                Button buildRoad = new Button("Build Road");
-                Button buildRailRoad = new Button("Build Rail Road");
-                leftPanel.getChildren().addAll(buildRoad, buildRailRoad);
+                if (tile.getRoad() == null) {
+                    Button buildRoad = new Button("Build Road");
+                    buildRoad.setOnAction(actionEvent -> UnitStateController.unitBuildRoad());
+                    leftPanel.getChildren().add(buildRoad);
+                }
+                if (tile.getRoad() == null && tile.getCivilization().doesContainTechnology(TechnologyType.RAILROAD) == 1) {
+                    Button buildRailRoad = new Button("Build Rail Road");
+                    buildRailRoad.setOnAction(actionEvent -> UnitStateController.unitBuildRailRoad());
+                    leftPanel.getChildren().add(buildRailRoad);
+                }
+                //TODO: remove other features?!?!?!
+                if (tile.getContainedFeature().getFeatureType().equals(FeatureType.JUNGLE)) {
+                    Button removeFromTile = new Button("Remove jungle");
+                    removeFromTile.setOnAction(actionEvent -> UnitStateController.unitRemoveFromTile(true));
+                    leftPanel.getChildren().add(removeFromTile);
+                }
+                if (tile.getRoad() != null) {
+                    Button removeFromTile = new Button("Remove road");
+                    removeFromTile.setOnAction(actionEvent -> UnitStateController.unitRemoveFromTile(false));
+                    leftPanel.getChildren().add(removeFromTile);
+                }
+
+                //improvement building:
+                for (ImprovementType improvementType : ImprovementType.values()) {
+                    if (GameController.doesHaveTheRequiredTechnologyToBuildImprovement(improvementType, tile, tile.getCivilization())
+                        && GameController.canHaveTheImprovement(tile, improvementType)) {
+                        Button button = new Button("Build " + improvementType);
+                        button.setOnAction(actionEvent -> UnitStateController.unitBuild(improvementType));
+                        leftPanel.getChildren().add(button);
+                    }
+                }
+
             }
         }
     }

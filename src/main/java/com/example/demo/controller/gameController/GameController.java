@@ -93,7 +93,7 @@ public class GameController {
                 civilization.doesContainTechnology(TechnologyType.MINING) == 1;
     }
 
-    static boolean canHaveTheImprovement(Tile tile, ImprovementType improvementType) {
+    public static boolean canHaveTheImprovement(Tile tile, ImprovementType improvementType) {
         if (tile.getCivilization() != selectedUnit.getCivilization())
             return false;
         return (tile.getContainedFeature() != null &&

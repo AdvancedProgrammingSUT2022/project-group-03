@@ -8,20 +8,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 public class StatusBarController {
-    private final ImageView GOLD_IMAGE = new ImageView(ImageLoader.get("gold"));
-    private final ImageView SCIENCE_IMAGE = new ImageView(ImageLoader.get("science"));
-    private final ImageView HAPPINESS_IMAGE = new ImageView(ImageLoader.get("happiness"));
-    private final ImageView TECHNOLOGY_IMAGE = new ImageView(ImageLoader.get("technology"));
-    private final HBox statusBar;
+    private static final ImageView GOLD_IMAGE = new ImageView(ImageLoader.get("gold"));
+    private static final ImageView SCIENCE_IMAGE = new ImageView(ImageLoader.get("science"));
+    private static final ImageView HAPPINESS_IMAGE = new ImageView(ImageLoader.get("happiness"));
+    private static final ImageView TECHNOLOGY_IMAGE = new ImageView(ImageLoader.get("technology"));
+    private static final Text goldAmount = new Text();
+    private static final Text scienceAmount = new Text();
+    private static final Text happinessAmount = new Text();
+    private static final Text technologyName = new Text();
 
-    private Text goldAmount;
-    private Text happinessAmount;
-    private Text scienceAmount;
-    private Text technologyName;
+    public static void init(HBox statusBar) {
 
-    public StatusBarController(HBox statusBar) {
-        this.statusBar = statusBar;
-        updateText();
+        update();
 
         statusBar.getChildren().add(GOLD_IMAGE);
         statusBar.getChildren().add(goldAmount);
@@ -36,16 +34,15 @@ public class StatusBarController {
         statusBar.getChildren().add(technologyName);
     }
 
-    public void updateText() {
+    public static void update() {
         Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
-        goldAmount = new Text(civilization.getGold() + "  ");
-        happinessAmount = new Text(civilization.getHappiness() + "  ");
-        //TODO: does science amount is correct?? :/
-        scienceAmount = new Text("0  ");
+        goldAmount.setText(civilization.getGold() + "   ");
+        happinessAmount.setText(civilization.getHappiness() + "   ");
+        scienceAmount.setText(civilization.collectScience() + "   ");
         Technology tech = civilization.getGettingResearchedTechnology();
         if (tech == null)
-            technologyName = new Text("nothing");
+            technologyName.setText("nothing");
         else
-            technologyName = new Text(tech.getName());
+            technologyName.setText(tech.getName());
     }
 }
