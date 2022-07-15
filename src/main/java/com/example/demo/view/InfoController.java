@@ -65,16 +65,14 @@ public class InfoController {
         stringBuilder.append(" | gold: ").append(civilization.getGold()).append(" | units: ")
                 .append(civilization.getUnits().size()).append(" | size: ")
                 .append(civilization.getSize());
-        if(civilization.getResourcesAmount().size()!=0)
-        {
+        if (civilization.getResourcesAmount().size() != 0) {
             stringBuilder.append("\nresources: ");
             civilization.getResourcesAmount().forEach((k, v) -> {
                 if (v != 0)
                     stringBuilder.append(k).append(": ").append(v).append("\n");
             });
         }
-        if(civilization.getUsedLuxuryResources().size()!=0)
-        {
+        if (civilization.getUsedLuxuryResources().size() != 0) {
             stringBuilder.append("luxury resources: \n");
             civilization.getUsedLuxuryResources().forEach((k, v) -> {
                 if (v)
@@ -85,12 +83,10 @@ public class InfoController {
         return stringBuilder.toString();
     }
 
-    public static String infoNotifications(int cycles)
-    {
+    public static String infoNotifications(int cycles) {
         StringBuilder stringBuilder = new StringBuilder();
-        for(int i = GameController.getCycle();i>GameController.getCycle()-cycles;i--)
-        {
-            if(!GameController.getCivilizations()
+        for (int i = GameController.getCycle(); i > GameController.getCycle() - cycles; i--) {
+            if (!GameController.getCivilizations()
                     .get(GameController.getPlayerTurn()).getNotifications().containsKey(i))
                 continue;
             ArrayList<String> strings = GameController.getCivilizations()
@@ -98,13 +94,13 @@ public class InfoController {
             for (String string : strings)
                 stringBuilder.append(i).append(". ").append(string).append("\n");
         }
-        if(stringBuilder.toString().length()==0)
+        if (stringBuilder.toString().length() == 0)
             stringBuilder.append("you have received no notifications yet");
         return stringBuilder.toString();
     }
 
     public static String infoEconomic() {
-        if(GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size()==0)
+        if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0)
             return "you have no cities yet";
         StringBuilder stringBuilder = new StringBuilder();
         for (City city : GameController.getCivilizations()
@@ -132,7 +128,7 @@ public class InfoController {
                 .append(city.getFounder().getUser().getNickname())
                 .append(" | defense strength: ")
                 .append(city.getCombatStrength(false))
-                .append("\n").append(" | attack strength: ")
+                .append(" | attack strength: ")
                 .append(city.getCombatStrength(true))
                 .append(" | production: ").append(city.collectProduction())
                 .append(" | doesHaveWall: ");
@@ -144,17 +140,17 @@ public class InfoController {
                     .append(city.getProduct().getName())
                     .append(" - ")
                     .append(city.cyclesToComplete(city.getProduct().getRemainedCost()));
-        stringBuilder.append("\nTiles: \n");
+        stringBuilder.append("\nTiles: ");
         for (int i = 0; i < city.getTiles().size(); i++)
             stringBuilder.append(city.getTiles().get(i).getX())
                     .append(", ").append(city.getTiles().get(i).getY())
-                    .append(" |");
+                    .append(" | ");
         stringBuilder.append("\n");
         for (int i = 0; i < city.getGettingWorkedOnByCitizensTiles().size(); i++)
             stringBuilder.append(city.getGettingWorkedOnByCitizensTiles().get(i).getX())
                     .append(", ")
                     .append(city.getGettingWorkedOnByCitizensTiles().get(i).getY())
-                    .append(" |");
+                    .append(" | ");
         stringBuilder.append("\n");
         return stringBuilder.toString();
     }
@@ -192,5 +188,35 @@ public class InfoController {
             stringBuilder = new StringBuilder(stringBuilder.substring(0, stringBuilder.length() - 2));
         return stringBuilder.toString();
     }
+
+    //
+//    public static String printCities() {
+//        StringBuilder stringBuilder = new StringBuilder();
+//        ArrayList<City> cities = GameController.getCivilizations()
+//                .get(GameController.getPlayerTurn()).getCities();
+//
+//        for (int i = 0; i < cities.size(); i++)
+//            stringBuilder.append(i).append(1).append(". ")
+//                    .append(cities.get(i).getName())
+//                    .append(" | strength: ")
+//                    .append(cities.get(i).getCombatStrength(false))
+//                    .append(" | population: ")
+//                    .append(cities.get(i).getPopulation()).append("\n");
+//        return stringBuilder.toString();
+//    }
+    public static String printCity(int i) {
+        StringBuilder stringBuilder = new StringBuilder();
+        ArrayList<City> cities = GameController.getCivilizations()
+                .get(GameController.getPlayerTurn()).getCities();
+
+        stringBuilder.append(i+1).append(". ")
+                .append(cities.get(i).getName())
+                .append(" | strength: ")
+                .append(cities.get(i).getCombatStrength(false))
+                .append(" | population: ")
+                .append(cities.get(i).getPopulation()).append("\n");
+        return stringBuilder.toString();
+    }
+
 }
 

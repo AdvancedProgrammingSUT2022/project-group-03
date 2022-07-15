@@ -54,6 +54,8 @@ public class ImageLoader {
             images.put("riverDown",image);
             image = new Image(HelloApplication.getResource("/com/example/demo/buildings/city.png"), 120, 0, true, true, true);
             images.put("city",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/tiles/fog.png"), 120, 0, true, true, true);
+            images.put("fog",image);
 
         } catch (RuntimeException e) {
             System.out.println("There is a problem in loading images in ImageLoader.");

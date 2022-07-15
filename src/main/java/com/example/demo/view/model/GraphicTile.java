@@ -7,6 +7,7 @@ import com.example.demo.model.Units.Unit;
 import com.example.demo.model.features.Feature;
 import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.Tile;
+import com.example.demo.view.GameControllerFX;
 import com.example.demo.view.ImageLoader;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
@@ -46,13 +47,17 @@ public class GraphicTile implements Serializable {
         if(!tileConditions[tile.getX()][tile.getY()].getIsClear())
         {
             tile=tileConditions[tile.getX()][tile.getY()].getOpenedArea();
+            fogImage = new ImageView(ImageLoader.get("fog"));
+            fogImage.setFitHeight(103);
+            fogImage.setFitWidth(120);
+            pane.getChildren().add(fogImage);
         }
         this.tile = tile;
         //load tile
         tileImage = new ImageView(ImageLoader.get(tile.getTileType().toString()));
         tileImage.setFitHeight(103);
         tileImage.setFitWidth(120);
-        tileImage.setOnMouseReleased(this::clicked);
+        tileImage.setOnMouseReleased(event -> clicked());
         pane.getChildren().add(tileImage);
 
         //load feature
@@ -61,7 +66,7 @@ public class GraphicTile implements Serializable {
             featureImage = new ImageView(ImageLoader.get(feature.getFeatureType().toString()));
             featureImage.setFitHeight(103);
             featureImage.setFitWidth(120);
-            featureImage.setOnMouseReleased(this::clicked);
+            featureImage.setOnMouseReleased(event -> clicked());
             pane.getChildren().add(featureImage);
         }
 
@@ -71,7 +76,7 @@ public class GraphicTile implements Serializable {
             resourceImage = new ImageView(ImageLoader.get(resource.toString()));
             resourceImage.setFitHeight(17);
             resourceImage.setFitWidth(17);
-            resourceImage.setOnMouseReleased(this::clicked);
+            resourceImage.setOnMouseReleased(event -> clicked());
             pane.getChildren().add(resourceImage);
         }
 
@@ -128,14 +133,6 @@ public class GraphicTile implements Serializable {
             }
 
         }
-        if(!tileConditions[tile.getX()][tile.getY()].getIsClear())
-        {
-            tile=tileConditions[tile.getX()][tile.getY()].getOpenedArea();
-            fogImage = new ImageView(ImageLoader.get("fog"));
-            fogImage.setFitHeight(103);
-            fogImage.setFitWidth(120);
-            pane.getChildren().add(fogImage);
-        }
     }
 
     private void civilianClicked(MouseEvent mouseEvent) {
@@ -176,8 +173,16 @@ public class GraphicTile implements Serializable {
 
     }
 
-    private void clicked(MouseEvent mouseEvent) {
+    private void clicked() {
         //TODO: If we click on a tile this methode runs...
+        if(GameControllerFX.isWaitingToSelectTileToBuy())
+        {
+            GameControllerFX.buyTile(tile);
+        }
+        if(GameControllerFX.isWaitingToSelectTileToAttackFromCity())
+        {
+            GameControllerFX.attackTile(tile);
+        }
         leftPanel.getChildren().clear();
         GameController.setSelectedUnit(null);
         Text text = new Text("Tile: " + tile.getTileType());

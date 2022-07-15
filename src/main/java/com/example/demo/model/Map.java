@@ -63,7 +63,17 @@ public class Map {
                     civilizations.get(i), hardcodeUnit);
             settlers[0][i] = settlerX;
             settlers[1][i] = settlerY;
+            City city = new City(GameController.getMap().tiles[settlerX][settlerY],"wtf",civilizations.get(i));
+            GameController.getMap().tiles[settlerX][settlerY].setCity(city);
+            civilizations.get(i).getCities().add(city);
+//            civilizations.get(GameController.getPlayerTurn()).getCities().add(city);
+
+//            Civilian civilian = new Civilian(coordinatesToTile(settlerX+2, settlerY),civilizations.get(i),UnitType.WORKER);
+//            civilizations.get(i).getUnits().add(civilian);
+//            coordinatesToTile(settlerX+2,settlerY).setCivilian(civilian);
+//            civilian.setRemainedCost(0);
         }
+
     }
 
     public Tile coordinatesToTile(int x, int y) {

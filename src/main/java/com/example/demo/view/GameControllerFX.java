@@ -1,24 +1,25 @@
 package com.example.demo.view;
 
 import com.example.demo.controller.LoginController;
+import com.example.demo.controller.gameController.CityCommandsController;
 import com.example.demo.controller.gameController.GameController;
+import com.example.demo.model.City;
 import com.example.demo.model.Civilization;
 import com.example.demo.model.Map;
 import com.example.demo.model.User;
 import com.example.demo.model.technologies.Technology;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.model.GraphicTile;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
-import com.example.demo.view.InfoController.*;
 
 import java.util.ArrayList;
 
@@ -31,10 +32,13 @@ public class GameControllerFX {
     public Button demographicsButton;
     public Button militaryButton;
     public Button notificationsButton;
-    public VBox infoTab;
+    public ScrollPane infoTab;
     public Text infoText;
     public int infoTabNumber = -1;
     public Button cityButton;
+    public ScrollPane cityPage;
+    public Text cityText;
+    private static City openedPanelCity;
     @FXML
     private VBox leftPanel;
     @FXML
@@ -49,15 +53,20 @@ public class GameControllerFX {
     private Pane pane;
     private double startX;
     private double startY;
+    private boolean isCityPanelOpen = false;
+    private static boolean waitingToSelectTileToBuy = false;
+    private static boolean waitingToSelectTileToAttackFromCity=false;
+    private static Text buyTileText;
+    private static Text attackTileFromCity;
 
     public void initialize() {
         startAFakeGame();
         //move on map
-        root.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
+        pane.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
             startX = pane.getTranslateX() - mouseEvent.getScreenX();
             startY = pane.getTranslateY() - mouseEvent.getScreenY();
         });
-        root.addEventFilter(MouseEvent.MOUSE_DRAGGED, mouseEvent -> {
+        pane.addEventFilter(MouseEvent.MOUSE_DRAGGED, mouseEvent -> {
             double x = mouseEvent.getScreenX() + startX;
             double y = mouseEvent.getScreenY() + startY;
 //            if (x < 500 && x > -mapPane.getWidth() + 700)
@@ -92,6 +101,13 @@ public class GameControllerFX {
         notificationsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(6));
         updateStatusBar();
         renderMap();
+//        Platform.runLater(()->infoTab.setLayoutY(infoBar.getHeight()*2 + infoBar.getLayoutY()));
+//        infoTab.addEventFilter(ScrollEvent.SCROLL_STARTED, (l) -> {
+//            isScrolling=true;
+//        });infoTab.addEventFilter(ScrollEvent.SCROLL_FINISHED, (l) -> {
+//            isScrolling=false;
+//        });
+
     }
 
     private void eachInfoButtonsClicked(int number) {
@@ -99,6 +115,8 @@ public class GameControllerFX {
             infoTab.setOpacity(0);
             infoTabNumber = -1;
         } else {
+            infoText.setDisable(false);
+            infoTab.setContent(infoText);
             switch (number) {
                 case 0:
                     infoText.setText(InfoController.infoResearches());
@@ -107,6 +125,7 @@ public class GameControllerFX {
 //                    infoText.setText();
                     break;
                 case 2:
+                    cityButtonClicked();
                     break;
                 case 3:
                     infoText.setText(InfoController.infoEconomic());
@@ -120,12 +139,111 @@ public class GameControllerFX {
                 case 6:
                     infoText.setText(InfoController.infoNotifications(10));
                     break;
+                case 7:
+                    infoText.setText(InfoController.cityBanner(openedPanelCity));
+                    break;
             }
             infoTab.setOpacity(1);
             infoTabNumber = number;
         }
     }
 
+    private void cityButtonClicked() {
+        infoText.setDisable(true);
+        AnchorPane anchorPane = new AnchorPane();
+        Text[] texts = new Text[GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size()];
+        Button[] buttons = new Button[texts.length];
+        for (int i = 0; i < GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size(); i++) {
+            String string = InfoController.printCity(i);
+            texts[i] = new Text(string);
+            texts[i].setLayoutY((i + 1) * 45);
+            anchorPane.getChildren().add(texts[i]);
+            buttons[i] = new Button("open");
+            buttons[i].setLayoutX(texts[i].getLayoutBounds().getMinX() + texts[i].getLayoutBounds().getWidth() + 10);
+            buttons[i].setLayoutY((i + 0.5) * 45);
+            int finalI = i;
+            buttons[i].setOnMouseClicked(event -> cityPanel(GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().get(finalI)));
+            anchorPane.getChildren().add(buttons[i]);
+        }
+        infoTab.setContent(anchorPane);
+    }
+
+    private void cityPanel(City city) {
+        if (isCityPanelOpen) {
+            cityPage.setOpacity(0);
+            isCityPanelOpen = false;
+            return;
+        }
+        openedPanelCity = city;
+        AnchorPane anchorPane = new AnchorPane();
+        Text text = new Text("City name: " + openedPanelCity.getName() +
+                " | population:" + openedPanelCity.getPopulation() +
+                " | (Unemployed) citizens: " + openedPanelCity.getCitizen());
+        text.setLayoutY(15);
+        anchorPane.getChildren().add(text);
+
+        Button button = new Button("Show Banner");
+        button.setLayoutY(30);
+        button.setOnMouseClicked(event -> eachInfoButtonsClicked(7));
+        anchorPane.getChildren().add(button);
+
+        text = new Text("Click on a tile to buy or press \"e\" if you don't want to continue buying");
+        text.setLayoutY(97);
+        text.setOpacity(0);
+        button = new Button("Buy Tile");
+        button.setLayoutY(75);
+        Button finalButton = button;
+        buyTileText = text;
+        Text finalText = text;
+        button.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode().getName().equals("e") || keyEvent.getCode().getName().equals("E"))
+            {
+                waitingToSelectTileToBuy=false;
+                finalText.setOpacity(0);
+            }
+        });
+        button.setOnMouseClicked(event -> buyTileClicked(finalButton, finalText));
+        anchorPane.getChildren().add(button);
+        anchorPane.getChildren().add(text);
+
+        text = new Text("Click on a tile to attack or press \"e\" if you don't want to continue attacking");
+        text.setLayoutY(142);
+        text.setOpacity(0);
+        button = new Button("Attack Tile");
+        button.setLayoutY(120);
+        Button finalButton1 = button;
+        attackTileFromCity = text;
+        Text finalText1 = text;
+        button.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode().getName().equals("e") || keyEvent.getCode().getName().equals("E"))
+            {
+                waitingToSelectTileToAttackFromCity=false;
+                finalText1.setOpacity(0);
+            }
+        });
+        button.setOnMouseClicked(event -> attackTileClicked(finalButton1, finalText1));
+        anchorPane.getChildren().add(button);
+        anchorPane.getChildren().add(text);
+
+        cityPage.setContent(anchorPane);
+        cityPage.setOpacity(1);
+        isCityPanelOpen = true;
+    }
+
+    private void attackTileClicked(Button button, Text text)
+    {
+        text.setLayoutX(button.getLayoutX() + button.getWidth() + 10);
+        text.setOpacity(1);
+        System.out.println(text.getOpacity());
+        waitingToSelectTileToAttackFromCity=true;
+    }
+
+    private void buyTileClicked(Button button, Text text)
+    {
+        text.setLayoutX(button.getLayoutX() + button.getWidth() + 10);
+        text.setOpacity(1);
+        waitingToSelectTileToBuy=true;
+    }
 
     private void infoButtonClicked(MouseEvent mouseEvent) {
         if (infoBar.getOpacity() == 1) {
@@ -208,5 +326,36 @@ public class GameControllerFX {
         Map.setX(60);
         Map.setY(90);
         GameController.startGame(users);
+    }
+
+    public static boolean isWaitingToSelectTileToBuy() {
+        return waitingToSelectTileToBuy;
+    }
+
+    public static boolean isWaitingToSelectTileToAttackFromCity() {
+        return waitingToSelectTileToAttackFromCity;
+    }
+
+    public static void buyTile(Tile tile)
+    {
+        switch (CityCommandsController.buyTile(tile.getX(), tile.getY(), openedPanelCity)) {
+            case 0 -> StageController.errorMaker("The tile is yours", "you bought the tile successfully", Alert.AlertType.INFORMATION);
+            case 1 -> StageController.errorMaker("You're dumber than a box of rocks", "the selected tile is not a neighbour to your city", Alert.AlertType.ERROR);
+            case 2 -> StageController.errorMaker("You don't deserve the tile", "it's price is too high", Alert.AlertType.ERROR);
+            case 3 -> StageController.errorMaker("what", "the selected tile is already a property of another civilization(or maybe even it's yours)", Alert.AlertType.ERROR);
+        }
+        waitingToSelectTileToBuy=false;
+        buyTileText.setOpacity(0);
+    }
+
+    public static void attackTile(Tile tile)
+    {
+        switch (CityCommandsController.cityAttack(tile.getX(),tile.getY(),openedPanelCity)){
+            case 0 -> StageController.errorMaker("nicely done", "you attacked successfully", Alert.AlertType.INFORMATION);
+            case 1-> StageController.errorMaker("self-harm is haram", "the selected tile is your city's main tile", Alert.AlertType.ERROR);
+            case 2-> StageController.errorMaker("attack what", "there are no nonCivilians over there", Alert.AlertType.ERROR);
+            case 3-> StageController.errorMaker("bruh", "you selected one of your own units", Alert.AlertType.ERROR);
+            case 4-> StageController.errorMaker("no ranges?", "the selected tile is not in your range", Alert.AlertType.ERROR);
+        }
     }
 }

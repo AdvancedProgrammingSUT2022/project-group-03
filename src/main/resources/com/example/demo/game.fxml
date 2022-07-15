@@ -20,6 +20,7 @@
         <Pane fx:id="pane">
             <AnchorPane fx:id="mapPane"/>
         </Pane>
+
     </center>
 
     <top>
@@ -45,12 +46,11 @@
         </HBox>
     </top>
 
+
     <left>
 
         <VBox alignment="CENTER" spacing="5" maxHeight="Infinity">
-            <VBox fx:id="infoTab" spacing="5" styleClass="popUp" opacity="0">
-                <Text fx:id="infoText" text="wtf"/>
-            </VBox>
+
             <Region VBox.vgrow="ALWAYS"/>
 
             <VBox fx:id="leftPanel" alignment="BOTTOM_CENTER" spacing="5" styleClass="LeftPanel">
@@ -58,15 +58,28 @@
             </VBox>
         </VBox>
 
+
     </left>
 
     <right>
         <VBox alignment="CENTER" spacing="5" maxHeight="Infinity">
+            <ScrollPane fx:id="cityPage" styleClass="popUp" opacity="0" layoutX="500" prefHeight="600" prefWidth="400">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                <Text fx:id="cityText" text="wtf"/>
+            </ScrollPane>
             <Region VBox.vgrow="ALWAYS"/>
-            <VBox alignment="BOTTOM_CENTER" spacing="5" styleClass="panel">
-                <Button text="find unit" style="-fx-pref-width: 200;"/>
-                <Button text="next turn" style="-fx-pref-width: 200;"/>
-            </VBox>
+
+            <ScrollPane fx:id="infoTab" styleClass="popUp" opacity="0" layoutX="500" prefHeight="200" prefWidth="400">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                <Text fx:id="infoText" text="wtf"/>
+            </ScrollPane>
+
+            <!--            <VBox alignment="BOTTOM_CENTER" spacing="5" styleClass="panel">-->
+<!--                <Button text="find unit" style="-fx-pref-width: 200;"/>-->
+<!--                <Button text="next turn" style="-fx-pref-width: 200;"/>-->
+<!--            </VBox>-->
         </VBox>
+
     </right>
+
 </BorderPane>
