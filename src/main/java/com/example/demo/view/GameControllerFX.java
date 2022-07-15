@@ -6,12 +6,16 @@ import com.example.demo.model.Map;
 import com.example.demo.model.User;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.model.GraphicTile;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
 public class GameControllerFX {
+    private static boolean selectingTile;
+    public static final Text publicText = new Text("");
     @FXML
     private VBox leftPanel;
     @FXML
@@ -22,7 +26,15 @@ public class GameControllerFX {
     private AnchorPane mapPane;
     @FXML
     private Pane upperMapPane;
-    private GraphicTile[][] graphicMap;
+    private static GraphicTile[][] graphicMap;
+
+    public static boolean getSelectingTile() {
+        return selectingTile;
+    }
+
+    public static void setSelectingTile(boolean mode) {
+        selectingTile = mode;
+    }
 
     public void initialize() {
         startAFakeGame();
@@ -33,7 +45,8 @@ public class GameControllerFX {
     }
 
 
-    private void renderMap() {
+    public void renderMap() {
+        mapPane.getChildren().clear();
         Map map = GameController.getMap();
         graphicMap = new GraphicTile[map.getX()][map.getY()];
         Tile[][] tiles = map.getTiles();
@@ -58,4 +71,9 @@ public class GameControllerFX {
         Map.setY(90);
         GameController.startGame(users);
     }
+
+    public static GraphicTile[][] getGraphicMap() {
+        return graphicMap;
+    }
+
 }

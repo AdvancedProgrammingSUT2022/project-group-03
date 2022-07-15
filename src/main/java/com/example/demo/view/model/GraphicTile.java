@@ -11,8 +11,12 @@ import com.example.demo.model.improvements.ImprovementType;
 import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.model.tiles.Tile;
+import com.example.demo.view.GameControllerFX;
 import com.example.demo.view.ImageLoader;
 import com.example.demo.view.StatusBarController;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -48,12 +52,28 @@ public class GraphicTile implements Serializable {
 
 
     private void clicked(MouseEvent mouseEvent) {
+        if (GameControllerFX.getSelectingTile()) {
+            GameController.setSelectedTile(tile);
+            GameControllerFX.publicText.setText("Destination tile:  X=" + tile.getX() + " Y=" + tile.getY());
+            return;
+        }
         //TODO: If we click on a tile this methode runs...
         leftPanel.getChildren().clear();
         GameController.setSelectedUnit(null);
         Text text = new Text("Tile: " + tile.getTileType());
-        Text text1 = new Text("Have Resource: " + tile.getResource());
-        leftPanel.getChildren().addAll(text, text1);
+        Text text1 = new Text("Have Feature: " + tile.getContainedFeature());
+        Text text2 = new Text("Have Resource: " + tile.getResource());
+        leftPanel.getChildren().addAll(text, text1, text2);
+    }
+
+    private void addButton(String name, boolean clearAfterClick, EventHandler<ActionEvent> func) {
+        Button bottom = new Button(name);
+        bottom.setOnAction(actionEvent -> {
+            func.handle(actionEvent);
+            if (clearAfterClick)
+                leftPanel.getChildren().clear();
+        });
+        leftPanel.getChildren().add(bottom);
     }
 
     private void civilianClicked(MouseEvent mouseEvent) {
@@ -62,67 +82,63 @@ public class GraphicTile implements Serializable {
         GameController.setSelectedUnit(unit);
         Text title = new Text("Selected Unit: " + unit.getUnitType());
         leftPanel.getChildren().add(title);
-        Button move = new Button("Move");
-        if (!unit.getState().equals(UnitState.SLEEP)) {
-            Button sleep = new Button("Sleep");
-            sleep.setOnAction(event -> UnitStateController.unitSleep());
-            leftPanel.getChildren().add(sleep);
-        }else{
-            Button awake = new Button("Awake");
-            awake.setOnAction(event -> UnitStateController.unitChangeState(3));
-            leftPanel.getChildren().add(awake);
-        }
-        Button delete = new Button("Delete unit");
-        delete.setOnAction(event -> {
+
+        //add move button
+        addButton("Move", false, event -> {
+            leftPanel.getChildren().clear();
+            Text text = new Text("Click on the destination tile,\n      then click move.");
+            GameControllerFX.setSelectingTile(true);
+            leftPanel.getChildren().addAll(text, GameControllerFX.publicText);
+            addButton("Move", true, event2 -> {
+                int x = GameController.getSelectedTile().getX();
+                int y = GameController.getSelectedTile().getY();
+                UnitStateController.unitMoveTo(x, y);
+                GameControllerFX.setSelectingTile(false);
+                GameControllerFX.getGraphicMap()[x][y].civilianUnitImage = civilianUnitImage;
+                GameControllerFX.getGraphicMap()[x][y].civilianUnitSetPosition(x, y);
+                civilianUnitImage = null;
+            });
+            addButton("Cancel", true, event1 -> {
+            });
+        });
+
+        if (unit.getState().equals(UnitState.AWAKE))
+            addButton("Sleep", true, event -> UnitStateController.unitSleep());
+        else
+            addButton("Awake", true, event -> UnitStateController.unitChangeState(3));
+        addButton("Delete", true, event -> {
             pane.getChildren().remove(civilianUnitImage);
             UnitStateController.unitDelete(unit);
             StatusBarController.update();
         });
-        leftPanel.getChildren().addAll(move, delete);
+
 
         switch (unit.getUnitType()) {
             case SETTLER -> {
-                Button foundCity = new Button("Found City");
-                leftPanel.getChildren().add(foundCity);
-                foundCity.setOnAction(event -> {
+                addButton("Found City", true, event -> {
                     UnitStateController.unitFoundCity("City");
                     pane.getChildren().remove(civilianUnitImage);
                     civilianUnitImage = null;
                 });
             }
             case WORKER -> {
-                if (tile.getRoad() == null) {
-                    Button buildRoad = new Button("Build Road");
-                    buildRoad.setOnAction(actionEvent -> UnitStateController.unitBuildRoad());
-                    leftPanel.getChildren().add(buildRoad);
+                Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
+                if (tile.getRoad() == null)
+                    addButton("Build Road", true, event -> UnitStateController.unitBuildRoad());
+                if (tile.getRoad() == null && civilization.doesContainTechnology(TechnologyType.RAILROAD) == 1)
+                    addButton("Build Rail Road", true, event -> UnitStateController.unitBuildRailRoad());
+                if (tile.getRoad() != null)
+                    addButton("Remove Road", true, event -> UnitStateController.unitRemoveFromTile(false));
+                if (tile.getContainedFeature() != null) {
+                    FeatureType featureType = tile.getContainedFeature().getFeatureType();
+                    if (featureType.equals(FeatureType.JUNGLE) || featureType.equals(FeatureType.FOREST) || featureType.equals(FeatureType.SWAMP))
+                        addButton("Remove Feature", true, event -> UnitStateController.unitRemoveFromTile(true));
                 }
-                if (tile.getRoad() == null && tile.getCivilization().doesContainTechnology(TechnologyType.RAILROAD) == 1) {
-                    Button buildRailRoad = new Button("Build Rail Road");
-                    buildRailRoad.setOnAction(actionEvent -> UnitStateController.unitBuildRailRoad());
-                    leftPanel.getChildren().add(buildRailRoad);
-                }
-                //TODO: remove other features?!?!?!
-                if (tile.getContainedFeature().getFeatureType().equals(FeatureType.JUNGLE)) {
-                    Button removeFromTile = new Button("Remove jungle");
-                    removeFromTile.setOnAction(actionEvent -> UnitStateController.unitRemoveFromTile(true));
-                    leftPanel.getChildren().add(removeFromTile);
-                }
-                if (tile.getRoad() != null) {
-                    Button removeFromTile = new Button("Remove road");
-                    removeFromTile.setOnAction(actionEvent -> UnitStateController.unitRemoveFromTile(false));
-                    leftPanel.getChildren().add(removeFromTile);
-                }
-
                 //improvement building:
-                for (ImprovementType improvementType : ImprovementType.values()) {
-                    if (GameController.doesHaveTheRequiredTechnologyToBuildImprovement(improvementType, tile, tile.getCivilization())
-                        && GameController.canHaveTheImprovement(tile, improvementType)) {
-                        Button button = new Button("Build " + improvementType);
-                        button.setOnAction(actionEvent -> UnitStateController.unitBuild(improvementType));
-                        leftPanel.getChildren().add(button);
-                    }
-                }
-
+                for (ImprovementType improvementType : ImprovementType.values())
+                    if (GameController.doesHaveTheRequiredTechnologyToBuildImprovement(improvementType, tile, civilization)
+                        && GameController.canHaveTheImprovement(tile, improvementType))
+                        addButton("Build " + improvementType, true, event -> UnitStateController.unitBuild(improvementType));
             }
         }
     }
@@ -264,13 +280,11 @@ public class GraphicTile implements Serializable {
         }
         //nonCivilian Unit
         if (nonCivilianUnitImage != null) {
-            nonCivilianUnitImage.setLayoutX(x + tileImage.getFitWidth() * 3.5 / 5 - nonCivilianUnitImage.getFitWidth() / 2);
-            nonCivilianUnitImage.setLayoutY(y + tileImage.getFitHeight() * 3.5 / 5 - nonCivilianUnitImage.getFitHeight() / 2);
+            nonCivilianUnitSetPosition(x, y);
         }
         //civilian Unit
         if (civilianUnitImage != null) {
-            civilianUnitImage.setLayoutX(x + tileImage.getFitWidth() * 1.5 / 5 - civilianUnitImage.getFitWidth() / 3);
-            civilianUnitImage.setLayoutY(y + tileImage.getFitHeight() * 1.5 / 5 - civilianUnitImage.getFitHeight() / 2);
+            civilianUnitSetPosition(x, y);
         }
         //improvement
         if (improvementImage != null) {
@@ -318,5 +332,15 @@ public class GraphicTile implements Serializable {
                 }
             }
         }
+    }
+
+    private void nonCivilianUnitSetPosition(double x, double y) {
+        nonCivilianUnitImage.setLayoutX(x + tileImage.getFitWidth() * 3.5 / 5 - nonCivilianUnitImage.getFitWidth() / 2);
+        nonCivilianUnitImage.setLayoutY(y + tileImage.getFitHeight() * 3.5 / 5 - nonCivilianUnitImage.getFitHeight() / 2);
+    }
+
+    private void civilianUnitSetPosition(double x, double y) {
+        civilianUnitImage.setLayoutX(x + tileImage.getFitWidth() * 1.5 / 5 - civilianUnitImage.getFitWidth() / 3);
+        civilianUnitImage.setLayoutY(y + tileImage.getFitHeight() * 1.5 / 5 - civilianUnitImage.getFitHeight() / 2);
     }
 }
