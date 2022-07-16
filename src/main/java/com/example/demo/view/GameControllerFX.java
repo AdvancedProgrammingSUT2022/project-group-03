@@ -57,6 +57,13 @@ public class GameControllerFX {
     private static Text buyTileText;
     private static Text attackTileFromCity;
 
+    public void initialize() {
+        startAFakeGame();
+        MapMoveController mapMove = new MapMoveController(root, upperMapPane);
+        StatusBarController.init(statusBar);
+        addInfoButtons();
+        renderMap();
+    }
 
     private void eachInfoButtonsClicked(int number) {
         if (infoTabNumber == number) {
@@ -125,8 +132,8 @@ public class GameControllerFX {
         openedPanelCity = city;
         AnchorPane anchorPane = new AnchorPane();
         Text text = new Text("City name: " + openedPanelCity.getName() +
-                " | population:" + openedPanelCity.getPopulation() +
-                " | (Unemployed) citizens: " + openedPanelCity.getCitizen());
+            " | population:" + openedPanelCity.getPopulation() +
+            " | (Unemployed) citizens: " + openedPanelCity.getCitizen());
         text.setLayoutY(15);
         anchorPane.getChildren().add(text);
 
@@ -211,10 +218,7 @@ public class GameControllerFX {
         }
     }
 
-    public void initialize() {
-        startAFakeGame();
-        MapMoveController mapMove = new MapMoveController(root, upperMapPane);
-        StatusBarController.init(statusBar);
+    private void addInfoButtons() {
         infoButton.setOnMouseClicked(this::infoButtonClicked);
         researchesButton.setOnMouseClicked(event -> eachInfoButtonsClicked(0));
         unitsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(1));
@@ -223,7 +227,6 @@ public class GameControllerFX {
         demographicsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(4));
         militaryButton.setOnMouseClicked(event -> eachInfoButtonsClicked(5));
         notificationsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(6));
-        renderMap();
     }
 
     private static GraphicTile[][] graphicMap;
@@ -244,7 +247,7 @@ public class GameControllerFX {
         Tile[][] tiles = map.getTiles();
         for (int j = 0; j < map.getY(); j++)
             for (int i = 0; i < map.getX(); i++)
-                graphicMap[i][j] = new GraphicTile(tiles[i][j], mapPane, leftPanel);
+                graphicMap[i][j] = new GraphicTile(tiles[i][j], mapPane, leftPanel,this);
     }
 
 
