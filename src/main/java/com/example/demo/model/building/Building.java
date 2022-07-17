@@ -1,14 +1,17 @@
 package com.example.demo.model.building;
 
 import com.example.demo.model.Producible;
+import com.example.demo.model.tiles.Tile;
 
 public class Building implements Producible {
-    BuildingType buildingType;
+    private final BuildingType buildingType;
+    private final Tile tile;
     int remainedCost;
 
-    public Building(BuildingType buildingType) {
+    public Building(BuildingType buildingType,Tile tile) {
         this.buildingType = buildingType;
         remainedCost = buildingType.getCost();
+        this.tile=tile;
     }
 
     @Override
@@ -33,5 +36,9 @@ public class Building implements Producible {
 
     public BuildingType getBuildingType() {
         return buildingType;
+    }
+
+    public Tile getTile() {
+        return tile;
     }
 }

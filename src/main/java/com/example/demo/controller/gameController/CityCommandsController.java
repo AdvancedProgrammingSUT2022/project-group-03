@@ -58,11 +58,11 @@ public class CityCommandsController {
             return 2;
         if (!city.addTile(GameController.getMap().coordinatesToTile(x, y))) return 3;
         city.getCivilization()
-                .increaseGold(-(15 + 10 * (GameController.getSelectedCity().getTiles().size() - 6)));
+                .increaseGold(-(15 + 10 * (city.getTiles().size() - 6)));
         return 0;
     }
 
-    public static int buildBuilding(BuildingType buildingType, Tile tile) {
+    public static int buildBuilding(BuildingType buildingType, Tile tile,City city) {
         if (tile.getTileType() == TileType.OCEAN || tile.getTileType() == TileType.MOUNTAIN)
             return 9;
 //        if (GameController.getSelectedCity() == null)
@@ -70,23 +70,23 @@ public class CityCommandsController {
 //        if (GameController.getSelectedCity().getCivilization() != GameController
 //                .getCivilizations().get(GameController.getPlayerTurn()))
 //            return 2;
-        if (GameController.getSelectedCity().findBuilding(buildingType) != null)
+        if (city.findBuilding(buildingType) != null)
             return 3;
         if (buildingType == BuildingType.STOCK_EXCHANGE) {
-            if (GameController.getSelectedCity().findBuilding(BuildingType.BANK) == null &&
-                    GameController.getSelectedCity().findBuilding(BuildingType.SATRAPS_COURT) == null)
+            if (city.findBuilding(BuildingType.BANK) == null &&
+                    city.findBuilding(BuildingType.SATRAPS_COURT) == null)
                 return 4;
         } else {
             for (BuildingType type : BuildingType.prerequisites.get(buildingType)) {
-                if (GameController.getSelectedCity().findBuilding(type) == null)
+                if (city.findBuilding(type) == null)
                     return 4;
             }
         }
-        if (buildingType == BuildingType.WATER_MILL && !GameController.getSelectedCity().doesHaveRiver())
+        if (buildingType == BuildingType.WATER_MILL && !city.doesHaveRiver())
             return 6;
         if (buildingType == BuildingType.FORGE_GARDEN
-                && !GameController.getSelectedCity().doesHaveRiver()
-                && !GameController.getSelectedCity().doesHaveLakeAround())
+                && !city.doesHaveRiver()
+                && !city.doesHaveLakeAround())
             return 7;
         if (buildingType == BuildingType.WINDMILL && tile.getTileType() == TileType.HILL)
             return 8;
@@ -94,7 +94,7 @@ public class CityCommandsController {
                 buildingType == BuildingType.STABLE ||
                 buildingType == BuildingType.FORGE_GARDEN) {
             boolean isValid = false;
-            for (Tile tile1 : GameController.getSelectedCity().getTiles()) {
+            for (Tile tile1 : city.getTiles()) {
                 if ((buildingType == BuildingType.STABLE && tile1.getResource() == ResourcesTypes.HORSE) ||
                         (buildingType == BuildingType.CIRCUS && (tile1.getResource() == ResourcesTypes.IVORY || tile1.getResource() == ResourcesTypes.HORSE)) ||
                         (buildingType == BuildingType.FORGE_GARDEN && tile1.getResource() == ResourcesTypes.IRON)) {
@@ -105,17 +105,23 @@ public class CityCommandsController {
             if (!isValid)
                 return 10;
         }
+        for (Building building : city.getHalfProducedBuildings())
+            if(building.getTile()==tile)
+                return 12;
+        for (Building building : city.getBuildings())
+            if(building.getTile()==tile)
+                return 12;
 
-        for (Building building : GameController.getSelectedCity().getHalfProducedBuildings())
+        for (Building building : city.getHalfProducedBuildings())
             if (building.getRemainedCost() > 0 && building.getBuildingType() == buildingType) {
-                GameController.getSelectedCity().setProduct(building);
+                city.setProduct(building);
                 return 0;
             }
         if(buildingType.getCost()> GameController.getCivilizations().get(GameController.getPlayerTurn()).getGold())
             return 11;
-        Building building = new Building(buildingType);
-        GameController.getSelectedCity().getHalfProducedBuildings().add(building);
-        GameController.getSelectedCity().setProduct(building);
+        Building building = new Building(buildingType,tile);
+        city.getHalfProducedBuildings().add(building);
+        city.setProduct(building);
         return 0;
     }
 
@@ -132,9 +138,9 @@ public class CityCommandsController {
                 GameController.getCivilizations().get(GameController.getPlayerTurn()))
             return 3;
         if (!GameController.getMap().isInRange(2,
-                GameController.getSelectedCity().getMainTile(),
+                city.getMainTile(),
                 GameController.getMap().coordinatesToTile(x, y))) return 4;
-        GameController.getSelectedCity().attack(GameController.getMap().coordinatesToTile(x, y));
+        city.attack(GameController.getMap().coordinatesToTile(x, y));
         return 0;
     }
 

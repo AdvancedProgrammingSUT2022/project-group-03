@@ -46,7 +46,7 @@ public class CityPanel {
 
 
     public void buildBuilding(BuildingType buildingType, Tile tile) {
-        switch (CityCommandsController.buildBuilding(buildingType, tile)) {
+        switch (CityCommandsController.buildBuilding(buildingType, tile,openedPanelCity)) {
             case 0 -> StageController.errorMaker("nicely done", "building's building's started", Alert.AlertType.INFORMATION);
             case 3 -> StageController.errorMaker("duplication", "your city already has this building", Alert.AlertType.ERROR);
             case 4 -> StageController.errorMaker("prerequisites not satisfied", "you don't have the prerequisite buildings", Alert.AlertType.ERROR);
@@ -56,8 +56,10 @@ public class CityPanel {
             case 9 -> StageController.errorMaker("you cannot place you building over there", "a building cannot be placed on an ocean or a mountain", Alert.AlertType.ERROR);
             case 10 -> StageController.errorMaker("no resources?", "you don't have the prerequisite resources", Alert.AlertType.ERROR);
             case 11 -> StageController.errorMaker("no money?", "you don't have enough gold", Alert.AlertType.ERROR);
+            case 12 ->StageController.errorMaker("not this tile","the selected tile already has a building on it", Alert.AlertType.ERROR);
         }
         turnEveryButtonOff();
+        gameControllerFX.renderMap();
     }
 
 
@@ -123,6 +125,7 @@ public class CityPanel {
             case 1 -> StageController.errorMaker("resources required", "you don't have the required resources", Alert.AlertType.ERROR);
         }
         turnEveryButtonOff();
+        gameControllerFX.renderMap();
     }
 
 
@@ -134,6 +137,7 @@ public class CityPanel {
             case 3 -> StageController.errorMaker("duplication", "there is already a unit on the tile you selected", Alert.AlertType.ERROR);
         }
         turnEveryButtonOff();
+        gameControllerFX.renderMap();
     }
 
 
@@ -214,6 +218,7 @@ public class CityPanel {
             case 2 -> StageController.errorMaker("not getting worked on", "the selected tile is not getting worked on", Alert.AlertType.ERROR);
         }
         turnEveryButtonOff();
+        gameControllerFX.renderMap();
     }
 
     public void buildBuildingSelectTile(Tile tile) {
@@ -245,6 +250,7 @@ public class CityPanel {
             case 4 -> StageController.errorMaker("not getting worked on", "the originTile is not getting worked on", Alert.AlertType.ERROR);
         }
         turnEveryButtonOff();
+        gameControllerFX.renderMap();
     }
 
 
@@ -256,6 +262,7 @@ public class CityPanel {
             case 3 -> StageController.errorMaker("what", "the selected tile is already a property of another civilization(or maybe even it's yours)", Alert.AlertType.ERROR);
         }
         turnEveryButtonOff();
+        gameControllerFX.renderMap();
     }
 
     public void attackTile(Tile tile) {
@@ -267,6 +274,7 @@ public class CityPanel {
             case 4 -> StageController.errorMaker("no ranges?", "the selected tile is not in your range", Alert.AlertType.ERROR);
         }
         turnEveryButtonOff();
+        gameControllerFX.renderMap();
     }
 
     public void assignCitizenToTile(Tile tile) {
@@ -276,6 +284,7 @@ public class CityPanel {
             case 2 -> StageController.errorMaker("not enough citizens", "great news! you have dropped the unemployment percentage of your city to 0%", Alert.AlertType.ERROR);
         }
         turnEveryButtonOff();
+        gameControllerFX.renderMap();
     }
 
     private void initCityPanel() {

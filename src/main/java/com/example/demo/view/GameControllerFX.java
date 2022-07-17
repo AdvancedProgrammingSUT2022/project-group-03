@@ -180,6 +180,13 @@ public class GameControllerFX {
                 graphicMap[i][j] = new GraphicTile(tiles[i][j], mapPane, leftPanel, this);
         cityPage.setViewOrder(-2);
         mapPane.getChildren().add(cityPage);
+        cityPage.setOnKeyPressed(keyEvent -> {
+            if ((keyEvent.getCode().getName().equals("q") || keyEvent.getCode().getName().equals("Q")) && cityPage.getLayoutX()!=-2000 && cityPage.getLayoutY()!=-2000)
+            {
+                cityPage.setLayoutX(-2000);
+                cityPage.setLayoutY(-2000);
+            }
+        });
 
     }
     /*
