@@ -18,7 +18,7 @@
         </Pane>
     </center>
 
-    <ScrollPane fx:id="cityPage" styleClass="popUp" opacity="0" layoutX="500" prefHeight="400" prefWidth="400">
+    <ScrollPane fx:id="cityPage" styleClass="popUp" opacity="0" layoutX="500" prefHeight="700" prefWidth="400">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0"/>
         <Text fx:id="cityText" text="wtf"/>
     </ScrollPane>

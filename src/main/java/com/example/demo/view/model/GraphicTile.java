@@ -12,6 +12,7 @@ import com.example.demo.model.improvements.ImprovementType;
 import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.model.tiles.Tile;
+import com.example.demo.view.CityPanel;
 import com.example.demo.view.GameControllerFX;
 import com.example.demo.view.ImageLoader;
 import com.example.demo.view.StatusBarController;
@@ -66,23 +67,23 @@ public class GraphicTile implements Serializable {
             gameControllerFX.publicText.setText("Destination tile:  X=" + tile.getX() + " Y=" + tile.getY());
             return;
         }
-        if (GameControllerFX.isWaitingToSelectTileToBuy()) {
-            gameControllerFX.buyTile(tile);
-        } else if (GameControllerFX.isWaitingToSelectTileToAttackFromCity()) {
-            gameControllerFX.attackTile(tile);
-        } else if (GameControllerFX.isWaitingToSelectTileToAssignCitizens())
-            gameControllerFX.assignCitizenToTile(tile);
-        else if (GameControllerFX.getReAssignProcess() == 1)
-            gameControllerFX.firstTileReassign(tile);
-        else if (GameControllerFX.getReAssignProcess() == 2)
-            gameControllerFX.secondTileReassign(tile);
-        else if (GameControllerFX.isWaitingToSelectTileToRemoveCitizen())
-            gameControllerFX.removeCitizenFromTile(tile);
-        else if (GameControllerFX.getBuyUnitProcess() == 1)
-            gameControllerFX.buyUnitSelectTile(tile);
-        else if(GameControllerFX.getBuildBuildingProcess()==1)
-            gameControllerFX.buildBuildingSelectTile(tile);
-        else gameControllerFX.disableCityPanel();
+        if (CityPanel.getButtonsProcess()[0]==1) {
+            gameControllerFX.getCityPanel().buyTile(tile);
+        } else if (CityPanel.getButtonsProcess()[1]==1) {
+            gameControllerFX.getCityPanel().attackTile(tile);
+        } else if (CityPanel.getButtonsProcess()[2]==1)
+            gameControllerFX.getCityPanel().assignCitizenToTile(tile);
+        else if (CityPanel.getButtonsProcess()[3] == 1)
+            gameControllerFX.getCityPanel().firstTileReassign(tile);
+        else if (CityPanel.getButtonsProcess()[3] == 2)
+            gameControllerFX.getCityPanel().secondTileReassign(tile);
+        else if (CityPanel.getButtonsProcess()[4]==1)
+            gameControllerFX.getCityPanel().removeCitizenFromTile(tile);
+        else if (CityPanel.getButtonsProcess()[5] == 1)
+            gameControllerFX.getCityPanel().buyUnitSelectTile(tile);
+        else if(CityPanel.getButtonsProcess()[7]==1)
+            gameControllerFX.getCityPanel().buildBuildingSelectTile(tile);
+        else gameControllerFX.getCityPanel().disableCityPanel();
         //TODO: If we click on a tile this methode runs...
         leftPanel.getChildren().clear();
         GameController.setSelectedUnit(null);
@@ -310,7 +311,7 @@ public class GraphicTile implements Serializable {
             cityImage.setFitHeight(40);
             cityImage.setFitWidth(40);
             Tile finalTile = tile;
-            cityImage.setOnMouseReleased(event -> gameControllerFX.cityClicked(finalTile.getCity(), this));
+            cityImage.setOnMouseReleased(event -> gameControllerFX.getCityPanel().cityClicked(finalTile.getCity(), this));
             cityImage.setCursor(Cursor.HAND);
             pane.getChildren().add(cityImage);
         }
@@ -451,4 +452,5 @@ public class GraphicTile implements Serializable {
     public double getY() {
         return y;
     }
+
 }
