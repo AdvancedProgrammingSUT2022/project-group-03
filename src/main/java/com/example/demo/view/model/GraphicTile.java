@@ -86,11 +86,20 @@ public class GraphicTile implements Serializable {
         //TODO: If we click on a tile this methode runs...
         leftPanel.getChildren().clear();
         GameController.setSelectedUnit(null);
-        Text text = new Text("Tile: " + tile.getTileType());
-        Text text1 = new Text("Have Feature: " + tile.getContainedFeature());
-        Text text2 = new Text("Have Resource: " + tile.getResource());
-        Text text3 = new Text("Coordinate: " + tile.getX() + ", " + tile.getY());
-        leftPanel.getChildren().addAll(text, text1, text2, text3);
+//        Text text = new Text("Tile: " + tile.getTileType());
+//        Text text1 = new Text("Have Feature: " + tile.getContainedFeature());
+//        Text text2 = new Text("Have Resource: " + tile.getResource());
+//        Text text3 = new Text("Coordinate: " + tile.getX() + ", " + tile.getY());
+//        leftPanel.getChildren().addAll(text, text1, text2, text3);
+        Civilization.TileCondition[][] tileConditions = GameController.getCivilizations().get(GameController.getPlayerTurn()).getTileConditions();
+        if (tileConditions[tile.getX()][tile.getY()] == null) {
+            leftPanel.getChildren().add(new Text("Hidden tile"));
+        } else {
+            Text text = new Text("Tile: " + tile.getTileType());
+            Text text1 = new Text("Have Feature: " + tile.getContainedFeature());
+            Text text2 = new Text("Have Resource: " + tile.getResource());
+            leftPanel.getChildren().addAll(text, text1, text2);
+        }
     }
 
     private void addButton(String name, boolean clearAfterClick, EventHandler<ActionEvent> func) {
@@ -124,6 +133,7 @@ public class GraphicTile implements Serializable {
                 GameControllerFX.getGraphicMap()[x][y].civilianUnitImage = civilianUnitImage;
                 GameControllerFX.getGraphicMap()[x][y].civilianUnitSetPosition(x, y);
                 civilianUnitImage = null;
+                gameControllerFX.renderMap();
             });
             addButton("Cancel", true, event1 -> {
             });
@@ -201,17 +211,21 @@ public class GraphicTile implements Serializable {
             tileImage = new ImageView(ImageLoader.get("CLOUD"));
             tileImage.setFitHeight(103);
             tileImage.setFitWidth(120);
+            tileImage.setOnMouseReleased(event -> clicked());
             pane.getChildren().add(tileImage);
             isClouded = true;
             return;
         }
-//        if (!tileConditions[tile.getX()][tile.getY()].getIsClear()) {
-//            tile = tileConditions[tile.getX()][tile.getY()].getOpenedArea();
-//            fogImage = new ImageView(ImageLoader.get("fog"));
-//            fogImage.setFitHeight(103);
-//            fogImage.setFitWidth(120);
-//            pane.getChildren().add(fogImage);
-//        }
+
+        if (!tileConditions[tile.getX()][tile.getY()].getIsClear()) {
+            tile = tileConditions[tile.getX()][tile.getY()].getOpenedArea();
+            fogImage = new ImageView(ImageLoader.get("fog"));
+            fogImage.setFitHeight(103);
+            fogImage.setFitWidth(120);
+            fogImage.setViewOrder(-2);
+            fogImage.setOnMouseReleased(event -> clicked());
+            pane.getChildren().add(fogImage);
+        }
         this.tile = tile;
         //load tile
         tileImage = new ImageView(ImageLoader.get(tile.getTileType().toString()));

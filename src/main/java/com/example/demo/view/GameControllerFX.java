@@ -11,7 +11,12 @@ import com.example.demo.model.User;
 import com.example.demo.model.building.Building;
 import com.example.demo.model.building.BuildingType;
 import com.example.demo.model.tiles.Tile;
+import com.example.demo.view.cheat.Cheat;
 import com.example.demo.view.model.GraphicTile;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -48,6 +53,9 @@ public class GameControllerFX {
     private boolean selectingTile;
     private Tile reassignOriginTile;
     public final Text publicText = new Text("");
+    public Button nextButton;
+    @FXML
+    private HBox cheatBar;
     @FXML
     private VBox leftPanel;
     @FXML
@@ -104,7 +112,15 @@ public class GameControllerFX {
             cityPage.setLayoutX(-2000);
             cityPage.setLayoutY(-2000);
         }
+    }
 
+    public void initialize() {
+        startAFakeGame();
+        new Cheat(root, cheatBar, this);
+        new MapMoveController(root, upperMapPane);
+        StatusBarController.init(statusBar);
+        addInfoButtons();
+        renderMap();
     }
 
     private void eachInfoButtonsClicked(int number) {
@@ -373,15 +389,7 @@ public class GameControllerFX {
         }
     }
 
-    public void initialize() {
-        startAFakeGame();
-        MapMoveController mapMove = new MapMoveController(mapPane, upperMapPane);
-        StatusBarController.init(statusBar);
-        setButtonsWhenClicked();
-        renderMap();
-    }
-
-    private void setButtonsWhenClicked() {
+    private void addInfoButtons() {
         infoButton.setOnMouseClicked(this::infoButtonClicked);
         researchesButton.setOnMouseClicked(event -> eachInfoButtonsClicked(0));
         unitsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(1));
@@ -415,10 +423,10 @@ public class GameControllerFX {
         mapPane.getChildren().add(cityPage);
 
     }
-
     /*
      * This methode is only for testing
      */
+
     private void startAFakeGame() {
         //start a fake game
         User user = new User("Sayyed", "ali", "Tayyeb");
@@ -696,7 +704,14 @@ public class GameControllerFX {
             case 8 -> StageController.errorMaker("you cannot place you building over there", "the windmill cannot be build on a hill", Alert.AlertType.ERROR);
             case 9 -> StageController.errorMaker("you cannot place you building over there", "a building cannot be placed on an ocean or a mountain", Alert.AlertType.ERROR);
             case 10 -> StageController.errorMaker("no resources?", "you don't have the prerequisite resources", Alert.AlertType.ERROR);
+            case 11 -> StageController.errorMaker("no money?", "you don't have enough gold", Alert.AlertType.ERROR);
         }
         turnEveryButtonOff();
     }
+
+    public void nextTurn(ActionEvent actionEvent) {
+        GameController.nextTurnIfYouCan();
+        renderMap();
+    }
+
 }

@@ -3,6 +3,7 @@ package com.example.demo.controller.gameController;
 import com.example.demo.model.City;
 import com.example.demo.model.TaskTypes;
 import com.example.demo.model.Tasks;
+import com.example.demo.model.Units.Civilian;
 import com.example.demo.model.Units.CombatType;
 import com.example.demo.model.Units.UnitType;
 import com.example.demo.model.building.Building;
@@ -110,6 +111,8 @@ public class CityCommandsController {
                 GameController.getSelectedCity().setProduct(building);
                 return 0;
             }
+        if(buildingType.getCost()> GameController.getCivilizations().get(GameController.getPlayerTurn()).getGold())
+            return 11;
         Building building = new Building(buildingType);
         GameController.getSelectedCity().getHalfProducedBuildings().add(building);
         GameController.getSelectedCity().setProduct(building);
