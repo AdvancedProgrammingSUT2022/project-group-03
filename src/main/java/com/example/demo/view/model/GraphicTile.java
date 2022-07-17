@@ -2,6 +2,7 @@ package com.example.demo.view.model;
 
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.controller.gameController.UnitStateController;
+import com.example.demo.model.City;
 import com.example.demo.model.Civilization;
 import com.example.demo.model.Units.Unit;
 import com.example.demo.model.Units.UnitState;
@@ -16,15 +17,17 @@ import com.example.demo.view.ImageLoader;
 import com.example.demo.view.StatusBarController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.Serializable;
+
 public class GraphicTile implements Serializable {
     private Tile tile;
     private ImageView tileImage;
@@ -36,10 +39,19 @@ public class GraphicTile implements Serializable {
     private ImageView roadImage;
     private ImageView cityImage;
     private ImageView fogImage;
+    private ImageView citizenImage;
     private final ImageView[] riversImages = new ImageView[6];
     private final VBox leftPanel;
     private final Pane pane;
-    public GraphicTile(Tile tile, Pane pane, VBox leftPanel) {
+    private boolean isClouded = false;
+    private boolean isAroundNonClouded = false;
+    private double x;
+    private double y;
+
+    GameControllerFX gameControllerFX;
+
+    public GraphicTile(Tile tile, Pane pane, VBox leftPanel, GameControllerFX gameControllerFX) {
+        this.gameControllerFX = gameControllerFX;
         this.leftPanel = leftPanel;
         this.pane = pane;
         this.tile = tile;
@@ -49,26 +61,36 @@ public class GraphicTile implements Serializable {
 
 
     private void clicked() {
-        if (GameControllerFX.getSelectingTile()) {
+        if (gameControllerFX.getSelectingTile()) {
             GameController.setSelectedTile(tile);
-            GameControllerFX.publicText.setText("Destination tile:  X=" + tile.getX() + " Y=" + tile.getY());
+            gameControllerFX.publicText.setText("Destination tile:  X=" + tile.getX() + " Y=" + tile.getY());
             return;
         }
-        if(GameControllerFX.isWaitingToSelectTileToBuy())
-        {
-            GameControllerFX.buyTile(tile);
-        }
-        if(GameControllerFX.isWaitingToSelectTileToAttackFromCity())
-        {
-            GameControllerFX.attackTile(tile);
-        }
+        if (GameControllerFX.isWaitingToSelectTileToBuy()) {
+            gameControllerFX.buyTile(tile);
+        } else if (GameControllerFX.isWaitingToSelectTileToAttackFromCity()) {
+            gameControllerFX.attackTile(tile);
+        } else if (GameControllerFX.isWaitingToSelectTileToAssignCitizens())
+            gameControllerFX.assignCitizenToTile(tile);
+        else if (GameControllerFX.getReAssignProcess() == 1)
+            gameControllerFX.firstTileReassign(tile);
+        else if (GameControllerFX.getReAssignProcess() == 2)
+            gameControllerFX.secondTileReassign(tile);
+        else if (GameControllerFX.isWaitingToSelectTileToRemoveCitizen())
+            gameControllerFX.removeCitizenFromTile(tile);
+        else if (GameControllerFX.getBuyUnitProcess() == 1)
+            gameControllerFX.buyUnitSelectTile(tile);
+        else if(GameControllerFX.getBuildBuildingProcess()==1)
+            gameControllerFX.buildBuildingSelectTile(tile);
+        else gameControllerFX.disableCityPanel();
         //TODO: If we click on a tile this methode runs...
         leftPanel.getChildren().clear();
         GameController.setSelectedUnit(null);
         Text text = new Text("Tile: " + tile.getTileType());
         Text text1 = new Text("Have Feature: " + tile.getContainedFeature());
         Text text2 = new Text("Have Resource: " + tile.getResource());
-        leftPanel.getChildren().addAll(text, text1, text2);
+        Text text3 = new Text("Coordinate: " + tile.getX() + ", " + tile.getY());
+        leftPanel.getChildren().addAll(text, text1, text2, text3);
     }
 
     private void addButton(String name, boolean clearAfterClick, EventHandler<ActionEvent> func) {
@@ -92,13 +114,13 @@ public class GraphicTile implements Serializable {
         addButton("Move", false, event -> {
             leftPanel.getChildren().clear();
             Text text = new Text("Click on the destination tile,\n      then click move.");
-            GameControllerFX.setSelectingTile(true);
-            leftPanel.getChildren().addAll(text, GameControllerFX.publicText);
+            gameControllerFX.setSelectingTile(true);
+            leftPanel.getChildren().addAll(text, gameControllerFX.publicText);
             addButton("Move", true, event2 -> {
                 int x = GameController.getSelectedTile().getX();
                 int y = GameController.getSelectedTile().getY();
                 UnitStateController.unitMoveTo(x, y);
-                GameControllerFX.setSelectingTile(false);
+                gameControllerFX.setSelectingTile(false);
                 GameControllerFX.getGraphicMap()[x][y].civilianUnitImage = civilianUnitImage;
                 GameControllerFX.getGraphicMap()[x][y].civilianUnitSetPosition(x, y);
                 civilianUnitImage = null;
@@ -142,7 +164,7 @@ public class GraphicTile implements Serializable {
                 //improvement building:
                 for (ImprovementType improvementType : ImprovementType.values())
                     if (GameController.doesHaveTheRequiredTechnologyToBuildImprovement(improvementType, tile, civilization)
-                        && GameController.canHaveTheImprovement(tile, improvementType))
+                            && GameController.canHaveTheImprovement(tile, improvementType))
                         addButton("Build " + improvementType, true, event -> UnitStateController.unitBuild(improvementType));
             }
         }
@@ -153,11 +175,11 @@ public class GraphicTile implements Serializable {
     }
 
     public double getWidth() {
-        return tileImage.getFitWidth();
+        return 120;
     }
 
     public double getHeight() {
-        return tileImage.getFitHeight();
+        return 103;
     }
 
     public Tile getTile() {
@@ -166,6 +188,13 @@ public class GraphicTile implements Serializable {
 
     private void loadImages(Tile tile, Pane pane) {
         //load clouds
+        for (int i = 0; i < 6; i++) {
+            if (tile.getNeighbours(i) != null &&
+                    GameController.getCivilizations().get(GameController.getPlayerTurn()).getTileConditions()[tile.getNeighbours(i).getX()][tile.getNeighbours(i).getY()] != null) {
+                isAroundNonClouded = true;
+                break;
+            }
+        }
         Civilization.TileCondition[][] tileConditions = GameController.getCivilizations().get(GameController.getPlayerTurn()).getTileConditions();
         if (tileConditions[tile.getX()][tile.getY()] == null) {
             this.tile = tile;
@@ -173,16 +202,16 @@ public class GraphicTile implements Serializable {
             tileImage.setFitHeight(103);
             tileImage.setFitWidth(120);
             pane.getChildren().add(tileImage);
+            isClouded = true;
             return;
         }
-        if(!tileConditions[tile.getX()][tile.getY()].getIsClear())
-        {
-            tile=tileConditions[tile.getX()][tile.getY()].getOpenedArea();
-            fogImage = new ImageView(ImageLoader.get("fog"));
-            fogImage.setFitHeight(103);
-            fogImage.setFitWidth(120);
-            pane.getChildren().add(fogImage);
-        }
+//        if (!tileConditions[tile.getX()][tile.getY()].getIsClear()) {
+//            tile = tileConditions[tile.getX()][tile.getY()].getOpenedArea();
+//            fogImage = new ImageView(ImageLoader.get("fog"));
+//            fogImage.setFitHeight(103);
+//            fogImage.setFitWidth(120);
+//            pane.getChildren().add(fogImage);
+//        }
         this.tile = tile;
         //load tile
         tileImage = new ImageView(ImageLoader.get(tile.getTileType().toString()));
@@ -190,7 +219,13 @@ public class GraphicTile implements Serializable {
         tileImage.setFitWidth(120);
         tileImage.setOnMouseReleased(event -> clicked());
         pane.getChildren().add(tileImage);
-
+        if (!tileConditions[tile.getX()][tile.getY()].getIsClear()) {
+            tile = tileConditions[tile.getX()][tile.getY()].getOpenedArea();
+            fogImage = new ImageView(ImageLoader.get("fog"));
+            fogImage.setFitHeight(103);
+            fogImage.setFitWidth(120);
+            pane.getChildren().add(fogImage);
+        }
         //load feature
         Feature feature = tile.getContainedFeature();
         if (feature != null) {
@@ -214,8 +249,8 @@ public class GraphicTile implements Serializable {
         //load nonCivilian unit
         if (tile.getNonCivilian() != null) {
             nonCivilianUnitImage = new ImageView(ImageLoader.get(tile.getNonCivilian().getUnitType().toString()));
-            nonCivilianUnitImage.setFitHeight(80);
-            nonCivilianUnitImage.setFitWidth(80);
+            nonCivilianUnitImage.setFitHeight(40);
+            nonCivilianUnitImage.setFitWidth(40);
             nonCivilianUnitImage.setOnMouseClicked(this::nonCivilianClicked);
             nonCivilianUnitImage.setViewOrder(-1);
             pane.getChildren().add(nonCivilianUnitImage);
@@ -224,8 +259,8 @@ public class GraphicTile implements Serializable {
         //load civilian unit
         if (tile.getCivilian() != null) {
             civilianUnitImage = new ImageView(ImageLoader.get(tile.getCivilian().getUnitType().toString()));
-            civilianUnitImage.setFitHeight(80);
-            civilianUnitImage.setFitWidth(80);
+            civilianUnitImage.setFitHeight(40);
+            civilianUnitImage.setFitWidth(40);
             civilianUnitImage.setOnMouseClicked(this::civilianClicked);
             civilianUnitImage.setViewOrder(-1);
             pane.getChildren().add(civilianUnitImage);
@@ -253,7 +288,28 @@ public class GraphicTile implements Serializable {
             cityImage = new ImageView(ImageLoader.get("city"));
             cityImage.setFitHeight(40);
             cityImage.setFitWidth(40);
+            Tile finalTile = tile;
+            cityImage.setOnMouseReleased(event -> gameControllerFX.cityClicked(finalTile.getCity(), this));
+            cityImage.setCursor(Cursor.HAND);
             pane.getChildren().add(cityImage);
+        }
+
+        if (tile.getCivilization() == GameController.getCivilizations().get(GameController.getPlayerTurn())) {
+            boolean isGettingWorkedOn = false;
+            for (City city : tile.getCivilization().getCities()) {
+                for (Tile gettingWorkedOnByCitizensTile : city.getGettingWorkedOnByCitizensTiles()) {
+                    if (gettingWorkedOnByCitizensTile == tile) {
+                        isGettingWorkedOn = true;
+                        break;
+                    }
+                }
+            }
+            if (isGettingWorkedOn)
+                citizenImage = new ImageView(ImageLoader.get("citizen"));
+            else citizenImage = new ImageView(ImageLoader.get("noCitizen"));
+            citizenImage.setFitWidth(20);
+            citizenImage.setFitHeight(20);
+            pane.getChildren().add(citizenImage);
         }
 
         //load rivers
@@ -268,12 +324,18 @@ public class GraphicTile implements Serializable {
         }
     }
 
-    public void setPosition(int i, int j) {
-        double x = 20 + ((getWidth() * 3 / 2) * i / 2) * (1 + 2 / (Math.sqrt(3) * 15));
-        double y = 20 + (getHeight() * j) * 16 / 15;
+
+    public void setPosition(int j, int i) {
+        x = 20 + ((getWidth() * 3 / 2) * i / 2) * (1 + 2 / (Math.sqrt(3) * 15));
+        y = 20 + (getHeight() * j) * 16 / 15;
         if (i % 2 != 0) //odd columns
             y += getHeight() / 2 + getHeight() / 30;
         //tile
+//        if(isClouded && !isAroundNonClouded)
+//        {
+//            x -=5;
+//            y -= 4;
+//        }
         tileImage.setLayoutX(x);
         tileImage.setLayoutY(y);
         //cloud fog
@@ -310,10 +372,13 @@ public class GraphicTile implements Serializable {
             cityImage.setLayoutX(x + tileImage.getFitWidth() / 2 - cityImage.getFitWidth() / 2);
             cityImage.setLayoutY(y + tileImage.getFitHeight() * 4 / 5 - cityImage.getFitHeight() / 2);
         }
-        if(fogImage!=null)
-        {
+        if (fogImage != null) {
             fogImage.setLayoutX(x);
             fogImage.setLayoutY(y);
+        }
+        if (citizenImage != null) {
+            citizenImage.setLayoutX(x + tileImage.getFitWidth() * 3.5 / 5 - citizenImage.getFitWidth() / 2);
+            citizenImage.setLayoutY(y);
         }
         //rivers
         for (int k = 0; k < 6; k++) {
@@ -356,5 +421,13 @@ public class GraphicTile implements Serializable {
     private void civilianUnitSetPosition(double x, double y) {
         civilianUnitImage.setLayoutX(x + tileImage.getFitWidth() * 1.5 / 5 - civilianUnitImage.getFitWidth() / 3);
         civilianUnitImage.setLayoutY(y + tileImage.getFitHeight() * 1.5 / 5 - civilianUnitImage.getFitHeight() / 2);
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
     }
 }

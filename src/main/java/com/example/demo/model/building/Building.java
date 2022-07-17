@@ -8,7 +8,7 @@ public class Building implements Producible {
 
     public Building(BuildingType buildingType) {
         this.buildingType = buildingType;
-        remainedCost = buildingType.cost;
+        remainedCost = buildingType.getCost();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class Building implements Producible {
 
     @Override
     public int getCost() {
-        return buildingType.cost;
+        return buildingType.getCost();
     }
 
     public BuildingType getBuildingType() {

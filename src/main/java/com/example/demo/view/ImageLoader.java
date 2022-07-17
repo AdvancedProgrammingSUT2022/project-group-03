@@ -7,15 +7,13 @@ import com.example.demo.model.improvements.ImprovementType;
 import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.TileType;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 
-import java.io.File;
 import java.util.HashMap;
-import java.util.Objects;
-
-import static com.example.demo.model.Units.UnitType.SETTLER;
 
 public class ImageLoader {
     private static final HashMap<String, Image> images = new HashMap<>();
+    private static final HashMap<String, Font> fonts = new HashMap<>();
 
     static {
         try {
@@ -50,12 +48,17 @@ public class ImageLoader {
 
             image = new Image(HelloApplication.getResource("/com/example/demo/tiles/CLOUD.png"), 200, 0, true, true, true);
             images.put("CLOUD", image);
-            image = new Image(HelloApplication.getResource("/com/example/demo/tiles/riverDown.png"), 0.5, 0, true, true, true);
+            image = new Image(HelloApplication.getResource("/com/example/demo/tiles/riverDown.png"), 120, 0, true, true, true);
             images.put("riverDown",image);
             image = new Image(HelloApplication.getResource("/com/example/demo/buildings/city.png"), 120, 0, true, true, true);
             images.put("city",image);
             image = new Image(HelloApplication.getResource("/com/example/demo/tiles/fog.png"), 120, 0, true, true, true);
             images.put("fog",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/tiles/citizen.png"), 120, 0, true, true, true);
+            images.put("citizen",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/tiles/noCitizen.png"), 120, 0, true, true, true);
+            images.put("noCitizen",image);
+//            fonts.put("impactFont",new Font("/com/example/demo/font/impact.ttf",30));
 
         } catch (RuntimeException e) {
             System.out.println("There is a problem in loading images in ImageLoader.");
@@ -69,4 +72,10 @@ public class ImageLoader {
             System.out.println("There is no image named " + name + " in the ImageLoader.");
         return images.get(name);
     }
+//    public static Font getFont(String name)
+//    {
+//        if(!fonts.containsKey(name))
+//            System.out.println("There is no image font " + name + " in the ImageLoader.");
+//        return fonts.get(name);
+//    }
 }

@@ -307,9 +307,9 @@ public class GameController {
 
     public static int startProducingUnit(String productIcon) {
         UnitType tempType = UnitType.stringToEnum(productIcon);
-        if (tempType == null) return 1;
-        if (selectedCity == null) return 2;
-        if (selectedCity.getCivilization() != civilizations.get(playerTurn)) return 3;
+//        if (tempType == null) return 1;
+//        if (selectedCity == null) return 2;
+//        if (selectedCity.getCivilization() != civilizations.get(playerTurn)) return 3;
         if (tempType.getResourcesType() != null &&
             (!civilizations.get(playerTurn).getResourcesAmount()
                 .containsKey(tempType.getResourcesType()) ||
@@ -318,8 +318,8 @@ public class GameController {
                     civilizations.get(playerTurn)
                         .getResourcesAmount().get(tempType.getResourcesType()) == 0)))
             return 5;
-        if (civilizations.get(playerTurn).doesContainTechnology(tempType.getTechnologyRequired()) != 1)
-            return 6;
+//        if (civilizations.get(playerTurn).doesContainTechnology(tempType.getTechnologyRequired()) != 1)
+//            return 6;
         startProducingsOperation(tempType);
         return 0;
     }

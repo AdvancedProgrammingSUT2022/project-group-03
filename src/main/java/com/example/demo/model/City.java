@@ -51,6 +51,7 @@ public class City implements CanAttack, CanGetAttacked {
         this.founder = civilization;
         this.name = name;
         this.tiles.add(mainTile);
+        System.out.println("main: " + mainTile.getX() + " " + mainTile.getY());
         for (int i = 0; i < 6; i++)
             if (mainTile.getNeighbours(i) != null) {
                 this.tiles.add(mainTile.getNeighbours(i));
@@ -148,11 +149,11 @@ public class City implements CanAttack, CanGetAttacked {
                     gettingWorkedOnByCitizensTile.getImprovement().getImprovementType())
                 production += gettingWorkedOnByCitizensTile.getResource().production;
         }
-        production +=citizen;
-        if(findBuilding(BuildingType.WINDMILL)!=null)
-            production = (int) ((double) production*1.15);
-        if(findBuilding(BuildingType.FACTORY)!=null)
-            production = (int) ((double) production*1.5);
+        production += citizen;
+        if (findBuilding(BuildingType.WINDMILL) != null)
+            production = (int) ((double) production * 1.15);
+        if (findBuilding(BuildingType.FACTORY) != null)
+            production = (int) ((double) production * 1.5);
 
         return production + productionCheat;
     }
@@ -196,10 +197,9 @@ public class City implements CanAttack, CanGetAttacked {
         return anxiety;
     }
 
-    public boolean doesHaveLakeAround()
-    {
+    public boolean doesHaveLakeAround() {
         for (Tile tile : tiles) {
-            if(tile.doesHaveLakeAround())
+            if (tile.doesHaveLakeAround())
                 return true;
         }
         return false;
@@ -209,15 +209,15 @@ public class City implements CanAttack, CanGetAttacked {
         if (product != null) {
             int tempRemaining = product.getRemainedCost();
             double ratio = 1;
-            if(findBuilding(BuildingType.FORGE_GARDEN)!=null && product instanceof Unit)
+            if (findBuilding(BuildingType.FORGE_GARDEN) != null && product instanceof Unit)
                 ratio = 1.25;
-            if(findBuilding(BuildingType.WORKSHOP)!=null && product instanceof Building)
+            if (findBuilding(BuildingType.WORKSHOP) != null && product instanceof Building)
                 ratio = 1.2;
-            if(findBuilding(BuildingType.ARSENAL)!=null && product instanceof Unit)
+            if (findBuilding(BuildingType.ARSENAL) != null && product instanceof Unit)
                 ratio = 1.2;
-            if(findBuilding(BuildingType.STABLE)!=null && product instanceof Unit && ((Unit) product).getUnitType().combatType==CombatType.MOUNTED)
+            if (findBuilding(BuildingType.STABLE) != null && product instanceof Unit && ((Unit) product).getUnitType().combatType == CombatType.MOUNTED)
                 ratio = 1.25;
-            product.setRemainedCost(product.getRemainedCost() - (int)(production*ratio));
+            product.setRemainedCost(product.getRemainedCost() - (int) (production * ratio));
             production -= tempRemaining;
             if (production <= 0)
                 production = 0;
@@ -241,18 +241,18 @@ public class City implements CanAttack, CanGetAttacked {
                 }
                 if (product instanceof Building) {
                     buildings.add((Building) product);
-                    if(((Building) product).getBuildingType()==BuildingType.BURIAL_TOMB)
+                    if (((Building) product).getBuildingType() == BuildingType.BURIAL_TOMB)
                         civilization.changeHappiness(2);
-                    if(((Building) product).getBuildingType()==BuildingType.SATRAPS_COURT)
+                    if (((Building) product).getBuildingType() == BuildingType.SATRAPS_COURT)
                         civilization.changeHappiness(2);
-                    if(((Building) product).getBuildingType()==BuildingType.THEATER)
+                    if (((Building) product).getBuildingType() == BuildingType.THEATER)
                         civilization.changeHappiness(4);
-                    if(((Building) product).getBuildingType()==BuildingType.COLOSSEUM)
+                    if (((Building) product).getBuildingType() == BuildingType.COLOSSEUM)
                         civilization.changeHappiness(4);
-                    if(((Building) product).getBuildingType()==BuildingType.CIRCUS)
+                    if (((Building) product).getBuildingType() == BuildingType.CIRCUS)
                         civilization.changeHappiness(3);
-                    if(((Building) product).getBuildingType()==BuildingType.HOSPITAL)
-                        foodForCitizen/=2;
+                    if (((Building) product).getBuildingType() == BuildingType.HOSPITAL)
+                        foodForCitizen /= 2;
 
                 }
                 GameController.getCivilizations().get(GameController.getPlayerTurn())
@@ -303,9 +303,9 @@ public class City implements CanAttack, CanGetAttacked {
     public int getGold() {
         int gold = 0;
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
-            if(gettingWorkedOnByCitizensTile.getResource()==ResourcesTypes.SILVER ||
-                    gettingWorkedOnByCitizensTile.getResource()==ResourcesTypes.GOLD)
-                gold+=3;
+            if (gettingWorkedOnByCitizensTile.getResource() == ResourcesTypes.SILVER ||
+                    gettingWorkedOnByCitizensTile.getResource() == ResourcesTypes.GOLD)
+                gold += 3;
             int temp = 0;
             for (int i = 0; i < 6; i++)
                 if (gettingWorkedOnByCitizensTile.isRiverWithNeighbour(i)) temp += 1;
@@ -336,10 +336,9 @@ public class City implements CanAttack, CanGetAttacked {
         return gold;
     }
 
-    public boolean doesHaveRiver()
-    {
+    public boolean doesHaveRiver() {
         for (Tile tile : tiles) {
-            if(tile.doesHaveRiver())
+            if (tile.doesHaveRiver())
                 return true;
         }
         return false;
@@ -407,28 +406,34 @@ public class City implements CanAttack, CanGetAttacked {
         return civilization;
     }
 
-    public boolean assignCitizenToTiles(Tile originTile, Tile destinationTile) {
-        if (originTile == null && tiles.contains(destinationTile) && citizen > 0) {
+    public int assignCitizenToTiles(Tile originTile, Tile destinationTile) {
+
+        if (!tiles.contains(destinationTile))
+            return 1;
+        if (originTile == null && citizen <= 0)
+            return 2;
+
+        if (originTile == null) {
             citizen--;
             gettingWorkedOnByCitizensTiles.add(destinationTile);
-            return true;
-        } else if (tiles.contains(originTile) &&
-                gettingWorkedOnByCitizensTiles.contains(originTile) &&
-                tiles.contains(destinationTile)) {
-            gettingWorkedOnByCitizensTiles.remove(originTile);
-            gettingWorkedOnByCitizensTiles.add(destinationTile);
-            return true;
+            return 0;
         }
-        return false;
+        if (!tiles.contains(originTile))
+            return 3;
+        if (!gettingWorkedOnByCitizensTiles.contains(originTile))
+            return 4;
+        gettingWorkedOnByCitizensTiles.remove(originTile);
+        gettingWorkedOnByCitizensTiles.add(destinationTile);
+        return 0;
     }
 
-    public boolean removeCitizen(Tile tile) {
-        if (tiles.contains(tile) &&
-                gettingWorkedOnByCitizensTiles.contains(tile)) {
-            gettingWorkedOnByCitizensTiles.remove(tile);
-            return true;
-        }
-        return false;
+    public int removeCitizen(Tile tile) {
+        if (!tiles.contains(tile))
+            return 1;
+        if (!gettingWorkedOnByCitizensTiles.contains(tile))
+            return 2;
+        gettingWorkedOnByCitizensTiles.remove(tile);
+        return 0;
     }
 
     public boolean doWeHaveEnoughMoney(UnitType unitType) {
@@ -449,9 +454,9 @@ public class City implements CanAttack, CanGetAttacked {
         if (!isAttack) strength += tiles.size();
         if (mainTile.getTileType() == TileType.HILL) strength *= 1.2;
         if (findBuilding(BuildingType.WALL) != null && !isAttack) strength = (strength * 1.2);
-        if(!isAttack && findBuilding(BuildingType.WALL)!=null) strength+=5;
-        if(!isAttack && findBuilding(BuildingType.MILITARY_BASE)!=null) strength+=12;
-        if(!isAttack && findBuilding(BuildingType.CASTLE)!=null) strength+=7.5;
+        if (!isAttack && findBuilding(BuildingType.WALL) != null) strength += 5;
+        if (!isAttack && findBuilding(BuildingType.MILITARY_BASE) != null) strength += 12;
+        if (!isAttack && findBuilding(BuildingType.CASTLE) != null) strength += 7.5;
         return strength;
     }
 
@@ -495,7 +500,7 @@ public class City implements CanAttack, CanGetAttacked {
 
     public void changeCivilization(Civilization civilization) {
         HP = 25;
-        if(findBuilding(BuildingType.COURTHOUSE)!=null)
+        if (findBuilding(BuildingType.COURTHOUSE) != null)
             anxiety = 5;
         this.civilization.putNotification("The " + Color.getColorByNumber(civilization.getColor())
                 + civilization.getUser().getNickname() + Color.RESET
@@ -550,4 +555,21 @@ public class City implements CanAttack, CanGetAttacked {
         return halfProducedBuildings;
     }
 
+
+    public Unit findHalfProducedUnit(UnitType unitType)
+    {
+        for (Unit halfProducedUnit : halfProducedUnits) {
+            if(halfProducedUnit.getUnitType()==unitType)
+                return halfProducedUnit;
+        }
+        return null;
+    }
+    public Building findHalfBuiltBuildings(BuildingType buildingType)
+    {
+        for (Building halfBuiltBuildings : halfProducedBuildings) {
+            if(halfBuiltBuildings.getBuildingType()==buildingType)
+                return halfBuiltBuildings;
+        }
+        return null;
+    }
 }

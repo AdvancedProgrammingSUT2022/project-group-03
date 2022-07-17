@@ -43,7 +43,7 @@ public enum BuildingType {
     MILITARY_BASE(450,4,TechnologyType.TELEGRAPH),
     STOCK_EXCHANGE(650,0,TechnologyType.ELECTRICITY);
 
-    public final int cost;
+    private final int cost;
     public final int maintenance;
     public final TechnologyType technologyType;
     public static final HashMap<BuildingType, ArrayList<BuildingType>> prerequisites = new HashMap<>();
@@ -92,5 +92,9 @@ public enum BuildingType {
         this.cost = cost;
         this.maintenance = maintenance;
         this.technologyType = technologyType;
+    }
+
+    public int getCost() {
+        return cost;
     }
 }
