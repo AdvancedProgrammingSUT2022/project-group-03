@@ -9,6 +9,10 @@ import com.example.demo.model.User;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.cheat.Cheat;
 import com.example.demo.view.model.GraphicTile;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -37,6 +41,7 @@ public class GameControllerFX {
     private static City openedPanelCity;
     private static boolean selectingTile;
     public static final Text publicText = new Text("");
+    public Button nextButton;
     @FXML
     private HBox cheatBar;
     @FXML
@@ -59,7 +64,7 @@ public class GameControllerFX {
 
     public void initialize() {
         startAFakeGame();
-        new Cheat(root, cheatBar);
+        new Cheat(root, cheatBar,this);
         new MapMoveController(root, upperMapPane);
         StatusBarController.init(statusBar);
         addInfoButtons();
@@ -299,5 +304,10 @@ public class GameControllerFX {
 
     public static GraphicTile[][] getGraphicMap() {
         return graphicMap;
+    }
+
+    public void nextTurn(ActionEvent actionEvent) {
+        GameController.nextTurnIfYouCan();
+        renderMap();
     }
 }

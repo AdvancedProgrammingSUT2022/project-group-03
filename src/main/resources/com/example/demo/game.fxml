@@ -46,7 +46,7 @@
             <Region VBox.vgrow="ALWAYS"/>
             <VBox alignment="BOTTOM_CENTER" spacing="5" styleClass="panel">
                 <Button text="find unit" style="-fx-pref-width: 200;"/>
-                <Button text="next turn" style="-fx-pref-width: 200;"/>
+                <Button text="next turn" style="-fx-pref-width: 200;" onAction="#nextTurn" fx:id="nextButton"/>
             </VBox>
             <VBox fx:id="leftPanel" alignment="BOTTOM_CENTER" spacing="5" styleClass="LeftPanel">
                 <Button text="attack"/>

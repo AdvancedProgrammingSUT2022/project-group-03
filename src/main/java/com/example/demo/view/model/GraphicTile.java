@@ -188,6 +188,8 @@ public class GraphicTile implements Serializable {
             fogImage = new ImageView(ImageLoader.get("fog"));
             fogImage.setFitHeight(103);
             fogImage.setFitWidth(120);
+            fogImage.setViewOrder(-2);
+            fogImage.setOnMouseReleased(event -> clicked());
             pane.getChildren().add(fogImage);
         }
         this.tile = tile;

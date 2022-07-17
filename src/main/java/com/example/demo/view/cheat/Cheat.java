@@ -1,5 +1,7 @@
 package com.example.demo.view.cheat;
 
+import com.example.demo.controller.gameController.GameController;
+import com.example.demo.view.GameControllerFX;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -11,8 +13,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 public class Cheat {
+    private final GameControllerFX controller;
 
-    public Cheat(Pane root, HBox cheatBar) {
+    public Cheat(Pane root, HBox cheatBar, GameControllerFX gameControllerFX) {
+        controller = gameControllerFX;
         init(root, cheatBar);
     }
 
@@ -52,7 +56,12 @@ public class Cheat {
 
     private void runCheatCommand(Pane upperMapPane, TextField cheatCommand) {
         System.out.println(cheatCommand.getText());
-        //TODO: run JCommander here...
+        if (cheatCommand.getText().matches("^next turn \\d+$")) {
+            int turn = Integer.parseInt(cheatCommand.getText().substring(10));
+            for (int i = 0; i < turn * GameController.getCivilizations().size(); i++)
+                GameController.nextTurn();
+        }
+        controller.renderMap();
         upperMapPane.getChildren().clear();
     }
 
