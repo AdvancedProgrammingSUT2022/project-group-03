@@ -1,5 +1,6 @@
-package com.example.demo.view.model;
+package com.example.demo.view.cheat;
 
+import com.beust.jcommander.JCommander;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -52,6 +53,7 @@ public class Cheat {
 
     private void runCheatCommand(Pane upperMapPane, TextField cheatCommand) {
         System.out.println(cheatCommand.getText());
+        //TODO: run JCommander here...
         upperMapPane.getChildren().clear();
     }
 
