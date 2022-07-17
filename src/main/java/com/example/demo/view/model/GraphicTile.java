@@ -73,7 +73,9 @@ public class GraphicTile implements Serializable {
             Text text = new Text("Tile: " + tile.getTileType());
             Text text1 = new Text("Have Feature: " + tile.getContainedFeature());
             Text text2 = new Text("Have Resource: " + tile.getResource());
-            leftPanel.getChildren().addAll(text, text1, text2);
+            Text text3 = new Text("gold: " + tile.getTileType().gold + "\nfood: " + tile.getTileType().food);
+            Text text4 = new Text("production: " + tile.getTileType().production);
+            leftPanel.getChildren().addAll(text, text1, text2, text3, text4);
         }
     }
 
@@ -91,7 +93,7 @@ public class GraphicTile implements Serializable {
         leftPanel.getChildren().clear();
         Unit unit = tile.getCivilian();
         GameController.setSelectedUnit(unit);
-        Text title = new Text("Selected Unit: " + unit.getUnitType());
+        Text title = new Text("Selected Unit: " + unit.getUnitType() + "\nUnit health: " + unit.getHealth());
         leftPanel.getChildren().add(title);
 
         //add move button
@@ -103,11 +105,10 @@ public class GraphicTile implements Serializable {
             addButton("Move", true, event2 -> {
                 int x = GameController.getSelectedTile().getX();
                 int y = GameController.getSelectedTile().getY();
-                UnitStateController.unitMoveTo(x, y);
+                if (!UnitStateController.unitMoveTo(x, y)) {
+                    GameControllerFX.alert("Error", "Can not move to that tile");
+                }
                 GameControllerFX.setSelectingTile(false);
-                GameControllerFX.getGraphicMap()[x][y].civilianUnitImage = civilianUnitImage;
-                GameControllerFX.getGraphicMap()[x][y].civilianUnitSetPosition(x, y);
-                civilianUnitImage = null;
                 controller.renderMap();
             });
             addButton("Cancel", true, event1 -> {
@@ -128,9 +129,15 @@ public class GraphicTile implements Serializable {
         switch (unit.getUnitType()) {
             case SETTLER -> {
                 addButton("Found City", true, event -> {
-                    UnitStateController.unitFoundCity("City");
-                    pane.getChildren().remove(civilianUnitImage);
-                    civilianUnitImage = null;
+                    int code;
+                    if ((code = UnitStateController.unitFoundCity("City")) == 0) {
+                        GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().remove(unit);
+                        pane.getChildren().remove(civilianUnitImage);
+                        civilianUnitImage = null;
+                        controller.renderMap();
+                    } else {
+                        GameControllerFX.alert("Error", "Can not found a city.\ndetails - return code: " + code);
+                    }
                 });
             }
             case WORKER -> {

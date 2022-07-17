@@ -5,6 +5,7 @@ import com.example.demo.controller.gameController.CityCommandsController;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.City;
 import com.example.demo.model.Map;
+import com.example.demo.model.Units.Unit;
 import com.example.demo.model.User;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.cheat.Cheat;
@@ -16,6 +17,7 @@ import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
@@ -64,7 +66,7 @@ public class GameControllerFX {
 
     public void initialize() {
         startAFakeGame();
-        new Cheat(root, cheatBar,this);
+        new Cheat(root, cheatBar, this);
         new MapMoveController(root, upperMapPane);
         StatusBarController.init(statusBar);
         addInfoButtons();
@@ -306,8 +308,21 @@ public class GameControllerFX {
         return graphicMap;
     }
 
-    public void nextTurn(ActionEvent actionEvent) {
-        GameController.nextTurnIfYouCan();
+    public void nextTurn() {
+        if (!GameController.nextTurnIfYouCan()) {
+            alert("Error", "A unit needs order.");
+        }
         renderMap();
+    }
+
+    public void findUnit(ActionEvent actionEvent) {
+        //TODO this...
+    }
+
+    public static void alert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.NONE, message, ButtonType.OK);
+        alert.setTitle(title);
+        alert.initOwner(StageController.getStage());
+        alert.showAndWait();
     }
 }
