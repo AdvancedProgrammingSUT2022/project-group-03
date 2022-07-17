@@ -52,9 +52,8 @@
                 <Button text="attack"/>
             </VBox>
         </VBox>
-
-
     </left>
+
     <right>
         <VBox alignment="CENTER" spacing="5" maxHeight="Infinity">
             <ScrollPane fx:id="cityPage" styleClass="popUp" opacity="0" layoutX="500" prefHeight="600" prefWidth="400">
@@ -69,4 +68,7 @@
         </VBox>
     </right>
 
+    <bottom>
+        <HBox fx:id="cheatBar" alignment="CENTER"/>
+    </bottom>
 </BorderPane>

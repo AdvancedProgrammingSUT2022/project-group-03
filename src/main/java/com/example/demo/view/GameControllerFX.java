@@ -4,18 +4,18 @@ import com.example.demo.controller.LoginController;
 import com.example.demo.controller.gameController.CityCommandsController;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.City;
-import com.example.demo.model.Civilization;
 import com.example.demo.model.Map;
 import com.example.demo.model.User;
 import com.example.demo.model.tiles.Tile;
+import com.example.demo.view.model.Cheat;
 import com.example.demo.view.model.GraphicTile;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
+import javafx.scene.control.TextField;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
@@ -40,6 +40,8 @@ public class GameControllerFX {
     private static boolean selectingTile;
     public static final Text publicText = new Text("");
     @FXML
+    private HBox cheatBar;
+    @FXML
     private VBox leftPanel;
     @FXML
     private HBox statusBar;
@@ -59,7 +61,8 @@ public class GameControllerFX {
 
     public void initialize() {
         startAFakeGame();
-        MapMoveController mapMove = new MapMoveController(root, upperMapPane);
+        new Cheat(root, cheatBar);
+        new MapMoveController(root, upperMapPane);
         StatusBarController.init(statusBar);
         addInfoButtons();
         renderMap();
@@ -247,13 +250,13 @@ public class GameControllerFX {
         Tile[][] tiles = map.getTiles();
         for (int j = 0; j < map.getY(); j++)
             for (int i = 0; i < map.getX(); i++)
-                graphicMap[i][j] = new GraphicTile(tiles[i][j], mapPane, leftPanel,this);
+                graphicMap[i][j] = new GraphicTile(tiles[i][j], mapPane, leftPanel, this);
     }
-
 
     /*
      * This methode is only for testing
      */
+
     private void startAFakeGame() {
         //start a fake game
         User user = new User("Sayyed", "ali", "Tayyeb");
