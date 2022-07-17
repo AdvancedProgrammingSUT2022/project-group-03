@@ -23,6 +23,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -714,4 +715,21 @@ public class GameControllerFX {
         renderMap();
     }
 
+    public void nextTurn() {
+        if (!GameController.nextTurnIfYouCan()) {
+            alert("Error", "A unit needs order.");
+        }
+        renderMap();
+    }
+
+    public void findUnit(ActionEvent actionEvent) {
+        //TODO this...
+    }
+
+    public static void alert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.NONE, message, ButtonType.OK);
+        alert.setTitle(title);
+        alert.initOwner(StageController.getStage());
+        alert.showAndWait();
+    }
 }
