@@ -1,6 +1,5 @@
 package com.example.demo.view.cheat;
 
-import com.beust.jcommander.JCommander;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
