@@ -59,4 +59,5 @@ public class StageController {
         errorAlert.initOwner(StageController.getStage());
         errorAlert.showAndWait();
     }
+
 }

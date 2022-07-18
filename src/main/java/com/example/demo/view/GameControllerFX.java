@@ -1,23 +1,28 @@
 package com.example.demo.view;
 
+import com.example.demo.HelloApplication;
 import com.example.demo.controller.LoginController;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.Map;
 import com.example.demo.model.User;
+import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.cheat.Cheat;
 import com.example.demo.view.model.GraphicTile;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ScrollPane;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GameControllerFX {
     public HBox infoBar;
@@ -50,18 +55,29 @@ public class GameControllerFX {
     private AnchorPane mapPane;
     @FXML
     private Pane upperMapPane;
+    private ImageView technologyTreeIcon;
+    private Label technologyTreeLabel;
+    private ImageView selectResearchIcon;
+    private Label selectResearchLabel;
     private double startX;
     private double startY;
     private final CityPanel cityPanel = new CityPanel(this);
+    private static boolean hasStarted = false;
 
 
     public void initialize() {
-        startAFakeGame();
+        if (!hasStarted)
+            startAFakeGame();
         new Cheat(root, cheatBar, this);
-        new MapMoveController(root, upperMapPane);
+//        GameController.getMap().getX()*
         StatusBarController.init(statusBar);
         addInfoButtons();
         renderMap();
+        upperMapPane.setTranslateX(300);
+        upperMapPane.setTranslateY(300);
+        new MapMoveController(root, upperMapPane, -2222222, 222222, -222222, 222222, true, true);
+        hasStarted = true;
+
     }
 
     void eachInfoButtonsClicked(int number) {
@@ -148,7 +164,72 @@ public class GameControllerFX {
         }
     }
 
+    private void enterTechTree() throws IOException {
+        StageController.sceneChanger("technologyTree.fxml");
+    }
+
+
+    private void enterSelectResearchPanel()throws IOException
+    {
+        StageController.sceneChanger("chooseTechnologyMenu.fxml");
+    }
     private void addInfoButtons() {
+        technologyTreeLabel = new Label();
+
+        technologyTreeIcon = new ImageView(ImageLoader.get("techIconOff"));
+        technologyTreeLabel.setOnMouseEntered(event -> {
+            technologyTreeIcon.setImage(ImageLoader.get("techIconOn"));
+            technologyTreeLabel.setGraphic(technologyTreeIcon);
+        });
+        technologyTreeLabel.setOnMouseExited(event -> {
+            technologyTreeIcon.setImage(ImageLoader.get("techIconOff"));
+            technologyTreeLabel.setGraphic(technologyTreeIcon);
+        });
+        technologyTreeLabel.setOnMouseClicked(event -> {
+            if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0) {
+                StageController.errorMaker("You cannot enter the technology tree yet", "You must have atLeast one city to enter the technology tree", Alert.AlertType.ERROR);
+            } else {
+                try {
+                    enterTechTree();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        selectResearchLabel = new Label();
+
+        selectResearchIcon = new ImageView(ImageLoader.get("chooseTechIconOff"));
+        selectResearchLabel.setOnMouseEntered(event -> {
+            selectResearchIcon.setImage(ImageLoader.get("chooseTechIconOn"));
+            selectResearchLabel.setGraphic(selectResearchIcon);
+        });
+        selectResearchLabel.setOnMouseExited(event -> {
+            selectResearchIcon.setImage(ImageLoader.get("chooseTechIconOff"));
+            selectResearchLabel.setGraphic(selectResearchIcon);
+        });
+        selectResearchLabel.setOnMouseClicked(event -> {
+            if(GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size()==0)
+            {
+                StageController.errorMaker("You cannot enter the select research panel yet", "You must have atLeast one city to enter the select research panel", Alert.AlertType.ERROR);
+            }
+            else {
+                try {
+                    enterSelectResearchPanel();
+                }catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        technologyTreeLabel.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        technologyTreeLabel.setGraphic(technologyTreeIcon);
+        technologyTreeLabel.setTooltip(new Tooltip("Technology Tree"));
+        infoBar.getChildren().add(technologyTreeLabel);
+        selectResearchLabel.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        selectResearchLabel.setGraphic(selectResearchIcon);
+        selectResearchLabel.setTooltip(new Tooltip("Select Research"));
+        infoBar.getChildren().add(selectResearchLabel);
         infoButton.setOnMouseClicked(this::infoButtonClicked);
         researchesButton.setOnMouseClicked(event -> eachInfoButtonsClicked(0));
         unitsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(1));
@@ -181,8 +262,7 @@ public class GameControllerFX {
         cityPage.setViewOrder(-2);
         mapPane.getChildren().add(cityPage);
         cityPage.setOnKeyPressed(keyEvent -> {
-            if ((keyEvent.getCode().getName().equals("q") || keyEvent.getCode().getName().equals("Q")) && cityPage.getLayoutX()!=-2000 && cityPage.getLayoutY()!=-2000)
-            {
+            if ((keyEvent.getCode().getName().equals("q") || keyEvent.getCode().getName().equals("Q")) && cityPage.getLayoutX() != -2000 && cityPage.getLayoutY() != -2000) {
                 cityPage.setLayoutX(-2000);
                 cityPage.setLayoutY(-2000);
             }

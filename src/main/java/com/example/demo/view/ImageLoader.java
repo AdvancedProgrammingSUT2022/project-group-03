@@ -5,6 +5,7 @@ import com.example.demo.model.Units.UnitType;
 import com.example.demo.model.features.FeatureType;
 import com.example.demo.model.improvements.ImprovementType;
 import com.example.demo.model.resources.ResourcesTypes;
+import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.model.tiles.TileType;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
@@ -37,6 +38,10 @@ public class ImageLoader {
                 Image image = new Image(HelloApplication.getResource("/com/example/demo/improvements/" + improvementType + ".png"), 120, 0, true, true, true);
                 images.put(improvementType.toString(), image);
             }
+            for (TechnologyType technologyType : TechnologyType.values()) {
+                Image image = new Image(HelloApplication.getResource("/com/example/demo/technology/technology/" + technologyType + ".png"), 120, 0, true, true, true);
+                images.put(technologyType.toString(), image);
+            }
             Image image = new Image(HelloApplication.getResource("/com/example/demo/assets/gold.png"), 25, 0, true, true, true);
             images.put("gold", image);
             image = new Image(HelloApplication.getResource("/com/example/demo/assets/happiness.png"), 25, 0, true, true, true);
@@ -58,6 +63,26 @@ public class ImageLoader {
             images.put("citizen",image);
             image = new Image(HelloApplication.getResource("/com/example/demo/tiles/noCitizen.png"), 120, 0, true, true, true);
             images.put("noCitizen",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/technology/iconoff.png"), 30, 0, true, true, true);
+            images.put("techIconOff",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/technology/iconon.png"), 30, 0, true, true, true);
+            images.put("techIconOn",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/technology/locked.png"), 500, 0, true, true, true);
+            images.put("techLocked",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/technology/treeLines.png"), 7000, 0, true, true, true);
+            images.put("techBackground",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/technology/unlocked.png"), 500, 0, true, true, true);
+            images.put("techUnlocked",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/technology/back.png"), 120, 0, true, true, true);
+            images.put("back",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/technology/search.png"), 120, 0, true, true, true);
+            images.put("search",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/technology/chooseTechIconOff.png"), 30, 0, true, true, true);
+            images.put("chooseTechIconOff",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/technology/chooseTechIconOn.png"), 30, 0, true, true, true);
+            images.put("chooseTechIconOn",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/technology/treeNoLine.jpg"), 7000, 0, true, true, true);
+            images.put("treeNoLine",image);
 //            fonts.put("impactFont",new Font("/com/example/demo/font/impact.ttf",30));
 
         } catch (RuntimeException e) {

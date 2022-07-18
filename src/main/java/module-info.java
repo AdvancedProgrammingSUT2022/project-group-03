@@ -13,4 +13,6 @@ module com.example.demo {
     exports com.example.demo.model;
     opens com.example.demo.view;
     exports com.example.demo.view;
+    exports com.example.demo.view.model;
+    opens com.example.demo.view.model;
 }
