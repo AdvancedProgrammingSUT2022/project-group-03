@@ -35,6 +35,7 @@ public class GameControllerFX {
     public ScrollPane cityPage;
     public Text cityText;
     public VBox rightPanelVBox;
+    public VBox menuPanel;
     private boolean selectingTile;
     public final Text publicText = new Text("");
     public Button nextButton;
@@ -345,5 +346,29 @@ public class GameControllerFX {
 
     public ScrollPane getInfoTab() {
         return infoTab;
+    }
+
+    public void menu() {
+        if (!menuPanel.getChildren().isEmpty()) {
+            menuPanel.getChildren().clear();
+            return;
+        }
+        Button autoSave;
+        if (SavingHandler.autoSaveIsEnabled)
+            autoSave = new Button("Disable auto save");
+        else
+            autoSave = new Button("enable auto save");
+        Button pause = new Button("Pause");
+        autoSave.setOnAction(actionEvent1 -> {
+            if (SavingHandler.autoSaveIsEnabled) {
+                SavingHandler.autoSaveIsEnabled = false;
+                autoSave.setText("Enable auto save");
+            } else {
+                SavingHandler.autoSaveIsEnabled = true;
+                autoSave.setText("Disable auto save");
+            }
+        });
+        pause.setOnAction(actionEvent -> StageController.sceneChanger("mainMenu.fxml"));
+        menuPanel.getChildren().addAll(autoSave, pause);
     }
 }

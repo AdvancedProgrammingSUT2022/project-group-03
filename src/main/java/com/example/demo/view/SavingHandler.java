@@ -17,8 +17,8 @@ public class SavingHandler {
     private static final String autoPath = "dataBase/autoSave/";
 
     public static int numberOfAutoSaving = 5;
-    public static boolean autoSaveIsEnabled;
-    public static boolean autoSaveAtRenderingMap;
+    public static boolean autoSaveIsEnabled = false;
+    public static boolean autoSaveAtRenderingMap = true;
 
 
     public static void save(boolean isManual) {
