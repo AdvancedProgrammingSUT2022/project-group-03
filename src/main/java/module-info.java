@@ -2,7 +2,9 @@ module com.example.demo {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.google.gson;
+    requires org.controlsfx.controls;
     requires jcommander;
+
 
     opens com.example.demo;
     exports com.example.demo;

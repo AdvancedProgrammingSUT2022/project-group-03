@@ -9,6 +9,8 @@ import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.technologies.Technology;
 import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.model.tiles.Tile;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -256,6 +258,7 @@ public class Civilization {
             notifications.put(cycle, strings);
         }
         notifications.get(cycle).add(string);
+        Notifications notifications = Notifications.create().hideAfter(Duration.seconds(5)).text(cycle + " " + string).title("cycles: " + cycle);
     }
 
     public HashMap<Integer, ArrayList<String>> getNotifications() {
