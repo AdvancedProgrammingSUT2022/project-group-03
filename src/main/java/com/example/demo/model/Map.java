@@ -13,11 +13,12 @@ import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.model.tiles.TileType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class Map {
+public class Map implements Serializable {
     public final static int WINDOW_X = 5;
     public final static int WINDOW_Y = 14;
     private Tile[][] tiles;
@@ -74,15 +75,15 @@ public class Map {
 //            civilian.setRemainedCost(0);
 
 
-            Civilian civilian = new Civilian(coordinatesToTile(settlerX+2, settlerY),civilizations.get(i),UnitType.WORKER);
+            Civilian civilian = new Civilian(coordinatesToTile(settlerX+1, settlerY),civilizations.get(i),UnitType.WORKER);
             civilizations.get(i).getUnits().add(civilian);
-            coordinatesToTile(settlerX+2,settlerY).setCivilian(civilian);
+            coordinatesToTile(settlerX+1,settlerY).setCivilian(civilian);
             civilian.setRemainedCost(0);
 
 
-            Civilian civilian2 = new Civilian(coordinatesToTile(settlerX+5, settlerY+ 5),civilizations.get(i),UnitType.WORKER);
+            Civilian civilian2 = new Civilian(coordinatesToTile(settlerX+1, settlerY+ 1),civilizations.get(i),UnitType.WORKER);
             civilizations.get(i).getUnits().add(civilian2);
-            coordinatesToTile(settlerX+5,settlerY+5).setCivilian(civilian2);
+            coordinatesToTile(settlerX+1,settlerY+1).setCivilian(civilian2);
             civilian2.setRemainedCost(0);
         }
 

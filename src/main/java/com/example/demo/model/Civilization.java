@@ -12,11 +12,12 @@ import com.example.demo.model.tiles.Tile;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Civilization {
-    public static class TileCondition {
+public class Civilization implements Serializable {
+    public static class TileCondition implements Serializable {
         private final Tile openedArea;
         private boolean isClear;
 

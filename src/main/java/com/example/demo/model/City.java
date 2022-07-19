@@ -9,12 +9,13 @@ import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.model.tiles.TileType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 
-public class City implements CanAttack, CanGetAttacked {
+public class City implements Serializable, CanAttack, CanGetAttacked {
     private final String name;
     private final Tile mainTile;
     private Civilization civilization;

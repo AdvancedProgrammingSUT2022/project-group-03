@@ -3,8 +3,10 @@ package com.example.demo.model.improvements;
 import com.example.demo.model.features.FeatureType;
 import com.example.demo.model.tiles.Tile;
 
+import java.io.Serializable;
 
-public class Improvement {
+
+public class Improvement implements Serializable {
     private final ImprovementType improvementType;
     private int needsRepair;
     int remainedCost;

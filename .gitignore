@@ -10,3 +10,5 @@
 .idea
 dataBase/chats.dat
 /target/
+/dataBase/manualSave/*
+/dataBase/autoSave/*

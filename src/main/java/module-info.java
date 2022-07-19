@@ -6,12 +6,11 @@ module com.example.demo {
     requires jcommander;
 
 
-    opens com.example.demo;
+    opens com.example.demo to com.google.gson;
     exports com.example.demo;
     opens com.example.demo.controller;
     exports com.example.demo.controller;
     opens com.example.demo.model;
-//    opens com.example.demo.font;
     exports com.example.demo.model;
     opens com.example.demo.view;
     exports com.example.demo.view;

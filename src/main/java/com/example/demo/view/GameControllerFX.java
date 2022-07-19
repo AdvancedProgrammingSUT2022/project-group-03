@@ -1,28 +1,23 @@
 package com.example.demo.view;
 
-import com.example.demo.HelloApplication;
 import com.example.demo.controller.LoginController;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.Map;
 import com.example.demo.model.User;
-import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.cheat.Cheat;
 import com.example.demo.view.model.GraphicTile;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class GameControllerFX {
     public HBox infoBar;
@@ -66,8 +61,8 @@ public class GameControllerFX {
 
 
     public void initialize() {
-        if (!hasStarted)
-            startAFakeGame();
+//        if (!hasStarted)
+//            startAFakeGame();
         new Cheat(root, cheatBar, this);
 //        GameController.getMap().getX()*
         StatusBarController.init(statusBar);
@@ -77,6 +72,15 @@ public class GameControllerFX {
         upperMapPane.setTranslateY(300);
         new MapMoveController(root, upperMapPane, -2222222, 222222, -222222, 222222, true, true);
         hasStarted = true;
+
+
+        root.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
+            if (keyEvent.getCode().getName().equals("S"))
+                SavingHandler.save(true);
+        });
+
+        System.out.println("Game started...");
+
 
     }
 
@@ -266,11 +270,14 @@ public class GameControllerFX {
             }
         });
         StatusBarController.update();
+        //save the game:
+        if (SavingHandler.autoSaveIsEnabled && SavingHandler.autoSaveAtRenderingMap)
+            SavingHandler.save(false);
     }
+
     /*
      * This methode is only for testing
      */
-
     private void startAFakeGame() {
         //start a fake game
         User user = new User("Sayyed", "ali", "Tayyeb");
@@ -301,11 +308,15 @@ public class GameControllerFX {
         } else {
             renderMap();
             StageController.errorMaker("Next turn", "Successfully passed this turn.", Alert.AlertType.INFORMATION);
+            //save the game:
+            if (SavingHandler.autoSaveIsEnabled && !SavingHandler.autoSaveAtRenderingMap)
+                SavingHandler.save(false);
         }
     }
 
     public void findUnit(ActionEvent actionEvent) {
         //TODO this...
+        renderMap();
     }
 
     public static void alert(String title, String message) {

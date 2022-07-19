@@ -41,7 +41,8 @@
         <Button fx:id="moreAutoSavesButton" mnemonicParsing="false" text="+" onMouseClicked="#moreAutoSave"/>
         <Button fx:id="lessAutoSavesButton" mnemonicParsing="false" text="-" onMouseClicked="#lessAutoSave"/>
         <ScrollPane fx:id="savesListScrollBar" />
-        <Text fx:id="selectedSaveNumber"/>
+        <ScrollPane fx:id="autoSavesListScrollBar" />
+        <Text fx:id="titleManual"/>
         <Button fx:id="back" onMouseClicked="#back" layoutX="1400" layoutY="10.0" mnemonicParsing="false"
                 prefHeight="25.0" prefWidth="100.0" text="back"/>
 
