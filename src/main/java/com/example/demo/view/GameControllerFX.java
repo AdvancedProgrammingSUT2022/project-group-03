@@ -169,10 +169,10 @@ public class GameControllerFX {
     }
 
 
-    private void enterSelectResearchPanel()throws IOException
-    {
+    private void enterSelectResearchPanel() throws IOException {
         StageController.sceneChanger("chooseTechnologyMenu.fxml");
     }
+
     private void addInfoButtons() {
         technologyTreeLabel = new Label();
 
@@ -208,14 +208,12 @@ public class GameControllerFX {
             selectResearchLabel.setGraphic(selectResearchIcon);
         });
         selectResearchLabel.setOnMouseClicked(event -> {
-            if(GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size()==0)
-            {
+            if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0) {
                 StageController.errorMaker("You cannot enter the select research panel yet", "You must have atLeast one city to enter the select research panel", Alert.AlertType.ERROR);
-            }
-            else {
+            } else {
                 try {
                     enterSelectResearchPanel();
-                }catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
@@ -267,7 +265,7 @@ public class GameControllerFX {
                 cityPage.setLayoutY(-2000);
             }
         });
-
+        StatusBarController.update();
     }
     /*
      * This methode is only for testing
@@ -292,16 +290,18 @@ public class GameControllerFX {
     }
 
 
-    public void nextTurn(ActionEvent actionEvent) {
-        GameController.nextTurnIfYouCan();
-        renderMap();
-    }
-
     public void nextTurn() {
         if (!GameController.nextTurnIfYouCan()) {
-            alert("Error", "A unit needs order.");
+            switch (GameController.getUnfinishedTasks().get(0).getTaskTypes()) {
+                case UNIT -> StageController.errorMaker("Unit Error", "A unit needs order.", Alert.AlertType.ERROR);
+                case CITY_PRODUCTION -> StageController.errorMaker("City Error", "Set your city to produce a unit.", Alert.AlertType.ERROR);
+                case TECHNOLOGY_PROJECT -> StageController.errorMaker("Technology not selected", "Please select a technology to researching about it.", Alert.AlertType.ERROR);
+                case CITY_DESTINY -> StageController.errorMaker("City destiny error", "Please decide whether to destroy the captured city or not.", Alert.AlertType.ERROR);
+            }
+        } else {
+            renderMap();
+            StageController.errorMaker("Next turn", "Successfully passed this turn.", Alert.AlertType.INFORMATION);
         }
-        renderMap();
     }
 
     public void findUnit(ActionEvent actionEvent) {
