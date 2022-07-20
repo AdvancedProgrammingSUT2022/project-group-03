@@ -576,4 +576,9 @@ public class City implements CanAttack, CanGetAttacked {
     public ArrayList<Building> getBuildings() {
         return buildings;
     }
+
+    public void addPopulation()
+    {
+        population++;
+    }
 }

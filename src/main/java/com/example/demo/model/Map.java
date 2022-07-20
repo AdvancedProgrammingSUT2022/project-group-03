@@ -43,7 +43,7 @@ public class Map {
                 end = true;
                 settlerX = 3 + random.nextInt(x - 6);
                 settlerY = 5 + random.nextInt(x - 10);
-                if (coordinatesToTile(settlerX, settlerY).getMovingPrice() > 123) {
+                if (coordinatesToTile(settlerX, settlerY).getMovingPrice() > 123 || coordinatesToTile(settlerX, settlerY).getRuins() != null) {
                     end = false;
                     continue;
                 }
@@ -63,7 +63,7 @@ public class Map {
                     civilizations.get(i), hardcodeUnit);
             settlers[0][i] = settlerX;
             settlers[1][i] = settlerY;
-            City city = new City(GameController.getMap().tiles[settlerX][settlerY],"wtf",civilizations.get(i));
+            City city = new City(GameController.getMap().tiles[settlerX][settlerY], "wtf", civilizations.get(i));
             GameController.getMap().tiles[settlerX][settlerY].setCity(city);
             civilizations.get(i).getCities().add(city);
 //            civilizations.get(GameController.getPlayerTurn()).getCities().add(city);
@@ -74,15 +74,15 @@ public class Map {
 //            civilian.setRemainedCost(0);
 
 
-            Civilian civilian = new Civilian(coordinatesToTile(settlerX+2, settlerY),civilizations.get(i),UnitType.WORKER);
+            Civilian civilian = new Civilian(coordinatesToTile(settlerX + 2, settlerY), civilizations.get(i), UnitType.WORKER);
             civilizations.get(i).getUnits().add(civilian);
-            coordinatesToTile(settlerX+2,settlerY).setCivilian(civilian);
+            coordinatesToTile(settlerX + 2, settlerY).setCivilian(civilian);
             civilian.setRemainedCost(0);
 
 
-            Civilian civilian2 = new Civilian(coordinatesToTile(settlerX+5, settlerY+ 5),civilizations.get(i),UnitType.WORKER);
+            Civilian civilian2 = new Civilian(coordinatesToTile(settlerX + 5, settlerY + 5), civilizations.get(i), UnitType.WORKER);
             civilizations.get(i).getUnits().add(civilian2);
-            coordinatesToTile(settlerX+5,settlerY+5).setCivilian(civilian2);
+            coordinatesToTile(settlerX + 5, settlerY + 5).setCivilian(civilian2);
             civilian2.setRemainedCost(0);
         }
 
@@ -155,6 +155,11 @@ public class Map {
             for (int j = 0; j < y; j++) {
                 tiles[i][j] = new Tile(randomTile(i, j), i, j);
                 setNeighborsOfTile(tiles, i, j);
+                Random random2 = new Random();
+                if (tiles[i][j].getTileType() != TileType.OCEAN &&
+                        tiles[i][j].getTileType() != TileType.MOUNTAIN &&
+                        random2.nextInt(600) % 300 == 0)
+                    tiles[i][j].setRuins(new Ruins(random2.nextInt(40) % 5, tiles[i][j]));
             }
         }
 
@@ -312,19 +317,18 @@ public class Map {
 
     private void setXAndY(int civilizationNumber) {
         switch (civilizationNumber) {
-            case 2:
+            case 2 -> {
                 x = 46;
                 y = 74;
-                break;
-            case 3:
-            case 4:
+            }
+            case 3, 4 -> {
                 x = 54;
                 y = 84;
-                break;
-            case 5:
+            }
+            case 5 -> {
                 x = 60;
                 y = 90;
-                break;
+            }
         }
     }
 
@@ -465,7 +469,7 @@ public class Map {
         visited[0].add(tile);
         isVisitedEver.put(tile, true);
         FindNextClass findNextClass = new FindNextClass();
-        if((destinationTile.getNonCivilian() != null && !isCivilian)
+        if ((destinationTile.getNonCivilian() != null && !isCivilian)
                 || (destinationTile.getCivilian() != null && isCivilian))
             return null;
         for (int c = 0; !findNextClass.isOver &&
@@ -887,6 +891,11 @@ public class Map {
 
     public static void setY(int y) {
         Map.y = y;
+    }
+
+    public Tile randomTile() {
+        Random random = new Random();
+        return tiles[random.nextInt(x)][random.nextInt(y)];
     }
 }
 

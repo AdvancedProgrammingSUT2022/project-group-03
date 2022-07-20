@@ -23,6 +23,11 @@
         <Text fx:id="cityText" text="wtf"/>
     </ScrollPane>
 
+    <ScrollPane fx:id="unitsPage" styleClass="popUp" opacity="0" layoutX="500" prefHeight="700" prefWidth="400">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0"/>
+        <Text fx:id="uniText" text="wtf"/>
+    </ScrollPane>
+
     <top>
         <HBox alignment="CENTER" spacing="5">
             <HBox fx:id="statusBar" alignment="CENTER" spacing="5" styleClass="panel"/>

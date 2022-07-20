@@ -13,19 +13,25 @@ import com.example.demo.model.tiles.Tile;
 import com.example.demo.model.tiles.TileType;
 
 public class UnitStateController {
-    public static boolean unitMoveTo(int x, int y) {
+    public static boolean unitMoveTo(Tile tile) {
         if (GameController.getSelectedUnit() == null ||
-                GameController.getMap().coordinatesToTile(x, y) == null ||
-                GameController.getCivilizations().get(GameController.getPlayerTurn()) !=
-                        GameController.getSelectedUnit().getCivilization() ||
-                GameController.getMap().coordinatesToTile(x, y).getTileType() == TileType.OCEAN ||
-                GameController.getMap().coordinatesToTile(x, y).getTileType() == TileType.MOUNTAIN)
+                isMapMoveValid(tile, GameController.getSelectedUnit().getCivilization()))
             return false;
         GameController.deleteFromUnfinishedTasks(new Tasks(GameController
                 .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
         GameController.getSelectedUnit().setState(UnitState.AWAKE);
-        return GameController.getSelectedUnit()
-                .move(GameController.getMap().coordinatesToTile(x, y), true);
+        boolean bool = GameController.getSelectedUnit()
+                .move(tile, true);
+//        if (bool && tile.getRuins() != null)
+//            tile.getRuins().open(GameController.getCivilizations().get(GameController.getPlayerTurn()));
+        return bool;
+    }
+
+    public static boolean isMapMoveValid(Tile tile, Civilization civilization) {
+        return tile != null &&
+                GameController.getCivilizations().get(GameController.getPlayerTurn()) == civilization &&
+                tile.getTileType() != TileType.OCEAN &&
+                tile.getTileType() != TileType.MOUNTAIN;
     }
 
     public static int unitSleep() {
@@ -54,14 +60,14 @@ public class UnitStateController {
             return 4;
         if (civilization.getGold() < UnitType.SWORDSMAN.getCost() - selectedUnit.getCost())
             return 5;
-        if(selectedUnit.getCurrentTile().getCivilization()!=civilization)
+        if (selectedUnit.getCurrentTile().getCivilization() != civilization)
             return 6;
         NonCivilian swordsMan = new NonCivilian(selectedUnit.getCurrentTile(), selectedUnit.getCivilization(), UnitType.SWORDSMAN);
         civilization.getUnits().remove(selectedUnit);
         selectedUnit.getCurrentTile().setNonCivilian(swordsMan);
         civilization.getUnits().add(swordsMan);
         GameController.setSelectedUnit(swordsMan);
-        GameController.openNewArea(swordsMan.getCurrentTile(),swordsMan.getCivilization(),swordsMan);
+        GameController.openNewArea(swordsMan.getCurrentTile(), swordsMan.getCivilization(), swordsMan);
         return 0;
     }
 

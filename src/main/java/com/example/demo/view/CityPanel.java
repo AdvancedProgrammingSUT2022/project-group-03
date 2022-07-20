@@ -35,18 +35,14 @@ public class CityPanel {
     private static ScrollPane startProducingPane;
     private static ScrollPane startBuildingBuildingsPane;
     private static AnchorPane cityPanelPane;
-
     private ArrayList<Button> cityPanelButtons = new ArrayList<>();
-    private ArrayList<Text> cityPanelTexts = new ArrayList<>();
     private Tile reassignOriginTile;
     private City openedPanelCity;
     private static final Text[] cityTexts = new Text[8];
-
     private static final int[] buttonsProcess = new int[9];
 
-
     public void buildBuilding(BuildingType buildingType, Tile tile) {
-        switch (CityCommandsController.buildBuilding(buildingType, tile,openedPanelCity)) {
+        switch (CityCommandsController.buildBuilding(buildingType, tile, openedPanelCity)) {
             case 0 -> StageController.errorMaker("nicely done", "building's building's started", Alert.AlertType.INFORMATION);
             case 3 -> StageController.errorMaker("duplication", "your city already has this building", Alert.AlertType.ERROR);
             case 4 -> StageController.errorMaker("prerequisites not satisfied", "you don't have the prerequisite buildings", Alert.AlertType.ERROR);
@@ -56,7 +52,7 @@ public class CityPanel {
             case 9 -> StageController.errorMaker("you cannot place you building over there", "a building cannot be placed on an ocean or a mountain", Alert.AlertType.ERROR);
             case 10 -> StageController.errorMaker("no resources?", "you don't have the prerequisite resources", Alert.AlertType.ERROR);
             case 11 -> StageController.errorMaker("no money?", "you don't have enough gold", Alert.AlertType.ERROR);
-            case 12 ->StageController.errorMaker("not this tile","the selected tile already has a building on it", Alert.AlertType.ERROR);
+            case 12 -> StageController.errorMaker("not this tile", "the selected tile already has a building on it", Alert.AlertType.ERROR);
         }
         turnEveryButtonOff();
         gameControllerFX.renderMap();
@@ -64,7 +60,6 @@ public class CityPanel {
 
 
     public void turnEveryButtonOff() {
-
         for (Text cityText : cityTexts)
             if (cityText != null)
                 cityText.setOpacity(0);
@@ -75,9 +70,9 @@ public class CityPanel {
         cityTexts[5].setText("Click on the tile you want to place your unit on or press \"e\" if you don't want to continue");
         cityTexts[3].setText("Click on the tile you want to reassign your citizen from or press \"e\" if you don't want to continue");
         cityTexts[7].setText("Click on the tile you want to place your building on or press \"e\" if you don't want to continue");
-        cityPanelButtons.get(7).setLayoutY(97 + 6*45 - 22);
+        cityPanelButtons.get(7).setLayoutY(97 + 6 * 45 - 22);
         System.out.println(cityPanelButtons.get(7).getLayoutY());
-        cityPanelButtons.get(8).setLayoutY(97 + 7*45 - 22);
+        cityPanelButtons.get(8).setLayoutY(97 + 7 * 45 - 22);
         cityPanelPane.getChildren().remove(startBuildingBuildingsPane);
         cityPanelPane.getChildren().remove(startProducingPane);
         startProducingPane = null;
@@ -102,17 +97,9 @@ public class CityPanel {
                 text.setLayoutY(i);
                 secondAnchorPane.getChildren().add(text);
                 i += 45;
-//                text.setStyle("-fx-font: \"/com/example/demo/font/OPTIColumna.otf\";\n" +
-//                        "    -fx-font-size: 5;");
                 text.setOnMouseClicked(event -> buildBuilding(value, tile));
                 text.setCursor(Cursor.HAND);
                 text.setFont(new Font(15));
-//                text.setFont(ImageLoader.getFont("impactFont"));
-//                Button button1 = new Button(value.toString());
-//                button1.setLayoutY(i);
-//                secondAnchorPane.getChildren().add(button1);
-//                i += 45;
-//                button1.setOnMouseClicked(event -> buyTheSelectedUnitType(button1.getText().toString(), tile));
             }
         }
         return secondAnchorPane;
@@ -175,25 +162,17 @@ public class CityPanel {
                 text.setLayoutY(i);
                 secondAnchorPane.getChildren().add(text);
                 i += 45;
-//                text.setStyle("-fx-font: \"/com/example/demo/font/OPTIColumna.otf\";\n" +
-//                        "    -fx-font-size: 5;");
                 if (tile == null)
                     text.setOnMouseClicked(event -> startProducingUnit(value.toString()));
                 else
                     text.setOnMouseClicked(event -> buyTheSelectedUnitType(value.toString(), tile));
                 text.setCursor(Cursor.HAND);
                 text.setFont(new Font(15));
-//                text.setFont(ImageLoader.getFont("impactFont"));
-//                Button button1 = new Button(value.toString());
-//                button1.setLayoutY(i);
-//                secondAnchorPane.getChildren().add(button1);
-//                i += 45;
-//                button1.setOnMouseClicked(event -> buyTheSelectedUnitType(button1.getText().toString(), tile));
             }
         }
         if (tile != null)
-            cityPanelButtons.get(7).setLayoutY(97 + 45*6 + i);
-        cityPanelButtons.get(8).setLayoutY(97 + 45*7 + i);
+            cityPanelButtons.get(7).setLayoutY(97 + 45 * 6 + i);
+        cityPanelButtons.get(8).setLayoutY(97 + 45 * 7 + i);
         return secondAnchorPane;
     }
 
@@ -224,7 +203,7 @@ public class CityPanel {
     public void buildBuildingSelectTile(Tile tile) {
         cityTexts[7].setText("the selected tile is: " + tile.getX() + ", " + tile.getY() + ". now click on the unit type you want to start producing");
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setLayoutY(97 + 45*8);
+        scrollPane.setLayoutY(97 + 45 * 8);
         cityPanelPane.getChildren().add(scrollPane);
         startBuildingBuildingsPane = scrollPane;
         AnchorPane secondAnchorPane = buildingsListPane(tile);
@@ -333,7 +312,7 @@ public class CityPanel {
         selectingTileButtons(text, button, anchorPane, 7);
 
         cityPanelButtons = new ArrayList<>();
-        cityPanelTexts = new ArrayList<>();
+        ArrayList<Text> cityPanelTexts = new ArrayList<>();
         for (Node child : anchorPane.getChildren()) {
             if (child instanceof Button)
                 cityPanelButtons.add((Button) child);
@@ -364,10 +343,10 @@ public class CityPanel {
                 buttonsProcess[textNumber] = 0;
                 if (textNumber == 5) {
                     anchorPane.getChildren().remove(buyUnitPane);
-                    cityPanelButtons.get(7).setLayoutY(97 + 45*5);
+                    cityPanelButtons.get(7).setLayoutY(97 + 45 * 5);
                 }
                 if (textNumber == 6)
-                    cityPanelButtons.get(8).setLayoutY(97 + 45*6);
+                    cityPanelButtons.get(8).setLayoutY(97 + 45 * 6);
                 if (textNumber == 7)
                     anchorPane.getChildren().remove(startBuildingBuildingsPane);
                 assert text != null;
@@ -413,21 +392,10 @@ public class CityPanel {
             cityPanelPane.getChildren().add(scrollPane);
             startProducingPane = scrollPane;
             AnchorPane secondAnchorPane = unitsListPane(null);
-//            cityPanelButtons.get(7).setLayoutY(600);
             if (startProducingPane != null)
                 startProducingPane.setOpacity(1);
             scrollPane.setContent(secondAnchorPane);
         }
-//        if (function.equals("START_BUILDING_BUILDINGS")) {
-//            ScrollPane scrollPane = new ScrollPane();
-//            scrollPane.setLayoutY(457);
-//            cityPanelPane.getChildren().add(scrollPane);
-//            startBuildingBuildingsPane = scrollPane;
-//            AnchorPane secondAnchorPane = buildingsListPane();
-//            if (startBuildingBuildingsPane != null)
-//                startBuildingBuildingsPane.setOpacity(1);
-//            scrollPane.setContent(secondAnchorPane);
-//        }
     }
 
     public void disableCityPanel() {

@@ -8,6 +8,8 @@ import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.model.tiles.TileType;
 import com.example.demo.view.GameControllerFX;
+import com.example.demo.view.StageController;
+import javafx.scene.control.Alert;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -234,6 +236,8 @@ public class GameController {
         for (int i = 0; i < 6; i++) {
             if (tile.getNeighbours(i) == null)
                 continue;
+            if(tile.getNeighbours(i).getRuins()!=null)
+                StageController.errorMaker("ruins found!","there are some ruins around you", Alert.AlertType.INFORMATION);
             civilization.getTileConditions()[tile.getNeighbours(i).getX()][tile.getNeighbours(i).getY()] =
                 new Civilization.TileCondition(tile.getNeighbours(i).
                     cloneTileForCivilization(civilization), true);

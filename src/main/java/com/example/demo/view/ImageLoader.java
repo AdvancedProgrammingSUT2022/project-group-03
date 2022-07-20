@@ -83,6 +83,14 @@ public class ImageLoader {
             images.put("chooseTechIconOn",image);
             image = new Image(HelloApplication.getResource("/com/example/demo/technology/treeNoLine.jpg"), 7000, 0, true, true, true);
             images.put("treeNoLine",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/technology/unitsPanelIconOn.png"), 7000, 0, true, true, true);
+            images.put("unitsPanelIconOn",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/technology/unitsPanelIconOn.png"), 30, 0, true, true, true);
+            images.put("unitsPanelIconOn",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/technology/unitsPanelIconOff.png"), 30, 0, true, true, true);
+            images.put("unitsPanelIconOff",image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/tiles/ruins.png"), 100, 0, true, true, true);
+            images.put("ruins",image);
 //            fonts.put("impactFont",new Font("/com/example/demo/font/impact.ttf",30));
 
         } catch (RuntimeException e) {

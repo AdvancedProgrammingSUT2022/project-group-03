@@ -52,6 +52,7 @@ public class Civilization {
     private HashMap<ResourcesTypes, Boolean> usedLuxuryResources = new HashMap<>();
     public int cheatScience;
     private final HashMap<Integer, ArrayList<String>> notifications = new HashMap<>();
+    private ArrayList<Tile> noFogs = new ArrayList<>();
 
     public Civilization(User user, int color) {
         this.color = color;
@@ -143,6 +144,9 @@ public class Civilization {
         for (City city : cities) {
             city.startTheTurn();
             gold += city.getGold();
+        }
+        for (Tile noFog : noFogs) {
+            GameController.openNewArea(noFog,this,null);
         }
         for (City city : cities)
             city.collectFood();
@@ -258,7 +262,18 @@ public class Civilization {
             notifications.put(cycle, strings);
         }
         notifications.get(cycle).add(string);
-        Notifications notifications = Notifications.create().hideAfter(Duration.seconds(5)).text(cycle + " " + string).title("cycles: " + cycle);
+        Notifications notifications = Notifications.create().hideAfter(Duration.seconds(5)).text(string).title("cycles: " + cycle);
+        notifications.show();
+    }
+
+    public void addGold(int number)
+    {
+        gold += number;
+    }
+
+
+    public ArrayList<Tile> getNoFogs() {
+        return noFogs;
     }
 
     public HashMap<Integer, ArrayList<String>> getNotifications() {

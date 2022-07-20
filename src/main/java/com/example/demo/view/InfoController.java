@@ -155,7 +155,7 @@ public class InfoController {
         return stringBuilder.toString();
     }
 
-    static String printUnitInfo(Unit unit) {
+    public static String printUnitInfo(Unit unit) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(unit.getUnitType() +
                 ": | Health: " + unit.getHealth() +

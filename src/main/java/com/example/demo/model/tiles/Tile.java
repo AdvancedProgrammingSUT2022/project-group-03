@@ -2,6 +2,7 @@ package com.example.demo.model.tiles;
 
 import com.example.demo.model.City;
 import com.example.demo.model.Civilization;
+import com.example.demo.model.Ruins;
 import com.example.demo.model.Units.*;
 import com.example.demo.model.features.Feature;
 import com.example.demo.model.features.FeatureType;
@@ -24,6 +25,7 @@ public class Tile {
     private int raidLevel;
     private Improvement road;
     private final Tile[] neighbours = new Tile[6];// LU, clockwise
+    private Ruins ruins;
 
     public int getX() {
         return x;
@@ -75,19 +77,17 @@ public class Tile {
         return false;
     }
 
-    public boolean doesHaveRiver()
-    {
+    public boolean doesHaveRiver() {
         for (boolean b : tilesWithRiver) {
-            if(b)
+            if (b)
                 return true;
         }
         return false;
     }
 
-    public boolean doesHaveLakeAround()
-    {
+    public boolean doesHaveLakeAround() {
         for (Tile neighbour : neighbours) {
-            if(neighbour.tileType==TileType.OCEAN)
+            if (neighbour.tileType == TileType.OCEAN)
                 return true;
         }
         return false;
@@ -156,6 +156,9 @@ public class Tile {
     }
 
     public void setNonCivilian(NonCivilian nonCivilian) {
+        if (ruins != null && nonCivilian != null) {
+            ruins.open(nonCivilian.getCivilization());
+        }
         this.nonCivilian = nonCivilian;
     }
 
@@ -216,5 +219,13 @@ public class Tile {
 
     public Improvement getRoad() {
         return road;
+    }
+
+    public Ruins getRuins() {
+        return ruins;
+    }
+
+    public void setRuins(Ruins ruins) {
+        this.ruins = ruins;
     }
 }

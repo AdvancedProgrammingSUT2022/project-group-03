@@ -59,9 +59,12 @@ public class GameControllerFX {
     private Label technologyTreeLabel;
     private ImageView selectResearchIcon;
     private Label selectResearchLabel;
+    private ImageView unitsPanelIcon;
+    private Label unitsPanelLabel;
     private double startX;
     private double startY;
     private final CityPanel cityPanel = new CityPanel(this);
+    private AnchorPane unitsPanelPane;
     private static boolean hasStarted = false;
 
 
@@ -83,7 +86,8 @@ public class GameControllerFX {
     void eachInfoButtonsClicked(int number) {
         if (infoTabNumber == number) {
             infoTab.setOpacity(0);
-            CityPanel.getCityPanelPane().setOpacity(0);
+            if (CityPanel.getCityPanelPane() != null)
+                CityPanel.getCityPanelPane().setOpacity(0);
             infoTabNumber = -1;
             cityPanel.disableCityPanel();
         } else {
@@ -94,7 +98,8 @@ public class GameControllerFX {
                     infoText.setText(InfoController.infoResearches());
                     break;
                 case 1:
-//                    infoText.setText();
+                    infoText.setText(InfoController.printMilitaryOverview());
+
                     break;
                 case 2:
                     cityButtonClicked();
@@ -169,10 +174,10 @@ public class GameControllerFX {
     }
 
 
-    private void enterSelectResearchPanel()throws IOException
-    {
+    private void enterSelectResearchPanel() throws IOException {
         StageController.sceneChanger("chooseTechnologyMenu.fxml");
     }
+
     private void addInfoButtons() {
         technologyTreeLabel = new Label();
 
@@ -197,7 +202,6 @@ public class GameControllerFX {
             }
         });
         selectResearchLabel = new Label();
-
         selectResearchIcon = new ImageView(ImageLoader.get("chooseTechIconOff"));
         selectResearchLabel.setOnMouseEntered(event -> {
             selectResearchIcon.setImage(ImageLoader.get("chooseTechIconOn"));
@@ -208,19 +212,31 @@ public class GameControllerFX {
             selectResearchLabel.setGraphic(selectResearchIcon);
         });
         selectResearchLabel.setOnMouseClicked(event -> {
-            if(GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size()==0)
-            {
+            if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0) {
                 StageController.errorMaker("You cannot enter the select research panel yet", "You must have atLeast one city to enter the select research panel", Alert.AlertType.ERROR);
-            }
-            else {
+            } else {
                 try {
                     enterSelectResearchPanel();
-                }catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
             }
         });
+
+
+        unitsPanelLabel = new Label();
+        unitsPanelIcon = new ImageView(ImageLoader.get("unitsPanelIconOff"));
+        unitsPanelLabel.setOnMouseEntered(event -> {
+            unitsPanelIcon.setImage(ImageLoader.get("unitsPanelIconOn"));
+            unitsPanelLabel.setGraphic(unitsPanelIcon);
+        });
+        unitsPanelLabel.setOnMouseExited(event -> {
+            unitsPanelIcon.setImage(ImageLoader.get("unitsPanelIconOff"));
+            unitsPanelLabel.setGraphic(unitsPanelIcon);
+        });
+        unitsPanelLabel.setOnMouseClicked(event -> StageController.sceneChanger("unitsPanel.fxml"));
+
 
         technologyTreeLabel.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         technologyTreeLabel.setGraphic(technologyTreeIcon);
@@ -230,6 +246,10 @@ public class GameControllerFX {
         selectResearchLabel.setGraphic(selectResearchIcon);
         selectResearchLabel.setTooltip(new Tooltip("Select Research"));
         infoBar.getChildren().add(selectResearchLabel);
+        unitsPanelLabel.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        unitsPanelLabel.setGraphic(unitsPanelIcon);
+        unitsPanelLabel.setTooltip(new Tooltip("units Panel"));
+        infoBar.getChildren().add(unitsPanelLabel);
         infoButton.setOnMouseClicked(this::infoButtonClicked);
         researchesButton.setOnMouseClicked(event -> eachInfoButtonsClicked(0));
         unitsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(1));

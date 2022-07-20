@@ -41,6 +41,7 @@ public class GraphicTile implements Serializable {
     private ImageView cityImage;
     private ImageView fogImage;
     private ImageView citizenImage;
+    private ImageView ruinsImage;
     private final ImageView[] riversImages = new ImageView[6];
     private final VBox leftPanel;
     private final Pane pane;
@@ -129,9 +130,7 @@ public class GraphicTile implements Serializable {
             gameControllerFX.setSelectingTile(true);
             leftPanel.getChildren().addAll(text, gameControllerFX.publicText);
             addButton("Move", true, event2 -> {
-                int x = GameController.getSelectedTile().getX();
-                int y = GameController.getSelectedTile().getY();
-                if (!UnitStateController.unitMoveTo(x, y)) {
+                if (!UnitStateController.unitMoveTo(GameController.getSelectedTile())) {
                     GameControllerFX.alert("Error", "Can not move to that tile");
                 }
                 gameControllerFX.setSelectingTile(false);
@@ -316,6 +315,8 @@ public class GraphicTile implements Serializable {
             pane.getChildren().add(cityImage);
         }
 
+
+
         if (tile.getCivilization() == GameController.getCivilizations().get(GameController.getPlayerTurn())) {
             boolean isGettingWorkedOn = false;
             for (City city : tile.getCivilization().getCities()) {
@@ -343,6 +344,14 @@ public class GraphicTile implements Serializable {
                 riversImages[i].setRotate(120 + 60 * i);
                 pane.getChildren().add(riversImages[i]);
             }
+        }
+        if(tile.getRuins()!=null)
+        {
+            ruinsImage = new ImageView(ImageLoader.get("ruins"));
+            ruinsImage.setFitWidth(41);
+            ruinsImage.setFitHeight(30);
+            pane.getChildren().add(ruinsImage);
+
         }
     }
 
@@ -401,6 +410,11 @@ public class GraphicTile implements Serializable {
         if (citizenImage != null) {
             citizenImage.setLayoutX(x + tileImage.getFitWidth() * 3.5 / 5 - citizenImage.getFitWidth() / 2);
             citizenImage.setLayoutY(y);
+        }
+        if(ruinsImage!=null)
+        {
+            ruinsImage.setLayoutX(x + tileImage.getFitWidth()/2 - ruinsImage.getFitWidth()/2);
+            ruinsImage.setLayoutY(y + tileImage.getFitHeight()/2 - ruinsImage.getFitHeight()/2);
         }
         //rivers
         for (int k = 0; k < 6; k++) {
