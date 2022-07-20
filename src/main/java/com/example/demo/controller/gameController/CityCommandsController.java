@@ -3,7 +3,6 @@ package com.example.demo.controller.gameController;
 import com.example.demo.model.City;
 import com.example.demo.model.TaskTypes;
 import com.example.demo.model.Tasks;
-import com.example.demo.model.Units.Civilian;
 import com.example.demo.model.Units.CombatType;
 import com.example.demo.model.Units.UnitType;
 import com.example.demo.model.building.Building;
@@ -84,7 +83,7 @@ public class CityCommandsController {
         }
         if (buildingType == BuildingType.WATER_MILL && !city.doesHaveRiver())
             return 6;
-        if (buildingType == BuildingType.FORGE_GARDEN
+        if (buildingType == BuildingType.FORGE
                 && !city.doesHaveRiver()
                 && !city.doesHaveLakeAround())
             return 7;
@@ -92,12 +91,12 @@ public class CityCommandsController {
             return 8;
         if (buildingType == BuildingType.CIRCUS ||
                 buildingType == BuildingType.STABLE ||
-                buildingType == BuildingType.FORGE_GARDEN) {
+                buildingType == BuildingType.FORGE) {
             boolean isValid = false;
             for (Tile tile1 : city.getTiles()) {
                 if ((buildingType == BuildingType.STABLE && tile1.getResource() == ResourcesTypes.HORSE) ||
                         (buildingType == BuildingType.CIRCUS && (tile1.getResource() == ResourcesTypes.IVORY || tile1.getResource() == ResourcesTypes.HORSE)) ||
-                        (buildingType == BuildingType.FORGE_GARDEN && tile1.getResource() == ResourcesTypes.IRON)) {
+                        (buildingType == BuildingType.FORGE && tile1.getResource() == ResourcesTypes.IRON)) {
                     isValid = true;
                     break;
                 }
@@ -144,10 +143,19 @@ public class CityCommandsController {
         return 0;
     }
 
-    public static int cityDestiny(boolean burn) {
-        if (GameController.getSelectedCity() == null) return 2;
-        if (GameController.getSelectedCity().getHP() > 0) return 1;
-        if (GameController.getSelectedCity().isCapital && burn) return 4;
+    public static int cityDestiny(boolean burn,City city) {
+        if (city == null) return 2;
+        if (city.getHP() > 0) return 1;
+        if (city.isMainCapital() && burn) return 4;
+        if(city.getCivilization().getMainCapital()==city)
+        {
+            for (City city1 : city.getCivilization().getCities())
+                if(city1!=city)
+                {
+                    city1.setCapital(true);
+                    break;
+                }
+        }
         if (burn) GameController.getSelectedCity().destroy(GameController
                 .getCivilizations().get(GameController.getPlayerTurn()));
         else

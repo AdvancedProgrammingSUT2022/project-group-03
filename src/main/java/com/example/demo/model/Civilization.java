@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.Units.Unit;
+import com.example.demo.model.building.Building;
 import com.example.demo.model.building.BuildingType;
 import com.example.demo.model.features.FeatureType;
 import com.example.demo.model.resources.ResourcesCategory;
@@ -54,6 +55,7 @@ public class Civilization implements Serializable {
     public int cheatScience;
     private final HashMap<Integer, ArrayList<String>> notifications = new HashMap<>();
     private ArrayList<Tile> noFogs = new ArrayList<>();
+    private City mainCapital;
 
     public Civilization(User user, int color) {
         this.color = color;
@@ -127,7 +129,45 @@ public class Civilization implements Serializable {
         return gold;
     }
 
+    public boolean isCivilizationAlive()
+    {
+        return cities.size() != 0 || units.size() != 0;
+    }
+
+    public int getScore()
+    {
+        if(!isCivilizationAlive())
+            return 0;
+        int numberOfTiles=0;
+        for (City city : cities) {
+            numberOfTiles+=city.getTiles().size();
+        }
+        int numberOfPopulation=0;
+        for (City city : cities) {
+            numberOfPopulation+=city.getPopulation();
+        }
+        int numberOfFullResearches = 0;
+        for (Technology research : researches) {
+            if(research.getRemainedCost()==0)
+                numberOfFullResearches++;
+        }
+        int numberOfBuildings=0;
+        for (City city : cities) {
+            for (Building building : city.getBuildings()) {
+                if(building.getRemainedCost()==0)
+                    numberOfBuildings++;
+            }
+        }
+        return (numberOfTiles*10 +
+                cities.size()*15+
+                numberOfPopulation*20 +
+                numberOfFullResearches*25 +
+                numberOfBuildings*30)
+                *(GameController.getMap().getX()/100*GameController.getMap().getY()/100);
+    }
+
     public void startTheTurn() {
+
         happiness = 5;
         happiness -= cities.size();
         turnOffTileConditionsBoolean();
@@ -185,7 +225,7 @@ public class Civilization implements Serializable {
                         returner+=3;
                 }
             }
-            if (city.isCapital) returner += 3;
+            if (city== mainCapital) returner += 3;
         }
         if (gold == 0) {
             int temp = 0;
@@ -234,11 +274,8 @@ public class Civilization implements Serializable {
         return 3;
     }
 
-    public City getCapital() {
-        for (City city : cities)
-            if (city.isCapital)
-                return city;
-        return null;
+    public City getMainCapital() {
+        return mainCapital;
     }
 
     public int getSize() {
@@ -279,5 +316,10 @@ public class Civilization implements Serializable {
 
     public HashMap<Integer, ArrayList<String>> getNotifications() {
         return notifications;
+    }
+
+
+    public void setMainCapital(City mainCapital) {
+        this.mainCapital = mainCapital;
     }
 }

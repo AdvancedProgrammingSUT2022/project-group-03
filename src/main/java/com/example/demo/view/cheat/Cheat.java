@@ -74,9 +74,10 @@ public class Cheat {
         } else if (cheatCommand.getText().equals("^create unit \\w+$")) {
             UnitType unitType = UnitType.stringToEnum(cheatCommand.getText().substring(13));
             CheatCommandsController.cheatUnit(10, 10, unitType);
+        } else if (cheatCommand.getText().matches("^increase gold \\d+$")) {
+            int gold = Integer.parseInt(cheatCommand.getText().substring(14));
+            GameController.getCivilizations().get(GameController.getPlayerTurn()).increaseGold(gold);
         }
-
-
         controller.renderMap();
         upperMapPane.getChildren().clear();
         //save the game:
