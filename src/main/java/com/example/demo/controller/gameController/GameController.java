@@ -7,7 +7,7 @@ import com.example.demo.model.improvements.ImprovementType;
 import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.model.tiles.TileType;
-import com.example.demo.view.GameControllerFX;
+import com.example.demo.view.GameEnd;
 import com.example.demo.view.StageController;
 import javafx.scene.control.Alert;
 
@@ -25,6 +25,8 @@ public class GameController {
     static int startWindowX = 0;
     static int startWindowY = 0;
     private static int cycle;
+
+    private static Civilization winnerSend;
 
     public static void startGame(ArrayList<User> PlayersNames) {
         cycle = 1;
@@ -140,7 +142,69 @@ public class GameController {
         return true;
     }
 
+    public static void shouldGameEnd()
+    {
+        Civilization winner= null;
+        boolean returner= GameController.getCycle() >= 2050;
+        if(!returner)
+        {
+            int numberOfCivilizationsLeft=0;
+            for (Civilization civilization : civilizations)
+                if(civilization.isCivilizationAlive())
+                {
+                    numberOfCivilizationsLeft++;
+                    winner = civilization;
+                    returner=true;
+                    if(numberOfCivilizationsLeft>1)
+                    {
+                        winner= null;
+                        returner=false;
+                        break;
+                    }
+                }
+            if(!returner) {
+                int numberOfCapitalsLeft = 0;
+                for (Civilization civilization : civilizations) {
+                    if (civilization.getMainCapital().getCivilization() == civilization || civilization.getMainCapital() == null) {
+                        numberOfCapitalsLeft++;
+                        winner = civilization;
+                        returner = true;
+                        if(numberOfCapitalsLeft>1)
+                        {
+                            winner=null;
+                            returner=false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if(returner)
+            endTheGame(winner);
+    }
+
+    public static void endTheGame(Civilization winner)
+    {
+        if(winner==null)
+        {
+            int maxScore=-10000;
+            for (Civilization civilization : civilizations) {
+                int civilizationScore = civilization.getScore();
+                if(civilization.getUser().getScore()<civilizationScore)
+                    civilization.getUser().setScore(civilizationScore);
+                if(civilizationScore>maxScore)
+                {
+                    winner=civilization;
+                    maxScore=civilizationScore;
+                }
+            }
+        }
+        winnerSend = winner;
+       StageController.sceneChanger("gameEnd.fxml");
+    }
+
     public static void nextTurn() {
+        shouldGameEnd();
         civilizations.get(playerTurn).endTheTurn();
         playerTurn = (playerTurn + 1) % civilizations.size();
         if (civilizations.get(playerTurn).getCities().size() == 0 &&
@@ -378,5 +442,9 @@ public class GameController {
 
     public static void setPlayerTurn(int playerTurn) {
         GameController.playerTurn = playerTurn;
+    }
+
+    public static Civilization getWinner() {
+        return winnerSend;
     }
 }

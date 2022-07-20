@@ -14,6 +14,11 @@ public class Civilian extends Unit {
     public void city(String string) {
         City tempCity = new City(this.currentTile, string, civilization);
         civilization.getCities().add(tempCity);
+        if(civilization.getMainCapital()==null)
+        {
+            civilization.setMainCapital(tempCity);
+            tempCity.setMainCapital(true);
+        }
         currentTile.setCity(tempCity);
         TileXAndYFlagSelectUnitController.setSelectedCityByPosition(currentTile.getX(), currentTile.getY());
         GameController.setUnfinishedTasks();

@@ -62,6 +62,11 @@ public class Cheat {
             for (int i = 0; i < turn * GameController.getCivilizations().size(); i++)
                 GameController.nextTurn();
         }
+        else if(cheatCommand.getText().matches("^increase gold \\d+$"))
+        {
+            int gold = Integer.parseInt(cheatCommand.getText().substring(14));
+            GameController.getCivilizations().get(GameController.getPlayerTurn()).increaseGold(gold);
+        }
         controller.renderMap();
         upperMapPane.getChildren().clear();
         //save the game:

@@ -39,6 +39,7 @@ public class GraphicTile implements Serializable {
     private ImageView fogImage;
     private ImageView citizenImage;
     private ImageView ruinsImage;
+    private ImageView buildingImage;
     private final ImageView[] riversImages = new ImageView[6];
     private final VBox leftPanel;
     private final Pane pane;
@@ -263,6 +264,13 @@ public class GraphicTile implements Serializable {
             resourceImage.setOnMouseReleased(event -> clicked());
             pane.getChildren().add(resourceImage);
         }
+        if(tile.getBuilding()!=null && tile.getBuilding().getRemainedCost()==0)
+        {
+            buildingImage = new ImageView(ImageLoader.get(tile.getBuilding().getBuildingType().toString()));
+            buildingImage.setFitWidth(40);
+            buildingImage.setFitHeight(40);
+            pane.getChildren().add(buildingImage);
+        }
 
         //load nonCivilian unit
         if (tile.getNonCivilian() != null) {
@@ -412,6 +420,11 @@ public class GraphicTile implements Serializable {
         {
             ruinsImage.setLayoutX(x + tileImage.getFitWidth()/2 - ruinsImage.getFitWidth()/2);
             ruinsImage.setLayoutY(y + tileImage.getFitHeight()/2 - ruinsImage.getFitHeight()/2);
+        }
+        if(buildingImage!=null)
+        {
+            buildingImage.setLayoutX(x + tileImage.getFitWidth()*0.75 - buildingImage.getFitWidth()/2);
+            buildingImage.setLayoutY(y + tileImage.getFitHeight()*0.75 - buildingImage.getFitWidth()/2);
         }
         //rivers
         for (int k = 0; k < 6; k++) {

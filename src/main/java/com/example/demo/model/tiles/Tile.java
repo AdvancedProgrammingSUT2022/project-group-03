@@ -4,6 +4,7 @@ import com.example.demo.model.City;
 import com.example.demo.model.Civilization;
 import com.example.demo.model.Ruins;
 import com.example.demo.model.Units.*;
+import com.example.demo.model.building.Building;
 import com.example.demo.model.features.Feature;
 import com.example.demo.model.features.FeatureType;
 import com.example.demo.model.improvements.Improvement;
@@ -26,6 +27,7 @@ public class Tile implements Serializable {
     private City city;
     private int raidLevel;
     private Improvement road;
+    private Building building;
     private final Tile[] neighbours = new Tile[6];// LU, clockwise
     private Ruins ruins;
 
@@ -229,5 +231,13 @@ public class Tile implements Serializable {
 
     public void setRuins(Ruins ruins) {
         this.ruins = ruins;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
     }
 }

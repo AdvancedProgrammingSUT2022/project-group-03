@@ -14,6 +14,7 @@ public class Building implements Serializable, Producible {
         this.buildingType = buildingType;
         remainedCost = buildingType.getCost();
         this.tile=tile;
+        tile.setBuilding(this);
     }
 
     @Override

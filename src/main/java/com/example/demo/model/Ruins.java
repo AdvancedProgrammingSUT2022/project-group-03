@@ -8,10 +8,11 @@ import com.example.demo.model.technologies.Technology;
 import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.model.tiles.Tile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Ruins {
+public class Ruins  implements Serializable {
     private final int type;
     private final Tile tile;
     Object object;

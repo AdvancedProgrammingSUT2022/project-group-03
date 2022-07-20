@@ -29,6 +29,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
     private int citizen;
     private int foodForCitizen = 1;
     public boolean isCapital;
+    public boolean isMainCapital = false;
     public int productionCheat;
     private int anxiety = 0;
     private final ArrayList<Building> buildings = new ArrayList<>();
@@ -62,7 +63,8 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
         citizen = 1;
         for (Tile value : tiles) GameController.openNewArea(value, civilization, null);
         GameController.setUnfinishedTasks();
-        isCapital = civilization.getCities().size() == 0;
+//        if(civilization.getMainCapital()!=null && civilization.getMainCapital().getCivilization()!=civilization)
+//            isCapital = civilization.getCities().size() == 0;
     }
 
     private boolean doesContainSettler() {
@@ -210,7 +212,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
         if (product != null) {
             int tempRemaining = product.getRemainedCost();
             double ratio = 1;
-            if (findBuilding(BuildingType.FORGE_GARDEN) != null && product instanceof Unit)
+            if (findBuilding(BuildingType.FORGE) != null && product instanceof Unit)
                 ratio = 1.25;
             if (findBuilding(BuildingType.WORKSHOP) != null && product instanceof Building)
                 ratio = 1.2;
@@ -454,8 +456,8 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
         if (tiles.size() > 10 && isAttack) strength -= (tiles.size() - 10);
         if (!isAttack) strength += tiles.size();
         if (mainTile.getTileType() == TileType.HILL) strength *= 1.2;
-        if (findBuilding(BuildingType.WALL) != null && !isAttack) strength = (strength * 1.2);
-        if (!isAttack && findBuilding(BuildingType.WALL) != null) strength += 5;
+        if (findBuilding(BuildingType.WALLS) != null && !isAttack) strength = (strength * 1.2);
+        if (!isAttack && findBuilding(BuildingType.WALLS) != null) strength += 5;
         if (!isAttack && findBuilding(BuildingType.MILITARY_BASE) != null) strength += 12;
         if (!isAttack && findBuilding(BuildingType.CASTLE) != null) strength += 7.5;
         return strength;
@@ -488,6 +490,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
                 + " dudes burned your city " + name, GameController.getCycle());
         civilization.putNotification("You burned " + name + " successfully", GameController.getCycle());
         this.civilization.getCities().remove(this);
+
         for (Tile tile : tiles) {
             tile.setImprovement(null);
             tile.setCivilization(null);
@@ -500,6 +503,10 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
     }
 
     public void changeCivilization(Civilization civilization) {
+        if(GameController.getCivilizations().get(GameController.getPlayerTurn()).getMainCapital()==this)
+            for (City city : GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities()) {
+                city.setCapital(false);
+            }
         HP = 25;
         if (findBuilding(BuildingType.COURTHOUSE) != null)
             anxiety = 5;
@@ -581,5 +588,17 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
     public void addPopulation()
     {
         population++;
+    }
+
+    public void setCapital(boolean capital) {
+        isCapital = capital;
+    }
+
+    public boolean isMainCapital() {
+        return isMainCapital;
+    }
+
+    public void setMainCapital(boolean mainCapital) {
+        isMainCapital = mainCapital;
     }
 }

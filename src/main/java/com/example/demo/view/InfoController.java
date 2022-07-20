@@ -51,9 +51,9 @@ public class InfoController {
                 .getCivilizations().get(GameController.getPlayerTurn());
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("nickname: ").append(civilization.getUser().getNickname());
-        City capital = civilization.getCapital();
-        if (capital != null)
-            stringBuilder.append(" | capital: ").append(capital.getName());
+        City capital = civilization.getMainCapital();
+        if (capital != null && capital.getCivilization()==civilization)
+            stringBuilder.append(" | main capital: ").append(capital.getName());
         stringBuilder.append(" | science: ").append(civilization.collectScience())
                 .append(" | happiness: ").append(civilization.getHappiness());
         if (civilization.getHappiness() < 0)
@@ -132,7 +132,7 @@ public class InfoController {
                 .append(city.getCombatStrength(true))
                 .append(" | production: ").append(city.collectProduction())
                 .append(" | doesHaveWall: ");
-        if (city.findBuilding(BuildingType.WALL) != null)
+        if (city.findBuilding(BuildingType.WALLS) != null)
             stringBuilder.append("Yes");
         else stringBuilder.append("No");
         if (city.getProduct() != null)
