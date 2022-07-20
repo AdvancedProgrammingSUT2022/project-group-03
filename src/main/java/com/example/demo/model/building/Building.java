@@ -3,7 +3,9 @@ package com.example.demo.model.building;
 import com.example.demo.model.Producible;
 import com.example.demo.model.tiles.Tile;
 
-public class Building implements Producible {
+import java.io.Serializable;
+
+public class Building implements Serializable, Producible {
     private final BuildingType buildingType;
     private final Tile tile;
     int remainedCost;

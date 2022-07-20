@@ -15,6 +15,7 @@ public class Ruins {
     private final int type;
     private final Tile tile;
     Object object;
+    private ArrayList<Civilization> civilizations;
 
     public Ruins(int type, Tile tile) {
         this.tile = tile;
@@ -82,5 +83,9 @@ public class Ruins {
             }
         }
         tile.setRuins(null);
+    }
+
+    public ArrayList<Civilization> getCivilizations() {
+        return civilizations;
     }
 }

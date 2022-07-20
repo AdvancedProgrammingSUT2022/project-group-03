@@ -1,28 +1,23 @@
 package com.example.demo.view;
 
-import com.example.demo.HelloApplication;
 import com.example.demo.controller.LoginController;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.Map;
 import com.example.demo.model.User;
-import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.cheat.Cheat;
 import com.example.demo.view.model.GraphicTile;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class GameControllerFX {
     public HBox infoBar;
@@ -40,6 +35,8 @@ public class GameControllerFX {
     public ScrollPane cityPage;
     public Text cityText;
     public VBox rightPanelVBox;
+    public VBox menuPanel;
+    private MapMoveController mapMoveController;
     private boolean selectingTile;
     public final Text publicText = new Text("");
     public Button nextButton;
@@ -69,8 +66,8 @@ public class GameControllerFX {
 
 
     public void initialize() {
-        if (!hasStarted)
-            startAFakeGame();
+//        if (!hasStarted)
+//            startAFakeGame();
         new Cheat(root, cheatBar, this);
 //        GameController.getMap().getX()*
         StatusBarController.init(statusBar);
@@ -78,8 +75,17 @@ public class GameControllerFX {
         renderMap();
         upperMapPane.setTranslateX(300);
         upperMapPane.setTranslateY(300);
-        new MapMoveController(root, upperMapPane, -2222222, 222222, -222222, 222222, true, true);
+        mapMoveController = new MapMoveController(root, upperMapPane, -2222222, 222222, -222222, 222222, true, true);
         hasStarted = true;
+
+
+        root.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
+            if (keyEvent.getCode().getName().equals("S"))
+                SavingHandler.save(true);
+        });
+
+        System.out.println("Game started...");
+
 
     }
 
@@ -235,7 +241,9 @@ public class GameControllerFX {
             unitsPanelIcon.setImage(ImageLoader.get("unitsPanelIconOff"));
             unitsPanelLabel.setGraphic(unitsPanelIcon);
         });
-        unitsPanelLabel.setOnMouseClicked(event -> StageController.sceneChanger("unitsPanel.fxml"));
+        unitsPanelLabel.setOnMouseClicked(event -> {
+            StageController.sceneChanger("unitsPanel.fxml");
+        });
 
 
         technologyTreeLabel.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
@@ -287,12 +295,15 @@ public class GameControllerFX {
                 cityPage.setLayoutY(-2000);
             }
         });
-
+        StatusBarController.update();
+        //save the game:
+        if (SavingHandler.autoSaveIsEnabled && SavingHandler.autoSaveAtRenderingMap)
+            SavingHandler.save(false);
     }
+
     /*
      * This methode is only for testing
      */
-
     private void startAFakeGame() {
         //start a fake game
         User user = new User("Sayyed", "ali", "Tayyeb");
@@ -312,20 +323,26 @@ public class GameControllerFX {
     }
 
 
-    public void nextTurn(ActionEvent actionEvent) {
-        GameController.nextTurnIfYouCan();
-        renderMap();
-    }
-
     public void nextTurn() {
         if (!GameController.nextTurnIfYouCan()) {
-            alert("Error", "A unit needs order.");
+            switch (GameController.getUnfinishedTasks().get(0).getTaskTypes()) {
+                case UNIT -> StageController.errorMaker("Unit Error", "A unit needs order.", Alert.AlertType.ERROR);
+                case CITY_PRODUCTION -> StageController.errorMaker("City Error", "Set your city to produce a unit.", Alert.AlertType.ERROR);
+                case TECHNOLOGY_PROJECT -> StageController.errorMaker("Technology not selected", "Please select a technology to researching about it.", Alert.AlertType.ERROR);
+                case CITY_DESTINY -> StageController.errorMaker("City destiny error", "Please decide whether to destroy the captured city or not.", Alert.AlertType.ERROR);
+            }
+        } else {
+            renderMap();
+            StageController.errorMaker("Next turn", "Successfully passed this turn.", Alert.AlertType.INFORMATION);
+            //save the game:
+            if (SavingHandler.autoSaveIsEnabled && !SavingHandler.autoSaveAtRenderingMap)
+                SavingHandler.save(false);
         }
-        renderMap();
     }
 
     public void findUnit(ActionEvent actionEvent) {
         //TODO this...
+        renderMap();
     }
 
     public static void alert(String title, String message) {
@@ -354,5 +371,45 @@ public class GameControllerFX {
 
     public ScrollPane getInfoTab() {
         return infoTab;
+    }
+
+    public void menu() {
+        if (!menuPanel.getChildren().isEmpty()) {
+            menuPanel.getChildren().clear();
+            return;
+        }
+        Button autoSave;
+        if (SavingHandler.autoSaveIsEnabled)
+            autoSave = new Button("Disable auto save");
+        else
+            autoSave = new Button("enable auto save");
+        Button pause = new Button("Pause");
+        autoSave.setOnAction(actionEvent1 -> {
+            if (SavingHandler.autoSaveIsEnabled) {
+                SavingHandler.autoSaveIsEnabled = false;
+                autoSave.setText("Enable auto save");
+            } else {
+                SavingHandler.autoSaveIsEnabled = true;
+                autoSave.setText("Disable auto save");
+            }
+        });
+        pause.setOnAction(actionEvent -> StageController.sceneChanger("mainMenu.fxml"));
+        menuPanel.getChildren().addAll(autoSave, pause);
+    }
+
+    public MapMoveController getMapMoveController() {
+        return mapMoveController;
+    }
+
+    static GraphicTile tileToGraphicTile(Tile tile)
+    {
+        for (GraphicTile[] graphicTiles : graphicMap) {
+            for (int j = 0; j < graphicMap[0].length; j++) {
+                if (graphicTiles[j].getTile().getX() == tile.getX() &&
+                        graphicTiles[j].getTile().getY() == tile.getY())
+                    return graphicTiles[j];
+            }
+        }
+        return null;
     }
 }

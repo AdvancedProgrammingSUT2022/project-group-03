@@ -16,15 +16,15 @@ import java.util.Locale;
 
 public class GameController {
     private static ArrayList<Civilization> civilizations = new ArrayList<>();
+    private static ArrayList<Tasks> unfinishedTasks = new ArrayList<>();
+    private static int playerTurn = 0;
+    private static Map map;
     private static Unit selectedUnit;
     private static City selectedCity;
     private static Tile selectedTile;
-    private static Map map;
     static int startWindowX = 0;
     static int startWindowY = 0;
-    private static int playerTurn = 0;
     private static int cycle;
-    private static ArrayList<Tasks> unfinishedTasks = new ArrayList<>();
 
     public static void startGame(ArrayList<User> PlayersNames) {
         cycle = 1;
@@ -236,8 +236,10 @@ public class GameController {
         for (int i = 0; i < 6; i++) {
             if (tile.getNeighbours(i) == null)
                 continue;
-            if(tile.getNeighbours(i).getRuins()!=null)
-                StageController.errorMaker("ruins found!","there are some ruins around you", Alert.AlertType.INFORMATION);
+            if(tile.getNeighbours(i).getRuins()!=null && !tile.getNeighbours(i).getRuins().getCivilizations().contains(civilization)) {
+                StageController.errorMaker("ruins found!", "there are some ruins around you", Alert.AlertType.INFORMATION);
+                tile.getNeighbours(i).getRuins().getCivilizations().add(civilization);
+            }
             civilization.getTileConditions()[tile.getNeighbours(i).getX()][tile.getNeighbours(i).getY()] =
                 new Civilization.TileCondition(tile.getNeighbours(i).
                     cloneTileForCivilization(civilization), true);
@@ -364,5 +366,17 @@ public class GameController {
 
     public static Tile getSelectedTile() {
         return selectedTile;
+    }
+
+    public static void setCivilizationsAsList(ArrayList<Civilization> civilizations) {
+        GameController.civilizations = civilizations;
+    }
+
+    public static void setUnfinishedTasks(ArrayList<Tasks> unfinishedTasks) {
+        GameController.unfinishedTasks = unfinishedTasks;
+    }
+
+    public static void setPlayerTurn(int playerTurn) {
+        GameController.playerTurn = playerTurn;
     }
 }

@@ -9,9 +9,11 @@ import com.example.demo.model.features.FeatureType;
 import com.example.demo.model.improvements.Improvement;
 import com.example.demo.model.resources.ResourcesTypes;
 
+import java.io.Serializable;
 
-public class Tile {
-    private boolean[] tilesWithRiver = new boolean[6];
+
+public class Tile implements Serializable {
+    public boolean[] tilesWithRiver = new boolean[6];
     private TileType tileType;
     private ResourcesTypes containedResource;
     private Feature containedFeature;

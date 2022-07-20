@@ -9,7 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.demo.UnitsPanel"
+            fx:controller="com.example.demo.view.UnitsPanel"
             prefHeight="400.0" prefWidth="600.0">
     <Pane fx:id="upperMapPane">
         <ImageView fx:id="background"/>

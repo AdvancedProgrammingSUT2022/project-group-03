@@ -1,10 +1,9 @@
-package com.example.demo;
+package com.example.demo.view;
 
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.Units.Unit;
-import com.example.demo.view.ImageLoader;
-import com.example.demo.view.InfoController;
-import com.example.demo.view.StageController;
+import com.example.demo.view.*;
+import com.example.demo.view.model.GraphicTile;
 import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -42,6 +41,7 @@ public class UnitsPanel implements Initializable {
             upperMapPane.getChildren().add(text);
             text.setOnMouseClicked(event -> {
                 StageController.sceneChanger("game.fxml");
+                MapMoveController.showTile(GameControllerFX.tileToGraphicTile(unit.getCurrentTile()));
             });
         }
 

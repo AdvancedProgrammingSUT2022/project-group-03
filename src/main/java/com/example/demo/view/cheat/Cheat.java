@@ -2,6 +2,7 @@ package com.example.demo.view.cheat;
 
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.view.GameControllerFX;
+import com.example.demo.view.SavingHandler;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -63,6 +64,9 @@ public class Cheat {
         }
         controller.renderMap();
         upperMapPane.getChildren().clear();
+        //save the game:
+        if (SavingHandler.autoSaveIsEnabled && !SavingHandler.autoSaveAtRenderingMap)
+            SavingHandler.save(false);
     }
 
 }
