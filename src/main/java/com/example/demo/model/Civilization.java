@@ -36,6 +36,8 @@ public class Civilization implements Serializable {
         }
     }
 
+    private ArrayList<Civilization> knownCivilizations = new ArrayList<>();
+
     private TileCondition[][] tileConditions;
     private final User user;
 
@@ -54,7 +56,7 @@ public class Civilization implements Serializable {
     private HashMap<ResourcesTypes, Boolean> usedLuxuryResources = new HashMap<>();
     public int cheatScience;
     private final HashMap<Integer, ArrayList<String>> notifications = new HashMap<>();
-    private ArrayList<Tile> noFogs = new ArrayList<>();
+    private final ArrayList<Tile> noFogs = new ArrayList<>();
     private City mainCapital = null;
 
     public Civilization(User user, int color) {
@@ -320,5 +322,9 @@ public class Civilization implements Serializable {
 
     public void setMainCapital(City mainCapital) {
         this.mainCapital = mainCapital;
+    }
+
+    public ArrayList<Civilization> getKnownCivilizations() {
+        return knownCivilizations;
     }
 }

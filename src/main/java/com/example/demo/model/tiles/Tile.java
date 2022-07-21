@@ -65,6 +65,8 @@ public class Tile implements Serializable {
         if (i >= 0 && i < 6) {
             return neighbours[i];
         }
+        if(i==7)
+            return this;
         return null;
     }
 

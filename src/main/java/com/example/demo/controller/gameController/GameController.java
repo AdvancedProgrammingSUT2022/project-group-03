@@ -279,6 +279,7 @@ public class GameController {
             if (tile.getNeighbours(i).getNeighbours(j) == null)
                 continue;
             checkForRuins(tile.getNeighbours(i).getNeighbours(j), civilization);
+            checkForRuins(tile.getNeighbours(i).getNeighbours(j), civilization);
             int neighbourX = tile.getNeighbours(i).getNeighbours(j).getX();
             int neighbourY = tile.getNeighbours(i).getNeighbours(j).getY();
             civilization.getTileConditions()[neighbourX][neighbourY] =
@@ -305,11 +306,32 @@ public class GameController {
         }
     }
 
+    private static void checkForOtherCivilizations(Civilization civilization,Tile tile)
+    {
+        if(tile.getCity()!=null &&
+                tile.getCity().getCivilization()!=civilization &&
+                !civilization.getKnownCivilizations().contains(tile.getCity().getCivilization()))
+            civilization.getKnownCivilizations().add(tile.getCity().getCivilization());
+        if(tile.getCivilization()!=null &&
+                tile.getCivilization()!=civilization &&
+                !civilization.getKnownCivilizations().contains(tile.getCivilization()))
+            civilization.getKnownCivilizations().add(tile.getCivilization());
+        if(tile.getCivilian()!=null &&
+                tile.getCivilian().getCivilization()!=civilization &&
+                !civilization.getKnownCivilizations().contains(tile.getCivilian().getCivilization()))
+            civilization.getKnownCivilizations().add(tile.getCivilian().getCivilization());
+        if(tile.getNonCivilian()!=null &&
+                tile.getNonCivilian().getCivilization()!=civilization &&
+                !civilization.getKnownCivilizations().contains(tile.getNonCivilian().getCivilization()))
+            civilization.getKnownCivilizations().add(tile.getNonCivilian().getCivilization());
+    }
+
     public static boolean openNewArea(Tile tile, Civilization civilization, Unit unit) {
         boolean isThereAnyEnemy = false;
         for (int i = 0; i < 6; i++) {
             if (tile.getNeighbours(i) == null)
                 continue;
+            checkForOtherCivilizations(civilization,tile.getNeighbours(i));
             checkForRuins(tile.getNeighbours(i), civilization);
             civilization.getTileConditions()[tile.getNeighbours(i).getX()][tile.getNeighbours(i).getY()] =
                     new Civilization.TileCondition(tile.getNeighbours(i).

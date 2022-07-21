@@ -439,9 +439,6 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
         return 0;
     }
 
-    public boolean doWeHaveEnoughMoney(UnitType unitType) {
-        return unitType.cost <= civilization.getGold();
-    }
 
     public double getCombatStrength(boolean isAttack) {
         double strength = 4;

@@ -170,7 +170,7 @@ public class Map implements Serializable {
                         tiles[i][j].getCivilization() == null &&
                         tiles[i][j].getCivilian() == null &&
                         tiles[i][j].getNonCivilian() == null &&
-                        random2.nextInt(600) % 2 == 0)
+                        random2.nextInt(600) % 300 == 0)
                     tiles[i][j].setRuins(new Ruins(random2.nextInt(40) % 5, tiles[i][j]));
             }
         }
@@ -324,23 +324,6 @@ public class Map implements Serializable {
         if (j % 2 == 1) {
             tiles[i][j].setNeighbours(0, tiles[i][j - 1]);
             tiles[i][j - 1].setNeighbours(3, tiles[i][j]);
-        }
-    }
-
-    private void setXAndY(int civilizationNumber) {
-        switch (civilizationNumber) {
-            case 2 -> {
-                x = 46;
-                y = 74;
-            }
-            case 3, 4 -> {
-                x = 54;
-                y = 84;
-            }
-            case 5 -> {
-                x = 60;
-                y = 90;
-            }
         }
     }
 

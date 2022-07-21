@@ -61,9 +61,11 @@ public class GameEntryMenuFx implements Initializable {
         SavingHandler.autoSaveIsEnabled = autoSaveIsEnabled;
         SavingHandler.autoSaveAtRenderingMap = autoSaveAtChangingOnMap;
         SavingHandler.numberOfAutoSaving = autoSaveNumbers;
-        if(users.size()<numberOfPlayers)
-            for (int i = 0; i < numberOfPlayers - users.size(); i++)
-                users.add(new User("bot" + i, "bot" + i, "bot" + i,false));
+        if(users.size()<numberOfPlayers) {
+            int usersSize = users.size();
+            for (int i = 0; i < numberOfPlayers - usersSize; i++)
+                users.add(new User("bot" + i, "bot" + i, "bot" + i, false));
+        }
         GameController.startGame(users);
         StageController.sceneChanger("game.fxml");
     }
