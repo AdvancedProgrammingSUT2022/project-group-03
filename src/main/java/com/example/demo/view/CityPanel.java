@@ -149,7 +149,8 @@ public class CityPanel {
         int i = 0;
         for (UnitType value : UnitType.values()) {
             if (GameController.getCivilizations().get(GameController.getPlayerTurn()).doesContainTechnology(value.technologyRequired) == 1) {
-
+                if(openedPanelCity.getProduct()!=null && openedPanelCity.getProduct() instanceof Unit && ((Unit)openedPanelCity.getProduct()).getUnitType()==value)
+                    continue;
                 String textString = value + ": " + "cost: " + value.getCost();
                 if (tile == null) {
                     textString = textString + " | cycles to complete: ";
@@ -273,6 +274,13 @@ public class CityPanel {
                 " | (Unemployed) citizens: " + openedPanelCity.getCitizen());
         text.setLayoutY(15);
         anchorPane.getChildren().add(text);
+        if (openedPanelCity.getProduct() != null) {
+            text = new Text("product: " +
+                    openedPanelCity.getProduct().getName() + " - " +
+                    openedPanelCity.cyclesToComplete(openedPanelCity.getProduct().getRemainedCost()) + " cycles to complete");
+            text.setLayoutY(28);
+            anchorPane.getChildren().add(text);
+        }
 
         Button button = new Button("Show Banner");
         button.setLayoutY(30);

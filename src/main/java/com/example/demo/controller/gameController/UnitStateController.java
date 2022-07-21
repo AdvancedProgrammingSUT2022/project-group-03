@@ -14,8 +14,9 @@ import com.example.demo.model.tiles.TileType;
 
 public class UnitStateController {
     public static boolean unitMoveTo(Tile tile) {
+
         if (GameController.getSelectedUnit() == null ||
-                isMapMoveValid(tile, GameController.getSelectedUnit().getCivilization()))
+                !isMapMoveValid(tile, GameController.getSelectedUnit().getCivilization()))
             return false;
         GameController.deleteFromUnfinishedTasks(new Tasks(GameController
                 .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));

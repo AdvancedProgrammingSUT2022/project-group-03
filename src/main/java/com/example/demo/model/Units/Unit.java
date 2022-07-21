@@ -267,6 +267,7 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked {
                     destinationTile == currentTile ||
                     state == UnitState.ATTACK;
         }
+
         return true;
     }
 

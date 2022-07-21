@@ -55,7 +55,7 @@ public class Civilization implements Serializable {
     public int cheatScience;
     private final HashMap<Integer, ArrayList<String>> notifications = new HashMap<>();
     private ArrayList<Tile> noFogs = new ArrayList<>();
-    private City mainCapital =null;
+    private City mainCapital = null;
 
     public Civilization(User user, int color) {
         this.color = color;
@@ -129,41 +129,39 @@ public class Civilization implements Serializable {
         return gold;
     }
 
-    public boolean isCivilizationAlive()
-    {
+    public boolean isCivilizationAlive() {
         return cities.size() != 0 || units.size() != 0;
     }
 
-    public int getScore()
-    {
-        if(!isCivilizationAlive())
+    public int getScore() {
+        if (!isCivilizationAlive())
             return 0;
-        int numberOfTiles=0;
+        int numberOfTiles = 0;
         for (City city : cities) {
-            numberOfTiles+=city.getTiles().size();
+            numberOfTiles += city.getTiles().size();
         }
-        int numberOfPopulation=0;
+        int numberOfPopulation = 0;
         for (City city : cities) {
-            numberOfPopulation+=city.getPopulation();
+            numberOfPopulation += city.getPopulation();
         }
         int numberOfFullResearches = 0;
         for (Technology research : researches) {
-            if(research.getRemainedCost()==0)
+            if (research.getRemainedCost() == 0)
                 numberOfFullResearches++;
         }
-        int numberOfBuildings=0;
+        int numberOfBuildings = 0;
         for (City city : cities) {
             for (Building building : city.getBuildings()) {
-                if(building.getRemainedCost()==0)
+                if (building.getRemainedCost() == 0)
                     numberOfBuildings++;
             }
         }
-        return (numberOfTiles*10 +
-                cities.size()*15+
-                numberOfPopulation*20 +
-                numberOfFullResearches*25 +
-                numberOfBuildings*30)
-                *(GameController.getMap().getX()/100*GameController.getMap().getY()/100);
+        return (numberOfTiles * 10 +
+                cities.size() * 15 +
+                numberOfPopulation * 20 +
+                numberOfFullResearches * 25 +
+                numberOfBuildings * 30)
+                * (GameController.getMap().getX() / 100 * GameController.getMap().getY() / 100);
     }
 
     public void startTheTurn() {
@@ -187,7 +185,7 @@ public class Civilization implements Serializable {
             gold += city.getGold();
         }
         for (Tile noFog : noFogs) {
-            GameController.openNewArea(noFog,this,null);
+            GameController.openNewArea(noFog, this, null);
         }
         for (City city : cities)
             city.collectFood();
@@ -221,11 +219,11 @@ public class Civilization implements Serializable {
                 returner = (int) ((double) returner * 1.5);
             if (city.findBuilding(BuildingType.UNIVERSITY) != null) {
                 for (Tile gettingWorkedOnByCitizensTile : city.getGettingWorkedOnByCitizensTiles()) {
-                    if(gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType()== FeatureType.JUNGLE)
-                        returner+=3;
+                    if (gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType() == FeatureType.JUNGLE)
+                        returner += 3;
                 }
             }
-            if (city== mainCapital) returner += 3;
+            if (city == mainCapital) returner += 3;
         }
         if (gold == 0) {
             int temp = 0;
@@ -300,12 +298,13 @@ public class Civilization implements Serializable {
             notifications.put(cycle, strings);
         }
         notifications.get(cycle).add(string);
-        Notifications notifications = Notifications.create().hideAfter(Duration.seconds(5)).text(string).title("cycles: " + cycle);
+        Notifications notifications = Notifications.create().hideAfter(Duration.seconds(5)).text(string)
+                .title(GameController.getCivilizations().get(GameController.getPlayerTurn()).getUser().getNickname() +
+                        " - cycles: " + cycle);
         notifications.show();
     }
 
-    public void addGold(int number)
-    {
+    public void addGold(int number) {
         gold += number;
     }
 

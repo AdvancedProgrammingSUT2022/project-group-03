@@ -84,8 +84,6 @@ public class GameControllerFX {
         });
 
         System.out.println("Game started...");
-
-
     }
 
     void eachInfoButtonsClicked(int number) {
