@@ -4,6 +4,7 @@ module com.example.demo {
     requires com.google.gson;
     requires org.controlsfx.controls;
     requires jcommander;
+    requires javafx.media;
 
 
     opens com.example.demo to com.google.gson;

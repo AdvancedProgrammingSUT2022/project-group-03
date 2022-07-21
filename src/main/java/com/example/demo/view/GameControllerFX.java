@@ -1,6 +1,7 @@
 package com.example.demo.view;
 
 import com.example.demo.controller.LoginController;
+import com.example.demo.controller.Music;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.Map;
 import com.example.demo.model.User;
@@ -65,6 +66,7 @@ public class GameControllerFX {
 
 
     public void initialize() {
+        Music.play("game");
 //        if (!hasStarted)
 //            startAFakeGame();
         new Cheat(root, cheatBar, this);
@@ -366,7 +368,12 @@ public class GameControllerFX {
             autoSave = new Button("Disable auto save");
         else
             autoSave = new Button("enable auto save");
-        Button pause = new Button("Pause");
+        Button pause = new Button("Pause game");
+        Button music;
+        if (Music.isEnabled())
+            music = new Button("Mute music");
+        else
+            music = new Button("Play music");
         autoSave.setOnAction(actionEvent1 -> {
             if (SavingHandler.autoSaveIsEnabled) {
                 SavingHandler.autoSaveIsEnabled = false;
@@ -376,8 +383,25 @@ public class GameControllerFX {
                 autoSave.setText("Disable auto save");
             }
         });
-        pause.setOnAction(actionEvent -> StageController.sceneChanger("mainMenu.fxml"));
-        menuPanel.getChildren().addAll(autoSave, pause);
+
+        music.setOnAction(actionEvent -> {
+            if (Music.isEnabled()) {
+                Music.setEnabled(false);
+                music.setText("Play music");
+            } else {
+                Music.setEnabled(true);
+                Music.play("game");
+                music.setText("Mute music");
+            }
+        });
+
+        pause.setOnAction(actionEvent -> {
+            StageController.sceneChanger("mainMenu.fxml");
+            Music.play("menu");
+        });
+
+        menuPanel.setStyle("-fx-prefWidth: 300;");
+        menuPanel.getChildren().addAll(autoSave, music, pause);
     }
 
     public MapMoveController getMapMoveController() {

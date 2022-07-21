@@ -1,6 +1,7 @@
 package com.example.demo.view;
 
 import com.example.demo.HelloApplication;
+import com.example.demo.controller.Music;
 import com.example.demo.controller.gameController.GameController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -100,5 +101,6 @@ public class MainControllerFX implements Initializable {
 
     public void resume() {
         StageController.sceneChanger("game.fxml");
+        Music.play("game");
     }
 }

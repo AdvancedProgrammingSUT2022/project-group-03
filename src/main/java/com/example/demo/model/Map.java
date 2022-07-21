@@ -170,7 +170,7 @@ public class Map implements Serializable {
                         tiles[i][j].getCivilization() == null &&
                         tiles[i][j].getCivilian() == null &&
                         tiles[i][j].getNonCivilian() == null &&
-                        random2.nextInt(600) % 2 == 0)
+                        random2.nextInt(600) % 300 == 0)
                     tiles[i][j].setRuins(new Ruins(random2.nextInt(40) % 5, tiles[i][j]));
             }
         }
