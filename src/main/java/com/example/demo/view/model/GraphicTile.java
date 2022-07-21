@@ -4,6 +4,7 @@ import com.example.demo.controller.gameController.GameController;
 import com.example.demo.controller.gameController.UnitStateController;
 import com.example.demo.model.City;
 import com.example.demo.model.Civilization;
+import com.example.demo.model.Units.CombatType;
 import com.example.demo.model.Units.Unit;
 import com.example.demo.model.Units.UnitState;
 import com.example.demo.model.features.Feature;
@@ -172,6 +173,16 @@ public class GraphicTile implements Serializable {
                 notif("Garrison", "The unit garrisoned successfully.");
         });
 
+        if (unit.getUnitType().combatType == CombatType.SIEGE && unit.getState() != UnitState.SETUP) {
+            addButton("Setup", true, event -> {
+                int code = UnitStateController.unitSetupRanged();
+                switch (code) {
+                    case 2 -> notif("fault", "This unit is not belong to you!");
+                    case 0 -> notif("Setup", "The unit setup successfully.");
+                }
+            });
+        }
+
         addButton("Attack", false, event -> {
             leftPanel.getChildren().clear();
             Text text = new Text("Click on the tile you want to attack,\n         then click move.");
@@ -271,9 +282,13 @@ public class GraphicTile implements Serializable {
                 addButton("Move", true, event2 -> {
                     int x = GameController.getSelectedTile().getX();
                     int y = GameController.getSelectedTile().getY();
-                    if (!UnitStateController.unitMoveTo(x, y)) {
-                        GameControllerFX.alert("Movement Error", "You can not move to that tile!");
+                    int code = UnitStateController.unitMoveTo(x, y);
+                    switch (code) {
+                        case 2 -> notif("fault", "This unit is not belong to you!");
+                        case 3 -> notif("Impossible movement", "You can not move to that tile!");
+                        case 4 -> notif("Movement Error", "Error in moving.");
                     }
+
                     gameControllerFX.setSelectingTile(false);
                     gameControllerFX.renderMap();
                 });

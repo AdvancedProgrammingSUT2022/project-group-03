@@ -16,6 +16,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -314,7 +316,7 @@ public class GameControllerFX {
         } else {
             renderMap();
             findUnit();
-            StageController.errorMaker("Next turn", "Successfully passed this turn.", Alert.AlertType.INFORMATION);
+            notif("Next turn", "Successfully passed this turn.");
             //save the game:
             if (SavingHandler.autoSaveIsEnabled && !SavingHandler.autoSaveAtRenderingMap)
                 SavingHandler.save(false);
@@ -417,5 +419,10 @@ public class GameControllerFX {
             }
         }
         return null;
+    }
+
+    private void notif(String title, String message) {
+        Notifications notifications = Notifications.create().hideAfter(Duration.seconds(5)).text(message).title(title);
+        notifications.show();
     }
 }
