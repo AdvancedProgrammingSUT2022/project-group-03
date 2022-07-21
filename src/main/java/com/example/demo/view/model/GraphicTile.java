@@ -140,15 +140,28 @@ public class GraphicTile implements Serializable {
             case WORKER -> {
                 Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
                 if (tile.getRoad() == null)
-                    addButton("Build Road", true, event -> UnitStateController.unitBuildRoad());
+                    addButton("Build Road", true, event -> {
+                        UnitStateController.unitBuildRoad();
+                        gameControllerFX.renderMap();
+                    });
                 if (tile.getRoad() == null && civilization.doesContainTechnology(TechnologyType.RAILROAD) == 1)
-                    addButton("Build Rail Road", true, event -> UnitStateController.unitBuildRailRoad());
+                    addButton("Build Rail Road", true, event -> {
+                        UnitStateController.unitBuildRailRoad();
+                        gameControllerFX.renderMap();
+                    });
                 if (tile.getRoad() != null)
-                    addButton("Remove Road", true, event -> UnitStateController.unitRemoveFromTile(false));
+                    addButton("Remove Road", true, event -> {
+                        UnitStateController.unitRemoveFromTile(false);
+                        gameControllerFX.renderMap();
+                    });
                 if (tile.getContainedFeature() != null) {
                     FeatureType featureType = tile.getContainedFeature().getFeatureType();
                     if (featureType.equals(FeatureType.JUNGLE) || featureType.equals(FeatureType.FOREST) || featureType.equals(FeatureType.SWAMP))
-                        addButton("Remove Feature", true, event -> UnitStateController.unitRemoveFromTile(true));
+                        addButton("Remove Feature", true, event -> {
+                            UnitStateController.unitRemoveFromTile(true);
+                            notif("Removing Feature","Started removing feature in this tile.");
+                            gameControllerFX.renderMap();
+                        });
                 }
                 //improvement building:
                 for (ImprovementType improvementType : ImprovementType.values())
@@ -156,9 +169,16 @@ public class GraphicTile implements Serializable {
                         && GameController.canHaveTheImprovement(tile, improvementType))
                         if (tile.getImprovement() != null && tile.getImprovement().getImprovementType().equals(improvementType)) {
                             if (improvementImage != null)
-                                addButton("Remove " + improvementType, true, event -> tile.setImprovement(null));
+                                addButton("Remove " + improvementType, true, event -> {
+                                    tile.setImprovement(null);
+                                    gameControllerFX.renderMap();
+                                    notif("Success", "Improvement removed successfully.");
+                                });
                         } else
-                            addButton("Build " + improvementType, true, event -> UnitStateController.unitBuild(improvementType));
+                            addButton("Build " + improvementType, true, event -> {
+                                UnitStateController.unitBuild(improvementType);
+                                gameControllerFX.renderMap();
+                            });
             }
         }
     }
