@@ -286,8 +286,8 @@ public class GameControllerFX {
      */
     private void startAFakeGame() {
         //start a fake game
-        User user = new User("Sayyed", "ali", "Tayyeb",false);
-        User user2 = new User("Sayyed2", "ali", "Tayyeb",false);
+        User user = new User("Sayyed", "ali", "Tayyeb", false);
+        User user2 = new User("Sayyed2", "ali", "Tayyeb", false);
         ArrayList<User> users = new ArrayList<>();
         users.add(user);
         users.add(user2);
@@ -304,6 +304,7 @@ public class GameControllerFX {
 
 
     public void nextTurn() {
+        GameController.setUnfinishedTasks();
         if (!GameController.nextTurnIfYouCan()) {
             switch (GameController.getUnfinishedTasks().get(0).getTaskTypes()) {
                 case UNIT -> StageController.errorMaker("Unit Error", "A unit needs order.", Alert.AlertType.ERROR);
@@ -321,8 +322,12 @@ public class GameControllerFX {
     }
 
     public void findUnit(ActionEvent actionEvent) {
-        //TODO this...
-        renderMap();
+        if (GameController.getUnfinishedTasks().isEmpty()) {
+            StageController.errorMaker("All is done", "Click next turn.", Alert.AlertType.INFORMATION);
+            return;
+        }
+        Tile tile = GameController.getUnfinishedTasks().get(0).getTile();
+        MapMoveController.showTile(graphicMap[tile.getX()][tile.getY()]);
     }
 
     public static void alert(String title, String message) {
@@ -381,12 +386,11 @@ public class GameControllerFX {
         return mapMoveController;
     }
 
-    static GraphicTile tileToGraphicTile(Tile tile)
-    {
+    static GraphicTile tileToGraphicTile(Tile tile) {
         for (GraphicTile[] graphicTiles : graphicMap) {
             for (int j = 0; j < graphicMap[0].length; j++) {
                 if (graphicTiles[j].getTile().getX() == tile.getX() &&
-                        graphicTiles[j].getTile().getY() == tile.getY())
+                    graphicTiles[j].getTile().getY() == tile.getY())
                     return graphicTiles[j];
             }
         }

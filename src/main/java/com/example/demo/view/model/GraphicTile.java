@@ -85,14 +85,10 @@ public class GraphicTile implements Serializable {
         else if (CityPanel.getButtonsProcess()[7] == 1)
             gameControllerFX.getCityPanel().buildBuildingSelectTile(tile);
         else gameControllerFX.getCityPanel().disableCityPanel();
-        //TODO: If we click on a tile this methode runs...
+
         leftPanel.getChildren().clear();
         GameController.setSelectedUnit(null);
-//        Text text = new Text("Tile: " + tile.getTileType());
-//        Text text1 = new Text("Have Feature: " + tile.getContainedFeature());
-//        Text text2 = new Text("Have Resource: " + tile.getResource());
-//        Text text3 = new Text("Coordinate: " + tile.getX() + ", " + tile.getY());
-//        leftPanel.getChildren().addAll(text, text1, text2, text3);
+
         Civilization.TileCondition[][] tileConditions = GameController.getCivilizations().get(GameController.getPlayerTurn()).getTileConditions();
         if (tileConditions[tile.getX()][tile.getY()] == null) {
             leftPanel.getChildren().add(new Text("Hidden tile"));
@@ -100,7 +96,8 @@ public class GraphicTile implements Serializable {
             Text text = new Text("Tile: " + tile.getTileType());
             Text text1 = new Text("Have Feature: " + tile.getContainedFeature());
             Text text2 = new Text("Have Resource: " + tile.getResource());
-            Text text3 = new Text("gold: " + tile.getTileType().gold + "\nfood: " + tile.getTileType().food);
+            Text text3 = new Text("gold: " + tile.getTileType().gold +
+                "\nfood: " + tile.getTileType().food);
             Text text4 = new Text("production: " + tile.getTileType().production);
             leftPanel.getChildren().addAll(text, text1, text2, text3, text4);
         }
@@ -120,7 +117,9 @@ public class GraphicTile implements Serializable {
         leftPanel.getChildren().clear();
         Unit unit = tile.getCivilian();
         GameController.setSelectedUnit(unit);
-        Text title = new Text("Selected Unit: " + unit.getUnitType() + "\nUnit health: " + unit.getHealth());
+        Text title = new Text("Selected Unit: " + unit.getUnitType() +
+            "\nUnit health: " + unit.getHealth() +
+            "\nUnit State: " + unit.getState());
         leftPanel.getChildren().add(title);
 
         //add move,sleep,delete buttons
@@ -159,7 +158,7 @@ public class GraphicTile implements Serializable {
                     if (featureType.equals(FeatureType.JUNGLE) || featureType.equals(FeatureType.FOREST) || featureType.equals(FeatureType.SWAMP))
                         addButton("Remove Feature", true, event -> {
                             UnitStateController.unitRemoveFromTile(true);
-                            notif("Removing Feature","Started removing feature in this tile.");
+                            notif("Removing Feature", "Started removing feature in this tile.");
                             gameControllerFX.renderMap();
                         });
                 }
@@ -211,7 +210,7 @@ public class GraphicTile implements Serializable {
                 else
                     notif("fault", "You can not sleep this unit!");
             });
-        else
+        else if (unit.getState().equals(UnitState.SLEEP))
             addButton("Awake", true, event -> {
                 if (UnitStateController.unitChangeState(3) == 0)
                     notif("Awake", "The unit awoken successfully!");
