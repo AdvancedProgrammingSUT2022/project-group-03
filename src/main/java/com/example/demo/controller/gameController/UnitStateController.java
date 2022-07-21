@@ -13,25 +13,25 @@ import com.example.demo.model.tiles.Tile;
 import com.example.demo.model.tiles.TileType;
 
 public class UnitStateController {
-    public static boolean unitMoveTo(Tile tile) {
+    public static boolean isMapMoveValid(Tile tile, Civilization civilization) {
+        return tile != null &&
+            GameController.getCivilizations().get(GameController.getPlayerTurn()) == civilization &&
+            tile.getTileType() != TileType.OCEAN &&
+            tile.getTileType() != TileType.MOUNTAIN;
+    }
+    public static boolean unitMoveTo(int x, int y) {
         if (GameController.getSelectedUnit() == null ||
-                isMapMoveValid(tile, GameController.getSelectedUnit().getCivilization()))
+                GameController.getMap().coordinatesToTile(x, y) == null ||
+                GameController.getCivilizations().get(GameController.getPlayerTurn()) !=
+                        GameController.getSelectedUnit().getCivilization() ||
+                GameController.getMap().coordinatesToTile(x, y).getTileType() == TileType.OCEAN ||
+                GameController.getMap().coordinatesToTile(x, y).getTileType() == TileType.MOUNTAIN)
             return false;
         GameController.deleteFromUnfinishedTasks(new Tasks(GameController
                 .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
         GameController.getSelectedUnit().setState(UnitState.AWAKE);
-        boolean bool = GameController.getSelectedUnit()
-                .move(tile, true);
-//        if (bool && tile.getRuins() != null)
-//            tile.getRuins().open(GameController.getCivilizations().get(GameController.getPlayerTurn()));
-        return bool;
-    }
-
-    public static boolean isMapMoveValid(Tile tile, Civilization civilization) {
-        return tile != null &&
-                GameController.getCivilizations().get(GameController.getPlayerTurn()) == civilization &&
-                tile.getTileType() != TileType.OCEAN &&
-                tile.getTileType() != TileType.MOUNTAIN;
+        return GameController.getSelectedUnit()
+                .move(GameController.getMap().coordinatesToTile(x, y), true);
     }
 
     public static int unitSleep() {
@@ -93,8 +93,8 @@ public class UnitStateController {
         if (GameController.getSelectedUnit().getCivilization() != GameController
                 .getCivilizations().get(GameController.getPlayerTurn()))
             return 2;
-        if (GameController.getSelectedUnit() instanceof Civilian)
-            return 3;
+//        if (GameController.getSelectedUnit() instanceof Civilian)
+//            return 3;
         GameController.deleteFromUnfinishedTasks(new Tasks(GameController
                 .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
         if (state == 0)
@@ -135,10 +135,10 @@ public class UnitStateController {
             if (civilization.isInTheCivilizationsBorder(GameController
                     .getSelectedUnit().getCurrentTile()))
                 return 4;
-        for (Civilization civilization : GameController.getCivilizations())
-            for (City city : civilization.getCities())
-                if (city.getName().equals(string))
-                    return 5;
+//        for (Civilization civilization : GameController.getCivilizations())
+//            for (City city : civilization.getCities())
+//                if (city.getName().equals(string))
+//                    return 5;
         GameController.deleteFromUnfinishedTasks(new Tasks(GameController
                 .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
         ((Civilian) GameController.getSelectedUnit()).city(string);

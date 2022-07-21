@@ -23,6 +23,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import java.io.Serializable;
 
@@ -121,48 +123,20 @@ public class GraphicTile implements Serializable {
         Text title = new Text("Selected Unit: " + unit.getUnitType() + "\nUnit health: " + unit.getHealth());
         leftPanel.getChildren().add(title);
 
-        //add move button
-        addButton("Move", false, event -> {
-            leftPanel.getChildren().clear();
-            Text text = new Text("Click on the destination tile,\n      then click move.");
-            gameControllerFX.setSelectingTile(true);
-            leftPanel.getChildren().addAll(text, gameControllerFX.publicText);
-            addButton("Move", true, event2 -> {
-                if (!UnitStateController.unitMoveTo(GameController.getSelectedTile())) {
-                    GameControllerFX.alert("Error", "Can not move to that tile");
-                }
-                gameControllerFX.setSelectingTile(false);
-                gameControllerFX.renderMap();
-            });
-            addButton("Cancel", true, event1 -> {
-            });
-        });
-
-        if (unit.getState().equals(UnitState.AWAKE))
-            addButton("Sleep", true, event -> UnitStateController.unitSleep());
-        else
-            addButton("Awake", true, event -> UnitStateController.unitChangeState(3));
-        addButton("Delete", true, event -> {
-            pane.getChildren().remove(civilianUnitImage);
-            UnitStateController.unitDelete(unit);
-            StatusBarController.update();
-        });
-
+        //add move,sleep,delete buttons
+        addCommonButtons(unit);
 
         switch (unit.getUnitType()) {
-            case SETTLER -> {
-                addButton("Found City", true, event -> {
-                    int code;
-                    if ((code = UnitStateController.unitFoundCity("City")) == 0) {
-                        GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().remove(unit);
-                        pane.getChildren().remove(civilianUnitImage);
-                        civilianUnitImage = null;
-                        gameControllerFX.renderMap();
-                    } else {
-                        GameControllerFX.alert("Error", "Can not found a city.\ndetails - return code: " + code);
-                    }
-                });
-            }
+            case SETTLER -> addButton("Found City", true, event -> {
+                int code = UnitStateController.unitFoundCity("Unnamed City");
+                switch (code) {
+                    case 2 -> notif("fault", "This settler unit is not belong to you.");
+                    case 4 -> notif("Near city", "This tile is near a city. So you can not found a city here.");
+                    case 0 -> notif("Found City", "Your new city founded successfully.");
+                }
+                gameControllerFX.renderMap();
+            });
+
             case WORKER -> {
                 Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
                 if (tile.getRoad() == null)
@@ -180,12 +154,64 @@ public class GraphicTile implements Serializable {
                 for (ImprovementType improvementType : ImprovementType.values())
                     if (GameController.doesHaveTheRequiredTechnologyToBuildImprovement(improvementType, tile, civilization)
                         && GameController.canHaveTheImprovement(tile, improvementType))
-                        if (tile.getImprovement().getImprovementType().equals(improvementType))
-                            addButton("Remove " + improvementType, true, event -> tile.setImprovement(null));
-                        else
+                        if (tile.getImprovement() != null && tile.getImprovement().getImprovementType().equals(improvementType)) {
+                            if (improvementImage != null)
+                                addButton("Remove " + improvementType, true, event -> tile.setImprovement(null));
+                        } else
                             addButton("Build " + improvementType, true, event -> UnitStateController.unitBuild(improvementType));
             }
         }
+    }
+
+    private void addCommonButtons(Unit unit) {
+        if (unit.getMovementPrice() > 0) {
+            addButton("Move", false, event -> {
+                leftPanel.getChildren().clear();
+                Text text = new Text("Click on the destination tile,\n      then click move.");
+                gameControllerFX.setSelectingTile(true);
+                leftPanel.getChildren().addAll(text, gameControllerFX.publicText);
+                addButton("Move", true, event2 -> {
+                    int x = GameController.getSelectedTile().getX();
+                    int y = GameController.getSelectedTile().getY();
+                    if (!UnitStateController.unitMoveTo(x, y)) {
+                        GameControllerFX.alert("Movement Error", "You can not move to that tile!");
+                    }
+                    gameControllerFX.setSelectingTile(false);
+                    gameControllerFX.renderMap();
+                });
+                addButton("Cancel", true, event1 -> {
+                });
+            });
+        }
+
+        if (unit.getState().equals(UnitState.AWAKE))
+            addButton("Sleep", true, event -> {
+                if (UnitStateController.unitSleep() == 0)
+                    notif("Sleep", "The unit Slept successfully!");
+                else
+                    notif("fault", "You can not sleep this unit!");
+            });
+        else
+            addButton("Awake", true, event -> {
+                if (UnitStateController.unitChangeState(3) == 0)
+                    notif("Awake", "The unit awoken successfully!");
+                else
+                    notif("fault", "You can not sleep this unit!");
+            });
+
+        addButton("Delete", true, event -> {
+            if (UnitStateController.unitDelete(unit) != 0)
+                notif("fault", "You can not delete this unit!");
+            else {
+                gameControllerFX.renderMap();
+                notif("Delete unit", "The Unit deleted successfully.");
+            }
+        });
+    }
+
+    private void notif(String title, String message) {
+        Notifications notifications = Notifications.create().hideAfter(Duration.seconds(5)).text(message).title(title);
+        notifications.show();
     }
 
     private void nonCivilianClicked(MouseEvent mouseEvent) {
@@ -267,8 +293,7 @@ public class GraphicTile implements Serializable {
             resourceImage.setOnMouseReleased(event -> clicked());
             pane.getChildren().add(resourceImage);
         }
-        if(tile.getBuilding()!=null && tile.getBuilding().getRemainedCost()==0)
-        {
+        if (tile.getBuilding() != null && tile.getBuilding().getRemainedCost() == 0) {
             buildingImage = new ImageView(ImageLoader.get(tile.getBuilding().getBuildingType().toString()));
             buildingImage.setFitWidth(40);
             buildingImage.setFitHeight(40);
@@ -421,10 +446,9 @@ public class GraphicTile implements Serializable {
             ruinsImage.setLayoutX(x + tileImage.getFitWidth() / 2 - ruinsImage.getFitWidth() / 2);
             ruinsImage.setLayoutY(y + tileImage.getFitHeight() / 2 - ruinsImage.getFitHeight() / 2);
         }
-        if(buildingImage!=null)
-        {
-            buildingImage.setLayoutX(x + tileImage.getFitWidth()*0.75 - buildingImage.getFitWidth()/2);
-            buildingImage.setLayoutY(y + tileImage.getFitHeight()*0.75 - buildingImage.getFitWidth()/2);
+        if (buildingImage != null) {
+            buildingImage.setLayoutX(x + tileImage.getFitWidth() * 0.75 - buildingImage.getFitWidth() / 2);
+            buildingImage.setLayoutY(y + tileImage.getFitHeight() * 0.75 - buildingImage.getFitWidth() / 2);
         }
         //rivers
         for (int k = 0; k < 6; k++) {
