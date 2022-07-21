@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Ruins  implements Serializable {
+public class Ruins implements Serializable {
     private final int type;
     private final Tile tile;
     private final ArrayList<Civilization> civilizations = new ArrayList<>();
