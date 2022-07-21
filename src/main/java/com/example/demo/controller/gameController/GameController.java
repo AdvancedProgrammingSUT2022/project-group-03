@@ -11,6 +11,7 @@ import com.example.demo.view.GameEnd;
 import com.example.demo.view.StageController;
 import javafx.scene.control.Alert;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -165,7 +166,7 @@ public class GameController {
             if(!returner) {
                 int numberOfCapitalsLeft = 0;
                 for (Civilization civilization : civilizations) {
-                    if (civilization.getMainCapital().getCivilization() == civilization || civilization.getMainCapital() == null) {
+                    if (civilization.getMainCapital() == null || civilization.getMainCapital().getCivilization() == civilization) {
                         numberOfCapitalsLeft++;
                         winner = civilization;
                         returner = true;
@@ -190,8 +191,10 @@ public class GameController {
             int maxScore=-10000;
             for (Civilization civilization : civilizations) {
                 int civilizationScore = civilization.getScore();
-                if(civilization.getUser().getScore()<civilizationScore)
+                if(civilization.getUser().getScore()<civilizationScore) {
                     civilization.getUser().setScore(civilizationScore);
+//                    civilization.getUser().setHighestScoreDate(LocalDateTime.now());
+                }
                 if(civilizationScore>maxScore)
                 {
                     winner=civilization;

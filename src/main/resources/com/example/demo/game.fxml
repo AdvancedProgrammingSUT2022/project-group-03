@@ -34,7 +34,6 @@
             <Button fx:id="infoButton" text="Info"/>
             <HBox fx:id="infoBar" alignment="CENTER" spacing="5" styleClass="popUp" opacity="0">
                 <Button fx:id="researchesButton" text="Researches"/>
-                <Button fx:id="unitsButton" text="Units"/>
                 <Button fx:id="cityButton" text="Cities"/>
                 <Button fx:id="economicsButton" text="Economics"/>
                 <Button fx:id="demographicsButton" text="Demographics"/>
