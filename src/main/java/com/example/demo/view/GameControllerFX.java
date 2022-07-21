@@ -77,15 +77,12 @@ public class GameControllerFX {
         mapMoveController = new MapMoveController(root, upperMapPane, -2222222, 222222, -222222, 222222, true, true);
         hasStarted = true;
 
-
         root.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
             if (keyEvent.getCode().getName().equals("S"))
                 SavingHandler.save(true);
         });
 
-        System.out.println("Game started...");
-
-
+        findUnit();
     }
 
     void eachInfoButtonsClicked(int number) {
@@ -314,6 +311,7 @@ public class GameControllerFX {
             }
         } else {
             renderMap();
+            findUnit();
             StageController.errorMaker("Next turn", "Successfully passed this turn.", Alert.AlertType.INFORMATION);
             //save the game:
             if (SavingHandler.autoSaveIsEnabled && !SavingHandler.autoSaveAtRenderingMap)
@@ -321,7 +319,7 @@ public class GameControllerFX {
         }
     }
 
-    public void findUnit(ActionEvent actionEvent) {
+    public void findUnit() {
         if (GameController.getUnfinishedTasks().isEmpty()) {
             StageController.errorMaker("All is done", "Click next turn.", Alert.AlertType.INFORMATION);
             return;

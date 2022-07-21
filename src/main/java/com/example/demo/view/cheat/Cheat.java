@@ -66,8 +66,8 @@ public class Cheat {
                 GameController.nextTurn();
         } else if (cheatCommand.getText().equals("road everywhere")) {
             CheatCommandsController.cheatRoadEverywhere();
-//        } else if (cheatCommand.getText().equals("open map")) {
-//            CheatCommandsController.openMap();
+        } else if (cheatCommand.getText().equals("open map")) {
+            CheatCommandsController.openMap();
         } else if (cheatCommand.getText().equals("technology")) {
             for (TechnologyType technologyType : TechnologyType.values())
                 CheatCommandsController.cheatTechnology(technologyType);
