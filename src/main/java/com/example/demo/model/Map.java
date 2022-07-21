@@ -60,31 +60,39 @@ public class Map implements Serializable {
             hardcodeUnit.setRemainedCost(0);
             civilizations.get(i).getUnits().add(hardcodeUnit);
             coordinatesToTile(settlerX, settlerY).setCivilian(hardcodeUnit);
-            GameController.openNewArea(coordinatesToTile(settlerX, settlerY),
-                    civilizations.get(i), hardcodeUnit);
+            if (i == 0)
+                GameController.openNewArea(coordinatesToTile(settlerX, settlerY),
+                        civilizations.get(i), hardcodeUnit);
             settlers[0][i] = settlerX;
             settlers[1][i] = settlerY;
-            City city = new City(GameController.getMap().tiles[settlerX][settlerY], "wtf", civilizations.get(i));
-            GameController.getMap().tiles[settlerX][settlerY].setCity(city);
-            civilizations.get(i).getCities().add(city);
-//            civilizations.get(GameController.getPlayerTurn()).getCities().add(city);
+////            City city = new City(GameController.getMap().tiles[settlerX][settlerY], "wtf", civilizations.get(i));
+////            GameController.getMap().tiles[settlerX][settlerY].setCity(city);
+////            civilizations.get(i).getCities().add(city);
+////            civilizations.get(GameController.getPlayerTurn()).getCities().add(city);
 
-//            Civilian civilian = new Civilian(coordinatesToTile(settlerX+2, settlerY),civilizations.get(i),UnitType.WORKER);
-//            civilizations.get(i).getUnits().add(civilian);
-//            coordinatesToTile(settlerX+2,settlerY).setCivilian(civilian);
-//            civilian.setRemainedCost(0);
-
-
-            Civilian civilian = new Civilian(coordinatesToTile(settlerX+1, settlerY),civilizations.get(i),UnitType.WORKER);
-            civilizations.get(i).getUnits().add(civilian);
-            coordinatesToTile(settlerX+1,settlerY).setCivilian(civilian);
-            civilian.setRemainedCost(0);
+////            Civilian civilian = new Civilian(coordinatesToTile(settlerX+2, settlerY),civilizations.get(i),UnitType.WORKER);
+////            civilizations.get(i).getUnits().add(civilian);
+////            coordinatesToTile(settlerX+2,settlerY).setCivilian(civilian);
+////            civilian.setRemainedCost(0);
 
 
-            Civilian civilian2 = new Civilian(coordinatesToTile(settlerX+1, settlerY+ 1),civilizations.get(i),UnitType.WORKER);
-            civilizations.get(i).getUnits().add(civilian2);
-            coordinatesToTile(settlerX+1,settlerY+1).setCivilian(civilian2);
-            civilian2.setRemainedCost(0);
+
+//
+//            if (coordinatesToTile(settlerX + 1, settlerY).getRuins() == null) {
+//                Civilian civilian = new Civilian(coordinatesToTile(settlerX + 1, settlerY), civilizations.get(i), UnitType.WORKER);
+//                civilizations.get(i).getUnits().add(civilian);
+//                coordinatesToTile(settlerX + 1, settlerY).setCivilian(civilian);
+//                civilian.setRemainedCost(0);
+//            }
+//            if (coordinatesToTile(settlerX + 1, settlerY + 1).getRuins() == null) {
+//
+//                Civilian civilian2 = new Civilian(coordinatesToTile(settlerX + 1, settlerY + 1), civilizations.get(i), UnitType.WORKER);
+//                civilizations.get(i).getUnits().add(civilian2);
+//                coordinatesToTile(settlerX + 1, settlerY + 1).setCivilian(civilian2);
+//                civilian2.setRemainedCost(0);
+//            }
+
+
         }
 
     }
@@ -159,7 +167,10 @@ public class Map implements Serializable {
                 Random random2 = new Random();
                 if (tiles[i][j].getTileType() != TileType.OCEAN &&
                         tiles[i][j].getTileType() != TileType.MOUNTAIN &&
-                        random2.nextInt(600) % 300 == 0)
+                        tiles[i][j].getCivilization() == null &&
+                        tiles[i][j].getCivilian() == null &&
+                        tiles[i][j].getNonCivilian() == null &&
+                        random2.nextInt(600) % 2 == 0)
                     tiles[i][j].setRuins(new Ruins(random2.nextInt(40) % 5, tiles[i][j]));
             }
         }

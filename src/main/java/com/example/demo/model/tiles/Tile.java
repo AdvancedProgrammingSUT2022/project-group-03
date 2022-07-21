@@ -151,19 +151,24 @@ public class Tile implements Serializable {
 
 
     public void setCivilian(Unit unit) {
+
         if (unit == null) {
             civilian = null;
             return;
         }
         if (unit.getUnitType().combatType == CombatType.CIVILIAN)
             this.civilian = unit;
+        if (ruins != null && unit != null) {
+            ruins.open(unit.getCivilization());
+        }
     }
 
     public void setNonCivilian(NonCivilian nonCivilian) {
+
+        this.nonCivilian = nonCivilian;
         if (ruins != null && nonCivilian != null) {
             ruins.open(nonCivilian.getCivilization());
         }
-        this.nonCivilian = nonCivilian;
     }
 
     public int getCombatChange() {
