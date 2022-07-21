@@ -16,7 +16,7 @@ public class Ruins  implements Serializable {
     private final int type;
     private final Tile tile;
     Object object;
-    private ArrayList<Civilization> civilizations;
+    private ArrayList<Civilization> civilizations = new ArrayList<>();
 
     public Ruins(int type, Tile tile) {
         this.tile = tile;

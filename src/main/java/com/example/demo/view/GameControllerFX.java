@@ -23,7 +23,6 @@ public class GameControllerFX {
     public HBox infoBar;
     public Button infoButton;
     public Button researchesButton;
-    public Button unitsButton;
     public Button economicsButton;
     public Button demographicsButton;
     public Button militaryButton;
@@ -100,32 +99,16 @@ public class GameControllerFX {
             infoText.setDisable(false);
             infoTab.setContent(infoText);
             switch (number) {
-                case 0:
-                    infoText.setText(InfoController.infoResearches());
-                    break;
-                case 1:
-                    infoText.setText(InfoController.printMilitaryOverview());
-
-                    break;
-                case 2:
-                    cityButtonClicked();
-                    break;
-                case 3:
-                    infoText.setText(InfoController.infoEconomic());
-                    break;
-                case 4:
-                    infoText.setText(InfoController.infoDemographic());
-                    break;
-                case 5:
-                    infoText.setText(InfoController.printMilitaryOverview());
-                    break;
-                case 6:
-                    infoText.setText(InfoController.infoNotifications(10));
-                    break;
-                case 7:
+                case 0 -> infoText.setText(InfoController.infoResearches());
+                case 2 -> cityButtonClicked();
+                case 3 -> infoText.setText(InfoController.infoEconomic());
+                case 4 -> infoText.setText(InfoController.infoDemographic());
+                case 5 -> infoText.setText(InfoController.printMilitaryOverview());
+                case 6 -> infoText.setText(InfoController.infoNotifications(10));
+                case 7 -> {
                     cityPanel.turnEveryButtonOff();
                     infoText.setText(InfoController.cityBanner(cityPanel.getOpenedPanelCity()));
-                    break;
+                }
             }
             infoTab.setOpacity(1);
             infoTabNumber = number;
@@ -159,7 +142,6 @@ public class GameControllerFX {
             infoBar.setOpacity(0);
             infoTab.setOpacity(0);
             researchesButton.setDisable(true);
-            unitsButton.setDisable(true);
             economicsButton.setDisable(true);
             demographicsButton.setDisable(true);
             militaryButton.setDisable(true);
@@ -167,7 +149,6 @@ public class GameControllerFX {
         } else {
             infoBar.setOpacity(1);
             researchesButton.setDisable(false);
-            unitsButton.setDisable(false);
             economicsButton.setDisable(false);
             demographicsButton.setDisable(false);
             militaryButton.setDisable(false);
@@ -260,7 +241,6 @@ public class GameControllerFX {
         infoBar.getChildren().add(unitsPanelLabel);
         infoButton.setOnMouseClicked(this::infoButtonClicked);
         researchesButton.setOnMouseClicked(event -> eachInfoButtonsClicked(0));
-        unitsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(1));
         cityButton.setOnMouseClicked(event -> eachInfoButtonsClicked(2));
         economicsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(3));
         demographicsButton.setOnMouseClicked(event -> eachInfoButtonsClicked(4));
@@ -306,8 +286,8 @@ public class GameControllerFX {
      */
     private void startAFakeGame() {
         //start a fake game
-        User user = new User("Sayyed", "ali", "Tayyeb");
-        User user2 = new User("Sayyed2", "ali", "Tayyeb");
+        User user = new User("Sayyed", "ali", "Tayyeb",false);
+        User user2 = new User("Sayyed2", "ali", "Tayyeb",false);
         ArrayList<User> users = new ArrayList<>();
         users.add(user);
         users.add(user2);

@@ -55,7 +55,7 @@ public class Civilization implements Serializable {
     public int cheatScience;
     private final HashMap<Integer, ArrayList<String>> notifications = new HashMap<>();
     private ArrayList<Tile> noFogs = new ArrayList<>();
-    private City mainCapital;
+    private City mainCapital =null;
 
     public Civilization(User user, int color) {
         this.color = color;

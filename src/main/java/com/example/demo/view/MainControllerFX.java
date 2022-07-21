@@ -38,7 +38,7 @@ public class MainControllerFX implements Initializable {
 
     @FXML
     public void scoreBoard() {
-
+        StageController.sceneChanger("scoreBoard.fxml");
     }
 
     @FXML

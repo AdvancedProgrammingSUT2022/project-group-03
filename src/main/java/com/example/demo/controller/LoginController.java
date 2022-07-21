@@ -4,6 +4,7 @@ import com.example.demo.model.User;
 import com.example.demo.view.UserIcon;
 
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 
 public class LoginController {
     private static User loggedUser;
@@ -19,7 +20,7 @@ public class LoginController {
             return 3;
         if (!isPasswordValid(password))
             return 4;
-        new User(username, password, nickname);
+        new User(username, password, nickname,true);
         return 0;
     }
 
@@ -32,6 +33,7 @@ public class LoginController {
         if (!tempUser.isPasswordCorrect(password))
             return 3;
         loggedUser = tempUser;
+//        loggedUser.setLastOnline(LocalDateTime.now());
         return 0;
     }
 

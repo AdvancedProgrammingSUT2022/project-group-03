@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -31,6 +32,7 @@ public class GameEntryMenuFx implements Initializable {
     public Button back;
     public TextField addPlayerId;
     public Button addPlayerButton;
+    public AnchorPane pane;
     int mapX = 60, mapY = 90;
     int autoSave = 0;
     int autoSaveNumbers = 5;
@@ -45,14 +47,23 @@ public class GameEntryMenuFx implements Initializable {
     Button startGameButton, sendInvitationButton;
     private boolean autoSaveIsEnabled;
     private boolean autoSaveAtChangingOnMap;
+    private AnchorPane addedUsersAnchorPane;
 
     @FXML
     public void startGame() {
+        if(numberOfPlayers<2)
+        {
+            StageController.errorMaker("can't start the game", "the number of players is too short", Alert.AlertType.ERROR);
+            return;
+        }
         Map.setX(mapX);
         Map.setY(mapY);
         SavingHandler.autoSaveIsEnabled = autoSaveIsEnabled;
         SavingHandler.autoSaveAtRenderingMap = autoSaveAtChangingOnMap;
         SavingHandler.numberOfAutoSaving = autoSaveNumbers;
+        if(users.size()<numberOfPlayers)
+            for (int i = 0; i < numberOfPlayers - users.size(); i++)
+                users.add(new User("bot" + i, "bot" + i, "bot" + i,false));
         GameController.startGame(users);
         StageController.sceneChanger("game.fxml");
     }
@@ -74,20 +85,31 @@ public class GameEntryMenuFx implements Initializable {
 
     @FXML
     public void addPlayer() {
-        User user = User.findUser(addPlayerId.getText().toString(), false);
-        if (user == null ||
-            users.contains(user)) {
-            addPlayerId.setText("");
+        User user = User.findUser(addPlayerId.getText(), false);
+        addPlayerId.setText("");
+        boolean firstBool = user == null, secondBool = users.contains(user);
+        if (firstBool ||
+                secondBool) {
+            if (firstBool)
+                StageController.errorMaker("You can't add this player", "No user with this Id exists", Alert.AlertType.ERROR);
+            else
+                StageController.errorMaker("You can't add this player", "The selected user is already in your game", Alert.AlertType.ERROR);
             return;
         }
-        users.add(User.findUser(addPlayerId.toString(), false));
+        StageController.errorMaker("Done", "The selected user added to game successfully", Alert.AlertType.INFORMATION);
+        users.add(user);
+        if (users.size() > numberOfPlayers) {
+            numberOfPlayers = users.size();
+            updateNumberOfUsersText();
+        }
+        setAddedUsersAnchorPane();
+
     }
 
     @FXML
     public void morePlayers() {
         numberOfPlayers++;
-        numberOfPlayersTest.setText(String.valueOf(numberOfPlayers));
-        numberOfPlayersTest.setX(StageController.getStage().getWidth() * 0.91 - numberOfPlayersTest.getLayoutBounds().getWidth() / 2);
+        updateNumberOfUsersText();
     }
 
     @FXML
@@ -95,6 +117,11 @@ public class GameEntryMenuFx implements Initializable {
         if (numberOfPlayers < 2)
             return;
         numberOfPlayers--;
+        updateNumberOfUsersText();
+    }
+
+    private void updateNumberOfUsersText() {
+
         numberOfPlayersTest.setText(String.valueOf(numberOfPlayers));
         numberOfPlayersTest.setX(StageController.getStage().getWidth() * 0.91 - numberOfPlayersTest.getLayoutBounds().getWidth() / 2);
     }
@@ -175,20 +202,20 @@ public class GameEntryMenuFx implements Initializable {
 
         numberOfPlayers = 1;
         setWithMoreLess(numberOfPlayersDetail,
-            font, 0.91,
-            numberOfPlayersTest, lessPlayersButton,
-            morePlayersButton, String.valueOf(numberOfPlayers),
-            "Increases the number of players",
-            "Increases the number of players", 0.05);
+                font, 0.91,
+                numberOfPlayersTest, lessPlayersButton,
+                morePlayersButton, String.valueOf(numberOfPlayers),
+                "Increases the number of players",
+                "Increases the number of players", 0.05);
 
         autoMapToggle.setLayoutX(StageController.getStage().getWidth() * 0.91 - autoMapToggle.getWidth() / 2);
         autoMapToggle.setLayoutY(StageController.getStage().getHeight() * 0.18);
         autoMapToggle.setTooltip(new Tooltip("Set/onset Auto-generate-map"));
 
         setWithMoreLess(mapDetails, font, 0.91, mapXY,
-            lessMapYButton, moreMapXButton, "X: " + mapX + " Y: " + mapY,
-            "Increases the size of map",
-            "Decreases the size of map", 0.25);
+                lessMapYButton, moreMapXButton, "X: " + mapX + " Y: " + mapY,
+                "Increases the size of map",
+                "Decreases the size of map", 0.25);
 
         invitationId.setLayoutX(StageController.getStage().getWidth() * 0.91 - invitationId.getWidth() / 2);
         invitationId.setLayoutY(StageController.getStage().getHeight() * 0.60);
@@ -215,8 +242,8 @@ public class GameEntryMenuFx implements Initializable {
         }
 
         setWithMoreLess(numberOfAutoSaveDetail, font, 0.91, numberOfAutoSaveText,
-            lessAutoSavesButton, moreAutoSavesButton, String.valueOf(autoSaveNumbers),
-            "Increases the number of autoSaves", "Decreases the number of autoSaves", 0.45);
+                lessAutoSavesButton, moreAutoSavesButton, String.valueOf(autoSaveNumbers),
+                "Increases the number of autoSaves", "Decreases the number of autoSaves", 0.45);
 
         startGameButton.setLayoutX(StageController.getScene().getWidth() - startGameButton.getWidth() * 1.5);
         startGameButton.setLayoutY(StageController.getScene().getHeight() - startGameButton.getHeight() * 1.5);
@@ -275,6 +302,32 @@ public class GameEntryMenuFx implements Initializable {
 
         background.setFitWidth(StageController.getScene().getWidth());
         background.setFitHeight(StageController.getScene().getHeight());
+
+        ScrollPane addedUsersScrollPane = new ScrollPane();
+        addedUsersScrollPane.setLayoutX(addPlayerId.getLayoutX());
+        addedUsersScrollPane.setLayoutY(addPlayerButton.getLayoutY() + addPlayerButton.getHeight()*1.2);
+        addedUsersAnchorPane = new AnchorPane();
+        addedUsersAnchorPane.setPrefWidth(addPlayerId.getWidth());
+
+        addedUsersScrollPane.setContent(addedUsersAnchorPane);
+        setAddedUsersAnchorPane();
+        pane.getChildren().add(addedUsersScrollPane);
+
+
+    }
+
+    private void setAddedUsersAnchorPane()
+    {
+        addedUsersAnchorPane.getChildren().clear();
+        Text text = new Text("Current Players:");
+        text.setLayoutY(10);
+        addedUsersAnchorPane.getChildren().add(text);
+        System.out.println(users.size());
+        for (int i = 0; i < users.size(); i++) {
+            Text text1 = new Text(users.get(i).getNickname());
+            text1.setLayoutY((i+1)*15 + 15);
+            addedUsersAnchorPane.getChildren().add(text1);
+        }
     }
 
     public void back(MouseEvent mouseEvent) {
