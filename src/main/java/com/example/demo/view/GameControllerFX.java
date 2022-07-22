@@ -1,6 +1,7 @@
 package com.example.demo.view;
 
 import com.example.demo.controller.LoginController;
+import com.example.demo.controller.Music;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.Map;
 import com.example.demo.model.User;
@@ -15,6 +16,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +41,7 @@ public class GameControllerFX {
     private MapMoveController mapMoveController;
     private boolean selectingTile;
     public final Text publicText = new Text("");
+    public final ImageView cross = new ImageView(ImageLoader.get("cross"));
     public Button nextButton;
     @FXML
     private HBox cheatBar;
@@ -59,6 +63,7 @@ public class GameControllerFX {
 
 
     public void initialize() {
+        Music.play("game");
 //        if (!hasStarted)
 //            startAFakeGame();
         new Cheat(root, cheatBar, this);
@@ -71,13 +76,12 @@ public class GameControllerFX {
         mapMoveController = new MapMoveController(root, upperMapPane, -2222222, 222222, -222222, 222222, true, true);
         hasStarted = true;
 
-
         root.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
             if (keyEvent.getCode().getName().equals("S"))
                 SavingHandler.save(true);
         });
 
-        System.out.println("Game started...");
+        findUnit();
     }
 
     void eachInfoButtonsClicked(int number) {
@@ -294,7 +298,8 @@ public class GameControllerFX {
             }
         } else {
             renderMap();
-            StageController.errorMaker("Next turn", "Successfully passed this turn.", Alert.AlertType.INFORMATION);
+            findUnit();
+            notif("Next turn", "Successfully passed this turn.");
             //save the game:
             if (SavingHandler.autoSaveIsEnabled && !SavingHandler.autoSaveAtRenderingMap)
                 SavingHandler.save(false);
@@ -348,7 +353,12 @@ public class GameControllerFX {
             autoSave = new Button("Disable auto save");
         else
             autoSave = new Button("enable auto save");
-        Button pause = new Button("Pause");
+        Button pause = new Button("Pause game");
+        Button music;
+        if (Music.isEnabled())
+            music = new Button("Mute music");
+        else
+            music = new Button("Play music");
         autoSave.setOnAction(actionEvent1 -> {
             if (SavingHandler.autoSaveIsEnabled) {
                 SavingHandler.autoSaveIsEnabled = false;
@@ -358,8 +368,25 @@ public class GameControllerFX {
                 autoSave.setText("Disable auto save");
             }
         });
-        pause.setOnAction(actionEvent -> StageController.sceneChanger("mainMenu.fxml"));
-        menuPanel.getChildren().addAll(autoSave, pause);
+
+        music.setOnAction(actionEvent -> {
+            if (Music.isEnabled()) {
+                Music.setEnabled(false);
+                music.setText("Play music");
+            } else {
+                Music.setEnabled(true);
+                Music.play("game");
+                music.setText("Mute music");
+            }
+        });
+
+        pause.setOnAction(actionEvent -> {
+            StageController.sceneChanger("mainMenu.fxml");
+            Music.play("menu");
+        });
+
+        menuPanel.setStyle("-fx-prefWidth: 300;");
+        menuPanel.getChildren().addAll(autoSave, music, pause);
     }
 
     public MapMoveController getMapMoveController() {
@@ -375,5 +402,10 @@ public class GameControllerFX {
             }
         }
         return null;
+    }
+
+    private void notif(String title, String message) {
+        Notifications notifications = Notifications.create().hideAfter(Duration.seconds(5)).text(message).title(title);
+        notifications.show();
     }
 }

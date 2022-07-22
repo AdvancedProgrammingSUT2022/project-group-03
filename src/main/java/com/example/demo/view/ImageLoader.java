@@ -55,6 +55,9 @@ public class ImageLoader {
             images.put("science", image);
             image = new Image(HelloApplication.getResource("/com/example/demo/assets/technology.png"), 25, 0, true, true, true);
             images.put("technology", image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/assets/cross.png"), 70, 0, true, true, true);
+            images.put("cross", image);
+
 
             image = new Image(HelloApplication.getResource("/com/example/demo/tiles/CLOUD.png"), 200, 0, true, true, true);
             images.put("CLOUD", image);

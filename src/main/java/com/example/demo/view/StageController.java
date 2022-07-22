@@ -20,6 +20,8 @@ public class StageController {
         StageController.stage = stage;
         stage.setTitle("Civilization Zero");
         try {
+            //play music:
+
             pane = FXMLLoader.load(Objects
                     .requireNonNull(HelloApplication.class.getResource("loginMenu.fxml")));
 //            pane = FXMLLoader.load(Objects

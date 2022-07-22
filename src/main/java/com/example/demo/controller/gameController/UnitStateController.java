@@ -19,19 +19,23 @@ public class UnitStateController {
             tile.getTileType() != TileType.OCEAN &&
             tile.getTileType() != TileType.MOUNTAIN;
     }
-    public static boolean unitMoveTo(int x, int y) {
+    public static int unitMoveTo(int x, int y) {
         if (GameController.getSelectedUnit() == null ||
-                GameController.getMap().coordinatesToTile(x, y) == null ||
-                GameController.getCivilizations().get(GameController.getPlayerTurn()) !=
-                        GameController.getSelectedUnit().getCivilization() ||
-                GameController.getMap().coordinatesToTile(x, y).getTileType() == TileType.OCEAN ||
-                GameController.getMap().coordinatesToTile(x, y).getTileType() == TileType.MOUNTAIN)
-            return false;
+            GameController.getMap().coordinatesToTile(x, y) == null)
+            return 1;
+        if (GameController.getCivilizations().get(GameController.getPlayerTurn()) !=
+            GameController.getSelectedUnit().getCivilization())
+            return 2;
+        if (GameController.getMap().coordinatesToTile(x, y).getTileType() == TileType.OCEAN ||
+            GameController.getMap().coordinatesToTile(x, y).getTileType() == TileType.MOUNTAIN)
+            return 3;
         GameController.deleteFromUnfinishedTasks(new Tasks(GameController
-                .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
+            .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
         GameController.getSelectedUnit().setState(UnitState.AWAKE);
-        return GameController.getSelectedUnit()
-                .move(GameController.getMap().coordinatesToTile(x, y), true);
+        if (GameController.getSelectedUnit()
+            .move(GameController.getMap().coordinatesToTile(x, y), true))
+            return 0;
+        return 4;
     }
 
     public static int unitSleep() {

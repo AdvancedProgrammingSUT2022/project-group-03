@@ -2,6 +2,7 @@ package com.example.demo.view;
 
 import com.example.demo.HelloApplication;
 import com.example.demo.controller.LoginController;
+import com.example.demo.controller.Music;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -62,8 +63,7 @@ public class LoginControllerFX implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
+        Music.play("menu");
         Platform.runLater(this::runLater);
     }
 

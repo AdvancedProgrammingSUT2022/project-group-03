@@ -41,6 +41,10 @@ Button:hover{
     -fx-pref-width: 200;
 }
 
+.menuPanel>Button{
+    -fx-pref-width: 200;
+}
+
 .rightPanel{
     -fx-background-color: #FFFFFF;
     -fx-opacity: 0.9;
