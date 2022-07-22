@@ -28,7 +28,21 @@ public class MainControllerFX implements Initializable {
 
     @FXML
     public void gameMenu() {
-        StageController.sceneChanger("gameEntryMenu.fxml");
+        if (GameController.getMap() != null) {
+            Alert alert = new Alert(Alert.AlertType.NONE, "You have a paused game and starting a new game deletes the paused game. Do you like to save your paused game?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+            alert.initOwner(StageController.getStage());
+            alert.setTitle("Paused game");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isEmpty() || result.get() == ButtonType.CANCEL)
+                return;
+            if (result.get() == ButtonType.YES) {
+                SavingHandler.save(true);
+            }
+            GameController.setMap(null);
+            StageController.sceneChanger("gameEntryMenu.fxml");
+        } else {
+            StageController.sceneChanger("gameEntryMenu.fxml");
+        }
     }
 
     @FXML
@@ -61,7 +75,7 @@ public class MainControllerFX implements Initializable {
             }
             GameController.setMap(null);
             StageController.sceneChanger("loginMenu.fxml");
-        }else{
+        } else {
             StageController.sceneChanger("loginMenu.fxml");
         }
     }

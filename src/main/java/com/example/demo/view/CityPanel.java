@@ -136,7 +136,7 @@ public class CityPanel {
         gameControllerFX.getRightPanelVBox().getChildren().remove(gameControllerFX.getCityPage());
         if (!gameControllerFX.getMapPane().getChildren().contains(gameControllerFX.getCityPage()))
             gameControllerFX.getMapPane().getChildren().add(gameControllerFX.getCityPage());
-        gameControllerFX.getCityPage().setLayoutX(graphicTile.getX());
+        gameControllerFX.getCityPage().setLayoutX(graphicTile.getX() + 400);
         gameControllerFX.getCityPage().setLayoutY(graphicTile.getY());
         gameControllerFX.getCityPage().setOpacity(1);
         System.out.println(graphicTile.getX() + " " + graphicTile.getY());

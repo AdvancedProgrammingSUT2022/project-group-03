@@ -41,6 +41,7 @@ public class GameControllerFX {
     private MapMoveController mapMoveController;
     private boolean selectingTile;
     public final Text publicText = new Text("");
+    public final ImageView cross = new ImageView(ImageLoader.get("cross"));
     public Button nextButton;
     @FXML
     private HBox cheatBar;

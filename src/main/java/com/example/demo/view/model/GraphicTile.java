@@ -67,8 +67,13 @@ public class GraphicTile implements Serializable {
         if (gameControllerFX.getSelectingTile()) {
             GameController.setSelectedTile(tile);
             gameControllerFX.publicText.setText("Destination tile:  X=" + tile.getX() + " Y=" + tile.getY());
+            gameControllerFX.cross.setLayoutX(x+20);
+            gameControllerFX.cross.setLayoutY(y+20);
+            if (!pane.getChildren().contains(gameControllerFX.cross))
+                pane.getChildren().add(gameControllerFX.cross);
             return;
         }
+        pane.getChildren().remove(gameControllerFX.cross);
         if (CityPanel.getButtonsProcess()[0] == 1) {
             gameControllerFX.getCityPanel().buyTile(tile);
         } else if (CityPanel.getButtonsProcess()[1] == 1) {
@@ -417,6 +422,10 @@ public class GraphicTile implements Serializable {
             nonCivilianUnitImage.setFitWidth(40);
             nonCivilianUnitImage.setOnMouseClicked(this::nonCivilianClicked);
             nonCivilianUnitImage.setViewOrder(-1);
+            Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
+            if (!tile.getNonCivilian().getCivilization().equals(civilization))
+                nonCivilianUnitImage.setOpacity(0.65);
+            nonCivilianUnitImage.setCursor(Cursor.HAND);
             pane.getChildren().add(nonCivilianUnitImage);
         }
 
@@ -427,6 +436,10 @@ public class GraphicTile implements Serializable {
             civilianUnitImage.setFitWidth(40);
             civilianUnitImage.setOnMouseClicked(this::civilianClicked);
             civilianUnitImage.setViewOrder(-1);
+            Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
+            if (!tile.getCivilian().getCivilization().equals(civilization))
+                civilianUnitImage.setOpacity(0.65);
+            civilianUnitImage.setCursor(Cursor.HAND);
             pane.getChildren().add(civilianUnitImage);
         }
 
@@ -452,6 +465,9 @@ public class GraphicTile implements Serializable {
             cityImage = new ImageView(ImageLoader.get("city"));
             cityImage.setFitHeight(40);
             cityImage.setFitWidth(40);
+            Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
+            if (!tile.getCity().getCivilization().equals(civilization))
+                cityImage.setOpacity(0.65);
             Tile finalTile = tile;
             cityImage.setOnMouseReleased(event -> gameControllerFX.getCityPanel().cityClicked(finalTile.getCity(), this));
             cityImage.setCursor(Cursor.HAND);
