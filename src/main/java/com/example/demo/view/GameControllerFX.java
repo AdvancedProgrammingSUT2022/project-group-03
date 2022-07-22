@@ -63,12 +63,13 @@ public class GameControllerFX {
     private Label unitsPanelLabel;
     private double startX;
     private double startY;
-    private final CityPanel cityPanel = new CityPanel(this);
+    private CityPanel cityPanel;
     private AnchorPane unitsPanelPane;
     private static boolean hasStarted = false;
 
 
     public void initialize() {
+        cityPanel = new CityPanel(this, leftPanel);
         Music.play("game");
 //        if (!hasStarted)
 //            startAFakeGame();
@@ -107,10 +108,7 @@ public class GameControllerFX {
                 case 4 -> infoText.setText(InfoController.infoDemographic());
                 case 5 -> infoText.setText(InfoController.printMilitaryOverview());
                 case 6 -> infoText.setText(InfoController.infoNotifications(10));
-                case 7 -> {
-                    cityPanel.turnEveryButtonOff();
-                    infoText.setText(InfoController.cityBanner(cityPanel.getOpenedPanelCity()));
-                }
+                case 7 -> infoText.setText(InfoController.cityBanner(cityPanel.getOpenedPanelCity()));
             }
             infoTab.setOpacity(1);
             infoTabNumber = number;
@@ -131,7 +129,7 @@ public class GameControllerFX {
             buttons[i].setLayoutX(texts[i].getLayoutBounds().getMinX() + texts[i].getLayoutBounds().getWidth() + 10);
             buttons[i].setLayoutY((i + 0.5) * 45);
             int finalI = i;
-            buttons[i].setOnMouseClicked(event -> getCityPanel().cityPanel(GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().get(finalI), false));
+            buttons[i].setOnMouseClicked(event -> getCityPanel().cityClicked(GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().get(finalI)));
             anchorPane.getChildren().add(buttons[i]);
         }
 
@@ -257,6 +255,8 @@ public class GameControllerFX {
     }
 
     public void setSelectingTile(boolean mode) {
+        if (!mode)
+            mapPane.getChildren().remove(cross);
         selectingTile = mode;
     }
 

@@ -67,8 +67,8 @@ public class GraphicTile implements Serializable {
         if (gameControllerFX.getSelectingTile()) {
             GameController.setSelectedTile(tile);
             gameControllerFX.publicText.setText("Destination tile:  X=" + tile.getX() + " Y=" + tile.getY());
-            gameControllerFX.cross.setLayoutX(x+20);
-            gameControllerFX.cross.setLayoutY(y+20);
+            gameControllerFX.cross.setLayoutX(x + 20);
+            gameControllerFX.cross.setLayoutY(y + 20);
             if (!pane.getChildren().contains(gameControllerFX.cross))
                 pane.getChildren().add(gameControllerFX.cross);
             return;
@@ -83,7 +83,7 @@ public class GraphicTile implements Serializable {
         else if (CityPanel.getButtonsProcess()[3] == 1)
             gameControllerFX.getCityPanel().firstTileReassign(tile);
         else if (CityPanel.getButtonsProcess()[3] == 2)
-            gameControllerFX.getCityPanel().secondTileReassign(tile);
+            gameControllerFX.getCityPanel().secondTileReassign(tile, tile);
         else if (CityPanel.getButtonsProcess()[4] == 1)
             gameControllerFX.getCityPanel().removeCitizenFromTile(tile);
         else if (CityPanel.getButtonsProcess()[5] == 1)
@@ -270,12 +270,22 @@ public class GraphicTile implements Serializable {
                     });
     }
 
+    public double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+
     private void addCommonButtons(Unit unit) {
         leftPanel.getChildren().clear();
         Text title = new Text("Selected Unit: " + unit.getUnitType() +
             "\nMove point:" + unit.getMovementPrice() +
+            "\nState: " + unit.getState() +
             "\nHealth: " + unit.getHealth() +
-            "\nState: " + unit.getState());
+            "\nStrength:  A(" + round(unit.getCombatStrength(true), 1) + ")   D(" + round(unit.getCombatStrength(false), 1) + ")");
         leftPanel.getChildren().add(title);
 
         if (unit.getMovementPrice() > 0) {
@@ -469,7 +479,7 @@ public class GraphicTile implements Serializable {
             if (!tile.getCity().getCivilization().equals(civilization))
                 cityImage.setOpacity(0.65);
             Tile finalTile = tile;
-            cityImage.setOnMouseReleased(event -> gameControllerFX.getCityPanel().cityClicked(finalTile.getCity(), this));
+            cityImage.setOnMouseReleased(event -> gameControllerFX.getCityPanel().cityClicked(finalTile.getCity()));
             cityImage.setCursor(Cursor.HAND);
             pane.getChildren().add(cityImage);
         }
