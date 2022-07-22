@@ -10,7 +10,7 @@ import javafx.scene.text.Text;
 
 public class Panels {
 
-    public static void setBackButton(Pane pane, double x) {
+    public static ImageView setBackButton(Pane pane, double x) {
         ImageView imageView = new ImageView(ImageLoader.get("back"));
         imageView.setX(StageController.getStage().getWidth() - 40);
         imageView.setY(20);
@@ -20,6 +20,7 @@ public class Panels {
             StageController.sceneChanger("game.fxml");
         });
         pane.getChildren().add(imageView);
+        return imageView;
     }
 
     public static void setBackground(ImageView background, String imageName) {
@@ -40,7 +41,7 @@ public class Panels {
         return text;
     }
 
-    public static Button addButton(String string, double x, double y, double w, double h, int size, Pane pane) {
+    public static Button addButton(String string, double x, double y, double w, double h, Pane pane) {
         Button button = new Button(string);
         button.setLayoutX(x);
         button.setLayoutY(y);
