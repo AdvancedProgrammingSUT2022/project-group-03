@@ -11,6 +11,7 @@ import com.example.demo.view.GameEnd;
 import com.example.demo.view.StageController;
 import javafx.scene.control.Alert;
 import javafx.util.Duration;
+import javafx.util.Pair;
 import org.controlsfx.control.Notifications;
 
 import java.time.LocalDateTime;
@@ -279,6 +280,7 @@ public class GameController {
             if (tile.getNeighbours(i).getNeighbours(j) == null)
                 continue;
             checkForRuins(tile.getNeighbours(i).getNeighbours(j), civilization);
+            checkForRuins(tile.getNeighbours(i).getNeighbours(j), civilization);
             int neighbourX = tile.getNeighbours(i).getNeighbours(j).getX();
             int neighbourY = tile.getNeighbours(i).getNeighbours(j).getY();
             civilization.getTileConditions()[neighbourX][neighbourY] =
@@ -305,11 +307,32 @@ public class GameController {
         }
     }
 
+    private static void checkForOtherCivilizations(Civilization civilization,Tile tile)
+    {
+        if(tile.getCity()!=null &&
+                tile.getCity().getCivilization()!=civilization &&
+                !civilization.knownCivilizationsContains(tile.getCity().getCivilization()))
+            civilization.getKnownCivilizations().add(new Pair<>(tile.getCity().getCivilization(),0));
+        if(tile.getCivilization()!=null &&
+                tile.getCivilization()!=civilization &&
+                !civilization.knownCivilizationsContains(tile.getCivilization()))
+            civilization.getKnownCivilizations().add(new Pair<>(tile.getCivilization(),0));
+        if(tile.getCivilian()!=null &&
+                tile.getCivilian().getCivilization()!=civilization &&
+                !civilization.knownCivilizationsContains(tile.getCivilian().getCivilization()))
+            civilization.getKnownCivilizations().add(new Pair<>(tile.getCivilian().getCivilization(),0));
+        if(tile.getNonCivilian()!=null &&
+                tile.getNonCivilian().getCivilization()!=civilization &&
+                !civilization.knownCivilizationsContains(tile.getNonCivilian().getCivilization()))
+            civilization.getKnownCivilizations().add(new Pair<>(tile.getNonCivilian().getCivilization(),0));
+    }
+
     public static boolean openNewArea(Tile tile, Civilization civilization, Unit unit) {
         boolean isThereAnyEnemy = false;
         for (int i = 0; i < 6; i++) {
             if (tile.getNeighbours(i) == null)
                 continue;
+            checkForOtherCivilizations(civilization,tile.getNeighbours(i));
             checkForRuins(tile.getNeighbours(i), civilization);
             civilization.getTileConditions()[tile.getNeighbours(i).getX()][tile.getNeighbours(i).getY()] =
                     new Civilization.TileCondition(tile.getNeighbours(i).
@@ -453,5 +476,11 @@ public class GameController {
 
     public static Civilization getWinner() {
         return winnerSend;
+    }
+
+
+    public static Civilization getCurrentCivilization()
+    {
+        return civilizations.get(playerTurn);
     }
 }

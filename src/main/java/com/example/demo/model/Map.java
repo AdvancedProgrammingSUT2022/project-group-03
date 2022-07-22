@@ -327,23 +327,6 @@ public class Map implements Serializable {
         }
     }
 
-    private void setXAndY(int civilizationNumber) {
-        switch (civilizationNumber) {
-            case 2 -> {
-                x = 46;
-                y = 74;
-            }
-            case 3, 4 -> {
-                x = 54;
-                y = 84;
-            }
-            case 5 -> {
-                x = 60;
-                y = 90;
-            }
-        }
-    }
-
     private Tile[][] setMapForBestTile(Civilization.TileCondition[][] civilizationMap) {
         Tile[][] tiles = new Tile[x][y];
         for (int i = 0; i < x; i++) {

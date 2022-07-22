@@ -99,6 +99,9 @@ public class ImageLoader {
             images.put("unitsPanelIconOff", image);
             image = new Image(HelloApplication.getResource("/com/example/demo/tiles/ruins.png"), 100, 0, true, true, true);
             images.put("ruins", image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/icons/diplomacyIconOn.png"), 30, 0, true, true, true);
+            images.put("diplomacyIconOn", image);image = new Image(HelloApplication.getResource("/com/example/demo/icons/diplomacyIconOff.png"), 30, 0, true, true, true);
+            images.put("diplomacyIconOff", image);
 //            fonts.put("impactFont",new Font("/com/example/demo/font/impact.ttf",30));
 
         } catch (RuntimeException e) {

@@ -15,6 +15,12 @@ module com.example.demo {
     exports com.example.demo.model;
     opens com.example.demo.view;
     exports com.example.demo.view;
-    exports com.example.demo.view.model;
     opens com.example.demo.view.model;
+    exports com.example.demo.view.model;
+    exports com.example.demo.view.cheat;
+    exports com.example.demo.model.tiles;
+    exports com.example.demo.model.building;
+    exports com.example.demo.model.Units;
+    exports com.example.demo.model.technologies;
+    exports com.example.demo.model.resources;
 }

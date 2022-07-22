@@ -10,7 +10,9 @@ import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.technologies.Technology;
 import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.model.tiles.Tile;
+import com.example.demo.view.TradeRequest;
 import javafx.util.Duration;
+import javafx.util.Pair;
 import org.controlsfx.control.Notifications;
 
 import java.io.Serializable;
@@ -36,6 +38,11 @@ public class Civilization implements Serializable {
         }
     }
 
+    //-1 war
+    // 0 neutral
+    // 1 peace
+    private ArrayList<Pair<Civilization,Integer>> knownCivilizations = new ArrayList<>();
+
     private TileCondition[][] tileConditions;
     private final User user;
 
@@ -54,8 +61,10 @@ public class Civilization implements Serializable {
     private HashMap<ResourcesTypes, Boolean> usedLuxuryResources = new HashMap<>();
     public int cheatScience;
     private final HashMap<Integer, ArrayList<String>> notifications = new HashMap<>();
-    private ArrayList<Tile> noFogs = new ArrayList<>();
+    private final ArrayList<Tile> noFogs = new ArrayList<>();
     private City mainCapital = null;
+    private ArrayList<TradeRequest> tradeRequests = new ArrayList<>();
+    private ArrayList<Civilization> friendshipRequests = new ArrayList<>();
 
     public Civilization(User user, int color) {
         this.color = color;
@@ -320,5 +329,46 @@ public class Civilization implements Serializable {
 
     public void setMainCapital(City mainCapital) {
         this.mainCapital = mainCapital;
+    }
+
+    public ArrayList<Pair<Civilization, Integer>> getKnownCivilizations() {
+        return knownCivilizations;
+    }
+
+    public boolean knownCivilizationsContains(Civilization civilization)
+    {
+        for (Pair<Civilization, Integer> knownCivilization : knownCivilizations) {
+            if(knownCivilization.getKey()==civilization)
+                return true;
+        }
+        return false;
+    }
+
+    public ArrayList<TradeRequest> getTradeRequests() {
+        return tradeRequests;
+    }
+
+    public void addResources(ResourcesTypes resourcesTypes, int amount)
+    {
+        int value = amount;
+        if(resourcesAmount.containsKey(resourcesTypes))
+        {
+            value+=resourcesAmount.get(resourcesTypes);
+            resourcesAmount.remove(resourcesTypes);
+        }
+        resourcesAmount.put(resourcesTypes,value);
+    }
+
+    public void removeResource(ResourcesTypes resourcesTypes, int amount)
+    {
+        if(resourcesAmount.containsKey(resourcesTypes) && resourcesAmount.get(resourcesTypes)>amount){
+            int value = resourcesAmount.get(resourcesTypes)- amount;
+            resourcesAmount.remove(resourcesTypes);
+            resourcesAmount.put(resourcesTypes,value);
+        }
+    }
+
+    public ArrayList<Civilization> getFriendshipRequests() {
+        return friendshipRequests;
     }
 }

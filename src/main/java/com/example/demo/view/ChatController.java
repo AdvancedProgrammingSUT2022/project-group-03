@@ -41,6 +41,7 @@ public class ChatController {
     private ScrollPane scroll;
     private List<Chat> chats = new ArrayList<>();
     private Chat currentChat;
+    private static boolean isInGame =false;
 
 
     public void initialize() {
@@ -392,13 +393,19 @@ public class ChatController {
     }
 
     public void back() {
-        StageController.sceneChanger("mainMenu.fxml");
+        if(isInGame)
+            StageController.sceneChanger("game.fxml");
+        else
+        StageController.sceneChanger("diplomacy.fxml");
+        isInGame=false;
     }
-
-
     public void checkEnter(KeyEvent keyEvent) {
         if (keyEvent.getCode().toString().equals("ENTER"))
             if (sendButton.getText().equals("Send"))
                 sendMessage();
+    }
+
+    public static void setInGame(boolean inGame) {
+        isInGame = inGame;
     }
 }

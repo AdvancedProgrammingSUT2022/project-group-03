@@ -5,6 +5,7 @@ import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.technologies.Technology;
 import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.view.ImageLoader;
+import com.example.demo.view.Panels;
 import com.example.demo.view.StageController;
 import javafx.application.Platform;
 import javafx.fxml.Initializable;
@@ -26,9 +27,7 @@ public class ChooseTechnologyMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        background.setImage(ImageLoader.get("treeNoLine"));
-        background.setFitHeight(StageController.getScene().getHeight());
-        background.setFitWidth(StageController.getScene().getHeight() * 5760 / 1080);
+        Panels.setBackground(background,"treeNoLine");
         Platform.runLater(() -> renderTechnologies(false));
 
     }
@@ -96,15 +95,7 @@ public class ChooseTechnologyMenu implements Initializable {
         gettingResearchedText.setY(25);
         upperMapPane.getChildren().add(gettingResearchedText);
 
-        ImageView imageView = new ImageView(ImageLoader.get("back"));
-        imageView.setX(StageController.getStage().getWidth() - 40);
-        imageView.setY(20);
-        imageView.setFitWidth(30);
-        imageView.setFitHeight(30);
-        imageView.setOnMouseClicked(event -> {
-            StageController.sceneChanger("game.fxml");
-        });
-        upperMapPane.getChildren().add(imageView);
+        Panels.setBackButton(upperMapPane,StageController.getStage().getWidth() - 40);
     }
 
 }

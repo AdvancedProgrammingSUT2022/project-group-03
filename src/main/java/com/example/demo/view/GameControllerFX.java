@@ -55,12 +55,6 @@ public class GameControllerFX {
     private AnchorPane mapPane;
     @FXML
     private Pane upperMapPane;
-    private ImageView technologyTreeIcon;
-    private Label technologyTreeLabel;
-    private ImageView selectResearchIcon;
-    private Label selectResearchLabel;
-    private ImageView unitsPanelIcon;
-    private Label unitsPanelLabel;
     private double startX;
     private double startY;
     private CityPanel cityPanel;
@@ -165,18 +159,26 @@ public class GameControllerFX {
         StageController.sceneChanger("chooseTechnologyMenu.fxml");
     }
 
+    private void panelLabelsInit(Label label, String string)
+    {
+        ImageView imageView = new ImageView(ImageLoader.get(string + "Off"));
+        label.setGraphic(imageView);
+        label.setOnMouseEntered(event -> {
+            imageView.setImage(ImageLoader.get(string + "On"));
+            label.setGraphic(imageView);
+        });
+        label.setOnMouseExited(event -> {
+            imageView.setImage(ImageLoader.get(string + "Off"));
+            label.setGraphic(imageView);
+        });
+        label.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        label.setGraphic(imageView);
+        infoBar.getChildren().add(label);
+    }
+    
     private void addInfoButtons() {
-        technologyTreeLabel = new Label();
-
-        technologyTreeIcon = new ImageView(ImageLoader.get("techIconOff"));
-        technologyTreeLabel.setOnMouseEntered(event -> {
-            technologyTreeIcon.setImage(ImageLoader.get("techIconOn"));
-            technologyTreeLabel.setGraphic(technologyTreeIcon);
-        });
-        technologyTreeLabel.setOnMouseExited(event -> {
-            technologyTreeIcon.setImage(ImageLoader.get("techIconOff"));
-            technologyTreeLabel.setGraphic(technologyTreeIcon);
-        });
+        Label technologyTreeLabel = new Label();
+        panelLabelsInit(technologyTreeLabel,"techIcon");
         technologyTreeLabel.setOnMouseClicked(event -> {
             if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0) {
                 StageController.errorMaker("You cannot enter the technology tree yet", "You must have atLeast one city to enter the technology tree", Alert.AlertType.ERROR);
@@ -188,19 +190,12 @@ public class GameControllerFX {
                 }
             }
         });
-        selectResearchLabel = new Label();
-        selectResearchIcon = new ImageView(ImageLoader.get("chooseTechIconOff"));
-        selectResearchLabel.setOnMouseEntered(event -> {
-            selectResearchIcon.setImage(ImageLoader.get("chooseTechIconOn"));
-            selectResearchLabel.setGraphic(selectResearchIcon);
-        });
-        selectResearchLabel.setOnMouseExited(event -> {
-            selectResearchIcon.setImage(ImageLoader.get("chooseTechIconOff"));
-            selectResearchLabel.setGraphic(selectResearchIcon);
-        });
+        Label selectResearchLabel = new Label();
+        panelLabelsInit(selectResearchLabel,"chooseTechIcon");
         selectResearchLabel.setOnMouseClicked(event -> {
             if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0) {
-                StageController.errorMaker("You cannot enter the select research panel yet", "You must have atLeast one city to enter the select research panel", Alert.AlertType.ERROR);
+                StageController.errorMaker("You cannot enter the select research panel yet",
+                        "You must have atLeast one city to enter the select research panel", Alert.AlertType.ERROR);
             } else {
                 try {
                     enterSelectResearchPanel();
@@ -212,33 +207,20 @@ public class GameControllerFX {
         });
 
 
-        unitsPanelLabel = new Label();
-        unitsPanelIcon = new ImageView(ImageLoader.get("unitsPanelIconOff"));
-        unitsPanelLabel.setOnMouseEntered(event -> {
-            unitsPanelIcon.setImage(ImageLoader.get("unitsPanelIconOn"));
-            unitsPanelLabel.setGraphic(unitsPanelIcon);
-        });
-        unitsPanelLabel.setOnMouseExited(event -> {
-            unitsPanelIcon.setImage(ImageLoader.get("unitsPanelIconOff"));
-            unitsPanelLabel.setGraphic(unitsPanelIcon);
-        });
-        unitsPanelLabel.setOnMouseClicked(event -> {
-            StageController.sceneChanger("unitsPanel.fxml");
-        });
+        Label unitsPanelLabel = new Label();
+        panelLabelsInit(unitsPanelLabel,"unitsPanelIcon");
+        unitsPanelLabel.setOnMouseClicked(event -> StageController.sceneChanger("unitsPanel.fxml"));
+
+        Label diplomacyLabel = new Label();
+        panelLabelsInit(diplomacyLabel,"diplomacyIcon");
+        diplomacyLabel.setOnMouseClicked(event -> StageController.sceneChanger("diplomacy.fxml"));
+        diplomacyLabel.setTooltip(new Tooltip("Diplomacy Panel"));
 
 
-        technologyTreeLabel.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-        technologyTreeLabel.setGraphic(technologyTreeIcon);
+
         technologyTreeLabel.setTooltip(new Tooltip("Technology Tree"));
-        infoBar.getChildren().add(technologyTreeLabel);
-        selectResearchLabel.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-        selectResearchLabel.setGraphic(selectResearchIcon);
         selectResearchLabel.setTooltip(new Tooltip("Select Research"));
-        infoBar.getChildren().add(selectResearchLabel);
-        unitsPanelLabel.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-        unitsPanelLabel.setGraphic(unitsPanelIcon);
         unitsPanelLabel.setTooltip(new Tooltip("units Panel"));
-        infoBar.getChildren().add(unitsPanelLabel);
         infoButton.setOnMouseClicked(this::infoButtonClicked);
         researchesButton.setOnMouseClicked(event -> eachInfoButtonsClicked(0));
         cityButton.setOnMouseClicked(event -> eachInfoButtonsClicked(2));
