@@ -2,11 +2,16 @@ package com.example.demo.controller;
 
 import com.example.demo.model.User;
 import com.example.demo.view.UserIcon;
+import com.google.gson.Gson;
 
 import java.nio.file.Path;
 
 public class LoginController {
     private static User loggedUser;
+
+    public static void setLoggedUser(User loggedUser) {
+        LoginController.loggedUser = loggedUser;
+    }
 
     public static int createNewUser(String username,
                                     String password,
@@ -99,9 +104,13 @@ public class LoginController {
             }
         return has_numbers;
     }
+    public static void saveUser(){
+        NetworkController.send("save "+ new Gson().toJson(loggedUser));
+    }
 
     public static User getLoggedUser() {
         return loggedUser;
     }
+
 }
 

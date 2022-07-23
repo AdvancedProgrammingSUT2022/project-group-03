@@ -20,10 +20,8 @@ public class StageController {
         StageController.stage = stage;
         stage.setTitle("Civilization Zero");
         try {
-//            pane = FXMLLoader.load(Objects
-//                    .requireNonNull(HelloApplication.class.getResource("loginMenu.fxml")));
-            pane = FXMLLoader.load(Objects
-                .requireNonNull(HelloApplication.class.getResource("game.fxml")));
+           pane = FXMLLoader.load(Objects
+          .requireNonNull(HelloApplication.class.getResource("loginMenu.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -51,3 +51,7 @@ TextField{
     -fx-background-color: #24313d;
     -fx-text-fill: white;
 }
+.table-row-cell:priority-low {
+    -fx-background-color: #78bcc5;
+
+}

@@ -2,6 +2,9 @@ package com.example.demo.view;
 
 import com.example.demo.HelloApplication;
 import com.example.demo.controller.LoginController;
+import com.example.demo.controller.NetworkController;
+import com.example.demo.model.User;
+import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,8 +31,8 @@ public class LoginControllerFX implements Initializable {
     private PasswordField password;
     @FXML
     private void register() {
-        switch (LoginController.createNewUser(username.getText(),
-                password.getText(), nickname.getText())) {
+        String response = NetworkController.send("user create" + " -u " + username.getText() + " -p " + password.getText() + " -n " +nickname.getText());
+        switch ( Integer.parseInt(response)) {
             case 0 -> {
                 StageController.errorMaker("what a dumb username","user created successfully", Alert.AlertType.INFORMATION);
             }
@@ -47,13 +50,18 @@ public class LoginControllerFX implements Initializable {
     @FXML
     private void login() throws IOException {
 
-        switch (LoginController.loginUser(username.getText(),
-                password.getText())) {
-            case 0 -> StageController.sceneChanger("mainMenu.fxml");
+        switch (Integer.parseInt(NetworkController.send("user login" + " -u " + username.getText() + " -p " + password.getText()))) {
+            case 0 ->{
+                LoginController.setLoggedUser((User) new Gson().fromJson(NetworkController.getResponse(),User.class));
+                NetworkController.setToken();
+                StageController.sceneChanger("mainMenu.fxml");
+            }
             case 1 -> errorMaker("Input not valid",
                     "type something dumbAss", Alert.AlertType.ERROR);
-            case 2 -> errorMaker("Input not valid",
+            case 2,3 -> errorMaker("Input not valid",
                     "username or password is incorrect", Alert.AlertType.ERROR);
+            case 4 -> errorMaker("login failed",
+                    "logged in already", Alert.AlertType.ERROR);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.demo.view;
 
 import com.example.demo.HelloApplication;
+import com.example.demo.controller.NetworkController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,18 +23,22 @@ public class MainControllerFX implements Initializable {
     @FXML
     public void gameMenu()
     {
+        // TODO: 7/17/2022
         StageController.sceneChanger("gameEntryMenu.fxml");
     }
     @FXML
     public void profileMenu()
     {
+        NetworkController.send("menu enter profile");
         AssetsController.openLeadersAvatars();
         StageController.sceneChanger("profileMenu.fxml");
     }
     @FXML
     public void scoreBoard()
     {
-
+        NetworkController.send("menu enter profile");
+        AssetsController.openLeadersAvatars();
+        StageController.sceneChanger("scoreboard.fxml");
     }
     @FXML
     public void chat()
@@ -42,6 +47,8 @@ public class MainControllerFX implements Initializable {
     }
     @FXML
     public void logout() {
+        NetworkController.send("menu exit");
+        NetworkController.deleteToken();
         StageController.sceneChanger("loginMenu.fxml");
     }
 
