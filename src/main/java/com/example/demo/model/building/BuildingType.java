@@ -11,7 +11,7 @@ public enum BuildingType {
     GRANARY(100, 1, TechnologyType.POTTERY),
     LIBRARY(80, 1, TechnologyType.WRITING),
     MONUMENT(60, 1, null),
-    WALL(100, 0, TechnologyType.MASONRY),
+    WALLS(100, 0, TechnologyType.MASONRY),
     WATER_MILL(120,2,TechnologyType.THE_WHEEL),
     ARMORY(130,3,TechnologyType.IRON_WORKING),
     BURIAL_TOMB(120,0,TechnologyType.PHILOSOPHY),
@@ -21,7 +21,7 @@ public enum BuildingType {
     STABLE(100,1,TechnologyType.HORSEBACK_RIDING),
     TEMPLE(120,2,TechnologyType.PHILOSOPHY),
     CASTLE(200,3,TechnologyType.CHIVALRY),
-    FORGE_GARDEN(150,2,TechnologyType.METAL_CASTING),
+    FORGE(150,2,TechnologyType.METAL_CASTING),
     GARDEN(120,2,TechnologyType.THEOLOGY),
     MARKET(120,0,TechnologyType.CURRENCY),
     MINT(120,0,TechnologyType.CURRENCY),
@@ -43,7 +43,7 @@ public enum BuildingType {
     MILITARY_BASE(450,4,TechnologyType.TELEGRAPH),
     STOCK_EXCHANGE(650,0,TechnologyType.ELECTRICITY);
 
-    public final int cost;
+    private final int cost;
     public final int maintenance;
     public final TechnologyType technologyType;
     public static final HashMap<BuildingType, ArrayList<BuildingType>> prerequisites = new HashMap<>();
@@ -52,7 +52,7 @@ public enum BuildingType {
         prerequisites.put(GRANARY, new ArrayList<>());
         prerequisites.put(LIBRARY, new ArrayList<>());
         prerequisites.put(MONUMENT, new ArrayList<>());
-        prerequisites.put(WALL, new ArrayList<>());
+        prerequisites.put(WALLS, new ArrayList<>());
         prerequisites.put(WATER_MILL, new ArrayList<>()); //TODO border a river
         prerequisites.put(ARMORY, new ArrayList<>(List.of(BARRACKS)));
         prerequisites.put(BURIAL_TOMB, new ArrayList<>());
@@ -61,8 +61,8 @@ public enum BuildingType {
         prerequisites.put(COURTHOUSE, new ArrayList<>());
         prerequisites.put(STABLE, new ArrayList<>());
         prerequisites.put(TEMPLE, new ArrayList<>(List.of(MONUMENT)));
-        prerequisites.put(CASTLE, new ArrayList<>(List.of(WALL)));
-        prerequisites.put(FORGE_GARDEN, new ArrayList<>());
+        prerequisites.put(CASTLE, new ArrayList<>(List.of(WALLS)));
+        prerequisites.put(FORGE, new ArrayList<>());
         prerequisites.put(GARDEN, new ArrayList<>());
         prerequisites.put(MARKET, new ArrayList<>());
         prerequisites.put(MINT, new ArrayList<>());
@@ -92,5 +92,11 @@ public enum BuildingType {
         this.cost = cost;
         this.maintenance = maintenance;
         this.technologyType = technologyType;
+    }
+
+    public static final List<BuildingType> VALUES = List.of(values());
+
+    public int getCost() {
+        return cost;
     }
 }

@@ -1,7 +1,11 @@
 package com.example.demo.view.cheat;
 
+import com.example.demo.controller.gameController.CheatCommandsController;
 import com.example.demo.controller.gameController.GameController;
+import com.example.demo.model.Units.UnitType;
+import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.view.GameControllerFX;
+import com.example.demo.view.SavingHandler;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -60,9 +64,25 @@ public class Cheat {
             int turn = Integer.parseInt(cheatCommand.getText().substring(10));
             for (int i = 0; i < turn * GameController.getCivilizations().size(); i++)
                 GameController.nextTurn();
+        } else if (cheatCommand.getText().equals("road everywhere")) {
+            CheatCommandsController.cheatRoadEverywhere();
+        } else if (cheatCommand.getText().equals("open map")) {
+            CheatCommandsController.openMap();
+        } else if (cheatCommand.getText().equals("technology")) {
+            for (TechnologyType technologyType : TechnologyType.values())
+                CheatCommandsController.cheatTechnology(technologyType);
+        } else if (cheatCommand.getText().equals("^create unit \\w+$")) {
+            UnitType unitType = UnitType.stringToEnum(cheatCommand.getText().substring(13));
+            CheatCommandsController.cheatUnit(10, 10, unitType);
+        } else if (cheatCommand.getText().matches("^increase gold \\d+$")) {
+            int gold = Integer.parseInt(cheatCommand.getText().substring(14));
+            GameController.getCivilizations().get(GameController.getPlayerTurn()).increaseGold(gold);
         }
         controller.renderMap();
         upperMapPane.getChildren().clear();
+        //save the game:
+        if (SavingHandler.autoSaveIsEnabled && !SavingHandler.autoSaveAtRenderingMap)
+            SavingHandler.save(false);
     }
 
 }

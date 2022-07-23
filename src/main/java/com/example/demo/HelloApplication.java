@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.controller.NetworkController;
+import com.example.demo.view.CityPanel;
 import com.example.demo.view.StageController;
 import javafx.application.Application;
 import javafx.application.Platform;

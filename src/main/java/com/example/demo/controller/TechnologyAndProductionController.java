@@ -17,20 +17,17 @@ public class TechnologyAndProductionController {
                 .get(GameController.getPlayerTurn()).getResearches();
     }
 
-    public static boolean addTechnologyToProduction(ArrayList<Technology> possibleTechnologies,
-                                                    int entry) {
-        if (entry > possibleTechnologies.size() || entry < 1)
-            return false;
-        Technology tempTechnology = possibleTechnologies.get(entry - 1);
+    public static boolean addTechnologyToProduction(Technology technology) {
         Civilization civilization = GameController.getCivilizations()
                 .get(GameController.getPlayerTurn());
-        if (civilization.doesContainTechnology(tempTechnology.getTechnologyType()) == 3)
-            civilization.getResearches().add(tempTechnology);
-        civilization.setGettingResearchedTechnology(tempTechnology);
+        if (civilization.doesContainTechnology(technology.getTechnologyType()) == 3)
+            civilization.getResearches().add(technology);
+        civilization.setGettingResearchedTechnology(technology);
         GameController.deleteFromUnfinishedTasks(new Tasks(null,
                 TaskTypes.TECHNOLOGY_PROJECT));
         return true;
     }
+
 
     public static int cyclesToComplete(Technology technology) {
         if (GameController.getCivilizations().get(GameController.getPlayerTurn()).collectScience() == 0)
@@ -40,36 +37,19 @@ public class TechnologyAndProductionController {
                         .get(GameController.getPlayerTurn()).collectScience() - 0.03);
     }
 
-    public static String initializeResearchInfo(boolean showFinishedResearches,
-                                                ArrayList<Technology> possibleTechnologies) {
-        StringBuilder stringBuilder = new StringBuilder();
+    public static ArrayList<Technology> initializeResearchInfo() {
+        ArrayList<Technology> possibleTechnologies = new ArrayList<>();
         ArrayList<Technology> researches = TechnologyAndProductionController.getCivilizationsResearches();
         Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
-        if (civilization.getGettingResearchedTechnology() != null)
-            stringBuilder.append("Getting researched technology: ")
-                    .append(civilization.getGettingResearchedTechnology().getTechnologyType())
-                    .append(", ").append(TechnologyAndProductionController
-                            .cyclesToComplete(civilization.getGettingResearchedTechnology()))
-                    .append(" cycles to finish\n");
-        if (showFinishedResearches)
-            stringBuilder.append("Finished researches: \n");
-        int sizeOfFinished = 1;
-        for (int i = 0; i < researches.size(); i++) {
-            if (researches.get(i).getRemainedCost() > 0) {
+        for (Technology research : researches) {
+            if (research.getRemainedCost() > 0) {
                 if (GameController.getCivilizations().get(GameController.getPlayerTurn())
-                        .getGettingResearchedTechnology() != researches.get(i))
-                    possibleTechnologies.add(researches.get(i));
+                        .getGettingResearchedTechnology() != research)
+                    possibleTechnologies.add(research);
                 continue;
             }
-            if (showFinishedResearches)
-            {
-                stringBuilder.append(sizeOfFinished).append(". ")
-                        .append(researches.get(i).getTechnologyType()).append("\n");
-                sizeOfFinished++;
-            }
-
             ArrayList<TechnologyType> technologyTypes =
-                    TechnologyType.nextTech.get(researches.get(i).getTechnologyType());
+                    TechnologyType.nextTech.get(research.getTechnologyType());
             for (TechnologyType technologyType : technologyTypes)
                 if (civilization.canBeTheNextResearch(technologyType) &&
                         !doesArrayContain(possibleTechnologies, technologyType) &&
@@ -77,8 +57,47 @@ public class TechnologyAndProductionController {
                                 civilization.doesContainTechnology(technologyType) == 3))
                     possibleTechnologies.add(new Technology(technologyType));
         }
-        return stringBuilder.toString();
+        return possibleTechnologies;
     }
+//    public static String initializeResearchInfo(boolean showFinishedResearches,
+//                                                ArrayList<Technology> possibleTechnologies) {
+//        StringBuilder stringBuilder = new StringBuilder();
+//        ArrayList<Technology> researches = TechnologyAndProductionController.getCivilizationsResearches();
+//        Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
+//        if (civilization.getGettingResearchedTechnology() != null)
+//            stringBuilder.append("Getting researched technology: ")
+//                    .append(civilization.getGettingResearchedTechnology().getTechnologyType())
+//                    .append(", ").append(TechnologyAndProductionController
+//                            .cyclesToComplete(civilization.getGettingResearchedTechnology()))
+//                    .append(" cycles to finish\n");
+//        if (showFinishedResearches)
+//            stringBuilder.append("Finished researches: \n");
+//        int sizeOfFinished = 1;
+//        for (int i = 0; i < researches.size(); i++) {
+//            if (researches.get(i).getRemainedCost() > 0) {
+//                if (GameController.getCivilizations().get(GameController.getPlayerTurn())
+//                        .getGettingResearchedTechnology() != researches.get(i))
+//                    possibleTechnologies.add(researches.get(i));
+//                continue;
+//            }
+//            if (showFinishedResearches)
+//            {
+//                stringBuilder.append(sizeOfFinished).append(". ")
+//                        .append(researches.get(i).getTechnologyType()).append("\n");
+//                sizeOfFinished++;
+//            }
+//
+//            ArrayList<TechnologyType> technologyTypes =
+//                    TechnologyType.nextTech.get(researches.get(i).getTechnologyType());
+//            for (TechnologyType technologyType : technologyTypes)
+//                if (civilization.canBeTheNextResearch(technologyType) &&
+//                        !doesArrayContain(possibleTechnologies, technologyType) &&
+//                        (civilization.getGettingResearchedTechnology() == null ||
+//                                civilization.doesContainTechnology(technologyType) == 3))
+//                    possibleTechnologies.add(new Technology(technologyType));
+//        }
+//        return stringBuilder.toString();
+//    }
 
     private static boolean doesArrayContain(ArrayList<Technology> possibleTechnologies,
                                             TechnologyType technologyType) {

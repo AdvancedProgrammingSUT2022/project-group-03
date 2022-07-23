@@ -5,14 +5,13 @@ import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.Map;
 import com.example.demo.model.User;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -21,17 +20,19 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class GameEntryMenuFx implements Initializable {
-
     public Text numberOfAutoSaveDetail;
+
     public Text numberOfAutoSaveText;
     public Button lessAutoSavesButton;
     public Button moreAutoSavesButton;
     public ImageView background;
     public ScrollPane savesListScrollBar;
-    public Text selectedSaveNumber;
+    public ScrollPane autoSavesListScrollBar;
+    public Text titleManual;
     public Button back;
     public TextField addPlayerId;
     public Button addPlayerButton;
+    public AnchorPane pane;
     int mapX = 60, mapY = 90;
     int autoSave = 0;
     int autoSaveNumbers = 5;
@@ -44,12 +45,39 @@ public class GameEntryMenuFx implements Initializable {
     public ArrayList<User> users = new ArrayList<>();
     @FXML
     Button startGameButton, sendInvitationButton;
+    private boolean autoSaveIsEnabled;
+    private boolean autoSaveAtChangingOnMap;
+    private AnchorPane addedUsersAnchorPane;
 
     @FXML
     public void startGame() {
+        if (numberOfPlayers < 2) {
+            StageController.errorMaker("can't start the game", "the number of players is too short", Alert.AlertType.ERROR);
+            return;
+        }
         Map.setX(mapX);
         Map.setY(mapY);
+        SavingHandler.autoSaveIsEnabled = autoSaveIsEnabled;
+        SavingHandler.autoSaveAtRenderingMap = autoSaveAtChangingOnMap;
+        SavingHandler.numberOfAutoSaving = autoSaveNumbers;
+        if(users.size()<numberOfPlayers) {
+            int usersSize = users.size();
+            for (int i = 0; i < numberOfPlayers - usersSize; i++)
+                users.add(new User("bot" + i, "bot" + i, "bot" + i, false));
+        }
         GameController.startGame(users);
+        StageController.sceneChanger("game.fxml");
+    }
+
+    @FXML
+    private void loadGame(String savingName, boolean isManual) {
+        SavingHandler.autoSaveIsEnabled = autoSaveIsEnabled;
+        SavingHandler.autoSaveAtRenderingMap = autoSaveAtChangingOnMap;
+        SavingHandler.numberOfAutoSaving = autoSaveNumbers;
+
+        SavingHandler.load(savingName, isManual);
+        if (!isManual)
+            SavingHandler.autoSaveIsEnabled = true;
         StageController.sceneChanger("game.fxml");
     }
 
@@ -59,23 +87,32 @@ public class GameEntryMenuFx implements Initializable {
     }
 
     @FXML
-    public void addPlayer()
-    {
-        User user = User.findUser(addPlayerId.getText().toString(),false);
-        if(user==null ||
-                users.contains(user))
-        {
-            addPlayerId.setText("");
+    public void addPlayer() {
+        User user = User.findUser(addPlayerId.getText(), false);
+        addPlayerId.setText("");
+        boolean firstBool = user == null, secondBool = users.contains(user);
+        if (firstBool ||
+            secondBool) {
+            if (firstBool)
+                StageController.errorMaker("You can't add this player", "No user with this Id exists", Alert.AlertType.ERROR);
+            else
+                StageController.errorMaker("You can't add this player", "The selected user is already in your game", Alert.AlertType.ERROR);
             return;
         }
-        users.add(User.findUser(addPlayerId.toString(),false));
+        StageController.errorMaker("Done", "The selected user added to game successfully", Alert.AlertType.INFORMATION);
+        users.add(user);
+        if (users.size() > numberOfPlayers) {
+            numberOfPlayers = users.size();
+            updateNumberOfUsersText();
+        }
+        setAddedUsersAnchorPane();
+
     }
 
     @FXML
     public void morePlayers() {
         numberOfPlayers++;
-        numberOfPlayersTest.setText(String.valueOf(numberOfPlayers));
-        numberOfPlayersTest.setX(StageController.getStage().getWidth() * 0.91 - numberOfPlayersTest.getLayoutBounds().getWidth() / 2);
+        updateNumberOfUsersText();
     }
 
     @FXML
@@ -83,6 +120,11 @@ public class GameEntryMenuFx implements Initializable {
         if (numberOfPlayers < 2)
             return;
         numberOfPlayers--;
+        updateNumberOfUsersText();
+    }
+
+    private void updateNumberOfUsersText() {
+
         numberOfPlayersTest.setText(String.valueOf(numberOfPlayers));
         numberOfPlayersTest.setX(StageController.getStage().getWidth() * 0.91 - numberOfPlayersTest.getLayoutBounds().getWidth() / 2);
     }
@@ -151,8 +193,8 @@ public class GameEntryMenuFx implements Initializable {
     private void runLaterPlease() {
         Font font = new Font(30 * StageController.getStage().getWidth() / 1920);
 
-        back.setLayoutX(StageController.getStage().getWidth()*0.02);
-        back.setLayoutY(StageController.getStage().getHeight() - back.getHeight()*1.5);
+        back.setLayoutX(StageController.getStage().getWidth() * 0.02);
+        back.setLayoutY(StageController.getStage().getHeight() - back.getHeight() * 1.5);
 
         autoMapToggle.fire();
         mapDetails.setOpacity(0.5);
@@ -161,22 +203,22 @@ public class GameEntryMenuFx implements Initializable {
         lessMapYButton.setDisable(true);
 
 
-        numberOfPlayers=1;
+        numberOfPlayers = 1;
         setWithMoreLess(numberOfPlayersDetail,
-                font, 0.91,
-                numberOfPlayersTest, lessPlayersButton,
-                morePlayersButton, String.valueOf(numberOfPlayers),
-                "Increases the number of players",
-                "Increases the number of players",0.05);
+            font, 0.91,
+            numberOfPlayersTest, lessPlayersButton,
+            morePlayersButton, String.valueOf(numberOfPlayers),
+            "Increases the number of players",
+            "Increases the number of players", 0.05);
 
         autoMapToggle.setLayoutX(StageController.getStage().getWidth() * 0.91 - autoMapToggle.getWidth() / 2);
         autoMapToggle.setLayoutY(StageController.getStage().getHeight() * 0.18);
         autoMapToggle.setTooltip(new Tooltip("Set/onset Auto-generate-map"));
 
         setWithMoreLess(mapDetails, font, 0.91, mapXY,
-                lessMapYButton, moreMapXButton, "X: " + mapX + " Y: " + mapY,
-                "Increases the size of map",
-                "Decreases the size of map",0.25);
+            lessMapYButton, moreMapXButton, "X: " + mapX + " Y: " + mapY,
+            "Increases the size of map",
+            "Decreases the size of map", 0.25);
 
         invitationId.setLayoutX(StageController.getStage().getWidth() * 0.91 - invitationId.getWidth() / 2);
         invitationId.setLayoutY(StageController.getStage().getHeight() * 0.60);
@@ -190,10 +232,10 @@ public class GameEntryMenuFx implements Initializable {
         addPlayerButton.setLayoutY(StageController.getStage().getHeight() * 0.75);
         addPlayerButton.setTooltip(new Tooltip("adds the username you type"));
 
-        MenuItem[] menuItems = {new MenuItem("off"), new MenuItem("each round"), new MenuItem("each city occupation")};
+        MenuItem[] menuItems = {new MenuItem("off"), new MenuItem("each turn"), new MenuItem("each change in map")};
         autoSaveOrNot.getItems().addAll(menuItems);
         autoSaveOrNot.setLayoutX(StageController.getStage().getWidth() * 0.91 - autoSaveOrNot.getWidth() / 2);
-        autoSaveOrNot.setLayoutY(StageController.getStage().getHeight()*0.38);
+        autoSaveOrNot.setLayoutY(StageController.getStage().getHeight() * 0.38);
 
         for (int i = 0; i < menuItems.length; i++) {
             int finalI = i;
@@ -203,53 +245,98 @@ public class GameEntryMenuFx implements Initializable {
         }
 
         setWithMoreLess(numberOfAutoSaveDetail, font, 0.91, numberOfAutoSaveText,
-                lessAutoSavesButton, moreAutoSavesButton, String.valueOf(autoSaveNumbers),
-                "Increases the number of autoSaves", "Decreases the number of autoSaves",0.45);
+            lessAutoSavesButton, moreAutoSavesButton, String.valueOf(autoSaveNumbers),
+            "Increases the number of autoSaves", "Decreases the number of autoSaves", 0.45);
 
         startGameButton.setLayoutX(StageController.getScene().getWidth() - startGameButton.getWidth() * 1.5);
         startGameButton.setLayoutY(StageController.getScene().getHeight() - startGameButton.getHeight() * 1.5);
         startGameButton.setTooltip(new Tooltip("This button starts the game, obviously."));
-        AnchorPane tempAnchorPane = new AnchorPane();
-        savesListScrollBar.setPrefSize(StageController.getScene().getWidth()*0.06, StageController.getScene().getWidth()*0.1);
-        savesListScrollBar.setContent(tempAnchorPane);
-        savesListScrollBar.setLayoutY(StageController.getScene().getHeight()*0.5);
-        selectedSaveNumber.setText("Selected Save: New Game");
-        selectedSaveNumber.setFont(font);
-        selectedSaveNumber.setX(StageController.getStage().getWidth()*0.11 - selectedSaveNumber.getLayoutBounds().getWidth()/2);
-        savesListScrollBar.setLayoutX(StageController.getScene().getWidth()*0.11 - selectedSaveNumber.getLayoutBounds().getWidth()/2);
-        selectedSaveNumber.setY(StageController.getStage().getHeight()*0.48);
+        VBox savingList = new VBox();
+        VBox autoSavingList = new VBox();
 
-        //hardcode save text
-        Button[] saves = new Button[20];
-        saves[0] = new Button();
-        saves[0].setText("new Game");
-        saves[0].setOnAction(actionEvent -> selectedSaveNumber.setText("Selected Save: New Game"));
-        saves[0].setLayoutY(0);
-        tempAnchorPane.getChildren().add(saves[0]);
-        for (int i = 1; i < saves.length; i++) {
-            saves[i] = new Button();
-            saves[i].setText("Save" + i);
-            saves[i].setLayoutY(i*StageController.getScene().getHeight()*0.03);
-            int finalI = i;
-            saves[i].setOnAction(actionEvent -> selectedSaveNumber.setText("Selected Save: save" + finalI));
-            tempAnchorPane.getChildren().add(saves[i]);
+        savesListScrollBar.setPrefSize(180, StageController.getScene().getWidth() * 0.25);
+        savesListScrollBar.setContent(savingList);
+        savesListScrollBar.setLayoutY(StageController.getScene().getHeight() * 0.5);
+        savesListScrollBar.setLayoutX(StageController.getScene().getWidth() * 0.05);
+
+        autoSavesListScrollBar.setPrefSize(180, StageController.getScene().getWidth() * 0.25);
+        autoSavesListScrollBar.setContent(autoSavingList);
+        autoSavesListScrollBar.setLayoutY(StageController.getScene().getHeight() * 0.5);
+        autoSavesListScrollBar.setLayoutX(StageController.getScene().getWidth() * 0.05 + 250);
+
+        titleManual.setText("load a manual save     or    load an auto save.");
+        titleManual.setFont(font);
+        titleManual.setX(StageController.getScene().getWidth() * 0.05);
+        titleManual.setY(StageController.getStage().getHeight() * 0.48);
+
+
+        for (String savingName : SavingHandler.getManualSaves()) {
+            Button button = new Button(savingName);
+            button.setOnAction(actionEvent -> loadGame(savingName, true));
+            button.setMinWidth(180);
+            button.setMinHeight(30);
+            savingList.getChildren().add(button);
         }
-        //
+        Button button = new Button("delete manual savings");
+        button.setMinWidth(180);
+        button.setMinHeight(30);
+        button.setOnAction(actionEvent -> {
+            SavingHandler.deleteAllManuals();
+            savingList.getChildren().clear();
+        });
+        savingList.getChildren().add(button);
 
+        for (String savingName : SavingHandler.getAutoSaves()) {
+            Button button2 = new Button(savingName);
+            button2.setOnAction(actionEvent -> loadGame(savingName, false));
+            button2.setMinWidth(180);
+            button2.setMinHeight(30);
+            autoSavingList.getChildren().add(button2);
+        }
+        Button button2 = new Button("delete auto savings");
+        button2.setMinWidth(180);
+        button2.setMinHeight(30);
+        button2.setOnAction(actionEvent -> {
+            SavingHandler.deleteAllAutos();
+            autoSavingList.getChildren().clear();
+        });
+        autoSavingList.getChildren().add(button2);
 
-//        savesListScrollBar.setOrientation(Orientation.VERTICAL);
-//        savesListScrollBar.s
 
         background.setFitWidth(StageController.getScene().getWidth());
         background.setFitHeight(StageController.getScene().getHeight());
+
+        ScrollPane addedUsersScrollPane = new ScrollPane();
+        addedUsersScrollPane.setLayoutX(addPlayerId.getLayoutX());
+        addedUsersScrollPane.setLayoutY(addPlayerButton.getLayoutY() + addPlayerButton.getHeight() * 1.2);
+        addedUsersAnchorPane = new AnchorPane();
+        addedUsersAnchorPane.setPrefWidth(addPlayerId.getWidth());
+
+        addedUsersScrollPane.setContent(addedUsersAnchorPane);
+        setAddedUsersAnchorPane();
+        pane.getChildren().add(addedUsersScrollPane);
+
+
+    }
+
+    private void setAddedUsersAnchorPane() {
+        addedUsersAnchorPane.getChildren().clear();
+        Text text = new Text("Current Players:");
+        text.setLayoutY(10);
+        addedUsersAnchorPane.getChildren().add(text);
+        System.out.println(users.size());
+        for (int i = 0; i < users.size(); i++) {
+            Text text1 = new Text(users.get(i).getNickname());
+            text1.setLayoutY((i + 1) * 15 + 15);
+            addedUsersAnchorPane.getChildren().add(text1);
+        }
     }
 
     public void back(MouseEvent mouseEvent) {
         StageController.sceneChanger("mainMenu.fxml");
     }
 
-    private EventHandler<ActionEvent> setAutoSave(int i) {
-        System.out.println(i);
+    private void setAutoSave(int i) {
         autoSave = i;
         if (i == 0) {
             numberOfAutoSaveText.setOpacity(0.5);
@@ -262,7 +349,15 @@ public class GameEntryMenuFx implements Initializable {
             moreAutoSavesButton.setDisable(false);
             lessAutoSavesButton.setDisable(false);
         }
-        return null;
+        if (i == 0) {
+            autoSaveIsEnabled = false;
+        } else if (i == 1) {
+            autoSaveIsEnabled = true;
+            autoSaveAtChangingOnMap = false;
+        } else {
+            autoSaveIsEnabled = true;
+            autoSaveAtChangingOnMap = true;
+        }
     }
 
     private void setWithMoreLess(Text textDetails, Font font, double percent, Text text, Button less,
@@ -275,7 +370,7 @@ public class GameEntryMenuFx implements Initializable {
         text.setText(textString);
         text.setFont(font);
         text.setX(StageController.getStage().getWidth() * percent - text.getLayoutBounds().getWidth() / 2);
-        text.setY(StageController.getStage().getHeight() * (yPercent+0.05));
+        text.setY(StageController.getStage().getHeight() * (yPercent + 0.05));
 
         more.setLayoutX(StageController.getStage().getWidth() * percent + more.getWidth() * 0.1);
         more.setLayoutY(text.getY() + text.getLayoutBounds().getHeight() / 2);

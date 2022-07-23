@@ -66,14 +66,15 @@ public class User implements Serializable {
         return null;
     }
 
-    public User(String username, String password, String nickname) {
+    public User(String username, String password, String nickname, boolean shouldSave) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
         this.score = 0;
         icon = UserIcon.randomIcon();
         listOfUsers.add(this);
-        saveData();
+        if (shouldSave)
+            saveData();
     }
 
     public boolean isPasswordCorrect(String password) {
@@ -127,8 +128,12 @@ public class User implements Serializable {
     public Date getLastWinDate() {return lastWin;}
     public Date getLastOnlineDate() {return  lastOnline;}
     public String getLastOnline() {
-        if(isOnline) return "online";
-        if(lastOnline == null) return "-";
+        if (isOnline) return "online";
+        if (lastOnline == null) return "-";
         return lastOnline.toString();
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }
