@@ -57,6 +57,9 @@ public class ImageLoader {
             images.put("technology", image);
             image = new Image(HelloApplication.getResource("/com/example/demo/assets/cross.png"), 70, 0, true, true, true);
             images.put("cross", image);
+            image = new Image(HelloApplication.getResource("/com/example/demo/assets/fire.png"), 70, 0, true, true, true);
+            images.put("fire", image);
+
 
 
             image = new Image(HelloApplication.getResource("/com/example/demo/tiles/CLOUD.png"), 200, 0, true, true, true);
@@ -102,7 +105,7 @@ public class ImageLoader {
             image = new Image(HelloApplication.getResource("/com/example/demo/icons/diplomacyIconOn.png"), 30, 0, true, true, true);
             images.put("diplomacyIconOn", image);image = new Image(HelloApplication.getResource("/com/example/demo/icons/diplomacyIconOff.png"), 30, 0, true, true, true);
             images.put("diplomacyIconOff", image);
-//            fonts.put("impactFont",new Font("/com/example/demo/font/impact.ttf",30));
+
 
         } catch (RuntimeException e) {
             System.out.println("There is a problem in loading images in ImageLoader.");
