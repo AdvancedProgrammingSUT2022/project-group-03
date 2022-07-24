@@ -44,6 +44,7 @@ public class UnitsPanel implements Initializable {
                 MapMoveController.showTile(GameControllerFX.tileToGraphicTile(unit.getCurrentTile()));
             });
         }
+        Panels.setBackButton(upperMapPane,StageController.getStage().getWidth() - 40);
 
     }
 }

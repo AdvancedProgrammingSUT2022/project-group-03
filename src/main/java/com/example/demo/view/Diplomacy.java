@@ -36,6 +36,9 @@ public class Diplomacy implements Initializable {
     private Node[] stayingButtons = new Node[20];
     private Text condition;
 
+    private int theirGoldOffer;
+    private int yourGoldOffer;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Panels.setBackground(background, "treeNoLine");
@@ -53,32 +56,27 @@ public class Diplomacy implements Initializable {
             StageController.sceneChanger("chat.fxml");
         });
 
-        //////
-
-
-        for (Civilization civilization : GameController.getCivilizations()) {
-            if (civilization != GameController.getCivilizations().get(GameController.getPlayerTurn()))
-                GameController.getCivilizations().get(GameController.getPlayerTurn()).getKnownCivilizations().add(new Pair<>(civilization, 0));
-        }
-        for (int i = 0; i < ResourcesTypes.VALUES.size(); i++) {
-            GameController.getCivilizations().get(GameController.getPlayerTurn()).getResourcesAmount().put(ResourcesTypes.VALUES.get(i), i + 5);
-        }
-
-
-
-        ArrayList<Pair<ResourcesTypes, Integer>> finalResources = new ArrayList<>();
-        GameController.getCurrentCivilization().getResourcesAmount().forEach((k, v) -> {
-            int value = v;
-            if (value > 0)
-                finalResources.add(new Pair<>(k, value));
-
-        });
-
-
-        GameController.getCurrentCivilization().getTradeRequests().add(new TradeRequest(finalResources,opponentsOffers,GameController.getCivilizations().get(1),GameController.getCurrentCivilization()));
-        GameController.getCurrentCivilization().getTradeRequests().add(new TradeRequest(finalResources,opponentsOffers,GameController.getCivilizations().get(1),GameController.getCurrentCivilization()));
-        GameController.getCurrentCivilization().getFriendshipRequests().add(GameController.getCivilizations().get(1));
-        //////
+//        //////
+//
+//
+//        for (int i = 0; i < ResourcesTypes.VALUES.size(); i++) {
+//            GameController.getCivilizations().get(GameController.getPlayerTurn()).getResourcesAmount().put(ResourcesTypes.VALUES.get(i), i + 5);
+//        }
+//
+//
+//        ArrayList<Pair<ResourcesTypes, Integer>> finalResources = new ArrayList<>();
+//        GameController.getCurrentCivilization().getResourcesAmount().forEach((k, v) -> {
+//            int value = v;
+//            if (value > 0)
+//                finalResources.add(new Pair<>(k, value));
+//
+//        });
+//
+//
+//        GameController.getCurrentCivilization().getTradeRequests().add(new TradeRequest(finalResources, opponentsOffers, GameController.getCivilizations().get(1), GameController.getCurrentCivilization(), theirGoldOffer, yourGoldOffer));
+//        GameController.getCurrentCivilization().getTradeRequests().add(new TradeRequest(finalResources, opponentsOffers, GameController.getCivilizations().get(1), GameController.getCurrentCivilization(), theirGoldOffer, yourGoldOffer));
+//        GameController.getCurrentCivilization().getFriendshipRequests().add(GameController.getCivilizations().get(1));
+//        //////
         stayingButtons[1] = Panels.setBackButton(upperMapPane, StageController.getStage().getWidth() - 40);
         AnchorPane knownCivilizationsAnchorPane = new AnchorPane();
         for (int i = 0; i < GameController.getCivilizations().get(GameController.getPlayerTurn()).getKnownCivilizations().size(); i++) {
@@ -92,7 +90,6 @@ public class Diplomacy implements Initializable {
                 setOpponentOn();
             });
         }
-
         stayingButtons[2] = Panels.addText("Requests: ", 10, 25, 25, Color.WHITE, upperMapPane);
 
         ScrollPane requestsScrollPane = new ScrollPane();
@@ -103,6 +100,10 @@ public class Diplomacy implements Initializable {
         requestsScrollPane.setPrefWidth(300);
         requestsScrollPane.setPrefHeight(300);
         upperMapPane.getChildren().add(requestsScrollPane);
+        if (GameController.getCurrentCivilization().getTradeRequests().size() == 0) {
+            stayingButtons[2].setOpacity(0);
+            stayingButtons[3].setOpacity(0);
+        }
 
         knownCivilizationsScrollPane.setContent(knownCivilizationsAnchorPane);
         knownCivilizationsScrollPane.setLayoutX(StageController.getStage().getWidth() * 0.90);
@@ -140,10 +141,9 @@ public class Diplomacy implements Initializable {
     }
 
 
-    private void updateRequests()
-    {
+    private void updateRequests() {
         AnchorPane requestsAnchorPane = new AnchorPane();
-        int lastI=0;
+        int lastI = 0;
         for (int i = 0; i < GameController.getCurrentCivilization().getTradeRequests().size(); i++) {
             ScrollPane thisRequestScrollPane = new ScrollPane();
             AnchorPane thisRequestAnchorPane = new AnchorPane();
@@ -152,16 +152,18 @@ public class Diplomacy implements Initializable {
             requestsAnchorPane.getChildren().add(thisRequestScrollPane);
 
             TradeRequest tradeReq = GameController.getCurrentCivilization().getTradeRequests().get(i);
-            Panels.addText(tradeReq.getFrom().getUser().getNickname() + " Offers: ",0,
-                    23 + StageController.getStage().getHeight()*0.22*i,
-                    15,null,requestsAnchorPane);
-            thisRequestScrollPane.setLayoutY(i*StageController.getStage().getHeight() * 0.22 + 30);
+            Panels.addText(tradeReq.getFrom().getUser().getNickname() + " Offers: ", 0,
+                    23 + StageController.getStage().getHeight() * 0.22 * i,
+                    15, null, requestsAnchorPane);
+            thisRequestScrollPane.setLayoutY(i * StageController.getStage().getHeight() * 0.22 + 30);
             thisRequestScrollPane.setPrefWidth(StageController.getStage().getWidth() * 0.05);
             thisRequestScrollPane.setPrefHeight(StageController.getStage().getHeight() * 0.20);
-            for (int j = 0; j <GameController.getCurrentCivilization().getTradeRequests().get(i).getTheirOffers().size() ; j++) {
-                addImageAndTextOfOffer(j,GameController.getCurrentCivilization().getTradeRequests().get(i).getTheirOffers().get(j),thisRequestAnchorPane,false);
+            for (int j = 0; j < GameController.getCurrentCivilization().getTradeRequests().get(i).getTheirOffers().size(); j++) {
+                Pair<ResourcesTypes, Integer> pair = GameController.getCurrentCivilization().getTradeRequests().get(i).getTheirOffers().get(j);
+                addImageAndTextOfOffer(j, pair.getKey().toString(), pair.getValue(), thisRequestAnchorPane, false);
             }
-
+            addImageAndTextOfOffer(GameController.getCurrentCivilization().getTradeRequests().get(i).getTheirOffers().size(),
+                    "gold", GameController.getCurrentCivilization().getTradeRequests().get(i).theirGoldOffer(), thisRequestAnchorPane, true);
 
 
             thisRequestScrollPane = new ScrollPane();
@@ -172,89 +174,92 @@ public class Diplomacy implements Initializable {
 
             Panels.addText("Your Offers: ",
                     StageController.getStage().getWidth() * 0.05,
-                    23 + StageController.getStage().getHeight()*0.22*i,
-                    15,null,requestsAnchorPane);
+                    23 + StageController.getStage().getHeight() * 0.22 * i,
+                    15, null, requestsAnchorPane);
 
 
-            thisRequestScrollPane.setLayoutY(i*StageController.getStage().getHeight() * 0.22 + 30);
+            thisRequestScrollPane.setLayoutY(i * StageController.getStage().getHeight() * 0.22 + 30);
             thisRequestScrollPane.setLayoutX(StageController.getStage().getWidth() * 0.05);
             thisRequestScrollPane.setPrefWidth(StageController.getStage().getWidth() * 0.05);
             thisRequestScrollPane.setPrefHeight(StageController.getStage().getHeight() * 0.20);
-            for (int j = 0; j <GameController.getCurrentCivilization().getTradeRequests().get(i).getYourOffers().size() ; j++)
-                addImageAndTextOfOffer(j,GameController.getCurrentCivilization().getTradeRequests().get(i).getYourOffers().get(j),thisRequestAnchorPane,false);
+            for (int j = 0; j < GameController.getCurrentCivilization().getTradeRequests().get(i).getYourOffers().size(); j++) {
+                Pair<ResourcesTypes, Integer> pair = GameController.getCurrentCivilization().getTradeRequests().get(i).getYourOffers().get(j);
+                addImageAndTextOfOffer(j, pair.getKey().toString(), pair.getValue(), thisRequestAnchorPane, false);
+            }
+            addImageAndTextOfOffer(GameController.getCurrentCivilization().getTradeRequests().get(i).getYourOffers().size(),
+                    "gold", GameController.getCurrentCivilization().getTradeRequests().get(i).yourGoldOffer(), thisRequestAnchorPane, true);
 
-            Button accept = Panels.addButton("Accept",StageController.getStage().getWidth() * 0.105,
-                    StageController.getStage().getHeight() * 0.23 *i +StageController.getStage().getHeight() * 0.05, 100, 45,requestsAnchorPane);
+            Button accept = Panels.addButton("Accept", StageController.getStage().getWidth() * 0.105,
+                    StageController.getStage().getHeight() * 0.23 * i + StageController.getStage().getHeight() * 0.05, 100, 45, requestsAnchorPane);
             int finalI = i;
             accept.setOnMouseClicked(event -> {
                 TradeRequest tradeRequest = GameController.getCurrentCivilization().getTradeRequests().get(finalI);
-                for (int i1 = tradeRequest.getTheirOffers().size()-1; i1 >=0; i1--) {
+                for (int i1 = tradeRequest.getTheirOffers().size() - 1; i1 >= 0; i1--) {
                     GameController.getCurrentCivilization().addResources(tradeRequest.getTheirOffers().get(i1).getKey(),
                             tradeRequest.getTheirOffers().get(i1).getValue());
                     tradeRequest.getFrom().removeResource(tradeRequest.getTheirOffers().get(i1).getKey(),
                             tradeRequest.getTheirOffers().get(i1).getValue());
-
                 }
-                for (int i1 = tradeRequest.getYourOffers().size()-1; i1 >=0; i1--) {
+                for (int i1 = tradeRequest.getYourOffers().size() - 1; i1 >= 0; i1--) {
                     tradeRequest.getFrom().addResources(tradeRequest.getTheirOffers().get(i1).getKey(),
                             tradeRequest.getTheirOffers().get(i1).getValue());
                     GameController.getCurrentCivilization().removeResource(tradeRequest.getTheirOffers().get(i1).getKey(),
                             tradeRequest.getTheirOffers().get(i1).getValue());
                 }
+                GameController.getCurrentCivilization().increaseGold(tradeRequest.theirGoldOffer() - tradeRequest.yourGoldOffer());
+                opponent.increaseGold(tradeRequest.yourGoldOffer() - tradeRequest.theirGoldOffer());
                 GameController.getCurrentCivilization().getTradeRequests().remove(finalI);
                 updateRequests();
             });
 
-            Button decline = Panels.addButton("Decline",StageController.getStage().getWidth() * 0.105,
-                    StageController.getStage().getHeight() * 0.23 *i +StageController.getStage().getHeight() * 0.15, 100, 45,requestsAnchorPane);
+            Button decline = Panels.addButton("Decline", StageController.getStage().getWidth() * 0.105,
+                    StageController.getStage().getHeight() * 0.23 * i + StageController.getStage().getHeight() * 0.15, 100, 45, requestsAnchorPane);
             decline.setOnMouseClicked(event -> {
                 GameController.getCurrentCivilization().getTradeRequests().remove(finalI);
                 updateRequests();
             });
-            lastI =i;
+            lastI = i;
         }
 
         for (int i = 0; i < GameController.getCurrentCivilization().getFriendshipRequests().size(); i++) {
             Panels.addText("Peace Request: " +
-                            GameController.getCurrentCivilization().getFriendshipRequests().get(i).getUser().getNickname(),0,
-                    StageController.getStage().getHeight() * 0.23 *(lastI+1) + StageController.getStage().getHeight()*0.05*i + 35,
-                    15,null,requestsAnchorPane);
+                            GameController.getCurrentCivilization().getFriendshipRequests().get(i).getUser().getNickname(), 0,
+                    StageController.getStage().getHeight() * 0.23 * (lastI + 1) + StageController.getStage().getHeight() * 0.05 * i + 35,
+                    15, null, requestsAnchorPane);
 
 
-
-
-            Button accept = Panels.addButton("Accept",StageController.getStage().getWidth() * 0.105,
-                    StageController.getStage().getHeight() * 0.23 *(lastI+1) + StageController.getStage().getHeight()*0.05*i, 100, 30,requestsAnchorPane);
+            Button accept = Panels.addButton("Accept", StageController.getStage().getWidth() * 0.105,
+                    StageController.getStage().getHeight() * 0.23 * (lastI + 1) + StageController.getStage().getHeight() * 0.05 * i, 100, 30, requestsAnchorPane);
             int finalI = i;
 
             accept.setOnMouseClicked(event ->
             {
-                if(GameController.getCurrentCivilization().knownCivilizationsContains(GameController.getCurrentCivilization().getFriendshipRequests().get(finalI))){
+                if (GameController.getCurrentCivilization().knownCivilizationsContains(GameController.getCurrentCivilization().getFriendshipRequests().get(finalI))) {
                     for (Pair<Civilization, Integer> knownCivilization : GameController.getCurrentCivilization().getKnownCivilizations()) {
-                        if(knownCivilization.getKey()==GameController.getCurrentCivilization().getFriendshipRequests().get(finalI))
-                        {
+                        if (knownCivilization.getKey() == GameController.getCurrentCivilization().getFriendshipRequests().get(finalI)) {
                             GameController.getCurrentCivilization().getKnownCivilizations().remove(knownCivilization);
                             break;
                         }
                     }
                 }
                 GameController.getCurrentCivilization().getKnownCivilizations()
-                        .add(new Pair<>(GameController.getCurrentCivilization().getFriendshipRequests().get(finalI),1));
+                        .add(new Pair<>(GameController.getCurrentCivilization().getFriendshipRequests().get(finalI), 1));
                 GameController.getCurrentCivilization().getFriendshipRequests().remove(finalI);
                 updateRequests();
             });
 
-            Button decline = Panels.addButton("Decline",StageController.getStage().getWidth() * 0.105,
-                    StageController.getStage().getHeight() * 0.23 *(lastI+1) + StageController.getStage().getHeight()*0.05*i +
-                            StageController.getStage().getHeight()*0.03, 100, 30,requestsAnchorPane);
+            Button decline = Panels.addButton("Decline", StageController.getStage().getWidth() * 0.105,
+                    StageController.getStage().getHeight() * 0.23 * (lastI + 1) + StageController.getStage().getHeight() * 0.05 * i +
+                            StageController.getStage().getHeight() * 0.03, 100, 30, requestsAnchorPane);
 
             decline.setOnMouseClicked(event -> {
                 GameController.getCurrentCivilization().getFriendshipRequests().remove(finalI);
                 updateRequests();
             });
         }
-        ((ScrollPane)stayingButtons[3]).setContent(requestsAnchorPane);
+        ((ScrollPane) stayingButtons[3]).setContent(requestsAnchorPane);
     }
+
     private boolean shouldButtonStay(Node node) {
         if (node == knownCivilizationsScrollPane ||
                 node == background)
@@ -318,8 +323,6 @@ public class Diplomacy implements Initializable {
                         }
                         break;
                     }
-
-
                 }
             });
             button = Panels.addButton("Send Piss Request", StageController.getStage().getWidth() * 0.47,
@@ -333,25 +336,32 @@ public class Diplomacy implements Initializable {
                     StageController.getStage().getHeight() * 2.7 / 7,
                     130, 20, upperMapPane);
             button.setOnMouseClicked(event -> {
-                opponent.getTradeRequests().add(new TradeRequest(myOffers, opponentsOffers, GameController.getCurrentCivilization(), opponent));
+                opponent.getTradeRequests().add(new TradeRequest(myOffers, opponentsOffers, GameController.getCurrentCivilization(), opponent, theirGoldOffer, yourGoldOffer));
             });
             updateMyResources(true);
             updateMyResources(false);
+            updateMyOffers(true);
+            updateMyOffers(false);
         }
     }
 
     private void updateMyOffers(boolean isMine) {
         ScrollPane scrollPane = opponentsOffersScrollPane;
         ArrayList<Pair<ResourcesTypes, Integer>> offers = opponentsOffers;
+        Civilization civilization = opponent;
+        int goldNumber = theirGoldOffer;
+
         if (isMine) {
+            civilization = GameController.getCurrentCivilization();
             scrollPane = myOffersScrollPane;
+            goldNumber = yourGoldOffer;
             offers = myOffers;
         }
 
         AnchorPane anchorPane = new AnchorPane();
         scrollPane.setContent(anchorPane);
         for (int i = 0; i < offers.size(); i++) {
-            Label label = addImageAndTextOfOffer(i, offers.get(i), anchorPane,true);
+            Label label = addImageAndTextOfOffer(i, offers.get(i).getKey().toString(), offers.get(i).getValue(), anchorPane, true);
             int finalI = i;
             ArrayList<Pair<ResourcesTypes, Integer>> finalOffers = offers;
             label.setOnMouseClicked(event -> {
@@ -364,6 +374,8 @@ public class Diplomacy implements Initializable {
                 updateMyOffers(isMine);
             });
         }
+
+        Label label = addImageAndTextOfOffer(offers.size(), "gold", goldNumber, anchorPane, true);
     }
 
     private void updateMyResources(boolean isMine) {
@@ -396,6 +408,7 @@ public class Diplomacy implements Initializable {
                 finalResources.add(new Pair<>(k, value));
 
         });
+
         AnchorPane myResourcesAnchorPane = new AnchorPane();
         resourcesScrollPane.setContent(myResourcesAnchorPane);
         if (!upperMapPane.getChildren().contains(resourcesScrollPane))
@@ -404,10 +417,12 @@ public class Diplomacy implements Initializable {
             upperMapPane.getChildren().add(offersScrollPane);
 
         for (int i = 0; i < resources.size(); i++) {
-            Label label = addImageAndTextOfOffer(i, resources.get(i), myResourcesAnchorPane,true);
+            Label label = addImageAndTextOfOffer(i, resources.get(i).getKey().toString(), resources.get(i).getValue(), myResourcesAnchorPane, true);
             int finalI = i;
             ArrayList<Pair<ResourcesTypes, Integer>> finalResources1 = resources;
             ArrayList<Pair<ResourcesTypes, Integer>> finalOffers = offers;
+            if (resources.get(i).getValue() <= 0)
+                continue;
             label.setOnMouseClicked(event -> {
                 int value = 0;
                 for (int i1 = 0; i1 < finalOffers.size(); i1++) {
@@ -423,10 +438,31 @@ public class Diplomacy implements Initializable {
                 updateMyResources(isMine);
             });
         }
+        Civilization civilization2 = GameController.getCurrentCivilization();
+        int goldNumber = yourGoldOffer;
+        if (!isMine) {
+            civilization2 = opponent;
+            goldNumber = theirGoldOffer;
+        }
+        Label label = addImageAndTextOfOffer(resources.size(), "gold", civilization2.getGold() - goldNumber, myResourcesAnchorPane, true);
+        if (civilization2.getGold() >= 0)
+            label.setOnMouseClicked(event -> {
+                if (isMine) {
+                    yourGoldOffer++;
+                    updateMyOffers(true);
+                    updateMyResources(true);
+                }
+                else {
+                    theirGoldOffer++;
+                    updateMyOffers(false);
+                    updateMyResources(false);
+                }
+            });
+
     }
 
-    private Label addImageAndTextOfOffer(int i, Pair<ResourcesTypes, Integer> pair, Pane pane, boolean handCursor) {
-        ImageView imageView = new ImageView(ImageLoader.get(pair.getKey().toString()));
+    private Label addImageAndTextOfOffer(int i, String pairKey, Integer pairValue, Pane pane, boolean handCursor) {
+        ImageView imageView = new ImageView(ImageLoader.get(pairKey));
         imageView.setX(5);
         imageView.setY(25 * i + 5);
         imageView.setFitHeight(20);
@@ -434,15 +470,19 @@ public class Diplomacy implements Initializable {
         Label label = Panels.imageViewToLabel(imageView, pane);
         label.setLayoutX(5);
         label.setLayoutY(25 * i + 5);
-        label.setTooltip(new Tooltip(pair.getKey().toString()));
+        label.setTooltip(new Tooltip(pairKey));
+        Panels.addText(": " + pairValue,
+                25, (i + 1) * 25 - 3,
+                17, null, pane);
+        if (pairValue <= 0) {
+            label.setOpacity(0.4);
+            return label;
+        }
         if (handCursor) {
             label.setCursor(Cursor.HAND);
             imageView.setCursor(Cursor.HAND);
         }
-        if (pair.getValue() != 0) {
-            Panels.addText(": " + pair.getValue(),
-                    25, (i + 1) * 25 - 3, 17, null, pane);
-        }
+
         return label;
     }
 }

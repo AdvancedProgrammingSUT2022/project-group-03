@@ -1,5 +1,6 @@
 package com.example.demo.view.model;
 
+import com.example.demo.controller.NetworkController;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.controller.gameController.UnitStateController;
 import com.example.demo.model.City;
@@ -227,6 +228,7 @@ public class GraphicTile implements Serializable {
                         case 6 -> notif("Can not attack", "The destination tile is so far.");
                         case 8 -> notif("Attacked before", "You can not attack more in this turn.");
                         case 0 -> StageController.errorMaker("Attack", "Attacked successfully.", Alert.AlertType.INFORMATION);
+                        case 9 -> notif("The Units is tired", "");
                     }
                     gameControllerFX.setSelectingTile(false);
                     gameControllerFX.renderMap();

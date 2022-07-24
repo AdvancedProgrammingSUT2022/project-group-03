@@ -11,10 +11,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class User implements Serializable {
     private static ArrayList<User> listOfUsers = new ArrayList<>();
@@ -23,22 +20,14 @@ public class User implements Serializable {
     private String password;
     private String nickname;
     private String customAvatar;
+    public boolean isOnline;
     private int score;
-
-    static {
-        try {
-            String json = new String(Files.readAllBytes(Paths.get("dataBase/users.json")));
-            listOfUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
-            }.getType());
-        } catch (IOException e) {
-            File file = new File("dataBase/users.json");
-            try {
-                file.createNewFile();
-                listOfUsers = new ArrayList<>();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+    private Date lastWin;
+    private Date lastOnline;
+    private final ArrayList<User> invites = new ArrayList<>();
+    private final ArrayList<User> friends = new ArrayList<>();
+    public UserIcon getIcon() {
+        return icon;
     }
 
     public static void saveData() {
@@ -97,6 +86,10 @@ public class User implements Serializable {
         saveData();
     }
 
+    public int getScore() {
+        return score;
+    }
+
     public void setCustomAvatar(String customAvatar) {
         this.customAvatar = customAvatar;
     }
@@ -113,9 +106,15 @@ public class User implements Serializable {
     public String getUsername() {
         return username;
     }
-
-    public int getScore() {
-        return score;
+    public String getLastWin() {
+        if(lastWin == null) return "-";
+        return lastWin.toString();}
+    public Date getLastWinDate() {return lastWin;}
+    public Date getLastOnlineDate() {return  lastOnline;}
+    public String getLastOnline() {
+        if (isOnline) return "online";
+        if (lastOnline == null) return "-";
+        return lastOnline.toString();
     }
 
     public void setScore(int score) {

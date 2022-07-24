@@ -64,7 +64,8 @@ public class GameControllerFX {
 
     public void initialize() {
         cityPanel = new CityPanel(this, leftPanel);
-        Music.play("game");
+        if (!hasStarted)
+            Music.play("game");
 //        if (!hasStarted)
 //            startAFakeGame();
         new Cheat(root, cheatBar, this);
@@ -212,7 +213,13 @@ public class GameControllerFX {
 
         Label diplomacyLabel = new Label();
         panelLabelsInit(diplomacyLabel, "diplomacyIcon");
-        diplomacyLabel.setOnMouseClicked(event -> StageController.sceneChanger("diplomacy.fxml"));
+        diplomacyLabel.setOnMouseClicked(event -> {
+            if (GameController.getCurrentCivilization().getKnownCivilizations().size() == 0)
+                StageController.errorMaker("You cannot enter the Diplomacy panel yet",
+                        "You must know atLeast one other civilization to enter the Diplomacy panel", Alert.AlertType.ERROR);
+            else
+                StageController.sceneChanger("diplomacy.fxml");
+        });
         diplomacyLabel.setTooltip(new Tooltip("Diplomacy Panel"));
 
 
@@ -286,11 +293,10 @@ public class GameControllerFX {
 
 
     public void nextTurn() {
-        GameController.setUnfinishedTasks();
         if (!GameController.nextTurnIfYouCan()) {
             switch (GameController.getUnfinishedTasks().get(0).getTaskTypes()) {
                 case UNIT -> StageController.errorMaker("Unit Error", "A unit needs order.", Alert.AlertType.ERROR);
-                case CITY_PRODUCTION -> StageController.errorMaker("City Error", "Set your city to produce a unit.", Alert.AlertType.ERROR);
+                case CITY_PRODUCTION -> StageController.errorMaker("City Error", "Set your city to produce something.", Alert.AlertType.ERROR);
                 case TECHNOLOGY_PROJECT -> StageController.errorMaker("Technology not selected", "Please select a technology to researching about it.", Alert.AlertType.ERROR);
                 case CITY_DESTINY -> StageController.errorMaker("City destiny error", "Please decide whether to destroy the captured city or not.", Alert.AlertType.ERROR);
             }
@@ -397,7 +403,7 @@ public class GameControllerFX {
         for (GraphicTile[] graphicTiles : graphicMap) {
             for (int j = 0; j < graphicMap[0].length; j++) {
                 if (graphicTiles[j].getTile().getX() == tile.getX() &&
-                    graphicTiles[j].getTile().getY() == tile.getY())
+                        graphicTiles[j].getTile().getY() == tile.getY())
                     return graphicTiles[j];
             }
         }

@@ -306,12 +306,15 @@ public class UnitStateController {
         if (GameController.getSelectedUnit().getCivilization() != GameController.getCivilizations()
                 .get(GameController.getPlayerTurn())) return 2;
         if (!(GameController.getSelectedUnit() instanceof NonCivilian)) return 3;
+//        if(GameController.getSelectedUnit().isDidDoTaskThisTurn())
+//            return 9;
         if (((NonCivilian) GameController.getSelectedUnit()).attacked) return 8;
         if (GameController.getMap().coordinatesToTile(x, y) == null) return 4;
         if (GameController.getSelectedUnit().getUnitType().combatType == CombatType.SIEGE &&
                 (GameController.getSelectedUnit().getState() != UnitState.SETUP ||
                         ((NonCivilian) GameController.getSelectedUnit()).getFortifiedCycle() < 1))
             return 7;
+
         if (!GameController.canUnitAttack(GameController.getMap().coordinatesToTile(x, y))) return 5;
         Tile startTile = GameController.getSelectedUnit().getCurrentTile();
         if (!GameController.getSelectedUnit()
@@ -320,6 +323,7 @@ public class UnitStateController {
         if (GameController.getSelectedUnit().getCurrentTile() == startTile
                 && GameController.getSelectedUnit().getUnitType().combatType == CombatType.SIEGE)
             GameController.getSelectedUnit().setState(UnitState.SETUP);
+
         return 0;
     }
 

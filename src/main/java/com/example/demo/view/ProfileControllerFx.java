@@ -1,6 +1,7 @@
 package com.example.demo.view;
 import com.example.demo.HelloApplication;
 import com.example.demo.controller.LoginController;
+import com.example.demo.controller.NetworkController;
 import com.example.demo.model.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -43,8 +44,8 @@ public class ProfileControllerFx implements Initializable {
         Platform.runLater(() ->background.setFitHeight(StageController.getScene().getHeight()));
 
     }
-    public static void changeProfile(Button profile,int size,String adress){
-        Image image = new Image(adress);
+    public static void changeProfile(Button profile,int size,String address){
+        Image image = new Image(address);
         BackgroundImage b = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 new BackgroundSize(size,size,false,false,false,false));
         Background background = new Background(b);
@@ -55,6 +56,7 @@ public class ProfileControllerFx implements Initializable {
     public void changeUserData(ActionEvent mouseEvent) {
         switch (LoginController.changeData(oldPassword.getText(),newPassword.getText(),nickname.getText(),avatarPath)){
             case 0:
+                LoginController.saveUser();
                 StageController.errorMaker("Successful","changed successfully", Alert.AlertType.INFORMATION);
                 break;
             case 1:
@@ -81,6 +83,7 @@ public class ProfileControllerFx implements Initializable {
     }
 
     public void back(MouseEvent mouseEvent) {
+        NetworkController.send("menu exit");
         StageController.sceneChanger("mainMenu.fxml");
     }
 
@@ -145,6 +148,7 @@ public class ProfileControllerFx implements Initializable {
                     public void handle(MouseEvent mouseEvent) {
                         LoginController.getLoggedUser().setIcon(icons.get(mouseEvent.getSource()));
                         changeProfile(profile, (int) (200* SIZE_RATIO),LoginController.getLoggedUser().getAvatar());
+                        LoginController.saveUser();
                     }
                 });
                 rectangle.setWidth(100* SIZE_RATIO);
