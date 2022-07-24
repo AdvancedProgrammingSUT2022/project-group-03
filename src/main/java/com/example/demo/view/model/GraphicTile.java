@@ -5,6 +5,7 @@ import com.example.demo.controller.gameController.UnitStateController;
 import com.example.demo.model.City;
 import com.example.demo.model.Civilization;
 import com.example.demo.model.Units.CombatType;
+import com.example.demo.model.Units.NonCivilian;
 import com.example.demo.model.Units.Unit;
 import com.example.demo.model.Units.UnitState;
 import com.example.demo.model.features.Feature;
@@ -178,6 +179,21 @@ public class GraphicTile implements Serializable {
                 notif("Garrison", "The unit garrisoned successfully.");
         });
 
+        if (tile.getImprovement() != null && tile.getImprovement().getNeedsRepair() < 3) {
+            addButton("Pillage", true, event -> {
+                GameController.setSelectedUnit(unit);
+                int code = UnitStateController.unitPillage();
+                switch (code) {
+                    case 4 -> notif("fault", "This unit is not belong to you!");
+                    case 3 -> notif("Error", "Can not pillage in this tile.");
+                    case 0 -> {
+                        notif("Pillage", "Your unit pillages this improvement.");
+                        gameControllerFX.renderMap();
+                    }
+                }
+            });
+        }
+
         if (unit.getUnitType().combatType == CombatType.SIEGE && unit.getState() != UnitState.SETUP) {
             addButton("Setup", true, event -> {
                 int code = UnitStateController.unitSetupRanged();
@@ -186,32 +202,32 @@ public class GraphicTile implements Serializable {
                     case 0 -> notif("Setup", "The unit setup successfully.");
                 }
             });
+        } else if (!((NonCivilian) unit).attacked) {
+            addButton("Attack", false, event -> {
+                leftPanel.getChildren().clear();
+                Text text = new Text("Click on the tile you want to attack,\n         then click move.");
+                gameControllerFX.setSelectingTile(true);
+                leftPanel.getChildren().addAll(text, gameControllerFX.publicText);
+                addButton("Attack", true, event1 -> {
+                    int x = GameController.getSelectedTile().getX();
+                    int y = GameController.getSelectedTile().getY();
+                    int code = UnitStateController.unitAttack(x, y);
+                    switch (code) {
+                        case 2 -> notif("fault", "This unit is not belong to you!");
+                        case 7 -> notif("Setup need", "You must setup your unit before attacking!");
+                        case 5 -> notif("Attack to what?", "The destination tile has no units that can be attacked.");
+                        case 6 -> notif("Can not attack", "The destination tile is so far.");
+                        case 8 -> notif("Attacked before", "You can not attack more in this turn.");
+                        case 0 -> StageController.errorMaker("Attack", "Attacked successfully.", Alert.AlertType.INFORMATION);
+                    }
+                    gameControllerFX.setSelectingTile(false);
+                    gameControllerFX.renderMap();
+                });
+
+                addButton("Cancel", true, event1 -> {
+                });
+            });
         }
-
-        addButton("Attack", false, event -> {
-            leftPanel.getChildren().clear();
-            Text text = new Text("Click on the tile you want to attack,\n         then click move.");
-            gameControllerFX.setSelectingTile(true);
-            leftPanel.getChildren().addAll(text, gameControllerFX.publicText);
-            addButton("Attack", true, event1 -> {
-                int x = GameController.getSelectedTile().getX();
-                int y = GameController.getSelectedTile().getY();
-                int code = UnitStateController.unitAttack(x, y);
-                switch (code) {
-                    case 2 -> notif("fault", "This unit is not belong to you!");
-                    case 7 -> notif("Setup need", "You must setup your unit before attacking!");
-                    case 5 -> notif("Attack to what?", "The destination tile has no units that can be attacked.");
-                    case 6 -> notif("Can not attack", "The destination tile is so far.");
-                    case 8 -> notif("Attacked before", "You can not attack more in this turn.");
-                    case 0 -> StageController.errorMaker("Attack", "Attacked successfully.", Alert.AlertType.INFORMATION);
-                }
-                gameControllerFX.setSelectingTile(false);
-                gameControllerFX.renderMap();
-            });
-
-            addButton("Cancel", true, event1 -> {
-            });
-        });
     }
 
     private void addSettlerButtons() {
@@ -268,6 +284,17 @@ public class GraphicTile implements Serializable {
                         UnitStateController.unitBuild(improvementType);
                         gameControllerFX.renderMap();
                     });
+        //improvement repairing:
+        if (tile.getImprovement().getNeedsRepair() != 0) {
+            addButton("Repair Improvement", true, event -> {
+                int code = UnitStateController.unitRepair();
+                switch (code) {
+                    case 2 -> notif("fault", "This unit is not belong to you.");
+                    case 0 -> notif("Repairing started", "Repairing this improvement started successfully");
+                    default -> notif("Error", "Can not repair.");
+                }
+            });
+        }
     }
 
     public double round(double value, int places) {
@@ -458,7 +485,9 @@ public class GraphicTile implements Serializable {
             improvementImage = new ImageView(ImageLoader.get(tile.getImprovement().getImprovementType().toString()));
             improvementImage.setFitWidth(40);
             improvementImage.setFitHeight(40);
-            //set on mouse clicked ?
+            if (tile.getImprovement().getNeedsRepair() != 0) {
+                //TODO: load repair image
+            }
             pane.getChildren().add(improvementImage);
         }
 
