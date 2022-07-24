@@ -2,6 +2,7 @@ package com.example.demo.view;
 
 import com.example.demo.controller.gameController.CityCommandsController;
 import com.example.demo.controller.gameController.GameController;
+import com.example.demo.controller.gameController.UnitStateController;
 import com.example.demo.model.City;
 import com.example.demo.model.Units.Unit;
 import com.example.demo.model.Units.UnitType;
@@ -42,12 +43,23 @@ public class CityPanel {
     private static final Text[] cityTexts = new Text[8];
     private static final int[] buttonsProcess = new int[9];
 
+    public double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+
     public void cityClicked(City city) {
         MapMoveController.showTile(GameControllerFX.getGraphicMap()[city.getMainTile().getX()][city.getMainTile().getY()]);
         GameController.setSelectedCity(city);
         openedPanelCity = city;
         leftPanel.getChildren().clear();
         Text text = new Text("City name: " + openedPanelCity.getName() +
+            "\nHealth: " + openedPanelCity.getHP() +
+            "\nStrength:  A(" + round(openedPanelCity.getCombatStrength(true), 1) + ")   D(" + round(openedPanelCity.getCombatStrength(false), 1) + ")" +
             "\npopulation:" + openedPanelCity.getPopulation() +
             "\nUnemployed citizens: " + openedPanelCity.getCitizen());
         leftPanel.getChildren().add(text);
@@ -318,6 +330,7 @@ public class CityPanel {
     }
 
     public void attackTile(Tile tile) {
+
         switch (CityCommandsController.cityAttack(tile.getX(), tile.getY(), openedPanelCity)) {
             case 0 -> StageController.errorMaker("nicely done", "you attacked successfully", Alert.AlertType.INFORMATION);
             case 1 -> StageController.errorMaker("self-harm is haram", "the selected tile is your own city's main tile", Alert.AlertType.ERROR);

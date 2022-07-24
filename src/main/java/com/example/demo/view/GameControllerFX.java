@@ -159,8 +159,7 @@ public class GameControllerFX {
         StageController.sceneChanger("chooseTechnologyMenu.fxml");
     }
 
-    private void panelLabelsInit(Label label, String string)
-    {
+    private void panelLabelsInit(Label label, String string) {
         ImageView imageView = new ImageView(ImageLoader.get(string + "Off"));
         label.setGraphic(imageView);
         label.setOnMouseEntered(event -> {
@@ -175,10 +174,10 @@ public class GameControllerFX {
         label.setGraphic(imageView);
         infoBar.getChildren().add(label);
     }
-    
+
     private void addInfoButtons() {
         Label technologyTreeLabel = new Label();
-        panelLabelsInit(technologyTreeLabel,"techIcon");
+        panelLabelsInit(technologyTreeLabel, "techIcon");
         technologyTreeLabel.setOnMouseClicked(event -> {
             if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0) {
                 StageController.errorMaker("You cannot enter the technology tree yet", "You must have atLeast one city to enter the technology tree", Alert.AlertType.ERROR);
@@ -191,11 +190,11 @@ public class GameControllerFX {
             }
         });
         Label selectResearchLabel = new Label();
-        panelLabelsInit(selectResearchLabel,"chooseTechIcon");
+        panelLabelsInit(selectResearchLabel, "chooseTechIcon");
         selectResearchLabel.setOnMouseClicked(event -> {
             if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0) {
                 StageController.errorMaker("You cannot enter the select research panel yet",
-                        "You must have atLeast one city to enter the select research panel", Alert.AlertType.ERROR);
+                    "You must have atLeast one city to enter the select research panel", Alert.AlertType.ERROR);
             } else {
                 try {
                     enterSelectResearchPanel();
@@ -208,14 +207,13 @@ public class GameControllerFX {
 
 
         Label unitsPanelLabel = new Label();
-        panelLabelsInit(unitsPanelLabel,"unitsPanelIcon");
+        panelLabelsInit(unitsPanelLabel, "unitsPanelIcon");
         unitsPanelLabel.setOnMouseClicked(event -> StageController.sceneChanger("unitsPanel.fxml"));
 
         Label diplomacyLabel = new Label();
-        panelLabelsInit(diplomacyLabel,"diplomacyIcon");
+        panelLabelsInit(diplomacyLabel, "diplomacyIcon");
         diplomacyLabel.setOnMouseClicked(event -> StageController.sceneChanger("diplomacy.fxml"));
         diplomacyLabel.setTooltip(new Tooltip("Diplomacy Panel"));
-
 
 
         technologyTreeLabel.setTooltip(new Tooltip("Technology Tree"));
@@ -308,6 +306,8 @@ public class GameControllerFX {
 
     public void findUnit() {
         if (GameController.getUnfinishedTasks().isEmpty()) {
+            Tile tile = GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().get(0).getMainTile();
+            MapMoveController.showTile(graphicMap[tile.getX()][tile.getY()]);
             StageController.errorMaker("All is done", "Click next turn.", Alert.AlertType.INFORMATION);
             return;
         }
