@@ -8,12 +8,15 @@ import com.example.demo.model.features.FeatureType;
 import com.example.demo.model.Producible;
 import com.example.demo.model.improvements.ImprovementType;
 import com.example.demo.model.tiles.Tile;
+import com.example.demo.view.HealthyBeing;
+
+import java.io.Serializable;
 //import view.gameMenu.Color;
 
 //import javax.swing.text.View;
 //import java.awt.*;
 
-public abstract class Unit implements Producible, CanGetAttacked {
+public abstract class Unit implements Serializable, Producible, CanGetAttacked, HealthyBeing {
     protected Civilization civilization;
     protected Tile currentTile;
     protected Tile destinationTile;
@@ -22,6 +25,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
     protected UnitType unitType;
     private int remainedCost;
     protected UnitState state;
+//    private boolean didDoTaskThisTurn = false;
 
     public Unit(Tile tile, Civilization civilization, UnitType unitType) {
         this.currentTile = tile;
@@ -164,6 +168,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
     }
 
     public void startTheTurn() {
+//        didDoTaskThisTurn=false;
         GameController.openNewArea(currentTile, civilization, this);
         health += 5;
         if (state == UnitState.FORTIFY) health += 15;
@@ -265,6 +270,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
                     destinationTile == currentTile ||
                     state == UnitState.ATTACK;
         }
+
         return true;
     }
 
@@ -313,4 +319,12 @@ public abstract class Unit implements Producible, CanGetAttacked {
     public String getName() {
         return unitType.toString();
     }
+
+//    public boolean isDidDoTaskThisTurn() {
+//        return didDoTaskThisTurn;
+//    }
+//
+//    public void setDidDoTaskThisTurn(boolean didDoTaskThisTurn) {
+//        this.didDoTaskThisTurn = didDoTaskThisTurn;
+//    }
 }

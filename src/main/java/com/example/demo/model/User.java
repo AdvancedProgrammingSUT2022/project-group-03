@@ -17,7 +17,6 @@ import java.util.Objects;
 import java.util.Random;
 
 public class User implements Serializable {
-    private final static int SIZE_OF_AVATARS = 3;
     private static ArrayList<User> listOfUsers = new ArrayList<>();
     private UserIcon icon;
     private final String username;
@@ -25,6 +24,7 @@ public class User implements Serializable {
     private String nickname;
     private String customAvatar;
     private int score;
+
     static {
         try {
             String json = new String(Files.readAllBytes(Paths.get("dataBase/users.json")));
@@ -61,14 +61,15 @@ public class User implements Serializable {
         return null;
     }
 
-    public User(String username, String password, String nickname) {
+    public User(String username, String password, String nickname, boolean shouldSave) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
         this.score = 0;
         icon = UserIcon.randomIcon();
         listOfUsers.add(this);
-        saveData();
+        if (shouldSave)
+            saveData();
     }
 
     public boolean isPasswordCorrect(String password) {
@@ -111,5 +112,13 @@ public class User implements Serializable {
 
     public String getUsername() {
         return username;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

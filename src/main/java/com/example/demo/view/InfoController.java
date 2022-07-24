@@ -14,6 +14,7 @@ import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.technologies.Technology;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class InfoController {
     public static String infoResearches() {
@@ -51,9 +52,9 @@ public class InfoController {
                 .getCivilizations().get(GameController.getPlayerTurn());
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("nickname: ").append(civilization.getUser().getNickname());
-        City capital = civilization.getCapital();
-        if (capital != null)
-            stringBuilder.append(" | capital: ").append(capital.getName());
+        City capital = civilization.getMainCapital();
+        if (capital != null && capital.getCivilization()==civilization)
+            stringBuilder.append(" | main capital: ").append(capital.getName());
         stringBuilder.append(" | science: ").append(civilization.collectScience())
                 .append(" | happiness: ").append(civilization.getHappiness());
         if (civilization.getHappiness() < 0)
@@ -85,10 +86,12 @@ public class InfoController {
 
     public static String infoNotifications(int cycles) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = GameController.getCycle(); i > GameController.getCycle() - cycles; i--) {
-            if (!GameController.getCivilizations()
-                    .get(GameController.getPlayerTurn()).getNotifications().containsKey(i))
+        int counter = 0;
+        for (int i = GameController.getCycle(); counter<cycles && i>0;i-- ) {
+            System.out.println(i);
+            if (!GameController.getCurrentCivilization().getNotifications().containsKey(i))
                 continue;
+            counter++;
             ArrayList<String> strings = GameController.getCivilizations()
                     .get(GameController.getPlayerTurn()).getNotifications().get(i);
             for (String string : strings)
@@ -132,7 +135,7 @@ public class InfoController {
                 .append(city.getCombatStrength(true))
                 .append(" | production: ").append(city.collectProduction())
                 .append(" | doesHaveWall: ");
-        if (city.findBuilding(BuildingType.WALL) != null)
+        if (city.findBuilding(BuildingType.WALLS) != null)
             stringBuilder.append("Yes");
         else stringBuilder.append("No");
         if (city.getProduct() != null)
@@ -155,7 +158,7 @@ public class InfoController {
         return stringBuilder.toString();
     }
 
-    static String printUnitInfo(Unit unit) {
+    public static String printUnitInfo(Unit unit) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(unit.getUnitType() +
                 ": | Health: " + unit.getHealth() +

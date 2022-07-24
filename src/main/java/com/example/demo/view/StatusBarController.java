@@ -16,10 +16,14 @@ public class StatusBarController {
     private static final Text scienceAmount = new Text();
     private static final Text happinessAmount = new Text();
     private static final Text technologyName = new Text();
+    private static final Text userName = new Text();
+    private static final Text yearText = new Text();
 
     public static void init(HBox statusBar) {
 
         update();
+        statusBar.getChildren().add(userName);
+        statusBar.getChildren().add(yearText);
 
         statusBar.getChildren().add(GOLD_IMAGE);
         statusBar.getChildren().add(goldAmount);
@@ -34,10 +38,13 @@ public class StatusBarController {
         statusBar.getChildren().add(technologyName);
 
 
+
     }
 
     public static void update() {
         Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
+        userName.setText(civilization.getUser().getNickname());
+        yearText.setText("Year: " + GameController.getCycle());
         goldAmount.setText(civilization.getGold() + "   ");
         happinessAmount.setText(civilization.getHappiness() + "   ");
         scienceAmount.setText(civilization.collectScience() + "   ");

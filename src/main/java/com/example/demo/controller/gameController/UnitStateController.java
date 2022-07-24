@@ -13,19 +13,29 @@ import com.example.demo.model.tiles.Tile;
 import com.example.demo.model.tiles.TileType;
 
 public class UnitStateController {
-    public static boolean unitMoveTo(int x, int y) {
+    public static boolean isMapMoveValid(Tile tile, Civilization civilization) {
+        return tile != null &&
+            GameController.getCivilizations().get(GameController.getPlayerTurn()) == civilization &&
+            tile.getTileType() != TileType.OCEAN &&
+            tile.getTileType() != TileType.MOUNTAIN;
+    }
+    public static int unitMoveTo(int x, int y) {
         if (GameController.getSelectedUnit() == null ||
-                GameController.getMap().coordinatesToTile(x, y) == null ||
-                GameController.getCivilizations().get(GameController.getPlayerTurn()) !=
-                        GameController.getSelectedUnit().getCivilization() ||
-                GameController.getMap().coordinatesToTile(x, y).getTileType() == TileType.OCEAN ||
-                GameController.getMap().coordinatesToTile(x, y).getTileType() == TileType.MOUNTAIN)
-            return false;
+            GameController.getMap().coordinatesToTile(x, y) == null)
+            return 1;
+        if (GameController.getCivilizations().get(GameController.getPlayerTurn()) !=
+            GameController.getSelectedUnit().getCivilization())
+            return 2;
+        if (GameController.getMap().coordinatesToTile(x, y).getTileType() == TileType.OCEAN ||
+            GameController.getMap().coordinatesToTile(x, y).getTileType() == TileType.MOUNTAIN)
+            return 3;
         GameController.deleteFromUnfinishedTasks(new Tasks(GameController
-                .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
+            .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
         GameController.getSelectedUnit().setState(UnitState.AWAKE);
-        return GameController.getSelectedUnit()
-                .move(GameController.getMap().coordinatesToTile(x, y), true);
+        if (GameController.getSelectedUnit()
+            .move(GameController.getMap().coordinatesToTile(x, y), true))
+            return 0;
+        return 4;
     }
 
     public static int unitSleep() {
@@ -54,14 +64,14 @@ public class UnitStateController {
             return 4;
         if (civilization.getGold() < UnitType.SWORDSMAN.getCost() - selectedUnit.getCost())
             return 5;
-        if(selectedUnit.getCurrentTile().getCivilization()!=civilization)
+        if (selectedUnit.getCurrentTile().getCivilization() != civilization)
             return 6;
         NonCivilian swordsMan = new NonCivilian(selectedUnit.getCurrentTile(), selectedUnit.getCivilization(), UnitType.SWORDSMAN);
         civilization.getUnits().remove(selectedUnit);
         selectedUnit.getCurrentTile().setNonCivilian(swordsMan);
         civilization.getUnits().add(swordsMan);
         GameController.setSelectedUnit(swordsMan);
-        GameController.openNewArea(swordsMan.getCurrentTile(),swordsMan.getCivilization(),swordsMan);
+        GameController.openNewArea(swordsMan.getCurrentTile(), swordsMan.getCivilization(), swordsMan);
         return 0;
     }
 
@@ -87,8 +97,8 @@ public class UnitStateController {
         if (GameController.getSelectedUnit().getCivilization() != GameController
                 .getCivilizations().get(GameController.getPlayerTurn()))
             return 2;
-        if (GameController.getSelectedUnit() instanceof Civilian)
-            return 3;
+//        if (GameController.getSelectedUnit() instanceof Civilian)
+//            return 3;
         GameController.deleteFromUnfinishedTasks(new Tasks(GameController
                 .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
         if (state == 0)
@@ -129,10 +139,10 @@ public class UnitStateController {
             if (civilization.isInTheCivilizationsBorder(GameController
                     .getSelectedUnit().getCurrentTile()))
                 return 4;
-        for (Civilization civilization : GameController.getCivilizations())
-            for (City city : civilization.getCities())
-                if (city.getName().equals(string))
-                    return 5;
+//        for (Civilization civilization : GameController.getCivilizations())
+//            for (City city : civilization.getCities())
+//                if (city.getName().equals(string))
+//                    return 5;
         GameController.deleteFromUnfinishedTasks(new Tasks(GameController
                 .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
         ((Civilian) GameController.getSelectedUnit()).city(string);
@@ -296,12 +306,15 @@ public class UnitStateController {
         if (GameController.getSelectedUnit().getCivilization() != GameController.getCivilizations()
                 .get(GameController.getPlayerTurn())) return 2;
         if (!(GameController.getSelectedUnit() instanceof NonCivilian)) return 3;
+//        if(GameController.getSelectedUnit().isDidDoTaskThisTurn())
+//            return 9;
         if (((NonCivilian) GameController.getSelectedUnit()).attacked) return 8;
         if (GameController.getMap().coordinatesToTile(x, y) == null) return 4;
         if (GameController.getSelectedUnit().getUnitType().combatType == CombatType.SIEGE &&
                 (GameController.getSelectedUnit().getState() != UnitState.SETUP ||
                         ((NonCivilian) GameController.getSelectedUnit()).getFortifiedCycle() < 1))
             return 7;
+
         if (!GameController.canUnitAttack(GameController.getMap().coordinatesToTile(x, y))) return 5;
         Tile startTile = GameController.getSelectedUnit().getCurrentTile();
         if (!GameController.getSelectedUnit()
@@ -310,6 +323,7 @@ public class UnitStateController {
         if (GameController.getSelectedUnit().getCurrentTile() == startTile
                 && GameController.getSelectedUnit().getUnitType().combatType == CombatType.SIEGE)
             GameController.getSelectedUnit().setState(UnitState.SETUP);
+
         return 0;
     }
 

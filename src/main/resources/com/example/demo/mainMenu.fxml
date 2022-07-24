@@ -30,6 +30,10 @@
                 mnemonicParsing="false" text="ScoreBoard" onAction="#scoreBoard"/>
         <Button fx:id="chatButton"
                 mnemonicParsing="false" text="Chat" onAction="#chat"/>
+        <Button fx:id="resumeButton" disable="true"
+                mnemonicParsing="false" text="Resume game" onAction="#resume"/>
+
+
         <Button fx:id="logoutButton" layoutY="14.0"
                 mnemonicParsing="false" text="Logout" onAction="#logout"/>
     </AnchorPane>

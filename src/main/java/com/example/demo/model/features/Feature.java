@@ -1,6 +1,8 @@
 package com.example.demo.model.features;
 
-public class Feature {
+import java.io.Serializable;
+
+public class Feature implements Serializable {
     private final FeatureType featureType;
     private int cyclesToFinish;
 

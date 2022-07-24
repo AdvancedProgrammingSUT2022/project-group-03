@@ -2,15 +2,19 @@ package com.example.demo.model.tiles;
 
 import com.example.demo.model.City;
 import com.example.demo.model.Civilization;
+import com.example.demo.model.Ruins;
 import com.example.demo.model.Units.*;
+import com.example.demo.model.building.Building;
 import com.example.demo.model.features.Feature;
 import com.example.demo.model.features.FeatureType;
 import com.example.demo.model.improvements.Improvement;
 import com.example.demo.model.resources.ResourcesTypes;
 
+import java.io.Serializable;
 
-public class Tile {
-    private boolean[] tilesWithRiver = new boolean[6];
+
+public class Tile implements Serializable {
+    public boolean[] tilesWithRiver = new boolean[6];
     private TileType tileType;
     private ResourcesTypes containedResource;
     private Feature containedFeature;
@@ -23,7 +27,9 @@ public class Tile {
     private City city;
     private int raidLevel;
     private Improvement road;
+    private Building building;
     private final Tile[] neighbours = new Tile[6];// LU, clockwise
+    private Ruins ruins;
 
     public int getX() {
         return x;
@@ -59,6 +65,8 @@ public class Tile {
         if (i >= 0 && i < 6) {
             return neighbours[i];
         }
+        if(i==7)
+            return this;
         return null;
     }
 
@@ -75,19 +83,17 @@ public class Tile {
         return false;
     }
 
-    public boolean doesHaveRiver()
-    {
+    public boolean doesHaveRiver() {
         for (boolean b : tilesWithRiver) {
-            if(b)
+            if (b)
                 return true;
         }
         return false;
     }
 
-    public boolean doesHaveLakeAround()
-    {
+    public boolean doesHaveLakeAround() {
         for (Tile neighbour : neighbours) {
-            if(neighbour.tileType==TileType.OCEAN)
+            if (neighbour.tileType == TileType.OCEAN)
                 return true;
         }
         return false;
@@ -147,16 +153,24 @@ public class Tile {
 
 
     public void setCivilian(Unit unit) {
+
         if (unit == null) {
             civilian = null;
             return;
         }
         if (unit.getUnitType().combatType == CombatType.CIVILIAN)
             this.civilian = unit;
+        if (ruins != null && unit != null) {
+            ruins.open(unit.getCivilization());
+        }
     }
 
     public void setNonCivilian(NonCivilian nonCivilian) {
+
         this.nonCivilian = nonCivilian;
+        if (ruins != null && nonCivilian != null) {
+            ruins.open(nonCivilian.getCivilization());
+        }
     }
 
     public int getCombatChange() {
@@ -216,5 +230,21 @@ public class Tile {
 
     public Improvement getRoad() {
         return road;
+    }
+
+    public Ruins getRuins() {
+        return ruins;
+    }
+
+    public void setRuins(Ruins ruins) {
+        this.ruins = ruins;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
     }
 }

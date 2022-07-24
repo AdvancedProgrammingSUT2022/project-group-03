@@ -20,10 +20,12 @@ public class StageController {
         StageController.stage = stage;
         stage.setTitle("Civilization Zero");
         try {
-//            pane = FXMLLoader.load(Objects
-//                    .requireNonNull(HelloApplication.class.getResource("loginMenu.fxml")));
+            //play music:
+
             pane = FXMLLoader.load(Objects
-                .requireNonNull(HelloApplication.class.getResource("game.fxml")));
+                    .requireNonNull(HelloApplication.class.getResource("loginMenu.fxml")));
+//            pane = FXMLLoader.load(Objects
+//                .requireNonNull(HelloApplication.class.getResource("game.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,11 +54,13 @@ public class StageController {
             e.printStackTrace();
         }
     }
-    public static void errorMaker(String header, String content,Alert.AlertType type) {
+    public static Alert errorMaker(String header, String content,Alert.AlertType type) {
         Alert errorAlert = new Alert(type);
         errorAlert.setHeaderText(header);
         errorAlert.setContentText(content);
         errorAlert.initOwner(StageController.getStage());
         errorAlert.showAndWait();
+        return errorAlert;
     }
+
 }
