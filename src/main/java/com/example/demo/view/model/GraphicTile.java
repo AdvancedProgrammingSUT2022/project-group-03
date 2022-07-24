@@ -38,11 +38,14 @@ public class GraphicTile implements Serializable {
     private ImageView resourceImage;
     private ImageView featureImage;
     private ImageView nonCivilianUnitImage;
+    private HealthBar nonCivilianHealthBar;
     private ImageView civilianUnitImage;
+    private HealthBar civilianHealthBar;
     private ImageView improvementImage;
     private ImageView pillage;
     private ImageView roadImage;
     private ImageView cityImage;
+    private HealthBar cityHealthBar;
     private ImageView fogImage;
     private ImageView citizenImage;
     private ImageView ruinsImage;
@@ -159,7 +162,7 @@ public class GraphicTile implements Serializable {
             addButton("Call", true, true, event -> {
                 int code = UnitStateController.unitChangeState(3);
                 if (code == 2)
-                    notif("fault", "This Unit is not belong to you.");
+                    notif("fault", "This Unit does not belong to you.");
                 else if (code == 0)
                     notif("Awake", "The unit awoken successfully.");
             });
@@ -167,7 +170,7 @@ public class GraphicTile implements Serializable {
         addButton("Fortify", true, true, event -> {
             int code = UnitStateController.unitChangeState(0);
             if (code == 2)
-                notif("fault", "This Unit is not belong to you.");
+                notif("fault", "This Unit does not belong to you.");
             else if (code == 0)
                 notif("Fortify", "The unit fortified successfully.");
         });
@@ -175,7 +178,7 @@ public class GraphicTile implements Serializable {
         addButton("Fortify until health", true, true, event -> {
             int code = UnitStateController.unitChangeState(1);
             if (code == 2)
-                notif("fault", "This Unit is not belong to you.");
+                notif("fault", "This Unit does not belong to you.");
             else if (code == 0)
                 notif("Fortify", "The unit fortified until full health successfully.");
         });
@@ -183,7 +186,7 @@ public class GraphicTile implements Serializable {
         addButton("Garrison", true, true, event -> {
             int code = UnitStateController.unitChangeState(2);
             if (code == 2)
-                notif("fault", "This Unit is not belong to you.");
+                notif("fault", "This Unit does not belong to you.");
             else if (code == 0)
                 notif("Garrison", "The unit garrisoned successfully.");
         });
@@ -193,7 +196,7 @@ public class GraphicTile implements Serializable {
                 GameController.setSelectedUnit(unit);
                 int code = UnitStateController.unitPillage();
                 switch (code) {
-                    case 4 -> notif("fault", "This unit is not belong to you!");
+                    case 4 -> notif("fault", "This unit does not belong to you!");
                     case 3 -> notif("Error", "You can not pillage your improvements.");
                     case 0 -> {
                         notif("Pillage", "Your unit pillages this improvement.");
@@ -207,7 +210,7 @@ public class GraphicTile implements Serializable {
             addButton("Setup", true, true, event -> {
                 int code = UnitStateController.unitSetupRanged();
                 switch (code) {
-                    case 2 -> notif("fault", "This unit is not belong to you!");
+                    case 2 -> notif("fault", "This unit does not belong to you!");
                     case 0 -> notif("Setup", "The unit setup successfully.");
                 }
             });
@@ -222,7 +225,7 @@ public class GraphicTile implements Serializable {
                     int y = GameController.getSelectedTile().getY();
                     int code = UnitStateController.unitAttack(x, y);
                     switch (code) {
-                        case 2 -> notif("fault", "This unit is not belong to you!");
+                        case 2 -> notif("fault", "This unit does not belong to you!");
                         case 7 -> notif("Setup need", "You must setup your unit before attacking!");
                         case 5 -> notif("Attack to what?", "The destination tile has no units that can be attacked.");
                         case 6 -> notif("Can not attack", "The destination tile is so far.");
@@ -245,7 +248,7 @@ public class GraphicTile implements Serializable {
         addButton("Found City", true, true, event -> {
             int code = UnitStateController.unitFoundCity("Unnamed City");
             switch (code) {
-                case 2 -> notif("fault", "This settler unit is not belong to you.");
+                case 2 -> notif("fault", "This settler unit does not belong to you.");
                 case 4 -> notif("Near city", "This tile is near a city. So you can not found a city here.");
                 case 0 -> notif("Found City", "Your new city founded successfully.");
             }
@@ -285,7 +288,7 @@ public class GraphicTile implements Serializable {
             addButton("Repair Improvement", true, true, event -> {
                 int code = UnitStateController.unitRepair();
                 switch (code) {
-                    case 2 -> notif("fault", "This unit is not belong to you.");
+                    case 2 -> notif("fault", "This unit does not belong to you.");
                     case 0 -> notif("Repairing started", "Repairing this improvement started successfully");
                     default -> notif("Error", "Can not repair.");
                 }
@@ -295,7 +298,7 @@ public class GraphicTile implements Serializable {
         //improvement building:
         for (ImprovementType improvementType : ImprovementType.values())
             if (GameController.doesHaveTheRequiredTechnologyToBuildImprovement(improvementType, tile, civilization)
-                && GameController.canHaveTheImprovement(tile, improvementType))
+                    && GameController.canHaveTheImprovement(tile, improvementType))
                 if (tile.getImprovement() != null && tile.getImprovement().getImprovementType().equals(improvementType)) {
                     if (improvementImage != null)
                         addButton("Remove " + improvementType, true, true, event -> {
@@ -322,10 +325,10 @@ public class GraphicTile implements Serializable {
     private void addCommonButtons(Unit unit) {
         leftPanel.getChildren().clear();
         Text title = new Text("Selected Unit: " + unit.getUnitType() +
-            "\nMove point:" + unit.getMovementPrice() +
-            "\nState: " + unit.getState() +
-            "\nHealth: " + unit.getHealth() +
-            "\nStrength:  A(" + round(unit.getCombatStrength(true), 1) + ")   D(" + round(unit.getCombatStrength(false), 1) + ")");
+                "\nMove point:" + unit.getMovementPrice() +
+                "\nState: " + unit.getState() +
+                "\nHealth: " + unit.getHealth() +
+                "\nStrength:  A(" + round(unit.getCombatStrength(true), 1) + ")   D(" + round(unit.getCombatStrength(false), 1) + ")");
         leftPanel.getChildren().add(title);
 
         leftVbox = new VBox();
@@ -345,7 +348,7 @@ public class GraphicTile implements Serializable {
                     int y = GameController.getSelectedTile().getY();
                     int code = UnitStateController.unitMoveTo(x, y);
                     switch (code) {
-                        case 2 -> notif("fault", "This unit is not belong to you!");
+                        case 2 -> notif("fault", "This unit does not belong to you!");
                         case 3 -> notif("Impossible movement", "You can not move to that tile!");
                         case 4 -> notif("Movement Error", "Error in moving.");
                     }
@@ -387,7 +390,7 @@ public class GraphicTile implements Serializable {
             addButton("Alter", true, true, event -> {
                 int code = UnitStateController.unitAlert();
                 switch (code) {
-                    case 2 -> notif("fault", "This Unit is not belong to you.");
+                    case 2 -> notif("fault", "This Unit does not belong to you.");
                     case 3 -> notif("Error", "Your unit is near a military unit of others.");
                     case 0 -> notif("Success", "Done!");
                 }
@@ -425,7 +428,7 @@ public class GraphicTile implements Serializable {
         //load clouds
         for (int i = 0; i < 6; i++) {
             if (tile.getNeighbours(i) != null &&
-                GameController.getCivilizations().get(GameController.getPlayerTurn()).getTileConditions()[tile.getNeighbours(i).getX()][tile.getNeighbours(i).getY()] != null) {
+                    GameController.getCivilizations().get(GameController.getPlayerTurn()).getTileConditions()[tile.getNeighbours(i).getX()][tile.getNeighbours(i).getY()] != null) {
                 isAroundNonClouded = true;
                 break;
             }
@@ -503,6 +506,9 @@ public class GraphicTile implements Serializable {
                 nonCivilianUnitImage.setOpacity(0.65);
             nonCivilianUnitImage.setCursor(Cursor.HAND);
             pane.getChildren().add(nonCivilianUnitImage);
+
+            nonCivilianHealthBar = new HealthBar(tile.getNonCivilian(),pane);
+
         }
 
         //load civilian unit
@@ -517,6 +523,8 @@ public class GraphicTile implements Serializable {
                 civilianUnitImage.setOpacity(0.65);
             civilianUnitImage.setCursor(Cursor.HAND);
             pane.getChildren().add(civilianUnitImage);
+
+            civilianHealthBar = new HealthBar(tile.getCivilian(),pane);
         }
 
         //load improvements
@@ -553,6 +561,7 @@ public class GraphicTile implements Serializable {
             cityImage.setOnMouseReleased(event -> gameControllerFX.getCityPanel().cityClicked(finalTile.getCity()));
             cityImage.setCursor(Cursor.HAND);
             pane.getChildren().add(cityImage);
+            cityHealthBar = new HealthBar(tile.getCity(),pane);
         }
 
 
@@ -642,8 +651,12 @@ public class GraphicTile implements Serializable {
         }
         //city
         if (cityImage != null) {
-            cityImage.setLayoutX(x + tileImage.getFitWidth() / 2 - cityImage.getFitWidth() / 2);
-            cityImage.setLayoutY(y + tileImage.getFitHeight() * 4 / 5 - cityImage.getFitHeight() / 2);
+            double cityX = x + tileImage.getFitWidth() / 2 - cityImage.getFitWidth() / 2;
+            double cityY = y + tileImage.getFitHeight() * 4 / 5 - cityImage.getFitHeight() / 2;
+            cityImage.setLayoutX(cityX);
+            cityImage.setLayoutY(cityY);
+            cityHealthBar.fixFormat(cityX + cityImage.getFitWidth()/2 - HealthBar.getWidth()/2,
+                    cityY - HealthBar.getHeight());
         }
         if (fogImage != null) {
             fogImage.setLayoutX(x);
@@ -695,13 +708,21 @@ public class GraphicTile implements Serializable {
     }
 
     private void nonCivilianUnitSetPosition(double x, double y) {
-        nonCivilianUnitImage.setLayoutX(x + tileImage.getFitWidth() * 3.5 / 5 - nonCivilianUnitImage.getFitWidth() / 2);
-        nonCivilianUnitImage.setLayoutY(y + tileImage.getFitHeight() * 3.5 / 5 - nonCivilianUnitImage.getFitHeight() / 2);
+        double unitX = x + tileImage.getFitWidth() * 3.5 / 5 - nonCivilianUnitImage.getFitWidth() / 2;
+        double unitY = y + tileImage.getFitHeight() * 3.5 / 5 - nonCivilianUnitImage.getFitHeight() / 2;
+        nonCivilianUnitImage.setLayoutX(unitX);
+        nonCivilianUnitImage.setLayoutY(unitY);
+        nonCivilianHealthBar.fixFormat(unitX + nonCivilianUnitImage.getFitWidth()/2 - HealthBar.getWidth()/2,
+                unitY - HealthBar.getHeight());
     }
 
     private void civilianUnitSetPosition(double x, double y) {
-        civilianUnitImage.setLayoutX(x + tileImage.getFitWidth() * 1.5 / 5 - civilianUnitImage.getFitWidth() / 3);
-        civilianUnitImage.setLayoutY(y + tileImage.getFitHeight() * 1.5 / 5 - civilianUnitImage.getFitHeight() / 2);
+        double unitX = x + tileImage.getFitWidth() * 1.5 / 5 - civilianUnitImage.getFitWidth() / 3;
+        double unitY = y + tileImage.getFitHeight() * 1.5 / 5 - civilianUnitImage.getFitHeight() / 2;
+        civilianUnitImage.setLayoutX(unitX);
+        civilianUnitImage.setLayoutY(unitY);
+        civilianHealthBar.fixFormat(unitX + civilianUnitImage.getFitWidth()/2 - HealthBar.getWidth()/2,
+                unitY - HealthBar.getHeight());
     }
 
     public double getX() {

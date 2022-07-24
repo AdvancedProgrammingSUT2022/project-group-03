@@ -32,4 +32,24 @@ public class Civilian extends Unit {
             state = UnitState.REMOVING;
         }
     }
+
+    @Override
+    public double greenBarPercent() {
+        return (double) health/100;
+    }
+
+    @Override
+    public double blueBarPercent() {
+        return (double) movementPrice/unitType.movePoint;
+    }
+
+    @Override
+    public String getHealthDigit() {
+        return health + "/100";
+    }
+
+    @Override
+    public Tile getTile() {
+        return currentTile;
+    }
 }
