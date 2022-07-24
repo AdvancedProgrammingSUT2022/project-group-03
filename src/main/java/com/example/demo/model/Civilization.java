@@ -41,7 +41,7 @@ public class Civilization implements Serializable {
     //-1 war
     // 0 neutral
     // 1 peace
-    private ArrayList<Pair<Civilization,Integer>> knownCivilizations = new ArrayList<>();
+    private ArrayList<Pair<Civilization, Integer>> knownCivilizations = new ArrayList<>();
 
     private TileCondition[][] tileConditions;
     private final User user;
@@ -51,7 +51,7 @@ public class Civilization implements Serializable {
     }
 
     private final int color;
-    private int gold=0;
+    private int gold = 0;
     private final ArrayList<Unit> units = new ArrayList<>();
     private final ArrayList<Technology> researches = new ArrayList<>();
     private final ArrayList<City> cities = new ArrayList<>();
@@ -335,36 +335,45 @@ public class Civilization implements Serializable {
         return knownCivilizations;
     }
 
-    public boolean knownCivilizationsContains(Civilization civilization)
-    {
+    public boolean knownCivilizationsContains(Civilization civilization) {
         for (Pair<Civilization, Integer> knownCivilization : knownCivilizations) {
-            if(knownCivilization.getKey()==civilization)
+            if (knownCivilization.getKey() == civilization)
                 return true;
         }
         return false;
+    }
+
+    public int knownCivilizationStatue(Civilization civilization) {
+        for (Pair<Civilization, Integer> knownCivilization : knownCivilizations) {
+            if (knownCivilization.getKey() == civilization)
+                return knownCivilization.getValue();
+        }
+        return -2;
+    }
+
+    public void setKnownCivilizations(Civilization civilization, int statue) {
+        knownCivilizations.remove(civilization);
+        knownCivilizations.add(new Pair<>(civilization, statue));
     }
 
     public ArrayList<TradeRequest> getTradeRequests() {
         return tradeRequests;
     }
 
-    public void addResources(ResourcesTypes resourcesTypes, int amount)
-    {
+    public void addResources(ResourcesTypes resourcesTypes, int amount) {
         int value = amount;
-        if(resourcesAmount.containsKey(resourcesTypes))
-        {
-            value+=resourcesAmount.get(resourcesTypes);
+        if (resourcesAmount.containsKey(resourcesTypes)) {
+            value += resourcesAmount.get(resourcesTypes);
             resourcesAmount.remove(resourcesTypes);
         }
-        resourcesAmount.put(resourcesTypes,value);
+        resourcesAmount.put(resourcesTypes, value);
     }
 
-    public void removeResource(ResourcesTypes resourcesTypes, int amount)
-    {
-        if(resourcesAmount.containsKey(resourcesTypes) && resourcesAmount.get(resourcesTypes)>amount){
-            int value = resourcesAmount.get(resourcesTypes)- amount;
+    public void removeResource(ResourcesTypes resourcesTypes, int amount) {
+        if (resourcesAmount.containsKey(resourcesTypes) && resourcesAmount.get(resourcesTypes) > amount) {
+            int value = resourcesAmount.get(resourcesTypes) - amount;
             resourcesAmount.remove(resourcesTypes);
-            resourcesAmount.put(resourcesTypes,value);
+            resourcesAmount.put(resourcesTypes, value);
         }
     }
 

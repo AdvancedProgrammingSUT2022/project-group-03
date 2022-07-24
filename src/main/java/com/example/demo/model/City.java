@@ -8,6 +8,7 @@ import com.example.demo.model.resources.ResourcesCategory;
 import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.model.tiles.TileType;
+import com.example.demo.view.HealthyBeing;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 
-public class City implements Serializable, CanAttack, CanGetAttacked {
+public class City implements Serializable, CanAttack, CanGetAttacked, HealthyBeing {
     private final String name;
     private final Tile mainTile;
     private Civilization civilization;
@@ -607,5 +608,25 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
 
     public void setHasAttackedThisCycle(boolean hasAttackedThisCycle) {
         this.hasAttackedThisCycle = hasAttackedThisCycle;
+    }
+
+    @Override
+    public double greenBarPercent() {
+        return (double) HP/200;
+    }
+
+    @Override
+    public double blueBarPercent() {
+        return 0;
+    }
+
+    @Override
+    public String getHealthDigit() {
+        return HP + "/200";
+    }
+
+    @Override
+    public Tile getTile() {
+        return mainTile;
     }
 }
