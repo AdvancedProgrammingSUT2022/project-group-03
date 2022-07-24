@@ -64,7 +64,8 @@ public class GameControllerFX {
 
     public void initialize() {
         cityPanel = new CityPanel(this, leftPanel);
-        Music.play("game");
+        if (!hasStarted)
+            Music.play("game");
 //        if (!hasStarted)
 //            startAFakeGame();
         new Cheat(root, cheatBar, this);
@@ -159,8 +160,7 @@ public class GameControllerFX {
         StageController.sceneChanger("chooseTechnologyMenu.fxml");
     }
 
-    private void panelLabelsInit(Label label, String string)
-    {
+    private void panelLabelsInit(Label label, String string) {
         ImageView imageView = new ImageView(ImageLoader.get(string + "Off"));
         label.setGraphic(imageView);
         label.setOnMouseEntered(event -> {
@@ -175,10 +175,10 @@ public class GameControllerFX {
         label.setGraphic(imageView);
         infoBar.getChildren().add(label);
     }
-    
+
     private void addInfoButtons() {
         Label technologyTreeLabel = new Label();
-        panelLabelsInit(technologyTreeLabel,"techIcon");
+        panelLabelsInit(technologyTreeLabel, "techIcon");
         technologyTreeLabel.setOnMouseClicked(event -> {
             if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0) {
                 StageController.errorMaker("You cannot enter the technology tree yet", "You must have atLeast one city to enter the technology tree", Alert.AlertType.ERROR);
@@ -191,7 +191,7 @@ public class GameControllerFX {
             }
         });
         Label selectResearchLabel = new Label();
-        panelLabelsInit(selectResearchLabel,"chooseTechIcon");
+        panelLabelsInit(selectResearchLabel, "chooseTechIcon");
         selectResearchLabel.setOnMouseClicked(event -> {
             if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0) {
                 StageController.errorMaker("You cannot enter the select research panel yet",
@@ -208,20 +208,19 @@ public class GameControllerFX {
 
 
         Label unitsPanelLabel = new Label();
-        panelLabelsInit(unitsPanelLabel,"unitsPanelIcon");
+        panelLabelsInit(unitsPanelLabel, "unitsPanelIcon");
         unitsPanelLabel.setOnMouseClicked(event -> StageController.sceneChanger("unitsPanel.fxml"));
 
         Label diplomacyLabel = new Label();
-        panelLabelsInit(diplomacyLabel,"diplomacyIcon");
+        panelLabelsInit(diplomacyLabel, "diplomacyIcon");
         diplomacyLabel.setOnMouseClicked(event -> {
-            if(GameController.getCurrentCivilization().getKnownCivilizations().size()==0)
+            if (GameController.getCurrentCivilization().getKnownCivilizations().size() == 0)
                 StageController.errorMaker("You cannot enter the Diplomacy panel yet",
                         "You must know atLeast one other civilization to enter the Diplomacy panel", Alert.AlertType.ERROR);
             else
                 StageController.sceneChanger("diplomacy.fxml");
         });
         diplomacyLabel.setTooltip(new Tooltip("Diplomacy Panel"));
-
 
 
         technologyTreeLabel.setTooltip(new Tooltip("Technology Tree"));
@@ -297,7 +296,7 @@ public class GameControllerFX {
         if (!GameController.nextTurnIfYouCan()) {
             switch (GameController.getUnfinishedTasks().get(0).getTaskTypes()) {
                 case UNIT -> StageController.errorMaker("Unit Error", "A unit needs order.", Alert.AlertType.ERROR);
-                case CITY_PRODUCTION -> StageController.errorMaker("City Error", "Set your city to produce a unit.", Alert.AlertType.ERROR);
+                case CITY_PRODUCTION -> StageController.errorMaker("City Error", "Set your city to produce something.", Alert.AlertType.ERROR);
                 case TECHNOLOGY_PROJECT -> StageController.errorMaker("Technology not selected", "Please select a technology to researching about it.", Alert.AlertType.ERROR);
                 case CITY_DESTINY -> StageController.errorMaker("City destiny error", "Please decide whether to destroy the captured city or not.", Alert.AlertType.ERROR);
             }
@@ -402,7 +401,7 @@ public class GameControllerFX {
         for (GraphicTile[] graphicTiles : graphicMap) {
             for (int j = 0; j < graphicMap[0].length; j++) {
                 if (graphicTiles[j].getTile().getX() == tile.getX() &&
-                    graphicTiles[j].getTile().getY() == tile.getY())
+                        graphicTiles[j].getTile().getY() == tile.getY())
                     return graphicTiles[j];
             }
         }

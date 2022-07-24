@@ -307,10 +307,10 @@ public class Civilization implements Serializable {
             notifications.put(cycle, strings);
         }
         notifications.get(cycle).add(string);
-        Notifications notifications = Notifications.create().hideAfter(Duration.seconds(5)).text(string)
+        Notifications notif = Notifications.create().hideAfter(Duration.seconds(5)).text(string)
                 .title(GameController.getCivilizations().get(GameController.getPlayerTurn()).getUser().getNickname() +
                         " - cycles: " + cycle);
-        notifications.show();
+        notif.show();
     }
 
     public void addGold(int number) {
