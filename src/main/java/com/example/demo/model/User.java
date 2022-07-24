@@ -26,22 +26,6 @@ public class User implements Serializable {
     private Date lastOnline;
     private final ArrayList<User> invites = new ArrayList<>();
     private final ArrayList<User> friends = new ArrayList<>();
-    static {
-        try {
-            String json = new String(Files.readAllBytes(Paths.get("dataBase/users.json")));
-            listOfUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
-            }.getType());
-        } catch (IOException e) {
-            File file = new File("dataBase/users.json");
-            try {
-                file.createNewFile();
-                listOfUsers = new ArrayList<>();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
-
     public UserIcon getIcon() {
         return icon;
     }

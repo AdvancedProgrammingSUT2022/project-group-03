@@ -33,7 +33,9 @@ public class NetworkController {
         while (!scanner.hasNextLine()){
 
         }
-        return scanner.nextLine();
+        String string = scanner.nextLine();
+        System.out.println(string);
+        return string;
     }
     public static String send(String  request){
         if(token!= null) printStream.println(token);
