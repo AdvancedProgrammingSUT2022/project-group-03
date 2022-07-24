@@ -1,6 +1,7 @@
 package com.example.demo.view;
 
 import com.example.demo.HelloApplication;
+import com.example.demo.controller.NetworkController;
 import com.example.demo.controller.Music;
 import com.example.demo.controller.gameController.GameController;
 import javafx.application.Platform;
@@ -46,14 +47,18 @@ public class MainControllerFX implements Initializable {
     }
 
     @FXML
-    public void profileMenu() {
+    public void profileMenu()
+    {
+        NetworkController.send("menu enter profile");
         AssetsController.openLeadersAvatars();
         StageController.sceneChanger("profileMenu.fxml");
     }
-
     @FXML
-    public void scoreBoard() {
-        StageController.sceneChanger("scoreBoard.fxml");
+    public void scoreBoard()
+    {
+            NetworkController.send("menu enter profile");
+            AssetsController.openLeadersAvatars();
+            StageController.sceneChanger("scoreboard.fxml");
     }
 
     @FXML
@@ -74,8 +79,12 @@ public class MainControllerFX implements Initializable {
                 SavingHandler.save(true);
             }
             GameController.setMap(null);
+            NetworkController.send("menu exit");
+            NetworkController.deleteToken();
             StageController.sceneChanger("loginMenu.fxml");
         } else {
+            NetworkController.send("menu exit");
+            NetworkController.deleteToken();
             StageController.sceneChanger("loginMenu.fxml");
         }
     }

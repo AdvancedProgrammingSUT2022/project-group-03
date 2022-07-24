@@ -1,5 +1,6 @@
 package com.example.demo.view.model;
 
+import com.example.demo.controller.NetworkController;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.controller.gameController.UnitStateController;
 import com.example.demo.model.City;
