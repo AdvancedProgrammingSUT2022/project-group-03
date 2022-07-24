@@ -195,7 +195,7 @@ public class GameControllerFX {
         selectResearchLabel.setOnMouseClicked(event -> {
             if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0) {
                 StageController.errorMaker("You cannot enter the select research panel yet",
-                        "You must have atLeast one city to enter the select research panel", Alert.AlertType.ERROR);
+                    "You must have atLeast one city to enter the select research panel", Alert.AlertType.ERROR);
             } else {
                 try {
                     enterSelectResearchPanel();
@@ -312,6 +312,8 @@ public class GameControllerFX {
 
     public void findUnit() {
         if (GameController.getUnfinishedTasks().isEmpty()) {
+            Tile tile = GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().get(0).getMainTile();
+            MapMoveController.showTile(graphicMap[tile.getX()][tile.getY()]);
             StageController.errorMaker("All is done", "Click next turn.", Alert.AlertType.INFORMATION);
             return;
         }

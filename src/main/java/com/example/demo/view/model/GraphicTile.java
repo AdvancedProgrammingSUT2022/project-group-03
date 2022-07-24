@@ -358,6 +358,14 @@ public class GraphicTile implements Serializable {
             });
         }
 
+        if (GameController.getSelectedUnit().getDestinationTile() != null)
+            addButton("Cancel", true, true, event -> {
+                if (UnitStateController.unitCancelMission() == 0)
+                    notif("Canceled successfully", "The movement Canceled successfully.");
+                else
+                    notif("fault", "Can not cancel.");
+            });
+
         if (!unit.getState().equals(UnitState.SLEEP))
             addButton("Sleep", true, true, event -> {
                 if (UnitStateController.unitSleep() == 0)
