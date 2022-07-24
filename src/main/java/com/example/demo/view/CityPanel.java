@@ -196,7 +196,7 @@ public class CityPanel {
 
                 Unit unit = openedPanelCity.findHalfProducedUnit(unitType);
                 if(buy)
-                    textString = unitType.getCost() + "$";
+                    textString = textString+unitType.getCost() + "$";
                 else  {
                     if (unit == null)
                         textString = textString + openedPanelCity.cyclesToComplete(unitType.getCost()) + " Cycles";

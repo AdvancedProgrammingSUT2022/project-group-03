@@ -312,7 +312,9 @@ public class GameControllerFX {
 
     public void findUnit() {
         if (GameController.getUnfinishedTasks().isEmpty()) {
-            Tile tile = GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().get(0).getMainTile();
+            if(GameController.getCurrentCivilization().getCities().size()==0)
+                return;
+            Tile tile = GameController.getCurrentCivilization().getCities().get(0).getMainTile();
             MapMoveController.showTile(graphicMap[tile.getX()][tile.getY()]);
             StageController.errorMaker("All is done", "Click next turn.", Alert.AlertType.INFORMATION);
             return;
