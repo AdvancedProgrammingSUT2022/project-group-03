@@ -213,7 +213,13 @@ public class GameControllerFX {
 
         Label diplomacyLabel = new Label();
         panelLabelsInit(diplomacyLabel,"diplomacyIcon");
-        diplomacyLabel.setOnMouseClicked(event -> StageController.sceneChanger("diplomacy.fxml"));
+        diplomacyLabel.setOnMouseClicked(event -> {
+            if(GameController.getCurrentCivilization().getKnownCivilizations().size()==0)
+                StageController.errorMaker("You cannot enter the Diplomacy panel yet",
+                        "You must know atLeast one other civilization to enter the Diplomacy panel", Alert.AlertType.ERROR);
+            else
+                StageController.sceneChanger("diplomacy.fxml");
+        });
         diplomacyLabel.setTooltip(new Tooltip("Diplomacy Panel"));
 
 
@@ -288,7 +294,6 @@ public class GameControllerFX {
 
 
     public void nextTurn() {
-        GameController.setUnfinishedTasks();
         if (!GameController.nextTurnIfYouCan()) {
             switch (GameController.getUnfinishedTasks().get(0).getTaskTypes()) {
                 case UNIT -> StageController.errorMaker("Unit Error", "A unit needs order.", Alert.AlertType.ERROR);

@@ -24,6 +24,7 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked {
     protected UnitType unitType;
     private int remainedCost;
     protected UnitState state;
+//    private boolean didDoTaskThisTurn = false;
 
     public Unit(Tile tile, Civilization civilization, UnitType unitType) {
         this.currentTile = tile;
@@ -166,6 +167,7 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked {
     }
 
     public void startTheTurn() {
+//        didDoTaskThisTurn=false;
         GameController.openNewArea(currentTile, civilization, this);
         health += 5;
         if (state == UnitState.FORTIFY) health += 15;
@@ -316,4 +318,12 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked {
     public String getName() {
         return unitType.toString();
     }
+
+//    public boolean isDidDoTaskThisTurn() {
+//        return didDoTaskThisTurn;
+//    }
+//
+//    public void setDidDoTaskThisTurn(boolean didDoTaskThisTurn) {
+//        this.didDoTaskThisTurn = didDoTaskThisTurn;
+//    }
 }

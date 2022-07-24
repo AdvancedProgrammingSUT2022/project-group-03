@@ -219,6 +219,7 @@ public class GraphicTile implements Serializable {
                         case 6 -> notif("Can not attack", "The destination tile is so far.");
                         case 8 -> notif("Attacked before", "You can not attack more in this turn.");
                         case 0 -> StageController.errorMaker("Attack", "Attacked successfully.", Alert.AlertType.INFORMATION);
+                        case 9 -> notif("The Units is tired", "");
                     }
                     gameControllerFX.setSelectingTile(false);
                     gameControllerFX.renderMap();
