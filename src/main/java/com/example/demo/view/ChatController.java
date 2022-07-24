@@ -394,9 +394,9 @@ public class ChatController {
 
     public void back() {
         if(isInGame)
-            StageController.sceneChanger("game.fxml");
+            StageController.sceneChanger("diplomacy.fxml");
         else
-        StageController.sceneChanger("diplomacy.fxml");
+        StageController.sceneChanger("mainMenu.fxml");
         isInGame=false;
     }
     public void checkEnter(KeyEvent keyEvent) {

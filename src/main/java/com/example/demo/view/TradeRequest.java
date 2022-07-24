@@ -4,22 +4,14 @@ import com.example.demo.model.Civilization;
 import com.example.demo.model.resources.ResourcesTypes;
 import javafx.util.Pair;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class TradeRequest {
-    private final ArrayList<Pair<ResourcesTypes, Integer>> theirOffers;
-    private final ArrayList<Pair<ResourcesTypes, Integer>> yourOffers;
-    private final Civilization from;
-    private final Civilization to;
-
-    public TradeRequest(ArrayList<Pair<ResourcesTypes, Integer>> theirOffers,
-                        ArrayList<Pair<ResourcesTypes, Integer>> yourOffers,
-                        Civilization from, Civilization to) {
-        this.theirOffers = theirOffers;
-        this.yourOffers = yourOffers;
-        this.from = from;
-        this.to = to;
-    }
+public record TradeRequest(
+        ArrayList<Pair<ResourcesTypes, Integer>> theirOffers,
+        ArrayList<Pair<ResourcesTypes, Integer>> yourOffers,
+        Civilization from, Civilization to, int theirGoldOffer,
+        int yourGoldOffer) implements Serializable {
 
     public ArrayList<Pair<ResourcesTypes, Integer>> getTheirOffers() {
         return theirOffers;
@@ -36,4 +28,5 @@ public class TradeRequest {
     public Civilization getFrom() {
         return from;
     }
+
 }

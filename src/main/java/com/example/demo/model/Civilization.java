@@ -51,7 +51,7 @@ public class Civilization implements Serializable {
     }
 
     private final int color;
-    private int gold;
+    private int gold=0;
     private final ArrayList<Unit> units = new ArrayList<>();
     private final ArrayList<Technology> researches = new ArrayList<>();
     private final ArrayList<City> cities = new ArrayList<>();

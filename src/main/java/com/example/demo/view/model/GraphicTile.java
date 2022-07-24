@@ -6,6 +6,7 @@ import com.example.demo.controller.gameController.UnitStateController;
 import com.example.demo.model.City;
 import com.example.demo.model.Civilization;
 import com.example.demo.model.Units.CombatType;
+import com.example.demo.model.Units.NonCivilian;
 import com.example.demo.model.Units.Unit;
 import com.example.demo.model.Units.UnitState;
 import com.example.demo.model.features.Feature;
@@ -20,6 +21,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -38,6 +40,7 @@ public class GraphicTile implements Serializable {
     private ImageView nonCivilianUnitImage;
     private ImageView civilianUnitImage;
     private ImageView improvementImage;
+    private ImageView pillage;
     private ImageView roadImage;
     private ImageView cityImage;
     private ImageView fogImage;
@@ -53,6 +56,8 @@ public class GraphicTile implements Serializable {
     private double y;
 
     GameControllerFX gameControllerFX;
+    private VBox leftVbox;
+    private ScrollPane scrollPane;
 
     public GraphicTile(Tile tile, Pane pane, VBox leftPanel, GameControllerFX gameControllerFX) {
         this.gameControllerFX = gameControllerFX;
@@ -117,14 +122,18 @@ public class GraphicTile implements Serializable {
         }
     }
 
-    private void addButton(String name, boolean clearAfterClick, EventHandler<ActionEvent> func) {
-        Button bottom = new Button(name);
-        bottom.setOnAction(actionEvent -> {
+    private void addButton(String name, boolean clearAfterClick, Boolean scroll, EventHandler<ActionEvent> func) {
+        Button button = new Button(name);
+        button.setOnAction(actionEvent -> {
             func.handle(actionEvent);
             if (clearAfterClick)
                 leftPanel.getChildren().clear();
         });
-        leftPanel.getChildren().add(bottom);
+        if (scroll) {
+            button.minWidthProperty().bind(scrollPane.widthProperty());
+            leftVbox.getChildren().add(button);
+        } else
+            leftPanel.getChildren().add(button);
     }
 
     private void civilianClicked(MouseEvent mouseEvent) {
@@ -147,7 +156,7 @@ public class GraphicTile implements Serializable {
         addCommonButtons(unit);
 
         if (unit.getState() == UnitState.GARRISON || unit.getState() == UnitState.FORTIFY || unit.getState() == UnitState.FORTIFY_UNTIL_FULL_HEALTH)
-            addButton("Call", true, event -> {
+            addButton("Call", true, true, event -> {
                 int code = UnitStateController.unitChangeState(3);
                 if (code == 2)
                     notif("fault", "This Unit is not belong to you.");
@@ -155,7 +164,7 @@ public class GraphicTile implements Serializable {
                     notif("Awake", "The unit awoken successfully.");
             });
 
-        addButton("Fortify", true, event -> {
+        addButton("Fortify", true, true, event -> {
             int code = UnitStateController.unitChangeState(0);
             if (code == 2)
                 notif("fault", "This Unit is not belong to you.");
@@ -163,7 +172,7 @@ public class GraphicTile implements Serializable {
                 notif("Fortify", "The unit fortified successfully.");
         });
 
-        addButton("Fortify until health", true, event -> {
+        addButton("Fortify until health", true, true, event -> {
             int code = UnitStateController.unitChangeState(1);
             if (code == 2)
                 notif("fault", "This Unit is not belong to you.");
@@ -171,7 +180,7 @@ public class GraphicTile implements Serializable {
                 notif("Fortify", "The unit fortified until full health successfully.");
         });
 
-        addButton("Garrison", true, event -> {
+        addButton("Garrison", true, true, event -> {
             int code = UnitStateController.unitChangeState(2);
             if (code == 2)
                 notif("fault", "This Unit is not belong to you.");
@@ -179,44 +188,61 @@ public class GraphicTile implements Serializable {
                 notif("Garrison", "The unit garrisoned successfully.");
         });
 
+        if (tile.getImprovement() != null && tile.getImprovement().getNeedsRepair() < 3) {
+            addButton("Pillage", true, true, event -> {
+                GameController.setSelectedUnit(unit);
+                int code = UnitStateController.unitPillage();
+                switch (code) {
+                    case 4 -> notif("fault", "This unit is not belong to you!");
+                    case 3 -> notif("Error", "You can not pillage your improvements.");
+                    case 0 -> {
+                        notif("Pillage", "Your unit pillages this improvement.");
+                        gameControllerFX.renderMap();
+                    }
+                }
+            });
+        }
+
         if (unit.getUnitType().combatType == CombatType.SIEGE && unit.getState() != UnitState.SETUP) {
-            addButton("Setup", true, event -> {
+            addButton("Setup", true, true, event -> {
                 int code = UnitStateController.unitSetupRanged();
                 switch (code) {
                     case 2 -> notif("fault", "This unit is not belong to you!");
                     case 0 -> notif("Setup", "The unit setup successfully.");
                 }
             });
+        } else if (!(unit.getUnitType().combatType == CombatType.SIEGE && ((NonCivilian) unit).getFortifiedCycle() < 1) && !((NonCivilian) unit).attacked) {
+            addButton("Attack", false, true, event -> {
+                leftPanel.getChildren().clear();
+                Text text = new Text("Click on the tile you want to attack,\n         then click move.");
+                gameControllerFX.setSelectingTile(true);
+                leftPanel.getChildren().addAll(text, gameControllerFX.publicText);
+                addButton("Attack", true, false, event1 -> {
+                    int x = GameController.getSelectedTile().getX();
+                    int y = GameController.getSelectedTile().getY();
+                    int code = UnitStateController.unitAttack(x, y);
+                    switch (code) {
+                        case 2 -> notif("fault", "This unit is not belong to you!");
+                        case 7 -> notif("Setup need", "You must setup your unit before attacking!");
+                        case 5 -> notif("Attack to what?", "The destination tile has no units that can be attacked.");
+                        case 6 -> notif("Can not attack", "The destination tile is so far.");
+                        case 8 -> notif("Attacked before", "You can not attack more in this turn.");
+                        case 0 -> StageController.errorMaker("Attack", "Attacked successfully.", Alert.AlertType.INFORMATION);
+                        case 9 -> notif("The Units is tired", "");
+                    }
+                    gameControllerFX.setSelectingTile(false);
+                    gameControllerFX.renderMap();
+                });
+
+                addButton("Cancel", true, false, event1 -> {
+                    gameControllerFX.setSelectingTile(false);
+                });
+            });
         }
-
-        addButton("Attack", false, event -> {
-            leftPanel.getChildren().clear();
-            Text text = new Text("Click on the tile you want to attack,\n         then click move.");
-            gameControllerFX.setSelectingTile(true);
-            leftPanel.getChildren().addAll(text, gameControllerFX.publicText);
-            addButton("Attack", true, event1 -> {
-                int x = GameController.getSelectedTile().getX();
-                int y = GameController.getSelectedTile().getY();
-                int code = UnitStateController.unitAttack(x, y);
-                switch (code) {
-                    case 2 -> notif("fault", "This unit is not belong to you!");
-                    case 7 -> notif("Setup need", "You must setup your unit before attacking!");
-                    case 5 -> notif("Attack to what?", "The destination tile has no units that can be attacked.");
-                    case 6 -> notif("Can not attack", "The destination tile is so far.");
-                    case 8 -> notif("Attacked before", "You can not attack more in this turn.");
-                    case 0 -> StageController.errorMaker("Attack", "Attacked successfully.", Alert.AlertType.INFORMATION);
-                }
-                gameControllerFX.setSelectingTile(false);
-                gameControllerFX.renderMap();
-            });
-
-            addButton("Cancel", true, event1 -> {
-            });
-        });
     }
 
     private void addSettlerButtons() {
-        addButton("Found City", true, event -> {
+        addButton("Found City", true, true, event -> {
             int code = UnitStateController.unitFoundCity("Unnamed City");
             switch (code) {
                 case 2 -> notif("fault", "This settler unit is not belong to you.");
@@ -230,42 +256,55 @@ public class GraphicTile implements Serializable {
     private void addWorkerButtons() {
         Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
         if (tile.getRoad() == null)
-            addButton("Build Road", true, event -> {
+            addButton("Build Road", true, true, event -> {
                 UnitStateController.unitBuildRoad();
                 gameControllerFX.renderMap();
             });
         if (tile.getRoad() == null && civilization.doesContainTechnology(TechnologyType.RAILROAD) == 1)
-            addButton("Build Rail Road", true, event -> {
+            addButton("Build Rail Road", true, true, event -> {
                 UnitStateController.unitBuildRailRoad();
                 gameControllerFX.renderMap();
             });
         if (tile.getRoad() != null)
-            addButton("Remove Road", true, event -> {
+            addButton("Remove Road", true, true, event -> {
                 UnitStateController.unitRemoveFromTile(false);
                 gameControllerFX.renderMap();
             });
         if (tile.getContainedFeature() != null) {
             FeatureType featureType = tile.getContainedFeature().getFeatureType();
             if (featureType.equals(FeatureType.JUNGLE) || featureType.equals(FeatureType.FOREST) || featureType.equals(FeatureType.SWAMP))
-                addButton("Remove Feature", true, event -> {
+                addButton("Remove Feature", true, true, event -> {
                     UnitStateController.unitRemoveFromTile(true);
                     notif("Removing Feature", "Started removing feature in this tile.");
                     gameControllerFX.renderMap();
                 });
         }
+
+        //improvement repairing:
+        if (tile.getImprovement() != null && tile.getImprovement().getNeedsRepair() != 0) {
+            addButton("Repair Improvement", true, true, event -> {
+                int code = UnitStateController.unitRepair();
+                switch (code) {
+                    case 2 -> notif("fault", "This unit is not belong to you.");
+                    case 0 -> notif("Repairing started", "Repairing this improvement started successfully");
+                    default -> notif("Error", "Can not repair.");
+                }
+            });
+        }
+
         //improvement building:
         for (ImprovementType improvementType : ImprovementType.values())
             if (GameController.doesHaveTheRequiredTechnologyToBuildImprovement(improvementType, tile, civilization)
                 && GameController.canHaveTheImprovement(tile, improvementType))
                 if (tile.getImprovement() != null && tile.getImprovement().getImprovementType().equals(improvementType)) {
                     if (improvementImage != null)
-                        addButton("Remove " + improvementType, true, event -> {
+                        addButton("Remove " + improvementType, true, true, event -> {
                             tile.setImprovement(null);
                             gameControllerFX.renderMap();
                             notif("Success", "Improvement removed successfully.");
                         });
                 } else
-                    addButton("Build " + improvementType, true, event -> {
+                    addButton("Build " + improvementType, true, true, event -> {
                         UnitStateController.unitBuild(improvementType);
                         gameControllerFX.renderMap();
                     });
@@ -289,13 +328,19 @@ public class GraphicTile implements Serializable {
             "\nStrength:  A(" + round(unit.getCombatStrength(true), 1) + ")   D(" + round(unit.getCombatStrength(false), 1) + ")");
         leftPanel.getChildren().add(title);
 
+        leftVbox = new VBox();
+        scrollPane = new ScrollPane(leftVbox);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        leftPanel.getChildren().add(scrollPane);
+
         if (unit.getMovementPrice() > 0) {
-            addButton("Move", false, event -> {
+            addButton("Move", false, true, event -> {
                 leftPanel.getChildren().clear();
                 Text text = new Text("Click on the destination tile,\n      then click move.");
                 gameControllerFX.setSelectingTile(true);
                 leftPanel.getChildren().addAll(text, gameControllerFX.publicText);
-                addButton("Move", true, event2 -> {
+                addButton("Move", true, false, event2 -> {
                     int x = GameController.getSelectedTile().getX();
                     int y = GameController.getSelectedTile().getY();
                     int code = UnitStateController.unitMoveTo(x, y);
@@ -308,27 +353,39 @@ public class GraphicTile implements Serializable {
                     gameControllerFX.setSelectingTile(false);
                     gameControllerFX.renderMap();
                 });
-                addButton("Cancel", true, event1 -> {
+                addButton("Cancel", true, false, event1 -> {
+                    gameControllerFX.setSelectingTile(false);
                 });
             });
         }
 
-        if (unit.getState().equals(UnitState.AWAKE))
-            addButton("Sleep", true, event -> {
+        if (!unit.getState().equals(UnitState.SLEEP))
+            addButton("Sleep", true, true, event -> {
                 if (UnitStateController.unitSleep() == 0)
                     notif("Sleep", "The unit Slept successfully!");
                 else
                     notif("fault", "You can not sleep this unit!");
             });
-        else if (unit.getState().equals(UnitState.SLEEP))
-            addButton("Awake", true, event -> {
+
+        if (unit.getState().equals(UnitState.ALERT) || unit.getState().equals(UnitState.SLEEP))
+            addButton("Awake", true, true, event -> {
                 if (UnitStateController.unitChangeState(3) == 0)
                     notif("Awake", "The unit awoken successfully!");
                 else
-                    notif("fault", "You can not sleep this unit!");
+                    notif("fault", "You can not awake this unit!");
             });
 
-        addButton("Delete", true, event -> {
+        if (!unit.getState().equals(UnitState.ALERT))
+            addButton("Alter", true, true, event -> {
+                int code = UnitStateController.unitAlert();
+                switch (code) {
+                    case 2 -> notif("fault", "This Unit is not belong to you.");
+                    case 3 -> notif("Error", "Your unit is near a military unit of others.");
+                    case 0 -> notif("Success", "Done!");
+                }
+            });
+
+        addButton("Delete", true, true, event -> {
             if (UnitStateController.unitDelete(unit) != 0)
                 notif("fault", "You can not delete this unit!");
             else {
@@ -459,8 +516,13 @@ public class GraphicTile implements Serializable {
             improvementImage = new ImageView(ImageLoader.get(tile.getImprovement().getImprovementType().toString()));
             improvementImage.setFitWidth(40);
             improvementImage.setFitHeight(40);
-            //set on mouse clicked ?
             pane.getChildren().add(improvementImage);
+            if (tile.getImprovement().getNeedsRepair() != 0) {
+                pillage = new ImageView(ImageLoader.get("fire"));
+                pillage.setFitWidth(20);
+                pillage.setFitHeight(20);
+                pane.getChildren().add(pillage);
+            }
         }
 
         //load roads
@@ -560,6 +622,10 @@ public class GraphicTile implements Serializable {
         if (improvementImage != null) {
             improvementImage.setLayoutX(x + tileImage.getFitWidth() * 1.5 / 5 - improvementImage.getFitWidth() / 2);
             improvementImage.setLayoutY(y + tileImage.getFitHeight() * 3.5 / 5 - improvementImage.getFitHeight() / 2);
+            if (pillage != null) {
+                pillage.setLayoutX(x + tileImage.getFitWidth() * 1.5 / 5 - pillage.getFitWidth() / 2);
+                pillage.setLayoutY(y + tileImage.getFitHeight() * 3.5 / 5 - pillage.getFitHeight() / 2);
+            }
         }
         //road
         if (roadImage != null) {

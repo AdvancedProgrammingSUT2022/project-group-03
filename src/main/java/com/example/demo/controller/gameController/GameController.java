@@ -44,6 +44,10 @@ public class GameController {
 //        for (int i = 0; i < GameController.getCivilizations().size(); i++)
 //            nextTurn();
         setUnfinishedTasks();
+//        for (Civilization civilization : GameController.getCivilizations()) {
+//            if (civilization != GameController.getCivilizations().get(GameController.getPlayerTurn()))
+//                GameController.getCivilizations().get(GameController.getPlayerTurn()).getKnownCivilizations().add(new Pair<>(civilization, 0));
+//        }
 //        GameControllerFX.renderMap(anchorPane);
 
     }
