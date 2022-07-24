@@ -74,9 +74,25 @@ public class CityPanel {
         if (city.getHP() == 0) {
             Text title = new Text("Please decide about This city.");
             Button annex = new Button("Annex the city");
-            annex.setOnAction(actionEvent -> CityCommandsController.cityDestiny(false, city));
+            annex.setOnAction(actionEvent -> {
+                int code = CityCommandsController.cityDestiny(false, city);
+                if (code == 0)
+                    StageController.errorMaker("Annex", "The city annexed successfully.", Alert.AlertType.INFORMATION);
+                else
+                    StageController.errorMaker("Error", "Can not annex", Alert.AlertType.ERROR);
+                gameControllerFX.renderMap();
+            });
             Button burn = new Button("Burn the city");
-            burn.setOnAction(actionEvent -> CityCommandsController.cityDestiny(true, city));
+            burn.setOnAction(actionEvent -> {
+                int code = CityCommandsController.cityDestiny(true, city);
+                if (code == 4)
+                    StageController.errorMaker("Can not Burn", "You can not burn the capital city.", Alert.AlertType.ERROR);
+                else if (code == 0)
+                    StageController.errorMaker("Burn", "The city burned successfully :/", Alert.AlertType.INFORMATION);
+                else
+                    StageController.errorMaker("Error", "Can not burn", Alert.AlertType.ERROR);
+                gameControllerFX.renderMap();
+            });
             leftPanel.getChildren().addAll(title, annex, burn);
             return;
         }
@@ -207,9 +223,9 @@ public class CityPanel {
                 String textString = unitType + ": ";
 
                 Unit unit = openedPanelCity.findHalfProducedUnit(unitType);
-                if(buy)
-                    textString = textString+unitType.getCost() + "$";
-                else  {
+                if (buy)
+                    textString = textString + unitType.getCost() + "$";
+                else {
                     if (unit == null)
                         textString = textString + openedPanelCity.cyclesToComplete(unitType.getCost()) + " Cycles";
                     else textString = textString + openedPanelCity.cyclesToComplete(unit.getRemainedCost()) + " Cycles";
