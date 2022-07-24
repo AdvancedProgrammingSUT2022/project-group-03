@@ -159,10 +159,13 @@ public class CityCommandsController {
         if (GameController.getMap().coordinatesToTile(x, y).getNonCivilian().getCivilization() ==
             GameController.getCivilizations().get(GameController.getPlayerTurn()))
             return 3;
+        if(city.getHasAttackedThisCycle())
+            return 5;
         if (!GameController.getMap().isInRange(2,
             city.getMainTile(),
             GameController.getMap().coordinatesToTile(x, y))) return 4;
         city.attack(GameController.getMap().coordinatesToTile(x, y));
+        city.setHasAttackedThisCycle(true);
         return 0;
     }
 
@@ -208,13 +211,19 @@ public class CityCommandsController {
         return 0;
     }
 
-    public static int buyBuilding(BuildingType type, int x, int y) {
+    public static int buyBuilding(BuildingType type, int x, int y,City city) {
         Tile tile = GameController.getMap().coordinatesToTile(x, y);
         if (tile.getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
             return 1;
         if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getGold() < type.getCost())
             return 2;
-        //TODO: arya please do this.
-        return -1;
+        if(!city.getTiles().contains(tile))
+            return 3;
+        if(city.findBuilding(type)!=null)
+            return 4;
+        Building building = new Building(type,tile);
+        building.setRemainedCost(0);
+        city.getBuildings().add(building);
+        return 0;
     }
 }

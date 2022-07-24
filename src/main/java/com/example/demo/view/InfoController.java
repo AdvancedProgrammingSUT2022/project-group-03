@@ -14,6 +14,7 @@ import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.technologies.Technology;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class InfoController {
     public static String infoResearches() {
@@ -85,10 +86,12 @@ public class InfoController {
 
     public static String infoNotifications(int cycles) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = GameController.getCycle(); i > GameController.getCycle() - cycles; i--) {
-            if (!GameController.getCivilizations()
-                    .get(GameController.getPlayerTurn()).getNotifications().containsKey(i))
+        int counter = 0;
+        for (int i = GameController.getCycle(); counter<cycles && i>0;i-- ) {
+            System.out.println(i);
+            if (!GameController.getCurrentCivilization().getNotifications().containsKey(i))
                 continue;
+            counter++;
             ArrayList<String> strings = GameController.getCivilizations()
                     .get(GameController.getPlayerTurn()).getNotifications().get(i);
             for (String string : strings)

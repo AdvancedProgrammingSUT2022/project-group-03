@@ -33,6 +33,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
     public int productionCheat;
     private int anxiety = 0;
     private final ArrayList<Building> buildings = new ArrayList<>();
+    private boolean hasAttackedThisCycle = false;
 
     public String getName() {
         return name;
@@ -267,6 +268,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
     }
 
     public void startTheTurn() {
+        hasAttackedThisCycle=false;
         anxiety--;
         if (anxiety < 0) anxiety = 0;
         HP += 10;
@@ -597,5 +599,13 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
 
     public void setMainCapital(boolean mainCapital) {
         isMainCapital = mainCapital;
+    }
+
+    public boolean getHasAttackedThisCycle() {
+        return hasAttackedThisCycle;
+    }
+
+    public void setHasAttackedThisCycle(boolean hasAttackedThisCycle) {
+        this.hasAttackedThisCycle = hasAttackedThisCycle;
     }
 }

@@ -43,7 +43,7 @@ public class CityPanel {
     private static final int[] buttonsProcess = new int[9];
 
     public void cityClicked(City city) {
-        MapMoveController.showTile(GameControllerFX.getGraphicMap()[city.getMainTile().getX()][city.getMainTile().getY()]);
+//        MapMoveController.showTile(GameControllerFX.getGraphicMap()[city.getMainTile().getX()][city.getMainTile().getY()]);
         GameController.setSelectedCity(city);
         openedPanelCity = city;
         leftPanel.getChildren().clear();
@@ -180,12 +180,15 @@ public class CityPanel {
             if (GameController.getCivilizations().get(GameController.getPlayerTurn()).doesContainTechnology(unitType.technologyRequired) == 1) {
                 if (openedPanelCity.getProduct() != null && openedPanelCity.getProduct() instanceof Unit && ((Unit) openedPanelCity.getProduct()).getUnitType() == unitType)
                     continue;
-                String textString = unitType + " " + unitType.getCost() + "$";
+                String textString = unitType + ": ";
+
                 Unit unit = openedPanelCity.findHalfProducedUnit(unitType);
-                if (!buy) {
+                if(buy)
+                    textString = unitType.getCost() + "$";
+                else  {
                     if (unit == null)
-                        textString = textString + " " + openedPanelCity.cyclesToComplete(unitType.getCost()) + "T";
-                    else textString = textString + " " + openedPanelCity.cyclesToComplete(unit.getRemainedCost()) + "T";
+                        textString = textString + openedPanelCity.cyclesToComplete(unitType.getCost()) + " Cycles";
+                    else textString = textString + openedPanelCity.cyclesToComplete(unit.getRemainedCost()) + " Cycles";
                 }
                 Button button = new Button(textString);
                 button.minWidthProperty().bind(scrollPane.widthProperty());
@@ -288,9 +291,8 @@ public class CityPanel {
     }
 
     private void startProducingUnit(String string) {
-        switch (GameController.startProducingUnit(string)) {
-            case 0 -> StageController.errorMaker("nicely done", "the selected production started successfully", Alert.AlertType.INFORMATION);
-            case 5 -> StageController.errorMaker("resources required", "you don't have the required resources", Alert.AlertType.ERROR);
+        if (GameController.startProducingUnit(string) == 5) {
+            StageController.errorMaker("resources required", "you don't have the required resources", Alert.AlertType.ERROR);
         }
 
         gameControllerFX.renderMap();
@@ -324,6 +326,7 @@ public class CityPanel {
             case 2 -> StageController.errorMaker("attack what", "there are no nonCivilians over there", Alert.AlertType.ERROR);
             case 3 -> StageController.errorMaker("bruh", "you selected one of your own units", Alert.AlertType.ERROR);
             case 4 -> StageController.errorMaker("no ranges?", "the selected tile is not in your range", Alert.AlertType.ERROR);
+            case 5 -> StageController.errorMaker("you look greedy", "you can't attack more than once in one cycle", Alert.AlertType.ERROR);
         }
         gameControllerFX.renderMap();
     }
