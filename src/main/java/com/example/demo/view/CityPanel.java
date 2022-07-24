@@ -69,6 +69,18 @@ public class CityPanel {
                 openedPanelCity.cyclesToComplete(openedPanelCity.getProduct().getRemainedCost()) + "T");
             leftPanel.getChildren().add(text);
         }
+
+        //TODO: This section is not tested. Test it!
+        if (city.getHP() == 0) {
+            Text title = new Text("Please decide about This city.");
+            Button annex = new Button("Annex the city");
+            annex.setOnAction(actionEvent -> CityCommandsController.cityDestiny(false, city));
+            Button burn = new Button("Burn the city");
+            burn.setOnAction(actionEvent -> CityCommandsController.cityDestiny(true, city));
+            leftPanel.getChildren().addAll(title, annex, burn);
+            return;
+        }
+
         Button button = new Button("Show Banner");
         button.setLayoutY(30);
         button.setOnMouseClicked(event -> gameControllerFX.eachInfoButtonsClicked(7));
