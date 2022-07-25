@@ -334,7 +334,7 @@ public class GraphicTile implements Serializable {
             addButton("Upgrade unit", true, true, event -> {
                 UnitStateController.unitUpgrade();
                 gameControllerFX.renderMap();
-                notif("Success", "Your unit upgraded successfully.");
+                notify("Success", "Your unit upgraded successfully.");
             });
 
         if (unit.getMovementPrice() > 0) {
