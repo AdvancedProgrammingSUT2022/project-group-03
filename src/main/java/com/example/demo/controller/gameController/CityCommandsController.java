@@ -17,14 +17,6 @@ public class CityCommandsController {
                                       int originY,
                                       int destinationX,
                                       int destinationY, City city) {
-//        if (GameController.getSelectedCity() == null)
-//            return 3;
-//        if (GameController.getSelectedCity().getCivilization() != GameController
-//                .getCivilizations().get(GameController.getPlayerTurn()))
-//            return 2;
-//        if (GameController.getMap().coordinatesToTile(originX, originY) == null ||
-//                GameController.getMap().coordinatesToTile(destinationX, destinationY) == null)
-//            return 3;
         return city.assignCitizenToTiles(GameController.getMap().coordinatesToTile(originX, originY),
             GameController.getMap().coordinatesToTile(destinationX, destinationY));
     }
@@ -35,23 +27,11 @@ public class CityCommandsController {
     }
 
     public static int removeCitizen(int x, int y, City city) {
-//        if (GameController.getSelectedCity() == null)
-//            return 3;
-//        if (GameController.getSelectedCity().getCivilization() !=
-//                GameController.getCivilizations().get(GameController.getPlayerTurn()))
-//            return 2;
-//        if (GameController.getMap().coordinatesToTile(x, y) == null)
-//            return 1;
         return city.removeCitizen(GameController.getMap().coordinatesToTile(x, y));
     }
 
 
     public static int buyTile(int x, int y, City city) {
-//        if (GameController.getMap().coordinatesToTile(x, y) == null) return 4;
-//        if (GameController.getSelectedCity() == null ||
-//                GameController.getSelectedCity().getCivilization() != GameController
-//                        .getCivilizations().get(GameController.getPlayerTurn()))
-//            return 5;
         if (!city.isTileNeighbor(GameController.getMap().coordinatesToTile(x, y))) return 1;
         if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getGold() <
             15 + 10 * (city.getTiles().size() - 6))
@@ -65,11 +45,6 @@ public class CityCommandsController {
     public static int buildBuilding(BuildingType buildingType, Tile tile, City city, boolean buy) {
         if (tile.getTileType() == TileType.OCEAN || tile.getTileType() == TileType.MOUNTAIN)
             return 9;
-//        if (GameController.getSelectedCity() == null)
-//            return 1;
-//        if (GameController.getSelectedCity().getCivilization() != GameController
-//                .getCivilizations().get(GameController.getPlayerTurn()))
-//            return 2;
         if (!GameController.getCivilizations().get(GameController.getPlayerTurn()).equals(tile.getCivilization()))
             return 15;
         if (city.findBuilding(buildingType) != null)
@@ -148,10 +123,6 @@ public class CityCommandsController {
     }
 
     public static int cityAttack(int x, int y, City city) {
-//        if (GameController.getSelectedCity() == null) return 1;
-//        if (GameController.getSelectedCity().getCivilization() != GameController.getCivilizations()
-//                .get(GameController.getPlayerTurn())) return 2;
-//        if (GameController.getMap().coordinatesToTile(x, y) == null) return 3;
         if (GameController.getMap().coordinatesToTile(x, y) == city.getMainTile())
             return 1;
         if (GameController.getMap().coordinatesToTile(x, y).getNonCivilian() == null)
@@ -192,10 +163,7 @@ public class CityCommandsController {
 
     public static int buyUnit(String string, int x, int y) {
         UnitType unitType = UnitType.stringToEnum(string);
-//        if (unitType == null) return 1;
         Tile tile = GameController.getMap().coordinatesToTile(x, y);
-//        if (tile == null)
-//            return 5;
         if (tile.getCivilization() != GameController.getCivilizations().get(GameController.getPlayerTurn()))
             return 1;
         if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getGold() < unitType.getCost())
