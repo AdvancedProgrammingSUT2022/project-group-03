@@ -53,6 +53,7 @@ public class MainControllerFX implements Initializable {
 
     @FXML
     public void scoreBoard() {
+        AssetsController.openLeadersAvatars();
         StageController.sceneChanger("scoreBoard.fxml");
     }
 

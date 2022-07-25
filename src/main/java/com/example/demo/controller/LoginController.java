@@ -102,6 +102,7 @@ public class LoginController {
         return has_numbers;
     }
 
+
     public static User getLoggedUser() {
         return loggedUser;
     }

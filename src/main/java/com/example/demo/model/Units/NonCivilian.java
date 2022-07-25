@@ -47,7 +47,8 @@ public class NonCivilian extends Unit implements CanAttack {
         GameController.openNewArea(tile, civilization, null);
         state = UnitState.AWAKE;
         destinationTile = null;
-        if (!this.checkToDestroy() && target.checkToDestroy()) this.move(tile, true);
+        if (!this.checkToDestroy() && target.checkToDestroy() &&
+                (target instanceof City && this.getUnitType().range > 1)) this.move(tile, true);
         if (unitType.combatType != CombatType.MOUNTED || unitType.range > 1) {
             movementPrice = 0;
         }

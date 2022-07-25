@@ -466,6 +466,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked, HealthyBei
 
     public boolean checkToDestroy() {
         if (HP <= 0) {
+            HP = 0;
             GameController.getUnfinishedTasks().add(new Tasks(mainTile, TaskTypes.CITY_DESTINY));
             if (mainTile.getNonCivilian() != null &&
                     mainTile.getNonCivilian().getState() == UnitState.GARRISON) {
