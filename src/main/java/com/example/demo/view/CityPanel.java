@@ -58,15 +58,15 @@ public class CityPanel {
         openedPanelCity = city;
         leftPanel.getChildren().clear();
         Text text = new Text("City name: " + openedPanelCity.getName() +
-                "\nHealth: " + openedPanelCity.getHP() +
-                "\nStrength:  A(" + round(openedPanelCity.getCombatStrength(true), 1) + ")   D(" + round(openedPanelCity.getCombatStrength(false), 1) + ")" +
-                "\npopulation:" + openedPanelCity.getPopulation() +
-                "\nUnemployed citizens: " + openedPanelCity.getCitizen());
+            "\nHealth: " + openedPanelCity.getHP() +
+            "\nStrength:  A(" + round(openedPanelCity.getCombatStrength(true), 1) + ")   D(" + round(openedPanelCity.getCombatStrength(false), 1) + ")" +
+            "\npopulation:" + openedPanelCity.getPopulation() +
+            "\nUnemployed citizens: " + openedPanelCity.getCitizen());
         leftPanel.getChildren().add(text);
         if (openedPanelCity.getProduct() != null) {
             text = new Text("product: " +
-                    openedPanelCity.getProduct().getName() + " " +
-                    openedPanelCity.cyclesToComplete(openedPanelCity.getProduct().getRemainedCost()) + "T");
+                openedPanelCity.getProduct().getName() + " " +
+                openedPanelCity.cyclesToComplete(openedPanelCity.getProduct().getRemainedCost()) + "T");
             leftPanel.getChildren().add(text);
         }
 
@@ -97,8 +97,10 @@ public class CityPanel {
             return;
         }
 
-        //this todo
-
+        //not show control buttons if the city is not belong to the current player
+        boolean isYours = GameController.getCurrentCivilization() == city.getCivilization();
+        if (!isYours)
+            return;
 
         Button button = new Button("Show Banner");
         button.setLayoutY(30);
@@ -176,7 +178,7 @@ public class CityPanel {
 
             if (type == BuildingType.STOCK_EXCHANGE) {
                 if (openedPanelCity.findBuilding(BuildingType.BANK) == null &&
-                        openedPanelCity.findBuilding(BuildingType.SATRAPS_COURT) == null)
+                    openedPanelCity.findBuilding(BuildingType.SATRAPS_COURT) == null)
                     continue;
             } else {
                 for (BuildingType type2 : BuildingType.prerequisites.get(type))
@@ -234,7 +236,7 @@ public class CityPanel {
                     int cycles = openedPanelCity.cyclesToComplete(unitType.getCost());
                     if (unit != null)
                         cycles = openedPanelCity.cyclesToComplete(unit.getRemainedCost());
-                    if (cycles>=12345) {
+                    if (cycles >= 12345) {
                         textString = textString + "Never, Production=0";
                     } else {
                         textString = textString + cycles + " Cycles";

@@ -144,8 +144,10 @@ public class GraphicTile implements Serializable {
         boolean isYours = GameController.getCurrentCivilization() == unit.getCivilization();
         addCommonButtons(unit, isYours);
 
+        //not show control buttons if the unit is not belong to the current player
         if (!isYours)
             return;
+
         switch (unit.getUnitType()) {
             case SETTLER -> addSettlerButtons();
             case WORKER -> addWorkerButtons();
@@ -160,6 +162,7 @@ public class GraphicTile implements Serializable {
         boolean isYours = GameController.getCurrentCivilization() == unit.getCivilization();
         addCommonButtons(unit, isYours);
 
+        //not show control buttons if the unit is not belong to the current player
         if (!isYours)
             return;
 
@@ -328,8 +331,10 @@ public class GraphicTile implements Serializable {
             "\nStrength:  A(" + round(unit.getCombatStrength(true), 1) + ")   D(" + round(unit.getCombatStrength(false), 1) + ")");
         leftPanel.getChildren().add(title);
 
+        //not show control buttons if the unit is not belong to the current player
         if (!isYours)
             return;
+
         leftVbox = new VBox();
         leftVbox.setSpacing(5);
         scrollPane = new ScrollPane(leftVbox);
