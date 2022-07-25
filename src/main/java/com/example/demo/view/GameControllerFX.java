@@ -8,7 +8,6 @@ import com.example.demo.model.User;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.cheat.Cheat;
 import com.example.demo.view.model.GraphicTile;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -195,7 +194,7 @@ public class GameControllerFX {
         selectResearchLabel.setOnMouseClicked(event -> {
             if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0) {
                 StageController.errorMaker("You cannot enter the select research panel yet",
-                    "You must have atLeast one city to enter the select research panel", Alert.AlertType.ERROR);
+                        "You must have atLeast one city to enter the select research panel", Alert.AlertType.ERROR);
             } else {
                 try {
                     enterSelectResearchPanel();
@@ -301,9 +300,14 @@ public class GameControllerFX {
                 case CITY_DESTINY -> StageController.errorMaker("City destiny error", "Please decide whether to destroy the captured city or not.", Alert.AlertType.ERROR);
             }
         } else {
+            GameController.setSelectedCity(null);
+            GameController.setSelectedUnit(null);
+            GameController.setSelectedTile(null);
+            setSelectingTile(false);
+            leftPanel.getChildren().clear();
             renderMap();
             findUnit();
-            notif("Next turn", "Successfully passed this turn.");
+            notify("Next turn", "Successfully passed this turn.");
             //save the game:
             if (SavingHandler.autoSaveIsEnabled && !SavingHandler.autoSaveAtRenderingMap)
                 SavingHandler.save(false);
@@ -312,15 +316,16 @@ public class GameControllerFX {
 
     public void findUnit() {
         if (GameController.getUnfinishedTasks().isEmpty()) {
-            if(GameController.getCurrentCivilization().getCities().size()==0)
+            if (GameController.getCurrentCivilization().getCities().size() == 0)
                 return;
             Tile tile = GameController.getCurrentCivilization().getCities().get(0).getMainTile();
             MapMoveController.showTile(graphicMap[tile.getX()][tile.getY()]);
-            StageController.errorMaker("All is done", "Click next turn.", Alert.AlertType.INFORMATION);
+            notify("All is done", "Now you should be able to click on the next turn without any problems");
             return;
         }
         Tile tile = GameController.getUnfinishedTasks().get(0).getTile();
-        MapMoveController.showTile(graphicMap[tile.getX()][tile.getY()]);
+        if (tile != null)
+            MapMoveController.showTile(graphicMap[tile.getX()][tile.getY()]);
     }
 
     public static void alert(String title, String message) {
@@ -412,7 +417,7 @@ public class GameControllerFX {
         return null;
     }
 
-    private void notif(String title, String message) {
+    private void notify(String title, String message) {
         Notifications notifications = Notifications.create().hideAfter(Duration.seconds(5)).text(message).title(title);
         notifications.show();
     }

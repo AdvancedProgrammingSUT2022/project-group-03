@@ -58,20 +58,20 @@ public class CityPanel {
         openedPanelCity = city;
         leftPanel.getChildren().clear();
         Text text = new Text("City name: " + openedPanelCity.getName() +
-            "\nHealth: " + openedPanelCity.getHP() +
-            "\nStrength:  A(" + round(openedPanelCity.getCombatStrength(true), 1) + ")   D(" + round(openedPanelCity.getCombatStrength(false), 1) + ")" +
-            "\npopulation:" + openedPanelCity.getPopulation() +
-            "\nUnemployed citizens: " + openedPanelCity.getCitizen());
+                "\nHealth: " + openedPanelCity.getHP() +
+                "\nStrength:  A(" + round(openedPanelCity.getCombatStrength(true), 1) + ")   D(" + round(openedPanelCity.getCombatStrength(false), 1) + ")" +
+                "\npopulation:" + openedPanelCity.getPopulation() +
+                "\nUnemployed citizens: " + openedPanelCity.getCitizen());
         leftPanel.getChildren().add(text);
         if (openedPanelCity.getProduct() != null) {
             text = new Text("product: " +
-                openedPanelCity.getProduct().getName() + " " +
-                openedPanelCity.cyclesToComplete(openedPanelCity.getProduct().getRemainedCost()) + "T");
+                    openedPanelCity.getProduct().getName() + " " +
+                    openedPanelCity.cyclesToComplete(openedPanelCity.getProduct().getRemainedCost()) + "T");
             leftPanel.getChildren().add(text);
         }
 
         //TODO: This section is not tested. Test it!
-        if (city.getHP() == 0) {
+        if (city.getHP() <= 0) {
             Text title = new Text("Please decide about This city.");
             Button annex = new Button("Annex the city");
             annex.setOnAction(actionEvent -> {
@@ -173,7 +173,7 @@ public class CityPanel {
 
             if (type == BuildingType.STOCK_EXCHANGE) {
                 if (openedPanelCity.findBuilding(BuildingType.BANK) == null &&
-                    openedPanelCity.findBuilding(BuildingType.SATRAPS_COURT) == null)
+                        openedPanelCity.findBuilding(BuildingType.SATRAPS_COURT) == null)
                     continue;
             } else {
                 for (BuildingType type2 : BuildingType.prerequisites.get(type))
@@ -220,7 +220,7 @@ public class CityPanel {
 
         for (UnitType unitType : UnitType.values()) {
             if (GameController.getCivilizations().get(GameController.getPlayerTurn()).doesContainTechnology(unitType.technologyRequired) == 1) {
-                if (openedPanelCity.getProduct() != null && openedPanelCity.getProduct() instanceof Unit && ((Unit) openedPanelCity.getProduct()).getUnitType() == unitType)
+                if (!buy && openedPanelCity.getProduct() != null && openedPanelCity.getProduct() instanceof Unit && ((Unit) openedPanelCity.getProduct()).getUnitType() == unitType)
                     continue;
                 String textString = unitType + ": ";
 
@@ -228,9 +228,14 @@ public class CityPanel {
                 if (buy)
                     textString = textString + unitType.getCost() + "$";
                 else {
-                    if (unit == null)
-                        textString = textString + openedPanelCity.cyclesToComplete(unitType.getCost()) + " Cycles";
-                    else textString = textString + openedPanelCity.cyclesToComplete(unit.getRemainedCost()) + " Cycles";
+                    int cycles = openedPanelCity.cyclesToComplete(unitType.getCost());
+                    if (unit != null)
+                        cycles = openedPanelCity.cyclesToComplete(unit.getRemainedCost());
+                    if (cycles>=12345) {
+                        textString = textString + "Never, Production=0";
+                    } else {
+                        textString = textString + cycles + " Cycles";
+                    }
                 }
                 Button button = new Button(textString);
                 button.minWidthProperty().bind(scrollPane.widthProperty());

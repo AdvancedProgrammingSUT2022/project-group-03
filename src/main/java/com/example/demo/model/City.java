@@ -269,10 +269,11 @@ public class City implements Serializable, CanAttack, CanGetAttacked, HealthyBei
     }
 
     public void startTheTurn() {
-        hasAttackedThisCycle=false;
+        hasAttackedThisCycle = false;
         anxiety--;
         if (anxiety < 0) anxiety = 0;
-        HP += 10;
+        if (HP > 0)
+            HP += 10;
         if (HP > 200) HP = 200;
         food += collectFood();
         production += collectProduction();
@@ -503,7 +504,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked, HealthyBei
     }
 
     public void changeCivilization(Civilization civilization) {
-        if(GameController.getCivilizations().get(GameController.getPlayerTurn()).getMainCapital()==this)
+        if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getMainCapital() == this)
             for (City city : GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities()) {
                 city.setCapital(false);
             }
@@ -564,18 +565,17 @@ public class City implements Serializable, CanAttack, CanGetAttacked, HealthyBei
     }
 
 
-    public Unit findHalfProducedUnit(UnitType unitType)
-    {
+    public Unit findHalfProducedUnit(UnitType unitType) {
         for (Unit halfProducedUnit : halfProducedUnits) {
-            if(halfProducedUnit.getUnitType()==unitType)
+            if (halfProducedUnit.getUnitType() == unitType)
                 return halfProducedUnit;
         }
         return null;
     }
-    public Building findHalfBuiltBuildings(BuildingType buildingType)
-    {
+
+    public Building findHalfBuiltBuildings(BuildingType buildingType) {
         for (Building halfBuiltBuildings : halfProducedBuildings) {
-            if(halfBuiltBuildings.getBuildingType()==buildingType)
+            if (halfBuiltBuildings.getBuildingType() == buildingType)
                 return halfBuiltBuildings;
         }
         return null;
@@ -585,8 +585,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked, HealthyBei
         return buildings;
     }
 
-    public void addPopulation()
-    {
+    public void addPopulation() {
         population++;
     }
 
@@ -612,7 +611,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked, HealthyBei
 
     @Override
     public double greenBarPercent() {
-        return (double) HP/200;
+        return (double) HP / 200;
     }
 
     @Override
