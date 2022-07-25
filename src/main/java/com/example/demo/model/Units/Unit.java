@@ -327,4 +327,9 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked, 
 //    public void setDidDoTaskThisTurn(boolean didDoTaskThisTurn) {
 //        this.didDoTaskThisTurn = didDoTaskThisTurn;
 //    }
+
+    public void setCivilization(Civilization civilization)
+    {
+        this.civilization = civilization;
+    }
 }

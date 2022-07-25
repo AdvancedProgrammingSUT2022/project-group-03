@@ -342,6 +342,7 @@ public class GraphicTile implements Serializable {
                     switch (code) {
                         case 3 -> notify("Impossible movement", "Units cannot move to mountains or oceans.");
                         case 4 -> notify("Movement Error", "Error in moving.");
+                        case 5 -> notify("Invalid movement","Your civilians cannot move to a tile occupied by a foreign nonCivilian unit(Unless you wanna get captured)");
                     }
 
                     gameControllerFX.setSelectingTile(false);
@@ -395,7 +396,7 @@ public class GraphicTile implements Serializable {
     }
 
 
-    public double getWidth() {
+    public static double getWidth() {
         return 120;
     }
 

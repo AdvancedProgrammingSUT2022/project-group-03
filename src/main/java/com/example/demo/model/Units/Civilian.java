@@ -52,4 +52,6 @@ public class Civilian extends Unit {
     public Tile getTile() {
         return currentTile;
     }
+
+
 }
