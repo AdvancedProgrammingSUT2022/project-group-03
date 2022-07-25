@@ -23,7 +23,6 @@ public class Savings implements Serializable {
     }
 
     public void loadThisToGameController(){
-        System.out.println("wtf");
         GameController.setCivilizationsAsList(civilizations);
         GameController.setUnfinishedTasks(unfinishedTasks);
         GameController.setPlayerTurn(playerTurn);

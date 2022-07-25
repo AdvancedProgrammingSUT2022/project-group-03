@@ -285,8 +285,8 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked, 
     public void takeDamage(int amount,Civilization civilization) {
         health -= amount;
         civilization.putNotification(unitType+ " @ "+ currentTile.getX() + " , "+ currentTile.getY()  + " : " +
-                "oopsy woopsy you just got smashed by "+ Color.getColorByNumber(civilization.getColor())
-                + civilization.getUser().getNickname() + Color.RESET ,GameController.getCycle());
+                "oopsy woopsy you just got smashed by "
+                + civilization.getUser().getNickname() ,GameController.getCycle());
     }
 
     public void setState(UnitState state) {
