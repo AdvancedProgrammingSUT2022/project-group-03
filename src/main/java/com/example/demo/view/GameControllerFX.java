@@ -194,7 +194,7 @@ public class GameControllerFX {
         selectResearchLabel.setOnMouseClicked(event -> {
             if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0) {
                 StageController.errorMaker("You cannot enter the select research panel yet",
-                        "You must have atLeast one city to enter the select research panel", Alert.AlertType.ERROR);
+                    "You must have atLeast one city to enter the select research panel", Alert.AlertType.ERROR);
             } else {
                 try {
                     enterSelectResearchPanel();
@@ -215,7 +215,7 @@ public class GameControllerFX {
         diplomacyLabel.setOnMouseClicked(event -> {
             if (GameController.getCurrentCivilization().getKnownCivilizations().size() == 0)
                 StageController.errorMaker("You cannot enter the Diplomacy panel yet",
-                        "You must know atLeast one other civilization to enter the Diplomacy panel", Alert.AlertType.ERROR);
+                    "You must know atLeast one other civilization to enter the Diplomacy panel", Alert.AlertType.ERROR);
             else
                 StageController.sceneChanger("diplomacy.fxml");
         });
@@ -378,6 +378,7 @@ public class GameControllerFX {
                 autoSave.setText("Enable auto save");
             } else {
                 SavingHandler.autoSaveIsEnabled = true;
+                SavingHandler.autoSaveAtRenderingMap = true;
                 autoSave.setText("Disable auto save");
             }
         });
@@ -410,7 +411,7 @@ public class GameControllerFX {
         for (GraphicTile[] graphicTiles : graphicMap) {
             for (int j = 0; j < graphicMap[0].length; j++) {
                 if (graphicTiles[j].getTile().getX() == tile.getX() &&
-                        graphicTiles[j].getTile().getY() == tile.getY())
+                    graphicTiles[j].getTile().getY() == tile.getY())
                     return graphicTiles[j];
             }
         }
