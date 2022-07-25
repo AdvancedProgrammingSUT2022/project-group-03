@@ -144,8 +144,10 @@ public class GraphicTile implements Serializable {
         boolean isYours = GameController.getCurrentCivilization() == unit.getCivilization();
         addCommonButtons(unit, isYours);
 
+        //not show control buttons if the unit is not belong to the current player
         if (!isYours)
             return;
+
         switch (unit.getUnitType()) {
             case SETTLER -> addSettlerButtons();
             case WORKER -> addWorkerButtons();
@@ -157,7 +159,12 @@ public class GraphicTile implements Serializable {
         NonCivilian unit = tile.getNonCivilian();
         GameController.setSelectedUnit(unit);
         //add move,sleep,delete buttons and some information
-        addCommonButtons(unit, GameController.getCurrentCivilization() == unit.getCivilization());
+        boolean isYours = GameController.getCurrentCivilization() == unit.getCivilization();
+        addCommonButtons(unit, isYours);
+
+        //not show control buttons if the unit is not belong to the current player
+        if (!isYours)
+            return;
 
         if (unit.getState() == UnitState.GARRISON || unit.getState() == UnitState.FORTIFY || unit.getState() == UnitState.FORTIFY_UNTIL_FULL_HEALTH)
             addButton("Call", true, true, event -> {
@@ -168,29 +175,32 @@ public class GraphicTile implements Serializable {
                     notify("Awake", "The unit awoken successfully.");
             });
 
-        addButton("Fortify", true, true, event -> {
-            int code = UnitStateController.unitChangeState(0);
-            if (code == 2)
-                notify("fault", "This Unit does not belong to you.");
-            else if (code == 0)
-                notify("Fortify", "The unit fortified successfully.");
-        });
+        if (!unit.getState().equals(UnitState.FORTIFY))
+            addButton("Fortify", true, true, event -> {
+                int code = UnitStateController.unitChangeState(0);
+                if (code == 2)
+                    notify("fault", "This Unit does not belong to you.");
+                else if (code == 0)
+                    notify("Fortify", "The unit fortified successfully.");
+            });
 
-        addButton("Fortify until health", true, true, event -> {
-            int code = UnitStateController.unitChangeState(1);
-            if (code == 2)
-                notify("fault", "This Unit does not belong to you.");
-            else if (code == 0)
-                notify("Fortify", "The unit fortified until full health successfully.");
-        });
+        if (!unit.getState().equals(UnitState.FORTIFY_UNTIL_FULL_HEALTH))
+            addButton("Fortify until health", true, true, event -> {
+                int code = UnitStateController.unitChangeState(1);
+                if (code == 2)
+                    notify("fault", "This Unit does not belong to you.");
+                else if (code == 0)
+                    notify("Fortify", "The unit fortified until full health successfully.");
+            });
 
-        addButton("Garrison", true, true, event -> {
-            int code = UnitStateController.unitChangeState(2);
-            if (code == 2)
-                notify("fault", "This Unit does not belong to you.");
-            else if (code == 0)
-                notify("Garrison", "The unit garrisoned successfully.");
-        });
+        if (!unit.getState().equals(UnitState.GARRISON))
+            addButton("Garrison", true, true, event -> {
+                int code = UnitStateController.unitChangeState(2);
+                if (code == 2)
+                    notify("fault", "This Unit does not belong to you.");
+                else if (code == 0)
+                    notify("Garrison", "The unit garrisoned successfully.");
+            });
 
         if (tile.getImprovement() != null && tile.getImprovement().getNeedsRepair() < 3) {
             addButton("Pillage", true, true, event -> {
@@ -288,7 +298,7 @@ public class GraphicTile implements Serializable {
         //improvement building:
         for (ImprovementType improvementType : ImprovementType.values())
             if (GameController.doesHaveTheRequiredTechnologyToBuildImprovement(improvementType, tile, civilization)
-                    && GameController.canHaveTheImprovement(tile, improvementType))
+                && GameController.canHaveTheImprovement(tile, improvementType))
                 if (tile.getImprovement() != null && tile.getImprovement().getImprovementType().equals(improvementType)) {
                     if (improvementImage != null)
                         addButton("Remove " + improvementType, true, true, event -> {
@@ -315,19 +325,29 @@ public class GraphicTile implements Serializable {
     private void addCommonButtons(Unit unit, boolean isYours) {
         leftPanel.getChildren().clear();
         Text title = new Text("Selected Unit: " + unit.getUnitType() +
-                "\nMove point:" + unit.getMovementPrice() +
-                "\nState: " + unit.getState() +
-                "\nHealth: " + unit.getHealth() +
-                "\nStrength:  A(" + round(unit.getCombatStrength(true), 1) + ")   D(" + round(unit.getCombatStrength(false), 1) + ")");
+            "\nMove point:" + unit.getMovementPrice() +
+            "\nState: " + unit.getState() +
+            "\nHealth: " + unit.getHealth() +
+            "\nStrength:  A(" + round(unit.getCombatStrength(true), 1) + ")   D(" + round(unit.getCombatStrength(false), 1) + ")");
         leftPanel.getChildren().add(title);
 
+        //not show control buttons if the unit is not belong to the current player
         if (!isYours)
             return;
+
         leftVbox = new VBox();
+        leftVbox.setSpacing(5);
         scrollPane = new ScrollPane(leftVbox);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         leftPanel.getChildren().add(scrollPane);
+
+        if (UnitStateController.unitUpgradeCheck() == 0)
+            addButton("Upgrade unit", true, true, event -> {
+                UnitStateController.unitUpgrade();
+                gameControllerFX.renderMap();
+                notify("Success", "Your unit upgraded successfully.");
+            });
 
         if (unit.getMovementPrice() > 0) {
             addButton("Move", false, true, event -> {
@@ -634,7 +654,7 @@ public class GraphicTile implements Serializable {
             cityImage.setLayoutX(cityX);
             cityImage.setLayoutY(cityY);
             cityHealthBar.fixFormat(cityX + cityImage.getFitWidth() / 2 - HealthBar.getWidth() / 2,
-                    cityY - HealthBar.getHeight());
+                cityY - HealthBar.getHeight());
         }
         if (fogImage != null) {
             fogImage.setLayoutX(x);
@@ -691,7 +711,7 @@ public class GraphicTile implements Serializable {
         nonCivilianUnitImage.setLayoutX(unitX);
         nonCivilianUnitImage.setLayoutY(unitY);
         nonCivilianHealthBar.fixFormat(unitX + nonCivilianUnitImage.getFitWidth() / 2 - HealthBar.getWidth() / 2,
-                unitY - HealthBar.getHeight());
+            unitY - HealthBar.getHeight());
     }
 
     private void civilianUnitSetPosition(double x, double y) {
@@ -700,7 +720,7 @@ public class GraphicTile implements Serializable {
         civilianUnitImage.setLayoutX(unitX);
         civilianUnitImage.setLayoutY(unitY);
         civilianHealthBar.fixFormat(unitX + civilianUnitImage.getFitWidth() / 2 - HealthBar.getWidth() / 2,
-                unitY - HealthBar.getHeight());
+            unitY - HealthBar.getHeight());
     }
 
     public double getX() {
