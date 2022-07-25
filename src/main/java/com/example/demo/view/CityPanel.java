@@ -97,6 +97,9 @@ public class CityPanel {
             return;
         }
 
+        //this todo
+
+
         Button button = new Button("Show Banner");
         button.setLayoutY(30);
         button.setOnMouseClicked(event -> gameControllerFX.eachInfoButtonsClicked(7));
