@@ -173,7 +173,7 @@ public class Civilization implements Serializable {
                 numberOfPopulation * 20 +
                 numberOfFullResearches * 25 +
                 numberOfBuildings * 30)
-                * (GameController.getMap().getX() / 100 * GameController.getMap().getY() / 100);
+                * (GameController.getMap().getX() / 100 * GameController.getMap().getY() / 100) + 10;
     }
 
     public void startTheTurn() {

@@ -35,10 +35,10 @@ public class HealthBar {
         blueBar.setFitHeight(format.getFitHeight());
 
         greenBar.setOpacity(1);
-        if (healthyBeing.greenBarPercent() == 0)
+        if (healthyBeing.greenBarPercent() <= 0)
             greenBar.setOpacity(0);
         blueBar.setOpacity(1);
-        if (healthyBeing.blueBarPercent() == 0)
+        if (healthyBeing.blueBarPercent() <= 0)
             blueBar.setOpacity(0);
         text.setText(healthyBeing.getHealthDigit());
     }
