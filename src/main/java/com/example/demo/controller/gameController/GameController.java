@@ -220,6 +220,7 @@ public class GameController {
 
     public static void nextTurn() {
         shouldGameEnd();
+
         civilizations.get(playerTurn).endTheTurn();
         playerTurn = (playerTurn + 1) % civilizations.size();
         if (civilizations.get(playerTurn).getCities().size() == 0 &&

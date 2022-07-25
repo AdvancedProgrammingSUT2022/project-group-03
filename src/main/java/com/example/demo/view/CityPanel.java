@@ -71,7 +71,7 @@ public class CityPanel {
         }
 
         //TODO: This section is not tested. Test it!
-        if (city.getHP() == 0) {
+        if (city.getHP() <= 0) {
             Text title = new Text("Please decide about This city.");
             Button annex = new Button("Annex the city");
             annex.setOnAction(actionEvent -> {
@@ -96,6 +96,11 @@ public class CityPanel {
             leftPanel.getChildren().addAll(title, annex, burn);
             return;
         }
+
+        //not show control buttons if the city is not belong to the current player
+        boolean isYours = GameController.getCurrentCivilization() == city.getCivilization();
+        if (!isYours)
+            return;
 
         Button button = new Button("Show Banner");
         button.setLayoutY(30);
@@ -158,6 +163,7 @@ public class CityPanel {
 
     private void addBuildingsButtons(boolean buy) {
         VBox vBox = new VBox();
+        vBox.setSpacing(5);
         ScrollPane scrollPane = new ScrollPane(vBox);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -211,6 +217,7 @@ public class CityPanel {
 
     private void addUnitsButtons(boolean buy) {
         VBox vBox = new VBox();
+        vBox.setSpacing(5);
         ScrollPane scrollPane = new ScrollPane(vBox);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -218,7 +225,7 @@ public class CityPanel {
 
         for (UnitType unitType : UnitType.values()) {
             if (GameController.getCivilizations().get(GameController.getPlayerTurn()).doesContainTechnology(unitType.technologyRequired) == 1) {
-                if (openedPanelCity.getProduct() != null && openedPanelCity.getProduct() instanceof Unit && ((Unit) openedPanelCity.getProduct()).getUnitType() == unitType)
+                if (!buy && openedPanelCity.getProduct() != null && openedPanelCity.getProduct() instanceof Unit && ((Unit) openedPanelCity.getProduct()).getUnitType() == unitType)
                     continue;
                 String textString = unitType + ": ";
 
@@ -226,9 +233,14 @@ public class CityPanel {
                 if (buy)
                     textString = textString + unitType.getCost() + "$";
                 else {
-                    if (unit == null)
-                        textString = textString + openedPanelCity.cyclesToComplete(unitType.getCost()) + " Cycles";
-                    else textString = textString + openedPanelCity.cyclesToComplete(unit.getRemainedCost()) + " Cycles";
+                    int cycles = openedPanelCity.cyclesToComplete(unitType.getCost());
+                    if (unit != null)
+                        cycles = openedPanelCity.cyclesToComplete(unit.getRemainedCost());
+                    if (cycles >= 12345) {
+                        textString = textString + "Never, Production=0";
+                    } else {
+                        textString = textString + cycles + " Cycles";
+                    }
                 }
                 Button button = new Button(textString);
                 button.minWidthProperty().bind(scrollPane.widthProperty());
