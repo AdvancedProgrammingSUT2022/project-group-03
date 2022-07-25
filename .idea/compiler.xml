@@ -13,6 +13,7 @@
       <module name="Civilization" target="17" />
       <module name="demo" target="17" />
       <module name="project" target="17" />
+      <module name="server" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

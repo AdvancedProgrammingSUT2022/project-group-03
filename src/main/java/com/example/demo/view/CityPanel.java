@@ -158,6 +158,7 @@ public class CityPanel {
 
     private void addBuildingsButtons(boolean buy) {
         VBox vBox = new VBox();
+        vBox.setSpacing(5);
         ScrollPane scrollPane = new ScrollPane(vBox);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -211,6 +212,7 @@ public class CityPanel {
 
     private void addUnitsButtons(boolean buy) {
         VBox vBox = new VBox();
+        vBox.setSpacing(5);
         ScrollPane scrollPane = new ScrollPane(vBox);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);

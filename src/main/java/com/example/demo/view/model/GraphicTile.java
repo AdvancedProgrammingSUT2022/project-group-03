@@ -297,7 +297,7 @@ public class GraphicTile implements Serializable {
         //improvement building:
         for (ImprovementType improvementType : ImprovementType.values())
             if (GameController.doesHaveTheRequiredTechnologyToBuildImprovement(improvementType, tile, civilization)
-                    && GameController.canHaveTheImprovement(tile, improvementType))
+                && GameController.canHaveTheImprovement(tile, improvementType))
                 if (tile.getImprovement() != null && tile.getImprovement().getImprovementType().equals(improvementType)) {
                     if (improvementImage != null)
                         addButton("Remove " + improvementType, true, true, event -> {
@@ -324,17 +324,25 @@ public class GraphicTile implements Serializable {
     private void addCommonButtons(Unit unit) {
         leftPanel.getChildren().clear();
         Text title = new Text("Selected Unit: " + unit.getUnitType() +
-                "\nMove point:" + unit.getMovementPrice() +
-                "\nState: " + unit.getState() +
-                "\nHealth: " + unit.getHealth() +
-                "\nStrength:  A(" + round(unit.getCombatStrength(true), 1) + ")   D(" + round(unit.getCombatStrength(false), 1) + ")");
+            "\nMove point:" + unit.getMovementPrice() +
+            "\nState: " + unit.getState() +
+            "\nHealth: " + unit.getHealth() +
+            "\nStrength:  A(" + round(unit.getCombatStrength(true), 1) + ")   D(" + round(unit.getCombatStrength(false), 1) + ")");
         leftPanel.getChildren().add(title);
 
         leftVbox = new VBox();
+        leftVbox.setSpacing(5);
         scrollPane = new ScrollPane(leftVbox);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         leftPanel.getChildren().add(scrollPane);
+
+        if (UnitStateController.unitUpgradeCheck() == 0)
+            addButton("Upgrade unit", true, true, event -> {
+                UnitStateController.unitUpgrade();
+                gameControllerFX.renderMap();
+                notif("Success", "Your unit upgraded successfully.");
+            });
 
         if (unit.getMovementPrice() > 0) {
             addButton("Move", false, true, event -> {
@@ -427,7 +435,7 @@ public class GraphicTile implements Serializable {
         //load clouds
         for (int i = 0; i < 6; i++) {
             if (tile.getNeighbours(i) != null &&
-                    GameController.getCivilizations().get(GameController.getPlayerTurn()).getTileConditions()[tile.getNeighbours(i).getX()][tile.getNeighbours(i).getY()] != null) {
+                GameController.getCivilizations().get(GameController.getPlayerTurn()).getTileConditions()[tile.getNeighbours(i).getX()][tile.getNeighbours(i).getY()] != null) {
                 isAroundNonClouded = true;
                 break;
             }
@@ -506,7 +514,7 @@ public class GraphicTile implements Serializable {
             nonCivilianUnitImage.setCursor(Cursor.HAND);
             pane.getChildren().add(nonCivilianUnitImage);
 
-            nonCivilianHealthBar = new HealthBar(tile.getNonCivilian(),pane);
+            nonCivilianHealthBar = new HealthBar(tile.getNonCivilian(), pane);
 
         }
 
@@ -523,7 +531,7 @@ public class GraphicTile implements Serializable {
             civilianUnitImage.setCursor(Cursor.HAND);
             pane.getChildren().add(civilianUnitImage);
 
-            civilianHealthBar = new HealthBar(tile.getCivilian(),pane);
+            civilianHealthBar = new HealthBar(tile.getCivilian(), pane);
         }
 
         //load improvements
@@ -560,7 +568,7 @@ public class GraphicTile implements Serializable {
             cityImage.setOnMouseReleased(event -> gameControllerFX.getCityPanel().cityClicked(finalTile.getCity()));
             cityImage.setCursor(Cursor.HAND);
             pane.getChildren().add(cityImage);
-            cityHealthBar = new HealthBar(tile.getCity(),pane);
+            cityHealthBar = new HealthBar(tile.getCity(), pane);
         }
 
 
@@ -654,8 +662,8 @@ public class GraphicTile implements Serializable {
             double cityY = y + tileImage.getFitHeight() * 4 / 5 - cityImage.getFitHeight() / 2;
             cityImage.setLayoutX(cityX);
             cityImage.setLayoutY(cityY);
-            cityHealthBar.fixFormat(cityX + cityImage.getFitWidth()/2 - HealthBar.getWidth()/2,
-                    cityY - HealthBar.getHeight());
+            cityHealthBar.fixFormat(cityX + cityImage.getFitWidth() / 2 - HealthBar.getWidth() / 2,
+                cityY - HealthBar.getHeight());
         }
         if (fogImage != null) {
             fogImage.setLayoutX(x);
@@ -711,8 +719,8 @@ public class GraphicTile implements Serializable {
         double unitY = y + tileImage.getFitHeight() * 3.5 / 5 - nonCivilianUnitImage.getFitHeight() / 2;
         nonCivilianUnitImage.setLayoutX(unitX);
         nonCivilianUnitImage.setLayoutY(unitY);
-        nonCivilianHealthBar.fixFormat(unitX + nonCivilianUnitImage.getFitWidth()/2 - HealthBar.getWidth()/2,
-                unitY - HealthBar.getHeight());
+        nonCivilianHealthBar.fixFormat(unitX + nonCivilianUnitImage.getFitWidth() / 2 - HealthBar.getWidth() / 2,
+            unitY - HealthBar.getHeight());
     }
 
     private void civilianUnitSetPosition(double x, double y) {
@@ -720,8 +728,8 @@ public class GraphicTile implements Serializable {
         double unitY = y + tileImage.getFitHeight() * 1.5 / 5 - civilianUnitImage.getFitHeight() / 2;
         civilianUnitImage.setLayoutX(unitX);
         civilianUnitImage.setLayoutY(unitY);
-        civilianHealthBar.fixFormat(unitX + civilianUnitImage.getFitWidth()/2 - HealthBar.getWidth()/2,
-                unitY - HealthBar.getHeight());
+        civilianHealthBar.fixFormat(unitX + civilianUnitImage.getFitWidth() / 2 - HealthBar.getWidth() / 2,
+            unitY - HealthBar.getHeight());
     }
 
     public double getX() {
