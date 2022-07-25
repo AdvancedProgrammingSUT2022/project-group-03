@@ -60,7 +60,6 @@ public class GameControllerFX {
     private AnchorPane unitsPanelPane;
     private static boolean hasStarted = false;
 
-
     public void initialize() {
         cityPanel = new CityPanel(this, leftPanel);
         if (!hasStarted)
@@ -247,14 +246,16 @@ public class GameControllerFX {
     }
 
 
+
     public void renderMap() {
         mapPane.getChildren().clear();
         Map map = GameController.getMap();
         graphicMap = new GraphicTile[map.getX()][map.getY()];
         Tile[][] tiles = map.getTiles();
         for (int j = 0; j < map.getY(); j++)
-            for (int i = 0; i < map.getX(); i++)
+            for (int i = 0; i < map.getX(); i++) {
                 graphicMap[i][j] = new GraphicTile(tiles[i][j], mapPane, leftPanel, this);
+            }
         cityPage.setViewOrder(-2);
         mapPane.getChildren().add(cityPage);
         cityPage.setOnKeyPressed(keyEvent -> {
