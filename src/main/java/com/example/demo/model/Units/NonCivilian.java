@@ -12,7 +12,6 @@ public class NonCivilian extends Unit implements CanAttack {
 
     private int fortifiedCycle = 0;
     public boolean attacked = false;
-
     public UnitType getUnitType() {
         return unitType;
     }
