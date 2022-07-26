@@ -11,12 +11,9 @@ import model.technologies.Technology;
 import model.technologies.TechnologyType;
 import model.tiles.Tile;
 import network.MySocketHandler;
-import view.TradeRequest;
-import javafx.util.Duration;
-import javafx.util.Pair;
-import org.controlsfx.control.Notifications;
 
 import java.io.Serializable;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +40,7 @@ public class Civilization implements Serializable {
     //-1 war
     // 0 neutral
     // 1 peace
-    private final ArrayList<Pair<Civilization, Integer>> knownCivilizations = new ArrayList<>();
+    private final ArrayList<Map.Entry<Civilization, Integer>> knownCivilizations = new ArrayList<>();
 
     private TileCondition[][] tileConditions;
     private final User user;
@@ -334,12 +331,12 @@ public class Civilization implements Serializable {
         this.mainCapital = mainCapital;
     }
 
-    public ArrayList<Pair<Civilization, Integer>> getKnownCivilizations() {
+    public ArrayList<Map.Entry<Civilization, Integer>> getKnownCivilizations() {
         return knownCivilizations;
     }
 
     public boolean knownCivilizationsContains(Civilization civilization) {
-        for (Pair<Civilization, Integer> knownCivilization : knownCivilizations) {
+        for (Map.Entry<Civilization, Integer> knownCivilization : knownCivilizations) {
             if (knownCivilization.getKey() == civilization)
                 return true;
         }
@@ -347,7 +344,7 @@ public class Civilization implements Serializable {
     }
 
     public int knownCivilizationStatue(Civilization civilization) {
-        for (Pair<Civilization, Integer> knownCivilization : knownCivilizations) {
+        for (Map.Entry<Civilization, Integer> knownCivilization : knownCivilizations) {
             if (knownCivilization.getKey() == civilization)
                 return knownCivilization.getValue();
         }
@@ -356,7 +353,7 @@ public class Civilization implements Serializable {
 
     public void setKnownCivilizations(Civilization civilization, int statue) {
         knownCivilizations.removeIf(knownCivilization -> knownCivilization.getKey() == civilization);
-        knownCivilizations.add(new Pair<>(civilization, statue));
+        knownCivilizations.add(new AbstractMap.SimpleImmutableEntry<>(civilization, statue));
     }
 
     public ArrayList<TradeRequest> getTradeRequests() {
