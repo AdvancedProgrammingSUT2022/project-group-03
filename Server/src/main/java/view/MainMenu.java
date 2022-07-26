@@ -22,7 +22,7 @@ public class MainMenu extends Menu {
                 "^user logout$",
                 "^play game.*",
                 "^menu enter.*$",
-                "^friend (\\S+)$",
+                "^friend (?<name>\\S*)",
                 "^update"
         };
     }
@@ -70,7 +70,7 @@ public class MainMenu extends Menu {
     @Override
     protected boolean commands(String command) {
 
-        commandNumber = getCommandNumber(command, regexes, true);
+        commandNumber = getCommandNumber(command, regexes, false);
         switch (commandNumber) {
             case -1:
                 System.out.println("invalid command");

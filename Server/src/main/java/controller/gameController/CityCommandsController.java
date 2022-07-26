@@ -42,7 +42,7 @@ public class CityCommandsController {
         if (game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getGold() <
             15 + 10 * (city.getTiles().size() - 6))
             return 2;
-        if (!city.addTile(game.getGameController().getMap().coordinatesToTile(x, y))) return 3;
+        if (!city.addTile(game.getGameController().getMap().coordinatesToTile(x, y),game.getGameController())) return 3;
         city.getCivilization()
             .increaseGold(-(15 + 10 * (city.getTiles().size() - 6)));
         return 0;
@@ -141,7 +141,7 @@ public class CityCommandsController {
         if (!game.getGameController().getMap().isInRange(2,
             city.getMainTile(),
                 game.getGameController().getMap().coordinatesToTile(x, y))) return 4;
-        city.attack(game.getGameController().getMap().coordinatesToTile(x, y));
+        city.attack(game.getGameController().getMap().coordinatesToTile(x, y),game.getGameController(),game.getSocketHandlers().get(game.getGameController().getPlayerTurn()));
         city.setHasAttackedThisCycle(true);
         return 0;
     }
@@ -157,13 +157,14 @@ public class CityCommandsController {
                     break;
                 }
         }
-        if (burn) game.getGameController().getSelectedCity().destroy(game.getGameController()
-            .getCivilizations().get(game.getGameController().getPlayerTurn()));
+        if (burn) city.destroy(game.getGameController()
+            .getCivilizations().get(game.getGameController().getPlayerTurn()),game.getGameController()
+                ,game.getSocketHandlers().get(game.getGameController().getPlayerTurn()));
         else
-            game.getGameController().getSelectedCity().changeCivilization(game.getGameController()
-                .getCivilizations().get(game.getGameController().getPlayerTurn()));
-        game.getGameController().deleteFromUnfinishedTasks(new Tasks(game.getGameController()
-            .getSelectedCity().getMainTile(), TaskTypes.CITY_DESTINY));
+            city.changeCivilization(game.getGameController()
+                .getCivilizations().get(game.getGameController().getPlayerTurn()),game.getGameController()
+                    ,game.getSocketHandlers().get(game.getGameController().getPlayerTurn()));
+        game.getGameController().deleteFromUnfinishedTasks(new Tasks(city.getMainTile(), TaskTypes.CITY_DESTINY));
         return 0;
     }
 

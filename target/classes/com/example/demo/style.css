@@ -1,0 +1,62 @@
+.usersBar {
+    /*-fx-padding: 10;*/
+    -fx-background-color: #17212b;
+    -fx-font-size: 25;
+}
+
+.user {
+    -fx-pref-width: 300;
+    -fx-pref-height: 40;
+    /*-fx-border-color: #072307;*/
+}
+
+/*.unitsText {*/
+/*    -fx-font: "/com/example/demo/font/OPTIColumna.otf";*/
+/*    -fx-font-size: 5;*/
+/*}*/
+
+.topBar {
+    -fx-padding: 10;
+    -fx-font-size: 40;
+    -fx-background-color: #17212b;
+}
+
+.bottomBar {
+    -fx-max-height: 25;
+    -fx-font-size: 30;
+    -fx-padding: 15;
+    -fx-background-color: #17212b;
+}
+
+TextField {
+    -fx-max-height: 20;
+    -fx-pref-width: 500;
+    -fx-font-size: 20;
+}
+
+Button {
+    -fx-font-size: 17;
+    -fx-font-weight: bold;
+    -fx-max-width: 350;
+    -fx-pref-height: 40;
+    -fx-border-radius: 5;
+    -fx-background-color: #1f2f3f;
+    -fx-text-fill: #ffffff;
+}
+
+Button:hover {
+    -fx-background-color: #384454;
+}
+
+.centerChat {
+    -fx-background-color: #0e1621;
+}
+
+TextField {
+    -fx-background-color: #24313d;
+    -fx-text-fill: white;
+}
+.table-row-cell:priority-low {
+    -fx-background-color: #78bcc5;
+
+}

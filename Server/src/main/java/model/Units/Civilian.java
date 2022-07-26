@@ -20,7 +20,6 @@ public class Civilian extends Unit {
             tempCity.setMainCapital(true);
         }
         currentTile.setCity(tempCity);
-        tileXAndYFlagSelectUnitController.setSelectedCityByPosition(currentTile.getX(), currentTile.getY());
         gameController.setUnfinishedTasks();
     }
 

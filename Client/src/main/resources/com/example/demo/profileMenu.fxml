@@ -29,6 +29,8 @@
             prefHeight="25.0" prefWidth="100.0" text="logout"/>
     <Button fx:id="back" onMouseClicked="#back" layoutX="1400" layoutY="10.0" mnemonicParsing="false"
             prefHeight="25.0" prefWidth="100.0" text="back"/>
+    <ScrollPane fx:id="gameInvitationScrollBar" />
+
 
 
 

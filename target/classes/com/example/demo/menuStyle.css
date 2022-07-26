@@ -1,0 +1,18 @@
+Button {
+    -fx-min-height: 30;
+    -fx-min-width: 150;
+    -fx-font-size: 15;
+
+}
+
+TextField {
+    -fx-min-height: 35;
+    -fx-min-width: 270;
+    -fx-font-size: 15;
+}
+
+PasswordField {
+    -fx-min-height: 35;
+    -fx-min-width: 270;
+    -fx-font-size: 15;
+}

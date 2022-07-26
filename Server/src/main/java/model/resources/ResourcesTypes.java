@@ -2,6 +2,7 @@ package model.resources;
 
 import controller.gameController.GameController;
 import model.Civilization;
+import model.Units.Unit;
 import model.improvements.ImprovementType;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;
@@ -77,21 +78,13 @@ public enum ResourcesTypes {
     }
 
 
-    public boolean isTechnologyUnlocked(Civilization civilization, Tile tile) {
-        if (technologyTypes != null) {
-            boolean found = false;
-            for (Technology research : civilization.getResearches()) {
-                if (research.getTechnologyType() == technologyTypes) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) return false;
-        }
-        return GameController.doesHaveTheRequiredTechnologyToBuildImprovement(improvementType, tile, civilization);
+    public boolean isTechnologyUnlocked(Civilization civilization, Tile tile,GameController gameController) {
+        if (civilization.doesContainTechnology(technologyTypes) != 1)
+            return false;
+        return gameController.doesHaveTheRequiredTechnologyToBuildImprovement(improvementType, tile, civilization);
     }
 
-    public static ResourcesTypes stringToEnum(String string) {
+    public  ResourcesTypes stringToEnum(String string) {
         for (ResourcesTypes value : VALUES)
             if (string.toLowerCase(Locale.ROOT).equals(value.toString().toLowerCase(Locale.ROOT)))
                 return value;

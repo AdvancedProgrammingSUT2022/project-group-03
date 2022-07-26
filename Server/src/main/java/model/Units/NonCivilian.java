@@ -6,6 +6,7 @@ import model.City;
 import model.Civilization;
 import model.CanAttack;
 import model.tiles.Tile;
+import network.MySocketHandler;
 
 
 public class NonCivilian extends Unit implements CanAttack {
@@ -34,7 +35,7 @@ public class NonCivilian extends Unit implements CanAttack {
         return ratio;
     }
 
-    public void attack(Tile tile,GameController gameController) {
+    public void attack(Tile tile, GameController gameController, MySocketHandler socketHandler) {
         CanGetAttacked target;
         if (tile.getCity() != null) target = tile.getCity();
         else if (tile.getNonCivilian() != null) target = tile.getNonCivilian();
@@ -42,11 +43,12 @@ public class NonCivilian extends Unit implements CanAttack {
         else return;
         double ratio = calculateRatio(target);
         attacked = true;
-        target.takeDamage(calculateDamage(ratio),civilization,gameController);
+        target.takeDamage(calculateDamage(ratio),civilization,gameController,socketHandler);
         gameController.openNewArea(tile, civilization, null);
         state = UnitState.AWAKE;
         destinationTile = null;
-        if (!this.checkToDestroy(gameController) && target.checkToDestroy(gameController) && (!(target instanceof City) || this.getUnitType().range == 1)) this.move(tile, true,gameController);
+        if (!this.checkToDestroy(gameController,socketHandler) && target.checkToDestroy(gameController,socketHandler) && (!(target instanceof City) || this.getUnitType().range == 1))
+            this.move(tile, true,gameController,socketHandler);
         if (unitType.combatType != CombatType.MOUNTED || unitType.range > 1) {
             movementPrice = 0;
         }

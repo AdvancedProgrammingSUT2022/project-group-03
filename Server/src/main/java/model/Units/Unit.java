@@ -8,8 +8,10 @@ import model.features.FeatureType;
 import model.Producible;
 import model.improvements.ImprovementType;
 import model.tiles.Tile;
+import network.MySocketHandler;
 
 import java.io.Serializable;
+import java.util.logging.SocketHandler;
 //import view.gameMenu.Color;
 
 //import javax.swing.text.View;
@@ -35,13 +37,13 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked {
         this.unitType = unitType;
     }
 
-    public boolean checkToDestroy(GameController gameController) {
+    public boolean checkToDestroy(GameController gameController, MySocketHandler socketHandler) {
         if (health <= 0) {
             civilization.getUnits().remove(this);
-            this.civilization.putNotification("unit died",gameController.getCycle());
+            this.civilization.putNotification("unit died",gameController.getCycle(),socketHandler);
             if (this instanceof NonCivilian)
-                currentTile.setNonCivilian(null);
-            else currentTile.setCivilian(null);
+                currentTile.setNonCivilian(null,socketHandler);
+            else currentTile.setCivilian(null,socketHandler);
             return true;
         }
         return false;
@@ -93,7 +95,7 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked {
         destinationTile = null;
     }
 
-    private void workerBuildImprovementProgress(GameController gameController) {
+    private void workerBuildImprovementProgress(GameController gameController,MySocketHandler socketHandler) {
         currentTile.getImprovement()
                 .setRemainedCost(currentTile.getImprovement()
                         .getRemainedCost() - 1);
@@ -101,7 +103,7 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked {
             state = UnitState.AWAKE;
             gameController.getCivilizations().get(gameController.getPlayerTurn())
                     .putNotification(currentTile.getImprovement().getImprovementType() +
-                            "'s production ended, cycle: ",gameController.getCycle());
+                            "'s production ended, cycle: ",gameController.getCycle(),socketHandler);
             if ((currentTile.getImprovement().getImprovementType() == ImprovementType.FARM ||
                     currentTile.getImprovement().getImprovementType() == ImprovementType.MINE) &&
                     currentTile.getContainedFeature() != null &&
@@ -112,14 +114,14 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked {
         }
     }
 
-    private void workerBuildRoadProgress(GameController gameController) {
+    private void workerBuildRoadProgress(GameController gameController,MySocketHandler socketHandler) {
         currentTile.getRoad().setRemainedCost(currentTile.getRoad().getRemainedCost() - 1);
-        if (currentTile.getRoad().getRemainedCost() == 0 && gameController.getSelectedCity()!=null)
+        if (currentTile.getRoad().getRemainedCost() == 0 )
         {
             state = UnitState.AWAKE;
             gameController.getCivilizations().get(gameController.getPlayerTurn())
                     .putNotification(currentTile.getRoad().getImprovementType() +
-                            "'s production ended, cycle: ",gameController.getCycle());
+                            "'s production ended, cycle: ",gameController.getCycle(),socketHandler);
         }
     }
 
@@ -151,22 +153,22 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked {
             state = UnitState.AWAKE;
     }
 
-    private void startTheTurnForWorker(GameController gameController) {
+    private void startTheTurnForWorker(GameController gameController,MySocketHandler socketHandler) {
         if (state == UnitState.BUILDING &&
                 currentTile.getImprovement() != null &&
                 currentTile.getImprovement().getRemainedCost() != 0)
-            workerBuildImprovementProgress(gameController);
+            workerBuildImprovementProgress(gameController,socketHandler);
         if (state == UnitState.BUILDING &&
                 currentTile.getRoad() != null &&
                 currentTile.getRoad().getRemainedCost() != 0)
-            workerBuildRoadProgress(gameController);
+            workerBuildRoadProgress(gameController,socketHandler);
         if (state == UnitState.REPAIRING)
             workerRepairProgress();
         if (state == UnitState.REMOVING)
             workerRemoveProgress();
     }
 
-    public void startTheTurn(GameController gameController) {
+    public void startTheTurn(GameController gameController, MySocketHandler socketHandler) {
 //        didDoTaskThisTurn=false;
         gameController.openNewArea(currentTile, civilization, this);
         health += 5;
@@ -184,12 +186,12 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked {
             ((NonCivilian) this).setFortifiedCycle(((NonCivilian) this).getFortifiedCycle() + 1);
 
         if (unitType == UnitType.WORKER)
-            startTheTurnForWorker(gameController);
+            startTheTurnForWorker(gameController,socketHandler);
     }
 
-    public void endTheTurn(GameController gameController) {
+    public void endTheTurn(GameController gameController,MySocketHandler socketHandler) {
         if (destinationTile != null)
-            move(destinationTile, true,gameController);
+            move(destinationTile, true,gameController,socketHandler);
     }
 
     public Tile getDestinationTile() {
@@ -234,7 +236,7 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked {
         return i;
     }
 
-    public boolean move(Tile destinationTile, boolean ogCall,GameController gameController) {
+    public boolean move(Tile destinationTile, boolean ogCall,GameController gameController,MySocketHandler socketHandler) {
         gameController.openNewArea(this.currentTile, civilization, this);
         if (state == UnitState.ATTACK && gameController.getMap()
                 .isInRange(unitType.range, destinationTile, currentTile)) {
@@ -245,20 +247,20 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked {
         Tile startTile = this.currentTile;
         Map.TileAndMP[] tileAndMPS = gameController.getMap().findNextTile(civilization,
                 currentTile, movementPrice, unitType.movePoint, destinationTile,
-                this instanceof Civilian, this);
+                this instanceof Civilian, this,socketHandler);
         int i = initializeMove(ogCall, tileAndMPS, destinationTile,gameController);
         if (i == -1) return false;
         boolean notEnd = true;
         for (int j = i; j > 0 && notEnd && movementPrice > 0; j--) {
-            notEnd = move(tileAndMPS[j - 1].tile, false,gameController);
+            notEnd = move(tileAndMPS[j - 1].tile, false,gameController,socketHandler);
         }
         if (ogCall) {
             if (this instanceof NonCivilian) {
-                startTile.setNonCivilian(null);
-                currentTile.setNonCivilian((NonCivilian) this);
+                startTile.setNonCivilian(null,socketHandler);
+                currentTile.setNonCivilian((NonCivilian) this,socketHandler);
             } else {
-                startTile.setCivilian(null);
-                currentTile.setCivilian(this);
+                startTile.setCivilian(null,socketHandler);
+                currentTile.setCivilian(this,socketHandler);
             }
             gameController.openNewArea(currentTile, civilization, null);
             if (destinationTile == currentTile) {
@@ -281,11 +283,12 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked {
     public void attack(Tile tile) {
     }
 
-    public void takeDamage(int amount,Civilization civilization,GameController gameController) {
+    public void takeDamage(int amount,Civilization civilization,GameController gameController,
+                           MySocketHandler socketHandler) {
         health -= amount;
         civilization.putNotification(unitType+ " @ "+ currentTile.getX() + " , "+ currentTile.getY()  + " : " +
                 "oopsy woopsy you just got smashed by "
-                + civilization.getUser().getNickname() ,gameController.getCycle());
+                + civilization.getUser().getNickname() ,gameController.getCycle(),socketHandler);
     }
 
     public void setState(UnitState state) {

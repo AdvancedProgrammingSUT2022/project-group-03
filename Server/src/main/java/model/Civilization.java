@@ -11,15 +11,13 @@ import model.technologies.Technology;
 import model.technologies.TechnologyType;
 import model.tiles.Tile;
 import network.MySocketHandler;
-import view.TradeRequest;
-import javafx.util.Duration;
-import javafx.util.Pair;
-import org.controlsfx.control.Notifications;
 
 import java.io.Serializable;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.SocketHandler;
 
 public class Civilization implements Serializable {
     public static class TileCondition implements Serializable {
@@ -43,7 +41,7 @@ public class Civilization implements Serializable {
     //-1 war
     // 0 neutral
     // 1 peace
-    private final ArrayList<Pair<Civilization, Integer>> knownCivilizations = new ArrayList<>();
+    private final ArrayList<Map.Entry<Civilization, Integer>> knownCivilizations = new ArrayList<>();
 
     private TileCondition[][] tileConditions;
     private final User user;
@@ -105,13 +103,13 @@ public class Civilization implements Serializable {
         this.gettingResearchedTechnology = gettingResearchedTechnology;
     }
 
-    public void turnOffTileConditionsBoolean(GameController gameController) {
+    public void turnOffTileConditionsBoolean(GameController gameController, MySocketHandler socketHandler) {
         for (int i = 0; i < gameController.getMap().getX(); i++)
             for (int j = 0; j < gameController.getMap().getY(); j++)
                 if (tileConditions[i][j] != null) {
                     tileConditions[i][j].isClear = false;
-                    tileConditions[i][j].getOpenedArea().setCivilian(null);
-                    tileConditions[i][j].getOpenedArea().setNonCivilian(null);
+                    tileConditions[i][j].getOpenedArea().setCivilian(null,socketHandler);
+                    tileConditions[i][j].getOpenedArea().setNonCivilian(null,socketHandler);
                 }
     }
 
@@ -178,11 +176,11 @@ public class Civilization implements Serializable {
                 * (gameController.getMap().getX() / 100 * gameController.getMap().getY() / 100) + 10;
     }
 
-    public void startTheTurn(GameController gameController  ) {
+    public void startTheTurn(GameController gameController  ,MySocketHandler socketHandler) {
 
         happiness = 5;
         happiness -= cities.size();
-        turnOffTileConditionsBoolean(gameController);
+        turnOffTileConditionsBoolean(gameController,socketHandler);
         usedLuxuryResources = new HashMap<>();
         for (City city : cities)
             if (city.getAnxiety() > 0) happiness -= 2;
@@ -193,19 +191,19 @@ public class Civilization implements Serializable {
                 resourcesAmount.put(ResourcesTypes.VALUES.get(i), 0);
             }
         for (City city : cities)
-            city.collectResources(resourcesAmount);
+            city.collectResources(resourcesAmount,gameController);
         for (City city : cities) {
-            city.startTheTurn(gameController);
-            gold += city.getGold();
+            city.startTheTurn(gameController,socketHandler);
+            gold += city.getGold(gameController);
         }
         for (Tile noFog : noFogs) {
             gameController.openNewArea(noFog, this, null);
         }
         for (City city : cities)
-            city.collectFood();
+            city.collectFood(gameController);
 
-        int science = collectScience();
-        for (Unit unit : units) unit.startTheTurn(gameController);
+        int science = collectScience(gameController);
+        for (Unit unit : units) unit.startTheTurn(gameController,socketHandler);
         gold -= units.size();
         if (gold < 0)
             gold = 0;
@@ -215,13 +213,13 @@ public class Civilization implements Serializable {
                 gettingResearchedTechnology.setRemainedCost(0);
                 gameController.getCivilizations().get(gameController.getPlayerTurn())
                         .putNotification(gettingResearchedTechnology.getName() +
-                                "'s production ended successfully", gameController.getCycle(),gameController );
+                                "'s production ended successfully", gameController.getCycle(),socketHandler );
                 gettingResearchedTechnology = null;
             }
         }
     }
 
-    public int collectScience() {
+    public int collectScience(GameController gameController) {
         int returner = 0;
         for (City city : cities) {
             returner += city.getPopulation();
@@ -242,15 +240,15 @@ public class Civilization implements Serializable {
         if (gold == 0) {
             int temp = 0;
             for (City city : cities)
-                temp += city.getGold();
+                temp += city.getGold(gameController);
             if (temp < 0) returner += temp;
         }
         return returner + cheatScience;
     }
 
-    public void endTheTurn(GameController gameController) {
+    public void endTheTurn(GameController gameController,MySocketHandler socketHandler) {
         //using
-        for (Unit unit : units) unit.endTheTurn(gameController);
+        for (Unit unit : units) unit.endTheTurn(gameController,socketHandler);
     }
 
     public TileCondition[][] getTileConditions() {
@@ -334,12 +332,12 @@ public class Civilization implements Serializable {
         this.mainCapital = mainCapital;
     }
 
-    public ArrayList<Pair<Civilization, Integer>> getKnownCivilizations() {
+    public ArrayList<Map.Entry<Civilization, Integer>> getKnownCivilizations() {
         return knownCivilizations;
     }
 
     public boolean knownCivilizationsContains(Civilization civilization) {
-        for (Pair<Civilization, Integer> knownCivilization : knownCivilizations) {
+        for (Map.Entry<Civilization, Integer> knownCivilization : knownCivilizations) {
             if (knownCivilization.getKey() == civilization)
                 return true;
         }
@@ -347,7 +345,7 @@ public class Civilization implements Serializable {
     }
 
     public int knownCivilizationStatue(Civilization civilization) {
-        for (Pair<Civilization, Integer> knownCivilization : knownCivilizations) {
+        for (Map.Entry<Civilization, Integer> knownCivilization : knownCivilizations) {
             if (knownCivilization.getKey() == civilization)
                 return knownCivilization.getValue();
         }
@@ -356,7 +354,7 @@ public class Civilization implements Serializable {
 
     public void setKnownCivilizations(Civilization civilization, int statue) {
         knownCivilizations.removeIf(knownCivilization -> knownCivilization.getKey() == civilization);
-        knownCivilizations.add(new Pair<>(civilization, statue));
+        knownCivilizations.add(new AbstractMap.SimpleImmutableEntry<>(civilization, statue));
     }
 
     public ArrayList<TradeRequest> getTradeRequests() {

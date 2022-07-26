@@ -100,4 +100,8 @@ public class MySocketHandler extends Thread{
         printStream.println(update);
         printStream.flush();
     }
+
+    public Scanner getScanner() {
+        return scanner;
+    }
 }

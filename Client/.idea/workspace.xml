@@ -6,7 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/view/GameView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/LoginControllerFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/LoginControllerFX.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/ScoreboardControllerFx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/ScoreboardControllerFx.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/dataBase/users.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/Civilization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/view/MainMenu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +59,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Server" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -189,8 +196,6 @@
       <workItem from="1658738025889" duration="3358000" />
       <workItem from="1658766881159" duration="29000" />
       <workItem from="1658807336163" duration="324000" />
-      <workItem from="1658808939170" duration="10851000" />
-      <workItem from="1658831807912" duration="8000000" />
     </task>
     <servers />
   </component>

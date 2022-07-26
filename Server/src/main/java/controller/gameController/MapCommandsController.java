@@ -18,10 +18,10 @@ public class MapCommandsController {
     public  void mapShowPosition(int x, int y) {
         GameController.startWindowX = x;
         GameController.startWindowY = y;
-        if (GameController.startWindowY > GameController.getMap().getY() - (Map.WINDOW_Y - 1))
-            GameController.startWindowY = GameController.getMap().getY() - (Map.WINDOW_Y - 1);
-        if (GameController.startWindowX > GameController.getMap().getX() - (Map.WINDOW_X - 1))
-            GameController.startWindowX = GameController.getMap().getX() - (Map.WINDOW_X - 1);
+        if (GameController.startWindowY > GameController.getMap().getY() - (game.getMap().WINDOW_Y - 1))
+            GameController.startWindowY = GameController.getMap().getY() - (game.getMap().WINDOW_Y - 1);
+        if (GameController.startWindowX > GameController.getMap().getX() - (game.getMap().WINDOW_X - 1))
+            GameController.startWindowX = GameController.getMap().getX() - (game.getMap().WINDOW_X - 1);
         if (GameController.startWindowY < 0)
             GameController.startWindowY = 0;
         if (GameController.startWindowX < 0)
@@ -35,8 +35,8 @@ public class MapCommandsController {
                 .getTileConditions()[tempCity.getMainTile()
                 .getX()][tempCity.getMainTile().getY()] == null)
             return 2;
-        mapShowPosition(tempCity.getMainTile().getX() - Map.WINDOW_X / 2,
-                tempCity.getMainTile().getY() - Map.WINDOW_Y / 2 + 1);
+        mapShowPosition(tempCity.getMainTile().getX() - game.getMap().WINDOW_X / 2,
+                tempCity.getMainTile().getY() - game.getMap().WINDOW_Y / 2 + 1);
         return 0;
     }
 

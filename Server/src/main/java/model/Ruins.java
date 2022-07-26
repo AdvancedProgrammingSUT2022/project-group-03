@@ -88,7 +88,7 @@ public class Ruins implements Serializable {
                     socketHandler.sendUpdate("errorMaker","Congratulations!" +";;"+"you have found: 1 worker" + ";;"+"i");
                 }
                 assert finalTile != null;
-                finalTile.setNonCivilian(nonCivilian);
+                finalTile.setNonCivilian(nonCivilian,socketHandler);
             }
         }
     }

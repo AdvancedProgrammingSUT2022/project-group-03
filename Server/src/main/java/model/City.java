@@ -8,6 +8,7 @@ import model.resources.ResourcesCategory;
 import model.resources.ResourcesTypes;
 import model.tiles.Tile;
 import model.tiles.TileType;
+import network.MySocketHandler;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
         return false;
     }
 
-    public int collectFood() {
+    public int collectFood(GameController gameController) {
         int food = 0;
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
             food += gettingWorkedOnByCitizensTile.getTileType().food;
@@ -89,7 +90,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
                 food += gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType().food;
             if (gettingWorkedOnByCitizensTile.getResource() != null &&
                     gettingWorkedOnByCitizensTile.getResource()
-                            .isTechnologyUnlocked(civilization, gettingWorkedOnByCitizensTile)
+                            .isTechnologyUnlocked(civilization, gettingWorkedOnByCitizensTile,gameController)
                     && gettingWorkedOnByCitizensTile.getImprovement() != null &&
                     (0 == gettingWorkedOnByCitizensTile.getImprovement().getNeedsRepair())
                     && gettingWorkedOnByCitizensTile.getResource().getImprovementType() ==
@@ -105,11 +106,11 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
     }
 
 
-    public void collectResources(HashMap<ResourcesTypes, Integer> resourcesAmount) {
+    public void collectResources(HashMap<ResourcesTypes, Integer> resourcesAmount,GameController gameController) {
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
             if (gettingWorkedOnByCitizensTile.getResource() != null &&
                     gettingWorkedOnByCitizensTile.getResource()
-                            .isTechnologyUnlocked(civilization, gettingWorkedOnByCitizensTile)
+                            .isTechnologyUnlocked(civilization, gettingWorkedOnByCitizensTile,gameController)
                     && gettingWorkedOnByCitizensTile.getImprovement() != null &&
                     (0 == gettingWorkedOnByCitizensTile.getImprovement().getNeedsRepair())
                     && gettingWorkedOnByCitizensTile.getResource() != null &&
@@ -134,7 +135,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
         }
     }
 
-    public int collectProduction() {
+    public int collectProduction(GameController gameController) {
         int production = 0;
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
             production += gettingWorkedOnByCitizensTile.getTileType().production + citizen;
@@ -146,7 +147,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
                         .getContainedFeature().getFeatureType().production;
             if (gettingWorkedOnByCitizensTile.getResource() != null &&
                     gettingWorkedOnByCitizensTile.getResource()
-                            .isTechnologyUnlocked(civilization, gettingWorkedOnByCitizensTile)
+                            .isTechnologyUnlocked(civilization, gettingWorkedOnByCitizensTile,gameController)
                     && gettingWorkedOnByCitizensTile.getImprovement() != null
                     && 0 == gettingWorkedOnByCitizensTile.getImprovement().getNeedsRepair()
                     && gettingWorkedOnByCitizensTile.getResource().improvementType ==
@@ -209,7 +210,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
         return false;
     }
 
-    private void productStartTheTurnProgress(GameController gameController) {
+    private void productStartTheTurnProgress(GameController gameController,MySocketHandler socketHandler) {
         if (product != null) {
             int tempRemaining = product.getRemainedCost();
             double ratio = 1;
@@ -231,13 +232,13 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
                         Tile tile = properTileForProduct(false);
                         if (tile != null) {
                             ((Unit) product).setCurrentTile(tile);
-                            tile.setNonCivilian(((NonCivilian) product));
+                            tile.setNonCivilian(((NonCivilian) product),socketHandler);
                         }
                     } else {
                         Tile tile = properTileForProduct(true);
                         if (tile != null) {
                             ((Unit) product).setCurrentTile(tile);
-                            tile.setCivilian((Civilian) product);
+                            tile.setCivilian((Civilian) product,socketHandler);
                         }
                     }
                     civilization.getUnits().add((Unit) product);
@@ -261,22 +262,22 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
                 }
                 gameController.getCivilizations().get(gameController.getPlayerTurn())
                         .putNotification(this.name + ": " +
-                                product.getName() + "'s production ended, cycle: ", gameController.getCycle());
+                                product.getName() + "'s production ended, cycle: ", gameController.getCycle(),socketHandler);
                 product = null;
             }
         }
     }
 
-    public void startTheTurn(GameController gameController) {
+    public void startTheTurn(GameController gameController,MySocketHandler socketHandler) {
         hasAttackedThisCycle = false;
         anxiety--;
         if (anxiety < 0) anxiety = 0;
         if (HP > 0)
             HP += 10;
         if (HP > 200) HP = 200;
-        food += collectFood();
-        production += collectProduction();
-        productStartTheTurnProgress(gameController);
+        food += collectFood(gameController);
+        production += collectProduction(gameController);
+        productStartTheTurnProgress(gameController,socketHandler);
         food = food - population;
         if (food < 0) {
             food = 0;
@@ -306,7 +307,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
         }
     }
 
-    public int getGold() {
+    public int getGold(GameController gameController) {
         int gold = 0;
         for (Tile gettingWorkedOnByCitizensTile : gettingWorkedOnByCitizensTiles) {
             if (gettingWorkedOnByCitizensTile.getResource() == ResourcesTypes.SILVER ||
@@ -323,7 +324,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
                 gold += gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType().gold;
             if (gettingWorkedOnByCitizensTile.getResource() != null &&
                     gettingWorkedOnByCitizensTile.getResource()
-                            .isTechnologyUnlocked(civilization, gettingWorkedOnByCitizensTile)
+                            .isTechnologyUnlocked(civilization, gettingWorkedOnByCitizensTile,gameController)
                     && gettingWorkedOnByCitizensTile.getImprovement() != null &&
                     (0 == gettingWorkedOnByCitizensTile.getImprovement().getNeedsRepair()) &&
                     gettingWorkedOnByCitizensTile.getResource().getImprovementType() ==
@@ -379,15 +380,15 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
         return tiles;
     }
 
-    public void attack(Tile tile,GameController gameController) {
+    public void attack(Tile tile,GameController gameController,MySocketHandler socketHandler) {
         if (tile.getNonCivilian() != null) {
             tile.getNonCivilian().takeDamage(calculateDamage(getCombatStrength(true) /
-                    tile.getNonCivilian().getCombatStrength(false)), civilization);
-            tile.getNonCivilian().checkToDestroy();
+                    tile.getNonCivilian().getCombatStrength(false)), civilization,gameController,socketHandler);
+            tile.getNonCivilian().checkToDestroy(gameController,socketHandler);
         } else {
             tile.getCivilian().takeDamage(calculateDamage(getCombatStrength(true) /
-                    tile.getCivilian().getCombatStrength(false)), civilization);
-            tile.getCivilian().checkToDestroy();
+                    tile.getCivilian().getCombatStrength(false)), civilization,gameController,socketHandler);
+            tile.getCivilian().checkToDestroy(gameController,socketHandler);
         }
 
         gameController.openNewArea(tile, civilization, null);
@@ -463,14 +464,14 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
         return strength;
     }
 
-    public boolean checkToDestroy(GameController gameController) {
+    public boolean checkToDestroy(GameController gameController,MySocketHandler socketHandler) {
         if (HP <= 0) {
             HP = 0;
             gameController.getUnfinishedTasks().add(new Tasks(mainTile, TaskTypes.CITY_DESTINY));
             if (mainTile.getNonCivilian() != null &&
                     mainTile.getNonCivilian().getState() == UnitState.GARRISON) {
                 civilization.getUnits().remove(mainTile.getNonCivilian());
-                mainTile.setCivilian(null);
+                mainTile.setCivilian(null,socketHandler);
             }
             return true;
         }
@@ -485,11 +486,11 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
         return true;
     }
 
-    public void destroy(Civilization civilization,GameController gameController) {
+    public void destroy(Civilization civilization,GameController gameController,MySocketHandler socketHandler) {
         this.civilization.putNotification("The " + Color.getColorByNumber(civilization.getColor())
                 + civilization.getUser().getNickname() + Color.RESET
-                + " dudes burned your city " + name, gameController.getCycle());
-        civilization.putNotification("You burned " + name + " successfully", gameController.getCycle());
+                + " dudes burned your city " + name, gameController.getCycle(),socketHandler);
+        civilization.putNotification("You burned " + name + " successfully", gameController.getCycle(),socketHandler);
         this.civilization.getCities().remove(this);
 
         for (Tile tile : tiles) {
@@ -503,7 +504,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
 
     }
 
-    public void changeCivilization(Civilization civilization,GameController gameController) {
+    public void changeCivilization(Civilization civilization,GameController gameController,MySocketHandler socketHandler) {
         if (gameController.getCivilizations().get(gameController.getPlayerTurn()).getMainCapital() == this)
             for (City city : gameController.getCivilizations().get(gameController.getPlayerTurn()).getCities()) {
                 city.setCapital(false);
@@ -513,8 +514,8 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
             anxiety = 5;
         this.civilization.putNotification("The " + Color.getColorByNumber(civilization.getColor())
                 + civilization.getUser().getNickname() + Color.RESET
-                + " dudes captured your city " + name, gameController.getCycle());
-        civilization.putNotification("You captured " + name + " successfully", gameController.getCycle());
+                + " dudes captured your city " + name, gameController.getCycle(),socketHandler);
+        civilization.putNotification("You captured " + name + " successfully", gameController.getCycle(),socketHandler);
         for (Tile tile : tiles) tile.setCivilization(civilization);
         for (Tile tile : tiles) {
             gameController.openNewArea(tile, this.civilization, null);
@@ -538,21 +539,21 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
 
     }
 
-    public void takeDamage(int amount, Civilization civilization,GameController gameController) {
+    public void takeDamage(int amount, Civilization civilization, GameController gameController, MySocketHandler socketHandler) {
         HP -= amount;
         civilization.putNotification(name + " @ " + mainTile.getX() + " , " + mainTile.getY() + " : " +
                 "oopsy woopsy you just got smashed by" + Color.getColorByNumber(civilization.getColor())
-                + civilization.getUser().getNickname() + Color.RESET, gameController.getCycle());
+                + civilization.getUser().getNickname() + Color.RESET, gameController.getCycle(),socketHandler);
     }
 
     public void setProduct(Producible product) {
         this.product = product;
     }
 
-    public int cyclesToComplete(int remainedCost) {
-        if (collectProduction() == 0)
+    public int cyclesToComplete(int remainedCost,GameController gameController) {
+        if (collectProduction(gameController) == 0)
             return 12345;
-        return (int) Math.ceil((double) remainedCost / (double) collectProduction() - 0.03);
+        return (int) Math.ceil((double) remainedCost / (double) collectProduction(gameController) - 0.03);
     }
 
 

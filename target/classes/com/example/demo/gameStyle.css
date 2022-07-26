@@ -1,0 +1,53 @@
+Button {
+    -fx-font-size: 17;
+    -fx-font-weight: bold;
+    -fx-pref-height: 40;
+    -fx-border-radius: 5;
+    -fx-background-color: #602399;
+    -fx-text-fill: #ffffff;
+}
+
+Button:hover{
+    -fx-background-color: #31144d;
+}
+
+.panel{
+    -fx-background-color: #FFFFFF;
+    -fx-opacity: 0.9;
+    -fx-padding: 10;
+}
+
+.cheatPanel{
+    -fx-background-color: #FFFFFF;
+    -fx-opacity: 0.9;
+    -fx-padding: 30;
+}
+
+.popUp{
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 10;
+}
+
+.LeftPanel{
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-pref-width: 300;
+    -fx-background-color: #FFFFFF;
+    -fx-opacity: 0.9;
+    -fx-padding: 20;
+}
+
+.LeftPanel>Button{
+    -fx-pref-width: 200;
+}
+
+.menuPanel>Button{
+    -fx-pref-width: 200;
+}
+
+.rightPanel{
+    -fx-background-color: #FFFFFF;
+    -fx-opacity: 0.9;
+    -fx-padding: 20;
+
+}

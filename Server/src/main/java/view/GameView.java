@@ -2,6 +2,9 @@ package view;
 
 import com.google.gson.Gson;
 import controller.gameController.CheatCommandsController;
+import controller.gameController.UnitStateController;
+import model.Units.NonCivilian;
+import model.Units.Unit;
 import model.Units.UnitType;
 import model.building.BuildingType;
 import model.technologies.Technology;
@@ -26,12 +29,14 @@ public class GameView extends Menu{
                 "^cityAttack (\\d+) (\\d+) (\\d+)",
                 "^assign (\\d+) (\\d+) (\\d+)",
                 "^buyUnit (\\w+) (\\d+) (\\d+)",
-                "^startProductionUnit (\\w+)",
+                "^startProductionUnit (\\w+) (\\d+)",
                 "^removeCitizen (\\d+) (\\d+) (\\d+)",//12
                 "^buildBuilding (\\d+) (\\d+) (\\d+) (\\w+) (.+)",
                 "^cityDestiny (\\d+) (\\w+)",
                 "^nextTurn",
-                "^tech (\\S+)"
+                "^tech (\\S+)",
+                "^unitAttack (\\d+) (\\d+) (\\d+)"
+
         };
     }
     private GameHandler game ;
@@ -113,7 +118,9 @@ public class GameView extends Menu{
                 break;
             case 11:
                 matcher = getMatcher(regexes[11],command,false);
-                socketHandler.send(String.valueOf(game.getGameController().startProducingUnit(matcher.group(1))));
+                socketHandler.send(String.valueOf(game.getGameController().startProducingUnit(matcher.group(1),
+                        game.getGameController().getCivilizations().get(game.getGameController()
+                                .getPlayerTurn()).getCities().get(Integer.parseInt(matcher.group(2))))));
                 break;
             case 12:
                 matcher = getMatcher(regexes[12],command,false);
@@ -148,6 +155,10 @@ public class GameView extends Menu{
                 matcher = getMatcher(regexes[16],command,false);
                 game.getTechnologyAndProductionController().addTechnologyToProduction(new Gson().fromJson(matcher.group(1), Technology.class));
                 break;
+            case 17:
+                matcher = getMatcher(regexes[17],command,false);
+                Unit unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(3)));
+                game.getUnitStateController().unitAttack(Integer.parseInt(matcher.group(1)),Integer.parseInt(matcher.group(2)),unit);
 
 
         }

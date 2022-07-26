@@ -5,6 +5,7 @@ import com.example.demo.controller.gameController.CityCommandsController;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.controller.gameController.UnitStateController;
 import com.example.demo.model.City;
+import com.example.demo.model.Civilization;
 import com.example.demo.model.Units.Unit;
 import com.example.demo.model.Units.UnitType;
 import com.example.demo.model.building.Building;
@@ -350,7 +351,9 @@ public class CityPanel {
     }
 
     private void startProducingUnit(String string) {
-        if (Integer.parseInt(NetworkController.send("startProductionUnit "+ string)) == 5) {
+        if (Integer.parseInt(NetworkController.send("startProductionUnit "+ string+" " +
+                GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities()
+                        .indexOf(GameController.getSelectedCity()))) == 5) {
             StageController.errorMaker("resources required", "you don't have the required resources", Alert.AlertType.ERROR);
         }
         gameControllerFX.renderMap();

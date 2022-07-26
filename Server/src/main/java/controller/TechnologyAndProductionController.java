@@ -35,12 +35,12 @@ public class TechnologyAndProductionController {
     }
 
 
-    public  int cyclesToComplete(Technology technology) {
-        if (gameController.getCivilizations().get(gameController.getPlayerTurn()).collectScience() == 0)
+    public  int cyclesToComplete(Technology technology,GameController gameController) {
+        if (gameController.getCivilizations().get(gameController.getPlayerTurn()).collectScience(gameController) == 0)
             return 12345;
         return (int) Math.ceil((double) technology.getRemainedCost() /
                 (double) gameController.getCivilizations()
-                        .get(gameController.getPlayerTurn()).collectScience() - 0.03);
+                        .get(gameController.getPlayerTurn()).collectScience(gameController) - 0.03);
     }
 
     public  ArrayList<Technology> initializeResearchInfo() {
