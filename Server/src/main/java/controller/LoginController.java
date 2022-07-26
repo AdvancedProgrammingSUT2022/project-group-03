@@ -2,8 +2,10 @@ package controller;
 
 import model.User;
 import view.UserIcon;
+import com.google.gson.Gson;
 
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class LoginController {
@@ -21,7 +23,7 @@ public class LoginController {
     public  int createNewUser(String username,
                                     String password,
                                     String nickname) {
-        if (username.equals("") || password.equals("") || nickname.equals(""))
+        if (username == null || password == null || nickname == null)
             return 1;
         if (User.findUser(username, false) != null)
             return 2;
@@ -29,30 +31,29 @@ public class LoginController {
             return 3;
         if (!isPasswordValid(password))
             return 4;
-        new User(username, password, nickname);
+        new User(username, password, nickname,true);
         return 0;
     }
 
-    public  int loginUser(String username, String password) {
-        if (username.equals("") || password.equals(""))
+    public int loginUser(String username, String password) {
+        if (username == null || password == null)
             return 1;
         User tempUser = User.findUser(username, false);
         if (tempUser == null)
             return 2;
         if (!tempUser.isPasswordCorrect(password))
             return 3;
-        if (tempUser.isOnline)
-            return 4;
         loggedUser = tempUser;
+//        loggedUser.setLastOnline(LocalDateTime.now());
         return 0;
     }
 
 
     public  int changeData(String currentPassword,
-                                 String newPassword,String nickname,String path) {
+                                     String newPassword,String nickname,String path) {
         if(path != null){
             loggedUser.setIcon(UserIcon.CUSTOM);
-            loggedUser.setCustomAvatar(path);
+             loggedUser.setCustomAvatar(path);
         }
         if (!loggedUser.isPasswordCorrect(currentPassword))
             return 1;
@@ -111,14 +112,28 @@ public class LoginController {
             }
         return has_numbers;
     }
-
-    public  User getLoggedUser() {
-        return loggedUser;
-    }
     public  void save(User user){
         loggedUser.replace(user);
         User.deleteUser(user);
         User.saveData();
+    }
+    public int sendFriendRequest(String username){
+        User user = User.findUser(username,false);
+        if(user == null) return 3;
+        if (loggedUser.getFriends().contains(user)) return 2;
+        if(user.getFriendsRequest().contains(loggedUser)) return 1;
+        if(loggedUser.getFriendsRequest().contains(user)){
+            loggedUser.getFriendsRequest().remove(user);
+            loggedUser.getFriends().add(user);
+            user.getFriends().add(loggedUser);
+            return 4;
+        }
+        user.getFriendsRequest().add(loggedUser);
+        return 0;
+    }
+
+    public  User getLoggedUser() {
+        return loggedUser;
     }
 
 }

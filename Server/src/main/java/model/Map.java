@@ -7,22 +7,26 @@ import model.Units.Unit;
 import model.Units.UnitType;
 import model.features.Feature;
 import model.features.FeatureType;
+import model.improvements.Improvement;
 import model.improvements.ImprovementType;
 import model.resources.ResourcesTypes;
 import model.tiles.Tile;
 import model.tiles.TileType;
+import network.MySocketHandler;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class Map {
+public class Map implements Serializable {
     public final  int WINDOW_X = 5;
     public final  int WINDOW_Y = 14;
     private Tile[][] tiles;
     private  int x;
     private  int y;
     private final Random random = new Random();
+
 
     public Tile[][] getTiles() {
         return tiles;
@@ -32,7 +36,7 @@ public class Map {
         GenerateMap(civilizations);
     }
 
-    public void addStartingSettlers(ArrayList<Civilization> civilizations,GameController gameControllera) {
+    public void addStartingSettlers(ArrayList<Civilization> civilizations, MySocketHandler socketHandler) {
         int[][] settlers = new int[2][civilizations.size()];
         for (int i = 0; i < civilizations.size(); i++) {
             boolean end = false;
@@ -42,7 +46,7 @@ public class Map {
                 end = true;
                 settlerX = 3 + random.nextInt(x - 6);
                 settlerY = 5 + random.nextInt(x - 10);
-                if (coordinatesToTile(settlerX, settlerY).getMovingPrice() > 123) {
+                if (coordinatesToTile(settlerX, settlerY).getMovingPrice() > 123 || coordinatesToTile(settlerX, settlerY).getRuins() != null) {
                     end = false;
                     continue;
                 }
@@ -57,13 +61,42 @@ public class Map {
                     civilizations.get(i), UnitType.SETTLER);
             hardcodeUnit.setRemainedCost(0);
             civilizations.get(i).getUnits().add(hardcodeUnit);
-            coordinatesToTile(settlerX, settlerY).setCivilian(hardcodeUnit);
-            gameControllera.openNewArea(coordinatesToTile(settlerX, settlerY),
-                    civilizations.get(i), hardcodeUnit);
+            coordinatesToTile(settlerX, settlerY).setCivilian(hardcodeUnit,socketHandler);
+            if (i == 0)
+                socketHandler.getGame().getGameController().openNewArea(coordinatesToTile(settlerX, settlerY),
+                        civilizations.get(i), hardcodeUnit);
             settlers[0][i] = settlerX;
             settlers[1][i] = settlerY;
-            System.out.println(settlerX + " " + settlerY);
+////            City city = new City(GameController.getMap().tiles[settlerX][settlerY], "wtf", civilizations.get(i));
+////            GameController.getMap().tiles[settlerX][settlerY].setCity(city);
+////            civilizations.get(i).getCities().add(city);
+////            civilizations.get(GameController.getPlayerTurn()).getCities().add(city);
+
+////            Civilian civilian = new Civilian(coordinatesToTile(settlerX+2, settlerY),civilizations.get(i),UnitType.WORKER);
+////            civilizations.get(i).getUnits().add(civilian);
+////            coordinatesToTile(settlerX+2,settlerY).setCivilian(civilian);
+////            civilian.setRemainedCost(0);
+
+
+
+//
+//            if (coordinatesToTile(settlerX + 1, settlerY).getRuins() == null) {
+//                Civilian civilian = new Civilian(coordinatesToTile(settlerX + 1, settlerY), civilizations.get(i), UnitType.WORKER);
+//                civilizations.get(i).getUnits().add(civilian);
+//                coordinatesToTile(settlerX + 1, settlerY).setCivilian(civilian);
+//                civilian.setRemainedCost(0);
+//            }
+//            if (coordinatesToTile(settlerX + 1, settlerY + 1).getRuins() == null) {
+//
+//                Civilian civilian2 = new Civilian(coordinatesToTile(settlerX + 1, settlerY + 1), civilizations.get(i), UnitType.WORKER);
+//                civilizations.get(i).getUnits().add(civilian2);
+//                coordinatesToTile(settlerX + 1, settlerY + 1).setCivilian(civilian2);
+//                civilian2.setRemainedCost(0);
+//            }
+
+
         }
+
     }
 
     public Tile coordinatesToTile(int x, int y) {
@@ -133,6 +166,14 @@ public class Map {
             for (int j = 0; j < y; j++) {
                 tiles[i][j] = new Tile(randomTile(i, j), i, j);
                 setNeighborsOfTile(tiles, i, j);
+                Random random2 = new Random();
+                if (tiles[i][j].getTileType() != TileType.OCEAN &&
+                        tiles[i][j].getTileType() != TileType.MOUNTAIN &&
+                        tiles[i][j].getCivilization() == null &&
+                        tiles[i][j].getCivilian() == null &&
+                        tiles[i][j].getNonCivilian() == null &&
+                        random2.nextInt(600) % 300 == 0)
+                    tiles[i][j].setRuins(new Ruins(random2.nextInt(40) % 5, tiles[i][j]));
             }
         }
 
@@ -164,12 +205,11 @@ public class Map {
 
     private void setFeature(int i, int j) {
         FeatureType featureType = FeatureType.randomFeature();
-
-        while (!tiles[i][j].isFeatureTypeValid(featureType) &&
-                tiles[i][j].getTileType().featureTypes.length != 0) {
+        int k;
+        for (k=0;k < 13 && !tiles[i][j].isFeatureTypeValid(featureType); k++ ) {
             featureType = FeatureType.randomFeature();
         }
-        if (random.nextInt(4) != 0) {
+        if (random.nextInt(4) != 0 || k > 12) {
             tiles[i][j].setContainedFeature(new Feature(featureType));
         }
     }
@@ -289,25 +329,7 @@ public class Map {
         }
     }
 
-    private void setXAndY(int civilizationNumber) {
-        switch (civilizationNumber) {
-            case 2:
-                x = 46;
-                y = 74;
-                break;
-            case 3:
-            case 4:
-                x = 54;
-                y = 84;
-                break;
-            case 5:
-                x = 60;
-                y = 90;
-                break;
-        }
-    }
-
-    private Tile[][] setMapForBestTile(Civilization.TileCondition[][] civilizationMap) {
+    private Tile[][] setMapForBestTile(Civilization.TileCondition[][] civilizationMap,MySocketHandler socketHandler) {
         Tile[][] tiles = new Tile[x][y];
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
@@ -317,8 +339,8 @@ public class Map {
                 } else {
                     tiles[i][j] = civilizationMap[i][j].getOpenedArea();
                     if (!civilizationMap[i][j].getIsClear()) {
-                        tiles[i][j].setNonCivilian(null);
-                        tiles[i][j].setCivilian(null);
+                        tiles[i][j].setNonCivilian(null,socketHandler);
+                        tiles[i][j].setCivilian(null,socketHandler);
                     }
                 }
                 setNeighborsOfTile(tiles, i, j);
@@ -427,8 +449,8 @@ public class Map {
     public TileAndMP[] findNextTile(Civilization civilization,
                                     Tile startTile, int remainedMP,
                                     int mp, Tile endTile,
-                                    boolean isCivilian, Unit unit) {
-        Tile[][] tiles = setMapForBestTile(civilization.getTileConditions());
+                                    boolean isCivilian, Unit unit,MySocketHandler socketHandler) {
+        Tile[][] tiles = setMapForBestTile(civilization.getTileConditions(),socketHandler);
         Tile tile = tiles[startTile.getX()][startTile.getY()];
         Tile destinationTile = tiles[endTile.getX()][endTile.getY()];
         HashMap<Tile, Boolean> isVisitedEver = new HashMap<>();
@@ -444,7 +466,7 @@ public class Map {
         visited[0].add(tile);
         isVisitedEver.put(tile, true);
         FindNextClass findNextClass = new FindNextClass();
-        if((destinationTile.getNonCivilian() != null && !isCivilian)
+        if ((destinationTile.getNonCivilian() != null && !isCivilian)
                 || (destinationTile.getCivilian() != null && isCivilian))
             return null;
         for (int c = 0; !findNextClass.isOver &&
@@ -828,7 +850,7 @@ public class Map {
         mapString.append(Color.RESET).append("\n");
     }
 
-    private Color setBackgroundColor(Civilization.TileCondition tileCondition) {
+    private  Color setBackgroundColor(Civilization.TileCondition tileCondition) {
         if (tileCondition == null || !tileCondition.getIsClear())
             return Color.WHITE_BACKGROUND;
         else if (tileCondition.getOpenedArea().getCivilization() == null)
@@ -837,7 +859,7 @@ public class Map {
                     (tileCondition.getOpenedArea().getCivilization().getColor());
     }
 
-    private class BestMoveClass {
+    private  class BestMoveClass {
         int movePoint;
         Tile lastTile;
         int turn;
@@ -866,6 +888,11 @@ public class Map {
 
     public  void setY(int y) {
         this.y = y;
+    }
+
+    public Tile randomTile() {
+        Random random = new Random();
+        return tiles[random.nextInt(x)][random.nextInt(y)];
     }
 }
 

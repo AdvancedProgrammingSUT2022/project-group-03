@@ -1,5 +1,6 @@
 package com.example.demo.view.cheat;
 
+import com.example.demo.controller.NetworkController;
 import com.example.demo.controller.gameController.CheatCommandsController;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.Units.UnitType;
@@ -60,23 +61,16 @@ public class Cheat {
 
     private void runCheatCommand(Pane upperMapPane, TextField cheatCommand) {
         System.out.println(cheatCommand.getText());
-        if (cheatCommand.getText().matches("^next turn \\d+$")) {
-            int turn = Integer.parseInt(cheatCommand.getText().substring(10));
-            for (int i = 0; i < turn * GameController.getCivilizations().size(); i++)
-                GameController.nextTurn();
-        } else if (cheatCommand.getText().equals("road everywhere")) {
-            CheatCommandsController.cheatRoadEverywhere();
+        if (cheatCommand.getText().equals("road everywhere")) {
+            NetworkController.send("cheat re");
         } else if (cheatCommand.getText().equals("open map")) {
-            CheatCommandsController.openMap();
+            NetworkController.send("cheat om");
         } else if (cheatCommand.getText().equals("technology")) {
-            for (TechnologyType technologyType : TechnologyType.values())
-                CheatCommandsController.cheatTechnology(technologyType);
-        } else if (cheatCommand.getText().equals("^create unit \\w+$")) {
-            UnitType unitType = UnitType.stringToEnum(cheatCommand.getText().substring(13));
-            CheatCommandsController.cheatUnit(10, 10, unitType);
+            NetworkController.send("cheat te");
+        } else if (cheatCommand.getText().matches("^create unit \\w+$")) {
+            NetworkController.send(cheatCommand.getText());
         } else if (cheatCommand.getText().matches("^increase gold \\d+$")) {
-            int gold = Integer.parseInt(cheatCommand.getText().substring(14));
-            GameController.getCivilizations().get(GameController.getPlayerTurn()).increaseGold(gold);
+            NetworkController.send(cheatCommand.getText());
         }
         controller.renderMap();
         upperMapPane.getChildren().clear();

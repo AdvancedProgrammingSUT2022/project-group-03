@@ -7,10 +7,14 @@ import com.example.demo.controller.NetworkController;
 import com.example.demo.model.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,6 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.*;
@@ -26,16 +31,31 @@ import java.util.*;
 public class ScoreboardControllerFx implements Initializable {
     public AnchorPane pane;
     public ImageView background;
+    public TableView<Row> tableView;
+    private Timeline twoKilo;
     private final ObservableList<Row> rows = FXCollections.observableArrayList();
     public void initialize(URL location, ResourceBundle resources) {
         Platform.runLater(() ->background.setFitWidth(StageController.getScene().getWidth()));
         Platform.runLater(() ->background.setFitHeight(StageController.getScene().getHeight()));
         StageController.getScene().getStylesheets().add(HelloApplication.getResource("style.css"));
         initBoard();
+        twoKilo = new Timeline(
+                new KeyFrame(Duration.millis(2000), new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        NetworkController.send("update");
+                        pane.getChildren().remove(tableView);
+                        initBoard();
+                    }
+                }
+                )
+        );
+        twoKilo.play();
     }
     public void back(MouseEvent mouseEvent) {
         StageController.getScene().getStylesheets().remove(HelloApplication.getResource("style.css"));
         NetworkController.send("menu exit");
+        twoKilo.stop();
         StageController.sceneChanger("mainMenu.fxml");
     }
     private void initBoard(){
@@ -44,11 +64,12 @@ public class ScoreboardControllerFx implements Initializable {
         scrollPane.setContent(anchorPane);
         ArrayList<User> arrayList = getUsers();
         TableView<Row> table = new TableView();
+        tableView = table;
         TableColumn<Row,String> lastOnlineCol = new TableColumn<Row,String>("Last Online");
         TableColumn<Row,String> lastWinCol = new TableColumn<Row,String>("Last Win");
         TableColumn<Row,Integer> ScoreCol = new TableColumn<Row,Integer>("Score");
         TableColumn<Row,String> nicknameCol = new TableColumn<Row,String>("Nickname");
-        TableColumn<Row,ImageView> avatarCol = new TableColumn<Row,ImageView>("Avatar");
+        TableColumn<Row,ImageView> avatarCol = new TableColumn<Row,ImageView>("Avatar(add friend)");
         TableColumn<Row,Integer> numberCol = new TableColumn<Row,Integer>("Rank");
         table.getColumns().addAll(numberCol,avatarCol,nicknameCol,ScoreCol,lastWinCol,lastOnlineCol);
         for (int i = 0; i < arrayList.size(); i++) {
@@ -85,7 +106,7 @@ public class ScoreboardControllerFx implements Initializable {
 
     }
     private ArrayList<User> getUsers(){
-        String json = NetworkController.getResponse();
+        String json = NetworkController.getResponse(true);
         ArrayList<User> list = new Gson().fromJson(json,new TypeToken<ArrayList<User>>(){}.getType());
         Collections.sort(list, new Comparator<User>() {
             @Override
@@ -114,6 +135,30 @@ public class ScoreboardControllerFx implements Initializable {
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(50);
         imageView.setFitWidth(50);
+        imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                switch (Integer.parseInt(NetworkController.send("freind "+ username))){
+                    case 0:
+                        StageController.errorMaker("friendship never ends","request sent", Alert.AlertType.INFORMATION);
+                        break;
+                    case 1:
+                        StageController.errorMaker("friendship never ends","you already sent a request", Alert.AlertType.INFORMATION);
+                        break;
+                    case 2:
+                        StageController.errorMaker("friendship never ends","already a friend", Alert.AlertType.INFORMATION);
+                        break;
+                    case 3:
+                        StageController.errorMaker("friendship never ends","something went wrong", Alert.AlertType.INFORMATION);
+                        break;
+                    case 4:
+                        StageController.errorMaker("friendship never ends","new friend!", Alert.AlertType.INFORMATION);
+                        break;
+
+                }
+            }
+        });
+
         rows.add(new Row(number,imageView,nickname,score,lastWin,lastOnline,username));
     }
     public class Row{

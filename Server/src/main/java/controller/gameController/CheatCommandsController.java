@@ -19,15 +19,14 @@ public class CheatCommandsController {
     public CheatCommandsController(GameHandler game) {
         this.game = game;
     }
-
-    public void openMap() {
+    public  void openMap() {
         for (int i = 0; i < game.getGameController().getMap().getX(); i++)
             for (int j = 0; j < game.getGameController().getMap().getY(); j += 2)
                 game.getGameController().openNewArea(game.getGameController().getMap().coordinatesToTile(i, j),
                         game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()), null);
     }
 
-    public int cheatProduction(int number) {
+    public  int cheatProduction(int number) {
         if (game.getGameController().getSelectedCity() == null) return 1;
         if (game.getGameController().getSelectedCity().getCivilization() !=
                 game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()))
@@ -36,7 +35,7 @@ public class CheatCommandsController {
         return 0;
     }
 
-    public void cheatResource(int number, ResourcesTypes resourcesTypes) {
+    public  void cheatResource(int number, ResourcesTypes resourcesTypes) {
         int tempNumber = 0;
         if (game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn())
                 .getResourcesAmount().containsKey(resourcesTypes))
@@ -70,7 +69,7 @@ public class CheatCommandsController {
         return 0;
     }
 
-    public int cheatMoveIt(int x, int y) {
+    public  int cheatMoveIt(int x, int y) {
         if (game.getGameController().getSelectedUnit() == null) return 1;
         if (game.getGameController().getSelectedUnit().getCivilization() !=
                 game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()))
@@ -78,7 +77,7 @@ public class CheatCommandsController {
         if (x < 0 || y < 0 || x > game.getGameController().getMap().getX() || y > game.getGameController().getMap().getY())
             return 3;
         Tile tempTile = game.getGameController().getMap().coordinatesToTile(x, y);
-        if (tempTile == null)
+        if(tempTile==null)
             return 4;
         game.getGameController().getSelectedUnit().setCurrentTile(game.getGameController().getMap().coordinatesToTile(x, y));
         if (game.getGameController().getSelectedUnit() instanceof Civilian)
@@ -94,11 +93,11 @@ public class CheatCommandsController {
         if (city.getCivilization() == game.getGameController()
                 .getCivilizations().get(game.getGameController().getPlayerTurn()))
             return 2;
-        city.changeCivilization(game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()),game.getGameController());
+        city.changeCivilization(game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()));
         return 0;
     }
 
-    public int cheatRoadEverywhere() {
+    public  int cheatRoadEverywhere() {
         for (int i = 0; i < game.getGameController().getMap().getX(); i++)
             for (int j = 0; j < game.getGameController().getMap().getY(); j++) {
                 Improvement improvement = new Improvement(ImprovementType.ROAD,
@@ -109,12 +108,12 @@ public class CheatCommandsController {
         return 0;
     }
 
-    public void cheatScience(int number) {
+    public  void cheatScience(int number) {
         game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).cheatScience = number;
     }
 
     public int cheatUnit(int x, int y, UnitType unitType) {
-        if (game.getGameController().getMap().coordinatesToTile(x, y) == null)
+        if(game.getGameController().getMap().coordinatesToTile(x, y)==null)
             return 3;
         if (game.getGameController().getMap().coordinatesToTile(x, y).getMovingPrice() > 123) return 1;
         if (unitType.combatType == CombatType.CIVILIAN) {

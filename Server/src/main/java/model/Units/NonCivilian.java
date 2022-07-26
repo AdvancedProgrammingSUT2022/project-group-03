@@ -12,7 +12,6 @@ public class NonCivilian extends Unit implements CanAttack {
 
     private int fortifiedCycle = 0;
     public boolean attacked = false;
-
     public UnitType getUnitType() {
         return unitType;
     }
@@ -47,7 +46,7 @@ public class NonCivilian extends Unit implements CanAttack {
         gameController.openNewArea(tile, civilization, null);
         state = UnitState.AWAKE;
         destinationTile = null;
-        if (!this.checkToDestroy(gameController) && target.checkToDestroy(gameController)) this.move(tile, true,gameController);
+        if (!this.checkToDestroy(gameController) && target.checkToDestroy(gameController) && (!(target instanceof City) || this.getUnitType().range == 1)) this.move(tile, true,gameController);
         if (unitType.combatType != CombatType.MOUNTED || unitType.range > 1) {
             movementPrice = 0;
         }
@@ -94,5 +93,9 @@ public class NonCivilian extends Unit implements CanAttack {
 
     public void setFortifiedCycle(int fortifiedCycle) {
         this.fortifiedCycle = fortifiedCycle;
+    }
+
+    public Tile getTile() {
+        return currentTile;
     }
 }

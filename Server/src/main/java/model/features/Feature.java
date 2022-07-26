@@ -1,6 +1,8 @@
 package model.features;
 
-public class Feature {
+import java.io.Serializable;
+
+public class Feature implements Serializable {
     private final FeatureType featureType;
     private int cyclesToFinish;
 
@@ -19,5 +21,10 @@ public class Feature {
 
     public void setCyclesToFinish(int cyclesToFinish) {
         this.cyclesToFinish = cyclesToFinish;
+    }
+
+    @Override
+    public String toString() {
+        return this.getFeatureType().toString();
     }
 }

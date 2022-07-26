@@ -2,13 +2,13 @@ package view;
 
 
 import com.google.gson.Gson;
-import controller.NetworkController;
 import controller.gameController.GameController;
 import controller.LoginController;
 import model.User;
 import network.MySocketHandler;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,7 +21,9 @@ public class MainMenu extends Menu {
                 "^menu show-current$",
                 "^user logout$",
                 "^play game.*",
-                "^menu enter.*$"
+                "^menu enter.*$",
+                "^friend (\\S+)$",
+                "^update"
         };
     }
 
@@ -102,6 +104,16 @@ public class MainMenu extends Menu {
                     socketHandler.send(new Gson().toJson(User.getListOfUsers()));
                 }
                 break;
+            case 5:
+                Matcher matcher = getMatcher(regexes[5],command,false);
+                socketHandler.send(String.valueOf(socketHandler.getLoginController().sendFriendRequest(matcher.group(1))));
+                break;
+            case 6:
+                socketHandler.send("scoreboard");
+                socketHandler.send(new Gson().toJson(User.getListOfUsers()));
+                break;
+
+
         }
         return false;
     }

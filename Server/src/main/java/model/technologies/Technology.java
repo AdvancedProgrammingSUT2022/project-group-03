@@ -3,7 +3,9 @@ package model.technologies;
 
 import model.Producible;
 
-public class Technology implements Producible {
+import java.io.Serializable;
+
+public class Technology implements Serializable, Producible {
     private final TechnologyType technologyType;
     private int remainedCost;
 

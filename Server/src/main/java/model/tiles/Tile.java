@@ -1,17 +1,21 @@
 package model.tiles;
 
-import controller.gameController.GameController;
 import model.City;
 import model.Civilization;
+import model.Ruins;
 import model.Units.*;
+import model.building.Building;
 import model.features.Feature;
 import model.features.FeatureType;
 import model.improvements.Improvement;
 import model.resources.ResourcesTypes;
+import network.MySocketHandler;
+
+import java.io.Serializable;
 
 
-public class Tile {
-    private boolean[] tilesWithRiver = new boolean[6];
+public class Tile implements Serializable {
+    public boolean[] tilesWithRiver = new boolean[6];
     private TileType tileType;
     private ResourcesTypes containedResource;
     private Feature containedFeature;
@@ -24,7 +28,9 @@ public class Tile {
     private City city;
     private int raidLevel;
     private Improvement road;
+    private Building building;
     private final Tile[] neighbours = new Tile[6];// LU, clockwise
+    private Ruins ruins;
 
     public int getX() {
         return x;
@@ -60,6 +66,8 @@ public class Tile {
         if (i >= 0 && i < 6) {
             return neighbours[i];
         }
+        if(i==7)
+            return this;
         return null;
     }
 
@@ -72,6 +80,22 @@ public class Tile {
     public boolean isRiverWithNeighbour(int i) {
         if (i >= 0 && i < 6) {
             return tilesWithRiver[i];
+        }
+        return false;
+    }
+
+    public boolean doesHaveRiver() {
+        for (boolean b : tilesWithRiver) {
+            if (b)
+                return true;
+        }
+        return false;
+    }
+
+    public boolean doesHaveLakeAround() {
+        for (Tile neighbour : neighbours) {
+            if (neighbour.tileType == TileType.OCEAN)
+                return true;
         }
         return false;
     }
@@ -129,17 +153,25 @@ public class Tile {
     }
 
 
-    public void setCivilian(Unit unit) {
+    public void setCivilian(Unit unit, MySocketHandler mySocketHandler) {
+
         if (unit == null) {
             civilian = null;
             return;
         }
         if (unit.getUnitType().combatType == CombatType.CIVILIAN)
             this.civilian = unit;
+        if (ruins != null) {
+            ruins.open(unit.getCivilization(),mySocketHandler.getGame().getGameController(),mySocketHandler.getGame().getUnitStateController(),mySocketHandler);
+        }
     }
 
-    public void setNonCivilian(NonCivilian nonCivilian) {
+    public void setNonCivilian(NonCivilian nonCivilian, MySocketHandler mySocketHandler) {
+
         this.nonCivilian = nonCivilian;
+        if (ruins != null && nonCivilian != null) {
+            ruins.open(nonCivilian.getCivilization(),mySocketHandler.getGame().getGameController(),mySocketHandler.getGame().getUnitStateController(),mySocketHandler);
+        }
     }
 
     public int getCombatChange() {
@@ -152,12 +184,12 @@ public class Tile {
         this.civilization = civilization;
     }
 
-    public Tile cloneTileForCivilization(Civilization civilization, GameController gameController) {
+    public Tile cloneTileForCivilization(Civilization civilization) {
         Tile newTile = new Tile(this.tileType, this.x, this.y);
         newTile.tilesWithRiver = this.tilesWithRiver;
         newTile.containedResource = null;
         newTile.containedFeature = containedFeature;
-        if (containedResource != null && containedResource.isTechnologyUnlocked(civilization, this,gameController))
+        if (containedResource != null && containedResource.isTechnologyUnlocked(civilization, this))
             newTile.containedResource = this.containedResource;
         newTile.improvement = this.improvement;
         newTile.civilization = this.civilization;
@@ -199,5 +231,21 @@ public class Tile {
 
     public Improvement getRoad() {
         return road;
+    }
+
+    public Ruins getRuins() {
+        return ruins;
+    }
+
+    public void setRuins(Ruins ruins) {
+        this.ruins = ruins;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
     }
 }

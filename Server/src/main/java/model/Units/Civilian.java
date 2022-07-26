@@ -14,6 +14,11 @@ public class Civilian extends Unit {
     public void city(String string,GameController gameController,TileXAndYFlagSelectUnitController tileXAndYFlagSelectUnitController) {
         City tempCity = new City(this.currentTile, string, civilization,gameController);
         civilization.getCities().add(tempCity);
+        if(civilization.getMainCapital()==null)
+        {
+            civilization.setMainCapital(tempCity);
+            tempCity.setMainCapital(true);
+        }
         currentTile.setCity(tempCity);
         tileXAndYFlagSelectUnitController.setSelectedCityByPosition(currentTile.getX(), currentTile.getY());
         gameController.setUnfinishedTasks();
@@ -27,4 +32,10 @@ public class Civilian extends Unit {
             state = UnitState.REMOVING;
         }
     }
+
+    public Tile getTile() {
+        return currentTile;
+    }
+
+
 }

@@ -1,14 +1,20 @@
 package model.building;
 
 import model.Producible;
+import model.tiles.Tile;
 
-public class Building implements Producible {
-    BuildingType buildingType;
+import java.io.Serializable;
+
+public class Building implements Serializable, Producible/*, HealthyBeing*/ {
+    private final BuildingType buildingType;
+    private final Tile tile;
     int remainedCost;
 
-    public Building(BuildingType buildingType) {
+    public Building(BuildingType buildingType,Tile tile) {
         this.buildingType = buildingType;
-        remainedCost = buildingType.cost;
+        remainedCost = buildingType.getCost();
+        this.tile=tile;
+        tile.setBuilding(this);
     }
 
     @Override
@@ -28,10 +34,29 @@ public class Building implements Producible {
 
     @Override
     public int getCost() {
-        return buildingType.cost;
+        return buildingType.getCost();
     }
 
     public BuildingType getBuildingType() {
         return buildingType;
+    }
+//
+//    @Override
+//    public double greenBarPercent() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public double blueBarPercent() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public String getHealthDigit() {
+//        return null;
+//    }
+
+    public Tile getTile() {
+        return tile;
     }
 }

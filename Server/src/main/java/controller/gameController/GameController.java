@@ -9,24 +9,29 @@ import model.tiles.Tile;
 import model.tiles.TileType;
 import network.GameHandler;
 
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class GameController {
     private final GameHandler game;
-    private  ArrayList<Civilization> civilizations = new ArrayList<>();
-    private  Unit selectedUnit;
-    private  City selectedCity;
-    private  Map map;
-     int startWindowX = 0;
-     int startWindowY = 0;
-    private  int playerTurn = 0;
-    private  int cycle;
-    private  ArrayList<Tasks> unfinishedTasks = new ArrayList<>();
 
     public GameController(GameHandler game) {
         this.game = game;
     }
+    private ArrayList<Civilization> civilizations = new ArrayList<>();
+    private ArrayList<Tasks> unfinishedTasks = new ArrayList<>();
+    private int playerTurn = 0;
+    private Map map;
+    private Unit selectedUnit;
+    private City selectedCity;
+    private Tile selectedTile;
+     int startWindowX = 0;
+     int startWindowY = 0;
+    private  int cycle;
+
+    private static Civilization winnerSend;
 
     public  void startGame(ArrayList<User> PlayersNames) {
         cycle = 1;
@@ -35,10 +40,15 @@ public class GameController {
         for (int i = 0; i < PlayersNames.size(); i++)
             civilizations.get(i).setTileConditions
                     (new Civilization.TileCondition[map.getX()][map.getY()]);
-        map.addStartingSettlers(civilizations,this);
-        for (int i = 0; i < getCivilizations().size(); i++)
-            nextTurn();
+        map.addStartingSettlers(civilizations);
+
+//        for (int i = 0; i < GameController.getCivilizations().size(); i++)
+//            nextTurn();
         setUnfinishedTasks();
+//        for (Civilization civilization : GameController.getCivilizations()) {
+//            if (civilization != GameController.getCivilizations().get(GameController.getPlayerTurn()))
+//                GameController.getCivilizations().get(GameController.getPlayerTurn()).getKnownCivilizations().add(new Pair<>(civilization, 0));
+//        }
 //        GameControllerFX.renderMap(anchorPane);
 
     }
@@ -47,7 +57,7 @@ public class GameController {
         return selectedCity;
     }
 
-     public City nameToCity(String name) {
+     City nameToCity(String name) {
         for (Civilization civilization : civilizations)
             for (int j = 0; j < civilization.getCities().size(); j++)
                 if (civilization.getCities().get(j).getName()
@@ -57,7 +67,7 @@ public class GameController {
     }
 
 
-     public Tasks findTask(Tasks tasks) {
+     Tasks findTask(Tasks tasks) {
         for (Tasks unfinishedTask : unfinishedTasks)
             if (tasks.getTaskTypes() == unfinishedTask.getTaskTypes() &&
                     tasks.getTile() == unfinishedTask.getTile())
@@ -98,7 +108,7 @@ public class GameController {
                 civilization.doesContainTechnology(TechnologyType.MINING) == 1;
     }
 
-     public boolean canHaveTheImprovement(Tile tile, ImprovementType improvementType) {
+    public  boolean canHaveTheImprovement(Tile tile, ImprovementType improvementType) {
         if (tile.getCivilization() != selectedUnit.getCivilization())
             return false;
         return (tile.getContainedFeature() != null &&
@@ -115,25 +125,36 @@ public class GameController {
     }
 
 
-     public boolean canUnitAttack(Tile tile) {
+     boolean canUnitAttack(Tile tile) {
         if (tile.getCity() != null &&
                 tile.getCity().getCivilization() != civilizations.get(playerTurn)) {
-            selectedUnit.setState(UnitState.ATTACK);
-            return true;
+            return canUnitAttackCivResult(tile.getCity().getCivilization());
         }
 
         if (tile.getNonCivilian() != null &&
                 tile.getNonCivilian().getCivilization() != civilizations.get(playerTurn)) {
-            selectedUnit.setState(UnitState.ATTACK);
-            return true;
+            return canUnitAttackCivResult(tile.getNonCivilian().getCivilization());
         }
         if (tile.getCivilian() != null &&
                 tile.getCivilian().getCivilization() != civilizations.get(playerTurn) &&
                 selectedUnit.getUnitType().range > 1) {
-            selectedUnit.setState(UnitState.ATTACK);
-            return true;
+            return canUnitAttackCivResult(tile.getCivilian().getCivilization());
         }
         return false;
+    }
+
+    private  boolean canUnitAttackCivResult(Civilization opponent)
+    {
+        if (this.getCurrentCivilization().knownCivilizationStatue(opponent)!=-1) {
+            Alert alert = StageController.errorMaker("Declaring war, eh?", "By this action, you will declare war to " +
+                    opponent.getUser().getNickname() + " , are you sure?", Alert.AlertType.CONFIRMATION);
+            if (alert.getResult() == ButtonType.OK) {
+                this.getCurrentCivilization().setKnownCivilizations(opponent,-1);
+            } else return false;
+
+        }
+        selectedUnit.setState(UnitState.ATTACK);
+        return true;
     }
 
     public  boolean nextTurnIfYouCan() {
@@ -142,8 +163,65 @@ public class GameController {
         return true;
     }
 
+    public  void shouldGameEnd() {
+        Civilization winner = null;
+        boolean returner = this.getCycle() >= 2050;
+        if (!returner) {
+            int numberOfCivilizationsLeft = 0;
+            for (Civilization civilization : civilizations)
+                if (civilization.isCivilizationAlive()) {
+                    numberOfCivilizationsLeft++;
+                    winner = civilization;
+                    returner = true;
+                    if (numberOfCivilizationsLeft > 1) {
+                        winner = null;
+                        returner = false;
+                        break;
+                    }
+                }
+            if (!returner) {
+                int numberOfCapitalsLeft = 0;
+                for (Civilization civilization : civilizations) {
+                    if (civilization.getMainCapital() == null || civilization.getMainCapital().getCivilization() == civilization) {
+                        numberOfCapitalsLeft++;
+                        winner = civilization;
+                        returner = true;
+                        if (numberOfCapitalsLeft > 1) {
+                            winner = null;
+                            returner = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (returner)
+            endTheGame(winner);
+    }
+
+    public  void endTheGame(Civilization winner) {
+        if (winner == null) {
+            int maxScore = -10000;
+            for (Civilization civilization : civilizations) {
+                int civilizationScore = civilization.getScore(this);
+                if (civilization.getUser().getScore() < civilizationScore) {
+                    civilization.getUser().setScore(civilizationScore);
+//                    civilization.getUser().setHighestScoreDate(LocalDateTime.now());
+                }
+                if (civilizationScore > maxScore) {
+                    winner = civilization;
+                    maxScore = civilizationScore;
+                }
+            }
+        }
+        winnerSend = winner;
+        StageController.sceneChanger("gameEnd.fxml");
+    }
+
     public  void nextTurn() {
-        civilizations.get(playerTurn).endTheTurn(this);
+        shouldGameEnd();
+
+        civilizations.get(playerTurn).endTheTurn();
         playerTurn = (playerTurn + 1) % civilizations.size();
         if (civilizations.get(playerTurn).getCities().size() == 0 &&
                 civilizations.get(playerTurn).getUnits().size() == 0) {
@@ -158,39 +236,41 @@ public class GameController {
             if (!isItTheEnd) nextTurn();
             return;
         }
-        if(playerTurn%civilizations.size()==0)
+        if (playerTurn % civilizations.size() == 0)
             cycle++;
         civilizations.get(playerTurn).startTheTurn(this);
         setUnfinishedTasks();
         if (civilizations.get(playerTurn).getCities().size() != 0)
             game.getMapCommandsController().mapShowPosition(civilizations.get(playerTurn).getCities()
-                            .get(0).getMainTile().getX() - game.getMap().WINDOW_X / 2,
+                            .get(0).getMainTile().getX() - Map.WINDOW_X / 2,
                     civilizations.get(playerTurn).getCities().get(0)
-                            .getMainTile().getY() - game.getMap().WINDOW_Y / 2 + 1);
+                            .getMainTile().getY() - Map.WINDOW_Y / 2 + 1);
         else if (civilizations.get(playerTurn).getUnits().size() != 0)
             game.getMapCommandsController().mapShowPosition(civilizations.get(playerTurn).getUnits().get(0)
-                            .getCurrentTile().getX() - game.getMap().WINDOW_X / 2,
+                            .getCurrentTile().getX() - Map.WINDOW_X / 2,
                     civilizations.get(playerTurn).getUnits().get(0)
-                            .getCurrentTile().getY() - game.getMap().WINDOW_Y / 2 + 1);
+                            .getCurrentTile().getY() - Map.WINDOW_Y / 2 + 1);
         selectedCity = null;
         selectedUnit = null;
         if (civilizations.get(playerTurn).getCities().size() != 0)
             selectedCity = civilizations.get(playerTurn).getCities().get(0);
         for (Unit unit : civilizations.get(playerTurn).getUnits()) {
-            if(unit.getState()==UnitState.AWAKE)
-            {
+            if (unit.getState() == UnitState.AWAKE) {
                 selectedUnit = unit;
                 break;
             }
         }
-        if (selectedUnit==null &&
+        if (selectedUnit == null &&
                 civilizations.get(playerTurn).getUnits().size() != 0)
             selectedUnit = civilizations.get(playerTurn).getUnits().get(0);
-        if(getCivilizations()
-                .get(getPlayerTurn()).getNotifications().containsKey(cycle))
-            for (String string : getCivilizations()
-                    .get(getPlayerTurn()).getNotifications().get(cycle))
-                System.out.println(cycle + ". " + string);
+        if (this.getCivilizations()
+                .get(this.getPlayerTurn()).getNotifications().containsKey(cycle))
+            for (String string : this.getCivilizations()
+                    .get(this.getPlayerTurn()).getNotifications().get(cycle)) {
+                Notifications notifications = Notifications.create().hideAfter(Duration.seconds(5)).text(string).title(this.getCivilizations()
+                        .get(this.getPlayerTurn()).getUser().getNickname() + " - cycles: " + cycle);
+                notifications.show();
+            }
     }
 
     public  void setUnfinishedTasks() {
@@ -216,11 +296,13 @@ public class GameController {
         for (int j = 0; j < 6; j++) {
             if (tile.getNeighbours(i).getNeighbours(j) == null)
                 continue;
+            checkForRuins(tile.getNeighbours(i).getNeighbours(j), civilization);
+            checkForRuins(tile.getNeighbours(i).getNeighbours(j), civilization);
             int neighbourX = tile.getNeighbours(i).getNeighbours(j).getX();
             int neighbourY = tile.getNeighbours(i).getNeighbours(j).getY();
             civilization.getTileConditions()[neighbourX][neighbourY] =
                     new Civilization.TileCondition(tile.getNeighbours(i).getNeighbours(j)
-                            .cloneTileForCivilization(civilization,this), true);
+                            .cloneTileForCivilization(civilization), true);
             if (unit != null &&
                     ((tile.getNeighbours(i).getNeighbours(j).getCivilian() != null &&
                             tile.getNeighbours(i).getNeighbours(j)
@@ -234,14 +316,43 @@ public class GameController {
         return isThereAnyEnemy;
     }
 
+    private  void checkForRuins(Tile tile, Civilization civilization) {
+        if (tile.getRuins() != null && !tile.getRuins().getCivilizations().contains(civilization)) {
+            StageController.errorMaker("ruins found!", "there are some ruins around you " +
+                    tile.getX() + ", " + tile.getY(), Alert.AlertType.INFORMATION);
+            tile.getRuins().getCivilizations().add(civilization);
+        }
+    }
+
+    private  void checkForOtherCivilizations(Civilization civilization, Tile tile) {
+        if (tile.getCity() != null &&
+                tile.getCity().getCivilization() != civilization &&
+                !civilization.knownCivilizationsContains(tile.getCity().getCivilization()))
+            civilization.getKnownCivilizations().add(new Pair<>(tile.getCity().getCivilization(), 0));
+        if (tile.getCivilization() != null &&
+                tile.getCivilization() != civilization &&
+                !civilization.knownCivilizationsContains(tile.getCivilization()))
+            civilization.getKnownCivilizations().add(new Pair<>(tile.getCivilization(), 0));
+        if (tile.getCivilian() != null &&
+                tile.getCivilian().getCivilization() != civilization &&
+                !civilization.knownCivilizationsContains(tile.getCivilian().getCivilization()))
+            civilization.getKnownCivilizations().add(new Pair<>(tile.getCivilian().getCivilization(), 0));
+        if (tile.getNonCivilian() != null &&
+                tile.getNonCivilian().getCivilization() != civilization &&
+                !civilization.knownCivilizationsContains(tile.getNonCivilian().getCivilization()))
+            civilization.getKnownCivilizations().add(new Pair<>(tile.getNonCivilian().getCivilization(), 0));
+    }
+
     public  boolean openNewArea(Tile tile, Civilization civilization, Unit unit) {
         boolean isThereAnyEnemy = false;
         for (int i = 0; i < 6; i++) {
             if (tile.getNeighbours(i) == null)
                 continue;
+            checkForOtherCivilizations(civilization, tile.getNeighbours(i));
+            checkForRuins(tile.getNeighbours(i), civilization);
             civilization.getTileConditions()[tile.getNeighbours(i).getX()][tile.getNeighbours(i).getY()] =
                     new Civilization.TileCondition(tile.getNeighbours(i).
-                            cloneTileForCivilization(civilization,this), true);
+                            cloneTileForCivilization(civilization), true);
             if (unit != null && ((tile.getNeighbours(i).getCivilian() != null &&
                     tile.getNeighbours(i).getCivilian().getCivilization() != civilization) ||
                     (tile.getNeighbours(i).getNonCivilian() != null &&
@@ -258,7 +369,7 @@ public class GameController {
         }
         civilization.getTileConditions()[tile.getX()][tile.getY()] =
                 new Civilization.TileCondition(tile.
-                        cloneTileForCivilization(civilization,this), true);
+                        cloneTileForCivilization(civilization), true);
         if (isThereAnyEnemy && unit != null && unit.getState() == UnitState.ALERT)
             unit.setState(UnitState.AWAKE);
         return isThereAnyEnemy;
@@ -283,7 +394,7 @@ public class GameController {
         for (Unit unit : selectedCity.getHalfProducedUnits())
             if (unit.getRemainedCost() != 0 && unit.getUnitType() == tempType) {
                 selectedCity.setProduct(unit);
-                deleteFromUnfinishedTasks(new Tasks(selectedCity.getMainTile(),
+                this.deleteFromUnfinishedTasks(new Tasks(selectedCity.getMainTile(),
                         TaskTypes.CITY_PRODUCTION));
                 return;
             }
@@ -304,17 +415,17 @@ public class GameController {
             if (temp != 1)
                 civilizations.get(playerTurn).getResourcesAmount().put(tempType.getResourcesType(), temp - 1);
         }
-        deleteFromUnfinishedTasks(new Tasks(selectedCity.getMainTile(),
+        this.deleteFromUnfinishedTasks(new Tasks(selectedCity.getMainTile(),
                 TaskTypes.CITY_PRODUCTION));
         civilizations.get(playerTurn).putNotification(selectedCity.getName() + ": " +
-                tempType + "'s production started",cycle);
+                tempType + "'s production started", cycle);
     }
 
     public  int startProducingUnit(String productIcon) {
         UnitType tempType = UnitType.stringToEnum(productIcon);
-        if (tempType == null) return 1;
-        if (selectedCity == null) return 2;
-        if (selectedCity.getCivilization() != civilizations.get(playerTurn)) return 3;
+//        if (tempType == null) return 1;
+//        if (selectedCity == null) return 2;
+//        if (selectedCity.getCivilization() != civilizations.get(playerTurn)) return 3;
         if (tempType.getResourcesType() != null &&
                 (!civilizations.get(playerTurn).getResourcesAmount()
                         .containsKey(tempType.getResourcesType()) ||
@@ -323,8 +434,8 @@ public class GameController {
                                 civilizations.get(playerTurn)
                                         .getResourcesAmount().get(tempType.getResourcesType()) == 0)))
             return 5;
-        if (civilizations.get(playerTurn).doesContainTechnology(tempType.getTechnologyRequired()) != 1)
-            return 6;
+//        if (civilizations.get(playerTurn).doesContainTechnology(tempType.getTechnologyRequired()) != 1)
+//            return 6;
         startProducingsOperation(tempType);
         return 0;
     }
@@ -357,5 +468,34 @@ public class GameController {
 
     public  int getCycle() {
         return cycle;
+    }
+
+    public  void setSelectedTile(Tile tile) {
+        selectedTile = tile;
+    }
+
+    public  Tile getSelectedTile() {
+        return selectedTile;
+    }
+
+    public  void setCivilizationsAsList(ArrayList<Civilization> civilizations) {
+        this.civilizations = civilizations;
+    }
+
+    public  void setUnfinishedTasks(ArrayList<Tasks> unfinishedTasks) {
+        this.unfinishedTasks = unfinishedTasks;
+    }
+
+    public  void setPlayerTurn(int playerTurn) {
+        this.playerTurn = playerTurn;
+    }
+
+    public  Civilization getWinner() {
+        return winnerSend;
+    }
+
+
+    public  Civilization getCurrentCivilization() {
+        return civilizations.get(playerTurn);
     }
 }

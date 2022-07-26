@@ -1,6 +1,7 @@
 package network;
 
 import com.beust.ah.A;
+import controller.TechnologyAndProductionController;
 import controller.gameController.*;
 import model.Map;
 import model.User;
@@ -15,6 +16,7 @@ public class GameHandler {
     private MapCommandsController mapCommandsController;
     private TileXAndYFlagSelectUnitController tileXAndYFlagSelectUnitController;
     private UnitStateController unitStateController;
+    private TechnologyAndProductionController technologyAndProductionController;
     private ArrayList<MySocketHandler> socketHandlers;
     private Map map;
     public static GameHandler findGame(User user){
@@ -75,4 +77,7 @@ public class GameHandler {
         gameController.startGame(list);
     }
 
+    public TechnologyAndProductionController getTechnologyAndProductionController() {
+        return technologyAndProductionController;
+    }
 }

@@ -7,5 +7,5 @@ public interface CanGetAttacked {
 
     double getCombatStrength(boolean isAttack);
 
-    void takeDamage(int amount, Civilization civilization, GameController gameController);
+    void takeDamage(int amount,Civilization civilization,GameController gameController);
 }

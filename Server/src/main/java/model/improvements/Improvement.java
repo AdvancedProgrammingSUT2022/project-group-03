@@ -3,8 +3,10 @@ package model.improvements;
 import model.features.FeatureType;
 import model.tiles.Tile;
 
+import java.io.Serializable;
 
-public class Improvement {
+
+public class Improvement implements Serializable {
     private final ImprovementType improvementType;
     private int needsRepair;
     int remainedCost;

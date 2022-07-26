@@ -2,6 +2,7 @@ package com.example.demo.view;
 
 import com.example.demo.controller.LoginController;
 import com.example.demo.controller.Music;
+import com.example.demo.controller.NetworkController;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.Map;
 import com.example.demo.model.User;
@@ -293,7 +294,7 @@ public class GameControllerFX {
 
 
     public void nextTurn() {
-        if (!GameController.nextTurnIfYouCan()) {
+        if (!Boolean.parseBoolean(NetworkController.send("nextTurn"))) {
             switch (GameController.getUnfinishedTasks().get(0).getTaskTypes()) {
                 case UNIT -> StageController.errorMaker("Unit Error", "A unit needs order.", Alert.AlertType.ERROR);
                 case CITY_PRODUCTION -> StageController.errorMaker("City Error", "Set your city to produce something.", Alert.AlertType.ERROR);
