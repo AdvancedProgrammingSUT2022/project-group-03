@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+
+<!--        prefHeight="800.0" prefWidth="1280.0"-->
+
+<?import javafx.scene.shape.Rectangle?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="640.0"
+            xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.view.ChatController"
+            stylesheets="@./style.css">
+
+    <!--The top navbar-->
+    <top>
+        <HBox maxWidth="Infinity" spacing="10" styleClass="topBar">
+            <VBox alignment="CENTER">
+                <Text textAlignment="CENTER" text=" Chat" style="-fx-fill: white; -fx-padding: 5"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <HBox fx:id="commandBar" spacing="10" style="-fx-padding: 5"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <HBox style="-fx-padding: 5" spacing="10">
+                <Button text="Back" onAction="#back"/>
+                <Button text="New Chat" onAction="#newChat"/>
+                <Button text="Settings" onAction="#settings"/>
+            </HBox>
+        </HBox>
+    </top>
+
+
+    <!--The left side users bar-->
+    <left>
+        <VBox prefWidth="350" spacing="5" alignment="TOP_CENTER" styleClass="usersBar">
+            <VBox fx:id="usersBar" alignment="TOP_CENTER">
+<!--                <Button styleClass="user" text="Public Chat" onAction="#gotoPublicChat"/>-->
+            </VBox>
+        </VBox>
+    </left>
+
+
+    <!--The center section-->
+    <center>
+        <VBox fx:id="mainSection" alignment="CENTER" spacing="15" styleClass="centerChat">
+
+        </VBox>
+    </center>
+
+
+    <!--The bottom section-->
+    <bottom>
+        <HBox alignment="CENTER" spacing="10" styleClass="bottomBar">
+            <TextField fx:id="messageField" disable="true" promptText="Write a message..." onKeyReleased="#checkEnter"/>
+            <Button fx:id="sendButton" disable="true" text="Send" onAction="#sendMessage"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
+

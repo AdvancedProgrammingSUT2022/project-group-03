@@ -25,6 +25,7 @@ public class User implements Serializable {
     private Date lastWin;
     private Date lastOnline;
     private final ArrayList<User> invites = new ArrayList<>();
+    private final ArrayList<User> friendShipRequests = new ArrayList<>();
     private final ArrayList<User> friends = new ArrayList<>();
     public UserIcon getIcon() {
         return icon;
@@ -125,5 +126,13 @@ public class User implements Serializable {
 
     public static ArrayList<User> getListOfUsers() {
         return listOfUsers;
+    }
+
+    public ArrayList<User> getInvites() {
+        return invites;
+    }
+
+    public ArrayList<User> getFriendShipRequests() {
+        return friendShipRequests;
     }
 }

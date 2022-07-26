@@ -33,6 +33,7 @@ public class GameEntryMenuFx implements Initializable {
     public TextField addPlayerId;
     public Button addPlayerButton;
     public AnchorPane pane;
+    public ScrollPane gameInvitationScrollBar;
     int mapX = 60, mapY = 90;
     int autoSave = 0;
     int autoSaveNumbers = 5;
@@ -265,7 +266,7 @@ public class GameEntryMenuFx implements Initializable {
         autoSavesListScrollBar.setLayoutX(StageController.getScene().getWidth() * 0.05 + 250);
 
         titleManual.setText("load a manual save     or    load an auto save.");
-        titleManual.setFont(font);
+        titleManual.setFont(new Font(20*StageController.getStage().getWidth() / 1920));
         titleManual.setX(StageController.getScene().getWidth() * 0.05);
         titleManual.setY(StageController.getStage().getHeight() * 0.48);
 
@@ -303,6 +304,7 @@ public class GameEntryMenuFx implements Initializable {
         autoSavingList.getChildren().add(button2);
 
 
+
         background.setFitWidth(StageController.getScene().getWidth());
         background.setFitHeight(StageController.getScene().getHeight());
 
@@ -315,8 +317,49 @@ public class GameEntryMenuFx implements Initializable {
         addedUsersScrollPane.setContent(addedUsersAnchorPane);
         setAddedUsersAnchorPane();
         pane.getChildren().add(addedUsersScrollPane);
+        initializeInvite();
 
+    }
 
+    private void initializeInvite()
+    {
+        AnchorPane gameInvitationPane = new AnchorPane();
+        gameInvitationScrollBar.setContent(gameInvitationPane);
+        gameInvitationScrollBar.setPrefSize(StageController.getScene().getWidth()/1920*250, StageController.getScene().getHeight() * 0.40);
+        gameInvitationScrollBar.setLayoutY(StageController.getScene().getHeight() * 0.5);
+        gameInvitationScrollBar.setLayoutX(StageController.getScene().getWidth() * 0.05 + 500);
+        Panels.addText("Game Invitations:",5,20,20,null,gameInvitationPane);
+//        ArrayList<User> requests = LoginController.getLoggedUser().getInvites();
+        //TODO
+        //Hardcode arrayList
+        ArrayList<User> requests = new ArrayList<>();
+        requests.add(new User("bib_bib","assword","bop_bop",false));
+        requests.add(new User("oompa_loompa","assword","wanka",false));
+        requests.add(new User("mama","assword","joe",false));
+        requests.add(new User("glup_shitto","assword","glup_shitto",false));
+        //
+        for (int i = 0; i < requests.size(); i++) {
+            Button button1 = Panels.addButton("Accept",
+                    StageController.getScene().getWidth()/1920*150,50 + i*70,80,30,gameInvitationPane);
+            User user = requests.get(i);
+            button1.setOnAction(actionEvent -> acceptInvite(user));
+            button1 = Panels.addButton("Ignore",StageController.getScene().getWidth()/1920*150,80+i*70,80,30,gameInvitationPane);
+            button1.setOnAction(actionEvent -> declineInvite(user));
+            Panels.addText(user.getNickname(),5,80+i*70,20,null,gameInvitationPane);
+        }
+    }
+    private void acceptInvite(User user)
+    {
+        //TODO
+
+        initializeInvite();
+    }
+
+    private void declineInvite(User user)
+    {
+        //TODO
+
+        initializeInvite();
     }
 
     private void setAddedUsersAnchorPane() {

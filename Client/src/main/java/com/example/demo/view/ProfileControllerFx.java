@@ -14,19 +14,23 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class ProfileControllerFx implements Initializable {
     private static final double SIZE_RATIO = StageController.getScene().getWidth()/1536;
+    public ScrollPane gameInvitationScrollBar;
     @FXML private  ImageView background;
     @FXML private  AnchorPane pane;
     @FXML private  TextField nickname;
@@ -161,6 +165,50 @@ public class ProfileControllerFx implements Initializable {
 
             }
         }
+        initializeInvite();
 
+
+
+    }
+
+    private void initializeInvite()
+    {
+        AnchorPane gameInvitationPane = new AnchorPane();
+        gameInvitationScrollBar.setContent(gameInvitationPane);
+        gameInvitationScrollBar.setPrefSize(StageController.getScene().getWidth()/1920*250, StageController.getScene().getHeight() * 0.25);
+        gameInvitationScrollBar.setLayoutY(StageController.getScene().getHeight() * 0.5);
+        gameInvitationScrollBar.setLayoutX(StageController.getScene().getWidth() * 0.05 + 500);
+        Panels.addText("FriendShip Requests:",5,20,20,null,gameInvitationPane);
+//        ArrayList<User> requests = LoginController.getLoggedUser().getFriendShipRequests();
+        //TODO
+        //Hardcode arrayList
+        ArrayList<User> requests = new ArrayList<>();
+        requests.add(new User("bib_bib","assword","bop_bop",false));
+        requests.add(new User("oompa_loompa","assword","wanka",false));
+        requests.add(new User("mama","assword","joe",false));
+        requests.add(new User("glup_shitto","assword","glup_shitto",false));
+        //
+        for (int i = 0; i < requests.size(); i++) {
+            Button button1 = Panels.addButton("Accept",
+                    StageController.getScene().getWidth()/1920*150,50 + i*70,80,30,gameInvitationPane);
+            User user = requests.get(i);
+            button1.setOnAction(actionEvent -> acceptInvite(user));
+            button1 = Panels.addButton("Decline",StageController.getScene().getWidth()/1920*150,80+i*70,80,30,gameInvitationPane);
+            button1.setOnAction(actionEvent -> declineInvite(user));
+            Panels.addText(user.getNickname(),5,80+i*70,20,null,gameInvitationPane);
+        }
+    }
+    private void acceptInvite(User user)
+    {
+        //TODO
+
+        initializeInvite();
+    }
+
+    private void declineInvite(User user)
+    {
+        //TODO
+
+        initializeInvite();
     }
 }
