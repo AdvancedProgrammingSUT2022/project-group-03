@@ -3,6 +3,7 @@ package com.example.demo.view;
 import com.example.demo.HelloApplication;
 import com.example.demo.controller.LoginController;
 import com.example.demo.controller.NetworkController;
+
 import com.example.demo.model.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

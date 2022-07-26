@@ -8,6 +8,7 @@ import com.example.demo.model.resources.ResourcesCategory;
 import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.model.tiles.TileType;
+import com.example.demo.view.HealthyBeing;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 
-public class City implements Serializable, CanAttack, CanGetAttacked {
+public class City implements Serializable, CanAttack, CanGetAttacked, HealthyBeing {
     private final String name;
     private final Tile mainTile;
     private Civilization civilization;
@@ -268,10 +269,11 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
     }
 
     public void startTheTurn() {
-        hasAttackedThisCycle=false;
+        hasAttackedThisCycle = false;
         anxiety--;
         if (anxiety < 0) anxiety = 0;
-        HP += 10;
+        if (HP > 0)
+            HP += 10;
         if (HP > 200) HP = 200;
         food += collectFood();
         production += collectProduction();
@@ -464,6 +466,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
 
     public boolean checkToDestroy() {
         if (HP <= 0) {
+            HP = 0;
             GameController.getUnfinishedTasks().add(new Tasks(mainTile, TaskTypes.CITY_DESTINY));
             if (mainTile.getNonCivilian() != null &&
                     mainTile.getNonCivilian().getState() == UnitState.GARRISON) {
@@ -502,7 +505,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
     }
 
     public void changeCivilization(Civilization civilization) {
-        if(GameController.getCivilizations().get(GameController.getPlayerTurn()).getMainCapital()==this)
+        if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getMainCapital() == this)
             for (City city : GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities()) {
                 city.setCapital(false);
             }
@@ -563,18 +566,17 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
     }
 
 
-    public Unit findHalfProducedUnit(UnitType unitType)
-    {
+    public Unit findHalfProducedUnit(UnitType unitType) {
         for (Unit halfProducedUnit : halfProducedUnits) {
-            if(halfProducedUnit.getUnitType()==unitType)
+            if (halfProducedUnit.getUnitType() == unitType)
                 return halfProducedUnit;
         }
         return null;
     }
-    public Building findHalfBuiltBuildings(BuildingType buildingType)
-    {
+
+    public Building findHalfBuiltBuildings(BuildingType buildingType) {
         for (Building halfBuiltBuildings : halfProducedBuildings) {
-            if(halfBuiltBuildings.getBuildingType()==buildingType)
+            if (halfBuiltBuildings.getBuildingType() == buildingType)
                 return halfBuiltBuildings;
         }
         return null;
@@ -584,8 +586,7 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
         return buildings;
     }
 
-    public void addPopulation()
-    {
+    public void addPopulation() {
         population++;
     }
 
@@ -607,5 +608,25 @@ public class City implements Serializable, CanAttack, CanGetAttacked {
 
     public void setHasAttackedThisCycle(boolean hasAttackedThisCycle) {
         this.hasAttackedThisCycle = hasAttackedThisCycle;
+    }
+
+    @Override
+    public double greenBarPercent() {
+        return (double) HP / 200;
+    }
+
+    @Override
+    public double blueBarPercent() {
+        return 0;
+    }
+
+    @Override
+    public String getHealthDigit() {
+        return HP + "/200";
+    }
+
+    @Override
+    public Tile getTile() {
+        return mainTile;
     }
 }

@@ -59,6 +59,7 @@ public class MainControllerFX implements Initializable {
             NetworkController.send("menu enter profile");
             AssetsController.openLeadersAvatars();
             StageController.sceneChanger("scoreboard.fxml");
+
     }
 
     @FXML

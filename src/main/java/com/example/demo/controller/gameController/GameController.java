@@ -10,6 +10,7 @@ import com.example.demo.model.tiles.TileType;
 import com.example.demo.view.GameEnd;
 import com.example.demo.view.StageController;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.util.Duration;
 import javafx.util.Pair;
 import org.controlsfx.control.Notifications;
@@ -127,22 +128,33 @@ public class GameController {
     static boolean canUnitAttack(Tile tile) {
         if (tile.getCity() != null &&
                 tile.getCity().getCivilization() != civilizations.get(playerTurn)) {
-            selectedUnit.setState(UnitState.ATTACK);
-            return true;
+            return canUnitAttackCivResult(tile.getCity().getCivilization());
         }
 
         if (tile.getNonCivilian() != null &&
                 tile.getNonCivilian().getCivilization() != civilizations.get(playerTurn)) {
-            selectedUnit.setState(UnitState.ATTACK);
-            return true;
+            return canUnitAttackCivResult(tile.getNonCivilian().getCivilization());
         }
         if (tile.getCivilian() != null &&
                 tile.getCivilian().getCivilization() != civilizations.get(playerTurn) &&
                 selectedUnit.getUnitType().range > 1) {
-            selectedUnit.setState(UnitState.ATTACK);
-            return true;
+            return canUnitAttackCivResult(tile.getCivilian().getCivilization());
         }
         return false;
+    }
+
+    private static boolean canUnitAttackCivResult(Civilization opponent)
+    {
+        if (GameController.getCurrentCivilization().knownCivilizationStatue(opponent)!=-1) {
+            Alert alert = StageController.errorMaker("Declaring war, eh?", "By this action, you will declare war to " +
+                    opponent.getUser().getNickname() + " , are you sure?", Alert.AlertType.CONFIRMATION);
+            if (alert.getResult() == ButtonType.OK) {
+                GameController.getCurrentCivilization().setKnownCivilizations(opponent,-1);
+            } else return false;
+
+        }
+        selectedUnit.setState(UnitState.ATTACK);
+        return true;
     }
 
     public static boolean nextTurnIfYouCan() {
@@ -208,6 +220,7 @@ public class GameController {
 
     public static void nextTurn() {
         shouldGameEnd();
+
         civilizations.get(playerTurn).endTheTurn();
         playerTurn = (playerTurn + 1) % civilizations.size();
         if (civilizations.get(playerTurn).getCities().size() == 0 &&
@@ -311,24 +324,23 @@ public class GameController {
         }
     }
 
-    private static void checkForOtherCivilizations(Civilization civilization,Tile tile)
-    {
-        if(tile.getCity()!=null &&
-                tile.getCity().getCivilization()!=civilization &&
+    private static void checkForOtherCivilizations(Civilization civilization, Tile tile) {
+        if (tile.getCity() != null &&
+                tile.getCity().getCivilization() != civilization &&
                 !civilization.knownCivilizationsContains(tile.getCity().getCivilization()))
-            civilization.getKnownCivilizations().add(new Pair<>(tile.getCity().getCivilization(),0));
-        if(tile.getCivilization()!=null &&
-                tile.getCivilization()!=civilization &&
+            civilization.getKnownCivilizations().add(new Pair<>(tile.getCity().getCivilization(), 0));
+        if (tile.getCivilization() != null &&
+                tile.getCivilization() != civilization &&
                 !civilization.knownCivilizationsContains(tile.getCivilization()))
-            civilization.getKnownCivilizations().add(new Pair<>(tile.getCivilization(),0));
-        if(tile.getCivilian()!=null &&
-                tile.getCivilian().getCivilization()!=civilization &&
+            civilization.getKnownCivilizations().add(new Pair<>(tile.getCivilization(), 0));
+        if (tile.getCivilian() != null &&
+                tile.getCivilian().getCivilization() != civilization &&
                 !civilization.knownCivilizationsContains(tile.getCivilian().getCivilization()))
-            civilization.getKnownCivilizations().add(new Pair<>(tile.getCivilian().getCivilization(),0));
-        if(tile.getNonCivilian()!=null &&
-                tile.getNonCivilian().getCivilization()!=civilization &&
+            civilization.getKnownCivilizations().add(new Pair<>(tile.getCivilian().getCivilization(), 0));
+        if (tile.getNonCivilian() != null &&
+                tile.getNonCivilian().getCivilization() != civilization &&
                 !civilization.knownCivilizationsContains(tile.getNonCivilian().getCivilization()))
-            civilization.getKnownCivilizations().add(new Pair<>(tile.getNonCivilian().getCivilization(),0));
+            civilization.getKnownCivilizations().add(new Pair<>(tile.getNonCivilian().getCivilization(), 0));
     }
 
     public static boolean openNewArea(Tile tile, Civilization civilization, Unit unit) {
@@ -336,7 +348,7 @@ public class GameController {
         for (int i = 0; i < 6; i++) {
             if (tile.getNeighbours(i) == null)
                 continue;
-            checkForOtherCivilizations(civilization,tile.getNeighbours(i));
+            checkForOtherCivilizations(civilization, tile.getNeighbours(i));
             checkForRuins(tile.getNeighbours(i), civilization);
             civilization.getTileConditions()[tile.getNeighbours(i).getX()][tile.getNeighbours(i).getY()] =
                     new Civilization.TileCondition(tile.getNeighbours(i).
@@ -483,8 +495,7 @@ public class GameController {
     }
 
 
-    public static Civilization getCurrentCivilization()
-    {
+    public static Civilization getCurrentCivilization() {
         return civilizations.get(playerTurn);
     }
 }

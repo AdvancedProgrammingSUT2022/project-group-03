@@ -203,11 +203,11 @@ public class Map implements Serializable {
 
     private void setFeature(int i, int j) {
         FeatureType featureType = FeatureType.randomFeature();
-        while (!tiles[i][j].isFeatureTypeValid(featureType) &&
-                tiles[i][j].getTileType().featureTypes.length != 0) {
+        int k;
+        for (k=0;k < 13 && !tiles[i][j].isFeatureTypeValid(featureType); k++ ) {
             featureType = FeatureType.randomFeature();
         }
-        if (random.nextInt(4) != 0) {
+        if (random.nextInt(4) != 0 || k > 12) {
             tiles[i][j].setContainedFeature(new Feature(featureType));
         }
     }

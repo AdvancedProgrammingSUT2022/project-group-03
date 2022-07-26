@@ -30,6 +30,15 @@ public class User implements Serializable {
         return icon;
     }
 
+
+
+    public static User findUser(String string, boolean isNickname) {
+        for (User listOfUser : listOfUsers)
+            if ((!isNickname && Objects.equals(listOfUser.username, string)) ||
+                    (isNickname && Objects.equals(listOfUser.nickname, string)))
+                return listOfUser;
+        return null;
+    }
     public static void saveData() {
         FileWriter fileWriter;
         try {
@@ -39,15 +48,6 @@ public class User implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
-    public static User findUser(String string, boolean isNickname) {
-        for (User listOfUser : listOfUsers)
-            if ((!isNickname && Objects.equals(listOfUser.username, string)) ||
-                    (isNickname && Objects.equals(listOfUser.nickname, string)))
-                return listOfUser;
-        return null;
     }
 
     public User(String username, String password, String nickname, boolean shouldSave) {
@@ -96,6 +96,7 @@ public class User implements Serializable {
 
     public void setIcon(UserIcon icon) {
         this.icon = icon;
+        saveData();
     }
 
     public String getAvatar() {
@@ -119,5 +120,10 @@ public class User implements Serializable {
 
     public void setScore(int score) {
         this.score = score;
+        saveData();
+    }
+
+    public static ArrayList<User> getListOfUsers() {
+        return listOfUsers;
     }
 }

@@ -110,6 +110,7 @@ public class LoginController {
         NetworkController.send("save "+ new Gson().toJson(loggedUser));
     }
 
+
     public static User getLoggedUser() {
         return loggedUser;
     }

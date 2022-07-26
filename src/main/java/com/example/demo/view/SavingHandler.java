@@ -1,5 +1,7 @@
 package com.example.demo.view;
 
+import com.example.demo.controller.LoginController;
+import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.Savings;
 
 import java.io.*;
@@ -26,11 +28,12 @@ public class SavingHandler {
         try {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss");
             LocalDateTime now = LocalDateTime.now();
+            String username = LoginController.getLoggedUser().getUsername() + "#";
             FileOutputStream fileStream;
             if (isManual) {
-                fileStream = new FileOutputStream(manualPath + dtf.format(now));
+                fileStream = new FileOutputStream(manualPath + username + dtf.format(now));
             } else {
-                fileStream = new FileOutputStream(autoPath + dtf.format(now));
+                fileStream = new FileOutputStream(autoPath + username + dtf.format(now));
                 while (getNumberOfSaves() > numberOfAutoSaving) {
                     Files.delete(Paths.get(getOldestSave(autoPath)));
                 }
@@ -123,6 +126,13 @@ public class SavingHandler {
     private static List<File> getSaveFiles(File directory) {
         ArrayList<File> fileArrayList = new ArrayList<>(List.of(Objects.requireNonNull(directory.listFiles(File::isFile))));
         fileArrayList.removeIf(file -> file.getName().equals(".gitkeep"));
+        String username = LoginController.getLoggedUser().getUsername();
+        fileArrayList.removeIf(file -> {
+            int index = file.getName().indexOf("#");
+            if (index == -1)
+                return false;
+            return !file.getName().substring(0, index).equals(username);
+        });
         return fileArrayList;
     }
 

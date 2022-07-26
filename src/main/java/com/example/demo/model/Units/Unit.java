@@ -8,6 +8,7 @@ import com.example.demo.model.features.FeatureType;
 import com.example.demo.model.Producible;
 import com.example.demo.model.improvements.ImprovementType;
 import com.example.demo.model.tiles.Tile;
+import com.example.demo.view.HealthyBeing;
 
 import java.io.Serializable;
 //import view.gameMenu.Color;
@@ -15,7 +16,7 @@ import java.io.Serializable;
 //import javax.swing.text.View;
 //import java.awt.*;
 
-public abstract class Unit implements Serializable, Producible, CanGetAttacked {
+public abstract class Unit implements Serializable, Producible, CanGetAttacked, HealthyBeing {
     protected Civilization civilization;
     protected Tile currentTile;
     protected Tile destinationTile;
@@ -284,8 +285,8 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked {
     public void takeDamage(int amount,Civilization civilization) {
         health -= amount;
         civilization.putNotification(unitType+ " @ "+ currentTile.getX() + " , "+ currentTile.getY()  + " : " +
-                "oopsy woopsy you just got smashed by "+ Color.getColorByNumber(civilization.getColor())
-                + civilization.getUser().getNickname() + Color.RESET ,GameController.getCycle());
+                "oopsy woopsy you just got smashed by "
+                + civilization.getUser().getNickname() ,GameController.getCycle());
     }
 
     public void setState(UnitState state) {
@@ -326,4 +327,9 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked {
 //    public void setDidDoTaskThisTurn(boolean didDoTaskThisTurn) {
 //        this.didDoTaskThisTurn = didDoTaskThisTurn;
 //    }
+
+    public void setCivilization(Civilization civilization)
+    {
+        this.civilization = civilization;
+    }
 }

@@ -2,6 +2,7 @@ package com.example.demo.view;
 
 import com.example.demo.controller.gameController.CityCommandsController;
 import com.example.demo.controller.gameController.GameController;
+import com.example.demo.controller.gameController.UnitStateController;
 import com.example.demo.model.City;
 import com.example.demo.model.Units.Unit;
 import com.example.demo.model.Units.UnitType;
@@ -42,12 +43,23 @@ public class CityPanel {
     private static final Text[] cityTexts = new Text[8];
     private static final int[] buttonsProcess = new int[9];
 
+    public double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+
     public void cityClicked(City city) {
 //        MapMoveController.showTile(GameControllerFX.getGraphicMap()[city.getMainTile().getX()][city.getMainTile().getY()]);
         GameController.setSelectedCity(city);
         openedPanelCity = city;
         leftPanel.getChildren().clear();
         Text text = new Text("City name: " + openedPanelCity.getName() +
+            "\nHealth: " + openedPanelCity.getHP() +
+            "\nStrength:  A(" + round(openedPanelCity.getCombatStrength(true), 1) + ")   D(" + round(openedPanelCity.getCombatStrength(false), 1) + ")" +
             "\npopulation:" + openedPanelCity.getPopulation() +
             "\nUnemployed citizens: " + openedPanelCity.getCitizen());
         leftPanel.getChildren().add(text);
@@ -57,6 +69,39 @@ public class CityPanel {
                 openedPanelCity.cyclesToComplete(openedPanelCity.getProduct().getRemainedCost()) + "T");
             leftPanel.getChildren().add(text);
         }
+
+        //TODO: This section is not tested. Test it!
+        if (city.getHP() <= 0) {
+            Text title = new Text("Please decide about This city.");
+            Button annex = new Button("Annex the city");
+            annex.setOnAction(actionEvent -> {
+                int code = CityCommandsController.cityDestiny(false, city);
+                if (code == 0)
+                    StageController.errorMaker("Annex", "The city annexed successfully.", Alert.AlertType.INFORMATION);
+                else
+                    StageController.errorMaker("Error", "Can not annex", Alert.AlertType.ERROR);
+                gameControllerFX.renderMap();
+            });
+            Button burn = new Button("Burn the city");
+            burn.setOnAction(actionEvent -> {
+                int code = CityCommandsController.cityDestiny(true, city);
+                if (code == 4)
+                    StageController.errorMaker("Can not Burn", "You can not burn the capital city.", Alert.AlertType.ERROR);
+                else if (code == 0)
+                    StageController.errorMaker("Burn", "The city burned successfully :/", Alert.AlertType.INFORMATION);
+                else
+                    StageController.errorMaker("Error", "Can not burn", Alert.AlertType.ERROR);
+                gameControllerFX.renderMap();
+            });
+            leftPanel.getChildren().addAll(title, annex, burn);
+            return;
+        }
+
+        //not show control buttons if the city is not belong to the current player
+        boolean isYours = GameController.getCurrentCivilization() == city.getCivilization();
+        if (!isYours)
+            return;
+
         Button button = new Button("Show Banner");
         button.setLayoutY(30);
         button.setOnMouseClicked(event -> gameControllerFX.eachInfoButtonsClicked(7));
@@ -118,6 +163,7 @@ public class CityPanel {
 
     private void addBuildingsButtons(boolean buy) {
         VBox vBox = new VBox();
+        vBox.setSpacing(5);
         ScrollPane scrollPane = new ScrollPane(vBox);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -171,6 +217,7 @@ public class CityPanel {
 
     private void addUnitsButtons(boolean buy) {
         VBox vBox = new VBox();
+        vBox.setSpacing(5);
         ScrollPane scrollPane = new ScrollPane(vBox);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -178,17 +225,22 @@ public class CityPanel {
 
         for (UnitType unitType : UnitType.values()) {
             if (GameController.getCivilizations().get(GameController.getPlayerTurn()).doesContainTechnology(unitType.technologyRequired) == 1) {
-                if (openedPanelCity.getProduct() != null && openedPanelCity.getProduct() instanceof Unit && ((Unit) openedPanelCity.getProduct()).getUnitType() == unitType)
+                if (!buy && openedPanelCity.getProduct() != null && openedPanelCity.getProduct() instanceof Unit && ((Unit) openedPanelCity.getProduct()).getUnitType() == unitType)
                     continue;
                 String textString = unitType + ": ";
 
                 Unit unit = openedPanelCity.findHalfProducedUnit(unitType);
-                if(buy)
-                    textString = unitType.getCost() + "$";
-                else  {
-                    if (unit == null)
-                        textString = textString + openedPanelCity.cyclesToComplete(unitType.getCost()) + " Cycles";
-                    else textString = textString + openedPanelCity.cyclesToComplete(unit.getRemainedCost()) + " Cycles";
+                if (buy)
+                    textString = textString + unitType.getCost() + "$";
+                else {
+                    int cycles = openedPanelCity.cyclesToComplete(unitType.getCost());
+                    if (unit != null)
+                        cycles = openedPanelCity.cyclesToComplete(unit.getRemainedCost());
+                    if (cycles >= 12345) {
+                        textString = textString + "Never, Production=0";
+                    } else {
+                        textString = textString + cycles + " Cycles";
+                    }
                 }
                 Button button = new Button(textString);
                 button.minWidthProperty().bind(scrollPane.widthProperty());
@@ -320,6 +372,7 @@ public class CityPanel {
     }
 
     public void attackTile(Tile tile) {
+
         switch (CityCommandsController.cityAttack(tile.getX(), tile.getY(), openedPanelCity)) {
             case 0 -> StageController.errorMaker("nicely done", "you attacked successfully", Alert.AlertType.INFORMATION);
             case 1 -> StageController.errorMaker("self-harm is haram", "the selected tile is your own city's main tile", Alert.AlertType.ERROR);
