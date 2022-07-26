@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.beust.ah.A;
 import com.example.demo.HelloApplication;
 import com.example.demo.view.UserIcon;
 import com.google.gson.Gson;
@@ -25,6 +26,7 @@ public class User implements Serializable {
     private Date lastWin;
     private Date lastOnline;
     private final ArrayList<User> invites = new ArrayList<>();
+    private final ArrayList<User> friendsRequest = new ArrayList<>();
     private final ArrayList<User> friends = new ArrayList<>();
     public UserIcon getIcon() {
         return icon;
@@ -121,6 +123,10 @@ public class User implements Serializable {
     public void setScore(int score) {
         this.score = score;
         saveData();
+    }
+
+    public ArrayList<User> getFriends() {
+        return friends;
     }
 
     public static ArrayList<User> getListOfUsers() {

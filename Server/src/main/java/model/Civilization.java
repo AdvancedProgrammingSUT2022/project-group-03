@@ -2,17 +2,27 @@ package model;
 
 import controller.gameController.GameController;
 import model.Units.Unit;
+import model.building.Building;
+import model.building.BuildingType;
+import model.features.FeatureType;
 import model.resources.ResourcesCategory;
 import model.resources.ResourcesTypes;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;
 import model.tiles.Tile;
+import network.MySocketHandler;
+import view.TradeRequest;
+import javafx.util.Duration;
+import javafx.util.Pair;
+import org.controlsfx.control.Notifications;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
-public class Civilization {
-    public static class TileCondition {
+public class Civilization implements Serializable {
+    public static class TileCondition implements Serializable {
         private final Tile openedArea;
         private boolean isClear;
 
@@ -29,6 +39,11 @@ public class Civilization {
             return isClear;
         }
     }
+
+    //-1 war
+    // 0 neutral
+    // 1 peace
+    private final ArrayList<Pair<Civilization, Integer>> knownCivilizations = new ArrayList<>();
 
     private TileCondition[][] tileConditions;
     private final User user;
@@ -48,6 +63,10 @@ public class Civilization {
     private HashMap<ResourcesTypes, Boolean> usedLuxuryResources = new HashMap<>();
     public int cheatScience;
     private final HashMap<Integer, ArrayList<String>> notifications = new HashMap<>();
+    private final ArrayList<Tile> noFogs = new ArrayList<>();
+    private City mainCapital = null;
+    private final ArrayList<TradeRequest> tradeRequests = new ArrayList<>();
+    private final ArrayList<Civilization> friendshipRequests = new ArrayList<>();
 
     public Civilization(User user, int color) {
         this.color = color;
@@ -89,8 +108,11 @@ public class Civilization {
     public void turnOffTileConditionsBoolean(GameController gameController) {
         for (int i = 0; i < gameController.getMap().getX(); i++)
             for (int j = 0; j < gameController.getMap().getY(); j++)
-                if (tileConditions[i][j] != null)
+                if (tileConditions[i][j] != null) {
                     tileConditions[i][j].isClear = false;
+                    tileConditions[i][j].getOpenedArea().setCivilian(null);
+                    tileConditions[i][j].getOpenedArea().setNonCivilian(null);
+                }
     }
 
     public ArrayList<City> getCities() {
@@ -121,7 +143,43 @@ public class Civilization {
         return gold;
     }
 
-    public void startTheTurn(GameController gameController) {
+    public boolean isCivilizationAlive() {
+        return cities.size() != 0 || units.size() != 0;
+    }
+
+    public int getScore(GameController gameController) {
+        if (!isCivilizationAlive())
+            return 0;
+        int numberOfTiles = 0;
+        for (City city : cities) {
+            numberOfTiles += city.getTiles().size();
+        }
+        int numberOfPopulation = 0;
+        for (City city : cities) {
+            numberOfPopulation += city.getPopulation();
+        }
+        int numberOfFullResearches = 0;
+        for (Technology research : researches) {
+            if (research.getRemainedCost() == 0)
+                numberOfFullResearches++;
+        }
+        int numberOfBuildings = 0;
+        for (City city : cities) {
+            for (Building building : city.getBuildings()) {
+                if (building.getRemainedCost() == 0)
+                    numberOfBuildings++;
+            }
+        }
+        return (numberOfTiles * 10 +
+                cities.size() * 15 +
+                numberOfPopulation * 20 +
+                numberOfFullResearches * 25 +
+                numberOfBuildings * 30)
+                * (gameController.getMap().getX() / 100 * gameController.getMap().getY() / 100) + 10;
+    }
+
+    public void startTheTurn(GameController gameController  ) {
+
         happiness = 5;
         happiness -= cities.size();
         turnOffTileConditionsBoolean(gameController);
@@ -135,14 +193,18 @@ public class Civilization {
                 resourcesAmount.put(ResourcesTypes.VALUES.get(i), 0);
             }
         for (City city : cities)
-            city.collectResources(resourcesAmount,gameController);
+            city.collectResources(resourcesAmount);
         for (City city : cities) {
             city.startTheTurn(gameController);
-            gold += city.getGold(gameController);
+            gold += city.getGold();
+        }
+        for (Tile noFog : noFogs) {
+            gameController.openNewArea(noFog, this, null);
         }
         for (City city : cities)
-            city.collectFood(gameController);
-        int science = collectScience(gameController);
+            city.collectFood();
+
+        int science = collectScience();
         for (Unit unit : units) unit.startTheTurn(gameController);
         gold -= units.size();
         if (gold < 0)
@@ -153,22 +215,34 @@ public class Civilization {
                 gettingResearchedTechnology.setRemainedCost(0);
                 gameController.getCivilizations().get(gameController.getPlayerTurn())
                         .putNotification(gettingResearchedTechnology.getName() +
-                                "'s production ended successfully", gameController.getCycle());
+                                "'s production ended successfully", gameController.getCycle(),gameController );
                 gettingResearchedTechnology = null;
             }
         }
     }
 
-    public int collectScience(GameController gameController) {
+    public int collectScience() {
         int returner = 0;
-        for (City city : cities)
+        for (City city : cities) {
             returner += city.getPopulation();
-        for (City city : cities)
-            if (city.isCapital) returner += 3;
+            if (city.findBuilding(BuildingType.LIBRARY) != null)
+                returner += city.getPopulation() / 2;
+            if (city.findBuilding(BuildingType.UNIVERSITY) != null)
+                returner = (int) ((double) returner * 1.5);
+            if (city.findBuilding(BuildingType.SATRAPS_COURT) != null)
+                returner = (int) ((double) returner * 1.5);
+            if (city.findBuilding(BuildingType.UNIVERSITY) != null) {
+                for (Tile gettingWorkedOnByCitizensTile : city.getGettingWorkedOnByCitizensTiles()) {
+                    if (gettingWorkedOnByCitizensTile.getContainedFeature().getFeatureType() == FeatureType.JUNGLE)
+                        returner += 3;
+                }
+            }
+            if (city == mainCapital) returner += 3;
+        }
         if (gold == 0) {
             int temp = 0;
             for (City city : cities)
-                temp += city.getGold(gameController);
+                temp += city.getGold();
             if (temp < 0) returner += temp;
         }
         return returner + cheatScience;
@@ -212,11 +286,8 @@ public class Civilization {
         return 3;
     }
 
-    public City getCapital() {
-        for (City city : cities)
-            if (city.isCapital)
-                return city;
-        return null;
+    public City getMainCapital() {
+        return mainCapital;
     }
 
     public int getSize() {
@@ -235,15 +306,81 @@ public class Civilization {
         return true;
     }
 
-    public void putNotification(String string, int cycle) {
+    public void putNotification(String string, int cycle,MySocketHandler socketHandler) {
         if (!notifications.containsKey(cycle)) {
             ArrayList<String> strings = new ArrayList<>();
             notifications.put(cycle, strings);
         }
         notifications.get(cycle).add(string);
+        socketHandler.sendUpdate("notif",cycle + ";;"+ string);
+
+    }
+
+    public void addGold(int number) {
+        gold += number;
+    }
+
+
+    public ArrayList<Tile> getNoFogs() {
+        return noFogs;
     }
 
     public HashMap<Integer, ArrayList<String>> getNotifications() {
         return notifications;
+    }
+
+
+    public void setMainCapital(City mainCapital) {
+        this.mainCapital = mainCapital;
+    }
+
+    public ArrayList<Pair<Civilization, Integer>> getKnownCivilizations() {
+        return knownCivilizations;
+    }
+
+    public boolean knownCivilizationsContains(Civilization civilization) {
+        for (Pair<Civilization, Integer> knownCivilization : knownCivilizations) {
+            if (knownCivilization.getKey() == civilization)
+                return true;
+        }
+        return false;
+    }
+
+    public int knownCivilizationStatue(Civilization civilization) {
+        for (Pair<Civilization, Integer> knownCivilization : knownCivilizations) {
+            if (knownCivilization.getKey() == civilization)
+                return knownCivilization.getValue();
+        }
+        return -2;
+    }
+
+    public void setKnownCivilizations(Civilization civilization, int statue) {
+        knownCivilizations.removeIf(knownCivilization -> knownCivilization.getKey() == civilization);
+        knownCivilizations.add(new Pair<>(civilization, statue));
+    }
+
+    public ArrayList<TradeRequest> getTradeRequests() {
+        return tradeRequests;
+    }
+
+    public void addResources(ResourcesTypes resourcesTypes, int amount) {
+        int value = amount;
+        if (resourcesAmount.containsKey(resourcesTypes)) {
+            value += resourcesAmount.get(resourcesTypes);
+            resourcesAmount.remove(resourcesTypes);
+        }
+        resourcesAmount.put(resourcesTypes, value);
+    }
+
+    public void removeResource(ResourcesTypes resourcesTypes, int amount) {
+        if (resourcesAmount.containsKey(resourcesTypes) && resourcesAmount.get(resourcesTypes) > amount) {
+            int value = resourcesAmount.get(resourcesTypes) - amount;
+            resourcesAmount.remove(resourcesTypes);
+            resourcesAmount.put(resourcesTypes, value);
+        }
+    }
+
+    public ArrayList<Civilization> getFriendshipRequests() {
+        return friendshipRequests;
     }
 }

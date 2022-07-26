@@ -1,5 +1,6 @@
 package com.example.demo.view.model;
 
+import com.example.demo.controller.NetworkController;
 import com.example.demo.controller.TechnologyAndProductionController;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.Units.UnitType;
@@ -9,6 +10,7 @@ import com.example.demo.model.technologies.Technology;
 import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.view.ImageLoader;
 import com.example.demo.view.StageController;
+import com.google.gson.Gson;
 import javafx.scene.Cursor;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
@@ -80,7 +82,7 @@ public class GraphicTechnology {
     }
 
     private void clicked(Technology technology) {
-        TechnologyAndProductionController.addTechnologyToProduction(technology);
+        NetworkController.send("tech " + new Gson().toJson(technology));
         chooseTechnologyMenu.renderTechnologies(true);
     }
 

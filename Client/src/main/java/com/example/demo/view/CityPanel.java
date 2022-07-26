@@ -1,5 +1,6 @@
 package com.example.demo.view;
 
+import com.example.demo.controller.NetworkController;
 import com.example.demo.controller.gameController.CityCommandsController;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.controller.gameController.UnitStateController;
@@ -10,6 +11,7 @@ import com.example.demo.model.building.Building;
 import com.example.demo.model.building.BuildingType;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.model.GraphicTile;
+import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -75,7 +77,8 @@ public class CityPanel {
             Text title = new Text("Please decide about This city.");
             Button annex = new Button("Annex the city");
             annex.setOnAction(actionEvent -> {
-                int code = CityCommandsController.cityDestiny(false, city);
+                int code = Integer.parseInt(NetworkController.send("cityDestiny "+GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().indexOf(city)
+                        +" " + false));
                 if (code == 0)
                     StageController.errorMaker("Annex", "The city annexed successfully.", Alert.AlertType.INFORMATION);
                 else
@@ -84,7 +87,8 @@ public class CityPanel {
             });
             Button burn = new Button("Burn the city");
             burn.setOnAction(actionEvent -> {
-                int code = CityCommandsController.cityDestiny(true, city);
+                int code = Integer.parseInt(NetworkController.send("cityDestiny "+GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().indexOf(city)
+                        +" " + true));
                 if (code == 4)
                     StageController.errorMaker("Can not Burn", "You can not burn the capital city.", Alert.AlertType.ERROR);
                 else if (code == 0)
@@ -316,7 +320,9 @@ public class CityPanel {
     }
 
     public void buildBuilding(BuildingType buildingType, Tile tile, boolean buy) {
-        switch (CityCommandsController.buildBuilding(buildingType, tile, openedPanelCity, buy)) {
+        switch (Integer.parseInt(NetworkController.send("buildBuilding "+ tile.getX() + " "+
+                tile.getY()+" "+GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities()
+                .indexOf(openedPanelCity))+" "+buy +" "+new Gson().toJson(buildingType))) {
             case 0 -> StageController.errorMaker("nicely done", "building's building's started", Alert.AlertType.INFORMATION);
             case 3 -> StageController.errorMaker("duplication", "your city already has this building", Alert.AlertType.ERROR);
             case 4 -> StageController.errorMaker("prerequisites not satisfied", "you don't have the prerequisite buildings", Alert.AlertType.ERROR);
@@ -334,7 +340,8 @@ public class CityPanel {
     }
 
     public void removeCitizenFromTile(Tile tile) {
-        switch (CityCommandsController.removeCitizen(tile.getX(), tile.getY(), openedPanelCity)) {
+        switch (Integer.parseInt(NetworkController.send("removeCitizen " +tile.getX()+" "+ tile.getY()+" "+
+                GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().indexOf(openedPanelCity)))) {
             case 0 -> StageController.errorMaker("nicely done", "citizen removed from tile successfully", Alert.AlertType.INFORMATION);
             case 1 -> StageController.errorMaker("not yours", "the selected tile is not in your city's region", Alert.AlertType.ERROR);
             case 2 -> StageController.errorMaker("not getting worked on", "the selected tile is not getting worked on", Alert.AlertType.ERROR);
@@ -343,15 +350,15 @@ public class CityPanel {
     }
 
     private void startProducingUnit(String string) {
-        if (GameController.startProducingUnit(string) == 5) {
+        if (Integer.parseInt(NetworkController.send("startProductionUnit "+ string)) == 5) {
             StageController.errorMaker("resources required", "you don't have the required resources", Alert.AlertType.ERROR);
         }
-
         gameControllerFX.renderMap();
     }
 
     public void secondTileReassign(Tile firstTile, Tile secondTile) {
-        switch (CityCommandsController.reAssignCitizen(firstTile.getX(), firstTile.getY(), secondTile.getX(), secondTile.getY(), openedPanelCity)) {
+        switch (Integer.parseInt(NetworkController.send("reassign "+ firstTile.getX()+" "+ firstTile.getY()+" "+ secondTile.getX()+" "+ secondTile.getY()+" "+
+                GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().indexOf(openedPanelCity)))){
             case 0 -> StageController.errorMaker("nicely done", "you reassign a citizen to the selected tile successfully", Alert.AlertType.INFORMATION);
             case 1 -> StageController.errorMaker("not yours", "the destinationTile is not in your city's region", Alert.AlertType.ERROR);
             case 3 -> StageController.errorMaker("not yours", "the originTile is not yours", Alert.AlertType.ERROR);
@@ -362,7 +369,8 @@ public class CityPanel {
 
 
     public void buyTile(Tile tile) {
-        switch (CityCommandsController.buyTile(tile.getX(), tile.getY(), openedPanelCity)) {
+        switch (Integer.parseInt(NetworkController.send("buyTile "+ tile.getX()+" "+ tile.getY()+" "+
+                GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().indexOf(openedPanelCity)))) {
             case 0 -> StageController.errorMaker("The tile is yours", "you bought the tile successfully", Alert.AlertType.INFORMATION);
             case 1 -> StageController.errorMaker("You're dumber than a box of rocks", "the selected tile is not a neighbour to your city", Alert.AlertType.ERROR);
             case 2 -> StageController.errorMaker("You don't deserve the tile", "it's price is too high", Alert.AlertType.ERROR);
@@ -373,7 +381,8 @@ public class CityPanel {
 
     public void attackTile(Tile tile) {
 
-        switch (CityCommandsController.cityAttack(tile.getX(), tile.getY(), openedPanelCity)) {
+        switch (Integer.parseInt(NetworkController.send("cityAttack "+ tile.getX()+" "+ tile.getY()+" "+
+                GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().indexOf(openedPanelCity)))) {
             case 0 -> StageController.errorMaker("nicely done", "you attacked successfully", Alert.AlertType.INFORMATION);
             case 1 -> StageController.errorMaker("self-harm is haram", "the selected tile is your own city's main tile", Alert.AlertType.ERROR);
             case 2 -> StageController.errorMaker("attack what", "there are no nonCivilians over there", Alert.AlertType.ERROR);
@@ -385,7 +394,8 @@ public class CityPanel {
     }
 
     public void assignCitizenToTile(Tile tile) {
-        switch (CityCommandsController.assignCitizen(tile.getX(), tile.getY(), openedPanelCity)) {
+        switch (Integer.parseInt(NetworkController.send("assign "+ tile.getX()+" "+ tile.getY()+" "+
+                GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().indexOf(openedPanelCity)))) {
             case 0 -> StageController.errorMaker("nicely done", "you assign a citizen to the selected tile successfully", Alert.AlertType.INFORMATION);
             case 1 -> StageController.errorMaker("not yours", "The selected tile is not in your city's region", Alert.AlertType.ERROR);
             case 2 -> StageController.errorMaker("not enough citizens", "great news! you have dropped the unemployment percentage of your city to 0%", Alert.AlertType.ERROR);
@@ -394,7 +404,7 @@ public class CityPanel {
     }
 
     public void buyTheSelectedUnitType(String string, Tile tile) {
-        switch (CityCommandsController.buyUnit(string, tile.getX(), tile.getY())) {
+        switch (Integer.parseInt(NetworkController.send("buyUnit "+string+" "+ tile.getX()+" "+ tile.getY()))) {
             case 0 -> StageController.errorMaker("nicely done", "unit bought from tile successfully", Alert.AlertType.INFORMATION);
             case 1 -> StageController.errorMaker("not your tile", "the selected tile is not in your territory", Alert.AlertType.ERROR);
             case 2 -> StageController.errorMaker("you look poor", "you don't have enough gold", Alert.AlertType.ERROR);

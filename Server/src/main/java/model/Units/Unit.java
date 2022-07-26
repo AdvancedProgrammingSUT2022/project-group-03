@@ -8,12 +8,14 @@ import model.features.FeatureType;
 import model.Producible;
 import model.improvements.ImprovementType;
 import model.tiles.Tile;
+
+import java.io.Serializable;
 //import view.gameMenu.Color;
 
 //import javax.swing.text.View;
 //import java.awt.*;
 
-public abstract class Unit implements Producible, CanGetAttacked {
+public abstract class Unit implements Serializable, Producible, CanGetAttacked {
     protected Civilization civilization;
     protected Tile currentTile;
     protected Tile destinationTile;
@@ -22,6 +24,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
     protected UnitType unitType;
     private int remainedCost;
     protected UnitState state;
+//    private boolean didDoTaskThisTurn = false;
 
     public Unit(Tile tile, Civilization civilization, UnitType unitType) {
         this.currentTile = tile;
@@ -164,6 +167,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
     }
 
     public void startTheTurn(GameController gameController) {
+//        didDoTaskThisTurn=false;
         gameController.openNewArea(currentTile, civilization, this);
         health += 5;
         if (state == UnitState.FORTIFY) health += 15;
@@ -265,6 +269,7 @@ public abstract class Unit implements Producible, CanGetAttacked {
                     destinationTile == currentTile ||
                     state == UnitState.ATTACK;
         }
+
         return true;
     }
 
@@ -279,8 +284,8 @@ public abstract class Unit implements Producible, CanGetAttacked {
     public void takeDamage(int amount,Civilization civilization,GameController gameController) {
         health -= amount;
         civilization.putNotification(unitType+ " @ "+ currentTile.getX() + " , "+ currentTile.getY()  + " : " +
-                "oopsy woopsy you just got smashed by "+ Color.getColorByNumber(civilization.getColor())
-                + civilization.getUser().getNickname() + Color.RESET ,gameController.getCycle());
+                "oopsy woopsy you just got smashed by "
+                + civilization.getUser().getNickname() ,gameController.getCycle());
     }
 
     public void setState(UnitState state) {
@@ -312,5 +317,18 @@ public abstract class Unit implements Producible, CanGetAttacked {
     @Override
     public String getName() {
         return unitType.toString();
+    }
+
+//    public boolean isDidDoTaskThisTurn() {
+//        return didDoTaskThisTurn;
+//    }
+//
+//    public void setDidDoTaskThisTurn(boolean didDoTaskThisTurn) {
+//        this.didDoTaskThisTurn = didDoTaskThisTurn;
+//    }
+
+    public void setCivilization(Civilization civilization)
+    {
+        this.civilization = civilization;
     }
 }

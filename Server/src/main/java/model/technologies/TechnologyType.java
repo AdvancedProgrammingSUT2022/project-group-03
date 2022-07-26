@@ -24,7 +24,7 @@ public enum TechnologyType {
     CURRENCY(250),
     EDUCATION(440),
     ENGINEERING(250),
-    MACHINARY(440),
+    MACHINERY(440),
     METAL_CASTING(240),
     PHYSICS(440),
     STEEL(440),
@@ -75,13 +75,13 @@ public enum TechnologyType {
         nextTech.put(CIVIL_SERVICE, new ArrayList<>(List.of(CHIVALRY)));
         nextTech.put(CURRENCY, new ArrayList<>(List.of(CHIVALRY)));
         nextTech.put(EDUCATION, new ArrayList<>(Arrays.asList(ACOUSTICS, BANKING)));
-        nextTech.put(ENGINEERING, new ArrayList<>(Arrays.asList(MACHINARY, PHYSICS)));
-        nextTech.put(MACHINARY, new ArrayList<>(List.of(PRINTING_PRESS)));
+        nextTech.put(ENGINEERING, new ArrayList<>(Arrays.asList(MACHINERY, PHYSICS)));
+        nextTech.put(MACHINERY, new ArrayList<>(List.of(PRINTING_PRESS)));
         nextTech.put(METAL_CASTING, new ArrayList<>(Arrays.asList(PHYSICS, STEEL)));
         nextTech.put(PHYSICS, new ArrayList<>(Arrays.asList(PRINTING_PRESS, GUN_POWDER)));
         nextTech.put(STEEL, new ArrayList<>(List.of(GUN_POWDER)));
         nextTech.put(THEOLOGY, new ArrayList<>(List.of(EDUCATION)));
-        nextTech.put(ACOUSTICS, new ArrayList<>(List.of(SCIENTIFIC_THEORY)));
+        nextTech.put(ACOUSTICS, new ArrayList<>(Arrays.asList(SCIENTIFIC_THEORY,ARCHAEOLOGY)));
         nextTech.put(ARCHAEOLOGY, new ArrayList<>(List.of(BIOLOGY)));
         nextTech.put(BANKING, new ArrayList<>(List.of(ECONOMICS)));
         nextTech.put(CHEMISTRY, new ArrayList<>(Arrays.asList(MILITARY_SCIENCE, FERTILIZER)));
@@ -128,7 +128,7 @@ public enum TechnologyType {
         prerequisites.put(CURRENCY, new ArrayList<>(List.of(MATHEMATICS)));
         prerequisites.put(EDUCATION, new ArrayList<>(List.of(THEOLOGY)));
         prerequisites.put(ENGINEERING, new ArrayList<>(Arrays.asList(MATHEMATICS, CONSTRUCTION)));
-        prerequisites.put(MACHINARY, new ArrayList<>(List.of(ENGINEERING)));
+        prerequisites.put(MACHINERY, new ArrayList<>(List.of(ENGINEERING)));
         prerequisites.put(METAL_CASTING, new ArrayList<>(List.of(IRON_WORKING)));
         prerequisites.put(PHYSICS, new ArrayList<>(Arrays.asList(ENGINEERING, METAL_CASTING)));
         prerequisites.put(STEEL, new ArrayList<>(List.of(METAL_CASTING)));
@@ -142,7 +142,7 @@ public enum TechnologyType {
         prerequisites.put(GUN_POWDER, new ArrayList<>(Arrays.asList(PHYSICS, STEEL)));
         prerequisites.put(METALLURGY, new ArrayList<>(List.of(GUN_POWDER)));
         prerequisites.put(MILITARY_SCIENCE, new ArrayList<>(Arrays.asList(ECONOMICS, CHEMISTRY)));
-        prerequisites.put(PRINTING_PRESS, new ArrayList<>(Arrays.asList(MACHINARY, PHYSICS)));
+        prerequisites.put(PRINTING_PRESS, new ArrayList<>(Arrays.asList(MACHINERY, PHYSICS)));
         prerequisites.put(RIFLING, new ArrayList<>(List.of(METALLURGY)));
         prerequisites.put(SCIENTIFIC_THEORY, new ArrayList<>(List.of(ACOUSTICS)));
         prerequisites.put(BIOLOGY, new ArrayList<>(Arrays.asList(ARCHAEOLOGY, SCIENTIFIC_THEORY)));

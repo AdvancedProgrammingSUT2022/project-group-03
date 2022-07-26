@@ -94,4 +94,10 @@ public class MySocketHandler extends Thread{
     public void send(String respond){
         printStream.println(respond);
     }
+    public void sendUpdate(String command,String update){
+        printStream.println("***_____***");
+        printStream.println(command);
+        printStream.println(update);
+        printStream.flush();
+    }
 }

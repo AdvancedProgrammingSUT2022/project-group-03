@@ -2,7 +2,9 @@ package model;
 
 import model.tiles.Tile;
 
-public class Tasks {
+import java.io.Serializable;
+
+public class Tasks implements Serializable {
     Tile tile;
     TaskTypes taskTypes;
 

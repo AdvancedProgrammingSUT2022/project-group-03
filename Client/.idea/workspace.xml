@@ -4,7 +4,49 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="" />
+    <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/NetworkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/NetworkController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/CityPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/CityPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameControllerFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameControllerFX.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/ScoreboardControllerFx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/ScoreboardControllerFx.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/cheat/Cheat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/cheat/Cheat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/model/GraphicTechnology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/model/GraphicTechnology.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/NetworkController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/TechnologyAndProductionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controller/TechnologyAndProductionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/CheatCommandsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/CheatCommandsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/CityCommandsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/CityCommandsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/MapCommandsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/MapCommandsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/TileXAndYFlagSelectUnitController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/TileXAndYFlagSelectUnitController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/UnitStateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/UnitStateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/CanGetAttacked.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/CanGetAttacked.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/City.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/Civilization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Tasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/Tasks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Units/Civilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/Units/Civilian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Units/NonCivilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/Units/NonCivilian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/Units/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Units/UnitType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/Units/UnitType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/building/Building.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/building/Building.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/building/BuildingType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/building/BuildingType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/features/Feature.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/features/Feature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/improvements/Improvement.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/improvements/Improvement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/resources/ResourcesTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/resources/ResourcesTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/technologies/Technology.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/technologies/Technology.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/technologies/TechnologyType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/technologies/TechnologyType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/tiles/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/tiles/Tile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/network/GameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/network/GameHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/network/MySocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/network/MySocketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/view/GameView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/view/MainMenu.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,7 +61,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -49,7 +91,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/AP Midterm 1401 Test Cases/New folder/project-group-03" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -186,6 +228,8 @@
       <workItem from="1658738025889" duration="3358000" />
       <workItem from="1658766881159" duration="29000" />
       <workItem from="1658807336163" duration="324000" />
+      <workItem from="1658808939170" duration="10851000" />
+      <workItem from="1658831807912" duration="7506000" />
     </task>
     <servers />
   </component>

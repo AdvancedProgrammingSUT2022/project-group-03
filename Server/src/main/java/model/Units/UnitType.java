@@ -17,7 +17,7 @@ public enum UnitType {
     CATAPULT("Cat", 2, 100, CombatType.SIEGE, 4, 14, 2, ResourcesTypes.IRON, TechnologyType.MATHEMATICS),
     HORSEMAN("Hom", 4, 80, CombatType.MOUNTED, 12, 12, 1, ResourcesTypes.HORSE, TechnologyType.HORSEBACK_RIDING),
     SWORDSMAN("Swm", 2, 80, CombatType.MELEE, 11, 11, 1, ResourcesTypes.IRON, TechnologyType.IRON_WORKING),
-    CROSSBOWMAN("Crm", 2, 120, CombatType.ARCHERY, 6, 12, 2, null, TechnologyType.MACHINARY),
+    CROSSBOWMAN("Crm", 2, 120, CombatType.ARCHERY, 6, 12, 2, null, TechnologyType.MACHINERY),
     KNIGHT("Kni", 3, 150, CombatType.MOUNTED, 18, 18, 1, ResourcesTypes.HORSE, TechnologyType.CHIVALRY),
     LONG_SWORDS_MAN("LSM", 3, 150, CombatType.MELEE, 18, 18, 1, ResourcesTypes.IRON, TechnologyType.STEEL),
     PIKEMAN("Pim", 2, 100, CombatType.MELEE, 10, 10, 1, null, TechnologyType.CIVIL_SERVICE),

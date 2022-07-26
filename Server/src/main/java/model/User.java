@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class User implements Serializable{
+public class User implements Serializable {
     private static ArrayList<User> listOfUsers = new ArrayList<>();
     private UserIcon icon;
     private final String username;
@@ -24,23 +24,21 @@ public class User implements Serializable{
     private Date lastWin;
     private Date lastOnline;
     private final ArrayList<User> invites = new ArrayList<>();
+    private final ArrayList<User> friendsRequest = new ArrayList<>();
     private final ArrayList<User> friends = new ArrayList<>();
-    static {
-        try {
-            String json = new String(Files.readAllBytes(Paths.get("dataBase/users.json")));
-            listOfUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
-            }.getType());
-        } catch (IOException e) {
-            File file = new File("dataBase/users.json");
-            try {
-                file.createNewFile();
-                listOfUsers = new ArrayList<>();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+    public UserIcon getIcon() {
+        return icon;
     }
 
+
+
+    public static User findUser(String string, boolean isNickname) {
+        for (User listOfUser : listOfUsers)
+            if ((!isNickname && Objects.equals(listOfUser.username, string)) ||
+                    (isNickname && Objects.equals(listOfUser.nickname, string)))
+                return listOfUser;
+        return null;
+    }
     public static void saveData() {
         FileWriter fileWriter;
         try {
@@ -52,24 +50,15 @@ public class User implements Serializable{
         }
     }
 
-
-    public static User findUser(String string, boolean isNickname) {
-        for (User listOfUser : listOfUsers)
-            if ((!isNickname && Objects.equals(listOfUser.username, string)) ||
-                    (isNickname && Objects.equals(listOfUser.nickname, string)))
-                return listOfUser;
-        return null;
-    }
-
-    public User(String username, String password, String nickname) {
+    public User(String username, String password, String nickname, boolean shouldSave) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
-        isOnline = false;
         this.score = 0;
         icon = UserIcon.randomIcon();
         listOfUsers.add(this);
-        saveData();
+        if (shouldSave)
+            saveData();
     }
 
     public boolean isPasswordCorrect(String password) {
@@ -97,31 +86,32 @@ public class User implements Serializable{
         saveData();
     }
 
+    public int getScore() {
+        return score;
+    }
+
     public void setCustomAvatar(String customAvatar) {
         this.customAvatar = customAvatar;
     }
 
     public void setIcon(UserIcon icon) {
         this.icon = icon;
+        saveData();
     }
 
-    public String getAvatar() {
-        if (icon == UserIcon.CUSTOM) return customAvatar;
-        //@Todo ,..,.,
-        //return Game.class.getResource(icon.getImage()).toExternalForm();
-        return null;
-    }
-    public void replace(User user){
-        nickname = user.nickname;
-        password = user.password;
-        icon = user.icon;
-        customAvatar = user.customAvatar;
-        score = user.score;
 
+    public String getUsername() {
+        return username;
     }
-
-    public static ArrayList<User> getListOfUsers() {
-        return listOfUsers;
+    public String getLastWin() {
+        if(lastWin == null) return "-";
+        return lastWin.toString();}
+    public Date getLastWinDate() {return lastWin;}
+    public Date getLastOnlineDate() {return  lastOnline;}
+    public String getLastOnline() {
+        if (isOnline) return "online";
+        if (lastOnline == null) return "-";
+        return lastOnline.toString();
     }
 
     public void setLastOnline(Date lastOnline) {
@@ -132,15 +122,28 @@ public class User implements Serializable{
         this.lastWin = lastWin;
     }
 
-    public ArrayList<User> getInvites() {
-        return invites;
+    public void setScore(int score) {
+        this.score = score;
+        saveData();
+    }
+    public void replace(User user){
+        nickname = user.nickname;
+        password = user.password;
+        icon = user.icon;
+        customAvatar = user.customAvatar;
+        score = user.score;
+
     }
 
     public ArrayList<User> getFriends() {
         return friends;
     }
 
-    public String getUsername() {
-        return username;
+    public ArrayList<User> getFriendsRequest() {
+        return friendsRequest;
+    }
+
+    public static ArrayList<User> getListOfUsers() {
+        return listOfUsers;
     }
 }
