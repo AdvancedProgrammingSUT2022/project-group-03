@@ -12,6 +12,7 @@ import network.MySocketHandler;
 import java.util.regex.Matcher;
 
 public class GameView extends Menu{
+    public boolean turn = false;
     {
         regexes = new String[]{
                 "^menu exit$",
@@ -42,6 +43,10 @@ public class GameView extends Menu{
     @Override
     protected boolean commands(String command)
     {
+        if(!turn){
+            socketHandler.send("not your turn");
+            return false;
+        }
         commandNumber = getCommandNumber(command, regexes,true);
         switch (commandNumber) {
             case -1:
