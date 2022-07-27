@@ -1,10 +1,10 @@
-package view;
+package com.example.demo.view;
 
+import com.example.demo.network.MySocketHandler;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import controller.ChatController;
-import model.ChatPayload;
-import network.MySocketHandler;
+import com.example.demo.controller.ChatController;
+import com.example.demo.model.ChatPayload;
 
 public class ChatMenu extends Menu {
     private final MySocketHandler mySocketHandler;

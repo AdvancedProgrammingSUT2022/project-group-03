@@ -1,11 +1,10 @@
-package controller;
+package com.example.demo.controller;
 
+import com.example.demo.model.Chat;
+import com.example.demo.model.User;
+import com.example.demo.network.MySocketHandler;
 import com.google.gson.Gson;
-import model.Chat;
-import model.ChatPayload;
-import model.Payload;
-import model.User;
-import network.MySocketHandler;
+import com.example.demo.model.ChatPayload;
 
 import java.io.*;
 import java.util.ArrayList;
