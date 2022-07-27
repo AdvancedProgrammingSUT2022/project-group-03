@@ -118,6 +118,7 @@ public class UnitStateController {
         unitDelete(unit);
         gameController.openNewArea(unit.getCurrentTile(),
                 gameController.getCivilizations().get(gameController.getPlayerTurn()), null);
+        System.out.println("at the end of unitfoundcity function");
         return 0;
     }
 
