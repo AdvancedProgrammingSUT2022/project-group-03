@@ -1,21 +1,16 @@
 package com.example.demo.view;
 
 import com.example.demo.controller.NetworkController;
-import com.example.demo.controller.gameController.CityCommandsController;
 import com.example.demo.controller.gameController.GameController;
-import com.example.demo.controller.gameController.UnitStateController;
 import com.example.demo.model.City;
-import com.example.demo.model.Civilization;
 import com.example.demo.model.Units.Unit;
 import com.example.demo.model.Units.UnitType;
 import com.example.demo.model.building.Building;
 import com.example.demo.model.building.BuildingType;
 import com.example.demo.model.tiles.Tile;
-import com.example.demo.view.model.GraphicTile;
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -24,9 +19,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class CityPanel {
     private final GameControllerFX gameControllerFX;

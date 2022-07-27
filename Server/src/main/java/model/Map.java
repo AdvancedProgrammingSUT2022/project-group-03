@@ -211,7 +211,7 @@ public class Map implements Serializable {
         for (k=0;k < 13 && !tiles[i][j].isFeatureTypeValid(featureType); k++ ) {
             featureType = FeatureType.randomFeature();
         }
-        if (random.nextInt(4) != 0 || k > 12) {
+        if (random.nextInt(4) != 0 && k < 12 && tiles[i][j].getTileType() != TileType.OCEAN) {
             tiles[i][j].setContainedFeature(new Feature(featureType));
         }
     }

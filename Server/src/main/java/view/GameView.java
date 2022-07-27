@@ -7,6 +7,8 @@ import model.Units.NonCivilian;
 import model.Units.Unit;
 import model.Units.UnitType;
 import model.building.BuildingType;
+import model.improvements.Improvement;
+import model.improvements.ImprovementType;
 import model.technologies.Technology;
 import model.technologies.TechnologyType;
 import network.GameHandler;
@@ -40,6 +42,17 @@ public class GameView extends Menu{
                 "^sleep (\\d+)",//19
                 "^state (\\d+) (\\d+)",
                 "^upgrade (\\d+)",
+                "^alert (\\d+)",
+                "^setup (\\d+)",
+                "^foundCity (\\d+)",//24
+                "^cancel (\\d+)",
+                "^delete (\\d+)",
+                "^unitBuild (\\d+) (\\S+)",
+                "^unitBuildRoad (\\d+)",
+                "^unitBuildRail (\\d+)",
+                "^unitRemoveFromTile (\\d+) (\\S+)",//30
+                "^unitRepair (\\d+)",
+                "^pillage (\\d+)",
 
         };
     }
@@ -56,7 +69,7 @@ public class GameView extends Menu{
             socketHandler.send("not your turn");
             return false;
         }
-        commandNumber = getCommandNumber(command, regexes,true);
+        commandNumber = getCommandNumber(command, regexes,false);
         switch (commandNumber) {
             case -1:
                 System.out.println("invalid command");
@@ -189,7 +202,72 @@ public class GameView extends Menu{
                 matcher = getMatcher(regexes[21],command,false);
                 unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
                 game.getUnitStateController().unitUpgrade(unit);
+                socketHandler.send("done");
                 break;
+            case 22:
+                matcher = getMatcher(regexes[22],command,false);
+                unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
+                socketHandler.send(String.valueOf(game.getUnitStateController().unitAlert(unit)));
+                break;
+            case 23:
+                matcher = getMatcher(regexes[23],command,false);
+                unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
+                game.getUnitStateController().unitSetupRanged(unit);
+                socketHandler.send("done");
+                break;
+            case 24:
+                matcher = getMatcher(regexes[24],command,false);
+                unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
+                socketHandler.send(String.valueOf(game.getUnitStateController().unitFoundCity("unnamed",unit)));
+                break;
+            case 25:
+                matcher = getMatcher(regexes[25],command,false);
+                unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
+                socketHandler.send(String.valueOf(game.getUnitStateController().unitCancelMission(unit)));
+                break;
+            case 26:
+                matcher = getMatcher(regexes[26],command,false);
+                unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
+                game.getUnitStateController().unitDelete(unit);
+                socketHandler.send("done");
+                break;
+            case 27:
+                matcher = getMatcher(regexes[27],command,false);
+                unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
+                ImprovementType improvementType = new Gson().fromJson(matcher.group(2),ImprovementType.class);
+                game.getUnitStateController().unitBuild(improvementType,unit);
+                socketHandler.send("done");
+                break;
+            case 28:
+                matcher = getMatcher(regexes[28],command,false);
+                unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
+                game.getUnitStateController().unitBuildRoad(unit);
+                socketHandler.send("done");
+                break;
+            case 29:
+                matcher = getMatcher(regexes[29],command,false);
+                unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
+                game.getUnitStateController().unitBuildRailRoad(unit);
+                socketHandler.send("done");
+                break;
+            case 30:
+                matcher = getMatcher(regexes[30],command,false);
+                unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
+                game.getUnitStateController().unitRemoveFromTile(Boolean.parseBoolean(matcher.group(2)),unit);
+                socketHandler.send("done");
+                break;
+            case 31:
+                matcher = getMatcher(regexes[31],command,false);
+                unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
+                game.getUnitStateController().unitRepair(unit);
+                socketHandler.send("done");
+                break;
+            case 32:
+                matcher = getMatcher(regexes[32],command,false);
+                unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
+                socketHandler.send(String.valueOf(game.getUnitStateController().unitPillage(unit)));
+                break;
+
 
 
 

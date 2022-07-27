@@ -5,17 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../Server/src/main/java/view/SavingHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Server/target/classes/view/SavingHandler.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/TechnologyAndProductionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/TechnologyAndProductionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/gameController/CityCommandsController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/gameController/MapCommandsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/gameController/MapCommandsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/gameController/TileXAndYFlagSelectUnitController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/gameController/TileXAndYFlagSelectUnitController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/gameController/UnitStateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/gameController/UnitStateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/CityPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/CityPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/model/GraphicTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/model/GraphicTile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/dataBase/users.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/GameEntryMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/view/GameEntryMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/Map.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/view/GameView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/GameView.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/view/GameView.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

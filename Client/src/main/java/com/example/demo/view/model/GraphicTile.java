@@ -16,6 +16,7 @@ import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.*;
+import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -170,7 +171,8 @@ public class GraphicTile implements Serializable {
 
         if (unit.getState() == UnitState.GARRISON || unit.getState() == UnitState.FORTIFY || unit.getState() == UnitState.FORTIFY_UNTIL_FULL_HEALTH)
             addButton("Call", true, true, event -> {
-                int code = UnitStateController.unitChangeState(3);
+                int code = Integer.parseInt(NetworkController.send("state " +
+                        GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit()) + " " + 3));
                 if (code == 2)
                     notify("fault", "This Unit does not belong to you.");
                 else if (code == 0)
@@ -179,7 +181,8 @@ public class GraphicTile implements Serializable {
 
         if (!unit.getState().equals(UnitState.FORTIFY))
             addButton("Fortify", true, true, event -> {
-                int code = UnitStateController.unitChangeState(0);
+                int code = Integer.parseInt(NetworkController.send("state " +
+                        GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit()) + " " + 0));
                 if (code == 2)
                     notify("fault", "This Unit does not belong to you.");
                 else if (code == 0)
@@ -188,7 +191,8 @@ public class GraphicTile implements Serializable {
 
         if (!unit.getState().equals(UnitState.FORTIFY_UNTIL_FULL_HEALTH))
             addButton("Fortify until health", true, true, event -> {
-                int code = UnitStateController.unitChangeState(1);
+                int code =  Integer.parseInt(NetworkController.send("state " +
+                        GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit()) + " " + 1));
                 if (code == 2)
                     notify("fault", "This Unit does not belong to you.");
                 else if (code == 0)
@@ -197,7 +201,8 @@ public class GraphicTile implements Serializable {
 
         if (!unit.getState().equals(UnitState.GARRISON))
             addButton("Garrison", true, true, event -> {
-                int code = UnitStateController.unitChangeState(2);
+                int code =  Integer.parseInt(NetworkController.send("state " +
+                        GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit()) + " " + 2));
                 if (code == 2)
                     notify("fault", "This Unit does not belong to you.");
                 else if (code == 0)
@@ -207,7 +212,8 @@ public class GraphicTile implements Serializable {
         if (tile.getImprovement() != null && tile.getImprovement().getNeedsRepair() < 3) {
             addButton("Pillage", true, true, event -> {
                 GameController.setSelectedUnit(unit);
-                int code = UnitStateController.unitPillage();
+                int code = Integer.parseInt(NetworkController.send("pillage " +
+                        GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit())));
                 switch (code) {
                     case 4 -> notify("fault", "This unit does not belong to you!");
                     case 3 -> notify("Error", "You can not pillage your improvements.");
@@ -221,7 +227,8 @@ public class GraphicTile implements Serializable {
 
         if (unit.getUnitType().combatType == CombatType.SIEGE && unit.getState() != UnitState.SETUP) {
             addButton("Setup", true, true, event -> {
-                UnitStateController.unitSetupRanged();
+                NetworkController.send("setup " +
+                        GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit()));
                 notify("Setup", "The unit setup successfully.");
             });
         } else if (!(unit.getUnitType().combatType == CombatType.SIEGE && unit.getFortifiedCycle() < 1) && !unit.attacked) {
@@ -266,7 +273,8 @@ public class GraphicTile implements Serializable {
 
     private void addSettlerButtons() {
         addButton("Found City", true, true, event -> {
-            int code = UnitStateController.unitFoundCity("Unnamed City");
+            int code =Integer.parseInt(NetworkController.send("foundCity "+
+                    GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit())));
             switch (code) {
                 case 4 -> notify("Near city", "This tile is near a city. So you can not found a city here.");
                 case 0 -> notify("Found City", "Your new city founded successfully.");
@@ -279,24 +287,29 @@ public class GraphicTile implements Serializable {
         Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
         if (tile.getRoad() == null)
             addButton("Build Road", true, true, event -> {
-                UnitStateController.unitBuildRoad();
+                NetworkController.send("unitBuildRoad "+
+                        GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit()));
                 gameControllerFX.renderMap();
             });
         if (tile.getRoad() == null && civilization.doesContainTechnology(TechnologyType.RAILROAD) == 1)
             addButton("Build Rail Road", true, true, event -> {
-                UnitStateController.unitBuildRailRoad();
+                NetworkController.send("unitBuildRailRoad "+
+                        GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit()));
                 gameControllerFX.renderMap();
             });
         if (tile.getRoad() != null)
             addButton("Remove Road", true, true, event -> {
-                UnitStateController.unitRemoveFromTile(false);
+                NetworkController.send("unitRemoveFromTile "+
+                        GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit())+" "+ false );
+
                 gameControllerFX.renderMap();
             });
         if (tile.getContainedFeature() != null) {
             FeatureType featureType = tile.getContainedFeature().getFeatureType();
             if (featureType.equals(FeatureType.JUNGLE) || featureType.equals(FeatureType.FOREST) || featureType.equals(FeatureType.SWAMP))
                 addButton("Remove Feature", true, true, event -> {
-                    UnitStateController.unitRemoveFromTile(true);
+                    NetworkController.send("unitRemoveFromTile "+
+                            GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit())+" "+ true );
                     notify("Removing Feature", "Started removing feature in this tile.");
                     gameControllerFX.renderMap();
                 });
@@ -305,7 +318,8 @@ public class GraphicTile implements Serializable {
         //improvement repairing:
         if (tile.getImprovement() != null && tile.getImprovement().getNeedsRepair() != 0) {
             addButton("Repair Improvement", true, true, event -> {
-                UnitStateController.unitRepair();
+                NetworkController.send("unitRepair "+
+                        GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit()));
                 notify("Repairing started", "Repairing this improvement started successfully");
             });
         }
@@ -323,7 +337,8 @@ public class GraphicTile implements Serializable {
                         });
                 } else if (GameController.canHaveTheImprovement(tile, improvementType))
                     addButton("Build " + improvementType, true, true, event -> {
-                        UnitStateController.unitBuild(improvementType);
+                        NetworkController.send("unitBuild "+
+                                GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit())+" " +new Gson().toJson(improvementType));
                         gameControllerFX.renderMap();
                     });
     }
@@ -391,7 +406,8 @@ public class GraphicTile implements Serializable {
 
         if (GameController.getSelectedUnit().getDestinationTile() != null)
             addButton("Cancel", true, true, event -> {
-                if (UnitStateController.unitCancelMission() == 0)
+                if (Integer.parseInt(NetworkController.send("cancel "+ tile.getX()+" "+ tile.getY()+" "+
+                        GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit())))== 0)
                     notify("Canceled successfully", "The movement Canceled successfully.");
                 else
                     notify("fault", "Can not cancel.");
@@ -415,7 +431,8 @@ public class GraphicTile implements Serializable {
 
         if (!unit.getState().equals(UnitState.ALERT))
             addButton("Alter", true, true, event -> {
-                int code = UnitStateController.unitAlert();
+                int code =  Integer.parseInt(NetworkController.send("alert " +
+                        GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit()) ));
                 switch (code) {
                     case 3 -> notify("Error", "There is an alien unit nearby.");
                     case 0 -> notify("Successfully done", "the unit has been set to Alert Successfully.");
@@ -423,7 +440,8 @@ public class GraphicTile implements Serializable {
             });
 
         addButton("Delete", true, true, event -> {
-            UnitStateController.unitDelete(unit);
+            NetworkController.send("delete " +
+                    GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit()) );
             gameControllerFX.renderMap();
             notify("Delete unit", "The Unit deleted successfully.");
         });

@@ -17,16 +17,6 @@ public class TechnologyAndProductionController {
                 .get(GameController.getPlayerTurn()).getResearches();
     }
 
-    public static boolean addTechnologyToProduction(Technology technology) {
-        Civilization civilization = GameController.getCivilizations()
-                .get(GameController.getPlayerTurn());
-        if (civilization.doesContainTechnology(technology.getTechnologyType()) == 3)
-            civilization.getResearches().add(technology);
-        civilization.setGettingResearchedTechnology(technology);
-        GameController.deleteFromUnfinishedTasks(new Tasks(null,
-                TaskTypes.TECHNOLOGY_PROJECT));
-        return true;
-    }
 
 
     public static int cyclesToComplete(Technology technology) {
