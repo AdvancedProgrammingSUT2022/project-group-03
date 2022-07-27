@@ -11,6 +11,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -98,6 +99,8 @@ public class GameEntryMenuFx implements Initializable {
 
     private void updateNumberOfUsersText() {
         numberOfPlayers = users.size();
+        if(numberOfPlayers==0)
+            numberOfPlayers=1;
         numberOfPlayersTest.setText(String.valueOf(numberOfPlayers));
         numberOfPlayersTest.setX(StageController.getStage().getWidth() * 0.91 - numberOfPlayersTest.getLayoutBounds().getWidth() / 2);
     }
@@ -156,7 +159,6 @@ public class GameEntryMenuFx implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         numberOfPlayers = 0;
         users = new ArrayList<>();
-        users.add(LoginController.getLoggedUser());
         Platform.runLater(this::runLaterPlease);
         twoKilo = new Timeline(
                 new KeyFrame(Duration.millis(4000), event -> {
@@ -170,7 +172,9 @@ public class GameEntryMenuFx implements Initializable {
                     else {
                         ArrayList<User> usersUpdate = new Gson().fromJson(string, new TypeToken<List<User>>() {
                         }.getType());
+                        System.out.println("before: " + users.size());
                         if (usersUpdate != null) users = usersUpdate;
+                        System.out.println("after: " + users.size());
                         updateNumberOfUsersText();
                         setAddedUsersAnchorPane();
                         initializeInvite();
@@ -333,7 +337,12 @@ public class GameEntryMenuFx implements Initializable {
     private void acceptInvite(User user)
     {
         switch (NetworkController.send("accept invite " + user.getUsername() + ";")) {
-            case "0" -> StageController.errorMaker("invite", "invite accepted!,you are in a game", Alert.AlertType.INFORMATION);
+            case "0" -> {
+                StageController.errorMaker("Invite accepted!", "You've joined the game now. wait until the host starts the game", Alert.AlertType.INFORMATION);
+                for (Node child : pane.getChildren()) {
+                    child.setDisable(true);
+                }
+            }
             case "1" -> StageController.errorMaker("invite", "there is no game", Alert.AlertType.ERROR);
             case "2" -> StageController.errorMaker("invite", "something went wrong", Alert.AlertType.ERROR);
         }
@@ -352,10 +361,15 @@ public class GameEntryMenuFx implements Initializable {
         Text text = new Text("Current Players:");
         text.setLayoutY(10);
         addedUsersAnchorPane.getChildren().add(text);
-        System.out.println(users.size());
         for (int i = 0; i < users.size(); i++) {
             Text text1 = new Text(users.get(i).getNickname());
             text1.setLayoutY((i + 1) * 15 + 15);
+            addedUsersAnchorPane.getChildren().add(text1);
+        }
+        if(users.size()==0)
+        {
+            Text text1 = new Text(LoginController.getLoggedUser().getNickname());
+            text1.setLayoutY(30);
             addedUsersAnchorPane.getChildren().add(text1);
         }
     }
