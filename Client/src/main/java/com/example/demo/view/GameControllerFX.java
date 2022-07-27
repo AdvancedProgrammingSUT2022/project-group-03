@@ -9,6 +9,9 @@ import com.example.demo.model.User;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.cheat.Cheat;
 import com.example.demo.view.model.GraphicTile;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -23,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameControllerFX {
+    public boolean myTurn = false;
     public HBox infoBar;
     public Button infoButton;
     public Button researchesButton;
@@ -57,6 +61,7 @@ public class GameControllerFX {
     private Pane upperMapPane;
     private double startX;
     private double startY;
+    private Timeline update;
     private CityPanel cityPanel;
     private AnchorPane unitsPanelPane;
     private static boolean hasStarted = false;
@@ -76,6 +81,25 @@ public class GameControllerFX {
         upperMapPane.setTranslateY(300);
         mapMoveController = new MapMoveController(root, upperMapPane, -2222222, 222222, -222222, 222222, true, true);
         hasStarted = true;
+
+        update = new Timeline(
+                new KeyFrame(Duration.millis(5000), event -> {
+                    String string =NetworkController.send("update");
+                    if(string.startsWith("map")){
+
+                    }else if(string.startsWith("end")){
+
+                    }else if(string.startsWith("your turn")){
+                        if(!myTurn) {
+                            StageController.errorMaker("turn", "your turn", Alert.AlertType.INFORMATION);
+                            myTurn = true;
+                        }
+                    }
+
+
+                }
+                )
+        );
 
         root.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
             if (keyEvent.getCode().getName().equals("S"))
