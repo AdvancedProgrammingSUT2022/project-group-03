@@ -2,10 +2,13 @@ package com.example.demo.model;
 
 import com.example.demo.controller.gameController.GameController;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Savings implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1113799434508676095L;
     private final ArrayList<Civilization> civilizations;
     private final ArrayList<Tasks> unfinishedTasks;
     private final int playerTurn;

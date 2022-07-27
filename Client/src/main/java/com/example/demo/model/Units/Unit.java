@@ -10,6 +10,7 @@ import com.example.demo.model.improvements.ImprovementType;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.HealthyBeing;
 
+import java.io.Serial;
 import java.io.Serializable;
 //import view.gameMenu.Color;
 
@@ -17,6 +18,8 @@ import java.io.Serializable;
 //import java.awt.*;
 
 public abstract class Unit implements Serializable, Producible, CanGetAttacked, HealthyBeing {
+    @Serial
+    private static final long serialVersionUID = 8934131341211411395L;
     protected Civilization civilization;
     protected Tile currentTile;
     protected Tile destinationTile;

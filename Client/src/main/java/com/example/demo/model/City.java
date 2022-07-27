@@ -10,6 +10,7 @@ import com.example.demo.model.tiles.Tile;
 import com.example.demo.model.tiles.TileType;
 import com.example.demo.view.HealthyBeing;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,8 @@ import java.util.Random;
 
 
 public class City implements Serializable, CanAttack, CanGetAttacked, HealthyBeing {
+    @Serial
+    private static final long serialVersionUID = 1934131341211411395L;
     private final String name;
     private final Tile mainTile;
     private Civilization civilization;

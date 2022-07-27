@@ -8,6 +8,7 @@ import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Locale;

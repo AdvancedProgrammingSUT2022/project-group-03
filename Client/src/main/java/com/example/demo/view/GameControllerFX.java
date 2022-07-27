@@ -10,10 +10,12 @@ import com.example.demo.model.User;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.cheat.Cheat;
 import com.example.demo.view.model.GraphicTile;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -103,17 +105,20 @@ public class GameControllerFX {
                         if(!myTurn) {
                             StageController.errorMaker("turn", "your turn", Alert.AlertType.INFORMATION);
                             myTurn = true;
+                            for (Node child : root.getChildren()) {
+                                child.setDisable(false);
+                            }
                         }else {
                             myTurn = false;
                         }
                     }
                     SavingHandler.load();
                     renderMap();
-
-
                 }
                 )
         );
+        update.setCycleCount(Animation.INDEFINITE);
+        update.play();
 
         root.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
             if (keyEvent.getCode().getName().equals("S"))
@@ -351,6 +356,10 @@ public class GameControllerFX {
             //save the game:
             if (SavingHandler.autoSaveIsEnabled && !SavingHandler.autoSaveAtRenderingMap)
                 SavingHandler.save(false);
+            for (Node child : root.getChildren()) {
+                if(child!=upperMapPane)
+                    child.setDisable(true);
+            }
         }
     }
 

@@ -445,8 +445,12 @@ public class GameController {
 
 
     public static int getPlayerTurn() {
+        for (int i = 0; i < civilizations.size(); i++) {
+            if(civilizations.get(i).getUser().getUsername().equals(LoginController.getLoggedUser().getUsername()))
+                return i;
+        }
+        return -1;
 
-        return civilizations.indexOf(LoginController.getLoggedUser());
     }
 
     public static ArrayList<Tasks> getUnfinishedTasks() {

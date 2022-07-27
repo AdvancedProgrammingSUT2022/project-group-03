@@ -21,8 +21,6 @@
         <Button fx:id="startGameButton" layoutY="302.0" mnemonicParsing="false" text="Start Game" onMouseClicked="#startGame"/>
         <Text fx:id="numberOfPlayersDetail" text="number of players:"/>
         <Text fx:id="numberOfPlayersTest"/>
-        <Button fx:id="morePlayersButton" mnemonicParsing="false" text="+" onMouseClicked="#morePlayers"/>
-        <Button fx:id="lessPlayersButton" mnemonicParsing="false" text="-" onMouseClicked="#lessPlayers"/>
 
         <Text fx:id="mapDetails" text="Map:"/>
         <Text fx:id="mapXY"/>

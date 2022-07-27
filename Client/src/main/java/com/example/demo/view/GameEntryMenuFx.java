@@ -2,8 +2,6 @@ package com.example.demo.view;
 
 import com.example.demo.controller.LoginController;
 import com.example.demo.controller.NetworkController;
-import com.example.demo.controller.gameController.GameController;
-import com.example.demo.model.Map;
 import com.example.demo.model.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -11,13 +9,11 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -27,7 +23,6 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GameEntryMenuFx implements Initializable {
@@ -48,7 +43,7 @@ public class GameEntryMenuFx implements Initializable {
     int autoSave = 0;
     int autoSaveNumbers = 5;
     public ToggleButton autoMapToggle;
-    public Button moreMapXButton, lessMapYButton, morePlayersButton, lessPlayersButton;
+    public Button moreMapXButton, lessMapYButton;
     public Text mapXY, numberOfPlayersDetail, mapDetails, numberOfPlayersTest;
     public TextField invitationId;
     public SplitMenuButton autoSaveOrNot;
@@ -63,17 +58,10 @@ public class GameEntryMenuFx implements Initializable {
 
     @FXML
     public void startGame() {
-        switch (Integer.parseInt(NetworkController.send("start "+mapX +" " + mapY))){
-            case 0:
-                StageController.errorMaker("start game","started", Alert.AlertType.INFORMATION);
-                break;
-            case 1:
-                StageController.errorMaker("start game","wait for owner", Alert.AlertType.INFORMATION);
-                break;
-            case 2:
-                StageController.errorMaker("start game","invite more players", Alert.AlertType.INFORMATION);
-                break;
-
+        switch (Integer.parseInt(NetworkController.send("start " + mapX + " " + mapY))) {
+            case 0 -> StageController.errorMaker("start game", "started", Alert.AlertType.INFORMATION);
+            case 1 -> StageController.errorMaker("start game", "wait for owner", Alert.AlertType.INFORMATION);
+            case 2 -> StageController.errorMaker("start game", "invite more players", Alert.AlertType.INFORMATION);
         }
     }
 
@@ -89,16 +77,10 @@ public class GameEntryMenuFx implements Initializable {
 
     @FXML
     public void sendInvitation() {
-        switch (Integer.parseInt(NetworkController.send("invite "+ invitationId.getText()+";"))){
-            case 0:
-                StageController.errorMaker("invitation","invite sent", Alert.AlertType.INFORMATION);
-                break;
-            case 1:
-                StageController.errorMaker("invitation","no user with this id", Alert.AlertType.ERROR);
-                break;
-            case 2:
-                StageController.errorMaker("invitation","only one invite, wait for response", Alert.AlertType.ERROR);
-                break;
+        switch (Integer.parseInt(NetworkController.send("invite " + invitationId.getText() + ";"))) {
+            case 0 -> StageController.errorMaker("invitation", "invite sent", Alert.AlertType.INFORMATION);
+            case 1 -> StageController.errorMaker("invitation", "no user with this id", Alert.AlertType.ERROR);
+            case 2 -> StageController.errorMaker("invitation", "only one invite, wait for response", Alert.AlertType.ERROR);
         }
 
 
@@ -114,22 +96,11 @@ public class GameEntryMenuFx implements Initializable {
 
     }
 
-    @FXML
-    public void morePlayers() {
-        numberOfPlayers++;
-        updateNumberOfUsersText();
-    }
-
-    @FXML
-    public void lessPlayers() {
-        if (numberOfPlayers < 2)
-            return;
-        numberOfPlayers--;
-        updateNumberOfUsersText();
-    }
 
     private void updateNumberOfUsersText() {
-
+        numberOfPlayers = users.size();
+        if(numberOfPlayers==0)
+            numberOfPlayers=1;
         numberOfPlayersTest.setText(String.valueOf(numberOfPlayers));
         numberOfPlayersTest.setX(StageController.getStage().getWidth() * 0.91 - numberOfPlayersTest.getLayoutBounds().getWidth() / 2);
     }
@@ -188,26 +159,25 @@ public class GameEntryMenuFx implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         numberOfPlayers = 0;
         users = new ArrayList<>();
-        users.add(LoginController.getLoggedUser());
         Platform.runLater(this::runLaterPlease);
         twoKilo = new Timeline(
-                new KeyFrame(Duration.millis(4000), new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        LoginController.setLoggedUser(new Gson().fromJson(NetworkController.send("update"),User.class));
-                        String string = NetworkController.getResponse(true);
-                        if(string.startsWith("start")){
-                            twoKilo.stop();
-                            SavingHandler.load();
-                            StageController.sceneChanger("game.fxml");
-                        }
-                        else {
-                            ArrayList<User> usersUpdate = new Gson().fromJson(string, new TypeToken<List<User>>() {
-                            }.getType());
-                            if (usersUpdate != null) users = usersUpdate;
-                            updateNumberOfUsersText();
-                            initializeInvite();
-                        }
+                new KeyFrame(Duration.millis(4000), event -> {
+                    LoginController.setLoggedUser(new Gson().fromJson(NetworkController.send("update"),User.class));
+                    String string = NetworkController.getResponse(true);
+                    if(string.startsWith("start")){
+                        twoKilo.stop();
+                        SavingHandler.load();
+                        StageController.sceneChanger("game.fxml");
+                    }
+                    else {
+                        ArrayList<User> usersUpdate = new Gson().fromJson(string, new TypeToken<List<User>>() {
+                        }.getType());
+                        System.out.println("before: " + users.size());
+                        if (usersUpdate != null) users = usersUpdate;
+                        System.out.println("after: " + users.size());
+                        updateNumberOfUsersText();
+                        setAddedUsersAnchorPane();
+                        initializeInvite();
                     }
                 })
         );
@@ -232,12 +202,15 @@ public class GameEntryMenuFx implements Initializable {
 
 
         numberOfPlayers = 1;
-        setWithMoreLess(numberOfPlayersDetail,
-            font, 0.91,
-            numberOfPlayersTest, lessPlayersButton,
-            morePlayersButton, String.valueOf(numberOfPlayers),
-            "Increases the number of players",
-            "Increases the number of players", 0.05);
+
+        numberOfPlayersDetail.setFont(font);
+        numberOfPlayersDetail.setX(StageController.getStage().getWidth() * 0.91 - numberOfPlayersDetail.getLayoutBounds().getWidth() / 2);
+        numberOfPlayersDetail.setY(StageController.getStage().getHeight() * 0.05);
+        numberOfPlayersTest.setText(String.valueOf(numberOfPlayers));
+        numberOfPlayersTest.setFont(font);
+        numberOfPlayersTest.setX(StageController.getStage().getWidth() * 0.91 - numberOfPlayersTest.getLayoutBounds().getWidth() / 2);
+        numberOfPlayersTest.setY(StageController.getStage().getHeight() * (0.05 + 0.05));
+
 
         autoMapToggle.setLayoutX(StageController.getStage().getWidth() * 0.91 - autoMapToggle.getWidth() / 2);
         autoMapToggle.setLayoutY(StageController.getStage().getHeight() * 0.18);
@@ -265,9 +238,7 @@ public class GameEntryMenuFx implements Initializable {
 
         for (int i = 0; i < menuItems.length; i++) {
             int finalI = i;
-            menuItems[i].setOnAction((e) -> {
-                setAutoSave(finalI);
-            });
+            menuItems[i].setOnAction((e) -> setAutoSave(finalI));
         }
 
         setWithMoreLess(numberOfAutoSaveDetail, font, 0.91, numberOfAutoSaveText,
@@ -366,7 +337,12 @@ public class GameEntryMenuFx implements Initializable {
     private void acceptInvite(User user)
     {
         switch (NetworkController.send("accept invite " + user.getUsername() + ";")) {
-            case "0" -> StageController.errorMaker("invite", "invite accepted!,you are in a game", Alert.AlertType.INFORMATION);
+            case "0" -> {
+                StageController.errorMaker("Invite accepted!", "You've joined the game now. wait until the host starts the game", Alert.AlertType.INFORMATION);
+                for (Node child : pane.getChildren()) {
+                    child.setDisable(true);
+                }
+            }
             case "1" -> StageController.errorMaker("invite", "there is no game", Alert.AlertType.ERROR);
             case "2" -> StageController.errorMaker("invite", "something went wrong", Alert.AlertType.ERROR);
         }
@@ -385,15 +361,20 @@ public class GameEntryMenuFx implements Initializable {
         Text text = new Text("Current Players:");
         text.setLayoutY(10);
         addedUsersAnchorPane.getChildren().add(text);
-        System.out.println(users.size());
         for (int i = 0; i < users.size(); i++) {
             Text text1 = new Text(users.get(i).getNickname());
             text1.setLayoutY((i + 1) * 15 + 15);
             addedUsersAnchorPane.getChildren().add(text1);
         }
+        if(users.size()==0)
+        {
+            Text text1 = new Text(LoginController.getLoggedUser().getNickname());
+            text1.setLayoutY(30);
+            addedUsersAnchorPane.getChildren().add(text1);
+        }
     }
 
-    public void back(MouseEvent mouseEvent) {
+    public void back() {
         NetworkController.send("menu exit");
         twoKilo.stop();
         StageController.sceneChanger("mainMenu.fxml");

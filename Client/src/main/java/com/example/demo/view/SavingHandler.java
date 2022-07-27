@@ -54,7 +54,6 @@ public class SavingHandler {
         try {
             ObjectInputStream objectStream = new ObjectInputStream(NetworkController.getSocket().getInputStream());
             Savings savings = (Savings) objectStream.readObject();
-            objectStream.close();
             savings.loadThisToGameController();
             NetworkController.newScanner();
             System.out.println(savings.getMap().getStaticX());
