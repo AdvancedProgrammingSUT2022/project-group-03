@@ -4,10 +4,7 @@ import view.UserIcon;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -23,19 +20,19 @@ public class User implements Serializable {
     private int score;
     private Date lastWin;
     private Date lastOnline;
-    private  ArrayList<User> invites = new ArrayList<>();
-    private ArrayList<User> friendsRequest = new ArrayList<>();
-    private  ArrayList<User> friends = new ArrayList<>();
+    private  ArrayList<String> invites = new ArrayList<>();
+    private ArrayList<String> friendsRequest = new ArrayList<>();
+    private  ArrayList<String> friends = new ArrayList<>();
     public UserIcon getIcon() {
         return icon;
     }
     static {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("dataBase/users.json")));
-            listOfUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
-            }.getType());
+            FileInputStream fileInputStream = new FileInputStream(String.valueOf(Paths.get("dataBase/users.json")));
+            ObjectInputStream objectStream = new ObjectInputStream(fileInputStream);
+            listOfUsers = (ArrayList<User>) objectStream.readObject();
             if(listOfUsers == null) listOfUsers =new ArrayList<>();
-        } catch (IOException e) {
+        } catch (Exception e) {
             File file = new File("dataBase/users.json");
             try {
                 file.createNewFile();
@@ -55,11 +52,13 @@ public class User implements Serializable {
         return null;
     }
     public static void saveData() {
-        FileWriter fileWriter;
+        FileOutputStream fileOutputStream;
         try {
-            fileWriter = new FileWriter("dataBase/users.json");
-            fileWriter.write(new Gson().toJson(listOfUsers));
-            fileWriter.close();
+            fileOutputStream = new FileOutputStream("dataBase/users.json");
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(listOfUsers);
+            objectOutputStream.close();
+            fileOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -152,14 +151,38 @@ public class User implements Serializable {
     }
 
     public ArrayList<User> getFriends() {
+        ArrayList<User> list = new ArrayList<>();
+        for (String friend : friends) {
+            list.add(findUser(friend,false));
+        }
+        return list;
+    }
+    public ArrayList<String > getFriendsOG() {
+
         return friends;
     }
 
     public ArrayList<User> getFriendsRequest() {
+        ArrayList<User> list = new ArrayList<>();
+        for (String friend : friendsRequest) {
+            list.add(findUser(friend,false));
+        }
+        return list;
+    }
+    public ArrayList<String> getFriendsRequestOG() {
+
         return friendsRequest;
     }
 
     public ArrayList<User> getInvites() {
+
+        ArrayList<User> list = new ArrayList<>();
+        for (String friend : invites) {
+            list.add(findUser(friend,false));
+        }
+        return list;    }
+    public ArrayList<String > getInvitesOG() {
+
         return invites;
     }
     @Override

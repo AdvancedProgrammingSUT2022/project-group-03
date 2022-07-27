@@ -251,10 +251,10 @@ public class GameControllerFX {
     public void renderMap() {
         mapPane.getChildren().clear();
         Map map = GameController.getMap();
-        graphicMap = new GraphicTile[map.getX()][map.getY()];
+        graphicMap = new GraphicTile[map.getStaticX()][map.getStaticY()];
         Tile[][] tiles = map.getTiles();
-        for (int j = 0; j < map.getY(); j++)
-            for (int i = 0; i < map.getX(); i++) {
+        for (int j = 0; j < map.getStaticY(); j++)
+            for (int i = 0; i < map.getStaticX(); i++) {
                 graphicMap[i][j] = new GraphicTile(tiles[i][j], mapPane, leftPanel, this);
             }
         cityPage.setViewOrder(-2);
@@ -282,8 +282,8 @@ public class GameControllerFX {
         users.add(user);
         users.add(user2);
         LoginController.loginUser("u", "pap");
-        Map.setX(60);
-        Map.setY(90);
+        Map.setStaticX(60);
+        Map.setStaticY(90);
         GameController.startGame(users);
     }
 

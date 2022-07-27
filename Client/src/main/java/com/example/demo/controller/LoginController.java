@@ -3,9 +3,12 @@ package com.example.demo.controller;
 import com.example.demo.model.User;
 import com.example.demo.view.UserIcon;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginController {
     private static User loggedUser;
@@ -14,25 +17,11 @@ public class LoginController {
         LoginController.loggedUser = loggedUser;
     }
 
-    public static int createNewUser(String username,
-                                    String password,
-                                    String nickname) {
-        if (username == null || password == null || nickname == null)
-            return 1;
-        if (User.findUser(username, false) != null)
-            return 2;
-        if (User.findUser(nickname, true) != null)
-            return 3;
-        if (!isPasswordValid(password))
-            return 4;
-        new User(username, password, nickname,true);
-        return 0;
-    }
-
     public static int loginUser(String username, String password) {
         if (username == null || password == null)
             return 1;
-        User tempUser = User.findUser(username, false);
+        User tempUser = User.userFromArray(username,new Gson().fromJson(NetworkController.send("getUserList"),
+                new TypeToken<List<User>>() {}.getType()),false);
         if (tempUser == null)
             return 2;
         if (!tempUser.isPasswordCorrect(password))
@@ -41,7 +30,6 @@ public class LoginController {
 //        loggedUser.setLastOnline(LocalDateTime.now());
         return 0;
     }
-
 
     public static int changeData(String currentPassword,
                                      String newPassword,String nickname,String path) {
@@ -59,7 +47,9 @@ public class LoginController {
             loggedUser.changePassword(newPassword);
         }
         if(!nickname.equals("")){
-            if(User.findUser(nickname,true) == null){
+            User user = User.userFromArray(nickname,new Gson().fromJson(NetworkController.send("getUserList"),
+                    new TypeToken<List<User>>() {}.getType()),true);
+            if(user == null){
                 loggedUser.changeNickname(nickname);
             }else return 4;
         }

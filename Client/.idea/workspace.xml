@@ -6,7 +6,23 @@
   <component name="ChangeListManager">
     <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataBase/users.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameEntryMenuFx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameEntryMenuFx.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/LoginControllerFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/LoginControllerFX.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/ProfileControllerFx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/ProfileControllerFx.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/dataBase/users.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/GameEntryMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/view/GameEntryMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/view/LoginMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/controller/LoginController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/controller/gameController/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/controller/gameController/GameController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/User$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/model/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/network/MenuHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/network/MenuHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/network/MySocketHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/network/MySocketHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/GameEntryMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/view/GameEntryMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/GameView.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/view/GameView.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +92,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="com.example.demo.HelloApplication" />
       <module name="demo" />
-      <option name="VM_PARAMETERS" value="-Xss4m" />
+      <option name="VM_PARAMETERS" value="-Xss16m" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.example.demo.*" />
@@ -178,22 +194,6 @@
       <workItem from="1658167143641" duration="1899000" />
       <workItem from="1658225607369" duration="6762000" />
       <workItem from="1658310605910" duration="10323000" />
-      <workItem from="1658385338994" duration="2582000" />
-      <workItem from="1658393757384" duration="12430000" />
-      <workItem from="1658411965958" duration="555000" />
-      <workItem from="1658427624258" duration="2984000" />
-      <workItem from="1658578180433" duration="3337000" />
-      <workItem from="1658601258741" duration="597000" />
-      <workItem from="1658667829731" duration="982000" />
-      <workItem from="1658681416999" duration="1019000" />
-      <workItem from="1658690674719" duration="599000" />
-      <workItem from="1658738025889" duration="3358000" />
-      <workItem from="1658766881159" duration="29000" />
-      <workItem from="1658807336163" duration="324000" />
-      <workItem from="1658809307654" duration="6598000" />
-      <workItem from="1658849705663" duration="224000" />
-      <workItem from="1658853652283" duration="601000" />
-      <workItem from="1658907050911" duration="1341000" />
     </task>
     <servers />
   </component>

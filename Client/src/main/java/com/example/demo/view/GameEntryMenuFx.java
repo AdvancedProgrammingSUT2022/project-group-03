@@ -352,11 +352,11 @@ public class GameEntryMenuFx implements Initializable {
         gameInvitationScrollBar.setLayoutY(StageController.getScene().getHeight() * 0.5);
         gameInvitationScrollBar.setLayoutX(StageController.getScene().getWidth() * 0.05 + 500);
         Panels.addText("Game Invitations:",5,20,20,null,gameInvitationPane);
-        ArrayList<User> requests = LoginController.getLoggedUser().getInvites();
-        for (int i = 0; i < requests.size(); i++) {
+        for (int i = 0; i < LoginController.getLoggedUser().getInvites().size(); i++) {
             Button button1 = Panels.addButton("Accept",
                     StageController.getScene().getWidth()/1920*150,50 + i*70,80,30,gameInvitationPane);
-            User user = requests.get(i);
+            User user = User.userFromArray(LoginController.getLoggedUser().getInvites().get(i),new Gson().fromJson(NetworkController.send("getUserList"),
+                    new TypeToken<List<User>>() {}.getType()),false);
             button1.setOnAction(actionEvent -> acceptInvite(user));
             button1 = Panels.addButton("Ignore",StageController.getScene().getWidth()/1920*150,80+i*70,80,30,gameInvitationPane);
             button1.setOnAction(actionEvent -> declineInvite(user));
@@ -365,17 +365,10 @@ public class GameEntryMenuFx implements Initializable {
     }
     private void acceptInvite(User user)
     {
-        switch (NetworkController.send("accept invite " + user.getUsername()+";")){
-            case "0":
-                StageController.errorMaker("invite","invite accepted!,you are in a game", Alert.AlertType.INFORMATION);
-                break;
-            case "1":
-                StageController.errorMaker("invite","there is no game", Alert.AlertType.ERROR);
-                break;
-            case "2":
-                StageController.errorMaker("invite","something went wrong", Alert.AlertType.ERROR);
-                break;
-
+        switch (NetworkController.send("accept invite " + user.getUsername() + ";")) {
+            case "0" -> StageController.errorMaker("invite", "invite accepted!,you are in a game", Alert.AlertType.INFORMATION);
+            case "1" -> StageController.errorMaker("invite", "there is no game", Alert.AlertType.ERROR);
+            case "2" -> StageController.errorMaker("invite", "something went wrong", Alert.AlertType.ERROR);
         }
         initializeInvite();
     }

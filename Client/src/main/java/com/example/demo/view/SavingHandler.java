@@ -57,7 +57,7 @@ public class SavingHandler {
             objectStream.close();
             savings.loadThisToGameController();
             NetworkController.newScanner();
-            System.out.println(savings.getMap().getX());
+            System.out.println(savings.getMap().getStaticX());
         } catch (Exception e) {
             System.out.println("Can not load game :(");
             e.printStackTrace();

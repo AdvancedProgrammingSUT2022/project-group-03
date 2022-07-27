@@ -34,6 +34,7 @@ public class GameController {
     public  void startGame(ArrayList<User> PlayersNames,int x,int y) {
         cycle = 1;
         setCivilizations(PlayersNames);
+        game.getSocketHandlers().get(playerTurn).getMenuHandler().getGameView().turn = true;
         map = new Map(civilizations,x,y);
         for (int i = 0; i < PlayersNames.size(); i++)
             civilizations.get(i).setTileConditions
@@ -216,6 +217,7 @@ public class GameController {
         shouldGameEnd();
 
         civilizations.get(playerTurn).endTheTurn(this,game.getSocketHandlers().get(game.getGameController().getPlayerTurn()));
+        game.getSocketHandlers().get(playerTurn).getMenuHandler().getGameView().turn = false;
         playerTurn = (playerTurn + 1) % civilizations.size();
         if (civilizations.get(playerTurn).getCities().size() == 0 &&
                 civilizations.get(playerTurn).getUnits().size() == 0) {
@@ -232,6 +234,7 @@ public class GameController {
         }
         if (playerTurn % civilizations.size() == 0)
             cycle++;
+        game.getSocketHandlers().get(playerTurn).getMenuHandler().getGameView().turn = true;
         civilizations.get(playerTurn).startTheTurn(this,game.getSocketHandlers().get(game.getGameController().getPlayerTurn()));
         setUnfinishedTasks();
         if (civilizations.get(playerTurn).getCities().size() != 0)

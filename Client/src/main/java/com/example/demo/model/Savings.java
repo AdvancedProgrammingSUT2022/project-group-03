@@ -18,8 +18,8 @@ public class Savings implements Serializable {
         unfinishedTasks = GameController.getUnfinishedTasks();
         playerTurn = GameController.getPlayerTurn();
         map = GameController.getMap();
-        x = GameController.getMap().getX();
-        y = GameController.getMap().getY();
+        x = GameController.getMap().getStaticX();
+        y = GameController.getMap().getStaticY();
     }
 
     public void loadThisToGameController(){
@@ -27,8 +27,8 @@ public class Savings implements Serializable {
         GameController.setUnfinishedTasks(unfinishedTasks);
         GameController.setPlayerTurn(playerTurn);
         GameController.setMap(map);
-        Map.setX(x);
-        Map.setY(y);
+        Map.setStaticX(x);
+        Map.setStaticY(y);
     }
 
     public ArrayList<Civilization> getCivilizations() {

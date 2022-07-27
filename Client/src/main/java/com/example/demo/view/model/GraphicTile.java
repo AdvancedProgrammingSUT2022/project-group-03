@@ -359,7 +359,8 @@ public class GraphicTile implements Serializable {
 
         if (UnitStateController.unitUpgradeCheck() == 0)
             addButton("Upgrade unit", true, true, event -> {
-                UnitStateController.unitUpgrade();
+                NetworkController.send("upgrade "+
+                                GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit()));
                 gameControllerFX.renderMap();
                 notify("Success", "Your unit upgraded successfully.");
             });
@@ -373,7 +374,8 @@ public class GraphicTile implements Serializable {
                 addButton("Move", true, false, event2 -> {
                     int x = GameController.getSelectedTile().getX();
                     int y = GameController.getSelectedTile().getY();
-                    int code = UnitStateController.unitMoveTo(x, y);
+                    int code =Integer.parseInt(NetworkController.send("moveto "+ tile.getX()+" "+ tile.getY()+" "+
+                            GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit())));
                     switch (code) {
                         case 3 -> notify("Impossible movement", "Units cannot move to mountains or oceans.");
                         case 4 -> notify("Movement Error", "Error in moving.");
@@ -397,13 +399,15 @@ public class GraphicTile implements Serializable {
 
         if (!unit.getState().equals(UnitState.SLEEP))
             addButton("Sleep", true, true, event -> {
-                UnitStateController.unitSleep();
+                NetworkController.send("sleep "+
+                        GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit()));
                 notify("Sleep", "The unit Slept successfully!");
             });
 
         if (unit.getState().equals(UnitState.ALERT) || unit.getState().equals(UnitState.SLEEP))
             addButton("Awake", true, true, event -> {
-                if (UnitStateController.unitChangeState(3) == 0)
+                if (Integer.parseInt(NetworkController.send("state " +
+                        GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit()) + " " + 3)) == 0)
                     notify("Awake", "The unit awoken successfully!");
                 else
                     notify("fault", "You can not awake this unit!");

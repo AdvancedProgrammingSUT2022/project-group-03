@@ -7,7 +7,6 @@ import com.example.demo.model.Units.Unit;
 import com.example.demo.model.Units.UnitType;
 import com.example.demo.model.features.Feature;
 import com.example.demo.model.features.FeatureType;
-import com.example.demo.model.improvements.Improvement;
 import com.example.demo.model.improvements.ImprovementType;
 import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.Tile;
@@ -19,11 +18,15 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class Map implements Serializable {
-    public final static int WINDOW_X = 5;
-    public final static int WINDOW_Y = 14;
+    public final static int WINDOW_X_STATIC = 5;
+    public final static int WINDOW_Y_STATIC = 14;
+    private static int staticX;
+    private static int staticY;
+    public final  int WINDOW_X = 5;
+    public final  int WINDOW_Y = 14;
     private Tile[][] tiles;
-    private static int x;
-    private static int y;
+    private  int x;
+    private  int y;
     private final Random random = new Random();
 
     public Tile[][] getTiles() {
@@ -42,8 +45,8 @@ public class Map implements Serializable {
             int settlerY = 0;
             while (!end) {
                 end = true;
-                settlerX = 3 + random.nextInt(x - 6);
-                settlerY = 5 + random.nextInt(x - 10);
+                settlerX = 3 + random.nextInt(staticX - 6);
+                settlerY = 5 + random.nextInt(staticX - 10);
                 if (coordinatesToTile(settlerX, settlerY).getMovingPrice() > 123 || coordinatesToTile(settlerX, settlerY).getRuins() != null) {
                     end = false;
                     continue;
@@ -98,7 +101,7 @@ public class Map implements Serializable {
     }
 
     public Tile coordinatesToTile(int x, int y) {
-        if (x < Map.x && y < Map.y && y >= 0 && x >= 0) return tiles[x][y];
+        if (x < Map.staticX && y < Map.staticY && y >= 0 && x >= 0) return tiles[x][y];
         return null;
     }
 
@@ -149,19 +152,19 @@ public class Map implements Serializable {
         return isVisitedEver.containsKey(destination);
     }
 
-    public int getX() {
-        return x;
+    public int getStaticX() {
+        return staticX;
     }
 
-    public int getY() {
-        return y;
+    public int getStaticY() {
+        return staticY;
     }
 
     private void GenerateMap(ArrayList<Civilization> civilizations) {
-        System.out.println("x: " + x + " y: " + y);
-        tiles = new Tile[x][y];
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
+        System.out.println("x: " + staticX + " y: " + staticY);
+        tiles = new Tile[staticX][staticY];
+        for (int i = 0; i < staticX; i++) {
+            for (int j = 0; j < staticY; j++) {
                 tiles[i][j] = new Tile(randomTile(i, j), i, j);
                 setNeighborsOfTile(tiles, i, j);
                 Random random2 = new Random();
@@ -175,14 +178,14 @@ public class Map implements Serializable {
             }
         }
 
-        addRiver(5 + x / 16 + random.nextInt(x / 16));
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
+        addRiver(5 + staticX / 16 + random.nextInt(staticX / 16));
+        for (int i = 0; i < staticX; i++) {
+            for (int j = 0; j < staticY; j++) {
                 setFeature(i, j);
             }
         }
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
+        for (int i = 0; i < staticX; i++) {
+            for (int j = 0; j < staticY; j++) {
                 setResources(i, j);
             }
         }
@@ -215,11 +218,11 @@ public class Map implements Serializable {
     private void addRiver(int number) {
         for (int i = 0; i < number; i++) {
             int length = 5 + random.nextInt(5);
-            int startX = 2 + random.nextInt(x - 4);
-            int startY = 2 + random.nextInt(y - 4);
+            int startX = 2 + random.nextInt(staticX - 4);
+            int startY = 2 + random.nextInt(staticY - 4);
             while (tiles[startX][startY].getTileType() == TileType.OCEAN) {
-                startX = 2 + random.nextInt(x - 4);
-                startY = 2 + random.nextInt(y - 4);
+                startX = 2 + random.nextInt(staticX - 4);
+                startY = 2 + random.nextInt(staticY - 4);
             }
             Tile[] riverSides = new Tile[2];
             Tile[] lastRiverSides = new Tile[2];
@@ -264,8 +267,8 @@ public class Map implements Serializable {
 
     private TileType randomTile(int i, int j) {
         TileType type = TileType.randomTile();
-        int distanceFromBoarder = (int) Math.sqrt((x - i) ^ 2 + (y - j) ^ 2);
-        while (y / 10 - distanceFromBoarder >= 0 &&
+        int distanceFromBoarder = (int) Math.sqrt((staticX - i) ^ 2 + (staticY - j) ^ 2);
+        while (staticY / 10 - distanceFromBoarder >= 0 &&
                 hasNeighborWithType(i, j, TileType.OCEAN)) {
             if (type == TileType.OCEAN) return type;
             type = TileType.randomTile();
@@ -273,7 +276,7 @@ public class Map implements Serializable {
         }
         int multiple = 2;
         if (hasNeighborWithType(i, j, TileType.SNOW)) multiple++;
-        if (i < x / 10 || i + x / 10 > x) {
+        if (i < staticX / 10 || i + staticX / 10 > staticX) {
             while (multiple > 0) {
                 if (TileType.SNOW == type) return type;
                 type = TileType.randomTile();
@@ -292,7 +295,7 @@ public class Map implements Serializable {
     }
 
     private boolean hasNeighborWithType(int i, int j, TileType tileType) {
-        if (i == 0 || j == 0 || i == x - 1 || j == y - 1) return true;
+        if (i == 0 || j == 0 || i == staticX - 1 || j == staticY - 1) return true;
         if (j % 2 == 0) {
             return (tiles[i - 1][j - 1].getTileType() == tileType) ||
                     (tiles[i - 1][j].getTileType() == tileType) ||
@@ -313,7 +316,7 @@ public class Map implements Serializable {
             tiles[i][j].setNeighbours(0, tiles[i - 1][j - 1]);
             tiles[i - 1][j - 1].setNeighbours(3, tiles[i][j]);
         }
-        if (i > 0 && j < y - 1 && j % 2 == 0) {
+        if (i > 0 && j < staticY - 1 && j % 2 == 0) {
             tiles[i][j].setNeighbours(2, tiles[i - 1][j + 1]);
             tiles[i - 1][j + 1].setNeighbours(5, tiles[i][j]);
         }
@@ -328,9 +331,9 @@ public class Map implements Serializable {
     }
 
     private Tile[][] setMapForBestTile(Civilization.TileCondition[][] civilizationMap) {
-        Tile[][] tiles = new Tile[x][y];
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
+        Tile[][] tiles = new Tile[staticX][staticY];
+        for (int i = 0; i < staticX; i++) {
+            for (int j = 0; j < staticY; j++) {
                 if (civilizationMap[i][j] == null) {
                     tiles[i][j] = new Tile(TileType.HILL, i, j);
                     tiles[i][j].setContainedFeature(new Feature(FeatureType.FOREST));
@@ -502,7 +505,7 @@ public class Map implements Serializable {
     private Color initColor(int i, int j,
                             Civilization.TileCondition[][] tileConditions,
                             int number) {
-        if (i < x && j < y && tileConditions[i][j] != null &&
+        if (i < staticX && j < staticY && tileConditions[i][j] != null &&
                 tileConditions[i][j].getOpenedArea().isRiverWithNeighbour(number))
             return Color.BLUE_BOLD_BRIGHT;
         return Color.RESET;
@@ -510,7 +513,7 @@ public class Map implements Serializable {
 
     private Color initCurrentTileColor(int i, int j, Color backReset,
                                        Civilization.TileCondition[][] tileConditions) {
-        if (i < x && j < y)
+        if (i < staticX && j < staticY)
             return setBackgroundColor(tileConditions[i][j]);
         return backReset;
     }
@@ -519,10 +522,10 @@ public class Map implements Serializable {
                                      Civilization.TileCondition[][] tileConditions,
                                      int i, int j, boolean isBiggerThan4) {
         if (isBiggerThan4) {
-            if (j >= y - 1 || i + j % 2 >= x) return backReset;
+            if (j >= staticY - 1 || i + j % 2 >= staticX) return backReset;
             return setBackgroundColor(tileConditions[i + j % 2][j + 1]);
         }
-        if (i + j % 2 < 1 || j >= y - 1 || i - 1 + j % 2 >= x || i < 0)
+        if (i + j % 2 < 1 || j >= staticY - 1 || i - 1 + j % 2 >= staticX || i < 0)
             return backReset;
         return setBackgroundColor(tileConditions[i - 1 + j % 2][j + 1]);
     }
@@ -531,8 +534,8 @@ public class Map implements Serializable {
                            int originX, int originY) {
         StringBuilder mapString = new StringBuilder();
         Color backReset = Color.BLACK_BACKGROUND;
-        mapString.append("   _____        ".repeat(WINDOW_Y / 2)).append("\n");
-        for (int i = originX; i < originX + WINDOW_X; i++) {
+        mapString.append("   _____        ".repeat(WINDOW_Y_STATIC / 2)).append("\n");
+        for (int i = originX; i < originX + WINDOW_X_STATIC; i++) {
             firstFor(originY, i, backReset, tileConditions, mapString);
             secondFor(originY, i, backReset, tileConditions, mapString);
             thirdFor(originY, tileConditions, i, backReset, mapString);
@@ -552,14 +555,14 @@ public class Map implements Serializable {
         String jString;
         String cString;
         String openString;
-        for (int j = originY; j < originY + WINDOW_Y; j += 2) {
+        for (int j = originY; j < originY + WINDOW_Y_STATIC; j += 2) {
             Color currentTileColor = initCurrentTileColor(i, j,
                     backReset, tileConditions);
             Color rightTileColor = initRightTileColor(backReset,
                     tileConditions, i, j, false);
             color0 = initColor(i, j, tileConditions, 0);
             color2 = initColor(i, j, tileConditions, 2);
-            if ((i + j % 2 - 1 < 0 || j >= y - 1 || i - 1 + j % 2 >= x) ||
+            if ((i + j % 2 - 1 < 0 || j >= staticY - 1 || i - 1 + j % 2 >= staticX) ||
                     tileConditions[i - 1 + j % 2][j + 1] == null ||
                     !tileConditions[i - 1 + j % 2][j + 1].getIsClear() ||
                     tileConditions[i - 1 + j % 2][j + 1].getOpenedArea().getCivilian() == null)
@@ -581,7 +584,7 @@ public class Map implements Serializable {
                         + tileConditions[i - 1 + j % 2][j + 1]
                         .getOpenedArea().getCivilian().getUnitType().icon
                         + Color.RESET + rightTileColor;
-            boolean condition = (i + j % 2 < 1 || j >= y - 1 || i - 1 + j % 2 >= x) ||
+            boolean condition = (i + j % 2 < 1 || j >= staticY - 1 || i - 1 + j % 2 >= staticX) ||
                     tileConditions[i - 1 + j % 2][j + 1] == null
                     || !tileConditions[i - 1 + j % 2][j + 1].getIsClear();
             if (condition || tileConditions[i - 1 + j % 2][j + 1]
@@ -604,7 +607,7 @@ public class Map implements Serializable {
                         + tileConditions[i - 1 + j % 2][j + 1]
                         .getOpenedArea().getNonCivilian().getUnitType().icon
                         + Color.RESET + rightTileColor;
-            if (i < x && j < y && tileConditions[i][j] != null && tileConditions[i][j]
+            if (i < staticX && j < staticY && tileConditions[i][j] != null && tileConditions[i][j]
                     .getOpenedArea().getContainedFeature() != null)
                 cString = tileConditions[i][j]
                         .getOpenedArea().getContainedFeature().getFeatureType().icon;
@@ -629,30 +632,30 @@ public class Map implements Serializable {
         String jString;
         String cString;
         String openString;
-        for (int j = originY; j < originY + WINDOW_Y; j += 2) {
+        for (int j = originY; j < originY + WINDOW_Y_STATIC; j += 2) {
             Color currentTileColor = initCurrentTileColor(i, j,
                     backReset, tileConditions);
             Color rightTileColor = initRightTileColor(backReset,
                     tileConditions, i, j, false);
             color0 = initColor(i, j, tileConditions, 0);
             color2 = initColor(i, j, tileConditions, 2);
-            if (i + j % 2 > 0 && j < y - 1 && i < x &&
+            if (i + j % 2 > 0 && j < staticY - 1 && i < staticX &&
                     tileConditions[i - 1 + (j % 2)][j + 1] != null)
                 iString = tileConditions[i - 1 + (j % 2)][j + 1].getOpenedArea().getTileType().icon;
             else iString = "   ";
-            if (i < x && j < y && tileConditions[i][j] != null &&
+            if (i < staticX && j < staticY && tileConditions[i][j] != null &&
                     tileConditions[i][j].getOpenedArea().getResource() != null)
                 cString = tileConditions[i][j].getOpenedArea().getResource().icon;
             else cString = "  ";
-            if (i < x && j < y && tileConditions[i][j] != null &&
+            if (i < staticX && j < staticY && tileConditions[i][j] != null &&
                     tileConditions[i][j].getOpenedArea().getCity() != null)
                 jString = "C ";
-            else if (i < x && j < y && tileConditions[i][j] != null &&
+            else if (i < staticX && j < staticY && tileConditions[i][j] != null &&
                     tileConditions[i][j].getOpenedArea().getImprovement() != null &&
                     tileConditions[i][j].getOpenedArea().getImprovement().getRemainedCost() == 0)
                 jString = tileConditions[i][j].getOpenedArea().getImprovement().getImprovementType().icon;
             else jString = "  ";
-            if (i < x && j < y && tileConditions[i][j] != null &&
+            if (i < staticX && j < staticY && tileConditions[i][j] != null &&
                     tileConditions[i][j].getOpenedArea().getRoad() != null &&
                     tileConditions[i][j].getOpenedArea().getRoad().getRemainedCost() == 0) {
                 openString = tileConditions[i][j].getOpenedArea().getRoad().getImprovementType().icon;
@@ -675,7 +678,7 @@ public class Map implements Serializable {
         Color color2;
         String iString;
         String jString;
-        for (int j = originY; j < originY + WINDOW_Y; j += 2) {
+        for (int j = originY; j < originY + WINDOW_Y_STATIC; j += 2) {
             Color currentTileColor = initCurrentTileColor(i, j,
                     backReset, tileConditions);
             Color rightTileColor = initRightTileColor(backReset,
@@ -711,14 +714,14 @@ public class Map implements Serializable {
         String cString;
         String openString;
         Color rightTileColor;
-        for (int j = originY; j < originY + WINDOW_Y; j += 2) {
+        for (int j = originY; j < originY + WINDOW_Y_STATIC; j += 2) {
             Color currentTileColor = initCurrentTileColor(i, j,
                     backReset, tileConditions);
             rightTileColor = initRightTileColor(backReset,
                     tileConditions, i, j, true);
             color0 = initColor(i, j, tileConditions, 5);
             color2 = initColor(i, j, tileConditions, 3);
-            if (i >= x || j >= y || tileConditions[i][j] == null || !tileConditions[i][j].getIsClear() ||
+            if (i >= staticX || j >= staticY || tileConditions[i][j] == null || !tileConditions[i][j].getIsClear() ||
                     tileConditions[i][j].getOpenedArea().getCivilian() == null) iString = "  ";
             else if (tileConditions[i][j].getOpenedArea().getCivilian().getCivilization()
                     != tileConditions[i][j].getOpenedArea().getCivilization())
@@ -730,7 +733,7 @@ public class Map implements Serializable {
             else
                 iString = Color.RESET.toString() + currentTileColor + tileConditions[i][j]
                         .getOpenedArea().getCivilian().getUnitType().icon + Color.RESET + currentTileColor;
-            if (i >= x || j >= y ||
+            if (i >= staticX || j >= staticY ||
                     tileConditions[i][j] == null ||
                     !tileConditions[i][j].getIsClear() ||
                     tileConditions[i][j].getOpenedArea().getNonCivilian() == null) jString = "    ";
@@ -747,13 +750,13 @@ public class Map implements Serializable {
                         .getOpenedArea().getNonCivilian().getUnitType().icon
                         + " " + Color.RESET + currentTileColor;
 
-            if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1]
+            if (j < staticY - 1 && i + j % 2 < staticX && tileConditions[i + j % 2][j + 1]
                     != null && tileConditions[i + j % 2][j + 1]
                     .getOpenedArea().getContainedFeature() != null)
                 cString = tileConditions[i + j % 2][j + 1]
                         .getOpenedArea().getContainedFeature().getFeatureType().icon;
             else cString = "  ";
-            if (i >= x || j >= y || tileConditions[i][j] == null
+            if (i >= staticX || j >= staticY || tileConditions[i][j] == null
                     || !tileConditions[i][j].getIsClear())
                 openString = " ";
             else openString = ",";
@@ -779,28 +782,28 @@ public class Map implements Serializable {
         String cString;
         String openString;
         Color rightTileColor;
-        for (int j = originY; j < originY + WINDOW_Y; j += 2) {
+        for (int j = originY; j < originY + WINDOW_Y_STATIC; j += 2) {
             Color currentTileColor = initCurrentTileColor(i, j, backReset, tileConditions);
             rightTileColor = initRightTileColor(backReset, tileConditions, i, j, true);
             color0 = initColor(i, j, tileConditions, 5);
             color2 = initColor(i, j, tileConditions, 3);
-            if (i < x && j < y && tileConditions[i][j] != null)
+            if (i < staticX && j < staticY && tileConditions[i][j] != null)
                 iString = tileConditions[i][j].getOpenedArea().getTileType().icon;
             else iString = "   ";
-            if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null &&
+            if (j < staticY - 1 && i + j % 2 < staticX && tileConditions[i + j % 2][j + 1] != null &&
                     tileConditions[i + j % 2][j + 1].getOpenedArea().getResource() != null)
                 cString = tileConditions[i + j % 2][j + 1].getOpenedArea().getResource().icon;
             else cString = "  ";
-            if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null &&
+            if (j < staticY - 1 && i + j % 2 < staticX && tileConditions[i + j % 2][j + 1] != null &&
                     tileConditions[i + j % 2][j + 1].getOpenedArea().getCity() != null)
                 jString = "C ";
-            else if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null &&
+            else if (j < staticY - 1 && i + j % 2 < staticX && tileConditions[i + j % 2][j + 1] != null &&
                     tileConditions[i + j % 2][j + 1].getOpenedArea().getImprovement() != null &&
                     tileConditions[i + j % 2][j + 1].getOpenedArea().getImprovement().getRemainedCost() == 0)
                 jString = tileConditions[i + j % 2][j + 1]
                         .getOpenedArea().getImprovement().getImprovementType().icon;
             else jString = "  ";
-            if (j < y - 1 && i + j % 2 < x && tileConditions[i + j % 2][j + 1] != null &&
+            if (j < staticY - 1 && i + j % 2 < staticX && tileConditions[i + j % 2][j + 1] != null &&
                     tileConditions[i + j % 2][j + 1].getOpenedArea().getRoad() != null &&
                     tileConditions[i + j % 2][j + 1].getOpenedArea().getRoad().getRemainedCost() == 0) {
                 openString = tileConditions[i + j % 2][j + 1]
@@ -826,10 +829,10 @@ public class Map implements Serializable {
         String iString;
         String jString;
         Color rightTileColor;
-        for (int j = originY; j < originY + WINDOW_Y; j += 2) {
+        for (int j = originY; j < originY + WINDOW_Y_STATIC; j += 2) {
             Color currentTileColor = initCurrentTileColor(i, j,
                     backReset, tileConditions);
-            if (j >= y - 1 || i + j % 2 >= x) rightTileColor = backReset;
+            if (j >= staticY - 1 || i + j % 2 >= staticX) rightTileColor = backReset;
             else rightTileColor =
                     setBackgroundColor(tileConditions[i + j % 2][j + 1]);
             color0 = initColor(i, j, tileConditions, 5);
@@ -880,18 +883,20 @@ public class Map implements Serializable {
         }
     }
 
-    public static void setX(int x) {
-        Map.x = x;
+    public static void setStaticX(int staticX) {
+        Map.staticX = staticX;
     }
 
-    public static void setY(int y) {
-        Map.y = y;
+    public static void setStaticY(int staticY) {
+        Map.staticY = staticY;
     }
 
     public Tile randomTile() {
         Random random = new Random();
-        return tiles[random.nextInt(x)][random.nextInt(y)];
+        return tiles[random.nextInt(staticX)][random.nextInt(staticY)];
     }
+
+
 }
 
 
