@@ -5,141 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/CanAttack.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/NetworkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/NetworkController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/gameController/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/gameController/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/City.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Civilization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Ruins.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Ruins.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Savings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Savings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Tasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Tasks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Units/Civilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Units/Civilian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Units/NonCivilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Units/NonCivilian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Units/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/building/Building.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/building/Building.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/features/Feature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/features/Feature.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/improvements/Improvement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/improvements/Improvement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/technologies/Technology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/technologies/Technology.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/tiles/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/tiles/Tile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/SavingHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/SavingHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/dataBase/users.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/TechnologyAndProductionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/controller/TechnologyAndProductionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/CheatCommandsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/controller/gameController/CheatCommandsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/CityCommandsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/controller/gameController/CityCommandsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/controller/gameController/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/MapCommandsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/controller/gameController/MapCommandsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/TileXAndYFlagSelectUnitController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/controller/gameController/TileXAndYFlagSelectUnitController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/UnitStateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/controller/gameController/UnitStateController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/CanAttack.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/CanGetAttacked.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/CanGetAttacked.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Chat.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Chat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/City.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Civilization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Color.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Color.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Producible.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Producible.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Ruins.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Ruins.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Savings.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Savings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/TaskTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/TaskTypes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Tasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Tasks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/TradeRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/TradeRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Units/Civilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Units/Civilian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Units/CombatType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Units/CombatType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Units/NonCivilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Units/NonCivilian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Units/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Units/UnitState.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Units/UnitState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Units/UnitType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Units/UnitType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/building/Building.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/building/Building.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/building/BuildingType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/building/BuildingType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/features/Feature.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/features/Feature.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/features/FeatureType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/features/FeatureType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/improvements/Improvement.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/improvements/Improvement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/improvements/ImprovementType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/improvements/ImprovementType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/resources/ResourcesCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/resources/ResourcesCategory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/resources/ResourcesTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/resources/ResourcesTypes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/technologies/Technology.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/technologies/Technology.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/technologies/TechnologyType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/technologies/TechnologyType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/tiles/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/tiles/Tile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/tiles/TileType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/tiles/TileType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/network/GameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/network/GameHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/network/MenuHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/network/MenuHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/network/MySocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/network/MySocketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/GameEntryMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/GameEntryMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/GameView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/LoginMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/MutatedMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/MutatedMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/ProfileMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/Runnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/Runnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/SavingHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/SavingHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/UserIcon.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/UserIcon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/controller/LoginController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/controller/TechnologyAndProductionController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/controller/gameController/CheatCommandsController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/controller/gameController/CityCommandsController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/controller/gameController/GameController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/controller/gameController/MapCommandsController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/controller/gameController/TileXAndYFlagSelectUnitController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/controller/gameController/UnitStateController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/CanAttack.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/CanGetAttacked.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Chat.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/City.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Civilization$TileCondition.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Civilization.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Color.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Map$BestMoveClass.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Map$FindNextClass.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Map$TileAndMP.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Map.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Message.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Producible.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Ruins.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Savings.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/TaskTypes.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Tasks.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/TradeRequest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Units/Civilian.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Units/CombatType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Units/NonCivilian.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Units/Unit.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Units/UnitState.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/Units/UnitType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/User.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/building/Building.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/building/BuildingType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/features/Feature.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/features/FeatureType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/improvements/Improvement.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/improvements/ImprovementType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/resources/ResourcesCategory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/resources/ResourcesTypes.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/technologies/Technology.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/technologies/TechnologyType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/tiles/Tile.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/tiles/TileType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/network/GameHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/network/MenuHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/network/MySocketHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/GameEntryMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/GameView.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/LoginMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/MainMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/Menu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/MutatedMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/ProfileMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/Runnable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/SavingHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/UserIcon.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,7 +53,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Server" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -263,17 +131,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.HelloApplication" />
@@ -311,7 +168,6 @@
       <workItem from="1658167143641" duration="1899000" />
       <workItem from="1658225607369" duration="6762000" />
       <workItem from="1658310605910" duration="10323000" />
-      <workItem from="1658929858359" duration="4741000" />
     </task>
     <servers />
   </component>
