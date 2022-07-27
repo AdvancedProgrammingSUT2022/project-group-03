@@ -25,9 +25,9 @@ public class User implements Serializable {
     private int score;
     private Date lastWin;
     private Date lastOnline;
-    private  ArrayList<User> invites = new ArrayList<>();
-    private ArrayList<User> friendsRequest = new ArrayList<>();
-    private  ArrayList<User> friends = new ArrayList<>();
+    private  ArrayList<String> invites = new ArrayList<>();
+    private ArrayList<String> friendsRequest = new ArrayList<>();
+    private  ArrayList<String> friends = new ArrayList<>();
     public UserIcon getIcon() {
         return icon;
     }
@@ -137,9 +137,7 @@ public class User implements Serializable {
         return invites;
     }
 
-    public void setFriendsRequest(ArrayList<User> friendsRequest) {
-        this.friendsRequest = friendsRequest;
-    }
+
     @Override
     public boolean equals(Object o) {
         if(o instanceof  User){

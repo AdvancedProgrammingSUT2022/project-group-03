@@ -39,6 +39,7 @@ public class GameView extends Menu{
                 "^moveto (\\d+) (\\d+) (\\d+)",
                 "^sleep (\\d+)",//19
                 "^state (\\d+) (\\d+)",
+                "^upgrade (\\d+)",
 
         };
     }
@@ -177,14 +178,18 @@ public class GameView extends Menu{
                 matcher = getMatcher(regexes[19],command,false);
                 unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
                 game.getUnitStateController().unitSleep(unit);
+                socketHandler.send("done");
                 break;
             case 20:
                 matcher = getMatcher(regexes[20],command,false);
                 unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
-                game.getUnitStateController().unitChangeState(Integer.parseInt(matcher.group(2)),unit);
+                socketHandler.send(String.valueOf(game.getUnitStateController().unitChangeState(Integer.parseInt(matcher.group(2)),unit)));
                 break;
             case 21:
-
+                matcher = getMatcher(regexes[21],command,false);
+                unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
+                game.getUnitStateController().unitUpgrade(unit);
+                break;
 
 
 

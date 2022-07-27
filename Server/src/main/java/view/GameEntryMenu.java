@@ -97,7 +97,7 @@ public class GameEntryMenu extends Menu{
         User user = User.findUser(matcher.group(1),false);
         if(user == null) return 1;
         if(user.getInvites().contains(socketHandler.getLoginController().getLoggedUser())) return 2;
-        user.getInvites().add(socketHandler.getLoginController().getLoggedUser());
+        user.getInvitesOG().add(socketHandler.getLoginController().getLoggedUser().getUsername());
         return 0;
     }
     private int acceptInvite(String command){
@@ -108,13 +108,13 @@ public class GameEntryMenu extends Menu{
         if (game == null) return 1;
         game.getSocketHandlers().add(socketHandler);
         socketHandler.setGame(game);
-        socketHandler.getLoginController().getLoggedUser().getInvites().remove(user);
+        socketHandler.getLoginController().getLoggedUser().getInvitesOG().remove(user.getUsername());
         return 0;
     }
     private int decline(String command){
         Matcher matcher = getMatcher(regexes[5],command,false);
         User user = User.findUser(matcher.group(1),false);
-        socketHandler.getLoginController().getLoggedUser().getInvites().remove(user);
+        socketHandler.getLoginController().getLoggedUser().getInvitesOG().remove(user.getUsername());
         return 0;
     }
 

@@ -359,7 +359,8 @@ public class GraphicTile implements Serializable {
 
         if (UnitStateController.unitUpgradeCheck() == 0)
             addButton("Upgrade unit", true, true, event -> {
-                UnitStateController.unitUpgrade();
+                NetworkController.send("upgrade "+
+                                GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit()));
                 gameControllerFX.renderMap();
                 notify("Success", "Your unit upgraded successfully.");
             });

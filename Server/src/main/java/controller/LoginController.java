@@ -126,14 +126,14 @@ public class LoginController {
         if (loggedUser.getFriends().contains(user)) return 2;
         if(!accept &&user.getFriendsRequest().contains(loggedUser)) return 1;
         if(loggedUser.getFriendsRequest().contains(user)){
-            loggedUser.getFriendsRequest().remove(user);
-            user.getFriendsRequest().remove(loggedUser);
-            loggedUser.getFriends().add(user);
-            user.getFriends().add(loggedUser);
+            loggedUser.getFriendsRequestOG().remove(user.getUsername());
+            user.getFriendsRequestOG().remove(loggedUser.getUsername());
+            loggedUser.getFriendsOG().add(user.getUsername());
+            user.getFriendsOG().add(loggedUser.getUsername());
             User.saveData();
             return 4;
         }
-        user.getFriendsRequest().add(loggedUser);
+        user.getFriendsRequestOG().add(loggedUser.getUsername());
         User.saveData();
         return 0;
     }
@@ -141,7 +141,7 @@ public class LoginController {
     public int remove(String username){
         User user = User.findUser(username,false);
         if(user == null) return 3;
-        loggedUser.getFriendsRequest().remove(user);
+        loggedUser.getFriendsRequestOG().remove(user.getUsername());
         return 0;
     }
     public  User getLoggedUser() {
