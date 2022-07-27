@@ -3,7 +3,12 @@ import com.example.demo.HelloApplication;
 import com.example.demo.controller.LoginController;
 import com.example.demo.controller.NetworkController;
 import com.example.demo.model.User;
+import com.google.gson.Gson;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,6 +24,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +37,8 @@ import java.util.ResourceBundle;
 public class ProfileControllerFx implements Initializable {
     private static final double SIZE_RATIO = StageController.getScene().getWidth()/1536;
     public ScrollPane gameInvitationScrollBar;
+    public AnchorPane invitePane;
+    Timeline twoKilo;
     @FXML private  ImageView background;
     @FXML private  AnchorPane pane;
     @FXML private  TextField nickname;
@@ -44,8 +52,21 @@ public class ProfileControllerFx implements Initializable {
         changeProfile(profile,200, LoginController.getLoggedUser().getAvatar());
         initializeElements();
         initializeIcons();
+        initializeInvite();
         Platform.runLater(() ->background.setFitWidth(StageController.getScene().getWidth()));
         Platform.runLater(() ->background.setFitHeight(StageController.getScene().getHeight()));
+        twoKilo = new Timeline(
+                new KeyFrame(Duration.millis(10000), new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        LoginController.setLoggedUser(new Gson().fromJson(NetworkController.send("update"),User.class));
+                        initializeInvite();
+                    }
+                }
+                )
+        );
+        twoKilo.setCycleCount(Animation.INDEFINITE);
+        twoKilo.play();
 
     }
     public static void changeProfile(Button profile,int size,String address){
@@ -87,6 +108,7 @@ public class ProfileControllerFx implements Initializable {
     }
 
     public void back(MouseEvent mouseEvent) {
+        twoKilo.stop();
         NetworkController.send("menu exit");
         StageController.sceneChanger("mainMenu.fxml");
     }
@@ -173,41 +195,39 @@ public class ProfileControllerFx implements Initializable {
 
     private void initializeInvite()
     {
-        AnchorPane gameInvitationPane = new AnchorPane();
-        gameInvitationScrollBar.setContent(gameInvitationPane);
+        invitePane = new AnchorPane();
+        gameInvitationScrollBar.setContent(invitePane);
         gameInvitationScrollBar.setPrefSize(StageController.getScene().getWidth()/1920*250, StageController.getScene().getHeight() * 0.25);
         gameInvitationScrollBar.setLayoutY(StageController.getScene().getHeight() * 0.5);
         gameInvitationScrollBar.setLayoutX(StageController.getScene().getWidth() * 0.05 + 500);
-        Panels.addText("FriendShip Requests:",5,20,20,null,gameInvitationPane);
-//        ArrayList<User> requests = LoginController.getLoggedUser().getFriendShipRequests();
-        //TODO
-        //Hardcode arrayList
-        ArrayList<User> requests = new ArrayList<>();
-        requests.add(new User("bib_bib","assword","bop_bop",false));
-        requests.add(new User("oompa_loompa","assword","wanka",false));
-        requests.add(new User("mama","assword","joe",false));
-        requests.add(new User("glup_shitto","assword","glup_shitto",false));
-        //
+        Panels.addText("FriendShip Requests:",5,20,20,null,invitePane);
+        ArrayList<User> requests = LoginController.getLoggedUser().getFriendsRequest();
         for (int i = 0; i < requests.size(); i++) {
             Button button1 = Panels.addButton("Accept",
-                    StageController.getScene().getWidth()/1920*150,50 + i*70,80,30,gameInvitationPane);
+                    StageController.getScene().getWidth()/1920*150,50 + i*70,80,30,invitePane);
             User user = requests.get(i);
             button1.setOnAction(actionEvent -> acceptInvite(user));
-            button1 = Panels.addButton("Decline",StageController.getScene().getWidth()/1920*150,80+i*70,80,30,gameInvitationPane);
+            button1 = Panels.addButton("Decline",StageController.getScene().getWidth()/1920*150,80+i*70,80,30,invitePane);
             button1.setOnAction(actionEvent -> declineInvite(user));
-            Panels.addText(user.getNickname(),5,80+i*70,20,null,gameInvitationPane);
+            Panels.addText(user.getNickname(),5,80+i*70,20,null,invitePane);
         }
     }
     private void acceptInvite(User user)
     {
-        //TODO
-
+        if (4==Integer.parseInt(NetworkController.send("friend "+ user.getUsername()))){
+            StageController.errorMaker("friendship never ends","new friend!", Alert.AlertType.INFORMATION);
+        }else {
+            StageController.errorMaker("friendship never ends","something went wrong", Alert.AlertType.ERROR);
+        }
         initializeInvite();
     }
 
     private void declineInvite(User user)
     {
-        //TODO
+        if(Integer.parseInt(NetworkController.send("rm "+ user.getUsername()))==0)
+            StageController.errorMaker("The friendship may ends","nice!", Alert.AlertType.INFORMATION);
+        else
+            StageController.errorMaker("friendship never ends","something went wrong", Alert.AlertType.ERROR);
 
         initializeInvite();
     }

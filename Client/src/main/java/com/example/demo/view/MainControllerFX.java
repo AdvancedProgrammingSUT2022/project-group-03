@@ -42,6 +42,7 @@ public class MainControllerFX implements Initializable {
             GameController.setMap(null);
             StageController.sceneChanger("gameEntryMenu.fxml");
         } else {
+            NetworkController.send("menu enter gameEntry");
             StageController.sceneChanger("gameEntryMenu.fxml");
         }
     }
@@ -56,7 +57,7 @@ public class MainControllerFX implements Initializable {
     @FXML
     public void scoreBoard()
     {
-            NetworkController.send("menu enter profile");
+            NetworkController.send("menu enter scoreboard");
             AssetsController.openLeadersAvatars();
             StageController.sceneChanger("scoreboard.fxml");
 

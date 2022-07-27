@@ -59,7 +59,7 @@ public class MainMenu extends Menu {
     }
 
     private boolean menuEnter(String command) {
-        if (!command.startsWith(" scoreboard", 10)) {
+        if (command.startsWith("menu enter scoreboard")) {
             locked = true;
             return false;
         }
@@ -83,7 +83,7 @@ public class MainMenu extends Menu {
                 else {
                     socketHandler.send("exited");
                     socketHandler.deleteToken();
-                    socketHandler.loginController.getLoggedUser().isOnline = false;
+                    socketHandler.getLoginController().logout();
                     nextMenu = 0;
                     return true;
                 }
@@ -96,6 +96,11 @@ public class MainMenu extends Menu {
                     return true;
                 break;
             case 4:
+                if(command.startsWith("menu enter gameEntry")){
+                    nextMenu = 3;
+                    socketHandler.send("profile menu");
+                    return true;
+                }
                 if (menuEnter(command)) {
                     socketHandler.send("profile menu");
                     return true;
@@ -106,7 +111,7 @@ public class MainMenu extends Menu {
                 break;
             case 5:
                 Matcher matcher = getMatcher(regexes[5],command,false);
-                socketHandler.send(String.valueOf(socketHandler.getLoginController().sendFriendRequest(matcher.group(1))));
+                socketHandler.send(String.valueOf(socketHandler.getLoginController().sendFriendRequest(matcher.group(1),false)));
                 break;
             case 6:
                 socketHandler.send("scoreboard");

@@ -2,6 +2,7 @@ package network;
 
 import java.util.Scanner;
 
+import view.GameEntryMenu;
 import view.LoginMenu;
 import view.MainMenu;
 import view.ProfileMenu;
@@ -19,7 +20,7 @@ public class MenuHandler {
         LoginMenu loginMenu = new LoginMenu(mySocketHandler);
         MainMenu mainMenu = new MainMenu(mySocketHandler);
         ProfileMenu profileMenu = new ProfileMenu(mySocketHandler);
-        //GameMenu gameMenu = new GameMenu();
+        GameEntryMenu gameEntryMenu = new GameEntryMenu(mySocketHandler);
         while (menu != -1) {
             switch (menu) {
                 case 0:
@@ -32,8 +33,8 @@ public class MenuHandler {
                     menu = profileMenu.run(scanner);
                     break;
                 case 3:
-                    //menu = gameMenu.run(scanner, menu);
-                    break;
+                    menu =gameEntryMenu.run(scanner);
+                break;
                 default:
                     break;
             }

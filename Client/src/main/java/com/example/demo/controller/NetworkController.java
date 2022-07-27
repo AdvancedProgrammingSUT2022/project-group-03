@@ -58,9 +58,8 @@ public class NetworkController {
             else return "";
         }
         String string = scanner.nextLine();
-        if(string.startsWith("***_____***"))
-
         System.out.println(string);
+        //if(string.startsWith("***_____***"))
         return string;
     }
     public static String send(String  request){
