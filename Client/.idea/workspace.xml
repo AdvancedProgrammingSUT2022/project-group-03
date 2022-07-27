@@ -6,12 +6,25 @@
   <component name="ChangeListManager">
     <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/HelloApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/building/BuildingType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/building/BuildingType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/ProfileControllerFx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/ProfileControllerFx.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/dataBase/users.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/view/ProfileMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/SavingHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/view/SavingHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/gameController/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/gameController/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/gameController/MapCommandsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/gameController/MapCommandsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Civilization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Savings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Savings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameControllerFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameControllerFX.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/model/GraphicTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/model/GraphicTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/network/MenuHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/network/MenuHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/network/MySocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/network/MySocketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/GameEntryMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/view/GameEntryMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/view/GameView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/controller/gameController/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/controller/gameController/GameController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/network/MenuHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/network/MenuHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/network/MySocketHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/network/MySocketHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/GameEntryMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/view/GameEntryMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/GameView.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/view/GameView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/ProfileMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/view/ProfileMenu.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/SavingHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/view/SavingHandler.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -82,7 +95,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="com.example.demo.HelloApplication" />
       <module name="demo" />
-      <option name="VM_PARAMETERS" value="-Xss4m" />
+      <option name="VM_PARAMETERS" value="-Xss16m" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.example.demo.*" />
@@ -197,7 +210,8 @@
       <workItem from="1658766881159" duration="29000" />
       <workItem from="1658807336163" duration="324000" />
       <workItem from="1658902879928" duration="293000" />
-      <workItem from="1658903195148" duration="1363000" />
+      <workItem from="1658903195148" duration="4954000" />
+      <workItem from="1658910489667" duration="1587000" />
     </task>
     <servers />
   </component>

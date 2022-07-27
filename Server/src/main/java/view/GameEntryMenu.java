@@ -52,6 +52,8 @@ public class GameEntryMenu extends Menu{
                     if (socketHandler.getGame().started) {
                         socketHandler.send("start");
                         SavingHandler.save(socketHandler);
+                        nextMenu = 4;
+                        return true;
                     }
                     else
                     socketHandler.send(new Gson().toJson(socketHandler.getGame().getUsers()));

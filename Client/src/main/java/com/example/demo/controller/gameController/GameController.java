@@ -1,5 +1,6 @@
 package com.example.demo.controller.gameController;
 
+import com.example.demo.controller.LoginController;
 import com.example.demo.model.*;
 import com.example.demo.model.Units.*;
 import com.example.demo.model.features.FeatureType;
@@ -7,7 +8,6 @@ import com.example.demo.model.improvements.ImprovementType;
 import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.model.tiles.TileType;
-import com.example.demo.view.GameEnd;
 import com.example.demo.view.StageController;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -15,7 +15,6 @@ import javafx.util.Duration;
 import javafx.util.Pair;
 import org.controlsfx.control.Notifications;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -39,7 +38,7 @@ public class GameController {
         map = new Map(civilizations);
         for (int i = 0; i < PlayersNames.size(); i++)
             civilizations.get(i).setTileConditions
-                    (new Civilization.TileCondition[map.getX()][map.getY()]);
+                    (new Civilization.TileCondition[map.getStaticX()][map.getStaticY()]);
         map.addStartingSettlers(civilizations);
 
 //        for (int i = 0; i < GameController.getCivilizations().size(); i++)
@@ -242,14 +241,14 @@ public class GameController {
         setUnfinishedTasks();
         if (civilizations.get(playerTurn).getCities().size() != 0)
             MapCommandsController.mapShowPosition(civilizations.get(playerTurn).getCities()
-                            .get(0).getMainTile().getX() - Map.WINDOW_X / 2,
+                            .get(0).getMainTile().getX() - Map.WINDOW_X_STATIC / 2,
                     civilizations.get(playerTurn).getCities().get(0)
-                            .getMainTile().getY() - Map.WINDOW_Y / 2 + 1);
+                            .getMainTile().getY() - Map.WINDOW_Y_STATIC / 2 + 1);
         else if (civilizations.get(playerTurn).getUnits().size() != 0)
             MapCommandsController.mapShowPosition(civilizations.get(playerTurn).getUnits().get(0)
-                            .getCurrentTile().getX() - Map.WINDOW_X / 2,
+                            .getCurrentTile().getX() - Map.WINDOW_X_STATIC / 2,
                     civilizations.get(playerTurn).getUnits().get(0)
-                            .getCurrentTile().getY() - Map.WINDOW_Y / 2 + 1);
+                            .getCurrentTile().getY() - Map.WINDOW_Y_STATIC / 2 + 1);
         selectedCity = null;
         selectedUnit = null;
         if (civilizations.get(playerTurn).getCities().size() != 0)
@@ -446,7 +445,8 @@ public class GameController {
 
 
     public static int getPlayerTurn() {
-        return playerTurn;
+
+        return civilizations.indexOf(LoginController.getLoggedUser());
     }
 
     public static ArrayList<Tasks> getUnfinishedTasks() {

@@ -35,7 +35,10 @@ public class GameView extends Menu{
                 "^cityDestiny (\\d+) (\\w+)",
                 "^nextTurn",
                 "^tech (\\S+)",
-                "^unitAttack (\\d+) (\\d+) (\\d+)"
+                "^unitAttack (\\d+) (\\d+) (\\d+)",
+                "^moveto (\\d+) (\\d+) (\\d+)",
+                "^sleep (\\d+)",//19
+                "^state (\\d+) (\\d+)",
 
         };
     }
@@ -56,6 +59,7 @@ public class GameView extends Menu{
         switch (commandNumber) {
             case -1:
                 System.out.println("invalid command");
+                socketHandler.send("9");
                 break;
             case 0:
                 socketHandler.send("exited successfully");
@@ -63,17 +67,21 @@ public class GameView extends Menu{
                 return true;
             case 1:
                 game.getCheatCommandsController().cheatRoadEverywhere();
+                socketHandler.send("");
                 break;
             case 2:
                 game.getCheatCommandsController().openMap();
+                socketHandler.send("");
                 break;
             case 3:
                 for (TechnologyType technologyType : TechnologyType.values())
                     game.getCheatCommandsController().cheatTechnology(technologyType);
+                socketHandler.send("");
                 break;
             case 4:
                 UnitType unitType = UnitType.stringToEnum(command.substring(13));
                 game.getCheatCommandsController().cheatUnit(10, 10, unitType);
+                socketHandler.send("");
                 break;
             case 5:
                 int gold = Integer.parseInt(command.substring(14));
@@ -153,12 +161,31 @@ public class GameView extends Menu{
                 break;
             case 16:
                 matcher = getMatcher(regexes[16],command,false);
-                game.getTechnologyAndProductionController().addTechnologyToProduction(new Gson().fromJson(matcher.group(1), Technology.class));
+                socketHandler.send(String.valueOf(game.getTechnologyAndProductionController().addTechnologyToProduction(new Gson().fromJson(matcher.group(1), Technology.class))));
                 break;
             case 17:
                 matcher = getMatcher(regexes[17],command,false);
                 Unit unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(3)));
-                game.getUnitStateController().unitAttack(Integer.parseInt(matcher.group(1)),Integer.parseInt(matcher.group(2)),unit);
+                socketHandler.send(String.valueOf(game.getUnitStateController().unitAttack(Integer.parseInt(matcher.group(1)),Integer.parseInt(matcher.group(2)),unit)));
+                break;
+            case 18:
+                matcher = getMatcher(regexes[18],command,false);
+                unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(3)));
+                socketHandler.send(String.valueOf(game.getUnitStateController().unitMoveTo(Integer.parseInt(matcher.group(1)),Integer.parseInt(matcher.group(2)),unit)));
+                break;
+            case 19:
+                matcher = getMatcher(regexes[19],command,false);
+                unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
+                game.getUnitStateController().unitSleep(unit);
+                break;
+            case 20:
+                matcher = getMatcher(regexes[20],command,false);
+                unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
+                game.getUnitStateController().unitChangeState(Integer.parseInt(matcher.group(2)),unit);
+                break;
+            case 21:
+
+
 
 
         }

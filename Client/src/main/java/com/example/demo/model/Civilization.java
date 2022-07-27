@@ -104,8 +104,8 @@ public class Civilization implements Serializable {
     }
 
     public void turnOffTileConditionsBoolean() {
-        for (int i = 0; i < GameController.getMap().getX(); i++)
-            for (int j = 0; j < GameController.getMap().getY(); j++)
+        for (int i = 0; i < GameController.getMap().getStaticX(); i++)
+            for (int j = 0; j < GameController.getMap().getStaticY(); j++)
                 if (tileConditions[i][j] != null) {
                     tileConditions[i][j].isClear = false;
                     tileConditions[i][j].getOpenedArea().setCivilian(null);
@@ -173,7 +173,7 @@ public class Civilization implements Serializable {
                 numberOfPopulation * 20 +
                 numberOfFullResearches * 25 +
                 numberOfBuildings * 30)
-                * (GameController.getMap().getX() / 100 * GameController.getMap().getY() / 100) + 10;
+                * (GameController.getMap().getStaticX() / 100 * GameController.getMap().getStaticY() / 100) + 10;
     }
 
     public void startTheTurn() {

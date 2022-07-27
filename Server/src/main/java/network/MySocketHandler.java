@@ -18,6 +18,7 @@ import java.util.Scanner;
 
 public class MySocketHandler extends Thread{
     private static ArrayList<MySocketHandler> socketHandlers = new ArrayList<>();
+    private static ArrayList<User> users = new ArrayList<>();
     private static Random random = new Random();
     private Socket socket;
     private Scanner scanner;
@@ -27,8 +28,16 @@ public class MySocketHandler extends Thread{
     public LoginController loginController;
     private JWTVerifier verifier;
 
+    public static ArrayList<User> getUsers() {
+        return users;
+    }
+
     public LoginController getLoginController() {
         return loginController;
+    }
+
+    public MenuHandler getMenuHandler() {
+        return menuHandler;
     }
 
     public Socket getSocket() {

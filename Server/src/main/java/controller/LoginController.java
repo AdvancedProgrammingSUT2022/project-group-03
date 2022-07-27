@@ -1,6 +1,7 @@
 package controller;
 
 import model.User;
+import network.MySocketHandler;
 import view.UserIcon;
 import com.google.gson.Gson;
 
@@ -17,6 +18,7 @@ public class LoginController {
     public  void logout() {
         this.loggedUser.isOnline = false;
         this.loggedUser.setLastOnline(new Date());
+        MySocketHandler.getUsers().remove(loggedUser);
         this.loggedUser = null;
     }
 
@@ -44,6 +46,7 @@ public class LoginController {
         if (!tempUser.isPasswordCorrect(password))
             return 3;
         loggedUser = tempUser;
+        MySocketHandler.getUsers().add(tempUser);
         return 0;
     }
 

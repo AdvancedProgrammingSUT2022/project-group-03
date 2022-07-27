@@ -14,8 +14,8 @@ import com.example.demo.model.tiles.Tile;
 
 public class CheatCommandsController {
     public static void openMap() {
-        for (int i = 0; i < GameController.getMap().getX(); i++)
-            for (int j = 0; j < GameController.getMap().getY(); j += 2)
+        for (int i = 0; i < GameController.getMap().getStaticX(); i++)
+            for (int j = 0; j < GameController.getMap().getStaticY(); j += 2)
                 GameController.openNewArea(GameController.getMap().coordinatesToTile(i, j),
                         GameController.getCivilizations().get(GameController.getPlayerTurn()), null);
     }
@@ -68,7 +68,7 @@ public class CheatCommandsController {
         if (GameController.getSelectedUnit().getCivilization() !=
                 GameController.getCivilizations().get(GameController.getPlayerTurn()))
             return 2;
-        if (x < 0 || y < 0 || x > GameController.getMap().getX() || y > GameController.getMap().getY())
+        if (x < 0 || y < 0 || x > GameController.getMap().getStaticX() || y > GameController.getMap().getStaticY())
             return 3;
         Tile tempTile = GameController.getMap().coordinatesToTile(x, y);
         if(tempTile==null)
@@ -92,8 +92,8 @@ public class CheatCommandsController {
     }
 
     public static int cheatRoadEverywhere() {
-        for (int i = 0; i < GameController.getMap().getX(); i++)
-            for (int j = 0; j < GameController.getMap().getY(); j++) {
+        for (int i = 0; i < GameController.getMap().getStaticX(); i++)
+            for (int j = 0; j < GameController.getMap().getStaticY(); j++) {
                 Improvement improvement = new Improvement(ImprovementType.ROAD,
                         GameController.getMap().coordinatesToTile(i, j));
                 improvement.setRemainedCost(0);
