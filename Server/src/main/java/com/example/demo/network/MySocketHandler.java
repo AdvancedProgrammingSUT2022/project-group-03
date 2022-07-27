@@ -102,7 +102,7 @@ public class MySocketHandler extends Thread{
         menuHandler.start(scanner,this);
         socketHandlers.remove(this);
     }
-    public void send(String respond){
+    public synchronized void send(String respond){
         try {
             objectOutputStream.writeObject(new Response(respond));
             objectOutputStream.flush();

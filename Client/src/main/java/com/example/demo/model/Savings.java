@@ -1,10 +1,12 @@
 package com.example.demo.model;
 
 import com.example.demo.controller.gameController.GameController;
+import com.example.demo.view.model.GraphicTile;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Savings implements Serializable {
     @Serial
@@ -15,6 +17,7 @@ public class Savings implements Serializable {
     private final Map map;
     private final int x;
     private final int y;
+    private Date date;
 
     public Savings() {
         civilizations = GameController.getCivilizations();
@@ -23,15 +26,22 @@ public class Savings implements Serializable {
         map = GameController.getMap();
         x = GameController.getMap().getStaticX();
         y = GameController.getMap().getStaticY();
+
     }
 
     public void loadThisToGameController(){
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                if(map.coordinatesToTile(i,j).getCity() != null) System.out.println("city!");
+            }
+        }
         GameController.setCivilizationsAsList(civilizations);
         GameController.setUnfinishedTasks(unfinishedTasks);
         GameController.setPlayerTurn(playerTurn);
         GameController.setMap(map);
         Map.setStaticX(x);
         Map.setStaticY(y);
+        System.out.println(date);
     }
 
     public ArrayList<Civilization> getCivilizations() {

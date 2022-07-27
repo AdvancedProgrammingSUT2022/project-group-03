@@ -25,7 +25,7 @@ public class MenuHandler {
         ProfileMenu profileMenu = new ProfileMenu(mySocketHandler);
         GameEntryMenu gameEntryMenu = new GameEntryMenu(mySocketHandler);
         gameView = new GameView(mySocketHandler);
-        ChatMenu chatMenu = new ChatMenu(mySocketHandler);
+        //ChatMenu chatMenu = new ChatMenu(mySocketHandler);
 
         while (menu != -1) {
             switch (menu) {
@@ -46,7 +46,7 @@ public class MenuHandler {
                     menu = gameView.run(scanner);
                     break;
                 case 10:
-                    menu = chatMenu.run(scanner);
+                   // menu = chatMenu.run(scanner);
                     break;
                 default:
                     break;

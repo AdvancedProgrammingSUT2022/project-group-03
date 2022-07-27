@@ -5,6 +5,7 @@ import com.example.demo.controller.gameController.GameController;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Savings implements Serializable {
     @Serial
@@ -15,6 +16,7 @@ public class Savings implements Serializable {
     private final Map map;
     private final int x;
     private final int y;
+    private Date date;
 
     public Savings(GameController gameController) {
         civilizations = gameController.getCivilizations();
@@ -23,6 +25,13 @@ public class Savings implements Serializable {
         map = gameController.getMap();
         x = gameController.getMap().getX();
         y = gameController.getMap().getY();
+        this.date = new Date();
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                if(map.coordinatesToTile(i,j).getCity() != null) System.out.println("city!");
+            }
+        }
+
     }
 
     public void loadThisToGameController(GameController gameController){

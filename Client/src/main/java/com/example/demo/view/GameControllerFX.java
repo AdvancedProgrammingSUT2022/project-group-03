@@ -90,7 +90,6 @@ public class GameControllerFX {
                     String string = NetworkController.send("update");
                     if (string.startsWith("end")) {
                         SavingHandler.load();
-                        renderMap();
                         String winner = NetworkController.getResponse(true);
                         for (Civilization civilization : GameController.getCivilizations()) {
                             if (civilization.getUser().getUsername().equals(winner)) {
@@ -98,7 +97,7 @@ public class GameControllerFX {
                             }
                         }
                         update.stop();
-                        StageController.sceneChanger("gameEnd");
+                        StageController.sceneChanger("gameEnd.fxml");
 
 
                     } else if (string.startsWith("your turn")) {
@@ -117,7 +116,7 @@ public class GameControllerFX {
                         }
                     }
                     SavingHandler.load();
-                    renderMap();
+
                 }
                 )
         );

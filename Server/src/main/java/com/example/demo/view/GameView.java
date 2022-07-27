@@ -278,6 +278,7 @@ public class GameView extends Menu{
                     if(turn){
                         socketHandler.send("your turn");
                         SavingHandler.save(socketHandler);
+
                     }
                     else {
                         socketHandler.send("sdfasdfadf");
