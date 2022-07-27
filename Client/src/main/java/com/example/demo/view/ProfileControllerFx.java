@@ -139,7 +139,27 @@ public class ProfileControllerFx implements Initializable {
     }
 
     private void sendFriendShipRequest(User user) {
-        //TODO
+        switch (Integer.parseInt(NetworkController.send("friend; "+ user.getUsername()))){
+            case 0:
+                StageController.errorMaker("friendship never ends","request sent", Alert.AlertType.INFORMATION);
+                break;
+            case 1:
+                StageController.errorMaker("friendship never ends","you already sent a request", Alert.AlertType.INFORMATION);
+                break;
+            case 2:
+                StageController.errorMaker("friendship never ends","already a friend", Alert.AlertType.INFORMATION);
+                break;
+            case 3:
+                StageController.errorMaker("friendship never ends","something went wrong", Alert.AlertType.INFORMATION);
+                break;
+            case 4:
+                StageController.errorMaker("friendship never ends","new friend!", Alert.AlertType.INFORMATION);
+                break;
+            case 5:
+                StageController.errorMaker("dumb ass","you are the biggest enemy of yourself", Alert.AlertType.ERROR);
+                break;
+
+        }
     }
 
     public static void changeProfile(Button profile, int size, String address) {
