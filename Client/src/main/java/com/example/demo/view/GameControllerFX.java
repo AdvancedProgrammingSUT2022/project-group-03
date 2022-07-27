@@ -86,7 +86,7 @@ public class GameControllerFX {
         hasStarted = true;
 
         update = new Timeline(
-                new KeyFrame(Duration.millis(5000), event -> {
+                new KeyFrame(Duration.millis(10000), event -> {
                     String string =NetworkController.send("update");
                     if(string.startsWith("end")){
                         SavingHandler.load();
@@ -103,7 +103,7 @@ public class GameControllerFX {
 
                     }else if(string.startsWith("your turn")){
                         if(!myTurn) {
-                            StageController.errorMaker("turn", "your turn", Alert.AlertType.INFORMATION);
+                            //StageController.errorMaker("turn", "your turn", Alert.AlertType.INFORMATION);
                             myTurn = true;
                             for (Node child : root.getChildren()) {
                                 child.setDisable(false);

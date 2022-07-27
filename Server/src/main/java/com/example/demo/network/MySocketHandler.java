@@ -6,9 +6,11 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.demo.controller.LoginController;
+import com.example.demo.model.Response;
 import com.example.demo.model.User;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ public class MySocketHandler extends Thread{
     private static Random random = new Random();
     private Socket socket;
     private Scanner scanner;
-    private PrintStream printStream;
+    private ObjectOutputStream objectOutputStream;
     private MenuHandler menuHandler;
     private GameHandler game;
     public LoginController loginController;
@@ -48,7 +50,7 @@ public class MySocketHandler extends Thread{
         this.loginController = new LoginController();
         this.socket = socket;
         scanner = new Scanner(socket.getInputStream());
-        printStream = new PrintStream(socket.getOutputStream());
+        objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
     }
     public void initJWT(User user){
@@ -101,21 +103,30 @@ public class MySocketHandler extends Thread{
         socketHandlers.remove(this);
     }
     public void send(String respond){
-        printStream.println(respond);
-    }
-    public void sendUpdate(String command,String update){
-        printStream.println("***_____***");
-        printStream.println(command);
-        printStream.println(update);
-        printStream.flush();
-    }
-    public void newPrinter(){
         try {
-            printStream = new PrintStream(socket.getOutputStream());
+            objectOutputStream.writeObject(new Response(respond));
+            objectOutputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    public ObjectOutputStream getObjectOutputStream() {
+        return objectOutputStream;
+    }
+
+    public void sendUpdate(String command, String update){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("***_____***\n").append(command).append("\n").append(update).append("\n");
+        try {
+            objectOutputStream.writeObject((new Response(stringBuilder.toString())));
+            objectOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public Scanner getScanner() {
         return scanner;
     }

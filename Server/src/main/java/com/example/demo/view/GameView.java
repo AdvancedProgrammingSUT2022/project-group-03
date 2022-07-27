@@ -49,7 +49,7 @@ public class GameView extends Menu{
                 "^unitRemoveFromTile (\\d+) (\\S+)",//30
                 "^unitRepair (\\d+)",
                 "^pillage (\\d+)",
-                "^update ", //33
+                "^update", //33
 
         };
     }
@@ -64,7 +64,7 @@ public class GameView extends Menu{
     @Override
     protected boolean commands(String command)
     {
-        if(!turn){
+        if(!turn && !command.equals("update")){
             socketHandler.send("not your turn");
             return false;
         }
@@ -277,8 +277,10 @@ public class GameView extends Menu{
                 }else {
                     if(turn){
                         socketHandler.send("your turn");
+                        SavingHandler.save(socketHandler);
                     }
                     SavingHandler.save(socketHandler);
+
                 }
 
 
