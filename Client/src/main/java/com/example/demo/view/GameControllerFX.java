@@ -13,6 +13,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -93,11 +94,12 @@ public class GameControllerFX {
                         if(!myTurn) {
                             StageController.errorMaker("turn", "your turn", Alert.AlertType.INFORMATION);
                             myTurn = true;
+                            for (Node child : root.getChildren()) {
+                                child.setDisable(false);
+                            }
                         }
                         SavingHandler.load();
                     }
-
-
                 }
                 )
         );
@@ -338,6 +340,10 @@ public class GameControllerFX {
             //save the game:
             if (SavingHandler.autoSaveIsEnabled && !SavingHandler.autoSaveAtRenderingMap)
                 SavingHandler.save(false);
+            for (Node child : root.getChildren()) {
+                if(child!=upperMapPane)
+                    child.setDisable(true);
+            }
         }
     }
 
