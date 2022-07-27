@@ -4,6 +4,7 @@ import com.example.demo.controller.LoginController;
 import com.example.demo.controller.Music;
 import com.example.demo.controller.NetworkController;
 import com.example.demo.controller.gameController.GameController;
+import com.example.demo.model.Civilization;
 import com.example.demo.model.Map;
 import com.example.demo.model.User;
 import com.example.demo.model.tiles.Tile;
@@ -85,17 +86,29 @@ public class GameControllerFX {
         update = new Timeline(
                 new KeyFrame(Duration.millis(5000), event -> {
                     String string =NetworkController.send("update");
-                    if(string.startsWith("map")){
+                    if(string.startsWith("end")){
+                        SavingHandler.load();
+                        renderMap();
+                        String winner =  NetworkController.getResponse(true);
+                        for (Civilization civilization : GameController.getCivilizations()) {
+                            if(civilization.getUser().getUsername().equals(winner)){
+                                GameController.setWinnerSend(civilization);
+                            }
+                        }
+                        update.stop();
+                        StageController.sceneChanger("gameEnd");
 
-                    }else if(string.startsWith("end")){
 
                     }else if(string.startsWith("your turn")){
                         if(!myTurn) {
                             StageController.errorMaker("turn", "your turn", Alert.AlertType.INFORMATION);
                             myTurn = true;
+                        }else {
+                            myTurn = false;
                         }
-                        SavingHandler.load();
                     }
+                    SavingHandler.load();
+                    renderMap();
 
 
                 }

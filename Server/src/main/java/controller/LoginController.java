@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class LoginController {
@@ -115,8 +116,9 @@ public class LoginController {
         return has_numbers;
     }
     public  void save(User user){
-        loggedUser.replace(user);
-        User.deleteUser(user);
+        User.deleteUser(loggedUser);
+        loggedUser = user;
+        User.getListOfUsers().add(loggedUser);
         User.saveData();
     }
     public int sendFriendRequest(String username,boolean accept){
