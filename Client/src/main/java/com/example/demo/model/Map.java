@@ -12,12 +12,15 @@ import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.model.tiles.TileType;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 public class Map implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 5934131344211415395L;
     public final static int WINDOW_X_STATIC = 5;
     public final static int WINDOW_Y_STATIC = 14;
     private static int staticX;

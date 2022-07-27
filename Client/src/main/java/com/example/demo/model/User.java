@@ -7,15 +7,14 @@ import com.example.demo.view.UserIcon;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
 public class User implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 7777138999990415395L;
     private static ArrayList<User> listOfUsers = new ArrayList<>();
     private UserIcon icon;
     private final String username;

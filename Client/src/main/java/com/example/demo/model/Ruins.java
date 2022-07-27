@@ -10,11 +10,14 @@ import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.StageController;
 import javafx.scene.control.Alert;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Ruins implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 5934138846211415395L;
     private final int type;
     private final Tile tile;
     private final ArrayList<Civilization> civilizations = new ArrayList<>();

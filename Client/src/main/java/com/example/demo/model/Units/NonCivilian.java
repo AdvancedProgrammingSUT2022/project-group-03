@@ -7,9 +7,12 @@ import com.example.demo.model.Civilization;
 import com.example.demo.model.CanAttack;
 import com.example.demo.model.tiles.Tile;
 
+import java.io.Serial;
+
 
 public class NonCivilian extends Unit implements CanAttack {
-
+    @Serial
+    private static final long serialVersionUID = 1111111119195060495L;
     private int fortifiedCycle = 0;
     public boolean attacked = false;
     public UnitType getUnitType() {

@@ -4,9 +4,12 @@ import com.example.demo.model.Producible;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.HealthyBeing;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Building implements Serializable, Producible/*, HealthyBeing*/ {
+    @Serial
+    private static final long serialVersionUID = 6194185412231414725L;
     private final BuildingType buildingType;
     private final Tile tile;
     int remainedCost;

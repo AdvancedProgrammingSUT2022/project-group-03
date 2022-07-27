@@ -15,11 +15,14 @@ import javafx.util.Duration;
 import javafx.util.Pair;
 import org.controlsfx.control.Notifications;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Civilization implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 9169196104110946662L;
     public static class TileCondition implements Serializable {
         private final Tile openedArea;
         private boolean isClear;
