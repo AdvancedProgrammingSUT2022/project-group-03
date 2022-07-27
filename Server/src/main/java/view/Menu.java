@@ -25,6 +25,7 @@ public abstract class Menu {
             } while (!commands(command) && !gameOver());
         }catch (NoSuchElementException e){
             System.out.println(socketHandler.getId() + " disconnected");
+            if(socketHandler.getLoginController().getLoggedUser()!= null)
             socketHandler.getLoginController().logout();
             nextMenu = -1;
         }

@@ -23,9 +23,9 @@ public class User implements Serializable {
     private int score;
     private Date lastWin;
     private Date lastOnline;
-    private final ArrayList<User> invites = new ArrayList<>();
-    private final ArrayList<User> friendsRequest = new ArrayList<>();
-    private final ArrayList<User> friends = new ArrayList<>();
+    private  ArrayList<User> invites = new ArrayList<>();
+    private ArrayList<User> friendsRequest = new ArrayList<>();
+    private  ArrayList<User> friends = new ArrayList<>();
     public UserIcon getIcon() {
         return icon;
     }
@@ -34,6 +34,7 @@ public class User implements Serializable {
             String json = new String(Files.readAllBytes(Paths.get("dataBase/users.json")));
             listOfUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
             }.getType());
+            if(listOfUsers == null) listOfUsers =new ArrayList<>();
         } catch (IOException e) {
             File file = new File("dataBase/users.json");
             try {
@@ -161,8 +162,16 @@ public class User implements Serializable {
     public ArrayList<User> getInvites() {
         return invites;
     }
-
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof  User){
+            if(((User)o).username.equals(username))
+                return true;
+        }
+        return false;
+    }
     public static ArrayList<User> getListOfUsers() {
         return listOfUsers;
     }
+
 }

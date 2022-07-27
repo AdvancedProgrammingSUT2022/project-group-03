@@ -33,8 +33,7 @@
         <TextField fx:id="invitationId"/>
         <Button fx:id="sendInvitationButton" mnemonicParsing="false" text="Send Invitation" onMouseClicked="#sendInvitation"/>
 
-        <TextField fx:id="addPlayerId"/>
-        <Button fx:id="addPlayerButton" mnemonicParsing="false" text="Add Player" onMouseClicked="#addPlayer"/>
+        <Button fx:id="creatGame" mnemonicParsing="false" text="create game" onMouseClicked="#createGame"/>
 
         <Text fx:id="numberOfAutoSaveDetail" text="number of autoSaves:"/>
         <Text fx:id="numberOfAutoSaveText"/>

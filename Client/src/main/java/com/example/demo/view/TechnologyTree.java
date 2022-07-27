@@ -57,7 +57,7 @@ public class TechnologyTree implements Initializable {
         imageView.setFitHeight(25);
         imageView.setFitWidth(25);
         TextField textField = new TextField();
-        textField.setPromptText("Type and click/hit enter");
+        textField.setPromptText("Type and click on the username");
         textField.setLayoutX(35 + imageView.getFitWidth() + 10);
         textField.setLayoutY(StageController.getStage().getHeight() * 1 / 4);
         VBox vBox = new VBox();
@@ -96,7 +96,7 @@ public class TechnologyTree implements Initializable {
         });
         upperMapPane.getChildren().add(vBox);
         upperMapPane.getChildren().add(textField);
-        imageView.setOnMouseClicked(event -> System.out.println("u"));
+//        imageView.setOnMouseClicked(event -> System.out.println("u"));
         upperMapPane.getChildren().add(imageView);
     }
 }

@@ -71,14 +71,18 @@ public class GameHandler {
     public void startGame(int x,int y){
         map.setX(x);
         map.setY(y);
-        ArrayList<User > list = new ArrayList<>();
-        for (MySocketHandler handler : socketHandlers) {
-            list.add(handler.getLoginController().getLoggedUser());
-        }
+        ArrayList<User > list = getUsers();
         gameController.startGame(list);
     }
     public void end(){
 
+    }
+    public ArrayList<User> getUsers(){
+        ArrayList<User> list = new ArrayList<>();
+        for (MySocketHandler handler : socketHandlers) {
+            list.add(handler.getLoginController().getLoggedUser());
+        }
+        return list;
     }
     public TechnologyAndProductionController getTechnologyAndProductionController() {
         return technologyAndProductionController;

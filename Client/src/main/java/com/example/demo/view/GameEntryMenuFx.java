@@ -1,10 +1,18 @@
 package com.example.demo.view;
 
 import com.example.demo.controller.LoginController;
+import com.example.demo.controller.NetworkController;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.Map;
 import com.example.demo.model.User;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -14,9 +22,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GameEntryMenuFx implements Initializable {
@@ -30,10 +41,9 @@ public class GameEntryMenuFx implements Initializable {
     public ScrollPane autoSavesListScrollBar;
     public Text titleManual;
     public Button back;
-    public TextField addPlayerId;
-    public Button addPlayerButton;
     public AnchorPane pane;
     public ScrollPane gameInvitationScrollBar;
+    public Button creatGame;
     int mapX = 60, mapY = 90;
     int autoSave = 0;
     int autoSaveNumbers = 5;
@@ -44,6 +54,7 @@ public class GameEntryMenuFx implements Initializable {
     public SplitMenuButton autoSaveOrNot;
     int numberOfPlayers = 1;
     public ArrayList<User> users = new ArrayList<>();
+    private Timeline twoKilo;
     @FXML
     Button startGameButton, sendInvitationButton;
     private boolean autoSaveIsEnabled;
@@ -84,29 +95,28 @@ public class GameEntryMenuFx implements Initializable {
 
     @FXML
     public void sendInvitation() {
+        switch (Integer.parseInt(NetworkController.send("invite "+ invitationId.getText()+";"))){
+            case 0:
+                StageController.errorMaker("invitation","invite sent", Alert.AlertType.INFORMATION);
+                break;
+            case 1:
+                StageController.errorMaker("invitation","no user with this id", Alert.AlertType.ERROR);
+                break;
+            case 2:
+                StageController.errorMaker("invitation","only one invite, wait for response", Alert.AlertType.ERROR);
+                break;
+        }
+
 
     }
 
     @FXML
-    public void addPlayer() {
-        User user = User.findUser(addPlayerId.getText(), false);
-        addPlayerId.setText("");
-        boolean firstBool = user == null, secondBool = users.contains(user);
-        if (firstBool ||
-            secondBool) {
-            if (firstBool)
-                StageController.errorMaker("You can't add this player", "No user with this Id exists", Alert.AlertType.ERROR);
-            else
-                StageController.errorMaker("You can't add this player", "The selected user is already in your game", Alert.AlertType.ERROR);
-            return;
+    public void createGame() {
+        if(0==Integer.parseInt(NetworkController.send("create game"))){
+            StageController.errorMaker("game","successful", Alert.AlertType.INFORMATION);
+        }else {
+            StageController.errorMaker("game","something went wrong", Alert.AlertType.ERROR);
         }
-        StageController.errorMaker("Done", "The selected user added to game successfully", Alert.AlertType.INFORMATION);
-        users.add(user);
-        if (users.size() > numberOfPlayers) {
-            numberOfPlayers = users.size();
-            updateNumberOfUsersText();
-        }
-        setAddedUsersAnchorPane();
 
     }
 
@@ -186,6 +196,21 @@ public class GameEntryMenuFx implements Initializable {
         users = new ArrayList<>();
         users.add(LoginController.getLoggedUser());
         Platform.runLater(this::runLaterPlease);
+        twoKilo = new Timeline(
+                new KeyFrame(Duration.millis(4000), new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        LoginController.setLoggedUser(new Gson().fromJson(NetworkController.send("update"),User.class));
+                        ArrayList<User> usersUpdate = new Gson().fromJson(NetworkController.getResponse(true), new TypeToken<List<User>>() {
+                        }.getType());
+                        if(usersUpdate != null)users = usersUpdate;
+                        updateNumberOfUsersText();
+                        initializeInvite();
+                    }
+                })
+        );
+        twoKilo.setCycleCount(Animation.INDEFINITE);
+        twoKilo.play();
 //        startGameButton.setPrefWidth();
 //        sendInvitationButton.setLayoutX(StageController.getStage().getWidth() - sendInvitationButton.getWidth()*1.5);
 
@@ -227,11 +252,9 @@ public class GameEntryMenuFx implements Initializable {
         sendInvitationButton.setLayoutY(StageController.getStage().getHeight() * 0.63);
         sendInvitationButton.setTooltip(new Tooltip("sends invitation to the username you type"));
 
-        addPlayerId.setLayoutX(StageController.getStage().getWidth() * 0.91 - addPlayerId.getWidth() / 2);
-        addPlayerId.setLayoutY(StageController.getStage().getHeight() * 0.72);
-        addPlayerButton.setLayoutX(StageController.getStage().getWidth() * 0.91 - addPlayerButton.getWidth() / 2);
-        addPlayerButton.setLayoutY(StageController.getStage().getHeight() * 0.75);
-        addPlayerButton.setTooltip(new Tooltip("adds the username you type"));
+        creatGame.setLayoutX(StageController.getStage().getWidth() * 0.91 - creatGame.getWidth() / 2);
+        creatGame.setLayoutY(StageController.getStage().getHeight() * 0.75);
+        creatGame.setTooltip(new Tooltip("adds the username you type"));
 
         MenuItem[] menuItems = {new MenuItem("off"), new MenuItem("each turn"), new MenuItem("each change in map")};
         autoSaveOrNot.getItems().addAll(menuItems);
@@ -309,10 +332,8 @@ public class GameEntryMenuFx implements Initializable {
         background.setFitHeight(StageController.getScene().getHeight());
 
         ScrollPane addedUsersScrollPane = new ScrollPane();
-        addedUsersScrollPane.setLayoutX(addPlayerId.getLayoutX());
-        addedUsersScrollPane.setLayoutY(addPlayerButton.getLayoutY() + addPlayerButton.getHeight() * 1.2);
+        addedUsersScrollPane.setLayoutY(creatGame.getLayoutY() + creatGame.getHeight() * 1.2);
         addedUsersAnchorPane = new AnchorPane();
-        addedUsersAnchorPane.setPrefWidth(addPlayerId.getWidth());
 
         addedUsersScrollPane.setContent(addedUsersAnchorPane);
         setAddedUsersAnchorPane();
@@ -329,15 +350,7 @@ public class GameEntryMenuFx implements Initializable {
         gameInvitationScrollBar.setLayoutY(StageController.getScene().getHeight() * 0.5);
         gameInvitationScrollBar.setLayoutX(StageController.getScene().getWidth() * 0.05 + 500);
         Panels.addText("Game Invitations:",5,20,20,null,gameInvitationPane);
-//        ArrayList<User> requests = LoginController.getLoggedUser().getInvites();
-        //TODO
-        //Hardcode arrayList
-        ArrayList<User> requests = new ArrayList<>();
-        requests.add(new User("bib_bib","assword","bop_bop",false));
-        requests.add(new User("oompa_loompa","assword","wanka",false));
-        requests.add(new User("mama","assword","joe",false));
-        requests.add(new User("glup_shitto","assword","glup_shitto",false));
-        //
+        ArrayList<User> requests = LoginController.getLoggedUser().getInvites();
         for (int i = 0; i < requests.size(); i++) {
             Button button1 = Panels.addButton("Accept",
                     StageController.getScene().getWidth()/1920*150,50 + i*70,80,30,gameInvitationPane);
@@ -350,15 +363,25 @@ public class GameEntryMenuFx implements Initializable {
     }
     private void acceptInvite(User user)
     {
-        //TODO
+        switch (NetworkController.send("accept invite " + user.getUsername()+";")){
+            case "0":
+                StageController.errorMaker("invite","invite accepted!,you are in a game", Alert.AlertType.INFORMATION);
+                break;
+            case "1":
+                StageController.errorMaker("invite","there is no game", Alert.AlertType.ERROR);
+                break;
+            case "2":
+                StageController.errorMaker("invite","something went wrong", Alert.AlertType.ERROR);
+                break;
 
+        }
         initializeInvite();
     }
 
     private void declineInvite(User user)
     {
-        //TODO
-
+        if(!NetworkController.send("decline invite "+ user.getUsername()+";").equals("0"))
+            StageController.errorMaker("invite","something went wrong", Alert.AlertType.INFORMATION);
         initializeInvite();
     }
 
@@ -376,6 +399,8 @@ public class GameEntryMenuFx implements Initializable {
     }
 
     public void back(MouseEvent mouseEvent) {
+        NetworkController.send("menu exit");
+        twoKilo.stop();
         StageController.sceneChanger("mainMenu.fxml");
     }
 

@@ -116,14 +116,15 @@ public class LoginController {
         User.deleteUser(user);
         User.saveData();
     }
-    public int sendFriendRequest(String username){
+    public int sendFriendRequest(String username,boolean accept){
         User user = User.findUser(username,false);
         if(user == null) return 3;
         if(user == loggedUser) return 5;
         if (loggedUser.getFriends().contains(user)) return 2;
-        if(user.getFriendsRequest().contains(loggedUser)) return 1;
+        if(!accept &&user.getFriendsRequest().contains(loggedUser)) return 1;
         if(loggedUser.getFriendsRequest().contains(user)){
             loggedUser.getFriendsRequest().remove(user);
+            user.getFriendsRequest().remove(loggedUser);
             loggedUser.getFriends().add(user);
             user.getFriends().add(loggedUser);
             User.saveData();
@@ -134,7 +135,12 @@ public class LoginController {
         return 0;
     }
 
-
+    public int remove(String username){
+        User user = User.findUser(username,false);
+        if(user == null) return 3;
+        loggedUser.getFriendsRequest().remove(user);
+        return 0;
+    }
     public  User getLoggedUser() {
         return loggedUser;
     }

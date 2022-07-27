@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class HelloApplication extends Application {
-    public static final int SERVER_PORT = 1991;
+    public static final int SERVER_PORT = 50001;
     private static Stage globeStage;
     private static Scene scene;
     private static Pane pane;

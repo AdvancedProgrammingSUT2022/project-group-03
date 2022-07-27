@@ -53,7 +53,7 @@ public class ScoreboardControllerFx implements Initializable {
                 )
         );
         twoKilo.setCycleCount(Animation.INDEFINITE);
-        twoKilo.play();
+        //twoKilo.play();
     }
     public void back(MouseEvent mouseEvent) {
         StageController.getScene().getStylesheets().remove(HelloApplication.getResource("style.css"));
