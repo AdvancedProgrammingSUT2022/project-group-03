@@ -83,7 +83,7 @@ public class GameController {
         unfinishedTasks.remove(gettingDeletedTask);
     }
 
-    public  boolean doesHaveTheRequiredTechnologyToBuildImprovement(ImprovementType improvementType,
+    public boolean doesHaveTheRequiredTechnologyToBuildImprovement(ImprovementType improvementType,
                                                                           Tile tile, Civilization civilization) {
         if (civilization.doesContainTechnology(improvementType.prerequisitesTechnologies) != 1)
             return false;
@@ -93,16 +93,14 @@ public class GameController {
                 civilization.doesContainTechnology(TechnologyType.BRONZE_WORKING) != 1))
             return false;
         if (improvementType == ImprovementType.MINE && tile.getContainedFeature() != null &&
-                selectedUnit != null &&
-                selectedUnit.getCurrentTile().getContainedFeature() != null &&
-                selectedUnit.getCurrentTile().getContainedFeature().getFeatureType() == FeatureType.SWAMP &&
-                selectedUnit.getCivilization().doesContainTechnology(TechnologyType.MASONRY) != 1)
+                tile.getContainedFeature() != null &&
+                tile.getContainedFeature().getFeatureType() == FeatureType.SWAMP &&
+                civilization.doesContainTechnology(TechnologyType.MASONRY) != 1)
             return false;
         if (improvementType == ImprovementType.FARM &&
-                selectedUnit != null &&
-                selectedUnit.getCurrentTile().getContainedFeature() != null &&
-                selectedUnit.getCurrentTile().getContainedFeature().getFeatureType() == FeatureType.SWAMP &&
-                selectedUnit.getCivilization().doesContainTechnology(TechnologyType.MASONRY) != 1) return false;
+                tile.getContainedFeature() != null &&
+                tile.getContainedFeature().getFeatureType() == FeatureType.SWAMP &&
+                civilization.doesContainTechnology(TechnologyType.MASONRY) != 1) return false;
         return improvementType != ImprovementType.FARM ||
                 tile.getContainedFeature() == null ||
                 tile.getContainedFeature().getFeatureType() != FeatureType.FOREST ||

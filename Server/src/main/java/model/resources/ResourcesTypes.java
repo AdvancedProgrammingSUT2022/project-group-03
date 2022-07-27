@@ -78,16 +78,8 @@ public enum ResourcesTypes {
 
 
     public boolean isTechnologyUnlocked(Civilization civilization, Tile tile) {
-        if (technologyTypes != null) {
-            boolean found = false;
-            for (Technology research : civilization.getResearches()) {
-                if (research.getTechnologyType() == technologyTypes) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) return false;
-        }
+        if (civilization.doesContainTechnology(technologyTypes) != 1)
+            return false;
         return GameController.doesHaveTheRequiredTechnologyToBuildImprovement(improvementType, tile, civilization);
     }
 
