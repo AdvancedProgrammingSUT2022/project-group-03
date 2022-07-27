@@ -10,10 +10,13 @@ import com.example.demo.model.features.FeatureType;
 import com.example.demo.model.improvements.Improvement;
 import com.example.demo.model.resources.ResourcesTypes;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 
 public class Tile implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 6194185493813388725L;
     public boolean[] tilesWithRiver = new boolean[6];
     private TileType tileType;
     private ResourcesTypes containedResource;

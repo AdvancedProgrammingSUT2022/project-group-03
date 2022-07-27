@@ -6,7 +6,11 @@ import com.example.demo.model.City;
 import com.example.demo.model.Civilization;
 import com.example.demo.model.tiles.Tile;
 
+import java.io.Serial;
+
 public class Civilian extends Unit {
+    @Serial
+    private static final long serialVersionUID = 7777138419195060495L;
     public Civilian(Tile tile, Civilization civilization, UnitType unitType) {
         super(tile, civilization, unitType);
     }
