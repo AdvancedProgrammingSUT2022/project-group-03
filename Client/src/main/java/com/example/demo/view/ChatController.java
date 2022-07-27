@@ -1,10 +1,14 @@
 package com.example.demo.view;
 
 import com.example.demo.controller.LoginController;
-import com.example.demo.model.Chat;
-import com.example.demo.model.Message;
+import com.example.demo.controller.NetworkController;
+import com.example.demo.model.*;
+import com.google.gson.Gson;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,9 +23,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
-import java.io.*;
-import java.text.DateFormatSymbols;
 import java.util.*;
 
 public class ChatController {
@@ -41,10 +44,20 @@ public class ChatController {
     private ScrollPane scroll;
     private List<Chat> chats = new ArrayList<>();
     private Chat currentChat;
-    private static boolean isInGame =false;
+    private static boolean isInGame = false;
+    private Timeline timeline;
 
 
     public void initialize() {
+
+        timeline = new Timeline(
+            new KeyFrame(Duration.millis(5000), event -> {
+                getChatsFromServer();
+                if (currentChat != null)
+                    loadChats(currentChat.getName());
+            }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
 
         //command bar
         commandBar.getChildren().clear();
@@ -54,8 +67,18 @@ public class ChatController {
         deleteForAll.setVisible(false);
         deleteForMe.setVisible(false);
         edit.setVisible(false);
-        commandBar.getChildren().addAll(deleteForAll, deleteForMe, edit);
+//        commandBar.getChildren().addAll(deleteForAll, deleteForMe, edit);
+        commandBar.getChildren().addAll(deleteForAll, edit);
         deleteForAll.setOnAction(event -> {
+            for (Message message : currentChat.getAllMessages()) {
+                if (message.isSelected()) {
+                    if (!message.getUser().equals(LoginController.getLoggedUser())) {
+                        StageController.errorMaker("Fault", "You can not delete message that not belong to you.", Alert.AlertType.ERROR);
+                        return;
+                    }
+                }
+            }
+
             Alert alert = new Alert(Alert.AlertType.NONE, "Delete selected Message(s)?", ButtonType.OK, ButtonType.CANCEL);
             alert.setTitle("Delete for all");
             alert.initOwner(StageController.getStage());
@@ -64,9 +87,9 @@ public class ChatController {
                     for (Message message : currentChat.getAllMessages())
                         if (message.isSelected()) {
                             message.setContent("This message was deleted.");
+                            updateSavedCurrentChat();
                             message.toggleSelected();
                         }
-                    updateSavedMessages();
                     loadChats(currentChat.getName());
                 }
                 commandBarShowHide();
@@ -80,7 +103,7 @@ public class ChatController {
             alert.showAndWait().ifPresent(buttonType -> {
                 if (buttonType.equals(ButtonType.OK)) {
                     currentChat.getAllMessages().removeIf(Message::isSelected);
-                    updateSavedMessages();
+                    updateSavedCurrentChat();
                     loadChats(currentChat.getName());
                 }
                 commandBarShowHide();
@@ -98,10 +121,23 @@ public class ChatController {
                         break;
                 }
             if (counter == 1) {
+                if (!selectedMessage.getUser().equals(LoginController.getLoggedUser())) {
+                    StageController.errorMaker("Fault", "You can not edit message that not belong to you.", Alert.AlertType.ERROR);
+                    return;
+                }
                 messageField.setText(selectedMessage.getContent());
                 sendButton.setText("Edit");
                 Message finalSelectedMessage = selectedMessage;
-                sendButton.setOnAction(event1 -> editMessage(finalSelectedMessage));
+                sendButton.setOnAction(event1 -> {
+//                    editMessage(finalSelectedMessage);
+                    finalSelectedMessage.setContent(messageField.getText());
+                    finalSelectedMessage.setSelected(false);
+                    updateSavedCurrentChat();
+                    loadChats(currentChat.getName());
+                    messageField.setText("");
+                    sendButton.setText("Send");
+                    sendButton.setOnAction(actionEvent -> sendMessage());
+                });
             } else {
                 Alert alert = new Alert(Alert.AlertType.NONE, "Cannot edit multiple messages at once.", ButtonType.OK);
                 alert.initOwner(StageController.getStage());
@@ -109,31 +145,16 @@ public class ChatController {
             }
         });
 
-
-        //load chats
-        try {
-            FileInputStream fileInputStream = new FileInputStream("dataBase/chats.dat");
-            ObjectInputStream objectStream = new ObjectInputStream(fileInputStream);
-            chats = (List<Chat>) objectStream.readObject();
-            fileInputStream.close();
-            objectStream.close();
-        } catch (Exception e) {
-            System.out.println("Can not load chats :(");
-            System.out.println("Error : " + Arrays.toString(e.getStackTrace()));
-        }
-        if (chats.size() == 0) {
-            Chat publicChat = new Chat("publicChat");
-            chats.add(publicChat);
-        }
+        getChatsFromServer();
 
         showUsersBar();
     }
 
     private void editMessage(Message message) {
         message.setContent(messageField.getText());
-        loadChats(currentChat.getName());
-        updateSavedMessages();
         message.setSelected(false);
+        updateSavedCurrentChat();
+        loadChats(currentChat.getName());
         messageField.setText("");
         sendButton.setText("Send");
         sendButton.setOnAction(event1 -> sendMessage());
@@ -197,26 +218,28 @@ public class ChatController {
         String content = messageField.getText();
         if (content.equals("") || content.matches("^\\s+$"))
             return;
-        Message message = new Message(LoginController.getLoggedUser().getUsername(), content);
-        currentChat.sendMessage(message);
+        Message message = new Message(LoginController.getLoggedUser(), content);
+        currentChat.addMessage(message);
+        updateSavedCurrentChat();
         showMessage(message);
         messageField.setText("");
         scroll.vvalueProperty().bind(chatVBox.heightProperty());
-        updateSavedMessages();
     }
 
-    private void updateSavedMessages() {
-        try {
-            FileOutputStream fileStream = new FileOutputStream("dataBase/chats.dat");
-            ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
-            objectStream.writeObject(chats);
-            objectStream.close();
-            fileStream.close();
-        } catch (Exception e) {
-            System.out.println("An Error occurred during saving chats : ");
-            System.out.println(Arrays.toString(e.getStackTrace()));
-        }
+    private void getChatsFromServer() {
+        System.out.println("getting chats from server");
+        ChatPayload chatPayload = new ChatPayload("get all chats");
+        String response = NetworkController.send(new Gson().toJson(chatPayload));
+        chatPayload = new Gson().fromJson(response, ChatPayload.class);
+        chats = chatPayload.getChats();
     }
+
+    //update chats on the server
+    private void updateSavedCurrentChat() {
+        ChatPayload payload = new ChatPayload("update chat", currentChat);
+        NetworkController.send(new Gson().toJson(payload));
+    }
+
 
     private void showMessage(Message message) {
         Calendar calendar = message.getCalendar();
@@ -224,7 +247,14 @@ public class ChatController {
         date = date.substring(0, date.length() - 10);
         Text title = new Text(message.getSender());
         Text msg = new Text(message.getContent() + "\n_________________\n" + date);
-        ImageView avatar = new ImageView(new Image(LoginController.getLoggedUser().getAvatar()));
+
+        Image image = AssetsController.getUserAvatarImages().get(0);
+        for (int i = 0; i < UserIcon.getVALUES().size(); i++) {
+            if (UserIcon.getVALUES().get(i) == message.getUser().getIcon() && message.getUser().getIcon() != UserIcon.CUSTOM)
+                image = AssetsController.getUserAvatarImages().get(i);
+        }
+
+        ImageView avatar = new ImageView(image);
         avatar.setFitHeight(50);
         avatar.setFitWidth(50);
 
@@ -234,7 +264,7 @@ public class ChatController {
         VBox totalMessage = new VBox(senderName, messageLabel);
         totalMessage.setOnMouseClicked(mouseEvent -> {
             message.toggleSelected();
-            updateSavedMessages();
+            updateSavedCurrentChat();
             loadChats(currentChat.getName());
             commandBarShowHide();
         });
@@ -362,43 +392,59 @@ public class ChatController {
             error.setText("Add at list one user to the room.");
             //TODO: username validation = error.setText("No User exists with this username.");
         else {
-            Chat chat = new Chat("room: " + nameField.getText());
+            Chat chat = new Chat("room: " + nameField.getText(), new ArrayList<>());
             chat.addUser(LoginController.getLoggedUser());
             //TODO: add the users to chat: chat.addUser( ? );
             chats.add(chat);
             showUsersBar();
-            updateSavedMessages();
+            currentChat = chat;
+            updateSavedCurrentChat();
             startChatting(chat.getName());
         }
     }
 
     private void startPrivateChat(TextField usernameField, Text error) {
-        if (usernameField.getText().equals(""))
+        if (usernameField.getText().equals("")) {
             error.setText("Enter a username.");
-            //TODO: username validation = error.setText("No User exists with this username.");
-        else {
-            Chat chat = new Chat(usernameField.getText());
+            return;
+        }
+        //TODO: this not work
+        //username validation
+        User addedUser = null;
+        for (User user : User.getListOfUsers()) {
+            if (user.getUsername().equals(usernameField.getText())) {
+                addedUser = user;
+            }
+        }
+        if (addedUser == null) {
+            error.setText("No User exists with this username.");
+        } else {
+            Chat chat = new Chat(usernameField.getText(), new ArrayList<>());
             chat.addUser(LoginController.getLoggedUser());
-            //TODO: add the second user to chat: chat.addUser( ? );
+            //add the second user to chat
+            chat.addUser(addedUser);
             chats.add(chat);
             showUsersBar();
-            updateSavedMessages();
+            currentChat = chat;
+            updateSavedCurrentChat();
             startChatting(chat.getName());
         }
 
     }
 
 
-    public void settings(ActionEvent event) {
+    public void back() {
+        if (isInGame)
+            StageController.sceneChanger("diplomacy.fxml");
+        else {
+            timeline.stop();
+            ChatPayload payload = new ChatPayload("menu exit");
+            NetworkController.send(new Gson().toJson(payload));
+            StageController.sceneChanger("mainMenu.fxml");
+        }
+        isInGame = false;
     }
 
-    public void back() {
-        if(isInGame)
-            StageController.sceneChanger("diplomacy.fxml");
-        else
-        StageController.sceneChanger("mainMenu.fxml");
-        isInGame=false;
-    }
     public void checkEnter(KeyEvent keyEvent) {
         if (keyEvent.getCode().toString().equals("ENTER"))
             if (sendButton.getText().equals("Send"))

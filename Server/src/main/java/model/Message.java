@@ -2,18 +2,20 @@ package model;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
+
 
 public class Message implements Serializable {
+    private User user;
     private final String sender;
     private String content;
     private boolean sent;
     private boolean seen;
-    private boolean isSelected;
+    private transient boolean isSelected;
     private Calendar calendar;
 
-    public Message(String sender, String content) {
-        this.sender = sender;
+    public Message(User user, String content) {
+        this.user = user;
+        this.sender = user.getUsername();
         this.content = content;
         calendar = Calendar.getInstance();
     }
@@ -60,5 +62,9 @@ public class Message implements Serializable {
 
     public Calendar getCalendar() {
         return calendar;
+    }
+
+    public User getUser() {
+        return user;
     }
 }
