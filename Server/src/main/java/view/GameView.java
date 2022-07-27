@@ -271,6 +271,11 @@ public class GameView extends Menu{
             case 33:
                 if(socketHandler.getGame().over){
                     socketHandler.send("end");
+                    SavingHandler.save(socketHandler);
+                    socketHandler.send(game.getGameController().getWinner().getUser().getUsername());
+                    nextMenu = 1;
+                    socketHandler.setGame(null);
+                    return true;
                 }else {
                     if(turn){
                         socketHandler.send("your turn");

@@ -494,6 +494,9 @@ public class GameController {
         return winnerSend;
     }
 
+    public static void setWinnerSend(Civilization winnerSend) {
+        GameController.winnerSend = winnerSend;
+    }
 
     public static Civilization getCurrentCivilization() {
         return civilizations.get(playerTurn);
