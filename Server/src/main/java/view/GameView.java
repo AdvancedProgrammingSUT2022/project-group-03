@@ -53,6 +53,7 @@ public class GameView extends Menu{
                 "^unitRemoveFromTile (\\d+) (\\S+)",//30
                 "^unitRepair (\\d+)",
                 "^pillage (\\d+)",
+                "^update ", //33
 
         };
     }
@@ -267,6 +268,8 @@ public class GameView extends Menu{
                 unit = game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).getUnits().get(Integer.parseInt(matcher.group(1)));
                 socketHandler.send(String.valueOf(game.getUnitStateController().unitPillage(unit)));
                 break;
+            case 33:
+
 
 
 
