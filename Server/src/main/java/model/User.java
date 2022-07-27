@@ -173,4 +173,5 @@ public class User implements Serializable {
     public static ArrayList<User> getListOfUsers() {
         return listOfUsers;
     }
+
 }

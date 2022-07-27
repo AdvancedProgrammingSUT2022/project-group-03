@@ -31,6 +31,9 @@
             prefHeight="25.0" prefWidth="100.0" text="back"/>
     <ScrollPane fx:id="gameInvitationScrollBar" />
 
+    <TextField fx:id="sendRequestTextField"/>
+    <Button fx:id="sendRequestButton"/>
+
 
 
 

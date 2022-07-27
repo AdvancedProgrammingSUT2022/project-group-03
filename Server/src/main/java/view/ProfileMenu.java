@@ -18,7 +18,8 @@ public class ProfileMenu extends Menu{
                 "^menu enter.*",
                 "^friend (?<name>\\S+)",
                 "^rm (?<name>\\S+)",
-                "^update"
+                "^update",
+                "^getUserList"
         };
     }
     private final String[] fieldRegexes = {
@@ -62,6 +63,9 @@ public class ProfileMenu extends Menu{
                 break;
             case 6:
                 socketHandler.send(new Gson().toJson(socketHandler.getLoginController().getLoggedUser()));
+                break;
+            case 7:
+                socketHandler.send(new Gson().toJson(User.getListOfUsers()));
                 break;
 
         }

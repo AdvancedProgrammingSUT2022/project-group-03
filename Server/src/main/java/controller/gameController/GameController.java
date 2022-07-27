@@ -77,7 +77,7 @@ public class GameController {
         unfinishedTasks.remove(gettingDeletedTask);
     }
 
-    public  boolean doesHaveTheRequiredTechnologyToBuildImprovement(ImprovementType improvementType,
+    public boolean doesHaveTheRequiredTechnologyToBuildImprovement(ImprovementType improvementType,
                                                                           Tile tile, Civilization civilization) {
         if (civilization.doesContainTechnology(improvementType.prerequisitesTechnologies) != 1)
             return false;
