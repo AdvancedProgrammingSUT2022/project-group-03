@@ -26,55 +26,34 @@ public class UnitStateController {
                 tile.getTileType() != TileType.MOUNTAIN;
     }
 
-    public  int unitMoveTo(int x, int y) {
+    public  int unitMoveTo(int x, int y,Unit unit) {
         Tile tile = gameController.getMap().coordinatesToTile(x, y);
         if (tile.getTileType() == TileType.OCEAN ||
                 tile.getTileType() == TileType.MOUNTAIN)
             return 3;
-        gameController.deleteFromUnfinishedTasks(new Tasks(gameController
-                .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
-        gameController.getSelectedUnit().setState(UnitState.AWAKE);
-        if(gameController.getSelectedUnit().getUnitType().combatType==CombatType.CIVILIAN && tile.getNonCivilian()!=null &&
-                tile.getCivilian().getCivilization()!= gameController.getSelectedUnit().getCivilization())
+        gameController.deleteFromUnfinishedTasks(new Tasks(unit.getCurrentTile(), TaskTypes.UNIT));
+        unit.setState(UnitState.AWAKE);
+        if(unit.getUnitType().combatType==CombatType.CIVILIAN && tile.getNonCivilian()!=null &&
+                tile.getCivilian().getCivilization()!= unit.getCivilization())
             return 5;
-        if (gameController.getSelectedUnit().move(tile, true)) {
-            if(gameController.getSelectedUnit().getUnitType().combatType!=CombatType.CIVILIAN && tile.getCivilian()!=null &&
-                    tile.getCivilian().getCivilization()!= gameController.getSelectedUnit().getCivilization())
+        if (unit.move(tile, true,gameController,game.getSocketHandlers().get(game.getGameController().getPlayerTurn()))) {
+            if(unit.getUnitType().combatType!=CombatType.CIVILIAN && tile.getCivilian()!=null &&
+                    tile.getCivilian().getCivilization()!= unit.getCivilization())
             {
-                tile.getCivilian().setCivilization(gameController.getSelectedUnit().getCivilization());
+                tile.getCivilian().setCivilization(unit.getCivilization());
             }
             return 0;
         }
         return 4;
     }
 
-    public  void unitSleep() {
-        gameController.deleteFromUnfinishedTasks(new Tasks(gameController
-            .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
-        gameController.getSelectedUnit().setState(UnitState.SLEEP);
+    public  void unitSleep(Unit unit) {
+        gameController.deleteFromUnfinishedTasks(new Tasks(unit.getCurrentTile(), TaskTypes.UNIT));
+        unit.setState(UnitState.SLEEP);
     }
 
-    public  int unitUpgradeCheck() {
-        Unit selectedUnit = gameController.getSelectedUnit();
-        Civilization civilization = gameController.getCivilizations().get(gameController.getPlayerTurn());
-        if (selectedUnit == null)
-            return 1;
-        if (selectedUnit.getCivilization() != civilization)
-            return 2;
-        if (selectedUnit.getUnitType().combatType == CombatType.CIVILIAN ||
-            selectedUnit.getUnitType().getCost() > UnitType.SWORDSMAN.getCost())
-            return 3;
-        if (civilization.doesContainTechnology(TechnologyType.IRON_WORKING) != 1)
-            return 4;
-        if (civilization.getGold() < UnitType.SWORDSMAN.getCost() - selectedUnit.getCost())
-            return 5;
-        if (selectedUnit.getCurrentTile().getCivilization() != civilization)
-            return 6;
-        return 0;
-    }
-
-    public  int unitUpgrade() {
-        Unit selectedUnit = gameController.getSelectedUnit();
+    public  int unitUpgrade(Unit unit) {
+        Unit selectedUnit =unit;
         Civilization civilization = gameController.getCivilizations().get(gameController.getPlayerTurn());
         if (selectedUnit == null)
             return 1;
@@ -91,68 +70,61 @@ public class UnitStateController {
             return 6;
         NonCivilian swordsMan = new NonCivilian(selectedUnit.getCurrentTile(), selectedUnit.getCivilization(), UnitType.SWORDSMAN);
         civilization.getUnits().remove(selectedUnit);
-        selectedUnit.getCurrentTile().setNonCivilian(swordsMan);
+        selectedUnit.getCurrentTile().setNonCivilian(swordsMan,game.getSocketHandlers().get(game.getGameController().getPlayerTurn()));
         civilization.getUnits().add(swordsMan);
-        gameController.setSelectedUnit(swordsMan);
         gameController.openNewArea(swordsMan.getCurrentTile(), swordsMan.getCivilization(), swordsMan);
         return 0;
     }
 
-    public  int unitAlert() {
-        gameController.deleteFromUnfinishedTasks(new Tasks(gameController
-                .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
-        gameController.getSelectedUnit().setState(UnitState.ALERT);
-        if (gameController.openNewArea(gameController.getSelectedUnit().getCurrentTile(),
+    public  int unitAlert(Unit unit) {
+        gameController.deleteFromUnfinishedTasks(new Tasks(unit.getCurrentTile(), TaskTypes.UNIT));
+        unit.setState(UnitState.ALERT);
+        if (gameController.openNewArea(unit.getCurrentTile(),
                 gameController.getCivilizations().get(gameController.getPlayerTurn()),
-                gameController.getSelectedUnit()))
+                unit))
             return 3;
         return 0;
     }
 
-    public  int unitChangeState(int state) {
+    public  int unitChangeState(int state,Unit unit) {
 //        if (GameController.getSelectedUnit() instanceof Civilian)
 //            return 3;
-        gameController.deleteFromUnfinishedTasks(new Tasks(gameController
-                .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
+        gameController.deleteFromUnfinishedTasks(new Tasks(unit.getCurrentTile(), TaskTypes.UNIT));
         if (state == 0)
-            gameController.getSelectedUnit().setState(UnitState.FORTIFY);
+            unit.setState(UnitState.FORTIFY);
         if (state == 1)
-            gameController.getSelectedUnit().setState(UnitState.FORTIFY_UNTIL_FULL_HEALTH);
+            unit.setState(UnitState.FORTIFY_UNTIL_FULL_HEALTH);
         if (state == 2)
-            gameController.getSelectedUnit().setState(UnitState.GARRISON);
+            unit.setState(UnitState.GARRISON);
         if (state == 3)
-            gameController.getSelectedUnit().setState(UnitState.AWAKE);
+           unit.setState(UnitState.AWAKE);
         return 0;
     }
 
-    public  void unitSetupRanged() {
-        gameController.getSelectedUnit().setState(UnitState.SETUP);
-        gameController.deleteFromUnfinishedTasks(new Tasks(gameController
-                .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
+    public  void unitSetupRanged(Unit unit) {
+        unit.setState(UnitState.SETUP);
+        gameController.deleteFromUnfinishedTasks(new Tasks(unit.getCurrentTile(), TaskTypes.UNIT));
     }
 
-    public  int unitFoundCity(String string) {
-        if (gameController.getSelectedUnit().getCurrentTile().getCity() != null)
+    public  int unitFoundCity(String string,Unit unit) {
+        if (unit.getCurrentTile().getCity() != null)
             return 4;
         for (Civilization civilization : gameController.getCivilizations())
-            if (civilization.isInTheCivilizationsBorder(gameController
-                    .getSelectedUnit().getCurrentTile(),gameController))
+            if (civilization.isInTheCivilizationsBorder(unit.getCurrentTile(),gameController))
                 return 4;
-        gameController.deleteFromUnfinishedTasks(new Tasks(gameController
-                .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
-        ((Civilian) gameController.getSelectedUnit()).city(string);
+        gameController.deleteFromUnfinishedTasks(new Tasks(unit.getCurrentTile(), TaskTypes.UNIT));
+        ((Civilian) unit).city(string,gameController,game.getTileXAndYFlagSelectUnitController());
         gameController.getCivilizations().get(gameController.getPlayerTurn()).changeHappiness(-1);
-        unitDelete(gameController.getSelectedUnit());
-        gameController.openNewArea(gameController.getSelectedUnit().getCurrentTile(),
+        unitDelete(unit);
+        gameController.openNewArea(unit.getCurrentTile(),
                 gameController.getCivilizations().get(gameController.getPlayerTurn()), null);
-        gameController.setSelectedUnit(null);
         return 0;
     }
 
-    public  int unitCancelMission() {
-        if (gameController.getSelectedUnit().getDestinationTile() == null &&
-                gameController.getSelectedUnit().getState() == UnitState.AWAKE) return 3;
-        gameController.getSelectedUnit().cancelMission();
+    public  int unitCancelMission(Unit unit) {
+        if (unit.getDestinationTile() == null &&
+                unit.getState() == UnitState.AWAKE) return 3;
+        unit.cancelMission();
         return 0;
     }
 
@@ -160,95 +132,89 @@ public class UnitStateController {
         gameController.deleteFromUnfinishedTasks(new Tasks(unit.getCurrentTile(), TaskTypes.UNIT));
         gameController.getCivilizations().get(gameController.getPlayerTurn()).getUnits().remove(unit);
         if (unit instanceof NonCivilian)
-            unit.getCurrentTile().setNonCivilian(null);
+            unit.getCurrentTile().setNonCivilian(null,game.getSocketHandlers().get(game.getGameController().getPlayerTurn()));
         else
-            unit.getCurrentTile().setCivilian(null);
+            unit.getCurrentTile().setCivilian(null,game.getSocketHandlers().get(game.getGameController().getPlayerTurn()));
         gameController.getCivilizations().get(gameController.getPlayerTurn()).getUnits().remove(unit);
         gameController.getCivilizations().get(gameController.getPlayerTurn())
                 .increaseGold(unit.getUnitType().getCost() / 10);
         gameController.openNewArea(unit.getCurrentTile(), unit.getCivilization(), null);
     }
 
-    public  void unitBuild(ImprovementType improvementType) {
-        gameController.getSelectedUnit().getCurrentTile().setImprovement
+    public  void unitBuild(ImprovementType improvementType,Unit unit) {
+        unit.getCurrentTile().setImprovement
                 (new Improvement(improvementType,
-                        gameController.getSelectedUnit().getCurrentTile()));
-        gameController.getSelectedUnit().setState(UnitState.BUILDING);
+                        unit.getCurrentTile()));
+        unit.setState(UnitState.BUILDING);
         gameController.getCivilizations().get(gameController.getPlayerTurn())
-                .putNotification(improvementType + "'s production started, cycle: ", gameController.getCycle());
+                .putNotification(improvementType + "'s production started, cycle: ", gameController.getCycle(),game.getSocketHandlers().get(game.getGameController().getPlayerTurn()));
     }
 
-    public  void unitBuildRoad() {
-        gameController.deleteFromUnfinishedTasks(new Tasks(gameController
-                .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
-        gameController.getSelectedUnit().getCurrentTile().setRoad
+    public  void unitBuildRoad(Unit unit) {
+        gameController.deleteFromUnfinishedTasks(new Tasks(unit.getCurrentTile(), TaskTypes.UNIT));
+        unit.getCurrentTile().setRoad
                 (new Improvement(ImprovementType.ROAD,
-                        gameController.getSelectedUnit().getCurrentTile()));
-        gameController.getSelectedUnit().setState(UnitState.BUILDING);
+                        unit.getCurrentTile()));
+        unit.setState(UnitState.BUILDING);
         gameController.getCivilizations().get(gameController.getPlayerTurn())
                 .putNotification(ImprovementType.ROAD + "'s production started, cycle: "
-                        , gameController.getCycle());
+                        , gameController.getCycle(),game.getSocketHandlers().get(game.getGameController().getPlayerTurn()));
     }
 
-    public  void unitBuildRailRoad() {
-        gameController.deleteFromUnfinishedTasks(new Tasks(gameController
-                .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
-        gameController.getSelectedUnit().getCurrentTile().setRoad
+    public  void unitBuildRailRoad(Unit unit) {
+        gameController.deleteFromUnfinishedTasks(new Tasks(unit.getCurrentTile(), TaskTypes.UNIT));
+        unit.getCurrentTile().setRoad
                 (new Improvement(ImprovementType.RAILROAD,
-                        gameController.getSelectedUnit().getCurrentTile()));
-        gameController.getSelectedUnit().setState(UnitState.BUILDING);
+                        unit.getCurrentTile()));
+        unit.setState(UnitState.BUILDING);
         gameController.getCivilizations().get(gameController.getPlayerTurn())
                 .putNotification(ImprovementType.RAILROAD + "'s production started, cycle: "
-                        , gameController.getCycle());
+                        , gameController.getCycle(),game.getSocketHandlers().get(game.getGameController().getPlayerTurn()));
     }
 
-    public  void unitRemoveFromTile(boolean isJungle) {
-        gameController.deleteFromUnfinishedTasks(new Tasks(gameController
-                .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
+    public  void unitRemoveFromTile(boolean isJungle,Unit unit) {
+        gameController.deleteFromUnfinishedTasks(new Tasks(unit.getCurrentTile(), TaskTypes.UNIT));
         if (isJungle)
-            ((Civilian) gameController.getSelectedUnit()).remove(1);
+            ((Civilian) unit).remove(1,gameController);
         else
-            gameController.getSelectedUnit().getCurrentTile().setRoad(null);
+            unit.getCurrentTile().setRoad(null);
     }
 
-    public  void unitRepair() {
-        gameController.deleteFromUnfinishedTasks(new Tasks(gameController
-                .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
-        gameController.getSelectedUnit().setState(UnitState.REPAIRING);
+    public  void unitRepair(Unit unit) {
+        gameController.deleteFromUnfinishedTasks(new Tasks(unit.getCurrentTile(), TaskTypes.UNIT));
+        unit.setState(UnitState.REPAIRING);
     }
 
-    public  int unitAttack(int x, int y) {
-        if (!(gameController.getSelectedUnit() instanceof NonCivilian)) return 3;
-        if (((NonCivilian) gameController.getSelectedUnit()).attacked) return 8;
-        if (gameController.getSelectedUnit().getUnitType().combatType == CombatType.SIEGE &&
-                (gameController.getSelectedUnit().getState() != UnitState.SETUP ||
-                        ((NonCivilian) gameController.getSelectedUnit()).getFortifiedCycle() < 1))
+    public  int unitAttack(int x, int y,Unit unit) {
+        if (!(unit instanceof NonCivilian)) return 3;
+        if (((NonCivilian) unit).attacked) return 8;
+        if (unit.getUnitType().combatType == CombatType.SIEGE &&
+                (unit.getState() != UnitState.SETUP ||
+                        ((NonCivilian) unit).getFortifiedCycle() < 1))
             return 7;
-        if (!gameController.canUnitAttack(gameController.getMap().coordinatesToTile(x, y))) return 5;
-        Tile startTile = gameController.getSelectedUnit().getCurrentTile();
-        if (!gameController.getSelectedUnit()
-                .move(gameController.getMap().coordinatesToTile(x, y), true)) return 6;
+        if (!gameController.canUnitAttack(gameController.getMap().coordinatesToTile(x, y),unit)) return 5;
+        Tile startTile = unit.getCurrentTile();
+        if (!unit
+                .move(gameController.getMap().coordinatesToTile(x, y), true,gameController,game.getSocketHandlers().get(game.getGameController().getPlayerTurn()))) return 6;
         gameController.deleteFromUnfinishedTasks(new Tasks(startTile, TaskTypes.UNIT));
-        if (gameController.getSelectedUnit().getCurrentTile() == startTile
-                && gameController.getSelectedUnit().getUnitType().combatType == CombatType.SIEGE)
-            gameController.getSelectedUnit().setState(UnitState.SETUP);
+        if (unit.getCurrentTile() == startTile
+                && unit.getUnitType().combatType == CombatType.SIEGE)
+            unit.setState(UnitState.SETUP);
         return 0;
     }
 
-    public  int unitPillage() {
-        if (!(gameController.getSelectedUnit() instanceof NonCivilian) ||
-                gameController.getSelectedUnit().getCivilization() != gameController.getCivilizations()
+    public  int unitPillage(Unit unit) {
+        if (!(unit instanceof NonCivilian) ||
+                unit.getCivilization() != gameController.getCivilizations()
                         .get(gameController.getPlayerTurn())) return 4;
-        if (((NonCivilian) gameController.getSelectedUnit()).pillage()) return 0;
+        if (((NonCivilian) unit).pillage()) return 0;
         return 3;
     }
 
-    public  int skipUnitTask() {
-        if (gameController.findTask(new Tasks(gameController
-                .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT)) == null)
+    public  int skipUnitTask(Unit unit) {
+        if (gameController.findTask(new Tasks(unit.getCurrentTile(), TaskTypes.UNIT)) == null)
             return 3;
-        gameController.deleteFromUnfinishedTasks(new Tasks(gameController
-                .getSelectedUnit().getCurrentTile(), TaskTypes.UNIT));
+        gameController.deleteFromUnfinishedTasks(new Tasks(unit.getCurrentTile(), TaskTypes.UNIT));
         return 0;
     }
 }

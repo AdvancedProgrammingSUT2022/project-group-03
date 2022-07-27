@@ -54,7 +54,7 @@ public class LoginControllerFX implements Initializable {
     private void login() {
         switch (Integer.parseInt(NetworkController.send("user login" + " -u " + username.getText() + " -p " + password.getText()))) {
             case 0 ->{
-                LoginController.setLoggedUser((User) new Gson().fromJson(NetworkController.getResponse(),User.class));
+                LoginController.setLoggedUser((User) new Gson().fromJson(NetworkController.getResponse(true),User.class));
                 NetworkController.setToken();
                 StageController.sceneChanger("mainMenu.fxml");
             }

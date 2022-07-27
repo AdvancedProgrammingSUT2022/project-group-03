@@ -21,6 +21,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -232,8 +233,21 @@ public class GraphicTile implements Serializable {
                 addButton("Attack", true, false, event1 -> {
                     int x = GameController.getSelectedTile().getX();
                     int y = GameController.getSelectedTile().getY();
-                    int code = UnitStateController.unitAttack(x, y);
-                    switch (code) {
+                    String code =NetworkController.send("unitAttack "+ tile.getX()+" "+ tile.getY()+" "+
+                            GameController.getCivilizations().get(GameController.getPlayerTurn()).getUnits().indexOf(GameController.getSelectedUnit()));
+                    if(code.length()>1) {
+                        Alert alert = StageController.errorMaker("Declaring war, eh?", "By this action, you will declare war to " +
+                                code + " , are you sure?", Alert.AlertType.CONFIRMATION);
+                        if(alert.getResult() == ButtonType.OK){
+                            code = NetworkController.send("ok");
+                        }
+                        else {
+                            code = NetworkController.send("cancel");
+                            return;
+                        }
+                    }
+
+                    switch (Integer.parseInt(code)) {
                         case 7 -> notify("Setup need", "You must setup your unit before attacking!");
                         case 5 -> notify("Attack to what?", "The destination tile has no units that can be attacked.");
                         case 6 -> notify("Can not attack", "The destination tile is so far.");

@@ -1,5 +1,6 @@
 package model.tiles;
 
+import controller.gameController.GameController;
 import model.City;
 import model.Civilization;
 import model.Ruins;
@@ -184,12 +185,12 @@ public class Tile implements Serializable {
         this.civilization = civilization;
     }
 
-    public Tile cloneTileForCivilization(Civilization civilization) {
+    public Tile cloneTileForCivilization(Civilization civilization, GameController gameController ,Unit unit) {
         Tile newTile = new Tile(this.tileType, this.x, this.y);
         newTile.tilesWithRiver = this.tilesWithRiver;
         newTile.containedResource = null;
         newTile.containedFeature = containedFeature;
-        if (containedResource != null && containedResource.isTechnologyUnlocked(civilization, this))
+        if (containedResource != null && containedResource.isTechnologyUnlocked(civilization, this,gameController))
             newTile.containedResource = this.containedResource;
         newTile.improvement = this.improvement;
         newTile.civilization = this.civilization;

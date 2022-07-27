@@ -29,7 +29,21 @@ public class User implements Serializable {
     public UserIcon getIcon() {
         return icon;
     }
-
+    static {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("dataBase/users.json")));
+            listOfUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
+            }.getType());
+        } catch (IOException e) {
+            File file = new File("dataBase/users.json");
+            try {
+                file.createNewFile();
+                listOfUsers = new ArrayList<>();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 
 
     public static User findUser(String string, boolean isNickname) {
@@ -132,6 +146,7 @@ public class User implements Serializable {
         icon = user.icon;
         customAvatar = user.customAvatar;
         score = user.score;
+        saveData();
 
     }
 
@@ -141,6 +156,10 @@ public class User implements Serializable {
 
     public ArrayList<User> getFriendsRequest() {
         return friendsRequest;
+    }
+
+    public ArrayList<User> getInvites() {
+        return invites;
     }
 
     public static ArrayList<User> getListOfUsers() {

@@ -32,6 +32,7 @@ public class GameHandler {
         list.add(this);
     }
 
+
     public ArrayList<MySocketHandler> getSocketHandlers() {
         return socketHandlers;
     }
@@ -76,7 +77,9 @@ public class GameHandler {
         }
         gameController.startGame(list);
     }
+    public void end(){
 
+    }
     public TechnologyAndProductionController getTechnologyAndProductionController() {
         return technologyAndProductionController;
     }

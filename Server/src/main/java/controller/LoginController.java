@@ -44,7 +44,6 @@ public class LoginController {
         if (!tempUser.isPasswordCorrect(password))
             return 3;
         loggedUser = tempUser;
-//        loggedUser.setLastOnline(LocalDateTime.now());
         return 0;
     }
 
@@ -120,17 +119,21 @@ public class LoginController {
     public int sendFriendRequest(String username){
         User user = User.findUser(username,false);
         if(user == null) return 3;
+        if(user == loggedUser) return 5;
         if (loggedUser.getFriends().contains(user)) return 2;
         if(user.getFriendsRequest().contains(loggedUser)) return 1;
         if(loggedUser.getFriendsRequest().contains(user)){
             loggedUser.getFriendsRequest().remove(user);
             loggedUser.getFriends().add(user);
             user.getFriends().add(loggedUser);
+            User.saveData();
             return 4;
         }
         user.getFriendsRequest().add(loggedUser);
+        User.saveData();
         return 0;
     }
+
 
     public  User getLoggedUser() {
         return loggedUser;
