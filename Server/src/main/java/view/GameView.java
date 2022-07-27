@@ -269,6 +269,14 @@ public class GameView extends Menu{
                 socketHandler.send(String.valueOf(game.getUnitStateController().unitPillage(unit)));
                 break;
             case 33:
+                if(socketHandler.getGame().over){
+                    socketHandler.send("end");
+                }else {
+                    if(turn){
+                        socketHandler.send("your turn");
+                    }
+                    SavingHandler.save(socketHandler);
+                }
 
 
 

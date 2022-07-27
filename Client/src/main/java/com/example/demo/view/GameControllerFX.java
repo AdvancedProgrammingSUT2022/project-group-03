@@ -94,6 +94,7 @@ public class GameControllerFX {
                             StageController.errorMaker("turn", "your turn", Alert.AlertType.INFORMATION);
                             myTurn = true;
                         }
+                        SavingHandler.load();
                     }
 
 

@@ -13,6 +13,7 @@ import network.GameHandler;
 import java.time.LocalDateTime;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class GameController {
@@ -199,10 +200,7 @@ public class GameController {
             int maxScore = -10000;
             for (Civilization civilization : civilizations) {
                 int civilizationScore = civilization.getScore(this);
-                if (civilization.getUser().getScore() < civilizationScore) {
-                    civilization.getUser().setScore(civilizationScore);
-//                    civilization.getUser().setHighestScoreDate(LocalDateTime.now());
-                }
+                civilization.getUser().setScore(civilization.getUser().getScore() + civilizationScore);
                 if (civilizationScore > maxScore) {
                     winner = civilization;
                     maxScore = civilizationScore;
@@ -210,6 +208,8 @@ public class GameController {
             }
         }
         winnerSend = winner;
+        if(winner != null) winner.getUser().setLastWin(new Date());
+        User.saveData();
         game.end();
     }
 

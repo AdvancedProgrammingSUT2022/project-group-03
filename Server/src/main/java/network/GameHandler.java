@@ -18,6 +18,7 @@ public class GameHandler {
     private UnitStateController unitStateController;
     private TechnologyAndProductionController technologyAndProductionController;
     private ArrayList<MySocketHandler> socketHandlers;
+    public boolean over = false;
     public boolean started;
     private Map map;
     public static GameHandler findGame(User user){
@@ -83,7 +84,7 @@ public class GameHandler {
         gameController.startGame(list,x,y);
     }
     public void end(){
-
+        over = true;
     }
     public ArrayList<User> getUsers(){
         ArrayList<User> list = new ArrayList<>();
