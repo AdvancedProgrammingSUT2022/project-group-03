@@ -23,11 +23,11 @@ public class SavingHandler {
     public static void save( MySocketHandler socketHandler) {
         Savings savings = new Savings(socketHandler.getGame().getGameController());
         try {
+
             System.gc();
             ObjectOutputStream objectStream = new ObjectOutputStream(socketHandler.getSocket().getOutputStream());
             objectStream.writeObject(savings);
-            objectStream.close();
-            //socketHandler.newPrinter();
+            socketHandler.newPrinter();
             System.gc();
         } catch (Exception e) {
             System.out.println("An Error occurred during saving game : ");

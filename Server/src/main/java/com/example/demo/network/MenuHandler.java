@@ -42,6 +42,7 @@ public class MenuHandler {
                     menu =gameEntryMenu.run(scanner);
                 break;
                 case 4:
+                    gameView.setGame(mySocketHandler.getGame());
                     menu = gameView.run(scanner);
                     break;
                 default:

@@ -10,6 +10,7 @@ import com.example.demo.model.User;
 import com.example.demo.model.tiles.Tile;
 import com.example.demo.view.cheat.Cheat;
 import com.example.demo.view.model.GraphicTile;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
@@ -116,6 +117,8 @@ public class GameControllerFX {
                 }
                 )
         );
+        update.setCycleCount(Animation.INDEFINITE);
+        update.play();
 
         root.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
             if (keyEvent.getCode().getName().equals("S"))

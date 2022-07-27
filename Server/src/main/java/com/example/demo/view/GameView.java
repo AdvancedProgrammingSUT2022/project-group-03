@@ -56,7 +56,9 @@ public class GameView extends Menu{
     private GameHandler game ;
     public GameView(MySocketHandler socketHandler) {
         super(socketHandler);
-        game = socketHandler.getGame();
+    }
+    public void setGame(GameHandler game){
+        this.game = game;
     }
 
     @Override
