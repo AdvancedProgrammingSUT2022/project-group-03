@@ -32,6 +32,7 @@ public class ChatMenu extends Menu {
                 nextMenu = 1;
                 return true;
             }
+            case "get all users" -> chatController.sendAllUsersToClient();
             case "get all chats" -> chatController.sendAllChatsToClient();
 //            case "update chats" -> chatController.updateChats(payload.getChats());
             case "update chat" -> chatController.update(payload.getChat());

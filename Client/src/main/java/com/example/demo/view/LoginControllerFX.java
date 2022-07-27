@@ -71,7 +71,7 @@ public class LoginControllerFX implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Music.play("menu");
+//        Music.play("menu");
         Platform.runLater(this::runLater);
     }
 
