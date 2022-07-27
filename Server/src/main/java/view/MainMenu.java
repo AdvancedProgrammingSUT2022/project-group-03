@@ -52,7 +52,6 @@ public class MainMenu extends Menu {
             System.out.println("you need to at least choose one player");
             return false;
         }
-        socketHandler.getGame().getGameController().startGame(usersList);
         nextMenu = 3;
         System.out.println(socketHandler.getGame().getGameController().printMap());
         return true;

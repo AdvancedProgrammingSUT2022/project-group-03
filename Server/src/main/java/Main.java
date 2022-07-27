@@ -5,7 +5,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Main {
-    static ServerSocket serverSocket;
     public static final int SERVER_PORT = 50001;
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(SERVER_PORT);

@@ -31,10 +31,10 @@ public class GameController {
 
     private static Civilization winnerSend;
 
-    public  void startGame(ArrayList<User> PlayersNames) {
+    public  void startGame(ArrayList<User> PlayersNames,int x,int y) {
         cycle = 1;
         setCivilizations(PlayersNames);
-        map = new Map(civilizations);
+        map = new Map(civilizations,x,y);
         for (int i = 0; i < PlayersNames.size(); i++)
             civilizations.get(i).setTileConditions
                     (new Civilization.TileCondition[map.getX()][map.getY()]);

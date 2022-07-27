@@ -1,9 +1,10 @@
-package com.example.demo.view;
+package view;
 
-import com.example.demo.controller.LoginController;
-import com.example.demo.controller.NetworkController;
-import com.example.demo.controller.gameController.GameController;
-import com.example.demo.model.Savings;
+import controller.LoginController;
+import controller.gameController.GameController;
+import model.Savings;
+import model.Savings;
+import network.MySocketHandler;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.SocketHandler;
 
 public class SavingHandler {
     private static final String manualPath = "dataBase/manualSave/";
@@ -24,39 +26,35 @@ public class SavingHandler {
     public static boolean autoSaveAtRenderingMap = true;
 
 
-    public static void save(boolean isManual) {
-        Savings savings = new Savings();
+    public static void save( MySocketHandler socketHandler) {
+        Savings savings = new Savings(socketHandler.getGame().getGameController());
         try {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss");
-            LocalDateTime now = LocalDateTime.now();
-            String username = LoginController.getLoggedUser().getUsername() + "#";
-            FileOutputStream fileStream;
-            if (isManual) {
-                fileStream = new FileOutputStream(manualPath + username + dtf.format(now));
-            } else {
-                fileStream = new FileOutputStream(autoPath + username + dtf.format(now));
-                while (getNumberOfSaves() > numberOfAutoSaving) {
-                    Files.delete(Paths.get(getOldestSave(autoPath)));
-                }
-            }
-            ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
+            System.gc();
+            ObjectOutputStream objectStream = new ObjectOutputStream(socketHandler.getSocket().getOutputStream());
             objectStream.writeObject(savings);
             objectStream.close();
-            fileStream.close();
+            socketHandler.newPrinter();
+            System.gc();
         } catch (Exception e) {
             System.out.println("An Error occurred during saving game : ");
             e.printStackTrace();
         }
     }
 
-    public static void load() {
+    public static void load(String name, boolean isManual) {
+        String path;
+        if (isManual)
+            path = manualPath + name;
+        else
+            path = autoPath + name;
 
         try {
-            ObjectInputStream objectStream = new ObjectInputStream(NetworkController.getSocket().getInputStream());
+            FileInputStream fileInputStream = new FileInputStream(path);
+            ObjectInputStream objectStream = new ObjectInputStream(fileInputStream);
             Savings savings = (Savings) objectStream.readObject();
+            fileInputStream.close();
             objectStream.close();
-            savings.loadThisToGameController();
-            NetworkController.newScanner();
+            //savings.loadThisToGameController();
             System.out.println(savings.getMap().getX());
         } catch (Exception e) {
             System.out.println("Can not load game :(");
@@ -121,12 +119,12 @@ public class SavingHandler {
     private static List<File> getSaveFiles(File directory) {
         ArrayList<File> fileArrayList = new ArrayList<>(List.of(Objects.requireNonNull(directory.listFiles(File::isFile))));
         fileArrayList.removeIf(file -> file.getName().equals(".gitkeep"));
-        String username = LoginController.getLoggedUser().getUsername();
+       // String username = LoginController.getLoggedUser().getUsername();
         fileArrayList.removeIf(file -> {
             int index = file.getName().indexOf("#");
             if (index == -1)
                 return false;
-            return !file.getName().substring(0, index).equals(username);
+            return true;
         });
         return fileArrayList;
     }

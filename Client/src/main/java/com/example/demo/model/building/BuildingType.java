@@ -53,7 +53,7 @@ public enum BuildingType {
         prerequisites.put(LIBRARY, new ArrayList<>());
         prerequisites.put(MONUMENT, new ArrayList<>());
         prerequisites.put(WALLS, new ArrayList<>());
-        prerequisites.put(WATER_MILL, new ArrayList<>()); //TODO border a river
+        prerequisites.put(WATER_MILL, new ArrayList<>());
         prerequisites.put(ARMORY, new ArrayList<>(List.of(BARRACKS)));
         prerequisites.put(BURIAL_TOMB, new ArrayList<>());
         prerequisites.put(CIRCUS, new ArrayList<>());

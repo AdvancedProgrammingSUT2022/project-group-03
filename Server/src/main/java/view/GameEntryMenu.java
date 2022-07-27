@@ -1,6 +1,7 @@
 package view;
 
 import com.google.gson.Gson;
+import model.Savings;
 import model.User;
 import network.GameHandler;
 import network.MySocketHandler;
@@ -18,7 +19,7 @@ public class GameEntryMenu extends Menu{
                 "^invite (.+);",
                 "^accept invite (.+);",
                 "^decline invite (.+);",
-                "^start (\\d+) (\\d+);"
+                "^start (\\d+) (\\d+)"
         };
     }
     private final String[] fieldRegexes = {
@@ -47,10 +48,17 @@ public class GameEntryMenu extends Menu{
                 return true;
             case 1:
                 socketHandler.send(new Gson().toJson(socketHandler.getLoginController().getLoggedUser()));
-                if(socketHandler.getGame()!= null)
+                if(socketHandler.getGame()!= null) {
+                    if (socketHandler.getGame().started) {
+                        socketHandler.send("start");
+                        SavingHandler.save(socketHandler);
+                    }
+                    else
                     socketHandler.send(new Gson().toJson(socketHandler.getGame().getUsers()));
-                else
+                }
+                else{
                     socketHandler.send(new Gson().toJson(new ArrayList<User>()));
+                }
                 break;
             case 2: {
                 socketHandler.send(String.valueOf(createGame()));
@@ -65,8 +73,7 @@ public class GameEntryMenu extends Menu{
                 socketHandler.send(String.valueOf(decline(command)));
                 break;
             case 6:
-                start(command);
-                socketHandler.send("s");
+                socketHandler.send(String.valueOf(start(command)));
                 break;
         }
         return false;
@@ -109,9 +116,12 @@ public class GameEntryMenu extends Menu{
         return 0;
     }
 
-    private void start(String command){
+    private int start(String command){
         Matcher matcher = getMatcher(regexes[6],command,false);
+        if(socketHandler.getGame().getSocketHandlers().get(0) != socketHandler) return 1;
+        if(socketHandler.getGame().getSocketHandlers().size() < 2) return 2;
         socketHandler.getGame().startGame(Integer.parseInt(matcher.group(1)),Integer.parseInt(matcher.group(2)));
+        return 0;
 
     }
 

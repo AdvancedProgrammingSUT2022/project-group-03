@@ -100,7 +100,13 @@ public class MySocketHandler extends Thread{
         printStream.println(update);
         printStream.flush();
     }
-
+    public void newPrinter(){
+        try {
+            printStream = new PrintStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public Scanner getScanner() {
         return scanner;
     }

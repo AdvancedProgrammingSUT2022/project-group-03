@@ -63,22 +63,18 @@ public class GameEntryMenuFx implements Initializable {
 
     @FXML
     public void startGame() {
-        if (numberOfPlayers < 2) {
-            StageController.errorMaker("can't start the game", "the number of players is too short", Alert.AlertType.ERROR);
-            return;
+        switch (Integer.parseInt(NetworkController.send("start "+mapX +" " + mapY))){
+            case 0:
+                StageController.errorMaker("start game","started", Alert.AlertType.INFORMATION);
+                break;
+            case 1:
+                StageController.errorMaker("start game","wait for owner", Alert.AlertType.INFORMATION);
+                break;
+            case 2:
+                StageController.errorMaker("start game","invite more players", Alert.AlertType.INFORMATION);
+                break;
+
         }
-        Map.setX(mapX);
-        Map.setY(mapY);
-        SavingHandler.autoSaveIsEnabled = autoSaveIsEnabled;
-        SavingHandler.autoSaveAtRenderingMap = autoSaveAtChangingOnMap;
-        SavingHandler.numberOfAutoSaving = autoSaveNumbers;
-        if(users.size()<numberOfPlayers) {
-            int usersSize = users.size();
-            for (int i = 0; i < numberOfPlayers - usersSize; i++)
-                users.add(new User("bot" + i, "bot" + i, "bot" + i, false));
-        }
-        GameController.startGame(users);
-        StageController.sceneChanger("game.fxml");
     }
 
     @FXML
@@ -86,8 +82,6 @@ public class GameEntryMenuFx implements Initializable {
         SavingHandler.autoSaveIsEnabled = autoSaveIsEnabled;
         SavingHandler.autoSaveAtRenderingMap = autoSaveAtChangingOnMap;
         SavingHandler.numberOfAutoSaving = autoSaveNumbers;
-
-        SavingHandler.load(savingName, isManual);
         if (!isManual)
             SavingHandler.autoSaveIsEnabled = true;
         StageController.sceneChanger("game.fxml");
@@ -201,11 +195,19 @@ public class GameEntryMenuFx implements Initializable {
                     @Override
                     public void handle(ActionEvent event) {
                         LoginController.setLoggedUser(new Gson().fromJson(NetworkController.send("update"),User.class));
-                        ArrayList<User> usersUpdate = new Gson().fromJson(NetworkController.getResponse(true), new TypeToken<List<User>>() {
-                        }.getType());
-                        if(usersUpdate != null)users = usersUpdate;
-                        updateNumberOfUsersText();
-                        initializeInvite();
+                        String string = NetworkController.getResponse(true);
+                        if(string.startsWith("start")){
+                            twoKilo.stop();
+                            SavingHandler.load();
+                            StageController.sceneChanger("game.fxml");
+                        }
+                        else {
+                            ArrayList<User> usersUpdate = new Gson().fromJson(string, new TypeToken<List<User>>() {
+                            }.getType());
+                            if (usersUpdate != null) users = usersUpdate;
+                            updateNumberOfUsersText();
+                            initializeInvite();
+                        }
                     }
                 })
         );

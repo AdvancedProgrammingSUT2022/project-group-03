@@ -19,7 +19,8 @@ public class ProfileMenu extends Menu{
                 "^friend (?<name>\\S+)",
                 "^rm (?<name>\\S+)",
                 "^update",
-                "^getUserList"
+                "^getUserList",
+                "^friend; (?<name>\\S+)",
         };
     }
     private final String[] fieldRegexes = {
@@ -66,6 +67,10 @@ public class ProfileMenu extends Menu{
                 break;
             case 7:
                 socketHandler.send(new Gson().toJson(User.getListOfUsers()));
+                break;
+            case 8:
+                matcher = getMatcher(regexes[8],command,false);
+                socketHandler.send(String.valueOf(socketHandler.getLoginController().sendFriendRequest(matcher.group(1),false)));
                 break;
 
         }
