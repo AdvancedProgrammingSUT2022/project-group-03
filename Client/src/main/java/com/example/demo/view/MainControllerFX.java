@@ -65,6 +65,8 @@ public class MainControllerFX implements Initializable {
 
     @FXML
     public void chat() {
+        NetworkController.send("menu enter chat");
+        AssetsController.openLeadersAvatars();
         StageController.sceneChanger("chat.fxml");
     }
 

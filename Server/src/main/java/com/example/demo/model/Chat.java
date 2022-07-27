@@ -6,11 +6,12 @@ import java.util.List;
 
 public class Chat implements Serializable {
     private String name;
-    private final List<User> users = new ArrayList<>();
+    private final List<User> users;
     private final List<Message> messages = new ArrayList<>();
 
-    public Chat(String name) {
+    public Chat(String name, List<User> members) {
         this.name = name;
+        this.users = members;
     }
 
     public void addUser(User user) {
@@ -37,7 +38,4 @@ public class Chat implements Serializable {
         return users;
     }
 
-    public List<Message> getMessages() {
-        return messages;
-    }
 }

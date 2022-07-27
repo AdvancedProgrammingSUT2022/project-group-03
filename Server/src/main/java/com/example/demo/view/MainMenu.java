@@ -92,6 +92,11 @@ public class MainMenu extends Menu {
                     return true;
                 break;
             case 4:
+                if(command.startsWith("menu enter chat")){
+                    nextMenu = 10;
+                    socketHandler.send("chat menu");
+                    return true;
+                }
                 if(command.startsWith("menu enter gameEntry")){
                     nextMenu = 3;
                     socketHandler.send("profile menu");

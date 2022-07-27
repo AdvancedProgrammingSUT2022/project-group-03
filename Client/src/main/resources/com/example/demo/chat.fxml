@@ -30,7 +30,6 @@
             <HBox style="-fx-padding: 5" spacing="10">
                 <Button text="Back" onAction="#back"/>
                 <Button text="New Chat" onAction="#newChat"/>
-                <Button text="Settings" onAction="#settings"/>
             </HBox>
         </HBox>
     </top>
