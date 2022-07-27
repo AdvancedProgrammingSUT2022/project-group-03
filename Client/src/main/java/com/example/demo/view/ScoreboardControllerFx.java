@@ -41,21 +41,18 @@ public class ScoreboardControllerFx implements Initializable {
         StageController.getScene().getStylesheets().add(HelloApplication.getResource("style.css"));
         initBoard();
         twoKilo = new Timeline(
-                new KeyFrame(Duration.millis(2000), new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        NetworkController.send("update");
-                        pane.getChildren().remove(tableView);
-                        rows = FXCollections.observableArrayList();
-                        initBoard();
-                    }
+                new KeyFrame(Duration.millis(2000), event -> {
+                    NetworkController.send("update");
+                    pane.getChildren().remove(tableView);
+                    rows = FXCollections.observableArrayList();
+                    initBoard();
                 }
                 )
         );
         twoKilo.setCycleCount(Animation.INDEFINITE);
         //twoKilo.play();
     }
-    public void back(MouseEvent mouseEvent) {
+    public void back() {
         StageController.getScene().getStylesheets().remove(HelloApplication.getResource("style.css"));
         NetworkController.send("menu exit");
         twoKilo.stop();

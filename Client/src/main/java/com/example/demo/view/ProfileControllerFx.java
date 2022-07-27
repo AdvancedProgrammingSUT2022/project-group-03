@@ -1,18 +1,14 @@
 package com.example.demo.view;
 
-import com.example.demo.HelloApplication;
 import com.example.demo.controller.LoginController;
 import com.example.demo.controller.NetworkController;
 import com.example.demo.model.User;
-import com.example.demo.model.technologies.TechnologyType;
-import com.example.demo.view.model.GraphicTechnology;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -33,7 +29,6 @@ import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
@@ -44,6 +39,7 @@ public class ProfileControllerFx implements Initializable {
     public AnchorPane invitePane;
     public TextField sendRequestTextField;
     public Button sendRequestButton;
+    private ScrollPane friendsListScrollPane;
     Timeline twoKilo;
     @FXML
     private ImageView background;
@@ -66,16 +62,10 @@ public class ProfileControllerFx implements Initializable {
         initializeIcons();
         initializeInvite();
         Platform.runLater(this::runLater);
-        twoKilo = new Timeline(
-                new KeyFrame(Duration.millis(10000), new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        LoginController.setLoggedUser(new Gson().fromJson(NetworkController.send("update"), User.class));
-                        initializeInvite();
-                    }
-                }
-                )
-        );
+        twoKilo = new Timeline(new KeyFrame(Duration.millis(10000), event -> {
+                    LoginController.setLoggedUser(new Gson().fromJson(NetworkController.send("update"), User.class));
+                    initializeInvite();
+        }));
         twoKilo.setCycleCount(Animation.INDEFINITE);
         twoKilo.play();
 
@@ -88,24 +78,28 @@ public class ProfileControllerFx implements Initializable {
 
         sendRequestButton.setOnAction(actionEvent -> {
             User user = User.findUser(sendRequestTextField.getText(), false);
-            sendFriendShipRequest(user);
-            sendRequestTextField.setText("");
+            if (user == null)
+                StageController.errorMaker("Invalid username", "No user with this username exists", Alert.AlertType.ERROR);
+            else {
+                sendFriendShipRequest(user);
+                sendRequestTextField.setText("");
+            }
         });
 
 
         sendRequestTextField.setPromptText("Type and click on the username");
         sendRequestTextField.setLayoutX(StageController.getStage().getWidth() * 0.75);
         sendRequestTextField.setLayoutY(StageController.getStage().getHeight() * 1 / 4);
-        VBox vBox = new VBox();
-        vBox.setBackground(new Background(new BackgroundFill(Color.rgb(255, 255, 255), CornerRadii.EMPTY, Insets.EMPTY)));
+        AnchorPane anchorPane = new AnchorPane();
+        anchorPane.setBackground(new Background(new BackgroundFill(Color.rgb(255, 255, 255), CornerRadii.EMPTY, Insets.EMPTY)));
         Platform.runLater(() -> {
             sendRequestButton.setPrefWidth(sendRequestTextField.getWidth());
             sendRequestButton.setText("Send Request");
             sendRequestButton.setLayoutX(sendRequestTextField.getLayoutX());
             sendRequestButton.setLayoutY(sendRequestTextField.getLayoutY() + sendRequestTextField.getHeight() * 1.5);
-            vBox.setLayoutX(sendRequestTextField.getLayoutX());
-            vBox.setLayoutY(sendRequestTextField.getLayoutY() + sendRequestTextField.getHeight());
-            vBox.setPrefWidth(sendRequestTextField.getWidth());
+            anchorPane.setLayoutX(sendRequestTextField.getLayoutX());
+            anchorPane.setLayoutY(sendRequestTextField.getLayoutY() + sendRequestTextField.getHeight());
+            anchorPane.setPrefWidth(sendRequestTextField.getWidth());
         });
 
         sendRequestTextField.setOnKeyTyped(keyEvent -> {
@@ -113,52 +107,73 @@ public class ProfileControllerFx implements Initializable {
             String string = NetworkController.send("getUserList");
             ArrayList<User> usersUpdate = new Gson().fromJson(string, new TypeToken<List<User>>() {
             }.getType());
-            vBox.getChildren().clear();
+            anchorPane.getChildren().clear();
             if (sendRequestTextField.getText().length() != 0) {
                 int i = 0;
                 for (User listOfUser : usersUpdate) {
                     if (listOfUser.getUsername().toLowerCase().startsWith(sendRequestTextField.getText().toLowerCase()) &&
-                            !listOfUser.getUsername().equals(sendRequestTextField.getText()) &&
                             !listOfUser.getUsername().equals(LoginController.getLoggedUser().getUsername())) {
                         Text text = new Text(listOfUser.getUsername());
-                        text.setLayoutY(i);
-                        text.setLayoutX(5);
+                        text.setY(20 + i*35);
+                        text.setX(35);
                         text.setCursor(Cursor.HAND);
+                        Image image = AssetsController.getUserAvatarImages().get(0);
+                        for (int k = 0; k < UserIcon.getVALUES().size(); k++) {
+                            if(UserIcon.getVALUES().get(k) == listOfUser.getIcon() && listOfUser.getIcon() != UserIcon.CUSTOM)
+                                image = AssetsController.getUserAvatarImages().get(k);
+                        }
+                        ImageView imageView = new ImageView(image);
+                        imageView.setFitWidth(30);
+                        imageView.setFitHeight(30);
+                        imageView.setY( i*35);
+                        imageView.setX(2);
+                        imageView.setCursor(Cursor.HAND);
                         text.setOnMouseClicked(event -> {
                             sendRequestTextField.setText(text.getText());
-                            vBox.getChildren().clear();
+                            anchorPane.getChildren().clear();
                         });
+                        imageView.setOnMouseClicked(event -> {
+                            sendRequestTextField.setText(text.getText());
+                            anchorPane.getChildren().clear();
+                        });
+
                         i += 30;
-                        vBox.getChildren().add(text);
+                        anchorPane.getChildren().add(imageView);
+                        anchorPane.getChildren().add(text);
                     }
                 }
             }
         });
-        pane.getChildren().add(vBox);
-//        imageView.setOnMouseClicked(event -> System.out.println("u"));
+        pane.getChildren().add(anchorPane);
+        friendsListScrollPane =new ScrollPane();
+        friendsListScrollPane.setLayoutX(StageController.getStage().getWidth()*0.75);
+        friendsListScrollPane.setLayoutY(StageController.getStage().getHeight()*0.50);
+        friendsListScrollPane.setPrefWidth(StageController.getStage().getWidth()*0.07);
+        friendsListScrollPane.setPrefHeight(StageController.getStage().getHeight()*0.25);
+        pane.getChildren().add(friendsListScrollPane);
+
+        updateFriendsList();
+
+    }
+
+    private void updateFriendsList()
+    {
+        AnchorPane friendsListAnchorPane = new AnchorPane();
+        friendsListScrollPane.setContent(friendsListAnchorPane);
+        Panels.addText("Your Friends:", 5, 20, 20, null, friendsListAnchorPane);
+
+        for (int i = 0; i < LoginController.getLoggedUser().getFriends().size(); i++)
+            Panels.addText(LoginController.getLoggedUser().getFriends().get(i).getNickname(), 5, 40 + i * 30, 20, null, friendsListAnchorPane);
     }
 
     private void sendFriendShipRequest(User user) {
-        switch (Integer.parseInt(NetworkController.send("friend; "+ user.getUsername()))){
-            case 0:
-                StageController.errorMaker("friendship never ends","request sent", Alert.AlertType.INFORMATION);
-                break;
-            case 1:
-                StageController.errorMaker("friendship never ends","you already sent a request", Alert.AlertType.INFORMATION);
-                break;
-            case 2:
-                StageController.errorMaker("friendship never ends","already a friend", Alert.AlertType.INFORMATION);
-                break;
-            case 3:
-                StageController.errorMaker("friendship never ends","something went wrong", Alert.AlertType.INFORMATION);
-                break;
-            case 4:
-                StageController.errorMaker("friendship never ends","new friend!", Alert.AlertType.INFORMATION);
-                break;
-            case 5:
-                StageController.errorMaker("dumb ass","you are the biggest enemy of yourself", Alert.AlertType.ERROR);
-                break;
-
+        switch (Integer.parseInt(NetworkController.send("friend; " + user.getUsername()))) {
+            case 0 -> StageController.errorMaker("friendship never ends", "request sent", Alert.AlertType.INFORMATION);
+            case 1 -> StageController.errorMaker("friendship never ends", "you already sent a request", Alert.AlertType.INFORMATION);
+            case 2 -> StageController.errorMaker("friendship never ends", "already a friend", Alert.AlertType.INFORMATION);
+            case 3 -> StageController.errorMaker("friendship never ends", "something went wrong", Alert.AlertType.INFORMATION);
+            case 4 -> StageController.errorMaker("friendship never ends", "new friend!", Alert.AlertType.INFORMATION);
+            case 5 -> StageController.errorMaker("dumb ass", "you are the biggest enemy of yourself", Alert.AlertType.ERROR);
         }
     }
 
@@ -173,42 +188,34 @@ public class ProfileControllerFx implements Initializable {
     }
 
 
-    public void changeUserData(ActionEvent mouseEvent) {
+    public void changeUserData() {
         switch (LoginController.changeData(oldPassword.getText(), newPassword.getText(), nickname.getText(), avatarPath)) {
-            case 0:
+            case 0 -> {
                 LoginController.saveUser();
                 StageController.errorMaker("Successful", "changed successfully", Alert.AlertType.INFORMATION);
-                break;
-            case 1:
-                StageController.errorMaker("Input not valid", "wrong password", Alert.AlertType.ERROR);
-                break;
-            case 2:
-                StageController.errorMaker("Input not valid", "enter new password", Alert.AlertType.ERROR);
-                break;
-            case 3:
-                StageController.errorMaker("Input not valid", "not a valid password", Alert.AlertType.ERROR);
-                break;
-            case 4:
-                StageController.errorMaker("Input not valid", "choose another nickname", Alert.AlertType.ERROR);
-                break;
+            }
+            case 1 -> StageController.errorMaker("Input not valid", "wrong password", Alert.AlertType.ERROR);
+            case 2 -> StageController.errorMaker("Input not valid", "enter new password", Alert.AlertType.ERROR);
+            case 3 -> StageController.errorMaker("Input not valid", "not a valid password", Alert.AlertType.ERROR);
+            case 4 -> StageController.errorMaker("Input not valid", "choose another nickname", Alert.AlertType.ERROR);
         }
         User.saveData();
         changeProfile(profile, (int) (200 * SIZE_RATIO), LoginController.getLoggedUser().getAvatar());
     }
 
 
-    public void delete(MouseEvent mouseEvent) {
+    public void delete() {
         User.deleteUser(LoginController.getLoggedUser());
         StageController.sceneChanger("loginMenu.fxml");
     }
 
-    public void back(MouseEvent mouseEvent) {
+    public void back() {
         twoKilo.stop();
         NetworkController.send("menu exit");
         StageController.sceneChanger("mainMenu.fxml");
     }
 
-    public void exit(MouseEvent mouseEvent) {
+    public void exit() {
         StageController.sceneChanger("loginMenu.fxml");
     }
 
