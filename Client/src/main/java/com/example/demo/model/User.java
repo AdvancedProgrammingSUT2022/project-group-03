@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import com.beust.ah.A;
 import com.example.demo.HelloApplication;
+import com.example.demo.controller.NetworkController;
 import com.example.demo.view.UserIcon;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -32,15 +33,6 @@ public class User implements Serializable {
         return icon;
     }
 
-
-
-    public static User findUser(String string, boolean isNickname) {
-        for (User listOfUser : listOfUsers)
-            if ((!isNickname && Objects.equals(listOfUser.username, string)) ||
-                    (isNickname && Objects.equals(listOfUser.nickname, string)))
-                return listOfUser;
-        return null;
-    }
     public static void saveData() {
         FileWriter fileWriter;
         try {
@@ -125,7 +117,7 @@ public class User implements Serializable {
         saveData();
     }
 
-    public ArrayList<User> getFriends() {
+    public ArrayList<String> getFriends() {
         return friends;
     }
 
@@ -133,7 +125,7 @@ public class User implements Serializable {
         return listOfUsers;
     }
 
-    public ArrayList<User> getInvites() {
+    public ArrayList<String> getInvites() {
         return invites;
     }
 
@@ -150,7 +142,17 @@ public class User implements Serializable {
         this.lastWin = lastWin;
     }
 
-    public ArrayList<User> getFriendsRequest() {
+    public ArrayList<String> getFriendsRequest() {
         return friendsRequest;
+    }
+
+    public static User userFromArray(String username, ArrayList<User> arrayList, boolean isNickName)
+    {
+        for (User user : arrayList) {
+            if((!isNickName && user.getUsername().equals(username)) ||
+                    (isNickName && user.getNickname().equals(username)))
+                return user;
+        }
+        return null;
     }
 }

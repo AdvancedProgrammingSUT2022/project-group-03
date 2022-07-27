@@ -77,7 +77,8 @@ public class ProfileControllerFx implements Initializable {
         background.setFitHeight(StageController.getScene().getHeight());
 
         sendRequestButton.setOnAction(actionEvent -> {
-            User user = User.findUser(sendRequestTextField.getText(), false);
+            User user = User.userFromArray(sendRequestTextField.getText(),new Gson().fromJson(NetworkController.send("getUserList"),
+                    new TypeToken<List<User>>() {}.getType()),false);
             if (user == null)
                 StageController.errorMaker("Invalid username", "No user with this username exists", Alert.AlertType.ERROR);
             else {
@@ -160,10 +161,14 @@ public class ProfileControllerFx implements Initializable {
     {
         AnchorPane friendsListAnchorPane = new AnchorPane();
         friendsListScrollPane.setContent(friendsListAnchorPane);
+
         Panels.addText("Your Friends:", 5, 20, 20, null, friendsListAnchorPane);
 
-        for (int i = 0; i < LoginController.getLoggedUser().getFriends().size(); i++)
-            Panels.addText(LoginController.getLoggedUser().getFriends().get(i).getNickname(), 5, 40 + i * 30, 20, null, friendsListAnchorPane);
+        for (int i = 0; i < LoginController.getLoggedUser().getFriends().size(); i++) {
+            User user = User.userFromArray(LoginController.getLoggedUser().getFriends().get(i),new Gson().fromJson(NetworkController.send("getUserList"),
+                    new TypeToken<List<User>>() {}.getType()),false);
+            Panels.addText(user.getNickname(), 5, 40 + i * 30, 20, null, friendsListAnchorPane);
+        }
     }
 
     private void sendFriendShipRequest(User user) {
@@ -300,11 +305,11 @@ public class ProfileControllerFx implements Initializable {
         gameInvitationScrollBar.setLayoutY(StageController.getScene().getHeight() * 0.5);
         gameInvitationScrollBar.setLayoutX(StageController.getScene().getWidth() * 0.05 + 500);
         Panels.addText("FriendShip Requests:", 5, 20, 20, null, invitePane);
-        ArrayList<User> requests = LoginController.getLoggedUser().getFriendsRequest();
-        for (int i = 0; i < requests.size(); i++) {
+        for (int i = 0; i < LoginController.getLoggedUser().getFriendsRequest().size(); i++) {
             Button button1 = Panels.addButton("Accept",
                     StageController.getScene().getWidth() / 1920 * 150, 50 + i * 70, 80, 30, invitePane);
-            User user = requests.get(i);
+            User user = User.userFromArray(LoginController.getLoggedUser().getFriendsRequest().get(i),new Gson().fromJson(NetworkController.send("getUserList"),
+                    new TypeToken<List<User>>() {}.getType()),false);
             button1.setOnAction(actionEvent -> acceptInvite(user));
             button1 = Panels.addButton("Decline", StageController.getScene().getWidth() / 1920 * 150, 80 + i * 70, 80, 30, invitePane);
             button1.setOnAction(actionEvent -> declineInvite(user));

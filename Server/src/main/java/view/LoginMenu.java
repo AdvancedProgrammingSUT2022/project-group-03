@@ -3,6 +3,7 @@ package view;
 
 import com.google.gson.Gson;
 import controller.LoginController;
+import model.User;
 import network.MySocketHandler;
 
 import java.util.regex.Matcher;
@@ -15,7 +16,8 @@ public class LoginMenu extends Menu {
                 "^menu show-current$",
                 "^user create.*",
                 "^user login.*",
-                "^menu enter.*"
+                "^menu enter.*",
+                "^getUserList"
         };
     }
 
@@ -69,6 +71,9 @@ public class LoginMenu extends Menu {
                 break;
             case 4:
                 System.out.println("please login first");
+                break;
+            case 5:
+                socketHandler.send(new Gson().toJson(User.getListOfUsers()));
                 break;
         }
         return false;

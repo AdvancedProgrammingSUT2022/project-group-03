@@ -19,7 +19,8 @@ public class GameEntryMenu extends Menu{
                 "^invite (.+);",
                 "^accept invite (.+);",
                 "^decline invite (.+);",
-                "^start (\\d+) (\\d+)"
+                "^start (\\d+) (\\d+)",
+                "^getUserList"
         };
     }
     private final String[] fieldRegexes = {
@@ -76,6 +77,9 @@ public class GameEntryMenu extends Menu{
                 break;
             case 6:
                 socketHandler.send(String.valueOf(start(command)));
+                break;
+            case 7:
+                socketHandler.send(new Gson().toJson(User.getListOfUsers()));
                 break;
         }
         return false;
