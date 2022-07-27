@@ -7,25 +7,16 @@
     <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/NetworkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/NetworkController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameEntryMenuFx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameEntryMenuFx.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/MainControllerFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/MainControllerFX.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/ProfileControllerFx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/ProfileControllerFx.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/ScoreboardControllerFx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/ScoreboardControllerFx.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/demo/gameEntryMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/demo/gameEntryMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/dataBase/users.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/SavingHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/SavingHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controller/gameController/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/model/Map.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/network/GameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/network/GameHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/network/MenuHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/network/MenuHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/network/MySocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/network/MySocketHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/GameEntryMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/view/GameEntryMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/view/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/view/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/view/ProfileMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/controller/LoginController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/model/User.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/MainMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/view/MainMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/view/ProfileMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/view/ProfileMenu.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,7 +199,7 @@
       <workItem from="1658738025889" duration="3358000" />
       <workItem from="1658766881159" duration="29000" />
       <workItem from="1658807336163" duration="324000" />
-      <workItem from="1658889518827" duration="5254000" />
+      <workItem from="1658889518827" duration="11531000" />
     </task>
     <servers />
   </component>

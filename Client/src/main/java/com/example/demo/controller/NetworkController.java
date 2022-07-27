@@ -97,6 +97,13 @@ public class NetworkController {
             notif.show();
         }
     }
+    public static void newScanner(){
+        try {
+            scanner = new Scanner(socket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     protected static Matcher getMatcher(String regex, String command, boolean toLower) {
         Pattern pattern = Pattern.compile(regex.toLowerCase(Locale.ROOT));
         Matcher matcher = pattern.matcher(command.toLowerCase(Locale.ROOT));
@@ -107,4 +114,5 @@ public class NetworkController {
         matcher.find();
         return matcher;
     }
+
 }

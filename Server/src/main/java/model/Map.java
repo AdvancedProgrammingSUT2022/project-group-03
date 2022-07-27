@@ -32,7 +32,9 @@ public class Map implements Serializable {
         return tiles;
     }
 
-    public Map(ArrayList<Civilization> civilizations) {
+    public Map(ArrayList<Civilization> civilizations,int x,int y) {
+        this.x = x;
+        this.y = y;
         GenerateMap(civilizations);
     }
 

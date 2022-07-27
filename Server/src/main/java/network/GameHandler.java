@@ -18,6 +18,7 @@ public class GameHandler {
     private UnitStateController unitStateController;
     private TechnologyAndProductionController technologyAndProductionController;
     private ArrayList<MySocketHandler> socketHandlers;
+    public boolean started;
     private Map map;
     public static GameHandler findGame(User user){
         for (GameHandler gameHandler : list) {
@@ -69,10 +70,17 @@ public class GameHandler {
         return map;
     }
     public void startGame(int x,int y){
-        map.setX(x);
-        map.setY(y);
+
         ArrayList<User > list = getUsers();
-        gameController.startGame(list);
+        started = true;
+        gameController = new GameController(this);
+        cheatCommandsController = new CheatCommandsController(this);
+        cityCommandsController = new CityCommandsController(this);
+        mapCommandsController = new MapCommandsController(this);
+        tileXAndYFlagSelectUnitController = new TileXAndYFlagSelectUnitController(this);
+        unitStateController = new UnitStateController(this);
+        technologyAndProductionController = new TechnologyAndProductionController(this);
+        gameController.startGame(list,x,y);
     }
     public void end(){
 
