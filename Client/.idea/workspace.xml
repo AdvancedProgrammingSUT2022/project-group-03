@@ -5,12 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/model/Response.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameControllerFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameControllerFX.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/network/MenuHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/network/MenuHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/network/MySocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/network/MySocketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/network/MenuHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/network/MenuHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/network/MySocketHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/network/MySocketHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/dataBase/users.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/GameView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/view/GameView.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/view/GameView.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -204,7 +205,7 @@
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/view/GameControllerFX.java</url>
           <line>89</line>
-          <option name="timeStamp" value="7" />
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

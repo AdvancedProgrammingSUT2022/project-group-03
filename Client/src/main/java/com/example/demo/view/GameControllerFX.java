@@ -87,13 +87,13 @@ public class GameControllerFX {
 
         update = new Timeline(
                 new KeyFrame(Duration.millis(10000), event -> {
-                    String string =NetworkController.send("update");
-                    if(string.startsWith("end")){
+                    String string = NetworkController.send("update");
+                    if (string.startsWith("end")) {
                         SavingHandler.load();
                         renderMap();
-                        String winner =  NetworkController.getResponse(true);
+                        String winner = NetworkController.getResponse(true);
                         for (Civilization civilization : GameController.getCivilizations()) {
-                            if(civilization.getUser().getUsername().equals(winner)){
+                            if (civilization.getUser().getUsername().equals(winner)) {
                                 GameController.setWinnerSend(civilization);
                             }
                         }
@@ -101,15 +101,19 @@ public class GameControllerFX {
                         StageController.sceneChanger("gameEnd");
 
 
-                    }else if(string.startsWith("your turn")){
-                        if(!myTurn) {
+                    } else if (string.startsWith("your turn")) {
+                        if (!myTurn) {
                             //StageController.errorMaker("turn", "your turn", Alert.AlertType.INFORMATION);
                             myTurn = true;
                             for (Node child : root.getChildren()) {
                                 child.setDisable(false);
                             }
-                        }else {
+                        } else {
                             myTurn = false;
+                            for (Node child : root.getChildren()) {
+                                if (child != upperMapPane)
+                                    child.setDisable(true);
+                            }
                         }
                     }
                     SavingHandler.load();
@@ -237,7 +241,7 @@ public class GameControllerFX {
         selectResearchLabel.setOnMouseClicked(event -> {
             if (GameController.getCivilizations().get(GameController.getPlayerTurn()).getCities().size() == 0) {
                 StageController.errorMaker("You cannot enter the select research panel yet",
-                    "You must have atLeast one city to enter the select research panel", Alert.AlertType.ERROR);
+                        "You must have atLeast one city to enter the select research panel", Alert.AlertType.ERROR);
             } else {
                 try {
                     enterSelectResearchPanel();
@@ -258,7 +262,7 @@ public class GameControllerFX {
         diplomacyLabel.setOnMouseClicked(event -> {
             if (GameController.getCurrentCivilization().getKnownCivilizations().size() == 0)
                 StageController.errorMaker("You cannot enter the Diplomacy panel yet",
-                    "You must know atLeast one other civilization to enter the Diplomacy panel", Alert.AlertType.ERROR);
+                        "You must know atLeast one other civilization to enter the Diplomacy panel", Alert.AlertType.ERROR);
             else
                 StageController.sceneChanger("diplomacy.fxml");
         });
@@ -288,7 +292,6 @@ public class GameControllerFX {
             mapPane.getChildren().remove(cross);
         selectingTile = mode;
     }
-
 
 
     public void renderMap() {
@@ -356,10 +359,7 @@ public class GameControllerFX {
             //save the game:
             if (SavingHandler.autoSaveIsEnabled && !SavingHandler.autoSaveAtRenderingMap)
                 SavingHandler.save(false);
-            for (Node child : root.getChildren()) {
-                if(child!=upperMapPane)
-                    child.setDisable(true);
-            }
+
         }
     }
 
@@ -460,7 +460,7 @@ public class GameControllerFX {
         for (GraphicTile[] graphicTiles : graphicMap) {
             for (int j = 0; j < graphicMap[0].length; j++) {
                 if (graphicTiles[j].getTile().getX() == tile.getX() &&
-                    graphicTiles[j].getTile().getY() == tile.getY())
+                        graphicTiles[j].getTile().getY() == tile.getY())
                     return graphicTiles[j];
             }
         }

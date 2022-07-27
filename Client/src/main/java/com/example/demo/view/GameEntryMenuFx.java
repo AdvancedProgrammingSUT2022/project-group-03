@@ -161,7 +161,7 @@ public class GameEntryMenuFx implements Initializable {
         users = new ArrayList<>();
         Platform.runLater(this::runLaterPlease);
         twoKilo = new Timeline(
-                new KeyFrame(Duration.millis(4000), event -> {
+                new KeyFrame(Duration.millis(10000), event -> {
                     LoginController.setLoggedUser(new Gson().fromJson(NetworkController.send("update"),User.class));
                     String string = NetworkController.getResponse(true);
                     if(string.startsWith("start")){
