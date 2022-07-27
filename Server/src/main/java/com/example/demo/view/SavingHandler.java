@@ -21,10 +21,10 @@ public class SavingHandler {
 
 
     public static void save( MySocketHandler socketHandler) {
-        Savings savings = new Savings(socketHandler.getGame().getGameController());
         try {
             System.gc();
-            socketHandler.getObjectOutputStream().writeObject(savings);
+            socketHandler.getObjectOutputStream().writeObject(new Savings(socketHandler.getGame().getGameController()));
+            socketHandler.getObjectOutputStream().flush();
             System.gc();
         } catch (Exception e) {
             System.out.println("An Error occurred during saving game : ");

@@ -90,7 +90,6 @@ public class GameControllerFX {
                     String string = NetworkController.send("update");
                     if (string.startsWith("end")) {
                         SavingHandler.load();
-                        renderMap();
                         String winner = NetworkController.getResponse(true);
                         for (Civilization civilization : GameController.getCivilizations()) {
                             if (civilization.getUser().getUsername().equals(winner)) {
@@ -98,26 +97,26 @@ public class GameControllerFX {
                             }
                         }
                         update.stop();
-                        StageController.sceneChanger("gameEnd");
+                        StageController.sceneChanger("gameEnd.fxml");
 
 
                     } else if (string.startsWith("your turn")) {
                         if (!myTurn) {
                             //StageController.errorMaker("turn", "your turn", Alert.AlertType.INFORMATION);
                             myTurn = true;
-                            for (Node child : root.getChildren()) {
-                                child.setDisable(false);
-                            }
+//                            for (Node child : root.getChildren()) {
+//                                child.setDisable(false);
+//                            }
                         } else {
                             myTurn = false;
-                            for (Node child : root.getChildren()) {
-                                if (child != upperMapPane)
-                                    child.setDisable(true);
-                            }
+//                            for (Node child : root.getChildren()) {
+//                                if (child != upperMapPane)
+//                                    child.setDisable(true);
+//                            }
                         }
                     }
                     SavingHandler.load();
-                    renderMap();
+
                 }
                 )
         );
@@ -295,6 +294,7 @@ public class GameControllerFX {
 
 
     public void renderMap() {
+        System.out.println("I'm rendering");
         mapPane.getChildren().clear();
         Map map = GameController.getMap();
         graphicMap = new GraphicTile[map.getStaticX()][map.getStaticY()];
@@ -302,6 +302,10 @@ public class GameControllerFX {
         for (int j = 0; j < map.getStaticY(); j++)
             for (int i = 0; i < map.getStaticX(); i++) {
                 graphicMap[i][j] = new GraphicTile(tiles[i][j], mapPane, leftPanel, this);
+                if(tiles[i][j].getCity()!=null)
+                {
+                    System.out.println("we have a city");
+                }
             }
         cityPage.setViewOrder(-2);
         mapPane.getChildren().add(cityPage);
