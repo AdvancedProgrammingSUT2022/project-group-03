@@ -98,23 +98,24 @@ public class GameControllerFX {
                         }
                         update.stop();
                         StageController.sceneChanger("gameEnd.fxml");
-
-
                     } else if (string.startsWith("your turn")) {
                         myTurn = true;
                         for (Node child : root.getChildren()) {
                             if (child != upperMapPane)
                                 child.setDisable(false);
                         }
+                        SavingHandler.load();
+                        renderMap();
                     } else {
                         myTurn = false;
                         for (Node child : root.getChildren()) {
                             if (child != upperMapPane)
                                 child.setDisable(true);
                         }
+                        SavingHandler.load();
+                        renderMap();
                     }
-                    SavingHandler.load();
-                    renderMap();
+
 
                 }
                 )

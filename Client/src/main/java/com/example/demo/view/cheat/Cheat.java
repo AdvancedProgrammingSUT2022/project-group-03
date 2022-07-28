@@ -71,6 +71,8 @@ public class Cheat {
             NetworkController.send(cheatCommand.getText());
         } else if (cheatCommand.getText().matches("^increase gold \\d+$")) {
             NetworkController.send(cheatCommand.getText());
+        } else if (cheatCommand.getText().matches("increase turn \\d+")){
+            NetworkController.send(cheatCommand.getText());
         }
         controller.renderMap();
         upperMapPane.getChildren().clear();
