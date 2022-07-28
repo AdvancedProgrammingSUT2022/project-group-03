@@ -471,5 +471,7 @@ public class GameControllerFX {
     private void notify(String title, String message) {
         Notifications notifications = Notifications.create().hideAfter(Duration.seconds(5)).text(message).title(title);
         notifications.show();
+        GameController.getCivilizations().get(GameController.getPlayerTurn()).putNotification(title + ": " + message,GameController.getCycle());
+
     }
 }

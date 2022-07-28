@@ -16,7 +16,9 @@ import javafx.scene.text.Text;
 import javafx.util.Pair;
 
 import java.net.URL;
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class Diplomacy implements Initializable {
@@ -29,10 +31,10 @@ public class Diplomacy implements Initializable {
     private ScrollPane opponentsOffersScrollPane = new ScrollPane();
     private ScrollPane opponentsResourcesScrollPane = new ScrollPane();
     private ScrollPane requestsScrollPane = new ScrollPane();
-    ArrayList<Pair<ResourcesTypes, Integer>> myResources = new ArrayList<>();
-    ArrayList<Pair<ResourcesTypes, Integer>> opponentsResources = new ArrayList<>();
-    ArrayList<Pair<ResourcesTypes, Integer>> myOffers = new ArrayList<>();
-    ArrayList<Pair<ResourcesTypes, Integer>> opponentsOffers = new ArrayList<>();
+    ArrayList<Map.Entry<ResourcesTypes, Integer>> myResources = new ArrayList<>();
+    ArrayList<Map.Entry<ResourcesTypes, Integer>> opponentsResources = new ArrayList<>();
+    ArrayList<Map.Entry<ResourcesTypes, Integer>> myOffers = new ArrayList<>();
+    ArrayList<Map.Entry<ResourcesTypes, Integer>> opponentsOffers = new ArrayList<>();
     private Node[] stayingButtons = new Node[20];
     private Text condition;
 
@@ -159,7 +161,7 @@ public class Diplomacy implements Initializable {
             thisRequestScrollPane.setPrefWidth(StageController.getStage().getWidth() * 0.05);
             thisRequestScrollPane.setPrefHeight(StageController.getStage().getHeight() * 0.20);
             for (int j = 0; j < GameController.getCurrentCivilization().getTradeRequests().get(i).getTheirOffers().size(); j++) {
-                Pair<ResourcesTypes, Integer> pair = GameController.getCurrentCivilization().getTradeRequests().get(i).getTheirOffers().get(j);
+                Map.Entry<ResourcesTypes, Integer> pair = new AbstractMap.SimpleImmutableEntry<>( GameController.getCurrentCivilization().getTradeRequests().get(i).getTheirOffers().get(j));
                 addImageAndTextOfOffer(j, pair.getKey().toString(), pair.getValue(), thisRequestAnchorPane, false);
             }
             addImageAndTextOfOffer(GameController.getCurrentCivilization().getTradeRequests().get(i).getTheirOffers().size(),
@@ -183,7 +185,7 @@ public class Diplomacy implements Initializable {
             thisRequestScrollPane.setPrefWidth(StageController.getStage().getWidth() * 0.05);
             thisRequestScrollPane.setPrefHeight(StageController.getStage().getHeight() * 0.20);
             for (int j = 0; j < GameController.getCurrentCivilization().getTradeRequests().get(i).getYourOffers().size(); j++) {
-                Pair<ResourcesTypes, Integer> pair = GameController.getCurrentCivilization().getTradeRequests().get(i).getYourOffers().get(j);
+                Map.Entry<ResourcesTypes, Integer> pair = new AbstractMap.SimpleImmutableEntry<>(GameController.getCurrentCivilization().getTradeRequests().get(i).getYourOffers().get(j));
                 addImageAndTextOfOffer(j, pair.getKey().toString(), pair.getValue(), thisRequestAnchorPane, false);
             }
             addImageAndTextOfOffer(GameController.getCurrentCivilization().getTradeRequests().get(i).getYourOffers().size(),
@@ -347,7 +349,8 @@ public class Diplomacy implements Initializable {
 
     private void updateMyOffers(boolean isMine) {
         ScrollPane scrollPane = opponentsOffersScrollPane;
-        ArrayList<Pair<ResourcesTypes, Integer>> offers = opponentsOffers;
+
+        ArrayList<Map.Entry<ResourcesTypes, Integer>> offers = opponentsOffers;
         Civilization civilization = opponent;
         int goldNumber = theirGoldOffer;
 
@@ -363,13 +366,13 @@ public class Diplomacy implements Initializable {
         for (int i = 0; i < offers.size(); i++) {
             Label label = addImageAndTextOfOffer(i, offers.get(i).getKey().toString(), offers.get(i).getValue(), anchorPane, true);
             int finalI = i;
-            ArrayList<Pair<ResourcesTypes, Integer>> finalOffers = offers;
+            ArrayList<Map.Entry<ResourcesTypes, Integer>> finalOffers = offers;
             label.setOnMouseClicked(event -> {
                 int value = finalOffers.get(finalI).getValue() - 1;
                 ResourcesTypes key = finalOffers.get(finalI).getKey();
                 finalOffers.remove(finalI);
                 if (value > 0)
-                    finalOffers.add(new Pair<>(key, value));
+                    finalOffers.add(new AbstractMap.SimpleImmutableEntry<>(key, value));
                 updateMyResources(isMine);
                 updateMyOffers(isMine);
             });
@@ -381,8 +384,8 @@ public class Diplomacy implements Initializable {
     private void updateMyResources(boolean isMine) {
         ScrollPane offersScrollPane = opponentsOffersScrollPane;
         ScrollPane resourcesScrollPane = opponentsResourcesScrollPane;
-        ArrayList<Pair<ResourcesTypes, Integer>> offers = opponentsOffers;
-        ArrayList<Pair<ResourcesTypes, Integer>> resources = opponentsResources;
+        ArrayList<Map.Entry<ResourcesTypes, Integer>> offers = opponentsOffers;
+        ArrayList<Map.Entry<ResourcesTypes, Integer>> resources = opponentsResources;
         if (isMine) {
             offersScrollPane = myOffersScrollPane;
             resourcesScrollPane = myResourcesScrollPane;
@@ -391,21 +394,21 @@ public class Diplomacy implements Initializable {
         }
 
         resources.clear();
-        ArrayList<Pair<ResourcesTypes, Integer>> finalResources = resources;
-        ArrayList<Pair<ResourcesTypes, Integer>> finalOffers1 = offers;
+        ArrayList<Map.Entry<ResourcesTypes, Integer>> finalResources = resources;
+        ArrayList<Map.Entry<ResourcesTypes, Integer>> finalOffers1 = offers;
         Civilization civilization = opponent;
         if (isMine)
             civilization = GameController.getCurrentCivilization();
         civilization.getResourcesAmount().forEach((k, v) -> {
             int value = v;
-            for (Pair<ResourcesTypes, Integer> myOffer : finalOffers1) {
+            for (Map.Entry<ResourcesTypes, Integer> myOffer : finalOffers1) {
                 if (myOffer.getKey() == k) {
                     value -= myOffer.getValue();
                     break;
                 }
             }
             if (value > 0)
-                finalResources.add(new Pair<>(k, value));
+                finalResources.add(new AbstractMap.SimpleImmutableEntry<>(k, value));
 
         });
 
@@ -419,8 +422,8 @@ public class Diplomacy implements Initializable {
         for (int i = 0; i < resources.size(); i++) {
             Label label = addImageAndTextOfOffer(i, resources.get(i).getKey().toString(), resources.get(i).getValue(), myResourcesAnchorPane, true);
             int finalI = i;
-            ArrayList<Pair<ResourcesTypes, Integer>> finalResources1 = resources;
-            ArrayList<Pair<ResourcesTypes, Integer>> finalOffers = offers;
+            ArrayList<Map.Entry<ResourcesTypes, Integer>> finalResources1 = resources;
+            ArrayList<Map.Entry<ResourcesTypes, Integer>> finalOffers = offers;
             if (resources.get(i).getValue() <= 0)
                 continue;
             label.setOnMouseClicked(event -> {
@@ -433,7 +436,7 @@ public class Diplomacy implements Initializable {
                     }
                 }
                 value++;
-                finalOffers.add(new Pair<>(finalResources1.get(finalI).getKey(), value));
+                finalOffers.add(new AbstractMap.SimpleImmutableEntry<>(finalResources1.get(finalI).getKey(), value));
                 updateMyOffers(isMine);
                 updateMyResources(isMine);
             });

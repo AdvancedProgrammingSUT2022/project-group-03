@@ -87,7 +87,7 @@ public class InfoController {
     public static String infoNotifications(int cycles) {
         StringBuilder stringBuilder = new StringBuilder();
         int counter = 0;
-        for (int i = GameController.getCycle(); counter<cycles && i>0;i-- ) {
+        for (int i = GameController.getCycle(); counter<cycles && i>=0;i-- ) {
             System.out.println(i);
             if (!GameController.getCurrentCivilization().getNotifications().containsKey(i))
                 continue;

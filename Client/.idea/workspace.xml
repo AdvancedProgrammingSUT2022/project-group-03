@@ -4,8 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="">
+    <list default="true" id="3497fd7b-a279-473a-b35f-14ae003178ce" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.idea/libraries/Maven__com_beust_jcommander_1_82.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/libraries/Maven__org_controlsfx_controlsfx_11_1_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/libraries/Maven__org_openjfx_javafx_media_19_ea_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/libraries/Maven__org_openjfx_javafx_media_win_19_ea_9.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Civilization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/Diplomacy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/Diplomacy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameControllerFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameControllerFX.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/InfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/InfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/TradeRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/TradeRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/model/GraphicTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/model/GraphicTile.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -13,36 +22,13 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="FxmlFile" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-  </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="useMavenConfig" value="true" />
-      </MavenGeneralSettings>
-    </option>
-  </component>
-  <component name="ProjectId" id="28yiIGYfMMG68znD9rB0tSLKgBw" />
+  <component name="ProjectId" id="2CYwpFbc9SYkizUDJ8A4HQWrlng" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -52,126 +38,27 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Server" />
-    <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="A:\project civilization\client\project-group-03\src\main\java\com\example\demo\model" />
-      <recent name="A:\project civilization\client\project-group-03\src\main\java\com\example\demo\controller" />
-      <recent name="A:\project civilization\client\project-group-03\src\main\java\controller" />
-    </key>
-    <key name="CreateTestDialog.Recents.Supers">
-      <recent name="" />
-    </key>
-    <key name="CreateTestDialog.RecentsKey">
-      <recent name="model.Units" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.example.demo.model" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Application.HelloApplication">
-    <configuration name="HelloApplication" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="$USER_HOME$/.jdks/openjdk-18.0.1.1" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+  <component name="RunManager">
+    <configuration name="HelloApplication" type="Application" factoryName="Application" singleton="false" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.demo.HelloApplication" />
       <module name="demo" />
       <option name="VM_PARAMETERS" value="-Xss16m" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.demo.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../../../Program Files/Java/jdk-17.0.1" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="Civilization" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="All in Civilization" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Civilization" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="All in doc_2022-05-11_01-09-28.git" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="doc_2022-05-11_01-09-28.git" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GameControllerTest.buyTile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="doc_2022-05-11_01-09-28.git" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../../Program Files/Java/jdk-17.0.1" />
-      <option name="PACKAGE_NAME" value="controller" />
-      <option name="MAIN_CLASS_NAME" value="controller.GameControllerTest" />
-      <option name="METHOD_NAME" value="buyTile" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <list>
-      <item itemvalue="Application.Main" />
-      <item itemvalue="Application.HelloApplication" />
-      <item itemvalue="JUnit.GameControllerTest.buyTile" />
-      <item itemvalue="JUnit.All in doc_2022-05-11_01-09-28.git" />
-      <item itemvalue="JUnit.All in Civilization" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.HelloApplication" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.All in Civilization" />
-        <item itemvalue="JUnit.All in doc_2022-05-11_01-09-28.git" />
-        <item itemvalue="JUnit.GameControllerTest.buyTile" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="" />
-      <created>1652195146173</created>
+      <changelist id="3497fd7b-a279-473a-b35f-14ae003178ce" name="Changes" comment="" />
+      <created>1658993007161</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1652195146173</updated>
-      <workItem from="1652195148568" duration="1316000" />
-      <workItem from="1652203693785" duration="8104000" />
-      <workItem from="1652215254532" duration="3502000" />
-      <workItem from="1652444118740" duration="25000" />
-      <workItem from="1652444170564" duration="34000" />
-      <workItem from="1652529200172" duration="130000" />
-      <workItem from="1652529424834" duration="1163000" />
-      <workItem from="1658054069405" duration="9416000" />
-      <workItem from="1658136468659" duration="4479000" />
-      <workItem from="1658167143641" duration="1899000" />
-      <workItem from="1658225607369" duration="6762000" />
-      <workItem from="1658310605910" duration="10323000" />
-      <workItem from="1658932315227" duration="2581000" />
-      <workItem from="1658987279041" duration="5285000" />
+      <updated>1658993007161</updated>
+      <workItem from="1658993009967" duration="2486000" />
     </task>
     <servers />
   </component>
@@ -193,14 +80,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java</url>
-          <line>199</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/view/cheat/Cheat.java</url>
-          <line>72</line>
-          <option name="timeStamp" value="8" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/model/Civilization.java</url>
+          <line>311</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -6,18 +6,19 @@ import javafx.util.Pair;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Map;
 
 public record TradeRequest(
-        ArrayList<Pair<ResourcesTypes, Integer>> theirOffers,
-        ArrayList<Pair<ResourcesTypes, Integer>> yourOffers,
+        ArrayList<Map.Entry<ResourcesTypes, Integer>> theirOffers,
+        ArrayList<Map.Entry<ResourcesTypes, Integer>> yourOffers,
         Civilization from, Civilization to, int theirGoldOffer,
         int yourGoldOffer) implements Serializable {
 
-    public ArrayList<Pair<ResourcesTypes, Integer>> getTheirOffers() {
+    public ArrayList<Map.Entry<ResourcesTypes, Integer>> getTheirOffers() {
         return theirOffers;
     }
 
-    public ArrayList<Pair<ResourcesTypes, Integer>> getYourOffers() {
+    public ArrayList<Map.Entry<ResourcesTypes, Integer>> getYourOffers() {
         return yourOffers;
     }
 
