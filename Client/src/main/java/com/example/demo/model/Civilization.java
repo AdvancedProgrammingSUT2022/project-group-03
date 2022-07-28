@@ -308,15 +308,16 @@ public class Civilization implements Serializable {
     }
 
     public void putNotification(String string, int cycle) {
+        System.out.println("helloo??");
         if (!notifications.containsKey(cycle)) {
             ArrayList<String> strings = new ArrayList<>();
             notifications.put(cycle, strings);
         }
         notifications.get(cycle).add(string);
-        Notifications notif = Notifications.create().hideAfter(Duration.seconds(5)).text(string)
-                .title(GameController.getCivilizations().get(GameController.getPlayerTurn()).getUser().getNickname() +
-                        " - cycles: " + cycle);
-        notif.show();
+//        Notifications notif = Notifications.create().hideAfter(Duration.seconds(5)).text(string)
+//                .title(GameController.getCivilizations().get(GameController.getPlayerTurn()).getUser().getNickname() +
+//                        " - cycles: " + cycle);
+//        notif.show();
     }
 
     public void addGold(int number) {

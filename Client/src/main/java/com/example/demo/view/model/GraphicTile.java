@@ -237,7 +237,7 @@ public class GraphicTile implements Serializable {
                 addButton("Attack", true, false, event1 -> {
                     int x = GameController.getSelectedTile().getX();
                     int y = GameController.getSelectedTile().getY();
-                    String code =NetworkController.send("unitAttack "+ tile.getX()+" "+ tile.getY()+" "+
+                    String code =NetworkController.send("unitAttack "+ x+" "+ y+" "+
                             unitToString(GameController.getSelectedUnit()));
                     if(code.length()>1) {
                         Alert alert = StageController.errorMaker("Declaring war, eh?", "By this action, you will declare war to " +
@@ -447,6 +447,7 @@ public class GraphicTile implements Serializable {
     private void notify(String title, String message) {
         Notifications notifications = Notifications.create().hideAfter(Duration.seconds(5)).text(message).title(title);
         notifications.show();
+        GameController.getCivilizations().get(GameController.getPlayerTurn()).putNotification(title + ": " + message,GameController.getCycle());
     }
 
 
