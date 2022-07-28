@@ -337,6 +337,7 @@ public class GraphicTile implements Serializable {
                         });
                 } else if (GameController.canHaveTheImprovement(tile, improvementType))
                     addButton("Build " + improvementType, true, true, event -> {
+                        System.out.println("clicked on unitBuild improvement");
                         NetworkController.send("unitBuild "+
                                 unitToString(GameController.getSelectedUnit())+" " +new Gson().toJson(improvementType));
                         gameControllerFX.renderMap();
