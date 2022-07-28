@@ -504,6 +504,6 @@ public class GameController {
     }
 
     public static Civilization getCurrentCivilization() {
-        return civilizations.get(playerTurn);
+        return civilizations.get(getPlayerTurn());
     }
 }
