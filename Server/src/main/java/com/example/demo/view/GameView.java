@@ -54,7 +54,7 @@ public class GameView extends Menu{
                 "^delete (\\d+ \\d+ \\w+)",
                 "^unitBuild (\\d+ \\d+ \\w+) (\\S+)",
                 "^unitBuildRoad (\\d+ \\d+ \\w+)",
-                "^unitBuildRail (\\d+ \\d+ \\w+)",
+                "^unitBuildRailRoad (\\d+ \\d+ \\w+)",
                 "^unitRemoveFromTile (\\d+ \\d+ \\w+) (\\S+)",//30
                 "^unitRepair (\\d+ \\d+ \\w+)",
                 "^pillage (\\d+ \\d+ \\w+)",
