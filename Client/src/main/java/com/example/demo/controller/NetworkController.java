@@ -55,7 +55,9 @@ public class NetworkController {
         }
         String string = response.l;
         System.out.println(string);
-        //if(string.startsWith("***_____***"))
+        if(string.startsWith("***_____***")){
+            updateHandler();
+        }
         return string;
     }
     public synchronized static String send(String  request){
@@ -76,8 +78,18 @@ public class NetworkController {
         return socket;
     }
     public static void updateHandler(){
-        /*String command = scanner.nextLine();
-         update = scanner.nextLine();
+        String update = "n";
+        String command = "n";
+        try {
+            Response response = (Response) objectInputStream.readObject();
+            command = response.l;
+
+            Response response2 = (Response) objectInputStream.readObject();
+            update = response2.l;
+        } catch (Exception e) {
+            //e.printStackTrace();
+            return;
+        }
         if(command.startsWith("errorMaker")){
             Matcher matcher = getMatcher("(.+);;(.+);;(.+)",update,false);
             if(matcher.group(3).equals("i"))
@@ -91,7 +103,7 @@ public class NetworkController {
                     .title(GameController.getCivilizations().get(GameController.getPlayerTurn()).getUser().getNickname() +
                             " - cycles: " + matcher.group(1));
             notif.show();
-        }*/
+        }
     }
     protected static Matcher getMatcher(String regex, String command, boolean toLower) {
         Pattern pattern = Pattern.compile(regex.toLowerCase(Locale.ROOT));

@@ -37,6 +37,7 @@ public class GameController {
         setCivilizations(PlayersNames);
         game.getSocketHandlers().get(playerTurn).getMenuHandler().getGameView().turn = true;
         map = new Map(civilizations,x,y);
+        game.setMap(map);
         for (int i = 0; i < PlayersNames.size(); i++)
             civilizations.get(i).setTileConditions
                     (new Civilization.TileCondition[map.getX()][map.getY()]);

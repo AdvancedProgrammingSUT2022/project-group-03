@@ -116,7 +116,7 @@ public class MySocketHandler extends Thread{
     }
 
     public void sendUpdate(String command, String update){
-        StringBuilder stringBuilder = new StringBuilder();
+        /*StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("***_____***\n").append(command).append("\n").append(update).append("\n");
         try {
             objectOutputStream.writeObject((new Response(stringBuilder.toString())));
@@ -124,6 +124,8 @@ public class MySocketHandler extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+         */
 
     }
 

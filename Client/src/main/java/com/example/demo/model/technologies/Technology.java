@@ -9,8 +9,8 @@ import java.io.Serializable;
 public class Technology implements Serializable, Producible {
     @Serial
     private static final long serialVersionUID = 8938843412231419955L;
-    private final TechnologyType technologyType;
-    private int remainedCost;
+    public final TechnologyType technologyType;
+    public int remainedCost;
 
     public Technology(TechnologyType technologyType) {
         this.technologyType = technologyType;

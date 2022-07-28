@@ -295,7 +295,6 @@ public class GameControllerFX {
 
 
     public void renderMap() {
-        System.out.println("I'm rendering");
         mapPane.getChildren().clear();
         Map map = GameController.getMap();
         graphicMap = new GraphicTile[map.getStaticX()][map.getStaticY()];
@@ -303,10 +302,6 @@ public class GameControllerFX {
         for (int j = 0; j < map.getStaticY(); j++)
             for (int i = 0; i < map.getStaticX(); i++) {
                 graphicMap[i][j] = new GraphicTile(tiles[i][j], mapPane, leftPanel, this);
-                if(tiles[i][j].getCity()!=null)
-                {
-                    System.out.println("we have a city");
-                }
             }
         cityPage.setViewOrder(-2);
         mapPane.getChildren().add(cityPage);
