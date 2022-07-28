@@ -64,7 +64,7 @@ public class GameControllerFX {
     private Pane upperMapPane;
     private double startX;
     private double startY;
-    private Timeline update;
+    public Timeline update;
     private CityPanel cityPanel;
     private AnchorPane unitsPanelPane;
     private static boolean hasStarted = false;

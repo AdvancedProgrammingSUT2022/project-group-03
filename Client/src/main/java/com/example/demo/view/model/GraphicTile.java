@@ -230,6 +230,7 @@ public class GraphicTile implements Serializable {
             });
         } else if (!(unit.getUnitType().combatType == CombatType.SIEGE && unit.getFortifiedCycle() < 1) && !unit.attacked) {
             addButton("Attack", false, true, event -> {
+                gameControllerFX.update.pause();
                 leftPanel.getChildren().clear();
                 Text text = new Text("Click on the tile you want to attack,\n         then click move.");
                 gameControllerFX.setSelectingTile(true);
@@ -247,6 +248,7 @@ public class GraphicTile implements Serializable {
                         }
                         else {
                             code = NetworkController.send("cancel");
+                            gameControllerFX.update.play();
                             return;
                         }
                     }
@@ -259,6 +261,7 @@ public class GraphicTile implements Serializable {
                         case 0 -> StageController.errorMaker("Attack", "Attacked successfully.", Alert.AlertType.INFORMATION);
                         case 9 -> notify("The Units is tired", "");
                     }
+                    gameControllerFX.update.play();
                     gameControllerFX.setSelectingTile(false);
                     gameControllerFX.renderMap();
                 });
