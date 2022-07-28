@@ -116,6 +116,7 @@ public class GameControllerFX {
                         }
                     }
                     SavingHandler.load();
+                    renderMap();
 
                 }
                 )

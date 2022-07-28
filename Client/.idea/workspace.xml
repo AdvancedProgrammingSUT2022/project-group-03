@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="chat ended" />
+    <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="chat ended">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameControllerFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameControllerFX.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/model/Savings.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/model/Savings.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
