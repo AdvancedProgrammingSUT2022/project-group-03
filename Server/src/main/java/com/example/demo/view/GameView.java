@@ -1,6 +1,10 @@
 package com.example.demo.view;
 
+import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.City;
+import com.example.demo.model.Civilization;
+import com.example.demo.model.TradeRequest;
+import com.example.demo.model.Units.Civilian;
 import com.example.demo.model.Units.NonCivilian;
 import com.google.gson.Gson;
 import com.example.demo.model.Units.Unit;
@@ -51,7 +55,13 @@ public class GameView extends Menu{
                 "^unitRemoveFromTile (\\d+ \\d+ \\w+) (\\S+)",//30
                 "^unitRepair (\\d+ \\d+ \\w+)",
                 "^pillage (\\d+ \\d+ \\w+)",
-                "^update", //33
+                "^tradeRequest (.+);;(.+)",
+                "^update", //34
+                "peaceRequest (.+)", //35
+                "acceptTrade (\\d+) (.+)", //36
+                "declineTrade (\\d+)", //37
+                "acceptPeace (\\d+)", //38
+                "declinePeace (\\d+)", //39
 
         };
     }
@@ -101,6 +111,7 @@ public class GameView extends Menu{
             case 5:
                 int gold = Integer.parseInt(command.substring(14));
                 game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).increaseGold(gold);
+                socketHandler.send("");
                 break;
             case 6:
                 Matcher matcher = getMatcher(regexes[6],command,false);
@@ -256,6 +267,18 @@ public class GameView extends Menu{
                 socketHandler.send(String.valueOf(game.getUnitStateController().unitPillage(unit)));
                 break;
             case 33:
+                matcher = getMatcher(regexes[33],command,false);
+                Civilization civilization = null;
+                for (Civilization civilization1 : game.getGameController().getCivilizations()) {
+                    if(civilization1.getUser().getUsername().equals(matcher.group(1))){
+                        civilization = civilization1;
+                    }
+                }
+                TradeRequest tradeRequest = new Gson().fromJson(matcher.group(2),TradeRequest.class);
+                if(civilization != null) civilization.getTradeRequests().add(tradeRequest);
+                socketHandler.send("done");
+                break;
+            case 34:
                 if(socketHandler.getGame().over){
                     socketHandler.send("end");
                     SavingHandler.save(socketHandler);
@@ -275,6 +298,45 @@ public class GameView extends Menu{
                     }
 
                 }
+                break;
+            case 35:
+                matcher = getMatcher(regexes[35],command,false);
+                civilization = null;
+                for (Civilization civilization1 : game.getGameController().getCivilizations()) {
+                    if(civilization1.getUser().getUsername().equals(matcher.group(1))){
+                        civilization = civilization1;
+                    }
+                }
+                if(civilization != null) civilization.getFriendshipRequests().add(game.getGameController().getCurrentCivilization());
+                socketHandler.send("done");
+                break;
+            case 36:
+                matcher = getMatcher(regexes[36],command,false);
+                civilization = null;
+                for (Civilization civilization1 : game.getGameController().getCivilizations()) {
+                    if(civilization1.getUser().getUsername().equals(matcher.group(2))){
+                        civilization = civilization1;
+                    }
+                }
+                case36(Integer.parseInt(matcher.group(1)),civilization);
+                socketHandler.send("done");
+                break;
+            case 37:
+                matcher = getMatcher(regexes[37],command,false);
+                game.getGameController().getCurrentCivilization().getTradeRequests().remove(Integer.parseInt(matcher.group(1)));
+                socketHandler.send("done");
+                break;
+            case 38:
+                matcher = getMatcher(regexes[38],command,false);
+                game.getGameController().getCurrentCivilization().getTradeRequests().remove(Integer.parseInt(matcher.group(1)));
+                socketHandler.send("done");
+                break;
+            case 39:
+                matcher = getMatcher(regexes[39],command,false);
+                game.getGameController().getCurrentCivilization().getFriendshipRequests().remove(Integer.parseInt(matcher.group(1)));
+                socketHandler.send("done");
+                break;
+
 
         }
         return false;
@@ -287,5 +349,36 @@ public class GameView extends Menu{
         else {
             return game.getGameController().getMap().coordinatesToTile(Integer.parseInt(matcher.group(1)),Integer.parseInt(matcher.group(2))).getNonCivilian();
         }
+    }
+    private void case36(int finalI,Civilization opponent){
+        TradeRequest tradeRequest = game.getGameController().getCurrentCivilization().getTradeRequests().get(finalI);
+        for (int i1 = tradeRequest.getTheirOffers().size() - 1; i1 >= 0; i1--) {
+            game.getGameController().getCurrentCivilization().addResources(tradeRequest.getTheirOffers().get(i1).getKey(),
+                    tradeRequest.getTheirOffers().get(i1).getValue());
+            tradeRequest.getFrom().removeResource(tradeRequest.getTheirOffers().get(i1).getKey(),
+                    tradeRequest.getTheirOffers().get(i1).getValue());
+        }
+        for (int i1 = tradeRequest.getYourOffers().size() - 1; i1 >= 0; i1--) {
+            tradeRequest.getFrom().addResources(tradeRequest.getTheirOffers().get(i1).getKey(),
+                    tradeRequest.getTheirOffers().get(i1).getValue());
+            game.getGameController().getCurrentCivilization().removeResource(tradeRequest.getTheirOffers().get(i1).getKey(),
+                    tradeRequest.getTheirOffers().get(i1).getValue());
+        }
+        game.getGameController().getCurrentCivilization().increaseGold(tradeRequest.theirGoldOffer() - tradeRequest.yourGoldOffer());
+        opponent.increaseGold(tradeRequest.yourGoldOffer() - tradeRequest.theirGoldOffer());
+        game.getGameController().getCurrentCivilization().getTradeRequests().remove(finalI);
+    }
+    private void acceptPeace(int finalI){
+        if (game.getGameController().getCurrentCivilization().knownCivilizationsContains(game.getGameController().getCurrentCivilization().getFriendshipRequests().get(finalI))) {
+            for (Pair<Civilization, Integer> knownCivilization : game.getGameController().getCurrentCivilization().getKnownCivilizations()) {
+                if (knownCivilization.getKey() == game.getGameController().getCurrentCivilization().getFriendshipRequests().get(finalI)) {
+                    game.getGameController().getCurrentCivilization().getKnownCivilizations().remove(knownCivilization);
+                    break;
+                }
+            }
+        }
+        game.getGameController().getCurrentCivilization().getKnownCivilizations()
+                .add(new Pair<>(game.getGameController().getCurrentCivilization().getFriendshipRequests().get(finalI), 1));
+        game.getGameController().getCurrentCivilization().getFriendshipRequests().remove(finalI);
     }
 }

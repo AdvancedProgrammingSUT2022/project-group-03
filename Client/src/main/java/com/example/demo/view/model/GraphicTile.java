@@ -386,7 +386,7 @@ public class GraphicTile implements Serializable {
                 addButton("Move", true, false, event2 -> {
                     int x = GameController.getSelectedTile().getX();
                     int y = GameController.getSelectedTile().getY();
-                    int code =Integer.parseInt(NetworkController.send("moveto "+ tile.getX()+" "+ tile.getY()+" "+
+                    int code =Integer.parseInt(NetworkController.send("moveto "+ x+" "+ y+" "+
                             unitToString(GameController.getSelectedUnit())));
                     switch (code) {
                         case 3 -> notify("Impossible movement", "Units cannot move to mountains or oceans.");

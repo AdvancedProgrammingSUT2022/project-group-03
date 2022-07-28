@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="chat ended" />
+    <list default="true" id="7d0e1796-65bb-434f-a46e-3afd2c57ea16" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/gameController/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/gameController/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/Diplomacy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/Diplomacy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/GameView.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,7 +54,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Server" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -168,6 +173,7 @@
       <workItem from="1658225607369" duration="6762000" />
       <workItem from="1658310605910" duration="10323000" />
       <workItem from="1658932315227" duration="2581000" />
+      <workItem from="1658987279041" duration="3308000" />
     </task>
     <servers />
   </component>
@@ -192,6 +198,11 @@
           <url>file://$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java</url>
           <line>199</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/view/cheat/Cheat.java</url>
+          <line>72</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -1,8 +1,10 @@
 package com.example.demo.view;
 
+import com.example.demo.controller.NetworkController;
 import com.example.demo.controller.gameController.GameController;
 import com.example.demo.model.Civilization;
 import com.example.demo.model.resources.ResourcesTypes;
+import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -193,21 +195,7 @@ public class Diplomacy implements Initializable {
                     StageController.getStage().getHeight() * 0.23 * i + StageController.getStage().getHeight() * 0.05, 100, 45, requestsAnchorPane);
             int finalI = i;
             accept.setOnMouseClicked(event -> {
-                TradeRequest tradeRequest = GameController.getCurrentCivilization().getTradeRequests().get(finalI);
-                for (int i1 = tradeRequest.getTheirOffers().size() - 1; i1 >= 0; i1--) {
-                    GameController.getCurrentCivilization().addResources(tradeRequest.getTheirOffers().get(i1).getKey(),
-                            tradeRequest.getTheirOffers().get(i1).getValue());
-                    tradeRequest.getFrom().removeResource(tradeRequest.getTheirOffers().get(i1).getKey(),
-                            tradeRequest.getTheirOffers().get(i1).getValue());
-                }
-                for (int i1 = tradeRequest.getYourOffers().size() - 1; i1 >= 0; i1--) {
-                    tradeRequest.getFrom().addResources(tradeRequest.getTheirOffers().get(i1).getKey(),
-                            tradeRequest.getTheirOffers().get(i1).getValue());
-                    GameController.getCurrentCivilization().removeResource(tradeRequest.getTheirOffers().get(i1).getKey(),
-                            tradeRequest.getTheirOffers().get(i1).getValue());
-                }
-                GameController.getCurrentCivilization().increaseGold(tradeRequest.theirGoldOffer() - tradeRequest.yourGoldOffer());
-                opponent.increaseGold(tradeRequest.yourGoldOffer() - tradeRequest.theirGoldOffer());
+                NetworkController.send("acceptTrade "+finalI + " " + opponent.getUser().getUsername());
                 GameController.getCurrentCivilization().getTradeRequests().remove(finalI);
                 updateRequests();
             });
@@ -215,6 +203,7 @@ public class Diplomacy implements Initializable {
             Button decline = Panels.addButton("Decline", StageController.getStage().getWidth() * 0.105,
                     StageController.getStage().getHeight() * 0.23 * i + StageController.getStage().getHeight() * 0.15, 100, 45, requestsAnchorPane);
             decline.setOnMouseClicked(event -> {
+                NetworkController.send("declineTrade "+finalI );
                 GameController.getCurrentCivilization().getTradeRequests().remove(finalI);
                 updateRequests();
             });
@@ -234,6 +223,7 @@ public class Diplomacy implements Initializable {
 
             accept.setOnMouseClicked(event ->
             {
+                NetworkController.send("acceptTrade "+finalI );
                 if (GameController.getCurrentCivilization().knownCivilizationsContains(GameController.getCurrentCivilization().getFriendshipRequests().get(finalI))) {
                     for (Pair<Civilization, Integer> knownCivilization : GameController.getCurrentCivilization().getKnownCivilizations()) {
                         if (knownCivilization.getKey() == GameController.getCurrentCivilization().getFriendshipRequests().get(finalI)) {
@@ -253,6 +243,7 @@ public class Diplomacy implements Initializable {
                             StageController.getStage().getHeight() * 0.03, 100, 30, requestsAnchorPane);
 
             decline.setOnMouseClicked(event -> {
+                NetworkController.send("declinePeace "+finalI );
                 GameController.getCurrentCivilization().getFriendshipRequests().remove(finalI);
                 updateRequests();
             });
@@ -329,14 +320,15 @@ public class Diplomacy implements Initializable {
                     StageController.getStage().getHeight() * 2.4 / 7,
                     130, 20, upperMapPane);
             button.setOnMouseClicked(event -> {
-                opponent.getFriendshipRequests().add(GameController.getCurrentCivilization());
+                NetworkController.send("peaceRequest "+ opponent.getUser().getUsername());
             });
 
             button = Panels.addButton("Send Trade Request", StageController.getStage().getWidth() * 0.47,
                     StageController.getStage().getHeight() * 2.7 / 7,
                     130, 20, upperMapPane);
             button.setOnMouseClicked(event -> {
-                opponent.getTradeRequests().add(new TradeRequest(myOffers, opponentsOffers, GameController.getCurrentCivilization(), opponent, theirGoldOffer, yourGoldOffer));
+                TradeRequest t = new TradeRequest(myOffers, opponentsOffers, GameController.getCurrentCivilization(), opponent, theirGoldOffer, yourGoldOffer);
+                NetworkController.send("tradeRequest "+ opponent.getUser().getUsername() + ";;"+new Gson().toJson(t));
             });
             updateMyResources(true);
             updateMyResources(false);

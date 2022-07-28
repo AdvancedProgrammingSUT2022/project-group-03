@@ -288,6 +288,7 @@ public class GameControllerFX {
     }
 
     public void setSelectingTile(boolean mode) {
+        System.out.println("set selecting tile: " + mode);
         if (!mode)
             mapPane.getChildren().remove(cross);
         selectingTile = mode;
