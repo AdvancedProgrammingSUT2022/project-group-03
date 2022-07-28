@@ -15,7 +15,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.util.Pair;
 
 import java.net.URL;
 import java.util.AbstractMap;
@@ -27,17 +26,17 @@ public class Diplomacy implements Initializable {
     public Pane upperMapPane;
     public ImageView background;
     private Civilization opponent = null;
-    private ScrollPane knownCivilizationsScrollPane = new ScrollPane();
+    private final ScrollPane knownCivilizationsScrollPane = new ScrollPane();
     private ScrollPane myResourcesScrollPane = new ScrollPane();
     private ScrollPane myOffersScrollPane = new ScrollPane();
     private ScrollPane opponentsOffersScrollPane = new ScrollPane();
     private ScrollPane opponentsResourcesScrollPane = new ScrollPane();
-    private ScrollPane requestsScrollPane = new ScrollPane();
+    private final ScrollPane requestsScrollPane = new ScrollPane();
     ArrayList<Map.Entry<ResourcesTypes, Integer>> myResources = new ArrayList<>();
     ArrayList<Map.Entry<ResourcesTypes, Integer>> opponentsResources = new ArrayList<>();
     ArrayList<Map.Entry<ResourcesTypes, Integer>> myOffers = new ArrayList<>();
     ArrayList<Map.Entry<ResourcesTypes, Integer>> opponentsOffers = new ArrayList<>();
-    private Node[] stayingButtons = new Node[20];
+    private final Node[] stayingButtons = new Node[20];
     private Text condition;
 
     private int theirGoldOffer;
@@ -227,7 +226,7 @@ public class Diplomacy implements Initializable {
             {
                 NetworkController.send("acceptPeace "+finalI );
                 if (GameController.getCurrentCivilization().knownCivilizationsContains(GameController.getCurrentCivilization().getFriendshipRequests().get(finalI))) {
-                    for (Pair<Civilization, Integer> knownCivilization : GameController.getCurrentCivilization().getKnownCivilizations()) {
+                    for (Map.Entry<Civilization, Integer> knownCivilization : GameController.getCurrentCivilization().getKnownCivilizations()) {
                         if (knownCivilization.getKey() == GameController.getCurrentCivilization().getFriendshipRequests().get(finalI)) {
                             GameController.getCurrentCivilization().getKnownCivilizations().remove(knownCivilization);
                             break;
@@ -235,7 +234,7 @@ public class Diplomacy implements Initializable {
                     }
                 }
                 GameController.getCurrentCivilization().getKnownCivilizations()
-                        .add(new Pair<>(GameController.getCurrentCivilization().getFriendshipRequests().get(finalI), 1));
+                        .add(new AbstractMap.SimpleImmutableEntry<>(GameController.getCurrentCivilization().getFriendshipRequests().get(finalI), 1));
                 GameController.getCurrentCivilization().getFriendshipRequests().remove(finalI);
                 updateRequests();
             });
@@ -281,7 +280,7 @@ public class Diplomacy implements Initializable {
                     StageController.getStage().getHeight() * 2 / 7,
                     25, javafx.scene.paint.Color.WHITE, upperMapPane);
             int value = -2;
-            for (Pair<Civilization, Integer> knownCivilization : GameController.getCurrentCivilization().getKnownCivilizations()) {
+            for (Map.Entry<Civilization, Integer> knownCivilization : GameController.getCurrentCivilization().getKnownCivilizations()) {
                 if (knownCivilization.getKey() == opponent) {
                     value = knownCivilization.getValue();
                     break;
@@ -303,14 +302,14 @@ public class Diplomacy implements Initializable {
                     StageController.getStage().getHeight() * 2.1 / 7,
                     130, 20, upperMapPane);
             button.setOnMouseClicked(event -> {
-                for (Pair<Civilization, Integer> knownCivilization : GameController.getCurrentCivilization().getKnownCivilizations()) {
+                for (Map.Entry<Civilization, Integer> knownCivilization : GameController.getCurrentCivilization().getKnownCivilizations()) {
                     if (knownCivilization.getKey() == opponent) {
                         if (knownCivilization.getValue() == -1) {
                             StageController.errorMaker("Your enemy twice, eh?", "You guys are already enemies, dumbA-", Alert.AlertType.ERROR);
                         } else {
                             GameController.getCurrentCivilization().getKnownCivilizations().remove(knownCivilization);
                             GameController.getCurrentCivilization().getKnownCivilizations()
-                                    .add(new Pair<>(opponent, -1));
+                                    .add(new AbstractMap.SimpleImmutableEntry<>(opponent, -1));
                             StageController.errorMaker("Done", "You guys are enemies now", Alert.AlertType.INFORMATION);
                             condition.setText(getConditionString(-1));
                         }
@@ -321,9 +320,7 @@ public class Diplomacy implements Initializable {
             button = Panels.addButton("Send Piss Request", StageController.getStage().getWidth() * 0.47,
                     StageController.getStage().getHeight() * 2.4 / 7,
                     130, 20, upperMapPane);
-            button.setOnMouseClicked(event -> {
-                NetworkController.send("peaceRequest "+ opponent.getUser().getUsername());
-            });
+            button.setOnMouseClicked(event -> NetworkController.send("peaceRequest "+ opponent.getUser().getUsername()));
 
             button = Panels.addButton("Send Trade Request", StageController.getStage().getWidth() * 0.47,
                     StageController.getStage().getHeight() * 2.7 / 7,
@@ -343,11 +340,9 @@ public class Diplomacy implements Initializable {
         ScrollPane scrollPane = opponentsOffersScrollPane;
 
         ArrayList<Map.Entry<ResourcesTypes, Integer>> offers = opponentsOffers;
-        Civilization civilization = opponent;
         int goldNumber = theirGoldOffer;
 
         if (isMine) {
-            civilization = GameController.getCurrentCivilization();
             scrollPane = myOffersScrollPane;
             goldNumber = yourGoldOffer;
             offers = myOffers;
@@ -370,7 +365,7 @@ public class Diplomacy implements Initializable {
             });
         }
 
-        Label label = addImageAndTextOfOffer(offers.size(), "gold", goldNumber, anchorPane, true);
+        addImageAndTextOfOffer(offers.size(), "gold", goldNumber, anchorPane, true);
     }
 
     private void updateMyResources(boolean isMine) {

@@ -15,6 +15,7 @@ import javafx.util.Duration;
 import javafx.util.Pair;
 import org.controlsfx.control.Notifications;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -326,19 +327,19 @@ public class GameController {
         if (tile.getCity() != null &&
                 tile.getCity().getCivilization() != civilization &&
                 !civilization.knownCivilizationsContains(tile.getCity().getCivilization()))
-            civilization.getKnownCivilizations().add(new Pair<>(tile.getCity().getCivilization(), 0));
+            civilization.getKnownCivilizations().add(new AbstractMap.SimpleImmutableEntry<>(tile.getCity().getCivilization(), 0));
         if (tile.getCivilization() != null &&
                 tile.getCivilization() != civilization &&
                 !civilization.knownCivilizationsContains(tile.getCivilization()))
-            civilization.getKnownCivilizations().add(new Pair<>(tile.getCivilization(), 0));
+            civilization.getKnownCivilizations().add(new AbstractMap.SimpleImmutableEntry<>(tile.getCivilization(), 0));
         if (tile.getCivilian() != null &&
                 tile.getCivilian().getCivilization() != civilization &&
                 !civilization.knownCivilizationsContains(tile.getCivilian().getCivilization()))
-            civilization.getKnownCivilizations().add(new Pair<>(tile.getCivilian().getCivilization(), 0));
+            civilization.getKnownCivilizations().add(new AbstractMap.SimpleImmutableEntry<>(tile.getCivilian().getCivilization(), 0));
         if (tile.getNonCivilian() != null &&
                 tile.getNonCivilian().getCivilization() != civilization &&
                 !civilization.knownCivilizationsContains(tile.getNonCivilian().getCivilization()))
-            civilization.getKnownCivilizations().add(new Pair<>(tile.getNonCivilian().getCivilization(), 0));
+            civilization.getKnownCivilizations().add(new AbstractMap.SimpleImmutableEntry<>(tile.getNonCivilian().getCivilization(), 0));
     }
 
     public static boolean openNewArea(Tile tile, Civilization civilization, Unit unit) {

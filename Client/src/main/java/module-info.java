@@ -24,4 +24,5 @@ module com.example.demo {
     exports com.example.demo.model.technologies;
     exports com.example.demo.model.resources;
     exports com.example.demo.model.improvements;
+    opens com.example.demo.model.tiles;
 }
