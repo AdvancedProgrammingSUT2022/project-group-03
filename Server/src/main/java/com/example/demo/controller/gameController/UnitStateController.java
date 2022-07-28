@@ -27,11 +27,13 @@ public class UnitStateController {
     }
 
     public  int unitMoveTo(int x, int y, Unit unit) {
-        System.out.println("wtf + " + x + " + " + y);
         Tile tile = gameController.getMap().coordinatesToTile(x, y);
         if (tile.getTileType() == TileType.OCEAN ||
                 tile.getTileType() == TileType.MOUNTAIN)
             return 3;
+        if(tile.getCity() != null && tile.getCity().getCivilization() != unit.getCivilization()) return 4;
+        if(tile.getCivilian() != null && unit instanceof Civilian) return 4;
+        if(tile.getNonCivilian() != null && unit instanceof NonCivilian) return 4;
         gameController.deleteFromUnfinishedTasks(new Tasks(unit.getCurrentTile(), TaskTypes.UNIT));
         unit.setState(UnitState.AWAKE);
         if(unit.getUnitType().combatType== CombatType.CIVILIAN && tile.getNonCivilian()!=null &&

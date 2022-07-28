@@ -65,6 +65,7 @@ public class GameView extends Menu{
                 "declineTrade (\\d+)", //37
                 "acceptPeace (\\d+)", //38
                 "declinePeace (\\d+)", //39
+                "increase turn (\\d+)", //40
 
         };
     }
@@ -332,7 +333,7 @@ public class GameView extends Menu{
                 break;
             case 38:
                 matcher = getMatcher(regexes[38],command,false);
-                game.getGameController().getCurrentCivilization().getTradeRequests().remove(Integer.parseInt(matcher.group(1)));
+                acceptPeace(Integer.parseInt(matcher.group(1)));
                 socketHandler.send("done");
                 break;
             case 39:
@@ -340,7 +341,11 @@ public class GameView extends Menu{
                 game.getGameController().getCurrentCivilization().getFriendshipRequests().remove(Integer.parseInt(matcher.group(1)));
                 socketHandler.send("done");
                 break;
-
+            case 40:
+                matcher = getMatcher(regexes[40],command,false);
+                game.getCheatCommandsController().cheatTurn(Integer.parseInt(matcher.group(1)));
+                socketHandler.send("done");
+                break;
 
         }
         return false;

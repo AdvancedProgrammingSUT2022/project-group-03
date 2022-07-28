@@ -109,6 +109,11 @@ public class CheatCommandsController {
     public  void cheatScience(int number) {
         game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).cheatScience = number;
     }
+    public void cheatTurn(int turn){
+        for (int i = 0; i < 2*turn; i++) {
+            game.getGameController().nextTurn();
+        }
+    }
 
     public int cheatUnit(int x, int y, UnitType unitType) {
         if(game.getGameController().getMap().coordinatesToTile(x, y)==null)
