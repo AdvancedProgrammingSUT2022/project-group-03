@@ -4,6 +4,7 @@ import com.example.demo.controller.LoginController;
 import com.example.demo.controller.NetworkController;
 import com.example.demo.model.*;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -171,6 +172,15 @@ public class ChatController {
     }
 
     public void startChatting(String chatName) {
+        timeline.stop();
+        new Timeline(
+            new KeyFrame(Duration.millis(5000), event -> {
+                getChatsFromServer();
+                if (currentChat != null)
+                    loadChats(currentChat.getName());
+            }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
         mainSection.getChildren().clear();
         messageField.setDisable(false);
         sendButton.setDisable(false);
@@ -232,6 +242,13 @@ public class ChatController {
         String response = NetworkController.send(new Gson().toJson(chatPayload));
         chatPayload = new Gson().fromJson(response, ChatPayload.class);
         chats = chatPayload.getChats();
+
+        for (Chat chat : chats) {
+            System.out.print("chat name: " + chat.getName() + "  chat members: ");
+            for (User user : chat.getUsers())
+                System.out.print(user + ", ");
+            System.out.println();
+        }
     }
 
     //update chats on the server
@@ -246,6 +263,8 @@ public class ChatController {
         String date = calendar.getTime().toString();// + calendar.get(Calendar.DAY_OF_MONTH) + " " + new DateFormatSymbols().getShortMonths()[calendar.get(Calendar.MONTH)] + " " + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND);
         date = date.substring(0, date.length() - 10);
         Text title = new Text(message.getSender());
+        if (message.getUser().getUsername().equals(LoginController.getLoggedUser().getUsername()))
+            date += " Sent";
         Text msg = new Text(message.getContent() + "\n_________________\n" + date);
 
         Image image = AssetsController.getUserAvatarImages().get(0);
@@ -279,8 +298,12 @@ public class ChatController {
                 break;
             }
         }
-        for (int i = 0; i < 3; i++)
-            commandBar.getChildren().get(i).setVisible(weHaveSelectedMessages);
+        for (int i = 0; i < 3; i++) {
+            try {
+                commandBar.getChildren().get(i).setVisible(weHaveSelectedMessages);
+            } catch (IndexOutOfBoundsException ignored) {
+            }
+        }
     }
 
     private Label getLabel(Text title, int fontSize, Message message) {
@@ -341,7 +364,7 @@ public class ChatController {
         userField.setMaxWidth(600);
         userField.setPromptText("Enter a username");
 
-        Set<String> usersSet = new HashSet<>();
+        Set<User> usersSet = new HashSet<>();
         Button add = new Button("Add user");
         Text users = new Text("Added users: ");
         users.setStyle("-fx-font-size: 15;-fx-fill: white;");
@@ -349,13 +372,29 @@ public class ChatController {
         Text error = new Text();
         error.setStyle("-fx-font-size: 20;-fx-fill: white;");
 
+        ChatPayload payload = new ChatPayload("get all users");
+        String response = NetworkController.send(new Gson().toJson(payload));
+        ArrayList<User> usersList = new Gson().fromJson(response, new TypeToken<List<User>>() {
+        }.getType());
+
         add.setOnAction(event -> {
             if (userField.getText().isEmpty())
                 error.setText("Enter a username.");
             else {
-                if (usersSet.add(userField.getText()))
-                    users.setText(users.getText() + userField.getText() + ", ");
-                userField.setText("");
+                //username validation
+                User addedUser = null;
+                for (User user : usersList) {
+                    if (user.getUsername().equals(userField.getText())) {
+                        addedUser = user;
+                    }
+                }
+                if (addedUser != null) {
+                    if (usersSet.add(addedUser))
+                        users.setText(users.getText() + userField.getText() + ", ");
+                    userField.setText("");
+                } else {
+                    error.setText("No User exists with this name.");
+                }
             }
         });
 
@@ -371,13 +410,19 @@ public class ChatController {
 
         userField.setOnKeyReleased(event2 -> {
             error.setText("");
-            if (event2.getCode().toString().equals("ENTER")) {
-                if (userField.getText().isEmpty())
-                    error.setText("Enter a username.");
-                else {
-                    if (usersSet.add(userField.getText()))
+            if (event2.getCode().toString().equals("ENTER")) {//username validation
+                User addedUser = null;
+                for (User user : usersList) {
+                    if (user.getUsername().equals(userField.getText())) {
+                        addedUser = user;
+                    }
+                }
+                if (addedUser != null) {
+                    if (usersSet.add(addedUser))
                         users.setText(users.getText() + userField.getText() + ", ");
                     userField.setText("");
+                } else {
+                    error.setText("No User exists with this name.");
                 }
             }
         });
@@ -385,16 +430,15 @@ public class ChatController {
         nameField.requestFocus();
     }
 
-    private void startRoomChat(TextField nameField, Set<String> usersSet, Text error) {
+    private void startRoomChat(TextField nameField, Set<User> usersSet, Text error) {
         if (nameField.getText().equals(""))
             error.setText("Enter a name for the room.");
         else if (usersSet.isEmpty())
             error.setText("Add at list one user to the room.");
-            //TODO: username validation = error.setText("No User exists with this username.");
         else {
-            Chat chat = new Chat("room: " + nameField.getText(), new ArrayList<>());
-            chat.addUser(LoginController.getLoggedUser());
-            //TODO: add the users to chat: chat.addUser( ? );
+            usersSet.add(LoginController.getLoggedUser());
+            List<User> members = new ArrayList<>(usersSet);
+            Chat chat = new Chat("room: " + nameField.getText(), members);
             chats.add(chat);
             showUsersBar();
             currentChat = chat;
@@ -408,10 +452,13 @@ public class ChatController {
             error.setText("Enter a username.");
             return;
         }
-        //TODO: this not work
+        ChatPayload payload = new ChatPayload("get all users");
+        String response = NetworkController.send(new Gson().toJson(payload));
+        ArrayList<User> usersList = new Gson().fromJson(response, new TypeToken<List<User>>() {
+        }.getType());
         //username validation
         User addedUser = null;
-        for (User user : User.getListOfUsers()) {
+        for (User user : usersList) {
             if (user.getUsername().equals(usernameField.getText())) {
                 addedUser = user;
             }
@@ -419,10 +466,10 @@ public class ChatController {
         if (addedUser == null) {
             error.setText("No User exists with this username.");
         } else {
-            Chat chat = new Chat(usernameField.getText(), new ArrayList<>());
-            chat.addUser(LoginController.getLoggedUser());
-            //add the second user to chat
-            chat.addUser(addedUser);
+            List<User> members = new ArrayList<>();
+            members.add(addedUser);
+            members.add(LoginController.getLoggedUser());
+            Chat chat = new Chat(addedUser.getUsername() + " and " + LoginController.getLoggedUser().getUsername(), members);
             chats.add(chat);
             showUsersBar();
             currentChat = chat;

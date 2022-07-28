@@ -4,8 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="">
+    <list default="true" id="426d84ce-c81c-4370-a3c5-251bcd8eb981" name="Changes" comment="chat ended">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/model/City.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/model/building/BuildingType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/controller/ChatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/ChatMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/ChatMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/controller/ChatController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/controller/LoginController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/controller/TechnologyAndProductionController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/controller/gameController/CheatCommandsController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/controller/gameController/CityCommandsController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/controller/gameController/GameController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/controller/gameController/MapCommandsController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/controller/gameController/TileXAndYFlagSelectUnitController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/controller/gameController/UnitStateController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/model/CanAttack.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/model/CanGetAttacked.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/model/Chat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/model/ChatPayload.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/model/City.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/model/Civilization$TileCondition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/model/Civilization.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/model/Color.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/model/Map$BestMoveClass.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,8 +194,6 @@
       <workItem from="1658225607369" duration="6762000" />
       <workItem from="1658310605910" duration="10323000" />
       <workItem from="1658932315227" duration="2581000" />
-      <workItem from="1658941135353" duration="956000" />
-      <workItem from="1658952136605" duration="747000" />
     </task>
     <servers />
   </component>
@@ -196,11 +218,6 @@
           <url>file://$PROJECT_DIR$/src/test/java/model/Units/UnitTest.java</url>
           <line>199</line>
           <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/view/GameControllerFX.java</url>
-          <line>89</line>
-          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

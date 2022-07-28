@@ -14,10 +14,6 @@ public class Chat implements Serializable {
         this.users = members;
     }
 
-    public void addUser(User user) {
-        users.add(user);
-    }
-
     public void addMessage(Message message) {
         messages.add(message);
     }
