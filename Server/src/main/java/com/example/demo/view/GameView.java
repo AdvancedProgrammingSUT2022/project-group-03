@@ -369,7 +369,7 @@ public class GameView extends Menu{
         game.getGameController().getCurrentCivilization().getTradeRequests().remove(finalI);
     }
     private void acceptPeace(int finalI){
-        if (game.getGameController().getCurrentCivilization().knownCivilizationsContains(game.getGameController().getCurrentCivilization().getFriendshipRequests().get(finalI))) {
+        /*if (game.getGameController().getCurrentCivilization().knownCivilizationsContains(game.getGameController().getCurrentCivilization().getFriendshipRequests().get(finalI))) {
             for (Pair<Civilization, Integer> knownCivilization : game.getGameController().getCurrentCivilization().getKnownCivilizations()) {
                 if (knownCivilization.getKey() == game.getGameController().getCurrentCivilization().getFriendshipRequests().get(finalI)) {
                     game.getGameController().getCurrentCivilization().getKnownCivilizations().remove(knownCivilization);
@@ -379,6 +379,6 @@ public class GameView extends Menu{
         }
         game.getGameController().getCurrentCivilization().getKnownCivilizations()
                 .add(new Pair<>(game.getGameController().getCurrentCivilization().getFriendshipRequests().get(finalI), 1));
-        game.getGameController().getCurrentCivilization().getFriendshipRequests().remove(finalI);
+        game.getGameController().getCurrentCivilization().getFriendshipRequests().remove(finalI);*/
     }
 }
