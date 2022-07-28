@@ -225,7 +225,7 @@ public class Diplomacy implements Initializable {
 
             accept.setOnMouseClicked(event ->
             {
-                NetworkController.send("acceptTrade "+finalI );
+                NetworkController.send("acceptPeace "+finalI );
                 if (GameController.getCurrentCivilization().knownCivilizationsContains(GameController.getCurrentCivilization().getFriendshipRequests().get(finalI))) {
                     for (Pair<Civilization, Integer> knownCivilization : GameController.getCurrentCivilization().getKnownCivilizations()) {
                         if (knownCivilization.getKey() == GameController.getCurrentCivilization().getFriendshipRequests().get(finalI)) {
