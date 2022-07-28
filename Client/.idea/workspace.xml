@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3497fd7b-a279-473a-b35f-14ae003178ce" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/TechnologyAndProductionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/TechnologyAndProductionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameControllerFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameControllerFX.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/model/ChooseTechnologyMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/model/ChooseTechnologyMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/model/GraphicTechnology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/model/GraphicTechnology.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/GameView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/SavingHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/view/SavingHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/view/GameView.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/view/GameView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/view/SavingHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/view/SavingHandler.class" afterDir="false" />
-    </list>
+    <list default="true" id="3497fd7b-a279-473a-b35f-14ae003178ce" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
