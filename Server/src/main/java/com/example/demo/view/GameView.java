@@ -6,6 +6,7 @@ import com.example.demo.model.Civilization;
 import com.example.demo.model.TradeRequest;
 import com.example.demo.model.Units.Civilian;
 import com.example.demo.model.Units.NonCivilian;
+import com.example.demo.model.resources.ResourcesTypes;
 import com.google.gson.Gson;
 import com.example.demo.model.Units.Unit;
 import com.example.demo.model.Units.UnitType;
@@ -16,6 +17,8 @@ import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.network.GameHandler;
 import com.example.demo.network.MySocketHandler;
 
+import java.util.AbstractMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 public class GameView extends Menu{
@@ -369,8 +372,8 @@ public class GameView extends Menu{
         game.getGameController().getCurrentCivilization().getTradeRequests().remove(finalI);
     }
     private void acceptPeace(int finalI){
-        /*if (game.getGameController().getCurrentCivilization().knownCivilizationsContains(game.getGameController().getCurrentCivilization().getFriendshipRequests().get(finalI))) {
-            for (Pair<Civilization, Integer> knownCivilization : game.getGameController().getCurrentCivilization().getKnownCivilizations()) {
+        if (game.getGameController().getCurrentCivilization().knownCivilizationsContains(game.getGameController().getCurrentCivilization().getFriendshipRequests().get(finalI))) {
+            for (Map.Entry<Civilization, Integer> knownCivilization : game.getGameController().getCurrentCivilization().getKnownCivilizations()) {
                 if (knownCivilization.getKey() == game.getGameController().getCurrentCivilization().getFriendshipRequests().get(finalI)) {
                     game.getGameController().getCurrentCivilization().getKnownCivilizations().remove(knownCivilization);
                     break;
@@ -378,7 +381,7 @@ public class GameView extends Menu{
             }
         }
         game.getGameController().getCurrentCivilization().getKnownCivilizations()
-                .add(new Pair<>(game.getGameController().getCurrentCivilization().getFriendshipRequests().get(finalI), 1));
-        game.getGameController().getCurrentCivilization().getFriendshipRequests().remove(finalI);*/
+                .add(new AbstractMap.SimpleImmutableEntry<>(game.getGameController().getCurrentCivilization().getFriendshipRequests().get(finalI), 1));
+        game.getGameController().getCurrentCivilization().getFriendshipRequests().remove(finalI);
     }
 }
