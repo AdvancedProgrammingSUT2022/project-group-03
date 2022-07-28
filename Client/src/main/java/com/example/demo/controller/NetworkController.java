@@ -40,6 +40,7 @@ public class NetworkController {
     public static PrintStream getPrintStream() {
         return printStream;
     }
+
     public synchronized static String getResponse(boolean necessary){
         Response response = new Response("");
         try {

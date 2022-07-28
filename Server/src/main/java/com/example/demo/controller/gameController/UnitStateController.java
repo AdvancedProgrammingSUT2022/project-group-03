@@ -27,6 +27,7 @@ public class UnitStateController {
     }
 
     public  int unitMoveTo(int x, int y, Unit unit) {
+        System.out.println("wtf + " + x + " + " + y);
         Tile tile = gameController.getMap().coordinatesToTile(x, y);
         if (tile.getTileType() == TileType.OCEAN ||
                 tile.getTileType() == TileType.MOUNTAIN)

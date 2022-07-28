@@ -142,13 +142,12 @@ public class GameController {
         return false;
     }
 
-    private static boolean canUnitAttackCivResult(Civilization opponent)
-    {
-        if (GameController.getCurrentCivilization().knownCivilizationStatue(opponent)!=-1) {
+    private static boolean canUnitAttackCivResult(Civilization opponent) {
+        if (GameController.getCurrentCivilization().knownCivilizationStatue(opponent) != -1) {
             Alert alert = StageController.errorMaker("Declaring war, eh?", "By this action, you will declare war to " +
                     opponent.getUser().getNickname() + " , are you sure?", Alert.AlertType.CONFIRMATION);
             if (alert.getResult() == ButtonType.OK) {
-                GameController.getCurrentCivilization().setKnownCivilizations(opponent,-1);
+                GameController.getCurrentCivilization().setKnownCivilizations(opponent, -1);
             } else return false;
 
         }
@@ -446,7 +445,7 @@ public class GameController {
 
     public static int getPlayerTurn() {
         for (int i = 0; i < civilizations.size(); i++) {
-            if(civilizations.get(i).getUser().getUsername().equals(LoginController.getLoggedUser().getUsername()))
+            if (civilizations.get(i).getUser().getUsername().equals(LoginController.getLoggedUser().getUsername()))
                 return i;
         }
         return -1;
@@ -476,6 +475,8 @@ public class GameController {
 
     public static void setSelectedTile(Tile tile) {
         selectedTile = tile;
+        if (tile != null)
+            System.out.println("selected tile: x: " + selectedTile.getX() + ", y: " + selectedTile.getY());
     }
 
     public static Tile getSelectedTile() {

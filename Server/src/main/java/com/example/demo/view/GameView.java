@@ -101,6 +101,7 @@ public class GameView extends Menu{
             case 5:
                 int gold = Integer.parseInt(command.substring(14));
                 game.getGameController().getCivilizations().get(game.getGameController().getPlayerTurn()).increaseGold(gold);
+                socketHandler.send("");
                 break;
             case 6:
                 Matcher matcher = getMatcher(regexes[6],command,false);
