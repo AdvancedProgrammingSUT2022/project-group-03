@@ -33,6 +33,7 @@ public class ChooseTechnologyMenu implements Initializable {
     }
 
     public void renderTechnologies(boolean fromOutside) {
+        System.out.println("doing it");
         upperMapPane.getChildren().removeIf(child -> child != background);
         ArrayList<Technology> technologies = TechnologyAndProductionController.initializeResearchInfo();
         GraphicTechnology[] graphicTechnologies = new GraphicTechnology[technologies.size()];

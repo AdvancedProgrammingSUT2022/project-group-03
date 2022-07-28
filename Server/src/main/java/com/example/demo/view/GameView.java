@@ -178,6 +178,7 @@ public class GameView extends Menu{
             case 16:
                 matcher = getMatcher(regexes[16],command,false);
                 socketHandler.send(String.valueOf(game.getTechnologyAndProductionController().addTechnologyToProduction(new Gson().fromJson(matcher.group(1), Technology.class))));
+                SavingHandler.save(socketHandler);
                 break;
             case 17:
                 matcher = getMatcher(regexes[17],command,false);

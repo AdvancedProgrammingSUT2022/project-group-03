@@ -20,7 +20,7 @@ public class SavingHandler {
     public static boolean autoSaveAtRenderingMap = true;
 
 
-    public static void save( MySocketHandler socketHandler) {
+    public synchronized static void save( MySocketHandler socketHandler) {
         try {
             System.gc();
             socketHandler.getObjectOutputStream().writeObject(new Savings(socketHandler.getGame().getGameController()));

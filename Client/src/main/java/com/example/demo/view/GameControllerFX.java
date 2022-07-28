@@ -101,18 +101,16 @@ public class GameControllerFX {
 
 
                     } else if (string.startsWith("your turn")) {
-                        if (!myTurn) {
-                            //StageController.errorMaker("turn", "your turn", Alert.AlertType.INFORMATION);
-                            myTurn = true;
-//                            for (Node child : root.getChildren()) {
-//                                child.setDisable(false);
-//                            }
-                        } else {
-                            myTurn = false;
-//                            for (Node child : root.getChildren()) {
-//                                if (child != upperMapPane)
-//                                    child.setDisable(true);
-//                            }
+                        myTurn = true;
+                        for (Node child : root.getChildren()) {
+                            if (child != upperMapPane)
+                                child.setDisable(false);
+                        }
+                    } else {
+                        myTurn = false;
+                        for (Node child : root.getChildren()) {
+                            if (child != upperMapPane)
+                                child.setDisable(true);
                         }
                     }
                     SavingHandler.load();
@@ -471,7 +469,7 @@ public class GameControllerFX {
     private void notify(String title, String message) {
         Notifications notifications = Notifications.create().hideAfter(Duration.seconds(5)).text(message).title(title);
         notifications.show();
-        GameController.getCivilizations().get(GameController.getPlayerTurn()).putNotification(title + ": " + message,GameController.getCycle());
+        GameController.getCivilizations().get(GameController.getPlayerTurn()).putNotification(title + ": " + message, GameController.getCycle());
 
     }
 }

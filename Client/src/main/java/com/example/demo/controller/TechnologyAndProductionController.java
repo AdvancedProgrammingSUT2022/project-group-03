@@ -33,8 +33,7 @@ public class TechnologyAndProductionController {
         Civilization civilization = GameController.getCivilizations().get(GameController.getPlayerTurn());
         for (Technology research : researches) {
             if (research.getRemainedCost() > 0) {
-                if (GameController.getCivilizations().get(GameController.getPlayerTurn())
-                        .getGettingResearchedTechnology() != research)
+                if (civilization.getGettingResearchedTechnology() != research)
                     possibleTechnologies.add(research);
                 continue;
             }
