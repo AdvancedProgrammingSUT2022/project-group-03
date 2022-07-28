@@ -243,7 +243,7 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked {
         gameController.openNewArea(this.currentTile, civilization, this);
         if (state == UnitState.ATTACK && gameController.getMap()
                 .isInRange(unitType.range, destinationTile, currentTile)) {
-            attack(destinationTile);
+            attack(destinationTile,gameController,socketHandler);
             return ogCall;
         }
         if (movementPrice == 0) return false;
@@ -283,7 +283,7 @@ public abstract class Unit implements Serializable, Producible, CanGetAttacked {
         return movementPrice;
     }
 
-    public void attack(Tile tile) {
+    public void attack(Tile tile, GameController gameController, MySocketHandler socketHandler) {
     }
 
     public void takeDamage(int amount,Civilization civilization,GameController gameController,

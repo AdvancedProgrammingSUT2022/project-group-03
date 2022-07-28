@@ -9,6 +9,7 @@ import com.example.demo.model.resources.ResourcesTypes;
 import com.example.demo.model.technologies.Technology;
 import com.example.demo.model.technologies.TechnologyType;
 import com.example.demo.view.ImageLoader;
+import com.example.demo.view.SavingHandler;
 import com.example.demo.view.StageController;
 import com.google.gson.Gson;
 import javafx.scene.Cursor;
@@ -83,6 +84,7 @@ public class GraphicTechnology {
 
     private void clicked(Technology technology) {
         NetworkController.send("tech " + new Gson().toJson(technology));
+        SavingHandler.load();
         chooseTechnologyMenu.renderTechnologies(true);
     }
 

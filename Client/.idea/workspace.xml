@@ -4,10 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d41e875c-c7d7-4458-98ec-86dfc85f28c7" name="Changes" comment="">
+    <list default="true" id="d1534c0a-ccd0-4614-828b-b8e48721d445" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameControllerFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/GameControllerFX.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/view/model/GraphicTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/view/model/GraphicTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/dataBase/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/dataBase/users.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/controller/gameController/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/controller/gameController/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/controller/gameController/UnitStateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/controller/gameController/UnitStateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Units/NonCivilian.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Units/NonCivilian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/com/example/demo/model/Units/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/view/GameView.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/view/GameView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/view/SavingHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/com/example/demo/view/SavingHandler.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,9 +77,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/model/Civilization.java</url>
-          <line>311</line>
-          <option name="timeStamp" value="7" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/view/GameControllerFX.java</url>
+          <line>467</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

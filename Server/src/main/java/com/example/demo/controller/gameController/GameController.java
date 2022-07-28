@@ -143,7 +143,7 @@ public class GameController {
     {
         if (this.getCurrentCivilization().knownCivilizationStatue(opponent)!=-1) {
             game.getSocketHandlers().get(game.getGameController().getPlayerTurn()).send(opponent.getUser().getNickname());
-            String result = game.getSocketHandlers().get(game.getGameController().getPlayerTurn()).getScanner().nextLine();
+            String result = game.getSocketHandlers().get(game.getGameController().getPlayerTurn()).scanLineWithToken();
             if (result.startsWith("ok")) {
                 this.getCurrentCivilization().setKnownCivilizations(opponent,-1);
             } else{

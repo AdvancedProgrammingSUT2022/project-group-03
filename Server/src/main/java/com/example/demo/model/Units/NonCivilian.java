@@ -38,7 +38,7 @@ public class NonCivilian extends Unit implements CanAttack {
                 ((Unit) target).unitType == UnitType.TANK) ratio *= 1.1;
         return ratio;
     }
-
+    @Override
     public void attack(Tile tile, GameController gameController, MySocketHandler socketHandler) {
         CanGetAttacked target;
         if (tile.getCity() != null) target = tile.getCity();

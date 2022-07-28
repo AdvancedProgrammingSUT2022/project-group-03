@@ -195,6 +195,7 @@ public class UnitStateController {
             return 7;
         if (!gameController.canUnitAttack(gameController.getMap().coordinatesToTile(x, y),unit)) return 5;
         Tile startTile = unit.getCurrentTile();
+
         if (!unit
                 .move(gameController.getMap().coordinatesToTile(x, y), true,gameController,game.getSocketHandlers().get(game.getGameController().getPlayerTurn()))) return 6;
         gameController.deleteFromUnfinishedTasks(new Tasks(startTile, TaskTypes.UNIT));
