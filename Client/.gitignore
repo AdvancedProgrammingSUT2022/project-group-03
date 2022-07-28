@@ -9,6 +9,6 @@
 
 .idea
 dataBase/chats.dat
-/target/
+/target/*
 /dataBase/manualSave/*
 /dataBase/autoSave/*
