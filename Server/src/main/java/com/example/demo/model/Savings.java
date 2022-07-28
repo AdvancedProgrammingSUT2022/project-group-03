@@ -10,7 +10,6 @@ import java.util.Date;
 public class Savings implements Serializable {
     @Serial
     private static final long serialVersionUID = 1113799434508676095L;
-    private static int i = 0;
     private final ArrayList<Civilization> civilizations;
     private final ArrayList<Tasks> unfinishedTasks;
     private final int playerTurn;
@@ -33,9 +32,6 @@ public class Savings implements Serializable {
                     System.out.println("tile "+i+","+j+"    :" +map.getTiles()[i][j].getCivilian().getUnitType());
             }
         }
-        i++;
-        if (i==6) civilizations.remove(1);
-        System.out.println(civilizations.size());
 
     }
 

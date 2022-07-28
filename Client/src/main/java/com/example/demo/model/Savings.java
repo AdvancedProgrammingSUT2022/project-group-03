@@ -42,7 +42,6 @@ public class Savings implements Serializable {
                 System.out.println("tile "+i+","+j+"    :" +map.getTiles()[i][j].getCivilian().getUnitType());
             }
         }
-        System.out.println(civilizations.size());
         System.out.println(date);
     }
 
