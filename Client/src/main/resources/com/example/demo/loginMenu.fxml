@@ -22,7 +22,7 @@
             <Image url="@assets/backgrounds/1.png"/>
         </ImageView>
         <TextField fx:id="username" text="Sayyed" promptText="enter your username" onKeyReleased="#checkEnter"/>
-        <PasswordField fx:id="password" text="ali" promptText="enter your password" onKeyReleased="#checkEnter"/>
+        <PasswordField fx:id="password" text="Moeen13811381$" promptText="enter your password" onKeyReleased="#checkEnter"/>
         <TextField fx:id="nickname" promptText="enter your nickname"/>
         <Button fx:id="loginButton" mnemonicParsing="false" text="login" onAction="#login"/>
         <Button fx:id="registerButton" mnemonicParsing="false" text="register" onAction="#register"/>

@@ -25,6 +25,7 @@ public class SavingHandler {
             System.gc();
             socketHandler.getObjectOutputStream().writeObject(new Savings(socketHandler.getGame().getGameController()));
             socketHandler.getObjectOutputStream().flush();
+            socketHandler.getObjectOutputStream().reset();
             System.gc();
         } catch (Exception e) {
             System.out.println("An Error occurred during saving game : ");

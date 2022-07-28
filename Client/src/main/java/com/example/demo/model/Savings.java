@@ -30,17 +30,19 @@ public class Savings implements Serializable {
     }
 
     public void loadThisToGameController(){
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                if(map.coordinatesToTile(i,j).getCity() != null) System.out.println("city!");
-            }
-        }
         GameController.setCivilizationsAsList(civilizations);
         GameController.setUnfinishedTasks(unfinishedTasks);
         GameController.setPlayerTurn(playerTurn);
         GameController.setMap(map);
         Map.setStaticX(x);
         Map.setStaticY(y);
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                if(map.getTiles()[i][j].getCivilian() != null )
+                System.out.println("tile "+i+","+j+"    :" +map.getTiles()[i][j].getCivilian().getUnitType());
+            }
+        }
+        System.out.println(civilizations.size());
         System.out.println(date);
     }
 
