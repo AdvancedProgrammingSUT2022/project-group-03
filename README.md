@@ -14,7 +14,9 @@
 
 If the port was busy, change `SERVER_PORT` in client and server then try again.
 
-You can also play the serverless version of this game in branch [withoutServer.](https://github.com/AdvancedProgrammingSUT2022/project-group-03/tree/withoutServer)
+You can also play the serverless version of this game. Checkout branch [withoutServer](https://github.com/AdvancedProgrammingSUT2022/project-group-03/tree/withoutServer) or download the serverless [release.](https://github.com/AdvancedProgrammingSUT2022/project-group-03/releases/tag/v2.0.1)
+
+---
 
 ![alt-text](https://s6.uupload.ir/files/a_z4ty.jpg)
 ![alt-text](https://s6.uupload.ir/files/b_dk9v.jpg)
